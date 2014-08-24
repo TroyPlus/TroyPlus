@@ -1,0 +1,129 @@
+﻿@model IEnumerable<Troy.Model.Branch.Branch>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Branch_Cde)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Branch_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country_Cde)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State_Cde)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City_Cde)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pin_Cod)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Order_Num)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Created_User_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Created_Branc_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Created_Dte)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Modified_User_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Modified_Branch_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Modified_Dte)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Branch_Cde)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Branch_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Country_Cde)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.State_Cde)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City_Cde)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pin_Cod)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Order_Num)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Created_User_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Created_Branc_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Created_Dte)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Modified_User_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Modified_Branch_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Modified_Dte)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Branch_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Branch_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Branch_Id })
+        </td>
+    </tr>
+}
+
+</table>

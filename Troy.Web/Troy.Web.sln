@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Troy.Web", "Troy.Web\Troy.Web.csproj", "{7A4D432A-5316-446F-AB6F-6276D561A1BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Troy.Web.Tests", "Troy.Web.Tests\Troy.Web.Tests.csproj", "{161D8B8D-CC37-4EB2-BF61-E61234716A16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Troy.Model", "Troy.Model\Troy.Model.csproj", "{6F6BBA73-4B5F-463A-A08F-160F13465987}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Troy.Data", "Troy.Data\Troy.Data.csproj", "{C6B8981D-F834-4E9B-88BC-01617CA4B5FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Troy.Utilities", "Troy.Utilities\Troy.Utilities.csproj", "{8238D3AA-E26A-4A0F-ACB3-76311D199C17}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{E517F10D-63DD-4325-9A98-EBECA8A275FE}"
+	ProjectSection(SolutionItems) = preProject
+		Libraries\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.dll = Libraries\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.dll
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A4D432A-5316-446F-AB6F-6276D561A1BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A4D432A-5316-446F-AB6F-6276D561A1BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A4D432A-5316-446F-AB6F-6276D561A1BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A4D432A-5316-446F-AB6F-6276D561A1BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{161D8B8D-CC37-4EB2-BF61-E61234716A16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{161D8B8D-CC37-4EB2-BF61-E61234716A16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{161D8B8D-CC37-4EB2-BF61-E61234716A16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{161D8B8D-CC37-4EB2-BF61-E61234716A16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F6BBA73-4B5F-463A-A08F-160F13465987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F6BBA73-4B5F-463A-A08F-160F13465987}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F6BBA73-4B5F-463A-A08F-160F13465987}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F6BBA73-4B5F-463A-A08F-160F13465987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6B8981D-F834-4E9B-88BC-01617CA4B5FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6B8981D-F834-4E9B-88BC-01617CA4B5FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6B8981D-F834-4E9B-88BC-01617CA4B5FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B8981D-F834-4E9B-88BC-01617CA4B5FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8238D3AA-E26A-4A0F-ACB3-76311D199C17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8238D3AA-E26A-4A0F-ACB3-76311D199C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8238D3AA-E26A-4A0F-ACB3-76311D199C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8238D3AA-E26A-4A0F-ACB3-76311D199C17}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.ExceptionHandling.6.0.1304.0\lib\NET45
+	EndGlobalSection
+EndGlobal

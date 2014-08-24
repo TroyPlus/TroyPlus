@@ -1,0 +1,164 @@
+﻿@model Troy.Web.Models.PurchaseViewModels
+
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Add Purchase</h4>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="form-horizontal">
+
+                <div class="row">
+
+                    <ul id="tabs" class="nav nav-pills nav-pills-justified">
+                        <li class="active">
+                            <a href="#default" data-toggle="tab">General </a>
+                        </li>
+                        <li><a href="#additional" data-toggle="tab">Product </a></li>
+
+                    </ul>
+
+                    <div id="myTabContent" class="tab-content">
+
+                        <div class="tab-pane fade in active" id="default">
+
+                            <br />
+
+                            <div class="col-md-6">
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.Branch_Cde, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Branch_Cde)
+                                            @Html.ValidationMessageFor(model => model.Branch_Cde)
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Branch_Name, new { @class = "control-label col-md-2" })
+
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Branch_Name)
+                                            @Html.ValidationMessageFor(model => model.Branch_Name)
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Address1, new { @class = "control-label col-md-2" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Address1)
+                                            @Html.ValidationMessageFor(model => model.Address1)
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Address2, new { @class = "control-label col-md-2" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Address2)
+                                            @Html.ValidationMessageFor(model => model.Address2)
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Address3, new { @class = "control-label col-md-2" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Address3)
+                                            @Html.ValidationMessageFor(model => model.Address3)
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Country_Cde, new { @class = "control-label col-md-2" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Country_Cde)
+                                            @Html.ValidationMessageFor(model => model.Country_Cde)
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.State_Cde, new { @class = "control-label col-md-2" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.State_Cde)
+                                            @Html.ValidationMessageFor(model => model.State_Cde)
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.City_Cde, new { @class = "control-label col-md-2" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.City_Cde)
+                                            @Html.ValidationMessageFor(model => model.City_Cde)
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Pin_Cod, new { @class = "control-label col-md-2" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Pin_Cod)
+                                            @Html.ValidationMessageFor(model => model.Pin_Cod)
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Order_Num, new { @class = "control-label col-md-2" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Order_Num)
+                                            @Html.ValidationMessageFor(model => model.Order_Num)
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.IsActive, new { @class = "control-label col-md-2" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.IsActive)
+                                            @Html.ValidationMessageFor(model => model.IsActive)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+                <button class="btn pull-left" data-dismiss="modal">Close</button>
+                @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+
+
+            </div>
+
+        
+    </div>
+</div>
+                                                                    
