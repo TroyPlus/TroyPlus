@@ -62,6 +62,7 @@ namespace Troy.Web.Controllers
             {
                 if (submitButton == "Save")
                 {
+                    model.Manufacturer.IsActive = "Y";
                     model.Manufacturer.Created_Branc_Id = 1;
                     model.Manufacturer.Created_Dte = DateTime.Now;
                     model.Manufacturer.Created_User_Id = 1;  //GetUserId()
