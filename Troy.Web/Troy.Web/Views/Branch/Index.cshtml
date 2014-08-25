@@ -1,129 +1,405 @@
-﻿@model IEnumerable<Troy.Model.Branch.Branch>
+﻿@model Troy.Web.Models.BranchViewModels
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Branch";
+    ViewBag.BodyCss = "Branch";
 }
 
-<h2>Index</h2>
+<style>
+    .pagediv {
+        width: 75% !important;
+        text-align: right !important;
+    }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Branch_Cde)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Branch_Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address3)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Country_Cde)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.State_Cde)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City_Cde)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Pin_Cod)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Order_Num)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Created_User_Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Created_Branc_Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Created_Dte)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Modified_User_Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Modified_Branch_Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Modified_Dte)
-        </th>
-        <th></th>
-    </tr>
+    .btn-warning {
+        background-image: -webkit-linear-gradient(#1684c2,#1990d5 60%,#1990d5) !important;
+        border-color: #1684c2 !important;
+    }
+</style>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Branch_Cde)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Branch_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address3)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Country_Cde)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.State_Cde)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City_Cde)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Pin_Cod)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Order_Num)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Created_User_Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Created_Branc_Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Created_Dte)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Modified_User_Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Modified_Branch_Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Modified_Dte)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Branch_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Branch_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Branch_Id })
-        </td>
-    </tr>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+        //var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+
+        $('#grdPurchase').dataTable({
+            "bFilter": false, "sPaginationType": "full_numbers",
+            "oLanguage": {
+                "sInfo": "Total of _TOTAL_ entries to show (_START_ to _END_)"
+            },
+            /* Disable initial sort */
+            "aaSorting": [],
+            "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                perPage = iEnd - iStart + 1;
+                totalRatio = iTotal / perPage;
+                intTotalRatio = parseInt(totalRatio, 10);
+                totalPages = totalRatio > intTotalRatio ? intTotalRatio + 1 : intTotalRatio;
+                currentRatio = iStart / perPage;
+                intCurrentRatio = parseInt(currentRatio, 10);
+                currentPage = currentRatio > intCurrentRatio ? intCurrentRatio + 1 : intCurrentRatio;
+                return 'Displaying ' + currentPage + ' of ' + totalPages + ' pages';
+            }
+        });
+
+        $("#searchUL li").click(function () {
+            if (this.id == 'Vendor') {
+                $('#SearchQuery').removeAttr("disabled", "disabled");
+                Id = 'Vendor';
+                $('#SearchColumn').val(Id);
+                $('#SearchBySpan').text(Id);
+            }
+            if (this.id == 'Reference') {
+                $('#SearchQuery').removeAttr("disabled", "disabled");
+                Id = 'Reference_Number';
+                $('#SearchColumn').val(Id);
+                $('#SearchBySpan').text(Id);
+            }
+            if (this.id == 'RequiredDate') {
+                $('#SearchQuery').removeAttr("disabled", "disabled").datepicker();
+                Id = 'Required_Date';
+                $('#SearchColumn').val(Id);
+                $('#SearchBySpan').text(Id);
+            }
+            if (this.id == 'ValidDate') {
+                $('#SearchQuery').removeAttr("disabled", "disabled").datepicker();
+                Id = 'Valid_Date';
+                $('#SearchColumn').val(Id);
+                $('#SearchBySpan').text(Id);
+            }
+        });
+
+        $('#searchStatusUL li').click(function () {
+            if (this.id == 'Open') {
+                $('#SearchQuery').attr("disabled", "disabled");
+                Id = 'Quotation_Status';
+                $('#SearchColumn').val(Id);
+                $('#SearchBySpan').text(Id);
+                $('#SearchQuery').text(this.id);
+            }
+            if (this.id == 'Closed') {
+                $('#SearchQuery').attr("disabled", "disabled");
+                Id = 'Quotation_Status';
+                $('#SearchColumn').val(Id);
+                $('#SearchBySpan').text(Id);
+                $('#SearchQuery').text(this.id);
+            }
+        });
+
+    });
+
+    function EditPurchase(id) {
+
+        var url = $('#editModal').data('url') + '/' + id;
+
+        $.get(url, function (data) {
+
+            $('#editmodelcontainer').html(data);
+
+            $('#editModal').modal('show');
+        });
+    }
+
+    function ViewPurchase(id) {
+
+        var url = $('#viewModal').data('url') + '/' + id;
+
+        $.get(url, function (data) {
+            $('#viewmodelcontainer').html(data);
+
+            $('#viewModal').modal('show');
+        });
+    }
+
+    function IFrameSubmit() {
+
+        var fileSelected = $('#FileUpload').val();
+        if (fileSelected == '') {
+            alert('Please choose the Excel to Upload');
+            return false;
+        }
+
+        var formData = new FormData($('form')[0]);
+
+        $.ajax({
+            url: 'Purchase',
+            type: 'POST',
+            xhr: function () {
+                var myXhr = $.ajaxSettings.xhr();
+                return myXhr;
+            },
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+
+                if (data.success == "true") {
+                    alert(data.Message);
+                }
+                else {
+                    alert(data.Error);
+                }
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+    }
+</script>
+
+<div><span>&nbsp;</span></div>
+
+@using (Html.BeginForm())
+{
+
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(m => m.SearchColumn)
+
+    <div class="panel panel-default">
+
+        <div class="panel-head">
+
+            <div class="linkBar1">
+                <div class="col-md-8 text-left">
+                    <h4>Branch List</h4>
+                </div>
+                <div class="text-right">
+                    <a href="#" class="top-right" data-toggle="modal" data-target="#uploadModal" data-backdrop="static" data-keyboard="false">
+                        <img src="@Url.Content("../Content/images/upload-icon.png")" />
+                    </a>
+                    &nbsp;
+                    <button type="button" class="btn-link">
+                        <img src="@Url.Content("../Content/images/table-icon.png")" style="height:32px;width:32px" />
+                    </button>
+                    &nbsp;
+
+                    @*<a href="@Url.Action("_createpartialview" , "Suppliers" )" data-modal="true" class="top-right">*@
+                    <a href="#" class="top-right" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false">
+                        <img src="@Url.Content("../Content/images/Add-icon.png")" />
+                    </a>&nbsp;
+                    @*<button type="button" class="btn-link panel-toggle" data-toggle="collapse" data-target="#search"><img src="@Url.Content("../Content/images/zoom-icon.png")" style="width:32px;height:32px" /></button>*@
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body ">
+
+            <div class="searchBar">
+                <div class="searchCont form-inline">
+                    <div class="form-group">
+                        <div class="dropdown text-left">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="SearchBy" data-toggle="dropdown">
+                                <span id="SearchBySpan">Search By</span><span class="caret"></span>
+                            </button>
+                            <ul id="searchUL" class="dropdown-menu" role="menu" aria-labelledby="SearchBy">
+                                <li id="Vendor" role="presentation">
+                                    <a onclick="" role="menuitem" tabindex="-1"
+                                       href="#">Branch Code</a>
+                                </li>
+                                <li role="presentation" class="dropdown-submenu">
+                                    <a role="menuitem" tabindex="-1"
+                                       href="#">Branch Name</a>
+                                    <ul id="searchStatusUL" class="dropdown-menu">
+                                        <li id="Open" role="presentation"><a role="menuitem" tabindex="-1" href="#">Open</a></li>
+                                        <li id="Closed" role="presentation"><a role="menuitem" tabindex="-1" href="#">Closed</a></li>
+                                    </ul>
+                                </li>
+                                <li id="Reference" role="presentation"><a role="menuitem" tabindex="-1" href="#">Reference Number</a></li>
+                                <li id="RequiredDate" role="presentation"><a role="menuitem" tabindex="-1" href="#">Required Date</a></li>
+                                <li id="ValidDate" role="presentation"><a role="menuitem" tabindex="-1" href="#">Valid Date</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group w230">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.SearchQuery, new { @class = "form-control", @id = "searchStatusUL li" })
+                            <span class="input-group-btn">
+                                <input type="submit" id="Submit1" name="submitButton" value="Search" class="btn btn-primary icnSearch" />
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table id="grdPurchase" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+
+                            <th style="display: none">
+                                <div class="lBor">
+                                    Branch Code
+                                </div>
+                            </th>
+                            <th>
+                                <div class="lBor">
+                                    Branch Name
+                                </div>
+                            </th>
+                            <th>
+                                <div class="lBor">
+                                    Address1
+                                </div>
+                            </th>
+                            <th>
+                                <div class="lBor" style="width: 122px;">
+                                    Country
+                                </div>
+                            </th>
+                            <th>
+                                <div class="lBor">
+                                    State
+                                </div>
+                            </th>
+                            <th>
+                                <div class="lBor">
+                                    City
+                                </div>
+                            </th>
+                            <th>
+                                <div class="lBor">
+                                    Order Number
+                                </div>
+                            </th>
+                            <th>
+                                <div class="lBor">
+                                    PinCode
+                                </div>
+                            </th>
+                            <th>
+                                <div class="lBor">
+                                    IsActive
+                                </div>
+                            </th>
+                            <th>
+                                <div class="lBor">
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Troy.Model.Branch.Branch item in Model.PurchaseQuotationList)
+                        {
+                            <tr class="odd">
+                                <td style="display: none">
+                                    @item.Branch_Cde
+                                </td>
+                                <td>
+                                    @item.Branch_Name
+                                </td>
+                                <td>
+                                    @item.Address1
+                                </td>
+                                <td>
+                                    @item.Country_Cde
+                                </td>
+                                <td>
+                                    @item.State_Cde
+                                </td>
+                                <td>
+                                    @item.City_Cde
+                                </td>
+                                <td>
+                                    @item.Order_Num
+                                </td>
+                                <td>
+                                    @item.Pin_Cod
+                                </td>
+
+                                <td>
+                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Purchase_Quote_Id);">
+                                        <img src="@Url.Content("../Content/images/application_view_detail.png")" />
+                                    </a>
+                                    <span class="text-muted">|</span>
+                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Purchase_Quote_Id);">
+                                        <img src="@Url.Content("../Content/images/pencil.png")" />
+                                    </a>
+                                    <span class="text-muted">|</span>
+
+                                    <a href="@Url.Action("_DeletePartialView", "Suppliers", new { id = item.Branch_Id })" data-modal="true">
+                                        <img src="@Url.Content("../Content/images/cross_script.png")" />
+                                    </a>
+
+                                    @* @Html.ActionLink("Delete", "DeActivateExclusion", new { ruleId = item.Purchase_Quote_Id }, new { /*onclick = "return Deleteclick(" + item.Purchase_Quote_Id + ");" */ })*@
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="modal fade bs-example-modal-lg" id="createModal" tabindex="-1" role="dialog"
+             aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            @Html.Partial("_CreatePartial", Model)
+        </div>
+
+        <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
+             aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
+            <div id="editmodelcontainer">
+            </div>
+        </div>
+
+        <div class="modal fade bs-example-modal-lg" id="viewModal" tabindex="-1" role="dialog"
+             aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPartial")'>
+            <div id="viewmodelcontainer">
+            </div>
+        </div>
+
+        <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
+             aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">File Upload</h4>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="form-horizontal">
+                            <div id="myTabContent" class="tab-content">
+                                <div class="tab-pane fade in active" id="default">
+                                    <br />
+
+                                    <div id="FileUploadDiv">
+                                        <iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <input type="file" id="FileUpload" name="FileUpload" />
+                                            </div>
+                                        </div>
+                                        @*<div class="row">
+                                                <div class="col-md-12 text-right">
+                                                    <input type="button" id="btnUpload" name="FileUploadButton" value="Upload" class="btn btn-success"
+                                                           onclick="return IFrameSubmit();" />
+                                                </div>
+                                            </div>*@
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
+                        <button class="btn pull-left" data-dismiss="modal">Close</button>
+                        @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 }
-
-</table>
