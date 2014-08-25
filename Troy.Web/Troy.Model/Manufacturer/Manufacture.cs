@@ -21,7 +21,7 @@ namespace Troy.Model.Manufacturer
         [Required(ErrorMessage = "Manufacture Name is required.")]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         [StringLength(30)]
-       // [Remote("CheckForDuplication", "Manufacture")]
+        [Remote("CheckForDuplication", "Manufacture")]
         public string Manufacturer_Name { get; set; }
 
 
