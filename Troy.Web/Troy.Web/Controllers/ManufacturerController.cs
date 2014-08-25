@@ -57,7 +57,7 @@ namespace Troy.Web.Controllers
 
         [HttpPost]
         public ActionResult Index(string submitButton, ManufacturerViewModels model, HttpPostedFileBase file, string posting, string required, string valid)
-        {
+            {
             try
             {
                 if (submitButton == "Save")
