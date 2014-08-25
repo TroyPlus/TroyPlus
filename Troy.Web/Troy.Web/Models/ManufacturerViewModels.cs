@@ -10,8 +10,7 @@ namespace Troy.Web.Models
     public class ManufacturerViewModels
     {
         public Manufacture Manufacturer { get; set; }
-        public List<Manufacture> ManufacturerList { get; set; }
-       
+        public List<Manufacture> ManufacturerList { get; set; }       
         public string SearchQuery { get; set; }
 
         public string SearchColumn { get; set; }
