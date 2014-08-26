@@ -20,7 +20,7 @@ namespace Troy.Data.Repository
 
         List<BranchList> GetAddressList();
 
-        List<CountryList> GetAddressList();
+        List<CountryList> GetAddresscountryList();
 
         bool InsertFileUploadDetails(List<Branch> branch);
 

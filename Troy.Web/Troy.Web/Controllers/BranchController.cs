@@ -45,7 +45,7 @@ namespace Troy.Web.Controllers
 
                 var countrylist = branchDb.GetAllBranch().ToList();
 
-                model.CountryList = countrylist;
+                //model.CountryList = countrylist;
 
                 model.branchList = branchlist;
                 return View(model);

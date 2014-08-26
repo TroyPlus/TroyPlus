@@ -144,7 +144,7 @@ namespace Troy.Data.Repository
         }
 
 
-        public List<CountryList> GetAddressList()
+        public List<CountryList> GetAddresscountryList()
         {
             var item = (from a in branchContext.Branch
                         select new CountryList
