@@ -16,11 +16,11 @@ namespace Troy.Data.DataContext
         { }
 
         public DbSet<Branch> Branch { get; set; }
-        public DbSet<Country> country_cde { get; set; }
+        public DbSet<Country> country { get; set; }
 
-        public DbSet<State> state_cde { get; set; }
+        public DbSet<State> state { get; set; }
 
-        public DbSet<City> city_cde { get; set; }
+        public DbSet<City> city { get; set; }
 
     }
 }
