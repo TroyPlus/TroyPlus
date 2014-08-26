@@ -138,6 +138,7 @@ namespace Troy.Data.Repository
             {
                 manufactureContext.Entry(manufacturer).State = EntityState.Modified;
                 manufactureContext.SaveChanges();
+
                 return true;
             }
             catch(Exception ex)
