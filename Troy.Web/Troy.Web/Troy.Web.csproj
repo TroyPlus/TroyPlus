@@ -402,6 +402,7 @@
     <Content Include="Views\Branch\_CreatePartial.cshtml" />
     <Content Include="Views\Manufacturer\Index.cshtml" />
     <Content Include="Views\Manufacturer\_CreatePartial.cshtml" />
+    <Content Include="Views\Manufacturer\_EditPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
