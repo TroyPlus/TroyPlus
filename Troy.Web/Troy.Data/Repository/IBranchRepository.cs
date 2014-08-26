@@ -18,6 +18,10 @@ namespace Troy.Data.Repository
 
         //  List<BranchList> GetAddressList();
 
+        List<BranchList> GetAddressList();
+
+        List<CountryList> GetAddressList();
+
         bool InsertFileUploadDetails(List<Branch> branch);
 
         bool AddNewBranch(Branch branch);

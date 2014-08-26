@@ -126,6 +126,39 @@ namespace Troy.Data.Repository
             throw new NotImplementedException();
         }
 
+
+
+
+
+
+        public List<BranchList> GetAddressList()
+        {
+            var item = (from a in branchContext.Branch
+                        select new BranchList
+                        {
+                            BranchName = a.Branch_Name,
+                            BranchId = a.Branch_Id
+                        }).ToList();
+
+            return item;
+        }
+
+
+        public List<CountryList> GetAddressList()
+        {
+            var item = (from a in branchContext.Branch
+                        select new CountryList
+                        {
+                            Country_Name = a.Country_Cde,
+                            
+                            //BranchId = a.Branch_Id
+                        }).ToList();
+
+            return item;
+        }
+
+
+
         public bool AddNewBranch(Branch branch)
         {
             try

@@ -1,7 +1,12 @@
 using System;
+using System.Data.Entity;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
+using Troy.Data.DataContext;
 using Troy.Data.Repository;
+using Troy.Model.AppMembership;
+using Troy.Web.Controllers;
 
 namespace Troy.Web.App_Start
 {
@@ -43,7 +48,17 @@ namespace Troy.Web.App_Start
             container.RegisterType<IManufacturerRepository, ManufactureRepository>();
             container.RegisterType<IBranchRepository, BranchRepository>();
 
+            container.RegisterType(typeof(UserManager<>), new InjectionConstructor(typeof(IUserStore<>)));
+            container.RegisterType<IUser>(new InjectionFactory(c => c.Resolve<Microsoft.AspNet.Identity.IUser>()));
+            container.RegisterType(typeof(IUserStore<>), typeof(UserStore<>));
+            container.RegisterType<IdentityUser<int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>, ApplicationUser>(new ContainerControlledLifetimeManager());
+            container.RegisterType<DbContext, ApplicationDbContext>(new ContainerControlledLifetimeManager());
 
+            container.RegisterType<UserManager<ApplicationUser, int>>(new HierarchicalLifetimeManager());
+            container.RegisterType<IUserStore<ApplicationUser, int>, UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>>(new HierarchicalLifetimeManager());
+            container.RegisterType<DbContext, ApplicationDbContext>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<AccountController>(new InjectionConstructor());
         }
     }
 }

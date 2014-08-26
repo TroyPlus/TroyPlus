@@ -43,6 +43,10 @@ namespace Troy.Web.Controllers
 
                 var branchlist = branchDb.GetAllBranch().ToList();
 
+                var countrylist = branchDb.GetAllBranch().ToList();
+
+                model.CountryList = countrylist;
+
                 model.branchList = branchlist;
                 return View(model);
             }
@@ -75,7 +79,7 @@ namespace Troy.Web.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Quotation Not Saved");
+                        ModelState.AddModelError("", "Branch Not Saved");
                     }
                 }
                 else if (submitButton == "Search")
