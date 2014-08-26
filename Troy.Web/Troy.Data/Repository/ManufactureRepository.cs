@@ -78,13 +78,13 @@ namespace Troy.Data.Repository
                 {
                     Manufacture model = new Manufacture()
                     {
-                       
-                        Manufacturer_Id=item.Manufacturer_Id,
-                        Manufacturer_Name=item.Manufacturer_Name,
-                        Level=item.Level,
+
+                        Manufacturer_Id = item.Manufacturer_Id,
+                        Manufacturer_Name = item.Manufacturer_Name,
+                        Level = item.Level,
                         Created_Branc_Id = item.Created_Branc_Id,
                         Created_Dte = item.Created_Dte,
-                        Created_User_Id = item.Created_User_Id, 
+                        Created_User_Id = item.Created_User_Id,
                         Modified_Branch_Id = item.Modified_Branch_Id,
                         Modified_Dte = item.Modified_Dte,
                         Modified_User_Id = item.Modified_User_Id
@@ -113,8 +113,15 @@ namespace Troy.Data.Repository
             return (from p in manufactureContext.Manufacture
                     where p.Manufacturer_Id == qId
                     select p).FirstOrDefault();
-        }        
-    
+        }
+
+        public Manufacture CheckDuplicateName(string mManu_Name)
+        {
+            return (from p in manufactureContext.Manufacture
+                    where p.Manufacturer_Name == mManu_Name
+                    select p).FirstOrDefault();
+        }
+
         public bool AddNewManufacturer(Manufacture manufacturer)
         {
             try
@@ -141,13 +148,13 @@ namespace Troy.Data.Repository
 
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ExceptionHandler.LogException(ex);
                 return false;
             }
         }
-        
+
         public bool InsertFileUploadDetails(List<Manufacture> manufacture)
         {
             throw new NotImplementedException();
