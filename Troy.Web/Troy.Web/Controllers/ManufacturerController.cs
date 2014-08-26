@@ -57,10 +57,8 @@ namespace Troy.Web.Controllers
 
         //---- check unique key-------
         public JsonResult CheckForDuplication(Manufacture manufacture)
-        {           
+        {
             var data = manufactureDb.CheckDuplicateName("Sony");
-            //var data = db.Manufacture.Where(p => p.Manufacturer_Name.Equals(manufacture.Manufacturer_Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-
             if (data != null)
             {
                 return Json("Sorry, Manufacturer Name already exists", JsonRequestBehavior.AllowGet);
