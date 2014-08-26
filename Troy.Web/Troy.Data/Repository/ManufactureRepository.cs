@@ -118,7 +118,7 @@ namespace Troy.Data.Repository
         public Manufacture CheckDuplicateName(string mManu_Name)
         {
             return (from p in manufactureContext.Manufacture
-                    where p.Manufacturer_Name == mManu_Name
+                    where p.Manufacturer_Name.Equals(mManu_Name, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
 
@@ -152,7 +152,7 @@ namespace Troy.Data.Repository
             {
                 ExceptionHandler.LogException(ex);
                 return false;
-            }
+            }       
         }
 
         public bool InsertFileUploadDetails(List<Manufacture> manufacture)
