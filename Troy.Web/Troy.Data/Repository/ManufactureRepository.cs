@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
@@ -125,6 +126,21 @@ namespace Troy.Data.Repository
                 return true;
             }
             catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                return false;
+            }
+        }
+
+        public bool EditExistingManufacturer(Manufacture manufacturer)
+        {
+            try
+            {
+                manufactureContext.Entry(manufacturer).State = EntityState.Modified;
+                manufactureContext.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
             {
                 ExceptionHandler.LogException(ex);
                 return false;

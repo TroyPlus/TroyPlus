@@ -53,9 +53,9 @@
                                         Is Active:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.RadioButtonFor(model => model.IsActive, "Y", new { id = "Y" }) YES
-                                        @Html.RadioButtonFor(model => model.IsActive, "N", new { id = "N" }) NO
-                                        @Html.ValidationMessageFor(model => model.IsActive)
+                                        @Html.RadioButtonFor(model => model.Manufacturer.IsActive, "Y", new { id = "Y" }) YES
+                                        @Html.RadioButtonFor(model => model.Manufacturer.IsActive, "N", new { id = "N" }) NO
+                                        @Html.ValidationMessageFor(model => model.Manufacturer.IsActive)
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
         </div>
 
         <div class="modal-footer">
-            <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+            <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
             <button class="btn pull-left" data-dismiss="modal">Close</button>
             @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
         </div>

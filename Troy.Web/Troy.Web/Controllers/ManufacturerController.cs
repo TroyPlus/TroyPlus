@@ -18,14 +18,14 @@ namespace Troy.Web.Controllers
 {
     public class ManufacturerController : Controller
     {
-        #region Fields     
+        #region Fields
         private readonly IManufacturerRepository manufactureDb;
         #endregion
 
         #region Constructor
         //inject dependency
         public ManufacturerController(IManufacturerRepository mrepository)
-        {           
+        {
             this.manufactureDb = mrepository;
         }
         #endregion
@@ -57,7 +57,7 @@ namespace Troy.Web.Controllers
 
         [HttpPost]
         public ActionResult Index(string submitButton, ManufacturerViewModels model, HttpPostedFileBase file, string posting, string required, string valid)
-            {
+        {
             try
             {
                 if (submitButton == "Save")
@@ -69,7 +69,7 @@ namespace Troy.Web.Controllers
                     model.Manufacturer.Modified_User_Id = 1;
                     model.Manufacturer.Modified_Dte = DateTime.Now;
                     model.Manufacturer.Modified_Branch_Id = 1;
-                                      
+
 
                     if (manufactureDb.AddNewManufacturer(model.Manufacturer))
                     {
@@ -77,7 +77,26 @@ namespace Troy.Web.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Quotation Not Saved");
+                        ModelState.AddModelError("", "Manufacturer Not Saved");
+                    }
+                }
+                else if (submitButton == "Update")
+                {
+                    model.Manufacturer.Created_Branc_Id = 1;
+                    model.Manufacturer.Created_Dte = DateTime.Now;
+                    model.Manufacturer.Created_User_Id = 1;  //GetUserId()
+                    model.Manufacturer.Modified_User_Id = 1;
+                    model.Manufacturer.Modified_Dte = DateTime.Now;
+                    model.Manufacturer.Modified_Branch_Id = 1;
+
+
+                    if (manufactureDb.EditExistingManufacturer(model.Manufacturer))
+                    {
+                        return RedirectToAction("Index", "Manufacturer");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Manufacturer Not Updated");
                     }
                 }
                 else if (submitButton == "Search")
@@ -264,6 +283,6 @@ namespace Troy.Web.Controllers
             }
         }
         #endregion
-        
+
     }
 }

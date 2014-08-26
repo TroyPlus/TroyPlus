@@ -21,6 +21,8 @@ namespace Troy.Data.Repository
         bool InsertFileUploadDetails(List<Manufacture> manufacture);
 
         bool AddNewManufacturer(Manufacture manufacturer);
+
+        bool EditExistingManufacturer(Manufacture manufacturer);
       
     }
 }
