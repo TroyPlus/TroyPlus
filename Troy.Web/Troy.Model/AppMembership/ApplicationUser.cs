@@ -23,6 +23,8 @@ namespace Troy.Model.AppMembership
 
         public int Brach_Id { get; set; }
 
+        public DateTime? PasswordExpiryDate { get; set; }
+
         public bool IsActive { get; set; }
 
         public int Created_User_Id { get; set; }
