@@ -53,11 +53,18 @@ namespace Troy.Model.AppMembership
 
     }
 
+    public class ApplicationUserRoleMenuItem
+    {
+        public string Menu_Name { get; set; }
+        public string SubMenu_name { get; set; }        
+        public string Screen_Name { get; set; }
+        public string Screen_Url { get; set; }
+    }
     public class ApplicationMenu
     {
         public int MenuId { get; set; }
         public string MenuName { get; set; }
-        public ICollection<MenuItem> MenuItems { get; set; }
+        public ICollection<ApplicationUserRoleMenuItem> MenuItems { get; set; }
 
     }
 }
