@@ -38,6 +38,12 @@ namespace Troy.Web
         {
         }
 
+//         public static GetApplicationUser(string username)
+//        {
+//             Var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
+//return Manager.findbyname(param1);
+//         }
+
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
@@ -83,6 +89,14 @@ namespace Troy.Web
                     new DataProtectorTokenProvider<ApplicationUser, int>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
+        }
+
+        public static ApplicationUser GetApplicationUser(string username, IOwinContext context)
+        {
+            //throw new NotImplementedException();
+            var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
+            return manager.FindByName(username);
+
         }
     }
 
