@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Model;
-using Troy.Model.Branch;
+using Troy.Model.Branches;
 
 namespace Troy.Data.DataContext
 {

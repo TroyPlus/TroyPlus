@@ -11,7 +11,9 @@ using System.Web.Mvc;
 using Troy.Data.Repository;
 using Troy.Model.Manufacturer;
 using Troy.Web.Models;
+using Troy.Web;
 using Troy.Utilities.CrossCutting;
+using Troy.Model.AppMembership;
 #endregion
 
 namespace Troy.Web.Controllers
@@ -55,7 +57,8 @@ namespace Troy.Web.Controllers
             }
         }
 
-        //---- check unique key-------
+
+        //---- check unique key-------          
         public JsonResult CheckForDuplication(Manufacture manufacture)
         {
             var data = manufactureDb.CheckDuplicateName("Sony");
@@ -67,15 +70,17 @@ namespace Troy.Web.Controllers
             {
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
-        }       
+        }
+
 
         [HttpPost]
-        public ActionResult Index(string submitButton, ManufacturerViewModels model, HttpPostedFileBase file, string posting, string required, string valid)
+        public ActionResult Index(string submitButton, ManufacturerViewModels model, HttpPostedFileBase file)
         {
+           // ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name);
             try
             {
                 if (submitButton == "Save")
-                {                      
+                {
                     model.Manufacturer.IsActive = "Y";
                     model.Manufacturer.Created_Branc_Id = 1;
                     model.Manufacturer.Created_Dte = DateTime.Now;
@@ -166,7 +171,7 @@ namespace Troy.Web.Controllers
                             String[] excelSheets = new String[dt.Rows.Count];
                             int t = 0;
                             //excel data saves in temp file here.
-                            foreach (DataRow row in dt.Rows)
+                            foreach (DataRow row in dt.Rows) 
                             {
                                 excelSheets[t] = row["TABLE_NAME"].ToString();
                                 t++;
@@ -247,7 +252,7 @@ namespace Troy.Web.Controllers
                     }
                 }
 
-                return RedirectToAction("Index", "Purchase");
+                return RedirectToAction("Index", "Manufacturer");
             }
             catch (Exception ex)
             {

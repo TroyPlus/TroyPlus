@@ -10,7 +10,7 @@ using Troy.Data.Repository;
 using Troy.Model;
 using Troy.Web.Models;
 using Troy.Utilities.CrossCutting;
-using Troy.Model.Branch;
+using Troy.Model.Branches;
 #endregion
 
 namespace Troy.Web.Controllers

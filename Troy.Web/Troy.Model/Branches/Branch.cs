@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 
 
-namespace Troy.Model.Branch
+namespace Troy.Model.Branches
 {
     [Table("tblBranch")]
     public class Branch
@@ -43,23 +43,28 @@ namespace Troy.Model.Branch
 
         [StringLength(50)]
         [Column(TypeName = "char")]
-
         public string Address3 { get; set; }
 
         [Required]
         [StringLength(3)]
         [Column(TypeName = "char")]
+        [ForeignKey("country")]
         public string Country_Cde { get; set; }
+        public virtual Country country { get; set; }
 
         [Required]
         [StringLength(3)]
         [Column(TypeName = "char")]
+        [ForeignKey("state")]
         public string State_Cde { get; set; }
+        public virtual State state { get; set; }
 
         [Required]
         [StringLength(3)]
         [Column(TypeName = "char")]
+        [ForeignKey("city")]
         public string City_Cde { get; set; }
+        public virtual City city { get; set; }
 
         [Required(ErrorMessage = "PinCode is required.")]
         [RegularExpression(@"^[0-9 + /'' ']+$", ErrorMessage = @"Special characters ( / - ) are allowed in the code.")]
@@ -96,8 +101,6 @@ namespace Troy.Model.Branch
         [Required]
         [Column(TypeName = "date")]
         public DateTime Modified_Dte { get; set; }
-
-
     }
 
     [Table("tblCountry")]
@@ -105,6 +108,8 @@ namespace Troy.Model.Branch
     {
         [Key]
         public int Country_Id { get; set; }
+        [ForeignKey("Country_Id")]
+        public virtual Country country { get; set; }
 
         [StringLength(3)]
         [Column(TypeName = "char")]
@@ -113,8 +118,8 @@ namespace Troy.Model.Branch
         [StringLength(30)]
         [Column(TypeName = "char")]
         public string Country_Name { get; set; }
-        [StringLength(30)]
 
+        [StringLength(30)]
         [Column(TypeName = "char")]
         public string SAP_Country_Cde { get; set; }
 
@@ -127,8 +132,10 @@ namespace Troy.Model.Branch
     [Table("tblState")]
     public class State
     {
-        [Key]
+        [Key]    
         public int State_Id { get; set; }
+        [ForeignKey("State_Id")]
+        public virtual State state { get; set; }
 
         [StringLength(3)]
         [Column(TypeName = "char")]
@@ -153,6 +160,8 @@ namespace Troy.Model.Branch
     {
         [Key]
         public int City_Id { get; set; }
+        [ForeignKey("City_Id")]
+        public virtual City city { get; set; }
 
         [StringLength(3)]
         [Column(TypeName = "char")]

@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Manufacturer";
-    ViewBag.BodyCss = "Manufacturer";
+    ViewBag.BodyCss = "supplier";
 }
 
 
@@ -65,8 +65,12 @@
                 $('#SearchColumn').val(Id);
                 $('#SearchBySpan').text(Id);
             }
-        });     
+        });
 
+        $(".info").dblclick(function () {
+            $(Span1).load("/Manufacturer/CheckForDuplication", { name: $(textbox1).val() });
+            return false;
+        });       
     });
 
     function EditManufacturer(id) {
@@ -125,8 +129,10 @@
             error: function (request, status, error) {
                 alert(request.responseText);
             }
-        });
+        });      
     }
+
+  
 
     $.validator.unobtrusive.parse('#myModal form');
 
