@@ -10,6 +10,7 @@ using Troy.Data.Repository;
 using Troy.Model;
 using Troy.Web.Models;
 using Troy.Utilities.CrossCutting;
+using Troy.Model.Manufacturer;
 #endregion
 
 namespace Troy.Web.Controllers
@@ -184,7 +185,7 @@ namespace Troy.Web.Controllers
 
                                             if (ds.Tables[0].Rows[i]["Level"] != null)
                                             {
-                                                mItem.Manufacture_Level = Convert.ToInt32(ds.Tables[0].Rows[i]["Level"]);
+                                                mItem.Level = Convert.ToInt32(ds.Tables[0].Rows[i]["Level"]);
                                             }
                                             else
                                             {

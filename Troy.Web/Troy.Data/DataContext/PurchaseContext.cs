@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Troy.Model.Branch;
+using Troy.Model.Branches;
 using Troy.Model.Purchase;
 
 namespace Troy.Data.DataContext
