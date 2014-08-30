@@ -8,10 +8,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Troy.Data.DataContext;
 using Troy.Model.AppMembership;
-using System.Linq;
-using System.Collections.Generic;
-using System.Security.Principal;
-using System.Web.Security;
+
 
 namespace Troy.Web
 {
@@ -41,6 +38,12 @@ namespace Troy.Web
         {
         }
 
+//         public static GetApplicationUser(string username)
+//        {
+//             Var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
+//return Manager.findbyname(param1);
+//         }
+
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
@@ -50,8 +53,6 @@ namespace Troy.Web
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
             };
-
-            
 
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
@@ -90,8 +91,9 @@ namespace Troy.Web
             return manager;
         }
 
-        public static ApplicationUser GetApplicationUser(string userName)
+        public static ApplicationUser GetApplicationUser(string username, IOwinContext context)
         {
+<<<<<<< HEAD
             ApplicationDbContext appDbContext = ApplicationDbContext.Create();
             // ApplicationUser user = appDbContext.Users.Find(userId);
 
@@ -155,6 +157,12 @@ namespace Troy.Web
                                  }).ToList();
             }
             return menuItems;
+=======
+            //throw new NotImplementedException();
+            var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
+            return manager.FindByName(username);
+
+>>>>>>> origin/master
         }
     }
 
