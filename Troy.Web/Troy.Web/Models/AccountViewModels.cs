@@ -58,6 +58,8 @@ namespace Troy.Web.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        public 
+
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }

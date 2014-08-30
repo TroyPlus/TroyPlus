@@ -30,52 +30,34 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Branch", "Index", "Branch", null, new { @class = "navbar-brand" })
-                @Html.ActionLink("Role", "Index", "Role", null, new { @class = "navbar-brand" })
-                @Html.ActionLink("Troy", "Index", "Home", null, new { @class = "navbar-brand" })
+                </button>                
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @if (Request.IsAuthenticated)
                     {
-                        foreach(ApplicationUserRoleMenuItem menuItem in
-                            @ApplicationUserManager.GetUserApplicationMenuItems(User.Identity.Name))
+                        var menuList =Troy.Web.ApplicationUserManager.GetUserApplicationMenuItems(User.Identity.Name);
+                        var mainMenus = (from m in menuList                                         
+                                             select m.Menu_Name).Distinct().ToList();
+                        foreach (string menu in mainMenus)
                         {
+                            var menuItems = (from m in menuList
+                                             where m.Menu_Name == menu
+                                             select m);
+                            
                             <li class=" dropdown" id="Suppliers">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@menuItem.Menu_Name </a>
-                            </li>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@menu </a>
+                                <ul class="dropdown-menu">
+                                    @foreach (ApplicationUserRoleMenuItem menuItem in menuItems)
+                                    {
+                                        <li>@Html.ActionLink(@menuItem.SubMenu_name, "Index", @menuItem.Screen_Name)</li>                                 
+                                    }
+                                </ul>  
+                             </li>
                         }
-
-                        <li>@Html.ActionLink("Customer", "Index", "Customer")</li>
-                        <li class=" dropdown" id="Suppliers">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Supplier </a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Suppliers", "Index", "Suppliers")</li>
-                                <li>@Html.ActionLink("Purchases", "Index", "Purchases")</li>
-                            </ul>
-
-                        </li>
-
-                        <li>@Html.ActionLink("Bank", "Index", "Bank")</li>
-                        <li>@Html.ActionLink("Expense", "Index", "Home")</li>
-                        <li class=" dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Inventory </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Categories</a></li>
-                                <li><a href="#">Brands</a></li>
-                                <li><a href="#">Products</a></li>
-                            </ul>
-
-                        </li>
-                        <li>@Html.ActionLink("Account", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Manufacture", "Index", "Manufacture")</li>
-                        <li>@Html.ActionLink("Service", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Employee", "Index", "Employee")</li>
-
                     }
                 </ul>
-                @* @Html.Partial("_LoginPartial")*@
+                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>

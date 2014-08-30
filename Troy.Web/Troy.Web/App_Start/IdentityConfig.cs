@@ -127,29 +127,33 @@ namespace Troy.Web
             // ApplicationUser user = appDbContext.Users.Find(userId);
 
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(appDbContext));
-
+            List<ApplicationUserRoleMenuItem> menuItems = new List<ApplicationUserRoleMenuItem>();
             ApplicationUser user = manager.FindByName(userName);
+            
+            if (user != null)
+            {
+                var role = (from r in appDbContext.Roles.ToList()
+                            join ra in user.Roles
+                                on r.Id equals ra.RoleId                            
+                            select r).FirstOrDefault();
 
-            var role = (from r in appDbContext.Roles
-                        where r.Id.Equals(user.Roles.FirstOrDefault().RoleId)
-                        select r).FirstOrDefault();
-
-            var appScreens = (from ra in appDbContext.ApplicationRoleAccess
-                              where ra.AppRole.Equals(role)
-                              select ra.AppScreen).ToList();
+                var appScreens = (from ra in appDbContext.ApplicationRoleAccess.ToList()
+                                  where ra.AppRole == role
+                                  select ra.AppScreen).ToList();
 
 
-            var menuItems = (from s in appScreens
-                             join mi in appDbContext.AppSubMenu on s.Id equals mi.ApplicationScreen_Id
-                             join m in appDbContext.AppMainMenu on mi.Menu equals m
-                             select new ApplicationUserRoleMenuItem
-                             {
-                                 Menu_Name = m.Name,
-                                 SubMenu_name = mi.Name,
-                                 Screen_Name = s.Screen_Name,
-                                 Screen_Url = s.Screen_Url
+                menuItems = (from s in appScreens
+                                 join mi in appDbContext.AppSubMenu.ToList() on s.Id equals mi.ApplicationScreen_Id
+                                 join m in appDbContext.AppMainMenu.ToList() on mi.Menu equals m
+                                 select new ApplicationUserRoleMenuItem
+                                 {
+                                     Menu_Name = m.Name,
+                                     SubMenu_name = mi.Name,
+                                     Screen_Name = s.Screen_Name,
+                                     Screen_Url = s.Screen_Url
 
-                             }).ToList();
+                                 }).ToList();
+            }
             return menuItems;
         }
     }
