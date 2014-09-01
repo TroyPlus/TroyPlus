@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Data.DataContext;
-using Troy.Model.Branch;
+using Troy.Model.Branches;
 using Troy.Utilities.CrossCutting;
 
 
