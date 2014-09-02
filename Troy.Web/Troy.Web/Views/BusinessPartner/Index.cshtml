@@ -1,0 +1,255 @@
+﻿@model IEnumerable<Troy.Model.BusinessPartner.BusinessPartner>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BillCity.City_Cde)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Billcountry.Country_Cde)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Billstate.State_Cde)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.branch.Branch_Cde)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.employee.First_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.group.Group_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ledger.Ledger_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pricelist.Price_List_Desc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BP_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Group_Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ship_Address1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ship_address2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ship_address3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ship_City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ship_State)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ship_Country)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ship_pincode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bill_Address1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bill_address2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bill_address3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bill_pincode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mobile)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email_Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Website)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contact_person)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ship_method)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Opening_Balance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Due_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Created_User_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Created_Branc_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Created_Dte)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Modified_User_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Modified_Branch_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Modified_Dte)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BillCity.City_Cde)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Billcountry.Country_Cde)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Billstate.State_Cde)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.branch.Branch_Cde)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.employee.First_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.group.Group_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ledger.Ledger_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pricelist.Price_List_Desc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BP_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Group_Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ship_Address1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ship_address2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ship_address3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ship_City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ship_State)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ship_Country)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ship_pincode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bill_Address1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bill_address2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bill_address3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bill_pincode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mobile)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email_Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Website)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contact_person)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ship_method)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Opening_Balance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Due_date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Created_User_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Created_Branc_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Created_Dte)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Modified_User_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Modified_Branch_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Modified_Dte)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.BP_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.BP_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.BP_Id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -39,13 +39,13 @@
                 <ul class="nav navbar-nav">
                     @if (Request.IsAuthenticated)
                     {
-                        foreach(ApplicationUserRoleMenuItem menuItem in
+                        @*foreach(ApplicationUserRoleMenuItem menuItem in
                             @ApplicationUserManager.GetUserApplicationMenuItems(User.Identity.Name))
                         {
                             <li class=" dropdown" id="Suppliers">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">@menuItem.Menu_Name </a>
                             </li>
-                        }
+                        }*@
 
                         <li>@Html.ActionLink("Customer", "Index", "Customer")</li>
                         <li class=" dropdown" id="Suppliers">

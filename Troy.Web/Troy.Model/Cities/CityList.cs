@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Troy.Model.Branches
+namespace Troy.Model.Cities
 {
   public class CityList
     {
-        public int City_Id { get; set; }
+        public int ID { get; set; }
 
         public string City_Name { get; set; }
     }

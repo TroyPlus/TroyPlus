@@ -283,11 +283,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (Troy.Model.Branch.Branch item in Model.PurchaseQuotationList)
+                         @foreach (Troy.Model.Branch.Branch item in Model.BranchList)
                         {
                             <tr class="odd">
                                 <td style="display: none">
-                                    @item.Branch_Cde
+                                    @item.Branch_Code
                                 </td>
                                 <td>
                                     @item.Branch_Name
@@ -296,19 +296,19 @@
                                     @item.Address1
                                 </td>
                                 <td>
-                                    @item.Country_Cde
+                                    @item.Country_ID
                                 </td>
                                 <td>
-                                    @item.State_Cde
+                                    @item.State_ID
                                 </td>
                                 <td>
-                                    @item.City_Cde
+                                    @item.City_ID
                                 </td>
                                 <td>
                                     @item.Order_Num
                                 </td>
                                 <td>
-                                    @item.Pin_Cod
+                                    @item.Pin_Code
                                 </td>
 
                                 <td>

@@ -17,7 +17,7 @@ namespace Troy.Model.PriceLists
         [Key]
         public int Id { get; set; }
         [ForeignKey("Id")]
-        public virtual PriceList pricelist { get; set; }
+        public virtual PriceList PList { get; set; }
 
         [Index(IsUnique = true)]
         [Required(ErrorMessage = "Price List Desc is required.")]

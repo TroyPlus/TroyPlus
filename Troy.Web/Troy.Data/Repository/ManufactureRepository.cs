@@ -157,7 +157,19 @@ namespace Troy.Data.Repository
 
         public bool InsertFileUploadDetails(List<Manufacture> manufacture)
         {
-            throw new NotImplementedException();
+           // throw new NotImplementedException();
+            try
+            {
+                //manufactureContext.Manufacture.Add(manufacture);
+                //manufactureContext.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                return false;
+            }
         }
     }
 }

@@ -176,7 +176,7 @@ namespace Troy.Web.Controllers
                                             if (ds.Tables[0].Rows[i]["Branch_Cde"] != null)
                                             {
                                                 //mItem.Branch_Cde = Convert.ToInt32(ds.Tables[0].Rows[i]["Branch_Cde"]);
-                                                mItem.Branch_Cde = ds.Tables[0].Rows[i]["Branch_Cde"].ToString();
+                                                mItem.Branch_Code = ds.Tables[0].Rows[i]["Branch_Code"].ToString();
                                             }
                                             else
                                             {
@@ -208,15 +208,15 @@ namespace Troy.Web.Controllers
                                             }
                                             if (ds.Tables[0].Rows[i]["Country_Cde"] != null)
                                             {
-                                                mItem.Country_Cde = ds.Tables[0].Rows[i]["Country_Cde"].ToString();
-                                            }
+                                                mItem.Country_ID = Convert.ToInt32(ds.Tables[0].Rows[i]["Country_Cde"].ToString());
+                                            }   
                                             else
                                             {
                                                 return Json(new { success = false, Error = "Country_Cde field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
                                             }
                                             if (ds.Tables[0].Rows[i]["State_Cde"] != null)
                                             {
-                                                mItem.State_Cde = ds.Tables[0].Rows[i]["State_Cde"].ToString();
+                                                mItem.State_ID = Convert.ToInt32(ds.Tables[0].Rows[i]["State_Cde"].ToString());
                                             }
                                             else
                                             {
@@ -224,15 +224,15 @@ namespace Troy.Web.Controllers
                                             }
                                             if (ds.Tables[0].Rows[i]["City_Cde"] != null)
                                             {
-                                                mItem.City_Cde = ds.Tables[0].Rows[i]["City_Cde"].ToString();
+                                                mItem.City_ID = Convert.ToInt32(ds.Tables[0].Rows[i]["City_Cde"].ToString());
                                             }
                                             else
                                             {
                                                 return Json(new { success = false, Error = "City_Cde field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
                                             }
-                                            if (ds.Tables[0].Rows[i]["Pin_Cod"] != null)
+                                            if (ds.Tables[0].Rows[i]["Pin_Code"] != null)
                                             {
-                                                mItem.Pin_Cod = ds.Tables[0].Rows[i]["Pin_Cod"].ToString();
+                                                mItem.Pin_Code = ds.Tables[0].Rows[i]["Pin_Code"].ToString();
                                             }
                                             else
                                             {

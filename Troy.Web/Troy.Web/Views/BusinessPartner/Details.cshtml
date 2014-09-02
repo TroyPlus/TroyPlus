@@ -1,0 +1,322 @@
+﻿@model Troy.Model.BusinessPartner.BusinessPartner
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BusinessPartner</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BillCity.City_Cde)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillCity.City_Cde)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Billcountry.Country_Cde)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Billcountry.Country_Cde)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Billstate.State_Cde)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Billstate.State_Cde)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.branch.Branch_Cde)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.branch.Branch_Cde)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employee.First_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employee.First_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.group.Group_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.group.Group_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ledger.Ledger_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ledger.Ledger_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pricelist.Price_List_Desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pricelist.Price_List_Desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BP_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BP_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Group_Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Group_Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ship_Address1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ship_Address1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ship_address2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ship_address2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ship_address3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ship_address3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ship_City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ship_City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ship_State)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ship_State)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ship_Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ship_Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ship_pincode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ship_pincode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bill_Address1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bill_Address1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bill_address2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bill_address2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bill_address3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bill_address3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bill_pincode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bill_pincode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mobile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mobile)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email_Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email_Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Website)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Website)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact_person)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contact_person)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ship_method)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ship_method)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Opening_Balance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Opening_Balance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Due_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Due_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created_User_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created_User_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created_Branc_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created_Branc_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created_Dte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created_Dte)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Modified_User_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Modified_User_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Modified_Branch_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Modified_Branch_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Modified_Dte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Modified_Dte)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BP_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

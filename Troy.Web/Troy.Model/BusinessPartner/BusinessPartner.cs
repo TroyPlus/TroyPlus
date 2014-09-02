@@ -12,6 +12,9 @@ using Troy.Model.Employees;
 using Troy.Model.Groups;
 using Troy.Model.PriceLists;
 using Troy.Model.Ledgers;
+using Troy.Model.Cities;
+using Troy.Model.Countries;
+using Troy.Model.States;
 
 namespace Troy.Model.BusinessPartner
 {
@@ -106,21 +109,21 @@ namespace Troy.Model.BusinessPartner
         //------------
 
         [Required(ErrorMessage = "Bill City is required.")]
-        [ForeignKey("BillCity")]
+        [ForeignKey("city")]
         public int Bill_City { get; set; }
-        public virtual City BillCity { get; set; }
+        public virtual City city { get; set; }
         //------------
 
         [Required(ErrorMessage = "Bill State is required.")]
-        [ForeignKey("Billstate")]
+        [ForeignKey("state")]
         public int Bill_State { get; set; }
-        public virtual State Billstate { get; set; }
+        public virtual State state { get; set; }
         //------------
 
         [Required(ErrorMessage = "Bill Country is required.")]
-        [ForeignKey("Billcountry")]
+        [ForeignKey("country")]
         public int Bill_Country { get; set; }
-        public virtual Country Billcountry { get; set; }
+        public virtual Country country { get; set; }
         //------------
 
         [Required(ErrorMessage = "Bill Pincode is required.")]
@@ -137,9 +140,9 @@ namespace Troy.Model.BusinessPartner
         //------------
 
         [Required(ErrorMessage = "Price list is required.")]
-        [ForeignKey("pricelist")]
-        public int bp_Pricelist { get; set; }
-        public virtual PriceList pricelist { get; set; }
+        [ForeignKey("PList")]
+        public int Pricelist { get; set; }
+        public virtual PriceList PList { get; set; }
         //------------
 
         [ForeignKey("employee")]

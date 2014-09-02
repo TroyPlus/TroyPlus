@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Troy.Data.DataContext;
 using Troy.Model.Branches;
+using Troy.Model.Countries;
 using Troy.Utilities.CrossCutting;
 
 
@@ -80,11 +81,11 @@ namespace Troy.Data.Repository
 
                         Branch_Id = item.Branch_Id,
                         Branch_Name = item.Branch_Name,
-                        Country_Cde=item.Country_Cde,
-                        State_Cde=item.State_Cde,
-                        City_Cde=item.City_Cde,
+                        Country_ID=item.Country_ID,
+                        State_ID=item.State_ID,
+                        City_ID=item.City_ID,
                         Order_Num=item.Order_Num,
-                        Pin_Cod=item.Pin_Cod,
+                        Pin_Code=item.Pin_Code,
                         IsActive=item.IsActive,
                         Created_Branc_Id = item.Created_Branc_Id,
                         Created_Dte = item.Created_Dte,
@@ -149,7 +150,7 @@ namespace Troy.Data.Repository
             var item = (from a in branchContext.Branch
                         select new CountryList
                         {
-                            Country_Name = a.Country_Cde,
+                            Country_Name =Convert.ToString(a.Country_ID),
                             
                             //BranchId = a.Branch_Id
                         }).ToList();

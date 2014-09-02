@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Troy.Model;
 using Troy.Model.Branches;
+using Troy.Model.Cities;
+using Troy.Model.Countries;
+using Troy.Model.States;
 
 namespace Troy.Data.DataContext
 {
@@ -16,6 +19,7 @@ namespace Troy.Data.DataContext
         { }
 
         public DbSet<Branch> Branch { get; set; }
+
         public DbSet<Country> country { get; set; }
 
         public DbSet<State> state { get; set; }

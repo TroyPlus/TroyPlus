@@ -16,7 +16,7 @@ namespace Troy.Data.Repository
 
         Manufacture FindOneManufacturerById(int qId);
 
-      //  List<BranchList> GetAddressList();
+        //  List<BranchList> GetAddressList();
 
         Manufacture CheckDuplicateName(string mManu_Name);
 
@@ -26,6 +26,6 @@ namespace Troy.Data.Repository
 
         bool EditExistingManufacturer(Manufacture manufacturer);
 
-      
+
     }
 }

@@ -59,9 +59,10 @@ namespace Troy.Web.Controllers
 
 
         //---- check unique key-------          
-        public JsonResult CheckForDuplication(Manufacture manufacture)
+        //public JsonResult CheckForDuplication(Manufacture manufacture, [Bind(Prefix = "Manufacture.Manufacturer_Name")]string Manufacturer_Name)
+        public ActionResult CheckForDuplication(Manufacture manufacture, [Bind(Prefix = "Manufacturer_Name")]string Manufacturer_Name)
         {
-            var data = manufactureDb.CheckDuplicateName("Sony");
+            var data = manufactureDb.CheckDuplicateName(Manufacturer_Name);
             if (data != null)
             {
                 return Json("Sorry, Manufacturer Name already exists", JsonRequestBehavior.AllowGet);
@@ -194,7 +195,7 @@ namespace Troy.Web.Controllers
                                 {
                                     if (ds.Tables[0].Rows.Count > 0)
                                     {
-                                        List<Manufacture> mlist = new List<Manufacture>();
+                                        List<Manufacture> mlist = new List<Manufacture>();                                       
 
                                         for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                                         {
@@ -284,6 +285,23 @@ namespace Troy.Web.Controllers
                 return PartialView("Error");
             }
         }
+
+        //[HttpPost]
+        //public PartialViewResult _EditPartial(string submitButton, ManufacturerViewModels model)
+        //{
+        //    try
+        //    {
+        //        ManufacturerViewModels model = new ManufacturerViewModels();
+        //        model.Manufacturer = manufactureDb.FindOneManufacturerById(id);
+        //        return PartialView(model);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ExceptionHandler.LogException(ex);
+        //        ViewBag.AppErrorMessage = ex.Message;
+        //        return PartialView("Error");
+        //    }
+        //}
 
         public PartialViewResult _ViewPartial(int id)
         {

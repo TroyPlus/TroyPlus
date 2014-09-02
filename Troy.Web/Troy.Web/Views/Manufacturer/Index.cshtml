@@ -67,15 +67,23 @@
             }
         });
 
-        $(".info").dblclick(function () {
-            $(Span1).load("/Manufacturer/CheckForDuplication", { name: $(textbox1).val() });
-            return false;
-        });       
+        $("#SearchString").autocomplete({
+            source: "/Manufacturer/CheckForDuplication",
+            minLength: 1,
+            select: function (event, ui) {
+                if (ui.item) {
+                    $("#SearchString").val(ui.item.value);
+                    $("form").submit();
+                }
+            }
+        });
     });
 
     function EditManufacturer(id) {
 
         var url = $('#editModal').data('url') + '/' + id;
+
+        //debugger;
 
         $.get(url, function (data) {
 
@@ -130,9 +138,7 @@
                 alert(request.responseText);
             }
         });      
-    }
-
-  
+    }  
 
     $.validator.unobtrusive.parse('#myModal form');
 

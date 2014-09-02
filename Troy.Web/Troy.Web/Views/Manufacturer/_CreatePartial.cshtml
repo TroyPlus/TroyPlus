@@ -33,6 +33,7 @@
                                         Manufacturer Name:
                                     </div>
                                     <div class="col-md-8">
+                                        @*@Html.TextBox("SearchString")*@                                        
                                         @Html.TextBoxFor(model => model.Manufacturer.Manufacturer_Name, new { @class = "form-control control-text info", id = "textbox1" })                                      
                                         @Html.ValidationMessageFor(model => model.Manufacturer.Manufacturer_Name)
                                     </div>

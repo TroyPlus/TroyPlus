@@ -18,7 +18,7 @@ namespace Troy.Web.Controllers
         // GET: /BusinessPartner/
         public ActionResult Index()
         {
-            var businesspartner = db.BusinessPartner.Include(b => b.BillCity).Include(b => b.Billcountry).Include(b => b.Billstate).Include(b => b.branch).Include(b => b.employee).Include(b => b.group).Include(b => b.ledger).Include(b => b.pricelist);
+            var businesspartner = db.BusinessPartner.Include(b => b.city).Include(b => b.country).Include(b => b.state).Include(b => b.branch).Include(b => b.employee).Include(b => b.group).Include(b => b.ledger).Include(b => b.PList);
             return View(businesspartner.ToList());
         }
 
@@ -40,11 +40,11 @@ namespace Troy.Web.Controllers
         // GET: /BusinessPartner/Create
         public ActionResult Create()
         {
-            ViewBag.Bill_City = new SelectList(db.Cities, "City_Id", "City_Cde");
-            ViewBag.Bill_Country = new SelectList(db.Countries, "Country_Id", "Country_Cde");
-            ViewBag.Bill_State = new SelectList(db.States, "State_Id", "State_Cde");
-            ViewBag.Branch_id = new SelectList(db.Branches, "Branch_Id", "Branch_Cde");
-            ViewBag.Emp_Id = new SelectList(db.Employees, "Emp_Id", "First_Name");
+            ViewBag.Bill_City = new SelectList(db.City, "City_Id", "City_Cde");
+            ViewBag.Bill_Country = new SelectList(db.Country, "Country_Id", "Country_Cde");
+            ViewBag.Bill_State = new SelectList(db.State, "State_Id", "State_Cde");
+            ViewBag.Branch_id = new SelectList(db.Branch, "Branch_Id", "Branch_Cde");
+            ViewBag.Emp_Id = new SelectList(db.Employee, "Emp_Id", "First_Name");
             ViewBag.Group_id = new SelectList(db.Group, "Group_Id", "Group_Name");
             ViewBag.Control_account_id = new SelectList(db.Ledger, "Ledger_Id", "Ledger_Name");
             ViewBag.bp_Pricelist = new SelectList(db.PriceList, "Id", "Price_List_Desc");
@@ -65,14 +65,14 @@ namespace Troy.Web.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Bill_City = new SelectList(db.Cities, "City_Id", "City_Cde", businesspartner.Bill_City);
-            ViewBag.Bill_Country = new SelectList(db.Countries, "Country_Id", "Country_Cde", businesspartner.Bill_Country);
-            ViewBag.Bill_State = new SelectList(db.States, "State_Id", "State_Cde", businesspartner.Bill_State);
-            ViewBag.Branch_id = new SelectList(db.Branches, "Branch_Id", "Branch_Cde", businesspartner.Branch_id);
-            ViewBag.Emp_Id = new SelectList(db.Employees, "Emp_Id", "First_Name", businesspartner.Emp_Id);
+            ViewBag.Bill_City = new SelectList(db.City, "City_Id", "City_Cde", businesspartner.Bill_City);
+            ViewBag.Bill_Country = new SelectList(db.Country, "Country_Id", "Country_Cde", businesspartner.Bill_Country);
+            ViewBag.Bill_State = new SelectList(db.State, "State_Id", "State_Cde", businesspartner.Bill_State);
+            ViewBag.Branch_id = new SelectList(db.Branch, "Branch_Id", "Branch_Cde", businesspartner.Branch_id);
+            ViewBag.Emp_Id = new SelectList(db.Employee, "Emp_Id", "First_Name", businesspartner.Emp_Id);
             ViewBag.Group_id = new SelectList(db.Group, "Group_Id", "Group_Name", businesspartner.Group_id);
             ViewBag.Control_account_id = new SelectList(db.Ledger, "Ledger_Id", "Ledger_Name", businesspartner.Control_account_id);
-            ViewBag.bp_Pricelist = new SelectList(db.PriceList, "Id", "Price_List_Desc", businesspartner.bp_Pricelist);
+            ViewBag.bp_Pricelist = new SelectList(db.PriceList, "Id", "Price_List_Desc", businesspartner.Pricelist);
             return View(businesspartner);
         }
 
@@ -88,14 +88,14 @@ namespace Troy.Web.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Bill_City = new SelectList(db.Cities, "City_Id", "City_Cde", businesspartner.Bill_City);
-            ViewBag.Bill_Country = new SelectList(db.Countries, "Country_Id", "Country_Cde", businesspartner.Bill_Country);
-            ViewBag.Bill_State = new SelectList(db.States, "State_Id", "State_Cde", businesspartner.Bill_State);
-            ViewBag.Branch_id = new SelectList(db.Branches, "Branch_Id", "Branch_Cde", businesspartner.Branch_id);
-            ViewBag.Emp_Id = new SelectList(db.Employees, "Emp_Id", "First_Name", businesspartner.Emp_Id);
+            ViewBag.Bill_City = new SelectList(db.City, "City_Id", "City_Cde", businesspartner.Bill_City);
+            ViewBag.Bill_Country = new SelectList(db.Country, "Country_Id", "Country_Cde", businesspartner.Bill_Country);
+            ViewBag.Bill_State = new SelectList(db.State, "State_Id", "State_Cde", businesspartner.Bill_State);
+            ViewBag.Branch_id = new SelectList(db.Branch, "Branch_Id", "Branch_Cde", businesspartner.Branch_id);
+            ViewBag.Emp_Id = new SelectList(db.Employee, "Emp_Id", "First_Name", businesspartner.Emp_Id);
             ViewBag.Group_id = new SelectList(db.Group, "Group_Id", "Group_Name", businesspartner.Group_id);
             ViewBag.Control_account_id = new SelectList(db.Ledger, "Ledger_Id", "Ledger_Name", businesspartner.Control_account_id);
-            ViewBag.bp_Pricelist = new SelectList(db.PriceList, "Id", "Price_List_Desc", businesspartner.bp_Pricelist);
+            ViewBag.bp_Pricelist = new SelectList(db.PriceList, "Id", "Price_List_Desc", businesspartner.Pricelist);
             return View(businesspartner);
         }
 
@@ -112,14 +112,14 @@ namespace Troy.Web.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Bill_City = new SelectList(db.Cities, "City_Id", "City_Cde", businesspartner.Bill_City);
-            ViewBag.Bill_Country = new SelectList(db.Countries, "Country_Id", "Country_Cde", businesspartner.Bill_Country);
-            ViewBag.Bill_State = new SelectList(db.States, "State_Id", "State_Cde", businesspartner.Bill_State);
-            ViewBag.Branch_id = new SelectList(db.Branches, "Branch_Id", "Branch_Cde", businesspartner.Branch_id);
-            ViewBag.Emp_Id = new SelectList(db.Employees, "Emp_Id", "First_Name", businesspartner.Emp_Id);
+            ViewBag.Bill_City = new SelectList(db.City, "City_Id", "City_Cde", businesspartner.Bill_City);
+            ViewBag.Bill_Country = new SelectList(db.Country, "Country_Id", "Country_Cde", businesspartner.Bill_Country);
+            ViewBag.Bill_State = new SelectList(db.State, "State_Id", "State_Cde", businesspartner.Bill_State);
+            ViewBag.Branch_id = new SelectList(db.Branch, "Branch_Id", "Branch_Cde", businesspartner.Branch_id);
+            ViewBag.Emp_Id = new SelectList(db.Employee, "Emp_Id", "First_Name", businesspartner.Emp_Id);
             ViewBag.Group_id = new SelectList(db.Group, "Group_Id", "Group_Name", businesspartner.Group_id);
             ViewBag.Control_account_id = new SelectList(db.Ledger, "Ledger_Id", "Ledger_Name", businesspartner.Control_account_id);
-            ViewBag.bp_Pricelist = new SelectList(db.PriceList, "Id", "Price_List_Desc", businesspartner.bp_Pricelist);
+            ViewBag.bp_Pricelist = new SelectList(db.PriceList, "Id", "Price_List_Desc", businesspartner.Pricelist);
             return View(businesspartner);
         }
 

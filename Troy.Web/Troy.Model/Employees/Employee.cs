@@ -171,75 +171,75 @@ namespace Troy.Model.Employees
 
     }
 
-    [Table("tblDesignation")]
-    public class Designation
-    {
-        [Key]
-        public int Designation_Id { get; set; }
+    //[Table("tblDesignation")]
+    //public class Designation
+    //{
+    //    [Key]
+    //    public int Designation_Id { get; set; }
 
-        [StringLength(30)]
-        public string Designation_Name { get; set; }
-    }
+    //    [StringLength(30)]
+    //    public string Designation_Name { get; set; }
+    //}
 
-    [Table("tblDepartment")]
-    public class Department
-    {
-        [Key]
-        public int Department_Id { get; set; }
+    //[Table("tblDepartment")]
+    //public class Department
+    //{
+    //    [Key]
+    //    public int Department_Id { get; set; }
 
-        [StringLength(30)]
-        public string Department_Name { get; set; }
+    //    [StringLength(30)]
+    //    public string Department_Name { get; set; }
 
-    }
+    //}
 
-    [Table("tblInitial")]
-    public class Initial
-    {
-        [Key]
-        public int Id { get; set; }
+    //[Table("tblInitial")]
+    //public class Initial
+    //{
+    //    [Key]
+    //    public int Id { get; set; }
 
-        [StringLength(10)]
-        public string Troyvalues { get; set; }
+    //    [StringLength(10)]
+    //    public string Troyvalues { get; set; }
 
 
-    }
+    //}
 
-    [Table("tblMaritalStatus")]
-    public class MaritalStatus
-    {
-        [Key]
-        public int Id { get; set; }
+    //[Table("tblMaritalStatus")]
+    //public class MaritalStatus
+    //{
+    //    [Key]
+    //    public int Id { get; set; }
 
-        [StringLength(30)]
-        public string Troyvalues { get; set; }
+    //    [StringLength(30)]
+    //    public string Troyvalues { get; set; }
 
-        [StringLength(30)]
-        public string Sapvalues { get; set; }
-    }
+    //    [StringLength(30)]
+    //    public string Sapvalues { get; set; }
+    //}
 
-    [Table("tblGender")]
-    public class Gender
-    {
-        [Key]
-        public int Id { get; set; }
+    //[Table("tblGender")]
+    //public class Gender
+    //{
+    //    [Key]
+    //    public int Id { get; set; }
 
-        [StringLength(30)]
-        public string Troyvalues { get; set; }
+    //    [StringLength(30)]
+    //    public string Troyvalues { get; set; }
 
-        [StringLength(30)]
-        public string Sapvalues { get; set; }
-    }
+    //    [StringLength(30)]
+    //    public string Sapvalues { get; set; }
+    //}
 
-    [Table("tblLeftReason")]
-    public class LeftReason
-    {
-        [Key]
-        public int Id { get; set; }
+    //[Table("tblLeftReason")]
+    //public class LeftReason
+    //{
+    //    [Key]
+    //    public int Id { get; set; }
 
-        [StringLength(30)]
-        public string Troyvalues { get; set; }
+    //    [StringLength(30)]
+    //    public string Troyvalues { get; set; }
 
-        [StringLength(30)]
-        public string Sapvalues { get; set; }
-    }
+    //    [StringLength(30)]
+    //    public string Sapvalues { get; set; }
+    //}
 }

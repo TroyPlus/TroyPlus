@@ -193,6 +193,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
+    <Compile Include="Controllers\BusinessPartnerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManufacturerController.cs" />
@@ -403,9 +404,14 @@
     <Content Include="Views\Manufacturer\_CreatePartial.cshtml" />
     <Content Include="Views\Manufacturer\_EditPartial.cshtml" />
     <Content Include="Views\Manufacturer\_ViewPartial.cshtml" />
+    <Content Include="Views\BusinessPartner\Create.cshtml" />
+    <Content Include="Views\BusinessPartner\Delete.cshtml" />
+    <Content Include="Views\BusinessPartner\Details.cshtml" />
+    <Content Include="Views\BusinessPartner\Edit.cshtml" />
+    <Content Include="Views\BusinessPartner\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\ExcelFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

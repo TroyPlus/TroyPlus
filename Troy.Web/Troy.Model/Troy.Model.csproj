@@ -62,17 +62,30 @@
     <Compile Include="AppMembership\ApplicationUserRole.cs" />
     <Compile Include="AppGUI\Menu.cs" />
     <Compile Include="AppGUI\MenuItem.cs" />
-    <Compile Include="Branch\Branch.cs" />
-    <Compile Include="Branch\BranchList.cs" />
-    <Compile Include="Branch\CityList.cs" />
-    <Compile Include="Branch\CountryList.cs" />
-    <Compile Include="Branch\StateList.cs" />
-    <Compile Include="Manufacture.cs" />
+    <Compile Include="Branches\Branch.cs" />
+    <Compile Include="Branches\BranchList.cs" />
+    <Compile Include="BusinessPartner\BusinessPartner.cs" />
+    <Compile Include="Cities\City.cs" />
+    <Compile Include="Cities\CityList.cs" />
+    <Compile Include="Countries\Country.cs" />
+    <Compile Include="Countries\CountryList.cs" />
+    <Compile Include="Departments\Department.cs" />
+    <Compile Include="Designations\Designation.cs" />
+    <Compile Include="Employees\Employee.cs" />
+    <Compile Include="Genders\Gender.cs" />
+    <Compile Include="Groups\Group.cs" />
+    <Compile Include="Initials\Initial.cs" />
+    <Compile Include="Ledgers\Ledger.cs" />
+    <Compile Include="LeftReasons\LeftReason.cs" />
     <Compile Include="Manufacturer\Manufacture.cs" />
+    <Compile Include="MaritalStatuss\MaritalStatus.cs" />
+    <Compile Include="PriceLists\PriceList.cs" />
     <Compile Include="ProductGroup\ProductGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchase\PurchaseQuotation.cs" />
     <Compile Include="Purchase\PurchaseQuotationItem.cs" />
+    <Compile Include="States\State.cs" />
+    <Compile Include="States\StateList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
