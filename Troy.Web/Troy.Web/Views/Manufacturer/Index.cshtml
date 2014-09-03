@@ -190,20 +190,22 @@
                                 <span id="SearchBySpan">Search By</span><span class="caret"></span>
                             </button>
                             <ul id="searchUL" class="dropdown-menu" role="menu" aria-labelledby="SearchBy">
-                                <li id="Vendor" role="presentation">
+                                <li id="Name" role="presentation">
                                     <a onclick="" role="menuitem" tabindex="-1"
                                        href="#">Name</a>
                                 </li>
-                                <li role="presentation">
+                                @*<li role="presentation">
                                     <a role="menuitem" tabindex="-1"
                                        href="#">Level</a>                                   
-                                </li>
+                                </li>*@
+                                <li id="Level" role="presentation"><a role="menuitem" tabindex="-1" href="#">Level</a></li>
+                                <li id="IsActive" role="presentation"><a role="menuitem" tabindex="-1" href="#">IsActive</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="form-group w230">
                         <div class="input-group">
-                            @Html.TextBoxFor(m => m.SearchQuery, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.SearchQuery, new { @class = "form-control", @id = "li" })
                             <span class="input-group-btn">
                                 <input type="submit" id="Submit1" name="submitButton" value="Search" class="btn btn-primary icnSearch" />
                             </span>

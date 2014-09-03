@@ -44,9 +44,9 @@ namespace Troy.Web.Controllers
                 ManufacturerViewModels model = new ManufacturerViewModels();
                 model.ManufacturerList = qList;
 
-                var manufacturerlist = manufactureDb.GetAllManufacturer().ToList();
+                //var manufacturerlist = manufactureDb.GetAllManufacturer().ToList();
 
-                model.ManufacturerList = manufacturerlist;
+                //model.ManufacturerList = manufacturerlist;
                 return View(model);
             }
             catch (Exception ex)

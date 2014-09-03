@@ -44,18 +44,19 @@ namespace Troy.Data.Repository
 
             var cmd = manufactureContext.Database.Connection.CreateCommand();
             cmd.CommandText = "[dbo].[USP_GetManufacturer]";
+            cmd.CommandType = CommandType.StoredProcedure;
 
-            var searchParam = new SqlParameter();
-            searchParam.ParameterName = "@SearchColumn";
-            searchParam.SqlDbType = SqlDbType.NVarChar;
-            searchParam.SqlValue = searchColumn;
-            //searchParam.ParameterDirection = ParameterDirection.Output;
+            //var searchParam = new SqlParameter();
+            //searchParam.ParameterName = "@SearchColumn";
+            //searchParam.SqlDbType = SqlDbType.NVarChar;
+            //searchParam.SqlValue = searchColumn;
+            ////searchParam.ParameterDirection = ParameterDirection.Output;
 
-            var stringParam = new SqlParameter();
-            stringParam.ParameterName = "@SearchString";
-            stringParam.SqlDbType = SqlDbType.NVarChar;
-            stringParam.SqlValue = searchString;
-            //stringParam.ParameterDirection = ParameterDirection.Output;
+            //var stringParam = new SqlParameter();
+            //stringParam.ParameterName = "@SearchString";
+            //stringParam.SqlDbType = SqlDbType.NVarChar;
+            //stringParam.SqlValue = searchString;
+            ////stringParam.ParameterDirection = ParameterDirection.Output;
 
             //cmd.Parameters.Add(searchParam);
             //cmd.Parameters.Add(stringParam);
@@ -82,6 +83,7 @@ namespace Troy.Data.Repository
                         Manufacturer_Id = item.Manufacturer_Id,
                         Manufacturer_Name = item.Manufacturer_Name,
                         Level = item.Level,
+                        IsActive=item.IsActive,
                         Created_Branc_Id = item.Created_Branc_Id,
                         Created_Dte = item.Created_Dte,
                         Created_User_Id = item.Created_User_Id,
