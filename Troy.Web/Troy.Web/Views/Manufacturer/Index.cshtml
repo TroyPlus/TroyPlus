@@ -142,6 +142,17 @@
 
     $.validator.unobtrusive.parse('#myModal form');
 
+
+
+    function GetValue() {
+        var Contain = "";
+        $("#Container1 :text").each(function () {
+            Contain += $(this).val() + "$";
+        });
+    }
+
+
+
 </script>
 
 <div><span>&nbsp;</span></div>

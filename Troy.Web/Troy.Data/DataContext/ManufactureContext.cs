@@ -16,5 +16,6 @@ namespace Troy.Data.DataContext
 
         public DbSet<Manufacture> Manufacture { get; set; }           
 
+
     }
 }

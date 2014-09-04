@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Troy.Model.AppMembership;
+using Troy.Web;
 
 namespace Troy.Web.Controllers
 {
@@ -14,7 +15,7 @@ namespace Troy.Web.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                ApplicationUser user = ApplicationUserManager.GetApplicationUser(User.Identity.Name);
+                ApplicationUser user = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
             }
 
             return View();

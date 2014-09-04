@@ -78,7 +78,6 @@
     <Compile Include="Ledgers\Ledger.cs" />
     <Compile Include="LeftReasons\LeftReason.cs" />
     <Compile Include="Manufacturer\Manufacture.cs" />
-    <Compile Include="MaritalStatuss\MaritalStatus.cs" />
     <Compile Include="PriceLists\PriceList.cs" />
     <Compile Include="ProductGroup\ProductGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
