@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Troy.Model.AppMembership;
+using Troy.Web;
 
 namespace Troy.Web.Controllers
 {

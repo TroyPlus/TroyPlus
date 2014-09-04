@@ -12,6 +12,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Security.Principal;
 using System.Web.Security;
+using Troy.Web;
 
 namespace Troy.Web
 {
@@ -40,12 +41,6 @@ namespace Troy.Web
             : base(store)
         {
         }
-
-        // public static GetApplicationUser(string username,IOwinContext context)
-        //{
-        //     Var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
-        //    return manager.findbyname(username);
-        // }
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
@@ -103,6 +98,7 @@ namespace Troy.Web
         }
     }
 
+
     // Configure the application sign-in manager which is used in this application.
     public class ApplicationSignInManager : SignInManager<ApplicationUser, int>
     {
@@ -122,3 +118,4 @@ namespace Troy.Web
         }
     }
 }
+

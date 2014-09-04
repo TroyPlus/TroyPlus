@@ -59,8 +59,8 @@ namespace Troy.Web.Controllers
 
 
         //---- check unique key-------          
-        //public JsonResult CheckForDuplication(Manufacture manufacture, [Bind(Prefix = "Manufacture.Manufacturer_Name")]string Manufacturer_Name)
-        public ActionResult CheckForDuplication(Manufacture manufacture, [Bind(Prefix = "Manufacturer_Name")]string Manufacturer_Name)
+        public JsonResult CheckForDuplication(Manufacture manufacture, [Bind(Prefix = "Manufacture.Manufacturer_Name")]string Manufacturer_Name)
+        //public ActionResult CheckForDuplication(Manufacture manufacture, [Bind(Prefix = "Manufacturer_Name")]string Manufacturer_Name)
         {
             var data = manufactureDb.CheckDuplicateName(Manufacturer_Name);
             if (data != null)
@@ -72,12 +72,11 @@ namespace Troy.Web.Controllers
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
         }
-
-
+        
         [HttpPost]
         public ActionResult Index(string submitButton, ManufacturerViewModels model, HttpPostedFileBase file)
         {
-           // ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name);
+            ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name,HttpContext.GetOwinContext());
             try
             {
                 if (submitButton == "Save")

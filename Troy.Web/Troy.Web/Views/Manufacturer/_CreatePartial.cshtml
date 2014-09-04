@@ -1,7 +1,8 @@
 ﻿@model Troy.Web.Models.ManufacturerViewModels
 
 
-<div class="modal-dialog modal-lg">     
+
+<div class="modal-dialog modal-lg">
     <div class="modal-content">
 
         <div class="modal-header">
@@ -18,7 +19,7 @@
                     <ul id="tabs" class="nav nav-pills nav-pills-justified">
                         <li class="active">
                             <a href="#default" data-toggle="tab">General </a>
-                        </li>  
+                        </li>
                     </ul>
 
                     <div id="myTabContent" class="tab-content">
@@ -32,9 +33,9 @@
                                     <div class="col-md-4">
                                         Manufacturer Name:
                                     </div>
-                                    <div class="col-md-8">
-                                        @*@Html.TextBox("SearchString")*@                                        
-                                        @Html.TextBoxFor(model => model.Manufacturer.Manufacturer_Name, new { @class = "form-control control-text info", id = "textbox1" })                                      
+                                    <div class="col-md-8" id="container1">
+                                        @*@Html.TextBox("SearchString")*@
+                                        @Html.TextBoxFor(model => model.Manufacturer.Manufacturer_Name, new { @class = "form-control control-text info", id = "textbox1" })
                                         @Html.ValidationMessageFor(model => model.Manufacturer.Manufacturer_Name)
                                     </div>
                                 </div>
@@ -46,9 +47,9 @@
                                         @Html.TextBoxFor(model => model.Manufacturer.Level, new { @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.Manufacturer.Level)
                                     </div>
-                                </div> 
+                                </div>
                             </div>
-                        </div>                     
+                        </div>
                     </div>
                 </div>
             </div>
@@ -62,4 +63,3 @@
 
     </div>
 </div>
-

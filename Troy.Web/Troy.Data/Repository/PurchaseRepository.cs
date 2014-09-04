@@ -43,18 +43,19 @@ namespace Troy.Data.Repository
 
             var cmd = purchaseContext.Database.Connection.CreateCommand();
             cmd.CommandText = "[dbo].[USP_GetPurchaseQuotation]";
+            cmd.CommandType = CommandType.StoredProcedure;
 
-            var searchParam = new SqlParameter();
-            searchParam.ParameterName = "@SearchColumn";
-            searchParam.SqlDbType = SqlDbType.NVarChar;
-            searchParam.SqlValue = searchColumn;
-            //searchParam.ParameterDirection = ParameterDirection.Output;
+            //var searchParam = new SqlParameter();
+            //searchParam.ParameterName = "@SearchColumn";
+            //searchParam.SqlDbType = SqlDbType.NVarChar;
+            //searchParam.SqlValue = searchColumn;
+            ////searchParam.ParameterDirection = ParameterDirection.Output;
 
-            var stringParam = new SqlParameter();
-            stringParam.ParameterName = "@SearchString";
-            stringParam.SqlDbType = SqlDbType.NVarChar;
-            stringParam.SqlValue = searchString;
-            //stringParam.ParameterDirection = ParameterDirection.Output;
+            //var stringParam = new SqlParameter();
+            //stringParam.ParameterName = "@SearchString";
+            //stringParam.SqlDbType = SqlDbType.NVarChar;
+            //stringParam.SqlValue = searchString;
+            ////stringParam.ParameterDirection = ParameterDirection.Output;
 
             //cmd.Parameters.Add(searchParam);
             //cmd.Parameters.Add(stringParam);
