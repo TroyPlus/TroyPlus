@@ -17,18 +17,19 @@ namespace Troy.Model.States
         public virtual State state { get; set; }
 
         [StringLength(3)]
-        public string State_Cde { get; set; }
-
+     
+        public string State_Code { get; set; }
         [StringLength(30)]
+      
         public string State_Name { get; set; }
-
         [StringLength(30)]
-        public string SAP_State_Cde { get; set; }
-
+     
+        public string SAP_State_Code { get; set; }
         [StringLength(3)]
-        public string Country_Cde { get; set; }
-
+    
+        public string Country_Code { get; set; }
         [StringLength(1)]
+      
         public string IsDefault { get; set; }
     }
 }

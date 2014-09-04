@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Troy.Model.Branches;
 using Troy.Model.Countries;
+using Troy.Model.States;
+using Troy.Model.Cities;
+using Troy.Model.Branches;
 
 namespace Troy.Data.Repository
 {
@@ -17,14 +19,20 @@ namespace Troy.Data.Repository
 
         Branch FindOneBranchById(int qId);
 
-        //  List<BranchList> GetAddressList();
+      
 
-        List<BranchList> GetAddressList();
+        //List<BranchList> GetAddressList();
 
         List<CountryList> GetAddresscountryList();
 
-        bool InsertFileUploadDetails(List<Branch> branch);
+        List<StateList> GetAddressstateList();
+
+        List<CityList> GetAddresscityList();
+
+        //bool InsertFileUploadDetails(List<Branch> branch);
 
         bool AddNewBranch(Branch branch);
+
+        bool EditBranch(Branch branch);
     }
 }

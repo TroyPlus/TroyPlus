@@ -41,7 +41,7 @@ namespace Troy.Web
             : base(store)
         {
         }
-      
+
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
@@ -52,7 +52,7 @@ namespace Troy.Web
                 RequireUniqueEmail = true
             };
 
-
+            
 
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
@@ -90,7 +90,7 @@ namespace Troy.Web
             }
             return manager;
         }
-        
+
         public static ApplicationUser GetApplicationUser(string username, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
