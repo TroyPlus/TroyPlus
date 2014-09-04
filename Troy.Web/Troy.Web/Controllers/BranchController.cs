@@ -11,11 +11,12 @@ using Troy.Model;
 using Troy.Web.Models;
 using Troy.Utilities.CrossCutting;
 using Troy.Model.Branches;
+using Troy.Model.AppMembership;
 #endregion
 
 namespace Troy.Web.Controllers
 {
-    public class BranchController : Controller
+    public class BranchController : BaseController
     {
         #region Fields
         private readonly IBranchRepository branchDb;
@@ -23,31 +24,36 @@ namespace Troy.Web.Controllers
 
         #region Constructor
         //inject dependency
-        public BranchController(IBranchRepository mrepository)
+        public BranchController(IBranchRepository brepository)
         {
-            this.branchDb = mrepository;
+            this.branchDb = brepository;
         }
         #endregion
 
         #region Controller Actions
-        // GET: Purchase
+        // GET: Branch
         public ActionResult Index(string searchColumn, string searchQuery)
         {
             try
             {
-                LogHandler.WriteLog("Purchase Index page requested by #UserId");
-                var qList = branchDb.GetFilterBranch(searchColumn, searchQuery, Guid.Empty);   //GetUserId();                
+                LogHandler.WriteLog("Branch Index page requested by #UserId");
+                var bList = branchDb.GetFilterBranch(searchColumn, searchQuery, Guid.Empty);   //GetUserId();                
 
                 BranchViewModels model = new BranchViewModels();
-                model.qList = qList;
+                model.BranchList = bList;
 
                 var branchlist = branchDb.GetAllBranch().ToList();
 
-                var countrylist = branchDb.GetAllBranch().ToList();
+                var countrylist = branchDb.GetAddresscountryList().ToList();
+                model.CountryList = countrylist;
 
+                var statelist = branchDb.GetAddressstateList().ToList();
+                model.StateList = statelist;
+
+                var citylist = branchDb.GetAddresscityList().ToList();
+
+                model.CityList = citylist;
                 //model.CountryList = countrylist;
-
-                model.branchList = branchlist;
                 return View(model);
             }
             catch (Exception ex)
@@ -63,8 +69,10 @@ namespace Troy.Web.Controllers
         {
             try
             {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
                 if (submitButton == "Save")
                 {
+                    model.Branch.IsActive = "Y";
                     model.Branch.Created_Branc_Id = 1;
                     model.Branch.Created_Dte = DateTime.Now;
                     model.Branch.Created_User_Id = 1;  //GetUserId()
@@ -82,6 +90,27 @@ namespace Troy.Web.Controllers
                         ModelState.AddModelError("", "Branch Not Saved");
                     }
                 }
+                else if (submitButton == "Update")
+                {
+                    model.Branch.Created_Branc_Id = 1;
+                    model.Branch.Created_Dte = DateTime.Now;
+                    model.Branch.Created_User_Id = 1;  //GetUserId()
+                    model.Branch.Modified_User_Id = 1;
+                    model.Branch.Modified_Dte = DateTime.Now;
+                    model.Branch.Modified_Branch_Id = 1;
+
+
+                    if (branchDb.EditBranch(model.Branch))
+                    {
+                        return RedirectToAction("Index", "Branch");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Branch Not Updated");
+                    }
+                }
+
+
                 else if (submitButton == "Search")
                 {
                     return RedirectToAction("Index", "Branch", new { model.SearchColumn, model.SearchQuery });
@@ -173,14 +202,14 @@ namespace Troy.Web.Controllers
                                                 return Json(new { success = false, Error = "Branch_Name name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                             }
 
-                                            if (ds.Tables[0].Rows[i]["Branch_Cde"] != null)
+                                            if (ds.Tables[0].Rows[i]["Branch_Code"] != null)
                                             {
                                                 //mItem.Branch_Cde = Convert.ToInt32(ds.Tables[0].Rows[i]["Branch_Cde"]);
                                                 mItem.Branch_Code = ds.Tables[0].Rows[i]["Branch_Code"].ToString();
                                             }
                                             else
                                             {
-                                                return Json(new { success = false, Error = "Branch_Cde field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                                return Json(new { success = false, Error = "Branch_Code field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
                                             }
                                             if (ds.Tables[0].Rows[i]["Address1"] != null)
                                             {
@@ -206,25 +235,25 @@ namespace Troy.Web.Controllers
                                             {
                                                 return Json(new { success = false, Error = "Address3 field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
                                             }
-                                            if (ds.Tables[0].Rows[i]["Country_Cde"] != null)
+                                            if (ds.Tables[0].Rows[i]["Country_ID"] != null)
                                             {
-                                                mItem.Country_ID = Convert.ToInt32(ds.Tables[0].Rows[i]["Country_Cde"].ToString());
-                                            }   
+                                                mItem.Country_ID =Convert.ToInt32( ds.Tables[0].Rows[i]["Country_ID"]);
+                                            }
                                             else
                                             {
                                                 return Json(new { success = false, Error = "Country_Cde field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
                                             }
-                                            if (ds.Tables[0].Rows[i]["State_Cde"] != null)
+                                            if (ds.Tables[0].Rows[i]["State_ID"] != null)
                                             {
-                                                mItem.State_ID = Convert.ToInt32(ds.Tables[0].Rows[i]["State_Cde"].ToString());
+                                                mItem.State_ID =Convert.ToInt32( ds.Tables[0].Rows[i]["State_Cde"]);
                                             }
                                             else
                                             {
                                                 return Json(new { success = false, Error = "State_Cde field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
                                             }
-                                            if (ds.Tables[0].Rows[i]["City_Cde"] != null)
+                                            if (ds.Tables[0].Rows[i]["City_ID"] != null)
                                             {
-                                                mItem.City_ID = Convert.ToInt32(ds.Tables[0].Rows[i]["City_Cde"].ToString());
+                                                mItem.City_ID =Convert.ToInt32 (ds.Tables[0].Rows[i]["City_Cde"]);
                                             }
                                             else
                                             {
@@ -236,7 +265,7 @@ namespace Troy.Web.Controllers
                                             }
                                             else
                                             {
-                                                return Json(new { success = false, Error = "Pin_Cod field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                                return Json(new { success = false, Error = "Pin_Code field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
                                             }
                                             if (ds.Tables[0].Rows[i]["Order_Num"] != null)
                                             {
@@ -264,10 +293,10 @@ namespace Troy.Web.Controllers
                                             mlist.Add(mItem);
                                         }
 
-                                        if (branchDb.InsertFileUploadDetails(mlist))
-                                        {
-                                            return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
-                                        }
+                                        //if (branchDb.InsertFileUploadDetails(mlist))
+                                        //{
+                                        //    return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
+                                        //}
                                     }
                                     else
                                     {
@@ -283,7 +312,7 @@ namespace Troy.Web.Controllers
                     }
                 }
 
-                return RedirectToAction("Index", "Purchase");
+                return RedirectToAction("Index", "Branch");
             }
             catch (Exception ex)
             {
@@ -306,6 +335,17 @@ namespace Troy.Web.Controllers
             {
                 BranchViewModels model = new BranchViewModels();
                 model.Branch = branchDb.FindOneBranchById(id);
+
+                var countrylist = branchDb.GetAddresscountryList().ToList();
+                model.CountryList = countrylist;
+
+
+                var statelist = branchDb.GetAddressstateList().ToList();
+                model.StateList = statelist;
+
+                var citylist = branchDb.GetAddresscityList().ToList();
+                model.CityList = citylist;
+
                 return PartialView(model);
             }
             catch (Exception ex)
@@ -322,6 +362,7 @@ namespace Troy.Web.Controllers
             {
                 BranchViewModels model = new BranchViewModels();
                 model.Branch = branchDb.FindOneBranchById(id);
+
                 return PartialView(model);
             }
             catch (Exception ex)

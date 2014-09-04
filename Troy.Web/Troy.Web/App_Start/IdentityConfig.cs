@@ -96,9 +96,10 @@ namespace Troy.Web
             return manager;
         }
 
-        internal static ApplicationUser GetApplicationUser(string p)
+        public static ApplicationUser GetApplicationUser(string username, IOwinContext context)
         {
-            throw new NotImplementedException();
+            var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
+            return manager.FindByName(username);
         }
     }
 

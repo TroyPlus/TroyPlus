@@ -8,9 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Data.DataContext;
-using Troy.Model.Branches;
 using Troy.Model.Countries;
+using Troy.Model.Cities;
+using Troy.Model.States;
 using Troy.Utilities.CrossCutting;
+using System.Data.Entity;
+using Troy.Model.Branches;
 
 
 namespace Troy.Data.Repository
@@ -44,18 +47,19 @@ namespace Troy.Data.Repository
 
             var cmd = branchContext.Database.Connection.CreateCommand();
             cmd.CommandText = "[dbo].[USP_GetBranch]";
+            cmd.CommandType = CommandType.StoredProcedure;
 
-            var searchParam = new SqlParameter();
-            searchParam.ParameterName = "@SearchColumn";
-            searchParam.SqlDbType = SqlDbType.NVarChar;
-            searchParam.SqlValue = searchColumn;
-            //searchParam.ParameterDirection = ParameterDirection.Output;
+            //var searchParam = new SqlParameter();
+            //searchParam.ParameterName = "@SearchColumn";
+            //searchParam.SqlDbType = SqlDbType.NVarChar;
+            //searchParam.SqlValue = searchColumn;
+            ////searchParam.ParameterDirection = ParameterDirection.Output;
 
-            var stringParam = new SqlParameter();
-            stringParam.ParameterName = "@SearchString";
-            stringParam.SqlDbType = SqlDbType.NVarChar;
-            stringParam.SqlValue = searchString;
-            //stringParam.ParameterDirection = ParameterDirection.Output;
+            //var stringParam = new SqlParameter();
+            //stringParam.ParameterName = "@SearchString";
+            //stringParam.SqlDbType = SqlDbType.NVarChar;
+            //stringParam.SqlValue = searchString;
+            ////stringParam.ParameterDirection = ParameterDirection.Output;
 
             //cmd.Parameters.Add(searchParam);
             //cmd.Parameters.Add(stringParam);
@@ -77,16 +81,21 @@ namespace Troy.Data.Repository
                 foreach (var item in result)
                 {
                     Branch model = new Branch()
+
                     {
 
                         Branch_Id = item.Branch_Id,
+                        Branch_Code=item.Branch_Code,
                         Branch_Name = item.Branch_Name,
-                        Country_ID=item.Country_ID,
-                        State_ID=item.State_ID,
-                        City_ID=item.City_ID,
-                        Order_Num=item.Order_Num,
-                        Pin_Code=item.Pin_Code,
-                        IsActive=item.IsActive,
+                        Address1=item.Address1,
+                        Address2=item.Address2,
+                        Address3=item.Address3,
+                        Country_ID = item.Country_ID,
+                        State_ID = item.State_ID,
+                        City_ID = item.City_ID,
+                        Order_Num = item.Order_Num,
+                        Pin_Code = item.Pin_Code,
+                        IsActive = item.IsActive,
                         Created_Branc_Id = item.Created_Branc_Id,
                         Created_Dte = item.Created_Dte,
                         Created_User_Id = item.Created_User_Id,
@@ -120,39 +129,67 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
-     
 
-        public bool InsertFileUploadDetails(List<Branch> branch)
+
+
+
+        //public bool InsertFileUploadDetails(List<Branch> branch)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+
+
+
+
+
+        //public List<BranchList> GetAddressList()
+        //{
+        //    var item = (from a in branchContext.Branch
+        //                select new BranchList
+        //                {
+        //                    BranchName = a.Branch_Name,
+        //                    BranchId = a.Branch_Id
+        //                }).ToList();
+
+        //    return item;
+        //}
+
+
+        public List<CountryList> GetAddresscountryList()
         {
-            throw new NotImplementedException();
-        }
-
-
-
-
-
-
-        public List<BranchList> GetAddressList()
-        {
-            var item = (from a in branchContext.Branch
-                        select new BranchList
+            var item = (from a in branchContext.country
+                        select new CountryList
                         {
-                            BranchName = a.Branch_Name,
-                            BranchId = a.Branch_Id
+                            ID = a.ID,
+                            Country_Name = a.Country_Name
+
+
+                            //BranchId = a.Branch_Id
                         }).ToList();
 
             return item;
         }
 
-
-        public List<CountryList> GetAddresscountryList()
+        public List<StateList> GetAddressstateList()
         {
-            var item = (from a in branchContext.Branch
-                        select new CountryList
+            var item = (from a in branchContext.state
+                        select new StateList
                         {
-                            Country_Name =Convert.ToString(a.Country_ID),
-                            
-                            //BranchId = a.Branch_Id
+                            ID = a.ID,
+                            State_Name = a.State_Name
+                        }).ToList();
+
+            return item;
+        }
+
+        public List<CityList> GetAddresscityList()
+        {
+            var item = (from a in branchContext.city
+                        select new CityList
+                        {
+                            ID=a.ID,
+                            City_Name=a.City_Name
                         }).ToList();
 
             return item;
@@ -171,6 +208,21 @@ namespace Troy.Data.Repository
                 return true;
             }
             catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                return false;
+            }
+        }
+
+        public bool EditBranch(Branch branch)
+        {
+            try
+            {
+                branchContext.Entry(branch).State = EntityState.Modified;
+                branchContext.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
             {
                 ExceptionHandler.LogException(ex);
                 return false;

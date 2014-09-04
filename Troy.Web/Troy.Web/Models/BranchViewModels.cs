@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Troy.Model.Branches;
-using Troy.Model.Cities;
 using Troy.Model.Countries;
 using Troy.Model.States;
+using Troy.Model.Cities;
+using Troy.Model.Branches;
 namespace Troy.Web.Models
 {
     public class BranchViewModels
     {
-        public List<Model.Branches.Branch> branchList;
-        public List<Model.Branches.Branch> qList;
+        //public List<Model.Branch.Branch> branchList;
+        //public List<Model.Branch.Branch> bList;
     
         public Branch Branch { get; set; }
-        public List<BranchList> BranchList { get; set; }
+        public List<Branch> BranchList { get; set; }
 
         public List<CountryList> CountryList{get;set;}
 
