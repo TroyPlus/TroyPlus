@@ -14,7 +14,7 @@ namespace Troy.Web.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                ApplicationUser user = ApplicationUserManager.GetApplicationUser(User.Identity.Name);
+                ApplicationUser user = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
             }
 
             return View();

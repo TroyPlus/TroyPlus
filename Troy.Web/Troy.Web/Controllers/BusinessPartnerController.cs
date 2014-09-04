@@ -56,7 +56,7 @@ namespace Troy.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="BP_Id,BP_Name,Group_Type,Group_id,Ship_Address1,Ship_address2,Ship_address3,Ship_City,Ship_State,Ship_Country,Ship_pincode,Bill_Address1,Bill_address2,Bill_address3,Bill_City,Bill_State,Bill_Country,Bill_pincode,IsActive,bp_Pricelist,Emp_Id,Branch_id,Phone1,Phone2,Mobile,Email_Address,Website,Contact_person,Remarks,Ship_method,Control_account_id,Opening_Balance,Due_date,Created_User_Id,Created_Branc_Id,Created_Dte,Modified_User_Id,Modified_Branch_Id,Modified_Dte")] BusinessPartner businesspartner)
+        public ActionResult Create([Bind(Include = "BP_Id,BP_Name,Group_Type,Group_id,Ship_Address1,Ship_address2,Ship_address3,Ship_City,Ship_State,Ship_Country,Ship_pincode,Bill_Address1,Bill_address2,Bill_address3,Bill_City,Bill_State,Bill_Country,Bill_pincode,IsActive,bp_Pricelist,Emp_Id,Branch_id,Phone1,Phone2,Mobile,Email_Address,Website,Contact_person,Remarks,Ship_method,Control_account_id,Opening_Balance,Due_date,Created_User_Id,Created_Branc_Id,Created_Dte,Modified_User_Id,Modified_Branch_Id,Modified_Dte")] BusinessPartner businesspartner)
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace Troy.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="BP_Id,BP_Name,Group_Type,Group_id,Ship_Address1,Ship_address2,Ship_address3,Ship_City,Ship_State,Ship_Country,Ship_pincode,Bill_Address1,Bill_address2,Bill_address3,Bill_City,Bill_State,Bill_Country,Bill_pincode,IsActive,bp_Pricelist,Emp_Id,Branch_id,Phone1,Phone2,Mobile,Email_Address,Website,Contact_person,Remarks,Ship_method,Control_account_id,Opening_Balance,Due_date,Created_User_Id,Created_Branc_Id,Created_Dte,Modified_User_Id,Modified_Branch_Id,Modified_Dte")] BusinessPartner businesspartner)
+        public ActionResult Edit([Bind(Include = "BP_Id,BP_Name,Group_Type,Group_id,Ship_Address1,Ship_address2,Ship_address3,Ship_City,Ship_State,Ship_Country,Ship_pincode,Bill_Address1,Bill_address2,Bill_address3,Bill_City,Bill_State,Bill_Country,Bill_pincode,IsActive,bp_Pricelist,Emp_Id,Branch_id,Phone1,Phone2,Mobile,Email_Address,Website,Contact_person,Remarks,Ship_method,Control_account_id,Opening_Balance,Due_date,Created_User_Id,Created_Branc_Id,Created_Dte,Modified_User_Id,Modified_Branch_Id,Modified_Dte")] BusinessPartner businesspartner)
         {
             if (ModelState.IsValid)
             {
