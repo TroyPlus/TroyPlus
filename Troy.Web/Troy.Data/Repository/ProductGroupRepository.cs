@@ -145,5 +145,11 @@ namespace Troy.Data.Repository
             throw new NotImplementedException();
         }
 
+
+
+        public bool EditExistingProductGroup(ProductGroup ProductGroup)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
