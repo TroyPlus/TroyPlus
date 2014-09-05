@@ -57,6 +57,21 @@ namespace Troy.Web.Controllers
             }
         }
 
+        public JsonResult CheckForDuplication(ProductGroup productgroup, [Bind(Prefix = "ProductGroup.Product_Group_Name")]string Product_Group_Name)
+        //public ActionResult CheckForDuplication(Manufacture manufacture, [Bind(Prefix = "Manufacturer_Name")]string Manufacturer_Name)
+        {
+            var data = ProductGroupDb.CheckDuplicateName(Product_Group_Name);
+            if (data != null)
+            {
+                return Json("Sorry, Product Group Name already exists", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         [HttpPost]
         public ActionResult Index(string submitButton, ProductGroupViewModels model, HttpPostedFileBase file, string posting, string required, string valid)
         {

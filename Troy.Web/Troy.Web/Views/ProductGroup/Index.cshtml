@@ -103,7 +103,7 @@
         var formData = new FormData($('form')[0]);
 
         $.ajax({
-            url: 'Manufacturer',
+            url: 'ProductGroup',
             type: 'POST',
             xhr: function () {
                 var myXhr = $.ajaxSettings.xhr();
@@ -248,11 +248,11 @@
                                     @item.IsActive
                                 </td>
                                 <td>
-                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Product_Group_Id);">
+                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewProductGroup(@item.Product_Group_Id);">
                                         <img src="@Url.Content("../Content/images/application_view_detail.png")" />
                                     </a>
                                     <span class="text-muted">|</span>
-                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Product_Group_Id);">
+                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditProductGroup(@item.Product_Group_Id);">
                                         <img src="@Url.Content("../Content/images/pencil.png")" />
                                     </a>
                                     <span class="text-muted">|</span>
