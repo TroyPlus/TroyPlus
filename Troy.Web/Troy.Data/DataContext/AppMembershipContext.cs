@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Troy.Model.AppGUI;
 using Troy.Model.AppMembership;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace Troy.Data.DataContext
 {
@@ -19,6 +20,8 @@ namespace Troy.Data.DataContext
         }
 
         public DbSet<ApplicationScreen> ApplicationScreens { get; set; }
+
+        //public DbSet<ApplicationUser> ApplicationUsers { get; set; } 
         public DbSet<ApplicationRoleScreenAccess> ApplicationRoleAccess { get; set; }
         public DbSet<Menu> AppMainMenu { get; set; }
         public DbSet<MenuItem> AppSubMenu { get; set; }
@@ -27,5 +30,10 @@ namespace Troy.Data.DataContext
         {
             return new ApplicationDbContext();
         }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        //}
+
     }
 }

@@ -15,16 +15,25 @@ namespace Troy.Web.Models
         //public List<Model.Branch.Branch> bList;
     
         public Branch Branch { get; set; }
-        public List<Branch> BranchList { get; set; }
+        public List<ViewBranches> BranchList { get; set; }
+
+        //public List<ViewBranches> AllBranches { get; set; }
 
         public List<CountryList> CountryList{get;set;}
 
         public List<StateList> StateList{ get ; set ;}
 
         public List<CityList> CityList {get;set;}
+
+        public string code { get; set; }
        
         public string SearchQuery { get; set; }
 
         public string SearchColumn { get; set; }
     }
+    //public class code
+    //{
+    //    public string code { get; set; }
+    //}
+  
 }

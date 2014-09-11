@@ -12,6 +12,9 @@ using Troy.Web.Models;
 using Troy.Utilities.CrossCutting;
 using Troy.Model.Branches;
 using Troy.Model.AppMembership;
+using System.IO;
+using System.Web.UI;
+
 #endregion
 
 namespace Troy.Web.Controllers
@@ -44,6 +47,8 @@ namespace Troy.Web.Controllers
 
                 var branchlist = branchDb.GetAllBranch().ToList();
 
+                //var Allbranches = branchDb.GetAllBranches().ToList();
+
                 var countrylist = branchDb.GetAddresscountryList().ToList();
                 model.CountryList = countrylist;
 
@@ -64,6 +69,9 @@ namespace Troy.Web.Controllers
             }
         }
 
+
+
+
         [HttpPost]
         public ActionResult Index(string submitButton, BranchViewModels model, HttpPostedFileBase file, string posting, string required, string valid)
         {
@@ -73,7 +81,7 @@ namespace Troy.Web.Controllers
                 if (submitButton == "Save")
                 {
                     model.Branch.IsActive = "Y";
-                    model.Branch.Created_Branc_Id = 1;
+                    model.Branch.Created_Branc_Id = 1;  
                     model.Branch.Created_Dte = DateTime.Now;
                     model.Branch.Created_User_Id = 1;  //GetUserId()
                     model.Branch.Modified_User_Id = 1;
@@ -193,23 +201,23 @@ namespace Troy.Web.Controllers
                                         for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                                         {
                                             Branch mItem = new Branch();
-                                            if (ds.Tables[0].Rows[i]["Branch_Name"] != null)
-                                            {
-                                                mItem.Branch_Name = ds.Tables[0].Rows[i]["Branch_Name"].ToString();
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "Branch_Name name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-
                                             if (ds.Tables[0].Rows[i]["Branch_Code"] != null)
                                             {
-                                                //mItem.Branch_Cde = Convert.ToInt32(ds.Tables[0].Rows[i]["Branch_Cde"]);
                                                 mItem.Branch_Code = ds.Tables[0].Rows[i]["Branch_Code"].ToString();
                                             }
                                             else
                                             {
-                                                return Json(new { success = false, Error = "Branch_Code field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                                return Json(new { success = false, Error = "Branch_Code name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                            }
+
+                                            if (ds.Tables[0].Rows[i]["Branch_Name"] != null)
+                                            {
+                                                //mItem.Branch_Cde = Convert.ToInt32(ds.Tables[0].Rows[i]["Branch_Cde"]);
+                                                mItem.Branch_Name = ds.Tables[0].Rows[i]["Branch_Name"].ToString();
+                                            }
+                                            else
+                                            {
+                                                return Json(new { success = false, Error = "Branch_Name field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
                                             }
                                             if (ds.Tables[0].Rows[i]["Address1"] != null)
                                             {
@@ -237,7 +245,7 @@ namespace Troy.Web.Controllers
                                             }
                                             if (ds.Tables[0].Rows[i]["Country_ID"] != null)
                                             {
-                                                mItem.Country_ID =Convert.ToInt32( ds.Tables[0].Rows[i]["Country_ID"]);
+                                                mItem.Country_ID = Convert.ToInt32(ds.Tables[0].Rows[i]["Country_ID"]);
                                             }
                                             else
                                             {
@@ -245,7 +253,7 @@ namespace Troy.Web.Controllers
                                             }
                                             if (ds.Tables[0].Rows[i]["State_ID"] != null)
                                             {
-                                                mItem.State_ID =Convert.ToInt32( ds.Tables[0].Rows[i]["State_Cde"]);
+                                                mItem.State_ID = Convert.ToInt32(ds.Tables[0].Rows[i]["State_ID"]);
                                             }
                                             else
                                             {
@@ -253,7 +261,7 @@ namespace Troy.Web.Controllers
                                             }
                                             if (ds.Tables[0].Rows[i]["City_ID"] != null)
                                             {
-                                                mItem.City_ID =Convert.ToInt32 (ds.Tables[0].Rows[i]["City_Cde"]);
+                                                mItem.City_ID = Convert.ToInt32(ds.Tables[0].Rows[i]["City_ID"]);
                                             }
                                             else
                                             {
@@ -321,6 +329,70 @@ namespace Troy.Web.Controllers
                 return View("Error");
             }
         }
+
+        
+       
+
+          //Check for dupilicate
+        public JsonResult CheckForDuplication(Branch branch, [Bind(Prefix = "Branch.Branch_Code")]string Branch_Code,string code)
+              //public JsonResult CheckForDuplication(string Branch_Code,string code)
+      
+        {
+            BranchViewModels bvm = new BranchViewModels();
+            bvm.code=Branch_Code.ToString();
+
+
+            var data = branchDb. CheckDuplicateName(Branch_Code);
+           
+            //var data1 = branchDb.CheckDuplicateName(code);
+            if (data != null)
+            {
+                return Json("Sorry, Branch Code already exists", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+       
+   //public ActionResult _ExporttoExcel(Branch branch)
+        //{
+       //var data= branchDb._ExporttoExcel(branch);
+            //var Branch = from e in branchDb._ExporttoExcel.AsEnumerable()
+            //             select new
+            //             {
+            //                 e.Branch_Cde,
+            //                 e.Branch_Name,
+            //                 e.Address1,
+            //                 e.Address2,
+            //                 e.Address3,
+            //                 e.Country_Id,
+            //                 e.State_Id,
+            //                 e.City_Id,
+            //                 e.Pin_Cod,
+            //                 e.Order_Num,
+            //                 e.IsActive
+            //             };
+
+            //System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+            //gridvw.DataSource = Branch.ToList().Take(100); //bind the datatable to the gridview
+            //gridvw.DataBind();
+            //Response.ClearContent();
+            //Response.Buffer = true;
+            //Response.AddHeader("content-disposition", "attachment; filename=BranchList.xls");//Microsoft Office Excel Worksheet (.xlsx)
+            //Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            //Response.Charset = "";
+            //StringWriter sw = new StringWriter();
+            //HtmlTextWriter htw = new HtmlTextWriter(sw);
+            //gridvw.RenderControl(htw);
+            //Response.Output.Write(sw.ToString());
+            //Response.Flush();
+            //Response.End();
+            //return RedirectToAction("Index");
+        //}
+
+
         #endregion
 
         #region Partial Views

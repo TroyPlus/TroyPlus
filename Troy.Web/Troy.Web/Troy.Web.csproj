@@ -70,12 +70,24 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.0.0\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.0.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -190,14 +202,17 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BusinessPartnerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IUserRepository.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManufacturerController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -206,6 +221,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ManufacturerViewModels.cs" />
     <Compile Include="Models\PurchaseViewModels.cs" />
+    <Compile Include="Models\ViewModelBranch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -352,7 +368,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -394,12 +412,6 @@
     <Content Include="Views\Purchase\_CreatePartial.cshtml" />
     <Content Include="Views\Purchase\_EditPartial.cshtml" />
     <Content Include="Views\Purchase\_ViewPartial.cshtml" />
-    <Content Include="Views\Branch\Create.cshtml" />
-    <Content Include="Views\Branch\Delete.cshtml" />
-    <Content Include="Views\Branch\Details.cshtml" />
-    <Content Include="Views\Branch\Edit.cshtml" />
-    <Content Include="Views\Branch\Index.cshtml" />
-    <Content Include="Views\Branch\_CreatePartial.cshtml" />
     <Content Include="Views\Manufacturer\Index.cshtml" />
     <Content Include="Views\Manufacturer\_CreatePartial.cshtml" />
     <Content Include="Views\Manufacturer\_EditPartial.cshtml" />
@@ -409,9 +421,17 @@
     <Content Include="Views\BusinessPartner\Details.cshtml" />
     <Content Include="Views\BusinessPartner\Edit.cshtml" />
     <Content Include="Views\BusinessPartner\Index.cshtml" />
+    <Content Include="Views\Branch\Create.cshtml" />
+    <Content Include="Views\Branch\Delete.cshtml" />
+    <Content Include="Views\Branch\Details.cshtml" />
+    <Content Include="Views\Branch\Edit.cshtml" />
+    <Content Include="Views\Branch\Index.cshtml" />
+    <Content Include="Views\Branch\_CreatePartial.cshtml" />
+    <Content Include="Views\Branch\_EditPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
