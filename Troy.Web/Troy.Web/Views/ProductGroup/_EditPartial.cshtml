@@ -1,61 +1,70 @@
 ﻿@model Troy.Web.Models.ProductGroupViewModels
 
+@Scripts.Render("~/bundles/jqueryval")
+
 <script type="text/javascript">
 
 </script>
 
-<div class="modal-dialog modal-lg">
-    <div class="modal-content">
+@using (Html.BeginForm("Index", "ProductGroup"))
+{
 
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Edit ProductGroup</h4>
-        </div>
+    @Html.ValidationSummary(true)
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
 
-        <div class="modal-body">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Edit ProductGroup</h4>
+            </div>
 
-            <div class="form-horizontal">
+            <div class="modal-body">
 
-                <div class="row">
+                <div class="form-horizontal">
 
-                    <ul id="edittabs" class="nav nav-pills nav-pills-justified">
-                        <li class="active">
-                            <a href="#editdefault" data-toggle="tab">General </a>
-                        </li>
-                    </ul>
+                    <div class="row">
 
-                    <div id="editTabContent" class="tab-content">
+                        <ul id="edittabs" class="nav nav-pills nav-pills-justified">
+                            <li class="active">
+                                <a href="#editdefault" data-toggle="tab">General </a>
+                            </li>
+                        </ul>
 
-                        <div class="tab-pane fade in active" id="editdefault">
+                        <div id="editTabContent" class="tab-content">
 
-                            <br />
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        ProductGroup Name:
+                            <div class="tab-pane fade in active" id="editdefault">
+
+                                <br />
+                                <div class="col-md-6">
+                                    @Html.HiddenFor(model => model.ProductGroup.Product_Group_Id, new { @class = "form-control control-text" })
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            ProductGroup Name:
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(model => model.ProductGroup.Product_Group_Name, new { @class = "form-control control-text" })
+                                            @Html.ValidationMessageFor(model => model.ProductGroup.Product_Group_Name)
+                                        </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.ProductGroup.Product_Group_Name, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.ProductGroup.Product_Group_Name)
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            ProductGroup Level:
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(model => model.ProductGroup.Level, new { @class = "form-control control-text" })
+                                            @Html.ValidationMessageFor(model => model.ProductGroup.Level)
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        ProductGroup Level:
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.ProductGroup.Level, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.ProductGroup.Level)
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        Is Active:
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.RadioButtonFor(model => model.ProductGroup.IsActive, "Y", new { id = "Y" }) YES
-                                        @Html.RadioButtonFor(model => model.ProductGroup.IsActive, "N", new { id = "N" }) NO
-                                        @Html.ValidationMessageFor(model => model.ProductGroup.IsActive)
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            Is Active:
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.RadioButtonFor(model => model.ProductGroup.IsActive, "Y", new { id = "Y" }) YES
+                                            @Html.RadioButtonFor(model => model.ProductGroup.IsActive, "N", new { id = "N" }) NO
+                                            @Html.ValidationMessageFor(model => model.ProductGroup.IsActive)
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -63,14 +72,14 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="modal-footer">
-            <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
-            <button class="btn pull-left" data-dismiss="modal">Close</button>
-            @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
-        </div>
+            <div class="modal-footer">
+                <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
+                <button class="btn pull-left" data-dismiss="modal">Close</button>
+                @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+            </div>
 
+        </div>
     </div>
-</div>
+}
 

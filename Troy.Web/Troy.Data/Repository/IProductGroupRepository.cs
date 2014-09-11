@@ -18,12 +18,16 @@ namespace Troy.Data.Repository
 
         //  List<BranchList> GetAddressList();
 
-        ProductGroup CheckDuplicateName(string mManu_Name);
+        ProductGroup CheckDuplicateName(string mProdGrp_Name);
 
         bool InsertFileUploadDetails(List<ProductGroup> ProductGroup);
 
         bool AddNewProductGroup(ProductGroup ProductGroup);
 
         bool EditExistingProductGroup(ProductGroup ProductGroup);
+
+        bool AddBulkProductGroup(Object obj);
+
+        //ProductGroup GenerateXML(Object obj);
     }
 }

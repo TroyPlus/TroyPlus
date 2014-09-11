@@ -21,7 +21,7 @@ namespace Troy.Model.ProductGroup
         [Required(ErrorMessage = "ProductGroup Name is required.")]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         [StringLength(30)]
-       // [Remote("CheckForDuplication", "ProductGroup")]
+        [Remote("CheckForDuplication", "ProductGroup", AdditionalFields = "Product_Group_Name")]
         public string Product_Group_Name { get; set; }
 
 

@@ -116,10 +116,10 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
-        public ProductGroup CheckDuplicateName(string mPGroup_Name)
+        public ProductGroup CheckDuplicateName(string mProdGrp_Name)
         {
             return (from p in ProductGroupContext.ProductGroup
-                    where p.Product_Group_Name.Equals(mPGroup_Name, StringComparison.CurrentCultureIgnoreCase)
+                    where p.Product_Group_Name.Equals(mProdGrp_Name, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
 
@@ -140,16 +140,46 @@ namespace Troy.Data.Repository
             }
         }
 
+        public bool AddBulkProductGroup(Object obj)
+        {
+            //manufactureContext.Manufacture.Add(obj);
+            return true;
+        }
+        
+        public bool EditExistingProductGroup(ProductGroup ProductGroup)
+        {
+            try
+            {
+                ProductGroupContext.Entry(ProductGroup).State = EntityState.Modified;
+                ProductGroupContext.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                return false;
+            }
+        }
+
         public bool InsertFileUploadDetails(List<ProductGroup> ProductGroup)
         {
             throw new NotImplementedException();
         }
 
-
-
-        public bool EditExistingProductGroup(ProductGroup ProductGroup)
-        {
-            throw new NotImplementedException();
-        }
+        //public ProductGroup GenerateXML(Object obj)
+        //{
+        //    try
+        //    {
+        //        string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
+        //        //return data;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ExceptionHandler.LogException(ex);
+        //        //return false;
+        //    }
+        //}
+       
     }
 }

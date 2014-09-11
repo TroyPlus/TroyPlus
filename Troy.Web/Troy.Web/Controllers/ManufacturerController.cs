@@ -60,7 +60,6 @@ namespace Troy.Web.Controllers
 
         //---- check unique key-------          
         public JsonResult CheckForDuplication(Manufacture manufacture, [Bind(Prefix = "Manufacturer.Manufacturer_Name")]string Manufacturer_Name)
-        //public ActionResult CheckForDuplication(Manufacture manufacture, [Bind(Prefix = "Manufacturer_Name")]string Manufacturer_Name)
         {
             var data = manufactureDb.CheckDuplicateName(Manufacturer_Name);
             if (data != null)
@@ -72,13 +71,13 @@ namespace Troy.Web.Controllers
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
         }
-        
+
         [HttpPost]
         public ActionResult Index(string submitButton, ManufacturerViewModels model, HttpPostedFileBase file)
         {
-            ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name,HttpContext.GetOwinContext());
             try
             {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
                 if (submitButton == "Save")
                 {
                     model.Manufacturer.IsActive = "Y";
@@ -89,6 +88,20 @@ namespace Troy.Web.Controllers
                     model.Manufacturer.Modified_Dte = DateTime.Now;
                     model.Manufacturer.Modified_Branch_Id = 1;
 
+
+                    Guid GuidRandomNo = Guid.NewGuid();
+                    string UniqueID = GuidRandomNo.ToString();
+
+                    Viewmodel_AddManufacturer xmlAddManufacture = new Viewmodel_AddManufacturer();
+                    xmlAddManufacture.UniqueID = UniqueID.ToString();
+                    xmlAddManufacture.manufacturer_Name = model.Manufacturer.Manufacturer_Name;
+
+                    //if (manufactureDb.GenerateXML(xmlAddManufacture))
+                    //{
+                    //    return RedirectToAction("Index", "Manufacturer");
+                    //}
+
+                    //string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(xmlAddManufacture);            
 
                     if (manufactureDb.AddNewManufacturer(model.Manufacturer))
                     {
@@ -125,8 +138,10 @@ namespace Troy.Web.Controllers
 
                 if (Convert.ToString(Request.Files["FileUpload"]).Length > 0)
                 {
+
                     try
                     {
+
                         string fileExtension = System.IO.Path.GetExtension(Request.Files["FileUpload"].FileName);
 
                         string fileName = System.IO.Path.GetFileName(Request.Files["FileUpload"].FileName.ToString());
@@ -139,6 +154,13 @@ namespace Troy.Web.Controllers
                             {
                                 System.IO.File.Delete(fileLocation);
                             }
+
+                            //if (System.IO.File.Exists(Server.MapPath("~/App_Data/ExcelFiles") + fileName + System.IO.Path.GetExtension(Request.Files["FileUpload"].FileName)))
+                            //{
+                            //    System.IO.File.Delete(Server.MapPath("~/App_Data/ExcelFiles") + fileName +
+                            //    System.IO.Path.GetExtension(Request.Files["FileUpload"].FileName));
+                            //}
+
                             Request.Files["FileUpload"].SaveAs(fileLocation);
                             string excelConnectionString = string.Empty;
                             excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
@@ -171,79 +193,212 @@ namespace Troy.Web.Controllers
                             String[] excelSheets = new String[dt.Rows.Count];
                             int t = 0;
                             //excel data saves in temp file here.
-                            foreach (DataRow row in dt.Rows) 
+                            foreach (DataRow row in dt.Rows)
                             {
                                 excelSheets[t] = row["TABLE_NAME"].ToString();
                                 t++;
                             }
 
-                            for (int k = 0; k < dt.Rows.Count; k++)
+                            DataSet ds = new DataSet();
+
+                            OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
+
+                            exquery = string.Format("Select * from [{0}]", excelSheets[0]);
+                            using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
                             {
-                                DataSet ds = new DataSet();
-                                int sheets = k + 1;
+                                dataAdapter.Fill(ds);
+                            }
 
-                                OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
-
-                                exquery = string.Format("Select * from [{0}]", excelSheets[k]);
-                                using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
+                            if (ds != null)
+                            {
+                                #region Check Manufacturer Name
+                                foreach (DataRow dr in ds.Tables[0].Rows)
                                 {
-                                    dataAdapter.Fill(ds);
-                                }
-
-                                if (ds != null)
-                                {
-                                    if (ds.Tables[0].Rows.Count > 0)
+                                    string mExcelManu_Name = Convert.ToString(dr["Manufacturer_Name"]);
+                                    if (mExcelManu_Name != null && mExcelManu_Name != "")
                                     {
-                                        List<Manufacture> mlist = new List<Manufacture>();                                       
-
-                                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                                        var data = manufactureDb.CheckDuplicateName(mExcelManu_Name);
+                                        if (data != null)
                                         {
-                                            Manufacture mItem = new Manufacture();
-                                            if (ds.Tables[0].Rows[i]["Manufacturer_Name"] != null)
-                                            {
-                                                mItem.Manufacturer_Name = ds.Tables[0].Rows[i]["Manufacturer_Name"].ToString();
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "Manufacture name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-
-                                            if (ds.Tables[0].Rows[i]["Level"] != null)
-                                            {
-                                                mItem.Level = Convert.ToInt32(ds.Tables[0].Rows[i]["Level"]);
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "Level field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-                                            if (ds.Tables[0].Rows[i]["IsActive"] != null)
-                                            {
-                                                mItem.IsActive = ds.Tables[0].Rows[i]["IsActive"].ToString();
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "IsActive field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-                                            mItem.Created_User_Id = 1; //GetUserId();
-                                            mItem.Created_Branc_Id = 2; //GetBranchId();
-                                            mItem.Created_Dte = DateTime.Now;
-                                            mItem.Modified_User_Id = 2; //GetUserId();
-                                            mItem.Modified_Branch_Id = 2; //GetBranchId();
-                                            mItem.Modified_Dte = DateTime.Now;
-                                            mlist.Add(mItem);
-                                        }
-
-                                        if (manufactureDb.InsertFileUploadDetails(mlist))
-                                        {
-                                            return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
+                                            return Json(new { success = true, Message = "Manufacturer Name: " + mExcelManu_Name + " - already exists in the master." }, JsonRequestBehavior.AllowGet);
                                         }
                                     }
                                     else
                                     {
-                                        return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
+                                        return Json(new { success = false, Error = "Manufacture name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                     }
                                 }
+                                #endregion
+
+                                #region Check Level
+                                foreach (DataRow dr in ds.Tables[0].Rows)
+                                {
+                                    if (dr["Level"].ToString() != null && dr["Level"].ToString() != "")
+                                    {
+                                        int mExcelManu_Level = Convert.ToInt32(dr["Level"]);
+                                        if (mExcelManu_Level >= 0 && mExcelManu_Level <= 100)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            return Json(new { success = true, Message = "Allowed range for Level is 0 to 100" }, JsonRequestBehavior.AllowGet);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        return Json(new { success = false, Error = "Level cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                                #endregion
+
+                                # region Already exists in sheet
+                                int i = 1;
+                                int ii = 1;
+                                string itemc = string.Empty;
+                                foreach (DataRow dr in ds.Tables[0].Rows)
+                                {
+                                    itemc = Convert.ToString(dr["Manufacturer_Name"]);
+
+                                    if ((itemc == null) || (itemc == ""))
+                                    {
+                                    }
+                                    else
+                                    {
+                                        foreach (DataRow drd in ds.Tables[0].Rows)
+                                        {
+                                            if (ii == i)
+                                            {
+                                            }
+                                            else
+                                            {
+                                                if (itemc == Convert.ToString(drd["Manufacturer_Name"]))
+                                                {
+                                                    return Json(new { success = true, Message = "Manufacturer Name: " + itemc + " - already exists in the excel." }, JsonRequestBehavior.AllowGet);
+                                                }
+                                            }
+                                            ii = ii + 1;
+                                        }
+                                    }
+                                    i = i + 1;
+                                    ii = 1;
+                                }
+                                #endregion
+
+                                #region BulkInsert
+                                if (ds.Tables[0].Rows.Count > 0)
+                                {
+                                    List<Manufacture> mlist = new List<Manufacture>();
+
+                                    for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
+                                    {
+                                        Manufacture mItem = new Manufacture();
+                                        if (ds.Tables[0].Rows[j]["Manufacturer_Name"] != null)
+                                        {
+                                            mItem.Manufacturer_Name = ds.Tables[0].Rows[j]["Manufacturer_Name"].ToString();
+                                        }
+
+                                        if (ds.Tables[0].Rows[j]["Level"] != null)
+                                        {
+                                            mItem.Level = Convert.ToInt32(ds.Tables[0].Rows[j]["Level"]);
+                                        }
+                                        mItem.IsActive = "Y";
+                                        mItem.Created_User_Id = 1; //GetUserId();
+                                        mItem.Created_Branc_Id = 2; //GetBranchId();
+                                        mItem.Created_Dte = DateTime.Now;
+                                        mItem.Modified_User_Id = 2; //GetUserId();
+                                        mItem.Modified_Branch_Id = 2; //GetBranchId();
+                                        mItem.Modified_Dte = DateTime.Now;
+                                        mlist.Add(mItem);
+                                    }
+
+                                    if (manufactureDb.InsertFileUploadDetails(mlist)) 
+                                    {
+                                        //System.IO.File.Delete(fileLocation);
+                                        return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                                else
+                                {
+                                    return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
+                                }
+                                #endregion
+
                             }
+                            else
+                            {
+                                return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
+                            }
+
+                            #region OLD Code
+                            //for (int k = 0; k < dt.Rows.Count; k++)
+                            //{
+                            //    DataSet ds = new DataSet();
+                            //    int sheets = k + 1;
+
+                            //    OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
+
+                            //    exquery = string.Format("Select * from [{0}]", excelSheets[k]);
+                            //    using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
+                            //    {
+                            //        dataAdapter.Fill(ds);
+                            //    }
+
+                            //if (ds != null)
+                            //{
+                            //    if (ds.Tables[0].Rows.Count > 0)
+                            //    {
+                            //        List<Manufacture> mlist = new List<Manufacture>();
+
+                            //        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            //        {
+                            //            Manufacture mItem = new Manufacture();
+                            //            if (ds.Tables[0].Rows[i]["Manufacturer_Name"] != null)
+                            //            {
+                            //                mItem.Manufacturer_Name = ds.Tables[0].Rows[i]["Manufacturer_Name"].ToString();
+                            //            }
+                            //            else
+                            //            {
+                            //                return Json(new { success = false, Error = "Manufacture name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                            //            }
+
+                            //            if (ds.Tables[0].Rows[i]["Level"] != null)
+                            //            {
+                            //                mItem.Level = Convert.ToInt32(ds.Tables[0].Rows[i]["Level"]);
+                            //            }
+                            //            else
+                            //            {
+                            //                return Json(new { success = false, Error = "Level field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
+                            //            }
+                            //            if (ds.Tables[0].Rows[i]["IsActive"] != null)
+                            //            {
+                            //                mItem.IsActive = ds.Tables[0].Rows[i]["IsActive"].ToString();
+                            //            }
+                            //            else
+                            //            {
+                            //                return Json(new { success = false, Error = "IsActive field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
+                            //            }
+                            //            mItem.Created_User_Id = 1; //GetUserId();
+                            //            mItem.Created_Branc_Id = 2; //GetBranchId();
+                            //            mItem.Created_Dte = DateTime.Now;
+                            //            mItem.Modified_User_Id = 2; //GetUserId();
+                            //            mItem.Modified_Branch_Id = 2; //GetBranchId();
+                            //            mItem.Modified_Dte = DateTime.Now;
+                            //            mlist.Add(mItem);
+                            //        }
+
+                            //        if (manufactureDb.InsertFileUploadDetails(mlist))
+                            //        {
+                            //            return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
+                            //        }
+                            //    }
+                            //    else
+                            //    {
+                            //        return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
+                            //    }
+                            //    }
+                            //} 
+                            #endregion
                         }
                     }
                     catch (Exception ex)
@@ -260,6 +415,8 @@ namespace Troy.Web.Controllers
                 ViewBag.AppErrorMessage = ex.Message;
                 return View("Error");
             }
+
+
         }
         #endregion
 

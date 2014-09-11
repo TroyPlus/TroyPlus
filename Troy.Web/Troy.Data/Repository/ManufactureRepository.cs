@@ -6,6 +6,7 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Data.DataContext;
@@ -18,7 +19,6 @@ namespace Troy.Data.Repository
     public class ManufactureRepository : BaseRepository, IManufacturerRepository
     {
         private ManufactureContext manufactureContext = new ManufactureContext();
-
 
         public List<Manufacture> GetAllManufacturer()
         {
@@ -83,7 +83,7 @@ namespace Troy.Data.Repository
                         Manufacturer_Id = item.Manufacturer_Id,
                         Manufacturer_Name = item.Manufacturer_Name,
                         Level = item.Level,
-                        IsActive=item.IsActive,
+                        IsActive = item.IsActive,
                         Created_Branc_Id = item.Created_Branc_Id,
                         Created_Dte = item.Created_Dte,
                         Created_User_Id = item.Created_User_Id,
@@ -141,6 +141,17 @@ namespace Troy.Data.Repository
             }
         }
 
+        public bool AddBulkManufacturer(Object obj)
+        {
+            //manufactureContext.Manufacture.Add(obj);            
+            //return true;
+
+            //List<propertyinfo> propertyList = obj.GetProperties().ToList();
+
+
+            return true;
+        }
+
         public bool EditExistingManufacturer(Manufacture manufacturer)
         {
             try
@@ -154,24 +165,37 @@ namespace Troy.Data.Repository
             {
                 ExceptionHandler.LogException(ex);
                 return false;
-            }       
+            }
         }
 
-        public bool InsertFileUploadDetails(List<Manufacture> manufacture)
+        public bool InsertFileUploadDetails(List<Manufacture> manufacturer)
         {
-           // throw new NotImplementedException();
             try
             {
-                //manufactureContext.Manufacture.Add(manufacture);
-                //manufactureContext.SaveChanges();
-
+                manufactureContext.Manufacture.AddRange(manufacturer);
+                manufactureContext.SaveChanges();
                 return true;
             }
             catch (Exception ex)
             {
+
                 ExceptionHandler.LogException(ex);
                 return false;
             }
         }
+
+        //public Manufacture GenerateXML(Object obj)
+        //{
+        //    try
+        //    {
+        //        string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
+        //        return data;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ExceptionHandler.LogException(ex);
+        //        //return false;
+        //    }
+        //}
     }
 }

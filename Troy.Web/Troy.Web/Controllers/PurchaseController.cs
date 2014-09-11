@@ -58,6 +58,8 @@ namespace Troy.Web.Controllers
             }
         }
 
+
+
         [HttpPost]
         public ActionResult Index(string submitButton, PurchaseViewModels model, HttpPostedFileBase file, string posting, string required, string valid)
         {

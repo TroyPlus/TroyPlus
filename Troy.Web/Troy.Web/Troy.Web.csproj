@@ -197,14 +197,17 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManufacturerController.cs" />
+    <Compile Include="Controllers\ProductGroupController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BranchViewModels.cs" />
+    <Compile Include="Models\BusinessPartnerViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ManufacturerViewModels.cs" />
+    <Compile Include="Models\ProductGroupViewModels.cs" />
     <Compile Include="Models\PurchaseViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -409,6 +412,9 @@
     <Content Include="Views\BusinessPartner\Details.cshtml" />
     <Content Include="Views\BusinessPartner\Edit.cshtml" />
     <Content Include="Views\BusinessPartner\Index.cshtml" />
+    <Content Include="Views\ProductGroup\Index.cshtml" />
+    <Content Include="Views\ProductGroup\_CreatePartial.cshtml" />
+    <Content Include="Views\ProductGroup\_EditPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />
