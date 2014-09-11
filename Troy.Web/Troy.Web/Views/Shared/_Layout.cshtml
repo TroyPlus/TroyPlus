@@ -10,6 +10,7 @@
     @Styles.Render("~/Content/Site")
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/jquerycustom")
+    @Styles.Render("~/bundles/themes/TroyPlus")
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
@@ -17,49 +18,112 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jquerydata")
     @Scripts.Render("~/bundles/bootstraptable")
-
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/scripts/TroyPlus")
 
 </head>
 <body class="supplier">
-
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @if (Request.IsAuthenticated)
-                    {
-                        @*foreach(ApplicationUserRoleMenuItem menuItem in
-                            @ApplicationUserManager.GetUserApplicationMenuItems(User.Identity.Name))
-                        {
-                            <li class=" dropdown" id="Suppliers">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@menuItem.Menu_Name </a>
-                            </li>
-                        }*@
-
-                        @*<li class=" dropdown" id="Suppliers">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@menu </a>
-                            <ul class="dropdown-menu">
-                                    @foreach (ApplicationUserRoleMenuItem menuItem in menuItems)
+    @if (Request.IsAuthenticated)
+    {
+        <!-- Start #header -->
+        <div id="header">
+            <div class="container-fluid">
+                <div class="navbar">
+                    <div class="navbar-header">
+                        <span class="text-logo">TROY</span><span class="text-slogan">Plus</span>
+                    </div>
+                    <nav class="top-nav" role="navigation">
+                        <div class="navbar-collapse collapse">
+                            <ul class="nav navbar-nav">
+                                @*@if (Request.IsAuthenticated)
                                     {
-                                        <li>@Html.ActionLink(@menuItem.SubMenu_name, "Index", @menuItem.Screen_Name)</li>                                 
-                                    }
+                                        var menuList = Troy.Web.ApplicationUserManager.GetUserApplicationMenuItems(User.Identity.Name);
+                                        var mainMenus = (from m in menuList
+                                                         select m.Menu_Name).Distinct().ToList();
+                                        foreach (string menu in mainMenus)
+                                        {
+                                            var menuItems = (from m in menuList
+                                                             where m.Menu_Name == menu
+                                                             select m);
+
+                                            <li class=" dropdown" id="Suppliers">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@menu </a>
+                                                <ul class="dropdown-menu">
+                                                    @foreach (ApplicationUserRoleMenuItem menuItem in menuItems)
+                                                    {
+                                                        <li>@Html.ActionLink(@menuItem.SubMenu_name, "Index", @menuItem.Screen_Name)</li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                    }*@
                             </ul>
-                        </li>*@
-                        }
-                    }
-                </ul>
-                 @Html.Partial("_LoginPartial")
+
+                            <ul class="nav navbar-nav pull-right">
+                                <li>
+                                    <div class="navbar-collapse collapse">
+                                        @Html.Partial("_LoginPartial")
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </nav>
+                </div>
             </div>
         </div>
-    </div>
+        <!-- End #header -->
+    }
+    <!-- Start #sidebar -->
+    @if (Request.IsAuthenticated)
+    {
+
+        <div id="sidebar">
+            <!-- Start .sidebar-inner -->
+            <div class="sidebar-inner">
+                <!-- Start #sideNav -->
+                <ul id="sideNav" class="nav nav-pills nav-stacked">
+                    <!-- Search Menu -->
+                    <li class="top-search">
+                        <form>
+                            <input type="text" name="search" placeholder="Search ...">
+                            <button type="submit">
+                                <i class="ec-search s20"></i>
+                            </button>
+                        </form>
+                    </li>
+                    @{
+                        var menuList = Troy.Web.ApplicationUserManager.GetUserApplicationMenuItems(User.Identity.Name);
+                        var mainMenus = (from m in menuList
+                                         select m.Menu_Name).Distinct().ToList();
+                        foreach (string menu in mainMenus)
+                        {
+                            var menuItems = (from m in menuList
+                                             where m.Menu_Name == menu
+                                             select m);
+
+                            <li>
+                                <a href="index.html">@menu <i class="im-screen"></i></a>
+                            </li>
+                            <ul class="nav sub">
+                                @foreach (ApplicationUserRoleMenuItem menuItem in menuItems)
+                                {
+                                    <li>
+                                        <a href="tables.html"><i class="en-arrow-right7"></i> @menuItem.SubMenu_name</a>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    }
+
+                </ul>
+                <!-- End #sideNav -->
+            </div>
+            <!-- End .sidebar-inner -->
+        </div>
+
+    }
+    <!-- End #sidebar -->
     <div class="row body-content">
         <div class="row row-offcanvas row-offcanvas-left">
             <div class="col-xs-1 col-sm-1 col-lg-1  ">
@@ -68,17 +132,28 @@
                 @RenderBody()
             </div>
         </div>
-        <hr />
-        <footer>
-            <p>Copyrights &copy; TroyPlus  @DateTime.Now.Year. All Rights Reserved </p>
-        </footer>
     </div>
 
-    @*@Scripts.Render("~/bundles/jquery")
+    <hr />
+    <footer>
+        <p align="center">Copyrights &copy; TroyPlus  @DateTime.Now.Year. All Rights Reserved </p>
+    </footer>
+    @*Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")*@
 
 
     @RenderSection("scripts", required: false)
+    <!-- Important javascript libs(put in all pages) -->
+    @*<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="assets/js/libs/jquery-2.1.1.min.js">\x3C/script>')
+    </script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="assets/js/libs/jquery-ui-1.10.4.min.js">\x3C/script>')
+    </script>*@
 </body>
+
+
 
 </html>

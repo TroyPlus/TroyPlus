@@ -62,6 +62,49 @@ namespace Troy.Web
                         "~/Content/themes/base/jquery.ui.theme.css"));
 
 
+            bundles.Add(new StyleBundle("~/bundles/themes/TroyPlus").Include(
+                "~/Content/themes/TroyPlus/css/less/sidebar.less",
+                "~/Content/themes/TroyPlus/css/less/bootstrap.less",
+                "~/Content/themes/TroyPlus/css/less/custom-variables.less",
+                "~/Content/themes/TroyPlus/css/less/app.less",
+                "~/Content/themes/TroyPlus/css/less/plugins/highlight.less",
+                "~/Content/themes/TroyPlus/css/bootstrap.css",
+                "~/Content/themes/TroyPlus/css/plugins.css",
+                "~/Content/themes/TroyPlus/css/main.css",
+                "~/Content/themes/TroyPlus/css/custom.css",
+                "~/Content/themes/TroyPlus/css/icons.css",
+                "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.all.css",
+                "~/Content/themes/TroyPlus/plugins/misc/highlight/styles/"));
+
+            // Wrapbootstrap
+            bundles.Add(new ScriptBundle("~/bundles/scripts/TroyPlus").
+                Include(
+            "~/Content/themes/TroyPlus/plugins/core/quicksearch/jquery.quicksearch.js",
+            "~/Content/themes/TroyPlus/plugins/misc/highlight/highlight.pack.js",
+            "~/Content/themes/TroyPlus/js/html5shiv.js",
+            "~/Content/themes/TroyPlus/js/bootstrap/bootstrap.js",
+            "~/Content/themes/TroyPlus/js/jquery.sprFlat.js",
+            "~/Content/themes/TroyPlus/js/jRespond.min.js",
+            "~/Content/themes/TroyPlus/js/bootstrap/bootstrap.js",
+            "~/Content/themes/TroyPlus/plugins/core/moment/moment.min.js",
+             "~/Content/themes/TroyPlus/js/app.js",
+             "~/Content/themes/TroyPlus/plugins/core/pace/pace.min.js",
+             "~/Content/themes/TroyPlus/plugins/core/slimscroll/jquery.slimscroll.min.js",
+             "~/Content/themes/TroyPlus/plugins/core/slimscroll/jquery.slimscroll.horizontal.min.js",
+             "~/Content/themes/TroyPlus/plugins/forms/autosize/jquery.autosize.js",
+             "~/Content/themes/TroyPlus/plugins/ui/bootbox/bootbox.js",
+             "~/Content/themes/TroyPlus/plugins/misc/countTo/jquery.countTo.js",
+             "~/Content/themes/TroyPlus/plugins/forms/icheck/jquery.icheck.js",
+             "~/Content/themes/TroyPlus/js/jRespond.min.js",
+             "~/Content/themes/TroyPlus/plugins/forms/tinymce/tinymce.min.js",
+             "~/Content/themes/TroyPlus/plugins/forms/tags/jquery.tagsinput.min.js",
+             "~/Content/themes/TroyPlus/plugins/core/moment/moment.min.js",
+             "~/Content/themes/TroyPlus/plugins/forms/tags/jquery.tagsinput.min.js",
+             "~/Content/themes/TroyPlus/plugins/tables/datatables/jquery.dataTables.min.js",
+            "~/Content/themes/TroyPlus/plugins/tables/datatables/jquery.dataTablesBS3.js",
+            "~/Content/themes/TroyPlus/plugins/tables/datatables/tabletools/ZeroClipboard.js",
+            "~/Content/themes/TroyPlus/plugins/tables/datatables/tabletools/TableTools.js"
+             ));
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
             //BundleTable.EnableOptimizations = true;
