@@ -13,13 +13,18 @@ namespace Troy.Data.Repository
     public interface IBranchRepository
     {
         List<Branch> GetAllBranch();
-
-        List<Branch> GetFilterBranch(string searchColumn, string searchString, Guid userId);
+        //List<ViewBranches> GetAllBranches();
+        List<ViewBranches> GetFilterBranch(string searchColumn, string searchString, Guid userId);
 
 
         Branch FindOneBranchById(int qId);
 
-      
+        Branch CheckDuplicateName(string bname);
+
+        //Branch _ExporttoExcel(Branch branch);
+
+        IEnumerable<Branch> _ExporttoExcel();
+     
 
         //List<BranchList> GetAddressList();
 
@@ -34,5 +39,9 @@ namespace Troy.Data.Repository
         bool AddNewBranch(Branch branch);
 
         bool EditBranch(Branch branch);
+
+
+
+        //object CheckDuplicateName(string Branch_Code, string code);
     }
 }

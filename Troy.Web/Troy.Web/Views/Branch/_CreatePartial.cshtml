@@ -34,11 +34,12 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         @Html.LabelFor(m => m.Branch.Branch_Code)
+                                    </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.Branch.Branch_Code , new { @class = "form-control control-text" })
                                             @Html.ValidationMessageFor(model => model.Branch.Branch_Code)
                                         </div>
-                                    </div>
+                                
                                     </div>
 
                                     <div class="row">

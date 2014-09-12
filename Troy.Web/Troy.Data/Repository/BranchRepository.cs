@@ -33,9 +33,68 @@ namespace Troy.Data.Repository
             return qList;
         }
 
-        public List<Branch> GetFilterBranch(string searchColumn, string searchString, Guid userId)
+        //public List<ViewBranches> GetAllBranches()
+        //{
+        //    List<ViewBranches> qList = new List<ViewBranches>();
+
+        //    //qList = (from p in branchContext.Branch
+        //    //         select p).ToList();
+
+        //    branchContext.Database.Initialize(force: false);
+
+        //    var cmd = branchContext.Database.Connection.CreateCommand();
+        //    cmd.CommandText = "[dbo].[USP_GetAllBranches]";
+        //    cmd.CommandType = CommandType.StoredProcedure;
+
+        //    try
+        //    {
+        //        branchContext.Database.Connection.Open();
+        //        // Run the sproc  
+        //        var reader = cmd.ExecuteReader();
+
+        //        var result = ((IObjectContextAdapter)branchContext)
+        //            .ObjectContext
+        //            .Translate<ViewBranches>(reader, "Branch", MergeOption.AppendOnly);
+
+
+        //        foreach (var item in result)
+        //        {
+        //            ViewBranches model = new ViewBranches()
+
+
+        //            {
+
+        //                Branch_Id = item.Branch_Id,
+        //                Branch_Code = item.Branch_Code,
+        //                Branch_Name = item.Branch_Name,
+        //                Address1 = item.Address1,
+        //                Address2 = item.Address2,
+        //                Address3 = item.Address3,
+        //                Country_ID = item.Country_ID,
+        //                State_ID = item.State_ID,
+        //                City_ID = item.City_ID,
+        //                Order_Num = item.Order_Num,
+        //                Pin_Code = item.Pin_Code,
+        //                IsActive = item.IsActive,
+        //                Country_Name=item.Country_Name,
+        //                State_Name=item.State_Name,
+        //                City_Name=item.City_Name
+        //            };
+
+        //            qList.Add(model);
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        branchContext.Database.Connection.Close();
+        //    }
+
+        //    return qList;
+        //}
+
+        public List<ViewBranches> GetFilterBranch(string searchColumn, string searchString, Guid userId)
         {
-            List<Branch> qList = new List<Branch>();
+            List<ViewBranches> qList = new List<ViewBranches>();
 
             if (searchColumn == null)
             {
@@ -75,24 +134,28 @@ namespace Troy.Data.Repository
 
                 var result = ((IObjectContextAdapter)branchContext)
                     .ObjectContext
-                    .Translate<Branch>(reader, "Branch", MergeOption.AppendOnly);
+                    .Translate<ViewBranches>(reader, "Branch", MergeOption.AppendOnly);
 
 
                 foreach (var item in result)
                 {
-                    Branch model = new Branch()
+                    ViewBranches model = new ViewBranches()
+
 
                     {
 
                         Branch_Id = item.Branch_Id,
-                        Branch_Code=item.Branch_Code,
+                        Branch_Code = item.Branch_Code,
                         Branch_Name = item.Branch_Name,
-                        Address1=item.Address1,
-                        Address2=item.Address2,
-                        Address3=item.Address3,
+                        Address1 = item.Address1,
+                        Address2 = item.Address2,
+                        Address3 = item.Address3,
                         Country_ID = item.Country_ID,
                         State_ID = item.State_ID,
                         City_ID = item.City_ID,
+                        //country = item.country,
+                        //city = item.city,
+                        //state = item.state,
                         Order_Num = item.Order_Num,
                         Pin_Code = item.Pin_Code,
                         IsActive = item.IsActive,
@@ -101,7 +164,10 @@ namespace Troy.Data.Repository
                         Created_User_Id = item.Created_User_Id,
                         Modified_Branch_Id = item.Modified_Branch_Id,
                         Modified_Dte = item.Modified_Dte,
-                        Modified_User_Id = item.Modified_User_Id
+                        Modified_User_Id = item.Modified_User_Id,
+                        Country_Name=item.Country_Name,
+                        State_Name=item.State_Name,
+                        City_Name=item.City_Name
                     };
 
                     qList.Add(model);
@@ -129,6 +195,83 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
+        public Branch CheckDuplicateName(string bname)
+        {
+            return (from p in branchContext.Branch
+                    where p.Branch_Code.Equals(bname,StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
+
+
+        public IEnumerable<Branch> _ExporttoExcel()
+        {
+            //var data = branchDb._ExporttoExcel(branch);
+            return (from e in branchContext.Branch
+                    select e);
+
+            //e.Branch_Code,
+            //e.Branch_Name,
+            //e.Address1,
+            //e.Address2,
+            //e.Address3,
+            //e.Country_ID,
+            //e.State_ID,
+            //e.City_ID,
+            //e.Pin_Code,
+            //e.Order_Num,
+            //e.IsActive);
+            //try
+            //  {
+            //      branchContext.Database.Connection.Open();
+            //      // Run the sproc  
+            //      //var reader = cmd.ExecuteReader();
+
+            //      var result = ((IObjectContextAdapter)branchContext)
+            //      //    .ObjectContext
+            //      //    .Translate<Branch>(reader, "Branch", MergeOption.AppendOnly);
+
+
+            //      foreach (var item in result)
+            //      {
+            //          Branch model = new Branch()
+
+
+            //          {
+
+            //              Branch_Id = item.Branch_Id,
+            //              Branch_Code=item.Branch_Code,
+            //              Branch_Name = item.Branch_Name,
+            //              Address1=item.Address1,
+            //              Address2=item.Address2,
+            //              Address3=item.Address3,
+            //              Country_ID = item.Country_ID,
+            //              State_ID = item.State_ID,
+            //              City_ID = item.City_ID,
+            //              //country = item.country,
+            //              //city = item.city,
+            //              //state = item.state,
+            //              Order_Num = item.Order_Num,
+            //              Pin_Code = item.Pin_Code,
+            //              IsActive = item.IsActive,
+            //              Created_Branc_Id = item.Created_Branc_Id,
+            //              Created_Dte = item.Created_Dte,
+            //              Created_User_Id = item.Created_User_Id,
+            //              Modified_Branch_Id = item.Modified_Branch_Id,
+            //              Modified_Dte = item.Modified_Dte,
+            //              Modified_User_Id = item.Modified_User_Id
+            //          };
+
+            //          qList.Add(model);
+            //      }
+            //}
+            //finally
+            //{
+            //    branchContext.Database.Connection.Close();
+            //}
+
+            //return qList;
+        }
+
 
 
 
@@ -148,6 +291,7 @@ namespace Troy.Data.Repository
         //    var item = (from a in branchContext.Branch
         //                select new BranchList
         //                {
+
         //                    BranchName = a.Branch_Name,
         //                    BranchId = a.Branch_Id
         //                }).ToList();
@@ -163,8 +307,6 @@ namespace Troy.Data.Repository
                         {
                             ID = a.ID,
                             Country_Name = a.Country_Name
-
-
                             //BranchId = a.Branch_Id
                         }).ToList();
 
@@ -188,8 +330,8 @@ namespace Troy.Data.Repository
             var item = (from a in branchContext.city
                         select new CityList
                         {
-                            ID=a.ID,
-                            City_Name=a.City_Name
+                            ID = a.ID,
+                            City_Name = a.City_Name
                         }).ToList();
 
             return item;
@@ -222,11 +364,14 @@ namespace Troy.Data.Repository
                 branchContext.SaveChanges();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ExceptionHandler.LogException(ex);
                 return false;
             }
         }
+
+
+
     }
 }

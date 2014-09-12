@@ -68,13 +68,13 @@
                 }
                 if (this.id == 'Country') {
                     $('#SearchQuery').removeAttr("disabled", "disabled");
-                    Id = 'Country_ID';
+                    Id = 'Country_Name';
                     $('#SearchColumn').val(Id);
                     $('#SearchBySpan').text(Id);
                 }
                 if (this.id == 'State') {
                     $('#SearchQuery').removeAttr("disabled", "disabled");
-                    Id = 'State_ID';
+                    Id = 'State_Name';
                     $('#SearchColumn').val(Id);
                     $('#SearchBySpan').text(Id);
                 }
@@ -138,9 +138,9 @@
             }
 
             var formData = new FormData($('form')[0]);
-
+            var dataurl = "/Branch/index";
             $.ajax({
-                url: 'Branch',
+                url: dataurl,
                 type: 'POST',
                 xhr: function () {
                     var myXhr = $.ajaxSettings.xhr();
@@ -295,11 +295,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (Troy.Model.Branches.Branch item in Model.BranchList)
+                            @foreach (Troy.Model.Branches.ViewBranches item in Model.BranchList)
                             {
                                 <tr class="odd">
                                     <td>
                                         @item.Branch_Code
+                                       
                                     </td>
                                   
                                     <td>
@@ -309,13 +310,13 @@
                                         @item.Address1
                                     </td>
                                     <td>
-                                        @item.Country_ID
+                                        @item.Country_Name
                                     </td>
                                     <td>
-                                        @item.State_ID
+                                        @item.State_Name
                                     </td>
                                     <td>
-                                        @item.City_ID
+                                        @item.City_Name
                                     </td>
                                     <td>
                                         @item.Order_Num

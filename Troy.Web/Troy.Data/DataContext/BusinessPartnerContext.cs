@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Troy.Model.BusinessPartner;
+//using Troy.Model.BusinessPartner;
 using Troy.Model.Groups;
 using Troy.Model.PriceLists;
 using Troy.Model.Ledgers;
@@ -13,6 +13,7 @@ using Troy.Model.Countries;
 using Troy.Model.States;
 using Troy.Model.Branches;
 using Troy.Model.Employees;
+using Troy.Model.BusinessPartner;
 
 namespace Troy.Data.DataContext
 {
@@ -22,7 +23,7 @@ namespace Troy.Data.DataContext
             : base("DefaultConnection")
         { }
 
-        public DbSet<Group> Group { get; set; }              
+        public DbSet<Group> Group { get; set; }
 
         public DbSet<BusinessPartner> BusinessPartner { get; set; }
         

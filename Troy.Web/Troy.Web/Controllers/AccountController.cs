@@ -22,23 +22,9 @@ namespace Troy.Web.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
+     
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
+     
 
         //
         // GET: /Account/Login
@@ -100,10 +86,10 @@ namespace Troy.Web.Controllers
             {
                 return View("Error");
             }
-            var user = await UserManager.FindByIdAsync(await SignInManager.GetVerifiedUserIdAsync());
+            var user = await _userManager.FindByIdAsync(await SignInManager.GetVerifiedUserIdAsync());
             if (user != null)
             {
-                var code = await UserManager.GenerateTwoFactorTokenAsync(user.Id, provider);
+                var code = await _userManager.GenerateTwoFactorTokenAsync(user.Id, provider);
             }
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
@@ -156,7 +142,7 @@ namespace Troy.Web.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.UserName };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -185,7 +171,7 @@ namespace Troy.Web.Controllers
             {
                 return View("Error");
             }
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
+            var result = await _userManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
@@ -206,8 +192,8 @@ namespace Troy.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.UserName);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                var user = await _userManager.FindByNameAsync(model.UserName);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -252,13 +238,13 @@ namespace Troy.Web.Controllers
             {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.UserName);
+            var user = await _userManager.FindByNameAsync(model.UserName);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
-            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+            var result = await _userManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
@@ -296,7 +282,7 @@ namespace Troy.Web.Controllers
             {
                 return View("Error");
             }
-            var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
+            var userFactors = await _userManager.GetValidTwoFactorProvidersAsync(userId);
             var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
@@ -372,10 +358,10 @@ namespace Troy.Web.Controllers
                     return View("ExternalLoginFailure");
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user);
+                var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
-                    result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                    result = await _userManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
