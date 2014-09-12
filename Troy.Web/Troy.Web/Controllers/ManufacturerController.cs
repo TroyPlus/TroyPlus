@@ -88,6 +88,14 @@ namespace Troy.Web.Controllers
                     model.Manufacturer.Modified_Dte = DateTime.Now;
                     model.Manufacturer.Modified_Branch_Id = 1;
 
+                    if (manufactureDb.AddNewManufacturer(model.Manufacturer))
+                    {
+                        return RedirectToAction("Index", "Manufacturer");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Manufacturer Not Saved");
+                    }
 
                     Guid GuidRandomNo = Guid.NewGuid();
                     string UniqueID = GuidRandomNo.ToString();
@@ -101,18 +109,10 @@ namespace Troy.Web.Controllers
                         return RedirectToAction("Index", "Manufacturer");
                     }
 
-
-
+                    
                     //string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(xmlAddManufacture);            
 
-                    if (manufactureDb.AddNewManufacturer(model.Manufacturer))
-                    {
-                        return RedirectToAction("Index", "Manufacturer");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "Manufacturer Not Saved");
-                    }
+                   
                 }
                 else if (submitButton == "Update")
                 {
@@ -314,7 +314,7 @@ namespace Troy.Web.Controllers
                                         mlist.Add(mItem);
                                     }
 
-                                    if (manufactureDb.InsertFileUploadDetails(mlist)) 
+                                    if (manufactureDb.InsertFileUploadDetails(mlist))
                                     {
                                         //System.IO.File.Delete(fileLocation);
                                         return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
