@@ -27,7 +27,7 @@ namespace Troy.Data.Repository
 
         bool AddBulkManufacturer(Object obj);
 
-        //Manufacture GenerateXML(Object obj);
+        bool GenerateXML(Object obj);
 
     }
 }

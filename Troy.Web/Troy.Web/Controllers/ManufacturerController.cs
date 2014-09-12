@@ -96,10 +96,12 @@ namespace Troy.Web.Controllers
                     xmlAddManufacture.UniqueID = UniqueID.ToString();
                     xmlAddManufacture.manufacturer_Name = model.Manufacturer.Manufacturer_Name;
 
-                    //if (manufactureDb.GenerateXML(xmlAddManufacture))
-                    //{
-                    //    return RedirectToAction("Index", "Manufacturer");
-                    //}
+                    if (manufactureDb.GenerateXML(xmlAddManufacture))
+                    {
+                        return RedirectToAction("Index", "Manufacturer");
+                    }
+
+
 
                     //string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(xmlAddManufacture);            
 

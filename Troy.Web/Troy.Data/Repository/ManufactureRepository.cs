@@ -184,18 +184,18 @@ namespace Troy.Data.Repository
             }
         }
 
-        //public Manufacture GenerateXML(Object obj)
-        //{
-        //    try
-        //    {
-        //        string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
-        //        return data;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ExceptionHandler.LogException(ex);
-        //        //return false;
-        //    }
-        //}
+        public bool GenerateXML(Object obj)
+        {
+            try
+            {
+                string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                return false;
+            }
+        }
     }
 }
