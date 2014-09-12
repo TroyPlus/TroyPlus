@@ -334,25 +334,32 @@ namespace Troy.Web.Controllers
        
 
           //Check for dupilicate
-        public JsonResult CheckForDuplication(Branch branch, [Bind(Prefix = "Branch.Branch_Code")]string Branch_Code,string code)
+        public JsonResult CheckForDuplication(Branch branch, [Bind(Prefix = "Branch.Branch_Code")]string Branch_Code)
               //public JsonResult CheckForDuplication(string Branch_Code,string code)
       
         {
-            BranchViewModels bvm = new BranchViewModels();
-            bvm.code=Branch_Code.ToString();
+          
 
-
-            var data = branchDb. CheckDuplicateName(Branch_Code);
-           
-            //var data1 = branchDb.CheckDuplicateName(code);
-            if (data != null)
+            if (branch.Branch_Code == Branch_Code)
             {
-                return Json("Sorry, Branch Code already exists", JsonRequestBehavior.AllowGet);
+                return Json(true, JsonRequestBehavior.AllowGet);
+
             }
             else
             {
-                return Json(true, JsonRequestBehavior.AllowGet);
+                var data = branchDb.CheckDuplicateName(Branch_Code);
+                if (data != null)
+                {
+                    return Json("Sorry, Branch Code already exists", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
             }
+           
+            //var data1 = branchDb.CheckDuplicateName(code);
+            
         }
 
        

@@ -55,11 +55,14 @@
                                         </div>
                                             <div class="col-md-8">
                                                 
-                                                @Html.TextBoxFor(model => model.Branch.Branch_Code, new { @readonly = "readonly", @class = "form-control control-text" })
+                                                @Html.TextBoxFor(model => model.Branch.Branch_Code, new { @disabled= "disabled",  @class = "form-control control-text" })
                                                 
+                                                @*@Html.EditorFor(model => model.Branch.Branch_Code, new { @readonly = "readonly", @disabled= "disabled", @class = "form-control control-text" })*@
+
                                                 @Html.ValidationMessageFor(model => model.Branch.Branch_Code)
-                                                @*@Html.HiddenFor( model.Branch.Branch_Code)*@  
-                                                @*@Html.HiddenFor( model => model.Branch.Branch_Code)*@    
+
+
+                                                @*@Html.HiddenFor(model => model.Branch.Branch_Id)*@    
                                                 @*@Html.Hidden("code",model => model.Branch_code)*@                               
                                             </div>
                                        
