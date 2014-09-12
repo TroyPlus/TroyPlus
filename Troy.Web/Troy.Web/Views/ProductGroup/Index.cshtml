@@ -60,7 +60,7 @@
                 $('#SearchBySpan').text(Id);
             }
             if (this.id == 'IsActive') {
-                $('#SearchQuery').removeAttr("disabled", "disabled").datepicker();
+                $('#SearchQuery').removeAttr("disabled", "disabled");
                 Id = 'IsActive';
                 $('#SearchColumn').val(Id);
                 $('#SearchBySpan').text(Id);
@@ -102,8 +102,10 @@
 
         var formData = new FormData($('form')[0]);
 
+        var dataurl = "/ProductGroup/index";
+
         $.ajax({
-            url: 'Manufacturer',
+            url: dataurl,
             type: 'POST',
             xhr: function () {
                 var myXhr = $.ajaxSettings.xhr();
@@ -178,14 +180,16 @@
                                 <span id="SearchBySpan">Search By</span><span class="caret"></span>
                             </button>
                             <ul id="searchUL" class="dropdown-menu" role="menu" aria-labelledby="SearchBy">
-                                <li id="Vendor" role="presentation">
+                                <li id="Name" role="presentation">
                                     <a onclick="" role="menuitem" tabindex="-1"
                                        href="#">Name</a>
                                 </li>
-                                <li role="presentation">
+                                @*<li role="presentation">
                                     <a role="menuitem" tabindex="-1"
                                        href="#">Level</a>
-                                </li>
+                                </li>*@
+                                <li id="Level" role="presentation"><a role="menuitem" tabindex="-1" href="#">Level</a></li>
+                                <li id="IsActive" role="presentation"><a role="menuitem" tabindex="-1" href="#">IsActive</a></li>
                             </ul>
                         </div>
                     </div>
@@ -248,11 +252,11 @@
                                     @item.IsActive
                                 </td>
                                 <td>
-                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Product_Group_Id);">
+                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewProductGroup(@item.Product_Group_Id);">
                                         <img src="@Url.Content("../Content/images/application_view_detail.png")" />
                                     </a>
                                     <span class="text-muted">|</span>
-                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Product_Group_Id);">
+                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditProductGroup(@item.Product_Group_Id);">
                                         <img src="@Url.Content("../Content/images/pencil.png")" />
                                     </a>
                                     <span class="text-muted">|</span>

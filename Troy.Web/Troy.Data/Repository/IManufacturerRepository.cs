@@ -12,20 +12,22 @@ namespace Troy.Data.Repository
         List<Manufacture> GetAllManufacturer();
 
         List<Manufacture> GetFilterManufacturer(string searchColumn, string searchString, Guid userId);
-
-
+        
         Manufacture FindOneManufacturerById(int qId);
 
         //  List<BranchList> GetAddressList();
 
         Manufacture CheckDuplicateName(string mManu_Name);
 
-        bool InsertFileUploadDetails(List<Manufacture> manufacture);
+        bool InsertFileUploadDetails(List<Manufacture> manufacturer);
 
         bool AddNewManufacturer(Manufacture manufacturer);
 
         bool EditExistingManufacturer(Manufacture manufacturer);
 
+        bool AddBulkManufacturer(Object obj);
+
+        //Manufacture GenerateXML(Object obj);
 
     }
 }

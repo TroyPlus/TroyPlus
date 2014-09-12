@@ -83,8 +83,6 @@
 
         var url = $('#editModal').data('url') + '/' + id;
 
-        //debugger;
-
         $.get(url, function (data) {
 
             $('#editmodelcontainer').html(data);
@@ -104,8 +102,49 @@
         });
     }
 
-    function IFrameSubmit() {
+    //function IFrameSubmit() {
 
+    //    debugger;
+
+    //    var fileSelected = $('#FileUpload').val();
+    //    if (fileSelected == '') {
+    //        alert('Please choose the Excel to Upload');
+    //        return false;
+    //    }
+
+    //    var formData = new FormData($('form')[0]);
+
+    //    $.ajax({
+    //        url: 'Manufacturer',
+    //        type: 'POST',
+    //        xhr: function () {
+    //            var myXhr = $.ajaxSettings.xhr();
+    //            return myXhr;
+    //        },
+    //        data: formData,
+    //        cache: false,
+    //        contentType: false,
+    //        processData: false,
+    //        success: function (data) {
+    //            debugger;
+    //            if (data.success == "true") {
+    //                alert(data.Message);
+                  
+    //            }
+    //            else {
+    //                debugger
+    //                alert(data.Error);
+    //            }
+    //        },
+    //        error: function (request, status, error) {
+    //            alert(request.responseText);
+    //        }
+    //    });      
+    //}
+
+    function IFrameManuSubmit()
+    {
+        //debugger;
         var fileSelected = $('#FileUpload').val();
         if (fileSelected == '') {
             alert('Please choose the Excel to Upload');
@@ -114,8 +153,10 @@
 
         var formData = new FormData($('form')[0]);
 
+        var dataurl ="/Manufacturer/index" ;
+
         $.ajax({
-            url: 'Manufacturer',
+            url: dataurl,
             type: 'POST',
             xhr: function () {
                 var myXhr = $.ajaxSettings.xhr();
@@ -126,9 +167,10 @@
             contentType: false,
             processData: false,
             success: function (data) {
-
-                if (data.success == "true") {
+                //debugger;
+                if (data.success == true) {
                     alert(data.Message);
+                    window.location.reload();
                 }
                 else {
                     alert(data.Error);
@@ -137,8 +179,8 @@
             error: function (request, status, error) {
                 alert(request.responseText);
             }
-        });      
-    }  
+        });
+    }
 
     $.validator.unobtrusive.parse('#myModal form');
 
@@ -351,7 +393,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
+                        @*<input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />*@
+                        <input class="btn btn-primary pull-left" type="button" id="manufactureUpload" name="FileUploadButton" value="Upload" onclick="IFrameManuSubmit();" />
                         <button class="btn pull-left" data-dismiss="modal">Close</button>
                         @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
                     </div>

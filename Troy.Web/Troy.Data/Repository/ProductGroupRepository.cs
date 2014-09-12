@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
@@ -17,7 +18,6 @@ namespace Troy.Data.Repository
     public class ProductGroupRepository : BaseRepository, IProductGroupRepository
     {
         private ProductGroupContext ProductGroupContext = new ProductGroupContext();
-
 
         public List<ProductGroup> GetAllProductGroup()
         {
@@ -43,18 +43,19 @@ namespace Troy.Data.Repository
 
             var cmd = ProductGroupContext.Database.Connection.CreateCommand();
             cmd.CommandText = "[dbo].[USP_GetProductGroup]";
+            cmd.CommandType = CommandType.StoredProcedure;
 
-            var searchParam = new SqlParameter();
-            searchParam.ParameterName = "@SearchColumn";
-            searchParam.SqlDbType = SqlDbType.NVarChar;
-            searchParam.SqlValue = searchColumn;
-            //searchParam.ParameterDirection = ParameterDirection.Output;
+            //var searchParam = new SqlParameter();
+            //searchParam.ParameterName = "@SearchColumn";
+            //searchParam.SqlDbType = SqlDbType.NVarChar;
+            //searchParam.SqlValue = searchColumn;
+            ////searchParam.ParameterDirection = ParameterDirection.Output;
 
-            var stringParam = new SqlParameter();
-            stringParam.ParameterName = "@SearchString";
-            stringParam.SqlDbType = SqlDbType.NVarChar;
-            stringParam.SqlValue = searchString;
-            //stringParam.ParameterDirection = ParameterDirection.Output;
+            //var stringParam = new SqlParameter();
+            //stringParam.ParameterName = "@SearchString";
+            //stringParam.SqlDbType = SqlDbType.NVarChar;
+            //stringParam.SqlValue = searchString;
+            ////stringParam.ParameterDirection = ParameterDirection.Output;
 
             //cmd.Parameters.Add(searchParam);
             //cmd.Parameters.Add(stringParam);
@@ -81,6 +82,7 @@ namespace Troy.Data.Repository
                         Product_Group_Id = item.Product_Group_Id,
                         Product_Group_Name = item.Product_Group_Name,
                         Level = item.Level,
+                        IsActive=item.IsActive,
                         Created_Branc_Id = item.Created_Branc_Id,
                         Created_Dte = item.Created_Dte,
                         Created_User_Id = item.Created_User_Id,
@@ -114,6 +116,12 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
+        public ProductGroup CheckDuplicateName(string mProdGrp_Name)
+        {
+            return (from p in ProductGroupContext.ProductGroup
+                    where p.Product_Group_Name.Equals(mProdGrp_Name, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
 
         public bool AddNewProductGroup(ProductGroup ProductGroup)
         {
@@ -132,12 +140,46 @@ namespace Troy.Data.Repository
             }
         }
 
+        public bool AddBulkProductGroup(Object obj)
+        {
+            //manufactureContext.Manufacture.Add(obj);
+            return true;
+        }
+        
+        public bool EditExistingProductGroup(ProductGroup ProductGroup)
+        {
+            try
+            {
+                ProductGroupContext.Entry(ProductGroup).State = EntityState.Modified;
+                ProductGroupContext.SaveChanges();
 
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                return false;
+            }
+        }
 
         public bool InsertFileUploadDetails(List<ProductGroup> ProductGroup)
         {
             throw new NotImplementedException();
         }
 
+        //public ProductGroup GenerateXML(Object obj)
+        //{
+        //    try
+        //    {
+        //        string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
+        //        //return data;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ExceptionHandler.LogException(ex);
+        //        //return false;
+        //    }
+        //}
+       
     }
 }

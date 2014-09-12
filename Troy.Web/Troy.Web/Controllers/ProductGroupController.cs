@@ -12,6 +12,7 @@ using Troy.Data.Repository;
 using Troy.Model.ProductGroup;
 using Troy.Web.Models;
 using Troy.Utilities.CrossCutting;
+using Troy.Model.AppMembership;
 #endregion
 namespace Troy.Web.Controllers
 {
@@ -44,9 +45,9 @@ namespace Troy.Web.Controllers
                 ProductGroupViewModels model = new ProductGroupViewModels();
                 model.ProductGroupList = qList;
 
-                var ProductGroupList = ProductGroupDb.GetAllProductGroup().ToList();
+                //var ProductGroupList = ProductGroupDb.GetAllProductGroup().ToList();
 
-                model.ProductGroupList = ProductGroupList;
+                //model.ProductGroupList = ProductGroupList;
                 return View(model);
             }
             catch (Exception ex)
@@ -57,13 +58,29 @@ namespace Troy.Web.Controllers
             }
         }
 
+        public JsonResult CheckForDuplication(ProductGroup productgroup, [Bind(Prefix = "ProductGroup.Product_Group_Name")]string Product_Group_Name)
+        {
+            var data = ProductGroupDb.CheckDuplicateName(Product_Group_Name);
+            if (data != null)
+            {
+                return Json("Sorry, Product Group Name already exists", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         [HttpPost]
-        public ActionResult Index(string submitButton, ProductGroupViewModels model, HttpPostedFileBase file, string posting, string required, string valid)
+        public ActionResult Index(string submitButton, ProductGroupViewModels model, HttpPostedFileBase file)
         {
             try
             {
                 if (submitButton == "Save")
                 {
+                    ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
                     model.ProductGroup.IsActive = "Y";
                     model.ProductGroup.Created_Branc_Id = 1;
                     model.ProductGroup.Created_Dte = DateTime.Now;
@@ -72,6 +89,19 @@ namespace Troy.Web.Controllers
                     model.ProductGroup.Modified_Dte = DateTime.Now;
                     model.ProductGroup.Modified_Branch_Id = 1;
 
+                    Guid GuidRandomNo = Guid.NewGuid();
+                    string UniqueID = GuidRandomNo.ToString();
+
+                    Viewmodel_AddProductGroup xmlAddProductGroup = new Viewmodel_AddProductGroup();
+                    xmlAddProductGroup.UniqueID = UniqueID.ToString();
+                    xmlAddProductGroup.Productgroup_Name = model.ProductGroup.Product_Group_Name;
+
+                    //if (ProductGroupDb.GenerateXML(xmlAddProductGroup))
+                    //{
+                    //    return RedirectToAction("Index", "ProductGroup");
+                    //}
+
+                    //string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(xmlAddProductGroup);        
 
                     if (ProductGroupDb.AddNewProductGroup(model.ProductGroup))
                     {
@@ -79,7 +109,26 @@ namespace Troy.Web.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Quotation Not Saved");
+                        ModelState.AddModelError("", "Product Group Not Saved");
+                    }
+                }
+                else if (submitButton == "Update")
+                {
+                    model.ProductGroup.Created_Branc_Id = 1;
+                    model.ProductGroup.Created_Dte = DateTime.Now;
+                    model.ProductGroup.Created_User_Id = 1;  //GetUserId()
+                    model.ProductGroup.Modified_User_Id = 1;
+                    model.ProductGroup.Modified_Dte = DateTime.Now;
+                    model.ProductGroup.Modified_Branch_Id = 1;
+
+
+                    if (ProductGroupDb.EditExistingProductGroup(model.ProductGroup))
+                    {
+                        return RedirectToAction("Index", "ProductGroup");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Product Group Not Updated");
                     }
                 }
                 else if (submitButton == "Search")
@@ -141,73 +190,175 @@ namespace Troy.Web.Controllers
                                 t++;
                             }
 
-                            for (int k = 0; k < dt.Rows.Count; k++)
+                            DataSet ds = new DataSet();
+
+                            OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
+
+                            exquery = string.Format("Select * from [{0}]", excelSheets[0]);
+                            using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
                             {
-                                DataSet ds = new DataSet();
-                                int sheets = k + 1;
+                                dataAdapter.Fill(ds);
+                            }
 
-                                OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
-
-                                exquery = string.Format("Select * from [{0}]", excelSheets[k]);
-                                using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
+                            if (ds != null)
+                            {
+                                #region Check ProductGroup Name
+                                foreach (DataRow dr in ds.Tables[0].Rows)
                                 {
-                                    dataAdapter.Fill(ds);
-                                }
-
-                                if (ds != null)
-                                {
-                                    if (ds.Tables[0].Rows.Count > 0)
+                                    string mExcelProdGroup_Name = Convert.ToString(dr["Product_Group_Name"]);
+                                    if (mExcelProdGroup_Name != null && mExcelProdGroup_Name != "")
                                     {
-                                        List<ProductGroup> mlist = new List<ProductGroup>();
-
-                                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                                        var data = ProductGroupDb.CheckDuplicateName(mExcelProdGroup_Name);
+                                        if (data != null)
                                         {
-                                            ProductGroup mItem = new ProductGroup();
-                                            if (ds.Tables[0].Rows[i]["Product_Group_Name"] != null)
-                                            {
-                                                mItem.Product_Group_Name = ds.Tables[0].Rows[i]["Product_Group_Name"].ToString();
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "ProductGroup name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-
-                                            if (ds.Tables[0].Rows[i]["Level"] != null)
-                                            {
-                                                mItem.Level = Convert.ToInt32(ds.Tables[0].Rows[i]["Level"]);
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "Level field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-                                            if (ds.Tables[0].Rows[i]["IsActive"] != null)
-                                            {
-                                                mItem.IsActive = ds.Tables[0].Rows[i]["IsActive"].ToString();
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "IsActive field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-                                            mItem.Created_User_Id = 1; //GetUserId();
-                                            mItem.Created_Branc_Id = 2; //GetBranchId();
-                                            mItem.Created_Dte = DateTime.Now;
-                                            mItem.Modified_User_Id = 2; //GetUserId();
-                                            mItem.Modified_Branch_Id = 2; //GetBranchId();
-                                            mItem.Modified_Dte = DateTime.Now;
-                                            mlist.Add(mItem);
-                                        }
-
-                                        if (ProductGroupDb.InsertFileUploadDetails(mlist))
-                                        {
-                                            return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
+                                            return Json(new { success = true, Message = "Product Group Name: " + mExcelProdGroup_Name + " - already exists in the master." }, JsonRequestBehavior.AllowGet);
                                         }
                                     }
                                     else
                                     {
-                                        return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
+                                        return Json(new { success = false, Error = "Product Group Name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                     }
                                 }
+                                #endregion
+
+                                #region Check Level
+                                foreach (DataRow dr in ds.Tables[0].Rows)
+                                {
+                                    if (dr["Level"].ToString() != null && dr["Level"].ToString() != "")
+                                    {
+                                        int mExcelProdGrp_Level = Convert.ToInt32(dr["Level"]);
+                                        if (mExcelProdGrp_Level >= 0 && mExcelProdGrp_Level <= 100)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            return Json(new { success = true, Message = "Allowed range for Level is 0 to 100" }, JsonRequestBehavior.AllowGet);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        return Json(new { success = false, Error = "Level cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                                #endregion
+
+                                # region Already exists in sheet
+                                int i = 1;
+                                int ii = 1;
+                                string itemc = string.Empty;
+                                foreach (DataRow dr in ds.Tables[0].Rows)
+                                {
+                                    itemc = Convert.ToString(dr["Product_Group_Name"]);
+
+                                    if ((itemc == null) || (itemc == ""))
+                                    {
+                                    }
+                                    else
+                                    {
+                                        foreach (DataRow drd in ds.Tables[0].Rows)
+                                        {
+                                            if (ii == i)
+                                            {
+                                            }
+                                            else
+                                            {
+                                                if (itemc == Convert.ToString(drd["Product_Group_Name"]))
+                                                {
+                                                    return Json(new { success = true, Message = "Product Group Name: " + itemc + " - already exists in the excel." }, JsonRequestBehavior.AllowGet);
+                                                }
+                                            }
+                                            ii = ii + 1;
+                                        }
+                                    }
+                                    i = i + 1;
+                                    ii = 1;
+                                }
+                                #endregion
+
+                                #region BulkInsert
+                                var data1 = ProductGroupDb.AddBulkProductGroup(ds);
+                                if (data1 != null)
+                                {
+                                    return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
+                                }
+                                #endregion
+
                             }
+                            else
+                            {
+                                return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
+                            }
+
+                            #region OLD Code
+                            //for (int k = 0; k < dt.Rows.Count; k++)
+                            //{
+                            //    DataSet ds = new DataSet();
+                            //    int sheets = k + 1;
+
+                            //    OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
+
+                            //    exquery = string.Format("Select * from [{0}]", excelSheets[k]);
+                            //    using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
+                            //    {
+                            //        dataAdapter.Fill(ds);
+                            //    }
+
+                            //    if (ds != null)
+                            //    {
+                            //        if (ds.Tables[0].Rows.Count > 0)
+                            //        {
+                            //            List<ProductGroup> mlist = new List<ProductGroup>();
+
+                            //            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            //            {
+                            //                ProductGroup mItem = new ProductGroup();
+                            //                if (ds.Tables[0].Rows[i]["Product_Group_Name"] != null)
+                            //                {
+                            //                    mItem.Product_Group_Name = ds.Tables[0].Rows[i]["Product_Group_Name"].ToString();
+                            //                }
+                            //                else
+                            //                {
+                            //                    return Json(new { success = false, Error = "ProductGroup name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                            //                }
+
+                            //                if (ds.Tables[0].Rows[i]["Level"] != null)
+                            //                {
+                            //                    mItem.Level = Convert.ToInt32(ds.Tables[0].Rows[i]["Level"]);
+                            //                }
+                            //                else
+                            //                {
+                            //                    return Json(new { success = false, Error = "Level field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
+                            //                }
+                            //                if (ds.Tables[0].Rows[i]["IsActive"] != null)
+                            //                {
+                            //                    mItem.IsActive = ds.Tables[0].Rows[i]["IsActive"].ToString();
+                            //                }
+                            //                else
+                            //                {
+                            //                    return Json(new { success = false, Error = "IsActive field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
+                            //                }
+                            //                mItem.Created_User_Id = 1; //GetUserId();
+                            //                mItem.Created_Branc_Id = 2; //GetBranchId();
+                            //                mItem.Created_Dte = DateTime.Now;
+                            //                mItem.Modified_User_Id = 2; //GetUserId();
+                            //                mItem.Modified_Branch_Id = 2; //GetBranchId();
+                            //                mItem.Modified_Dte = DateTime.Now;
+                            //                mlist.Add(mItem);
+                            //            }
+
+                            //            if (ProductGroupDb.InsertFileUploadDetails(mlist))
+                            //            {
+                            //                return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
+                            //            }
+                            //        }
+                            //        else
+                            //        {
+                            //            return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
+                            //        }
+                            //    }
+                            //}
+                            #endregion
                         }
                     }
                     catch (Exception ex)

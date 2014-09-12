@@ -1,12 +1,12 @@
-﻿@model Troy.Web.Models.ManufacturerViewModels
+﻿@model Troy.Web.Models.ProductGroupViewModels
 
 @Scripts.Render("~/bundles/jqueryval")
 
 <script type="text/javascript">
-    
+
 </script>
 
-@using (Html.BeginForm("Index", "Manufacturer"))
+@using (Html.BeginForm("Index", "ProductGroup"))
 {
 
     @Html.ValidationSummary(true)
@@ -15,7 +15,7 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Edit Manufacturer</h4>
+                <h4 class="modal-title" id="myModalLabel">Edit ProductGroup</h4>
             </div>
 
             <div class="modal-body">
@@ -33,26 +33,27 @@
                         <div id="editTabContent" class="tab-content">
 
                             <div class="tab-pane fade in active" id="editdefault">
+
                                 <br />
                                 <div class="col-md-6">
-                                    @Html.HiddenFor(model => model.Manufacturer.Manufacturer_Id, new { @class = "form-control control-text" })     
-                                    @*@Html.HiddenFor(model => model.Manufacturer.Manufacturer_Name, new { @class = "form-control control-text" })*@                                                                   
+                                    @Html.HiddenFor(model => model.ProductGroup.Product_Group_Id, new { @class = "form-control control-text" })
+                                    
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Manufacturer Name:
+                                            ProductGroup Name:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.Manufacturer.Manufacturer_Name, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.Manufacturer.Manufacturer_Name)
+                                            @Html.TextBoxFor(model => model.ProductGroup.Product_Group_Name, new { @class = "form-control control-text" })
+                                            @Html.ValidationMessageFor(model => model.ProductGroup.Product_Group_Name)
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Manufacturer Level:
+                                            ProductGroup Level:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.Manufacturer.Level, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.Manufacturer.Level)
+                                            @Html.TextBoxFor(model => model.ProductGroup.Level, new { @class = "form-control control-text" })
+                                            @Html.ValidationMessageFor(model => model.ProductGroup.Level)
                                         </div>
                                     </div>
                                     <div class="row">
@@ -60,9 +61,9 @@
                                             Is Active:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.RadioButtonFor(model => model.Manufacturer.IsActive, "Y", new { id = "Y" }) YES
-                                            @Html.RadioButtonFor(model => model.Manufacturer.IsActive, "N", new { id = "N" }) NO
-                                            @Html.ValidationMessageFor(model => model.Manufacturer.IsActive)
+                                            @Html.RadioButtonFor(model => model.ProductGroup.IsActive, "Y", new { id = "Y" }) YES
+                                            @Html.RadioButtonFor(model => model.ProductGroup.IsActive, "N", new { id = "N" }) NO
+                                            @Html.ValidationMessageFor(model => model.ProductGroup.IsActive)
                                         </div>
                                     </div>
                                 </div>
@@ -73,12 +74,12 @@
             </div>
 
             <div class="modal-footer">
-                <input class="btn btn-primary pull-left" type="submit" name="submitButton" value="Update" />
+                <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
                 <button class="btn pull-left" data-dismiss="modal">Close</button>
                 @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
             </div>
+
         </div>
     </div>
 }
-
 
