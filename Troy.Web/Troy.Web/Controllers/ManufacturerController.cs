@@ -8,6 +8,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Text;
+using System.IO;
+using System.Web.UI.WebControls;
+using System.Web.UI;
 using Troy.Data.Repository;
 using Troy.Model.Manufacturer;
 using Troy.Web.Models;
@@ -56,9 +60,9 @@ namespace Troy.Web.Controllers
                 return View("Error");
             }
         }
-
-
-        //---- check unique key-------          
+        
+        //---- check unique key-------   
+      
         public JsonResult CheckForDuplication(Manufacture manufacture, [Bind(Prefix = "Manufacturer.Manufacturer_Name")]string Manufacturer_Name)
         {
             var data = manufactureDb.CheckDuplicateName(Manufacturer_Name);
@@ -90,7 +94,7 @@ namespace Troy.Web.Controllers
 
                     if (manufactureDb.AddNewManufacturer(model.Manufacturer))
                     {
-                        return RedirectToAction("Index", "Manufacturer");
+                        //return RedirectToAction("Index", "Manufacturer");
                     }
                     else
                     {
@@ -116,6 +120,8 @@ namespace Troy.Web.Controllers
                 }
                 else if (submitButton == "Update")
                 {
+                    var Temp_manufacture = TempData["oldManufacter_Name"];
+
                     model.Manufacturer.Created_Branc_Id = 1;
                     model.Manufacturer.Created_Dte = DateTime.Now;
                     model.Manufacturer.Created_User_Id = 1;  //GetUserId()
@@ -126,11 +132,24 @@ namespace Troy.Web.Controllers
 
                     if (manufactureDb.EditExistingManufacturer(model.Manufacturer))
                     {
-                        return RedirectToAction("Index", "Manufacturer");
+                       // return RedirectToAction("Index", "Manufacturer");
                     }
                     else
                     {
                         ModelState.AddModelError("", "Manufacturer Not Updated");
+                    }
+
+                    Guid GuidRandomNo = Guid.NewGuid();
+                    string UniqueID = GuidRandomNo.ToString();
+
+                    Viewmodel_ModifyManufacturer xmlEditManufacture = new Viewmodel_ModifyManufacturer();
+                    xmlEditManufacture.UniqueID = UniqueID.ToString();
+                    xmlEditManufacture.old_manufacturer_Name = Temp_manufacture.ToString().Trim();
+                    xmlEditManufacture.New_manufacturer_Name = model.Manufacturer.Manufacturer_Name;
+
+                    if (manufactureDb.GenerateXML(xmlEditManufacture))
+                    {
+                        return RedirectToAction("Index", "Manufacturer");
                     }
                 }
                 else if (submitButton == "Search")
@@ -310,7 +329,8 @@ namespace Troy.Web.Controllers
                                         mItem.Created_Dte = DateTime.Now;
                                         mItem.Modified_User_Id = 2; //GetUserId();
                                         mItem.Modified_Branch_Id = 2; //GetBranchId();
-                                        mItem.Modified_Dte = DateTime.Now;
+                                        mItem.Modified_Dte = DateTime.Now;                                       
+
                                         mlist.Add(mItem);
                                     }
 
@@ -420,6 +440,45 @@ namespace Troy.Web.Controllers
 
 
         }
+
+        public ActionResult _ExporttoExcel()
+        {
+            var manufacture = manufactureDb.GetAllManufacturer().ToList();
+                       
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("ManufacturerID"));
+            dt.Columns.Add(new DataColumn("Manufuacturer Name"));
+            dt.Columns.Add(new DataColumn("Level"));
+            dt.Columns.Add(new DataColumn("Is Active"));
+
+            foreach (var e in manufacture)
+            {
+                DataRow dr_final1 = dt.NewRow();
+                dr_final1["ManufacturerID"] = e.Manufacturer_Id;
+                dr_final1["Manufuacturer Name"] = e.Manufacturer_Name;
+                dr_final1["Level"] = e.Level;
+                dr_final1["Is Active"] = e.IsActive;
+                dt.Rows.Add(dr_final1);
+            }
+
+            System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+            gridvw.DataSource = dt; //bind the datatable to the gridview
+            gridvw.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=ManufactureList.xls");//Microsoft Office Excel Worksheet (.xlsx)
+            Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gridvw.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            return RedirectToAction("Index", "Manufacturer");
+        }
+
         #endregion
 
         #region Partial Views
@@ -434,6 +493,7 @@ namespace Troy.Web.Controllers
             {
                 ManufacturerViewModels model = new ManufacturerViewModels();
                 model.Manufacturer = manufactureDb.FindOneManufacturerById(id);
+                TempData["oldManufacter_Name"] = model.Manufacturer.Manufacturer_Name;
                 return PartialView(model);
             }
             catch (Exception ex)

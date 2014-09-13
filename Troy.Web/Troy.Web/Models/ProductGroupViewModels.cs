@@ -30,8 +30,11 @@ namespace Troy.Web.Models
     }
 
     [XmlRoot("ModifyProductGroup")]
-    public class XMLModifyProductGroup
+    public class Viewmodel_ModifyProductGroup
     {
+        [XmlElement("UID")]
+        public string UniqueID { get; set; }
+
         [XmlElement("OldName")]
         public string old_Productgroup_Name { get; set; }
 

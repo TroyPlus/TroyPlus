@@ -29,7 +29,7 @@ namespace Troy.Web.Models
     }
 
     [XmlRoot("ModifyManufacturer")]
-    public class XMLModifyManufacturer
+    public class Viewmodel_ModifyManufacturer
     {
         [XmlElement("UID")]
         public string UniqueID { get; set; }

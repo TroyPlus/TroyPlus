@@ -28,6 +28,6 @@ namespace Troy.Data.Repository
 
         bool AddBulkProductGroup(Object obj);
 
-        //ProductGroup GenerateXML(Object obj);
+        bool GenerateXML(Object obj);
     }
 }

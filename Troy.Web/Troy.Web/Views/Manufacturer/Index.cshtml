@@ -102,48 +102,9 @@
         });
     }
 
-    //function IFrameSubmit() {
 
-    //    debugger;
 
-    //    var fileSelected = $('#FileUpload').val();
-    //    if (fileSelected == '') {
-    //        alert('Please choose the Excel to Upload');
-    //        return false;
-    //    }
-
-    //    var formData = new FormData($('form')[0]);
-
-    //    $.ajax({
-    //        url: 'Manufacturer',
-    //        type: 'POST',
-    //        xhr: function () {
-    //            var myXhr = $.ajaxSettings.xhr();
-    //            return myXhr;
-    //        },
-    //        data: formData,
-    //        cache: false,
-    //        contentType: false,
-    //        processData: false,
-    //        success: function (data) {
-    //            debugger;
-    //            if (data.success == "true") {
-    //                alert(data.Message);
-                  
-    //            }
-    //            else {
-    //                debugger
-    //                alert(data.Error);
-    //            }
-    //        },
-    //        error: function (request, status, error) {
-    //            alert(request.responseText);
-    //        }
-    //    });      
-    //}
-
-    function IFrameManuSubmit()
-    {
+    function IFrameManuSubmit() {
         //debugger;
         var fileSelected = $('#FileUpload').val();
         if (fileSelected == '') {
@@ -153,7 +114,7 @@
 
         var formData = new FormData($('form')[0]);
 
-        var dataurl ="/Manufacturer/index" ;
+        var dataurl = "/Manufacturer/index";
 
         $.ajax({
             url: dataurl,
@@ -183,7 +144,6 @@
     }
 
     $.validator.unobtrusive.parse('#myModal form');
-
 
 
     function GetValue() {
@@ -219,9 +179,12 @@
                         <img src="@Url.Content("../Content/images/upload-icon.png")" />
                     </a>
                     &nbsp;
-                    <button type="button" class="btn-link">
+                    @* <button type="button" class="btn-link">*@
+
+                    <a href=@Url.Action("_ExporttoExcel", "Manufacturer")>
                         <img src="@Url.Content("../Content/images/table-icon.png")" style="height:32px;width:32px" />
-                    </button>
+                    </a>
+                    @*</button>*@
                     &nbsp;
 
                     @*<a href="@Url.Action("_createpartialview" , "Suppliers" )" data-modal="true" class="top-right">*@
@@ -248,9 +211,9 @@
                                        href="#">Name</a>
                                 </li>
                                 @*<li role="presentation">
-                                    <a role="menuitem" tabindex="-1"
-                                       href="#">Level</a>                                   
-                                </li>*@
+                                        <a role="menuitem" tabindex="-1"
+                                           href="#">Level</a>
+                                    </li>*@
                                 <li id="Level" role="presentation"><a role="menuitem" tabindex="-1" href="#">Level</a></li>
                                 <li id="IsActive" role="presentation"><a role="menuitem" tabindex="-1" href="#">IsActive</a></li>
                             </ul>
@@ -290,7 +253,7 @@
                                 <div class="lBor">
                                     Is Active
                                 </div>
-                            </th> 
+                            </th>
                             <th>
                                 <div class="lBor">
                                 </div>
@@ -312,7 +275,7 @@
                                 </td>
                                 <td>
                                     @item.IsActive
-                                </td> 
+                                </td>
                                 <td>
                                     <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewManufacturer(@item.Manufacturer_Id);">
                                         <img src="@Url.Content("../Content/images/application_view_detail.png")" />

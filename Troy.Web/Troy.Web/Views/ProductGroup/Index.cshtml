@@ -117,8 +117,9 @@
             processData: false,
             success: function (data) {
 
-                if (data.success == "true") {
+                if (data.success == true) {
                     alert(data.Message);
+                    window.location.reload();
                 }
                 else {
                     alert(data.Error);
@@ -156,9 +157,9 @@
                         <img src="@Url.Content("../Content/images/upload-icon.png")" />
                     </a>
                     &nbsp;
-                    <button type="button" class="btn-link">
+                    <a href=@Url.Action("_ExporttoExcel", "ProductGroup")>
                         <img src="@Url.Content("../Content/images/table-icon.png")" style="height:32px;width:32px" />
-                    </button>
+                    </a>
                     &nbsp;
 
                     @*<a href="@Url.Action("_createpartialview" , "Suppliers" )" data-modal="true" class="top-right">*@
@@ -331,7 +332,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
+                        <input class="btn btn-primary pull-left" type="button" id="productgrpUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
                         <button class="btn pull-left" data-dismiss="modal">Close</button>
                         @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
                     </div>

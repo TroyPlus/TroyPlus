@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -170,6 +170,11 @@ namespace Troy.Data.Repository
 
         public bool InsertFileUploadDetails(List<Manufacture> manufacturer)
         {
+            //for (int j = 1; j > manufacturer.Count;j++)
+            //{
+            //    string ss = manufacturer[j].Manufacturer_Name.ToString();
+            //}
+
             try
             {
                 manufactureContext.Manufacture.AddRange(manufacturer);
