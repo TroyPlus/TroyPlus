@@ -1,14 +1,7 @@
 ﻿@model Troy.Web.Models.BranchViewModels
-@*@using (Html.BeginForm("Index", "Branch"))
-    {
-     @Html.ValidationSummary(true)*@
-@*@Html.HiddenFor(model => model.Branch.Branch_Id)*@
 
 @Scripts.Render("~/bundles/jqueryval")
-<script type="text/javascript">
 
-
-</script>
 <script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")" type="text/javascript"></script>
 
@@ -42,10 +35,7 @@
 
                                 <br />
 
-
                                 @Html.HiddenFor(model => model.Branch.Branch_Id)
-                                @*@Html.HiddenFor(model => model.code)*@
-                                @*@Html.HiddenFor("code", model => model.Branch.Branch_Code)*@
 
                                 <div class="col-md-6">
 
@@ -53,17 +43,9 @@
                                         <div class="col-md-4">
                                             @Html.LabelFor(m => m.Branch.Branch_Code)
                                         </div>
-                                            <div class="col-md-8">
-                                                
-                                                @Html.TextBoxFor(model => model.Branch.Branch_Code, new { @disabled= "disabled",  @class = "form-control control-text" })
-                                                
-                                                @*@Html.EditorFor(model => model.Branch.Branch_Code, new { @readonly = "readonly", @disabled= "disabled", @class = "form-control control-text" })*@
-
+                                            <div class="col-md-8">                                                
+                                                @Html.TextBoxFor(model => model.Branch.Branch_Code, new { @readonly = "readonly", @class = "form-control control-text" })
                                                 @Html.ValidationMessageFor(model => model.Branch.Branch_Code)
-
-
-                                                @*@Html.HiddenFor(model => model.Branch.Branch_Id)*@    
-                                                @*@Html.Hidden("code",model => model.Branch_code)*@                               
                                             </div>
                                        
                                     </div>
@@ -83,7 +65,7 @@
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Branch.Address1)
                                         </div>
-                                        <div class="col-md-8">
+                                        <div class="col-md-8">                                            
                                             @Html.TextBoxFor(model => model.Branch.Address1, new { @class = "form-control control-text" })
                                             @Html.ValidationMessageFor(model => model.Branch.Address1)
                                         </div>
@@ -171,7 +153,6 @@
                                             </div>
                                         </div>*@
 
-
                                     <div class="row">
                                         <div class="col-md-4">
                                             Is Active:
@@ -183,10 +164,6 @@
                                         </div>
                                     </div>
 
-
-
-
-
                                 </div>
                             </div>
                         </div>
@@ -194,18 +171,16 @@
                 </div>
             </div>
 
-            <div class="modal-footer">
-                <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
+            <div class="modal-footer">                
+                <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" onclick="return EditSubmit(this);" />
+                <input type="hidden" id="submitAction" name="submitButton" />
                 <button class="btn pull-left" data-dismiss="modal">Close</button>
                 @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
-
-
             </div>
-
-
         </div>
     </div>
 }
+
 @*@section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
     }*@

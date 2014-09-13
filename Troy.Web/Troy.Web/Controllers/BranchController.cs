@@ -69,11 +69,8 @@ namespace Troy.Web.Controllers
             }
         }
 
-
-
-
         [HttpPost]
-        public ActionResult Index(string submitButton, BranchViewModels model, HttpPostedFileBase file, string posting, string required, string valid)
+        public ActionResult Index(string submitButton, BranchViewModels model, HttpPostedFileBase file)
         {
             try
             {
@@ -81,7 +78,7 @@ namespace Troy.Web.Controllers
                 if (submitButton == "Save")
                 {
                     model.Branch.IsActive = "Y";
-                    model.Branch.Created_Branc_Id = 1;  
+                    model.Branch.Created_Branc_Id = 1;
                     model.Branch.Created_Dte = DateTime.Now;
                     model.Branch.Created_User_Id = 1;  //GetUserId()
                     model.Branch.Modified_User_Id = 1;
@@ -107,7 +104,6 @@ namespace Troy.Web.Controllers
                     model.Branch.Modified_Dte = DateTime.Now;
                     model.Branch.Modified_Branch_Id = 1;
 
-
                     if (branchDb.EditBranch(model.Branch))
                     {
                         return RedirectToAction("Index", "Branch");
@@ -117,7 +113,6 @@ namespace Troy.Web.Controllers
                         ModelState.AddModelError("", "Branch Not Updated");
                     }
                 }
-
 
                 else if (submitButton == "Search")
                 {
@@ -330,20 +325,13 @@ namespace Troy.Web.Controllers
             }
         }
 
-        
-       
-
-          //Check for dupilicate
-        public JsonResult CheckForDuplication(Branch branch, [Bind(Prefix = "Branch.Branch_Code")]string Branch_Code)
-              //public JsonResult CheckForDuplication(string Branch_Code,string code)
-      
+        //Check for dupilicate        
+        public JsonResult CheckForDuplication([Bind(Prefix = "Branch.Branch_Code")]string Branch_Code, [Bind(Prefix = "Branch.Branch_Id")]int? Branch_Id)
         {
-          
 
-            if (branch.Branch_Code == Branch_Code)
+            if (Branch_Id != null)
             {
                 return Json(true, JsonRequestBehavior.AllowGet);
-
             }
             else
             {
@@ -357,48 +345,10 @@ namespace Troy.Web.Controllers
                     return Json(true, JsonRequestBehavior.AllowGet);
                 }
             }
-           
+
             //var data1 = branchDb.CheckDuplicateName(code);
-            
+
         }
-
-       
-   //public ActionResult _ExporttoExcel(Branch branch)
-        //{
-       //var data= branchDb._ExporttoExcel(branch);
-            //var Branch = from e in branchDb._ExporttoExcel.AsEnumerable()
-            //             select new
-            //             {
-            //                 e.Branch_Cde,
-            //                 e.Branch_Name,
-            //                 e.Address1,
-            //                 e.Address2,
-            //                 e.Address3,
-            //                 e.Country_Id,
-            //                 e.State_Id,
-            //                 e.City_Id,
-            //                 e.Pin_Cod,
-            //                 e.Order_Num,
-            //                 e.IsActive
-            //             };
-
-            //System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
-            //gridvw.DataSource = Branch.ToList().Take(100); //bind the datatable to the gridview
-            //gridvw.DataBind();
-            //Response.ClearContent();
-            //Response.Buffer = true;
-            //Response.AddHeader("content-disposition", "attachment; filename=BranchList.xls");//Microsoft Office Excel Worksheet (.xlsx)
-            //Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            //Response.Charset = "";
-            //StringWriter sw = new StringWriter();
-            //HtmlTextWriter htw = new HtmlTextWriter(sw);
-            //gridvw.RenderControl(htw);
-            //Response.Output.Write(sw.ToString());
-            //Response.Flush();
-            //Response.End();
-            //return RedirectToAction("Index");
-        //}
-
 
         #endregion
 

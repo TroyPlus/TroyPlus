@@ -24,7 +24,7 @@ namespace Troy.Model.Branches
         [StringLength(3)]
       
         [Display(Name = "Branch Code")]
-        [Remote("CheckForDuplication", "Branch", AdditionalFields = "Branch_Code")]
+        [Remote("CheckForDuplication", "Branch", AdditionalFields = "Branch_Id")]
         public string Branch_Code { get; set; }
 
         [Required(ErrorMessage = "Branch Name is required.")]
