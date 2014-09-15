@@ -104,6 +104,7 @@ namespace Troy.Web.Controllers
                     model.Branch.Modified_Dte = DateTime.Now;
                     model.Branch.Modified_Branch_Id = 1;
 
+
                     if (branchDb.EditBranch(model.Branch))
                     {
                         return RedirectToAction("Index", "Branch");
@@ -113,6 +114,7 @@ namespace Troy.Web.Controllers
                         ModelState.AddModelError("", "Branch Not Updated");
                     }
                 }
+
 
                 else if (submitButton == "Search")
                 {
@@ -174,141 +176,236 @@ namespace Troy.Web.Controllers
                                 t++;
                             }
 
-                            for (int k = 0; k < dt.Rows.Count; k++)
+                            //for (int k = 0; k < dt.Rows.Count; k++)
+                            //{
+                            DataSet ds = new DataSet();
+                            //int sheets = k + 1;
+
+                            OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
+
+                            exquery = string.Format("Select * from [{0}]", excelSheets[0]);
+                            using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
                             {
-                                DataSet ds = new DataSet();
-                                int sheets = k + 1;
+                                dataAdapter.Fill(ds);
+                            }
 
-                                OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
-
-                                exquery = string.Format("Select * from [{0}]", excelSheets[k]);
-                                using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
+                            if (ds != null)
+                            {
+                                #region Check Branch Code
+                                foreach (DataRow dr in ds.Tables[0].Rows)
                                 {
-                                    dataAdapter.Fill(ds);
-                                }
-
-                                if (ds != null)
-                                {
-                                    if (ds.Tables[0].Rows.Count > 0)
+                                    string mExcelBranch_Code = Convert.ToString(dr["Branch Code"]);
+                                    string CheckingType = "Code";
+                                    if (mExcelBranch_Code != null && mExcelBranch_Code != "")
                                     {
-                                        List<Branch> mlist = new List<Branch>();
-
-                                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                                        var data = branchDb.CheckDuplicateBranch(mExcelBranch_Code, CheckingType);
+                                        if (data != null)
                                         {
-                                            Branch mItem = new Branch();
-                                            if (ds.Tables[0].Rows[i]["Branch_Code"] != null)
-                                            {
-                                                mItem.Branch_Code = ds.Tables[0].Rows[i]["Branch_Code"].ToString();
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "Branch_Code name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-
-                                            if (ds.Tables[0].Rows[i]["Branch_Name"] != null)
-                                            {
-                                                //mItem.Branch_Cde = Convert.ToInt32(ds.Tables[0].Rows[i]["Branch_Cde"]);
-                                                mItem.Branch_Name = ds.Tables[0].Rows[i]["Branch_Name"].ToString();
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "Branch_Name field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-                                            if (ds.Tables[0].Rows[i]["Address1"] != null)
-                                            {
-                                                mItem.Address1 = ds.Tables[0].Rows[i]["Address1"].ToString();
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "Address1 field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-                                            if (ds.Tables[0].Rows[i]["Address2"] != null)
-                                            {
-                                                mItem.Address2 = ds.Tables[0].Rows[i]["Address2"].ToString();
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "Address2 field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-                                            if (ds.Tables[0].Rows[i]["Address3"] != null)
-                                            {
-                                                mItem.Address3 = ds.Tables[0].Rows[i]["Address3"].ToString();
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "Address3 field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-                                            if (ds.Tables[0].Rows[i]["Country_ID"] != null)
-                                            {
-                                                mItem.Country_ID = Convert.ToInt32(ds.Tables[0].Rows[i]["Country_ID"]);
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "Country_Cde field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-                                            if (ds.Tables[0].Rows[i]["State_ID"] != null)
-                                            {
-                                                mItem.State_ID = Convert.ToInt32(ds.Tables[0].Rows[i]["State_ID"]);
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "State_Cde field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-                                            if (ds.Tables[0].Rows[i]["City_ID"] != null)
-                                            {
-                                                mItem.City_ID = Convert.ToInt32(ds.Tables[0].Rows[i]["City_ID"]);
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "City_Cde field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-                                            if (ds.Tables[0].Rows[i]["Pin_Code"] != null)
-                                            {
-                                                mItem.Pin_Code = ds.Tables[0].Rows[i]["Pin_Code"].ToString();
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "Pin_Code field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-                                            if (ds.Tables[0].Rows[i]["Order_Num"] != null)
-                                            {
-                                                mItem.Order_Num = Convert.ToInt32(ds.Tables[0].Rows[i]["Order_Num"]);
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "Order_Num field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-                                            if (ds.Tables[0].Rows[i]["IsActive"] != null)
-                                            {
-                                                mItem.IsActive = ds.Tables[0].Rows[i]["IsActive"].ToString();
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "IsActive field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-
-                                            mItem.Created_User_Id = 1; //GetUserId();
-                                            mItem.Created_Branc_Id = 2; //GetBranchId();
-                                            mItem.Created_Dte = DateTime.Now;
-                                            mItem.Modified_User_Id = 2; //GetUserId();
-                                            mItem.Modified_Branch_Id = 2; //GetBranchId();
-                                            mItem.Modified_Dte = DateTime.Now;
-                                            mlist.Add(mItem);
+                                            return Json(new { success = true, Message = "Branch Code: " + mExcelBranch_Code + " - already exists in the master." }, JsonRequestBehavior.AllowGet);
                                         }
-
-                                        //if (branchDb.InsertFileUploadDetails(mlist))
-                                        //{
-                                        //    return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
-                                        //}
                                     }
                                     else
                                     {
-                                        return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
+                                        return Json(new { success = false, Error = "Branch Code cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                     }
                                 }
+                                #endregion
+
+                                #region Check Branch Name
+                                foreach (DataRow dr in ds.Tables[0].Rows)
+                                {
+                                    string mExcelBranch_Name = Convert.ToString(dr["Branch Name"]);
+                                    string CheckingType = "Name";
+                                    if (mExcelBranch_Name != null && mExcelBranch_Name != "")
+                                    {
+                                        var data = branchDb.CheckDuplicateBranch(mExcelBranch_Name, CheckingType);
+                                        if (data != null)
+                                        {
+                                            return Json(new { success = true, Message = "Branch Name: " + mExcelBranch_Name + " - already exists in the master." }, JsonRequestBehavior.AllowGet);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        return Json(new { success = false, Error = "Branch Name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                                #endregion
+
+                                //#region Check Country Name
+                                //foreach (DataRow dr in ds.Tables[0].Rows)
+                                //{
+                                //    string mExcelCountry_Name = Convert.ToString(dr["Country"]);
+                                //    string CheckingType = "Country";
+                                //    if (mExcelCountry_Name != null && mExcelCountry_Name != "")
+                                //    {
+                                //        var data = branchDb.CheckDuplicateBranch(mExcelCountry_Name, CheckingType);
+                                //        if (data != null)
+                                //        {
+                                //            return Json(new { success = true, Message = "Country: " + mExcelCountry_Name + " - already exists in the master." }, JsonRequestBehavior.AllowGet);
+                                //        }
+                                //    }
+                                //    else
+                                //    {
+                                //        return Json(new { success = false, Error = "Branch Name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                //    }
+                                //}
+                                //#endregion
+
+                                # region Already Branchname exists in sheet
+                                int i = 1;
+                                int ii = 1;
+                                string itemc = string.Empty;
+                                foreach (DataRow dr in ds.Tables[0].Rows)
+                                {
+                                    itemc = Convert.ToString(dr["Branch Name"]);
+
+                                    if ((itemc == null) || (itemc == ""))
+                                    {
+                                    }
+                                    else
+                                    {
+                                        foreach (DataRow drd in ds.Tables[0].Rows)
+                                        {
+                                            if (ii == i)
+                                            {
+                                            }
+                                            else
+                                            {
+                                                if (itemc == Convert.ToString(drd["Branch Name"]))
+                                                {
+                                                    return Json(new { success = true, Message = "Branch Name: " + itemc + " - already exists in the excel." }, JsonRequestBehavior.AllowGet);
+                                                }
+                                            }
+                                            ii = ii + 1;
+                                        }
+                                    }
+                                    i = i + 1;
+                                    ii = 1;
+                                }
+                                #endregion
+
+                                  # region Already Branchcode exists in sheet
+                                int code1 = 1;
+                                int code2 = 1;
+                                string codename = string.Empty;
+                                foreach (DataRow dr in ds.Tables[0].Rows)
+                                {
+                                    codename = Convert.ToString(dr["Branch Code"]);
+
+                                    if ((codename == null) || (codename == ""))
+                                    {
+                                    }
+                                    else
+                                    {
+                                        foreach (DataRow drd in ds.Tables[0].Rows)
+                                        {
+                                            if (code2 == code1)
+                                            {
+                                            }
+                                            else
+                                            {
+                                                if (codename == Convert.ToString(drd["Branch Code"]))
+                                                {
+                                                    return Json(new { success = true, Message = "Branch Code: " + codename + " - already exists in the excel." }, JsonRequestBehavior.AllowGet);
+                                                }
+                                            }
+                                            code2 = code2 + 1;
+                                        }
+                                    }
+                                    code1 = code1 + 1;
+                                    code2 = 1;
+                                }
+                                #endregion
+
+                                #region BulkInsertForBranch
+                                if (ds.Tables[0].Rows.Count > 0)
+                                {
+                                    List<Branch> blist = new List<Branch>();
+
+                                    for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
+                                    {
+                                        Branch bItem = new Branch();
+                                        if (ds.Tables[0].Rows[j]["Branch Name"] != null)
+                                        {
+                                            bItem.Branch_Name = ds.Tables[0].Rows[j]["Branch Name"].ToString();
+                                        }
+
+                                        if (ds.Tables[0].Rows[j]["Branch Code"] != null)
+                                        {
+                                            bItem.Branch_Code = ds.Tables[0].Rows[j]["Branch Code"].ToString();
+                                        }
+
+                                        if (ds.Tables[0].Rows[j]["Address1"] != null)
+                                        {
+                                            bItem.Address1 = ds.Tables[0].Rows[j]["Address1"].ToString();
+                                        }
+
+                                        if (ds.Tables[0].Rows[j]["Address2"] != null)
+                                        {
+                                            bItem.Address2 = ds.Tables[0].Rows[j]["Address2"].ToString();
+                                        }
+
+                                        if (ds.Tables[0].Rows[j]["Address3"] != null)
+                                        {
+                                            bItem.Address3 = ds.Tables[0].Rows[j]["Address3"].ToString();
+                                        }
+
+                                        if (ds.Tables[0].Rows[j]["Country"] != null)
+                                        {
+                                            bItem.Country_ID = Convert.ToInt32(ds.Tables[0].Rows[j]["Country"]);
+                                        }
+
+                                        if (ds.Tables[0].Rows[j]["State"] != null)
+                                        {
+                                            bItem.State_ID = Convert.ToInt32(ds.Tables[0].Rows[j]["State"]);
+                                        }
+
+                                        if (ds.Tables[0].Rows[j]["City"] != null)
+                                        {
+                                            bItem.City_ID = Convert.ToInt32(ds.Tables[0].Rows[j]["City"]);
+                                        }
+
+                                        if (ds.Tables[0].Rows[j]["Order Number"] != null)
+                                        {
+                                            bItem.Order_Num = Convert.ToInt32(ds.Tables[0].Rows[j]["Order Number"]);
+                                        }
+
+                                        if (ds.Tables[0].Rows[j]["Pin Code"] != null)
+                                        {
+                                            bItem.Pin_Code = ds.Tables[0].Rows[j]["Pin Code"].ToString();
+                                        }
+
+                                        bItem.IsActive = "Y";
+                                        bItem.Created_User_Id = 1; //GetUserId();
+                                        bItem.Created_Branc_Id = 2; //GetBranchId();
+                                        bItem.Created_Dte = DateTime.Now;
+                                        bItem.Modified_User_Id = 2; //GetUserId();
+                                        bItem.Modified_Branch_Id = 2; //GetBranchId();
+                                        bItem.Modified_Dte = DateTime.Now;
+                                        blist.Add(bItem);
+                                    }
+
+                                    if (branchDb.InsertFileUploadDetails(blist))
+                                    {
+                                        //System.IO.File.Delete(fileLocation);
+                                        return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                                else
+                                {
+                                    return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
+                                }
+                                #endregion
+
+                            }
+                            else
+                            {
+                                return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
                             }
                         }
                     }
+
+
                     catch (Exception ex)
                     {
                         return Json(new { success = false, Error = "File Upload failed :" + ex.Message }, JsonRequestBehavior.AllowGet);
@@ -325,16 +422,18 @@ namespace Troy.Web.Controllers
             }
         }
 
-        //Check for dupilicate        
+        //Check for dupilicate  
+        #region Check for duplicate code
         public JsonResult CheckForDuplication([Bind(Prefix = "Branch.Branch_Code")]string Branch_Code, [Bind(Prefix = "Branch.Branch_Id")]int? Branch_Id)
-        {
-
+      {
+         
             if (Branch_Id != null)
             {
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
             else
             {
+             
                 var data = branchDb.CheckDuplicateName(Branch_Code);
                 if (data != null)
                 {
@@ -344,12 +443,87 @@ namespace Troy.Web.Controllers
                 {
                     return Json(true, JsonRequestBehavior.AllowGet);
                 }
+
+            }
+        }
+        #endregion
+
+        #region Check for duplicate name
+        public JsonResult CheckForDuplicationName([Bind(Prefix = "Branch.Branch_Name")]string Branch_Name, [Bind(Prefix = "Branch.Branch_Id")]int? Branch_Id)
+        {
+
+            if (Branch_Id != null)
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+
+                var data = branchDb.CheckDuplicateBranchName(Branch_Name);
+                if (data != null)
+                {
+                    return Json("Sorry, Branch Name already exists", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+        }
+        #endregion
+
+
+        #region Export to excel
+        public ActionResult _ExporttoExcel()
+        {
+            var branch = branchDb.GetAllBranch().ToList();
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("Branch Id"));
+            dt.Columns.Add(new DataColumn("Branch Code"));
+            dt.Columns.Add(new DataColumn("Branch Name"));
+            dt.Columns.Add(new DataColumn("Address1"));
+            dt.Columns.Add(new DataColumn("Country"));
+            dt.Columns.Add(new DataColumn("State"));
+            dt.Columns.Add(new DataColumn("City"));
+            dt.Columns.Add(new DataColumn("Order Number"));
+            dt.Columns.Add(new DataColumn("PinCode"));
+            dt.Columns.Add(new DataColumn("Is Active"));
+
+            foreach (var e in branch)
+            {
+                DataRow dr_final1 = dt.NewRow();
+                dr_final1["Branch Id"] = e.Branch_Id;
+                dr_final1["Branch Code"] = e.Branch_Code;
+                dr_final1["Branch Name"] = e.Branch_Name;
+                dr_final1["Address1"] = e.Address1;
+                dr_final1["Country"] = e.country.Country_Name;
+                dr_final1["State"] = e.state.State_Name;
+                dr_final1["City"] = e.city.City_Name;
+                dr_final1["Order Number"] = e.Order_Num;
+                dr_final1["PinCode"] = e.Pin_Code;
+                dr_final1["Is Active"] = e.IsActive;
+                dt.Rows.Add(dr_final1);
             }
 
-            //var data1 = branchDb.CheckDuplicateName(code);
-
+            System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+            gridvw.DataSource = dt; //bind the datatable to the gridview
+            gridvw.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=BranchList.xls");//Microsoft Office Excel Worksheet (.xlsx)
+            Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gridvw.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+            return RedirectToAction("Index", "Branch");
         }
-
+        #endregion
+          
         #endregion
 
         #region Partial Views
@@ -405,4 +579,3 @@ namespace Troy.Web.Controllers
 
     }
 }
-
