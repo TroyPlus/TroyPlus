@@ -27,6 +27,24 @@ namespace Troy.Web.Models
 
         [XmlElement("Name")]
         public string Productgroup_Name { get; set; }
+
+        [XmlElement("CreatedUser")]
+        public string CreatedUser { get; set; }
+
+        [XmlElement("CreatedBranch")]
+        public string CreatedBranch { get; set; }
+
+        [XmlElement("CreatedDateTime")]
+        public string CreatedDateTime { get; set; }
+
+        [XmlElement("LastModifyUser")]
+        public string LastModifyUser { get; set; }
+
+        [XmlElement("LastModifyBranch")]
+        public string LastModifyBranch { get; set; }
+
+        [XmlElement("LastModifyDateTime")]
+        public string LastModifyDateTime { get; set; }
     }
 
     [XmlRoot("ModifyProductGroup")]
@@ -40,5 +58,23 @@ namespace Troy.Web.Models
 
         [XmlElement("NewName")]
         public string New_Productgroup_Name { get; set; }
+
+        [XmlElement("CreatedUser")]
+        public string CreatedUser { get; set; }
+
+        [XmlElement("CreatedBranch")]
+        public string CreatedBranch { get; set; }
+
+        [XmlElement("CreatedDateTime")]
+        public string CreatedDateTime { get; set; }
+
+        [XmlElement("LastModifyUser")]
+        public string LastModifyUser { get; set; }
+
+        [XmlElement("LastModifyBranch")]
+        public string LastModifyBranch { get; set; }
+
+        [XmlElement("LastModifyDateTime")]
+        public string LastModifyDateTime { get; set; }
     }
 }
