@@ -12,3 +12,11 @@
     color:white;
     min-height:10px;
 }
+
+.LoginHeaderLogo {
+    height: 60px !important;
+    width: 140px !important; 
+    margin: 10px 0px;    
+    float:right;
+    background-repeat:no-repeat;
+}

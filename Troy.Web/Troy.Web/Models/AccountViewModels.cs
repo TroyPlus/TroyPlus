@@ -42,14 +42,14 @@ namespace Troy.Web.Models
     public class ForgotViewModel
     {
         [Required]
-        [Display(Name = "UserName")]
+        [Display(Name = "User Name")]
         public string UserName { get; set; }
     }
 
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "UserName")]
+        [Display(Name = "User Name")]
         [EmailAddress]
         public string UserName { get; set; }
 
