@@ -10,5 +10,6 @@ namespace Troy.Data.Repository
     public interface ISAPOUTRepository
     {
         bool AddNew(SAPOUT sapout);
+
     }
 }

@@ -24,7 +24,6 @@ namespace Troy.Data.Repository
             try
             {
                 sapoutcontext.SAPOUT.Add(sapout);
-
                 sapoutcontext.SaveChanges();
 
                 return true;

@@ -16,6 +16,5 @@ namespace Troy.Data.DataContext
 
         public DbSet<SAPOUT> SAPOUT { get; set; }         
 
-
     }
 }
