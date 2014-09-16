@@ -48,6 +48,7 @@ namespace Troy.Data.Repository
 
         //object CheckDuplicateName(string Branch_Code, string code);
 
-     
+
+        bool GenerateXML(Object obj);
     }
 }

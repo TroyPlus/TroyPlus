@@ -14,6 +14,8 @@ using Troy.Model.States;
 using Troy.Utilities.CrossCutting;
 using System.Data.Entity;
 using Troy.Model.Branches;
+using System.Xml;
+using Troy.Model.SAP_OUT;
 
 
 namespace Troy.Data.Repository
@@ -22,6 +24,7 @@ namespace Troy.Data.Repository
     {
         private BranchContext branchContext = new BranchContext();
 
+        private SAPOUTContext sapcontext = new SAPOUTContext();
 
         public List<Branch> GetAllBranch()
         {
@@ -256,6 +259,36 @@ namespace Troy.Data.Repository
             }
         }
 
+
+        public bool GenerateXML(Object obj)
+        {
+            try
+            {
+                string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
+
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(data);
+
+                SAPOUT mSAP = new SAPOUT();
+                mSAP.Object_typ = "Branch";
+                mSAP.Branch_Cde = "1";
+                mSAP.Troy_Created_Dte = Convert.ToDateTime(DateTime.Now.ToString());
+                mSAP.Troy_XML = doc.InnerXml;
+
+                SAPOUTRepository prgrprepo = new SAPOUTRepository();
+                if (prgrprepo.AddNew(mSAP))
+                {
+
+                }
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                return false;
+            }
+        }
 
         public List<CountryList> GetAddresscountryList()
         {

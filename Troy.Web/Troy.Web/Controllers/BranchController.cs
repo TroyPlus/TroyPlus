@@ -88,11 +88,38 @@ namespace Troy.Web.Controllers
 
                     if (branchDb.AddNewBranch(model.Branch))
                     {
-                        return RedirectToAction("Index", "Branch");
+                        //return RedirectToAction("Index", "Branch");
                     }
                     else
                     {
                         ModelState.AddModelError("", "Branch Not Saved");
+                    }
+                    Guid GuidRandomNo = Guid.NewGuid();
+                    string UniqueID = GuidRandomNo.ToString();
+
+                    Viewmodel_AddBranch xmlAddBranch = new Viewmodel_AddBranch();
+                    xmlAddBranch.UniqueID = UniqueID.ToString();
+                    xmlAddBranch.Branch_Code = model.Branch.Branch_Code;
+                    xmlAddBranch.Branch_Name = model.Branch.Branch_Name;
+                    xmlAddBranch.Address1 = model.Branch.Address1;
+                    xmlAddBranch.Address2 = model.Branch.Address2;
+                    xmlAddBranch.Address3 = model.Branch.Address3;
+                    xmlAddBranch.Country_ID = model.Branch.Country_ID.ToString();
+                    xmlAddBranch.State_ID = model.Branch.State_ID.ToString();
+                    xmlAddBranch.City_ID = model.Branch.City_ID.ToString();
+                    xmlAddBranch.Pin_Code = model.Branch.Pin_Code;
+                    xmlAddBranch.Order_Num = model.Branch.Order_Num.ToString();
+                    xmlAddBranch.IsActive = model.Branch.IsActive;
+                    xmlAddBranch.Created_User_Id = model.Branch.Created_User_Id.ToString();
+                    xmlAddBranch.Created_Branch_Id = model.Branch.Created_Branc_Id.ToString();
+                    xmlAddBranch.Created_Dte =model.Branch.Created_Dte.ToString();
+                    xmlAddBranch.Modified_User_Id = model.Branch.Modified_User_Id.ToString();
+                    xmlAddBranch.Modified_Branch_Id = model.Branch.Modified_Branch_Id.ToString();
+                    xmlAddBranch.Modified_Dte = model.Branch.Modified_Dte.ToString();
+
+                    if (branchDb.GenerateXML(xmlAddBranch))
+                    {
+                        return RedirectToAction("Index", "Branch");
                     }
                 }
                 else if (submitButton == "Update")
@@ -112,6 +139,34 @@ namespace Troy.Web.Controllers
                     else
                     {
                         ModelState.AddModelError("", "Branch Not Updated");
+                    }
+
+                    Guid GuidRandomNo = Guid.NewGuid();
+                    string UniqueID = GuidRandomNo.ToString();
+
+                    Viewmodel_AddBranch xmlEditBranch = new Viewmodel_AddBranch();
+                    xmlEditBranch.UniqueID = UniqueID.ToString();
+                    xmlEditBranch.Branch_Code = model.Branch.Branch_Code;
+                    //xmlEditBranch.Branch_Name = model.Branch.Branch_Name;
+                    xmlEditBranch.Address1 = model.Branch.Address1;
+                    xmlEditBranch.Address2 = model.Branch.Address2;
+                    xmlEditBranch.Address3 = model.Branch.Address3;
+                    xmlEditBranch.Country_ID = model.Branch.Country_ID.ToString();
+                    xmlEditBranch.State_ID = model.Branch.State_ID.ToString();
+                    xmlEditBranch.City_ID = model.Branch.City_ID.ToString();
+                    xmlEditBranch.Pin_Code = model.Branch.Pin_Code;
+                    xmlEditBranch.Order_Num = model.Branch.Order_Num.ToString();
+                    xmlEditBranch.IsActive = model.Branch.IsActive;
+                    xmlEditBranch.Created_User_Id = model.Branch.Created_User_Id.ToString();
+                    xmlEditBranch.Created_Branch_Id = model.Branch.Created_Branc_Id.ToString();
+                    xmlEditBranch.Created_Dte = model.Branch.Created_Dte.ToString();
+                    xmlEditBranch.Modified_User_Id = model.Branch.Modified_User_Id.ToString();
+                    xmlEditBranch.Modified_Branch_Id = model.Branch.Modified_Branch_Id.ToString();
+                    xmlEditBranch.Modified_Dte = model.Branch.Modified_Dte.ToString();
+
+                    if (branchDb.GenerateXML(xmlEditBranch))
+                    {
+                        return RedirectToAction("Index", "Branch");
                     }
                 }
 
