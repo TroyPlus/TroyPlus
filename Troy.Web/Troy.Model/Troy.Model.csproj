@@ -84,6 +84,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchase\PurchaseQuotation.cs" />
     <Compile Include="Purchase\PurchaseQuotationItem.cs" />
+    <Compile Include="SAP OUT\SAPOUT.cs" />
     <Compile Include="States\State.cs" />
     <Compile Include="States\StateList.cs" />
   </ItemGroup>

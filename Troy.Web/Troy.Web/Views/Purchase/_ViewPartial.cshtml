@@ -35,60 +35,60 @@
                                         Vendor:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Vendor, new { @class = "form-control control-text", disabled = "disabled"  })
+                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Vendor, new { @class = "form-control control-text", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Vendor)
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Reference Number: 
+                                        Reference Number:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Reference_Number, new { @class = "form-control control-text", disabled = "disabled"  })
+                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Reference_Number, new { @class = "form-control control-text", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Reference_Number)
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Status: 
+                                        Status:
                                     </div>
                                     <div class="col-md-8">
                                         @Html.DropDownList("Status", new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "1" },
                                                             new SelectListItem{ Text="Closed", Value = "0" }
-                                                         }, new { @class = "form-control", disabled = "disabled"  })
+                                                         }, new { @class = "form-control", disabled = "disabled" })
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Ship To: 
+                                        Ship To:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Ship_To, new { @class = "form-control control-text", disabled = "disabled"  })
+                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Ship_To, new { @class = "form-control control-text", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Ship_To)
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Fright: 
+                                        Fright:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Fright, new { @class = "form-control control-text", disabled = "disabled"  })
+                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Fright, new { @class = "form-control control-text", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Fright)
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Loading: 
+                                        Loading:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Loading, new { @class = "form-control control-text", disabled = "disabled"  })
+                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Loading, new { @class = "form-control control-text", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Loading)
                                     </div>
                                 </div>
@@ -99,50 +99,50 @@
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Posting Date: 
+                                        Posting Date:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker", disabled = "disabled"  })
+                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Valid Date: 
+                                        Valid Date:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date, new { @class = "form-control control-text datePicker", disabled = "disabled"  })
+                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date, new { @class = "form-control control-text datePicker", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Valid_Date)
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Required Date: 
+                                        Required Date:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @class = "form-control control-text datePicker", disabled = "disabled"  })
+                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @class = "form-control control-text datePicker", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Required_Date)
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Discount: 
+                                        Discount:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Discount, new { @class = "form-control control-text", disabled = "disabled"  })
+                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Discount, new { @class = "form-control control-text", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Discount)
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Remarks: 
+                                        Remarks:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextAreaFor(model => model.PurchaseQuotation.Remarks, new { @class = "form-control", @cols = 55, @rows = 5, disabled = "disabled"  })
+                                        @Html.TextAreaFor(model => model.PurchaseQuotation.Remarks, new { @class = "form-control", @cols = 55, @rows = 5, disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Remarks)
                                     </div>
                                 </div>
@@ -162,57 +162,57 @@
                                         Item Code:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PurchaseQuotationItem.Product_id, new { @class = "form-control control-text", disabled = "disabled"  })
+                                        @Html.TextBoxFor(model => model.PurchaseQuotationItem.Product_id, new { @class = "form-control control-text", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItem.Product_id)
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Required Date: 
+                                        Required Date:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PurchaseQuotationItem.Required_date, new { @class = "form-control control-text datePicker", disabled = "disabled"  })
+                                        @Html.TextBoxFor(model => model.PurchaseQuotationItem.Required_date, new { @class = "form-control control-text datePicker", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItem.Required_date)
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Required Quantity: 
+                                        Required Quantity:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PurchaseQuotationItem.Required_qty, new { @class = "form-control control-text", disabled = "disabled"  })
+                                        @Html.TextBoxFor(model => model.PurchaseQuotationItem.Required_qty, new { @class = "form-control control-text", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItem.Required_qty)
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Unit Price: 
+                                        Unit Price:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PurchaseQuotationItem.Unit_price, new { @class = "form-control control-text", disabled = "disabled"  })
+                                        @Html.TextBoxFor(model => model.PurchaseQuotationItem.Unit_price, new { @class = "form-control control-text", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItem.Unit_price)
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Discount Percentage: 
+                                        Discount Percentage:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PurchaseQuotationItem.Discount_percent, new { @class = "form-control control-text", disabled = "disabled"  })
+                                        @Html.TextBoxFor(model => model.PurchaseQuotationItem.Discount_percent, new { @class = "form-control control-text", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItem.Discount_percent)
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        VAT Code: 
+                                        VAT Code:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PurchaseQuotationItem.Vat_Code, new { @class = "form-control control-text", disabled = "disabled"  })
+                                        @Html.TextBoxFor(model => model.PurchaseQuotationItem.Vat_Code, new { @class = "form-control control-text", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItem.Vat_Code)
                                     </div>
                                 </div>

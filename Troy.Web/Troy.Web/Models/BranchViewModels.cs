@@ -75,22 +75,22 @@ namespace Troy.Web.Models
         public string IsActive { get; set; }
 
         [XmlElement("Created_User_Id")]
-        public string Created_User_Id { get; set; }
+        public string CreatedUser { get; set; }
 
         [XmlElement("Created_Branch_Id")]
-        public string Created_Branch_Id { get; set; }
+        public string CreatedBranch { get; set; }
 
         [XmlElement("Created_Dte")]
-        public string Created_Dte { get; set; }
+        public string CreatedDateTime { get; set; }
 
         [XmlElement("Modified_User_Id")]
-        public string Modified_User_Id { get; set; }
+        public string ModifiedUser { get; set; }
 
         [XmlElement("Modified_Branch_Id")]
-        public string Modified_Branch_Id { get; set; }
+        public string ModifiedBranch { get; set; }
 
         [XmlElement("Modified_Dte")]
-        public string Modified_Dte { get; set; }
+        public string ModifiedDateTime { get; set; }
     }
 
     [XmlRoot("ModifyBranch")]
@@ -130,12 +130,12 @@ namespace Troy.Web.Models
         public string IsActive { get; set; }
 
         [XmlElement("Modified_User_Id")]
-        public string Modified_User_Id { get; set; }
+        public string ModifiedUser { get; set; }
 
         [XmlElement("Modified_Branch_Id")]
-        public string Modified_Branch_Id { get; set; }
+        public string ModifiedBranch { get; set; }
 
         [XmlElement("Modified_Dte")]
-        public string Modified_Dte { get; set; }
+        public string ModifiedDateTime { get; set; }
     }
 }

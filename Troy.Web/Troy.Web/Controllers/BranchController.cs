@@ -110,12 +110,12 @@ namespace Troy.Web.Controllers
                     xmlAddBranch.Pin_Code = model.Branch.Pin_Code;
                     xmlAddBranch.Order_Num = model.Branch.Order_Num.ToString();
                     xmlAddBranch.IsActive = model.Branch.IsActive;
-                    xmlAddBranch.Created_User_Id = model.Branch.Created_User_Id.ToString();
-                    xmlAddBranch.Created_Branch_Id = model.Branch.Created_Branc_Id.ToString();
-                    xmlAddBranch.Created_Dte =model.Branch.Created_Dte.ToString();
-                    xmlAddBranch.Modified_User_Id = model.Branch.Modified_User_Id.ToString();
-                    xmlAddBranch.Modified_Branch_Id = model.Branch.Modified_Branch_Id.ToString();
-                    xmlAddBranch.Modified_Dte = model.Branch.Modified_Dte.ToString();
+                    xmlAddBranch.CreatedUser = model.Branch.Created_User_Id.ToString();
+                    xmlAddBranch.CreatedBranch = model.Branch.Created_Branc_Id.ToString();
+                    xmlAddBranch.CreatedDateTime = model.Branch.Created_Dte.ToString();
+                    xmlAddBranch.ModifiedUser = model.Branch.Modified_User_Id.ToString();
+                    xmlAddBranch.ModifiedBranch = model.Branch.Modified_Branch_Id.ToString();
+                    xmlAddBranch.ModifiedDateTime = model.Branch.Modified_Dte.ToString();
 
                     if (branchDb.GenerateXML(xmlAddBranch))
                     {
@@ -157,12 +157,12 @@ namespace Troy.Web.Controllers
                     xmlEditBranch.Pin_Code = model.Branch.Pin_Code;
                     xmlEditBranch.Order_Num = model.Branch.Order_Num.ToString();
                     xmlEditBranch.IsActive = model.Branch.IsActive;
-                    xmlEditBranch.Created_User_Id = model.Branch.Created_User_Id.ToString();
-                    xmlEditBranch.Created_Branch_Id = model.Branch.Created_Branc_Id.ToString();
-                    xmlEditBranch.Created_Dte = model.Branch.Created_Dte.ToString();
-                    xmlEditBranch.Modified_User_Id = model.Branch.Modified_User_Id.ToString();
-                    xmlEditBranch.Modified_Branch_Id = model.Branch.Modified_Branch_Id.ToString();
-                    xmlEditBranch.Modified_Dte = model.Branch.Modified_Dte.ToString();
+                    xmlEditBranch.CreatedUser = model.Branch.Created_User_Id.ToString();
+                    xmlEditBranch.CreatedBranch = model.Branch.Created_Branc_Id.ToString();
+                    xmlEditBranch.CreatedDateTime = model.Branch.Created_Dte.ToString();
+                    xmlEditBranch.ModifiedUser = model.Branch.Modified_User_Id.ToString();
+                    xmlEditBranch.ModifiedBranch = model.Branch.Modified_Branch_Id.ToString();
+                    xmlEditBranch.ModifiedDateTime = model.Branch.Modified_Dte.ToString();
 
                     if (branchDb.GenerateXML(xmlEditBranch))
                     {
@@ -339,7 +339,7 @@ namespace Troy.Web.Controllers
                                 }
                                 #endregion
 
-                                  # region Already Branchcode exists in sheet
+                                # region Already Branchcode exists in sheet
                                 int code1 = 1;
                                 int code2 = 1;
                                 string codename = string.Empty;
@@ -438,6 +438,35 @@ namespace Troy.Web.Controllers
                                         bItem.Modified_Branch_Id = 2; //GetBranchId();
                                         bItem.Modified_Dte = DateTime.Now;
                                         blist.Add(bItem);
+
+                                        Guid GuidRandomNo = Guid.NewGuid();
+                                        string UniqueID = GuidRandomNo.ToString();
+
+                                        Viewmodel_AddBranch xmlAddBranch = new Viewmodel_AddBranch();
+                                        xmlAddBranch.IsActive = "Y";
+                                        xmlAddBranch.UniqueID = UniqueID.ToString();
+                                        xmlAddBranch.Branch_Code = ds.Tables[0].Rows[j]["Branch Code"].ToString();
+                                        xmlAddBranch.Branch_Name = ds.Tables[0].Rows[j]["Branch Name"].ToString();
+                                        xmlAddBranch.Address1 = ds.Tables[0].Rows[j]["Address1"].ToString();
+                                        xmlAddBranch.Address2 = ds.Tables[0].Rows[j]["Address2"].ToString();
+                                        xmlAddBranch.Address3 = ds.Tables[0].Rows[j]["Address3"].ToString();
+                                        xmlAddBranch.Country_ID =ds.Tables[0].Rows[j]["Country"].ToString();
+                                        xmlAddBranch.State_ID =ds.Tables[0].Rows[j]["State"].ToString();
+                                        xmlAddBranch.City_ID = ds.Tables[0].Rows[j]["City"].ToString();
+                                        xmlAddBranch.Pin_Code = ds.Tables[0].Rows[j]["Pin Code"].ToString();
+                                        xmlAddBranch.Order_Num = ds.Tables[0].Rows[j]["Order Number"].ToString();
+                                        //xmlAddBranch.IsActive = ds.Tables[0].Rows[j]["IsActive"].ToString();
+                                        xmlAddBranch.CreatedBranch = model.Branch.Created_User_Id.ToString();
+                                        xmlAddBranch.CreatedBranch = model.Branch.Created_Branc_Id.ToString();
+                                        xmlAddBranch.CreatedDateTime = model.Branch.Created_Dte.ToString();
+                                        xmlAddBranch.ModifiedUser = model.Branch.Modified_User_Id.ToString();
+                                        xmlAddBranch.ModifiedBranch = model.Branch.Modified_Branch_Id.ToString();
+                                        xmlAddBranch.ModifiedDateTime = model.Branch.Modified_Dte.ToString();
+
+                                        if (branchDb.GenerateXML(xmlAddBranch))
+                                        {
+                                            //return RedirectToAction("Index", "Branch");
+                                        }
                                     }
 
                                     if (branchDb.InsertFileUploadDetails(blist))
@@ -480,15 +509,15 @@ namespace Troy.Web.Controllers
         //Check for dupilicate  
         #region Check for duplicate code
         public JsonResult CheckForDuplication([Bind(Prefix = "Branch.Branch_Code")]string Branch_Code, [Bind(Prefix = "Branch.Branch_Id")]int? Branch_Id)
-      {
-         
+        {
+
             if (Branch_Id != null)
             {
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
             else
             {
-             
+
                 var data = branchDb.CheckDuplicateName(Branch_Code);
                 if (data != null)
                 {
@@ -578,7 +607,7 @@ namespace Troy.Web.Controllers
             return RedirectToAction("Index", "Branch");
         }
         #endregion
-          
+
         #endregion
 
         #region Partial Views
