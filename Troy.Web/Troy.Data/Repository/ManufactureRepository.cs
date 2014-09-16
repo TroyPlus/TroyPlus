@@ -6,11 +6,13 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Xml;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Data.DataContext;
 using Troy.Model.Manufacturer;
+using Troy.Model.SAP_OUT;
 using Troy.Utilities.CrossCutting;
 
 
@@ -19,6 +21,7 @@ namespace Troy.Data.Repository
     public class ManufactureRepository : BaseRepository, IManufacturerRepository
     {
         private ManufactureContext manufactureContext = new ManufactureContext();
+        private SAPOUTContext sapcontext = new SAPOUTContext();
 
         public List<Manufacture> GetAllManufacturer()
         {
@@ -124,6 +127,30 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
+        public bool CheckDuplicateNameWithId(int id, string mManu_Name)
+        {
+            var currentValue = manufactureContext.Manufacture.Find(id);
+
+            if (currentValue.Manufacturer_Name == mManu_Name)
+            {               
+                return true;
+            }
+            else
+            {
+                var response =   (from p in manufactureContext.Manufacture
+                    where p.Manufacturer_Name.Equals(mManu_Name, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+                if(response != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }           
+        }
+
         public bool AddNewManufacturer(Manufacture manufacturer)
         {
             try
@@ -170,11 +197,6 @@ namespace Troy.Data.Repository
 
         public bool InsertFileUploadDetails(List<Manufacture> manufacturer)
         {
-            //for (int j = 1; j > manufacturer.Count;j++)
-            //{
-            //    string ss = manufacturer[j].Manufacturer_Name.ToString();
-            //}
-
             try
             {
                 manufactureContext.Manufacture.AddRange(manufacturer);
@@ -183,7 +205,6 @@ namespace Troy.Data.Repository
             }
             catch (Exception ex)
             {
-
                 ExceptionHandler.LogException(ex);
                 return false;
             }
@@ -194,6 +215,21 @@ namespace Troy.Data.Repository
             try
             {
                 string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
+
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(data);
+
+
+                SAPOUT mSAP = new SAPOUT();
+                mSAP.Object_typ = "MANUFACTURER";
+                mSAP.Branch_Cde = "1";
+                mSAP.Troy_Created_Dte = Convert.ToDateTime(DateTime.Now.ToString());
+                mSAP.Troy_XML = doc.InnerXml;
+                SAPOUTRepository saprepo = new SAPOUTRepository();
+                if (saprepo.AddNew(mSAP))
+                {
+
+                }
                 return true;
             }
             catch (Exception ex)

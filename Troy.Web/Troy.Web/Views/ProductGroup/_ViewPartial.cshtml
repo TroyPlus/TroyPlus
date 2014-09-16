@@ -1,4 +1,4 @@
-﻿@model Troy.Web.Models.ManufacturerViewModels
+﻿@model Troy.Web.Models.ProductGroupViewModels
 
 
 <div class="modal-dialog modal-lg">
@@ -6,7 +6,7 @@
 
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">View Manufacturer</h4>
+            <h4 class="modal-title" id="myModalLabel">View ProductGroup</h4>
         </div>
 
         <div class="modal-body">
@@ -30,20 +30,20 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Manufacturer Name:
+                                        ProductGroup Name:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.Manufacturer.Manufacturer_Name, new { @class = "form-control control-text", disabled = "disabled" })
-                                        @Html.ValidationMessageFor(model => model.Manufacturer.Manufacturer_Name)
+                                        @Html.TextBoxFor(model => model.ProductGroup.Product_Group_Name, new { @class = "form-control control-text", disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.ProductGroup.Product_Group_Name)
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Manufacturer Level:
+                                        ProductGroup Level:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.Manufacturer.Level, new { @class = "form-control control-text", disabled = "disabled" })
-                                        @Html.ValidationMessageFor(model => model.Manufacturer.Level)
+                                        @Html.TextBoxFor(model => model.ProductGroup.Level, new { @class = "form-control control-text", disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.ProductGroup.Level)
                                     </div>
                                 </div>
                                 <div class="row">
@@ -51,9 +51,9 @@
                                         Is Active:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.RadioButtonFor(model => model.Manufacturer.IsActive, "Y", new { id = "Y", disabled = "disabled" }) YES
-                                        @Html.RadioButtonFor(model => model.Manufacturer.IsActive, "N", new { id = "N", disabled = "disabled" }) NO
-                                        @Html.ValidationMessageFor(model => model.Manufacturer.IsActive)
+                                        @Html.RadioButtonFor(model => model.ProductGroup.IsActive, "Y", new { id = "Y", disabled = "disabled" }) YES
+                                        @Html.RadioButtonFor(model => model.ProductGroup.IsActive, "N", new { id = "N", disabled = "disabled" }) NO
+                                        @Html.ValidationMessageFor(model => model.ProductGroup.IsActive)
                                     </div>
                                 </div>
                             </div>

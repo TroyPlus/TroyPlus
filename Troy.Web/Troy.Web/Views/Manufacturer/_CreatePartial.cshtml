@@ -1,7 +1,6 @@
 ﻿@model Troy.Web.Models.ManufacturerViewModels
 
 
-
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -27,7 +26,7 @@
                         <div class="tab-pane fade in active" id="default">
 
                             <br />
-
+                            @Html.HiddenFor(model => model.Manufacturer.Manufacturer_Id)
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -60,6 +59,5 @@
             <button class="btn pull-left" data-dismiss="modal">Close</button>
             @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
         </div>
-
     </div>
 </div>

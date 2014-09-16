@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Manufacturer";
-    ViewBag.BodyCss = "supplier";
+    ViewBag.BodyCss = "Manufacturer";
 }
 
 
@@ -60,27 +60,27 @@
                 $('#SearchBySpan').text(Id);
             }
             if (this.id == 'IsActive') {
-                $('#SearchQuery').removeAttr("disabled", "disabled").datepicker();
+                $('#SearchQuery').removeAttr("disabled", "disabled");
                 Id = 'IsActive';
                 $('#SearchColumn').val(Id);
                 $('#SearchBySpan').text(Id);
             }
         });
 
-        $("#SearchString").autocomplete({
-            source: "/Manufacturer/CheckForDuplication",
-            minLength: 1,
-            select: function (event, ui) {
-                if (ui.item) {
-                    $("#SearchString").val(ui.item.value);
-                    $("form").submit();
-                }
-            }
-        });
+        //$("#SearchString").autocomplete({
+        //    source: "/Manufacturer/CheckForDuplication",
+        //    minLength: 1,
+        //    select: function (event, ui) {
+        //        if (ui.item) {
+        //            $("#SearchString").val(ui.item.value);
+        //            $("form").submit();
+        //        }
+        //    }
+        //});
     });
 
     function EditManufacturer(id) {
-
+        
         var url = $('#editModal').data('url') + '/' + id;
 
         $.get(url, function (data) {
@@ -101,8 +101,6 @@
             $('#viewModal').modal('show');
         });
     }
-
-
 
     function IFrameManuSubmit() {
         //debugger;
@@ -143,15 +141,21 @@
         });
     }
 
+    function EditSubmit(button) {
+        var text = button.value;
+        $('#submitAction').val(button.value)
+        return true;
+    }
+
     $.validator.unobtrusive.parse('#myModal form');
 
 
-    function GetValue() {
-        var Contain = "";
-        $("#Container1 :text").each(function () {
-            Contain += $(this).val() + "$";
-        });
-    }
+    //function GetValue() {
+    //    var Contain = "";
+    //    $("#Container1 :text").each(function () {
+    //        Contain += $(this).val() + "$";
+    //    });
+    //}
 
 
 
@@ -286,7 +290,7 @@
                                     </a>
                                     <span class="text-muted">|</span>
 
-                                    <a href="@Url.Action("_DeletePartialView", "Manufacture", new { id = item.Manufacturer_Id })" data-modal="true">
+                                    <a href="@Url.Action("_DeletePartialView", "Manufacturer", new { id = item.Manufacturer_Id })" data-modal="true">
                                         <img src="@Url.Content("../Content/images/cross_script.png")" />
                                     </a>
 
@@ -347,6 +351,9 @@
                                                            onclick="return IFrameSubmit();" />
                                                 </div>
                                             </div>*@
+                                        <a href=@Url.Action("_TemplateExcelDownload", "Manufacturer")>
+                                            Click here to Download template
+                                        </a>
                                     </div>
 
                                 </div>
@@ -357,7 +364,7 @@
 
                     <div class="modal-footer">
                         @*<input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />*@
-                        <input class="btn btn-primary pull-left" type="button" id="manufactureUpload" name="FileUploadButton" value="Upload" onclick="IFrameManuSubmit();" />
+                        <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="IFrameManuSubmit();" />
                         <button class="btn pull-left" data-dismiss="modal">Close</button>
                         @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
                     </div>

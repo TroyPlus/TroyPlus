@@ -131,6 +131,12 @@
         });
     }
 
+    function EditSubmit(button) {
+        var text = button.value;
+        $('#submitAction').val(button.value)
+        return true;
+    }
+
     $.validator.unobtrusive.parse('#myModal form');
 
 </script>
@@ -323,6 +329,9 @@
                                                            onclick="return IFrameSubmit();" />
                                                 </div>
                                             </div>*@
+                                        <a href=@Url.Action("_TemplateExcelDownload", "ProductGroup")>
+                                            Click here to Download template
+                                        </a>
                                     </div>
 
                                 </div>

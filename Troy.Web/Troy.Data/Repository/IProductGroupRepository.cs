@@ -20,6 +20,8 @@ namespace Troy.Data.Repository
 
         ProductGroup CheckDuplicateName(string mProdGrp_Name);
 
+        bool CheckDuplicateNameWithId(int id, string mPrdGrp_Name);
+
         bool InsertFileUploadDetails(List<ProductGroup> ProductGroup);
 
         bool AddNewProductGroup(ProductGroup ProductGroup);

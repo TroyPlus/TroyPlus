@@ -18,6 +18,7 @@ using Troy.Web.Models;
 using Troy.Utilities.CrossCutting;
 using Troy.Model.AppMembership;
 #endregion
+
 namespace Troy.Web.Controllers
 {
     public class ProductGroupController : Controller
@@ -62,16 +63,31 @@ namespace Troy.Web.Controllers
             }
         }
 
-        public JsonResult CheckForDuplication(ProductGroup productgroup, [Bind(Prefix = "ProductGroup.Product_Group_Name")]string Product_Group_Name)
+        public JsonResult CheckForDuplication([Bind(Prefix = "ProductGroup.Product_Group_Name")]string Product_Group_Name, [Bind(Prefix = "ProductGroup.Product_Group_Id")]int? Product_Group_Id)
         {
-            var data = ProductGroupDb.CheckDuplicateName(Product_Group_Name);
-            if (data != null)
+            if (Product_Group_Id != null)
             {
-                return Json("Sorry, Product Group Name already exists", JsonRequestBehavior.AllowGet);
+                //return Json(true, JsonRequestBehavior.AllowGet);
+                if (!(ProductGroupDb.CheckDuplicateNameWithId(Convert.ToInt32(Product_Group_Id), Product_Group_Name)))
+                {
+                    return Json("Sorry, Product Group Name already exists", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
-                return Json(true, JsonRequestBehavior.AllowGet);
+                var data = ProductGroupDb.CheckDuplicateName(Product_Group_Name);
+                if (data != null)
+                {
+                    return Json("Sorry, Product Group Name already exists", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
             }
         }
         
@@ -126,7 +142,6 @@ namespace Troy.Web.Controllers
                     model.ProductGroup.Modified_Dte = DateTime.Now;
                     model.ProductGroup.Modified_Branch_Id = 1;
 
-
                     if (ProductGroupDb.EditExistingProductGroup(model.ProductGroup))
                     {
                         //return RedirectToAction("Index", "ProductGroup");
@@ -143,6 +158,11 @@ namespace Troy.Web.Controllers
                     xmlEditProductGroup.UniqueID = UniqueID.ToString();
                     xmlEditProductGroup.old_Productgroup_Name = Temp_productgroup.ToString().Trim();
                     xmlEditProductGroup.New_Productgroup_Name = model.ProductGroup.Product_Group_Name;
+
+                    if (ProductGroupDb.GenerateXML(xmlEditProductGroup))
+                    {
+                        return RedirectToAction("Index", "ProductGroup");
+                    }
                 }
                 else if (submitButton == "Search")
                 {
@@ -314,6 +334,18 @@ namespace Troy.Web.Controllers
                                         mItem.Modified_Branch_Id = 2; //GetBranchId();
                                         mItem.Modified_Dte = DateTime.Now;
                                         mlist.Add(mItem);
+
+                                        Guid GuidRandomNo = Guid.NewGuid();
+                                        string UniqueID = GuidRandomNo.ToString();
+
+                                        Viewmodel_AddProductGroup xmlAddProductGroup = new Viewmodel_AddProductGroup();
+                                        xmlAddProductGroup.UniqueID = UniqueID.ToString();
+                                        xmlAddProductGroup.Productgroup_Name = ds.Tables[0].Rows[j]["Product_Group_Name"].ToString();
+
+                                        if (ProductGroupDb.GenerateXML(xmlAddProductGroup))
+                                        {
+
+                                        }
                                     }
 
                                     if (ProductGroupDb.InsertFileUploadDetails(mlist))
@@ -457,6 +489,33 @@ namespace Troy.Web.Controllers
             Response.End();
 
             return RedirectToAction("Index", "ProductGroup");
+        }
+
+        public ActionResult _TemplateExcelDownload()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("Product_Group_Name"));
+            dt.Columns.Add(new DataColumn("Level"));
+
+            DataRow dr = dt.NewRow();
+            dt.Rows.Add(dt);
+
+            System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+            gridvw.DataSource = dt; //bind the datatable to the gridview
+            gridvw.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=ProductGroup.xls");//Microsoft Office Excel Worksheet (.xlsx)
+            Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gridvw.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            return RedirectToAction("Index", "Manufacturer");
         }
         #endregion
 

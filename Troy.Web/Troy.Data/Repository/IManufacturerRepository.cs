@@ -19,6 +19,8 @@ namespace Troy.Data.Repository
 
         Manufacture CheckDuplicateName(string mManu_Name);
 
+        bool CheckDuplicateNameWithId(int id, string mManu_Name);
+
         bool InsertFileUploadDetails(List<Manufacture> manufacturer);
 
         bool AddNewManufacturer(Manufacture manufacturer);

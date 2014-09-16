@@ -60,19 +60,36 @@ namespace Troy.Web.Controllers
                 return View("Error");
             }
         }
-        
+
         //---- check unique key-------   
-      
-        public JsonResult CheckForDuplication(Manufacture manufacture, [Bind(Prefix = "Manufacturer.Manufacturer_Name")]string Manufacturer_Name)
+
+        public JsonResult CheckForDuplication([Bind(Prefix = "Manufacturer.Manufacturer_Name")]string Manufacturer_Name, [Bind(Prefix = "Manufacturer.Manufacturer_Id")]int? Manufacturer_Id)
         {
-            var data = manufactureDb.CheckDuplicateName(Manufacturer_Name);
-            if (data != null)
+            if (Manufacturer_Id != null)
             {
-                return Json("Sorry, Manufacturer Name already exists", JsonRequestBehavior.AllowGet);
+                //return Json(true, JsonRequestBehavior.AllowGet);
+                //bool result = manufactureDb.CheckDuplicateNameWithId(Convert.ToInt32(Manufacturer_Id), Manufacturer_Name);
+
+                if (!(manufactureDb.CheckDuplicateNameWithId(Convert.ToInt32(Manufacturer_Id), Manufacturer_Name)))
+                {
+                    return Json("Sorry, Manufacturer Name already exists", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
-                return Json(true, JsonRequestBehavior.AllowGet);
+                var data = manufactureDb.CheckDuplicateName(Manufacturer_Name);
+                if (data != null)
+                {
+                    return Json("Sorry, Manufacturer Name already exists", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
             }
         }
 
@@ -82,6 +99,7 @@ namespace Troy.Web.Controllers
             try
             {
                 ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+             
                 if (submitButton == "Save")
                 {
                     model.Manufacturer.IsActive = "Y";
@@ -94,29 +112,33 @@ namespace Troy.Web.Controllers
 
                     if (manufactureDb.AddNewManufacturer(model.Manufacturer))
                     {
-                        //return RedirectToAction("Index", "Manufacturer");
+                        Guid GuidRandomNo = Guid.NewGuid();
+                        string UniqueID = GuidRandomNo.ToString();
+
+                        Viewmodel_AddManufacturer xmlAddManufacture = new Viewmodel_AddManufacturer();
+                        xmlAddManufacture.UniqueID = UniqueID.ToString();
+                        xmlAddManufacture.manufacturer_Name = model.Manufacturer.Manufacturer_Name;
+                        xmlAddManufacture.CreatedUser = "1";
+                        xmlAddManufacture.CreatedBranch = "1";
+                        xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
+                        xmlAddManufacture.LastModifyUser = "2";
+                        xmlAddManufacture.LastModifyBranch = "2";
+                        xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString();
+
+
+                        if (manufactureDb.GenerateXML(xmlAddManufacture))
+                        {
+                            return RedirectToAction("Index", "Manufacturer");
+                        }
                     }
                     else
                     {
                         ModelState.AddModelError("", "Manufacturer Not Saved");
                     }
 
-                    Guid GuidRandomNo = Guid.NewGuid();
-                    string UniqueID = GuidRandomNo.ToString();
+                    //string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(xmlAddManufacture);          
 
-                    Viewmodel_AddManufacturer xmlAddManufacture = new Viewmodel_AddManufacturer();
-                    xmlAddManufacture.UniqueID = UniqueID.ToString();
-                    xmlAddManufacture.manufacturer_Name = model.Manufacturer.Manufacturer_Name;
 
-                    if (manufactureDb.GenerateXML(xmlAddManufacture))
-                    {
-                        return RedirectToAction("Index", "Manufacturer");
-                    }
-
-                    
-                    //string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(xmlAddManufacture);            
-
-                   
                 }
                 else if (submitButton == "Update")
                 {
@@ -132,24 +154,28 @@ namespace Troy.Web.Controllers
 
                     if (manufactureDb.EditExistingManufacturer(model.Manufacturer))
                     {
-                       // return RedirectToAction("Index", "Manufacturer");
+                        Guid GuidRandomNo = Guid.NewGuid();
+                        string UniqueID = GuidRandomNo.ToString();
+
+                        Viewmodel_ModifyManufacturer xmlEditManufacture = new Viewmodel_ModifyManufacturer();
+                        xmlEditManufacture.UniqueID = UniqueID.ToString();
+                        xmlEditManufacture.old_manufacturer_Name = Temp_manufacture.ToString().Trim();
+                        xmlEditManufacture.New_manufacturer_Name = model.Manufacturer.Manufacturer_Name;
+                        xmlEditManufacture.CreatedUser = "1";
+                        xmlEditManufacture.CreatedBranch = "1";
+                        xmlEditManufacture.CreatedDateTime = DateTime.Now.ToString();
+                        xmlEditManufacture.LastModifyUser = "2";
+                        xmlEditManufacture.LastModifyBranch = "2";
+                        xmlEditManufacture.LastModifyDateTime = DateTime.Now.ToString();
+
+                        if (manufactureDb.GenerateXML(xmlEditManufacture))
+                        {
+                            return RedirectToAction("Index", "Manufacturer");
+                        }
                     }
                     else
                     {
                         ModelState.AddModelError("", "Manufacturer Not Updated");
-                    }
-
-                    Guid GuidRandomNo = Guid.NewGuid();
-                    string UniqueID = GuidRandomNo.ToString();
-
-                    Viewmodel_ModifyManufacturer xmlEditManufacture = new Viewmodel_ModifyManufacturer();
-                    xmlEditManufacture.UniqueID = UniqueID.ToString();
-                    xmlEditManufacture.old_manufacturer_Name = Temp_manufacture.ToString().Trim();
-                    xmlEditManufacture.New_manufacturer_Name = model.Manufacturer.Manufacturer_Name;
-
-                    if (manufactureDb.GenerateXML(xmlEditManufacture))
-                    {
-                        return RedirectToAction("Index", "Manufacturer");
                     }
                 }
                 else if (submitButton == "Search")
@@ -329,9 +355,28 @@ namespace Troy.Web.Controllers
                                         mItem.Created_Dte = DateTime.Now;
                                         mItem.Modified_User_Id = 2; //GetUserId();
                                         mItem.Modified_Branch_Id = 2; //GetBranchId();
-                                        mItem.Modified_Dte = DateTime.Now;                                       
+                                        mItem.Modified_Dte = DateTime.Now;
 
                                         mlist.Add(mItem);
+
+                                        Guid GuidRandomNo = Guid.NewGuid();
+                                        string UniqueID = GuidRandomNo.ToString();
+
+                                        Viewmodel_AddManufacturer xmlAddManufacture = new Viewmodel_AddManufacturer();
+                                        xmlAddManufacture.UniqueID = UniqueID.ToString();
+                                        xmlAddManufacture.manufacturer_Name = ds.Tables[0].Rows[j]["Manufacturer_Name"].ToString();
+                                        xmlAddManufacture.CreatedUser = "1";
+                                        xmlAddManufacture.CreatedBranch = "1";
+                                        xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
+                                        xmlAddManufacture.LastModifyUser = "2";
+                                        xmlAddManufacture.LastModifyBranch = "2";
+                                        xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString();
+
+
+                                        if (manufactureDb.GenerateXML(xmlAddManufacture))
+                                        {
+
+                                        }
                                     }
 
                                     if (manufactureDb.InsertFileUploadDetails(mlist))
@@ -437,14 +482,12 @@ namespace Troy.Web.Controllers
                 ViewBag.AppErrorMessage = ex.Message;
                 return View("Error");
             }
-
-
         }
 
         public ActionResult _ExporttoExcel()
         {
             var manufacture = manufactureDb.GetAllManufacturer().ToList();
-                       
+
             DataTable dt = new DataTable();
             dt.Columns.Add(new DataColumn("ManufacturerID"));
             dt.Columns.Add(new DataColumn("Manufuacturer Name"));
@@ -467,6 +510,33 @@ namespace Troy.Web.Controllers
             Response.ClearContent();
             Response.Buffer = true;
             Response.AddHeader("content-disposition", "attachment; filename=ManufactureList.xls");//Microsoft Office Excel Worksheet (.xlsx)
+            Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gridvw.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            return RedirectToAction("Index", "Manufacturer");
+        }
+
+        public ActionResult _TemplateExcelDownload()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("Manufacturer_Name"));
+            dt.Columns.Add(new DataColumn("Level"));
+
+            DataRow dr = dt.NewRow();
+            dt.Rows.Add(dt);
+
+            System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+            gridvw.DataSource = dt; //bind the datatable to the gridview
+            gridvw.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=Manufacture.xls");//Microsoft Office Excel Worksheet (.xlsx)
             Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             Response.Charset = "";
             StringWriter sw = new StringWriter();

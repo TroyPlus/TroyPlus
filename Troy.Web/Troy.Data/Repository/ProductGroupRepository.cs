@@ -5,11 +5,13 @@ using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
+using System.Xml;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Data.DataContext;
 using Troy.Model.ProductGroup;
+using Troy.Model.SAP_OUT;
 using Troy.Utilities.CrossCutting;
 
 
@@ -18,6 +20,7 @@ namespace Troy.Data.Repository
     public class ProductGroupRepository : BaseRepository, IProductGroupRepository
     {
         private ProductGroupContext ProductGroupContext = new ProductGroupContext();
+        private SAPOUTContext sapcontext = new SAPOUTContext();
 
         public List<ProductGroup> GetAllProductGroup()
         {
@@ -123,6 +126,30 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
+        public bool CheckDuplicateNameWithId(int id, string mPrdGrp_Name)
+        {
+            var currentValue = ProductGroupContext.ProductGroup.Find(id);
+
+            if (currentValue.Product_Group_Name == mPrdGrp_Name)
+            {
+                return true;
+            }
+            else
+            {
+                var response = (from p in ProductGroupContext.ProductGroup
+                                where p.Product_Group_Name.Equals(mPrdGrp_Name, StringComparison.CurrentCultureIgnoreCase)
+                                select p).FirstOrDefault();
+                if (response != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
         public bool AddNewProductGroup(ProductGroup ProductGroup)
         {
             try
@@ -183,7 +210,23 @@ namespace Troy.Data.Repository
             try
             {
                 string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
+
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(data);
+
+                SAPOUT mSAP = new SAPOUT();
+                mSAP.Object_typ = "PRODUCT GROUP";
+                mSAP.Branch_Cde = "1";
+                mSAP.Troy_Created_Dte = Convert.ToDateTime(DateTime.Now.ToString());
+                mSAP.Troy_XML=doc.InnerXml;
+                             
+                SAPOUTRepository prgrprepo = new SAPOUTRepository();
+                if (prgrprepo.AddNew(mSAP))
+                {
+
+                }
                 return true;
+              
             }
             catch (Exception ex)
             {
