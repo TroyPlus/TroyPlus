@@ -608,6 +608,46 @@ namespace Troy.Web.Controllers
         }
         #endregion
 
+        #region Templates for Branch
+        public ActionResult _TemplateExcelDownload()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("Branch Code"));
+            dt.Columns.Add(new DataColumn("Branch Name"));
+            dt.Columns.Add(new DataColumn("Address1"));
+            dt.Columns.Add(new DataColumn("Address2"));
+            dt.Columns.Add(new DataColumn("Address3"));
+            dt.Columns.Add(new DataColumn("Country"));
+            dt.Columns.Add(new DataColumn("State"));
+            dt.Columns.Add(new DataColumn("City"));
+            dt.Columns.Add(new DataColumn("Order Number"));
+            dt.Columns.Add(new DataColumn("Pin Code"));
+            //dt.Columns.Add(new DataColumn("Is Active"));
+
+            DataRow dr = dt.NewRow();
+            dt.Rows.Add(dt);
+
+            System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+            gridvw.DataSource = dt; //bind the datatable to the gridview
+            gridvw.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=Branch.xls");//Microsoft Office Excel Worksheet (.xlsx)
+            Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gridvw.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            return RedirectToAction("Index", "Branch");
+        }
+
+        #endregion
+
+
         #endregion
 
         #region Partial Views
