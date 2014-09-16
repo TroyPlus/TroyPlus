@@ -264,7 +264,7 @@ html {
 }
 body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.42857143;
   color: #768399;
   background-color: #ffffff;
@@ -2168,8 +2168,8 @@ fieldset[disabled] .btn-warning:active,
 .btn-warning.disabled.active,
 .btn-warning[disabled].active,
 fieldset[disabled] .btn-warning.active {
-  background-color: #f4b162;
-  border-color: #f4b162;
+  background-color: lightgray;
+  border-color: darkgrey;
 }
 .btn-warning .badge {
   color: #f4b162;
@@ -3385,7 +3385,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav > li > a {
   position: relative;
   display: block;
-  padding: 10px 15px;
+  padding: 10px 20px;
 }
 .nav > li > a:hover,
 .nav > li > a:focus {
@@ -5025,8 +5025,7 @@ a.list-group-item-danger.active:focus {
   border-top-color: #75b9e6;
 }
 .panel-primary > .panel-body {
-  border: 1px solid #75b9e6;
-  border-top: none;
+  border: 1px solid #75b9e6;  
 }
 .panel-primary > .panel-footer {
   color: #ffffff;

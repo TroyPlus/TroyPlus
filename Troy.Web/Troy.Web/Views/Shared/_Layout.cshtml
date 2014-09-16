@@ -4,86 +4,147 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Troy Application</title>
+    <!-- Mobile specific metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Force IE9 to render in normal mode -->
+    @*[if IE]<meta http-equiv="x-ua-compatible" content="IE=9" />[endif]*@
+    <meta name="author" content="Troy Plus" />
+    <meta name="description" content="Troy Plus - ERP - SAP Integrated" />
+    <meta name="keywords" content="ERP, Troy Plus" />
+    <meta name="application-name" content="Troy Plus" />
+    <!-- Windows8 touch icon ( http://www.buildmypinnedsite.com/ )-->
+    <meta name="msapplication-TileColor" content="#3399cc" />
 
+    @*[if lt IE 9]
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet" type="text/css" />
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet" type="text/css" />
+        <link href="http://fonts.googleapis.com/css?family=Droid+Sans:400" rel="stylesheet" type="text/css" />
+        <link href="http://fonts.googleapis.com/css?family=Droid+Sans:700" rel="stylesheet" type="text/css" />
+        [endif]*@
+    <!-- Application Title-->
+    <title>@ViewBag.Title - Troy Plus</title>
 
-    @Styles.Render("~/Content/Site")
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/jquerycustom")
-    @Styles.Render("~/bundles/themes/TroyPlus")
+    <!-- Load Styles-->
+    @Styles.Render("~/Content/themes/icons")
+    @Styles.Render("~/Content/themes/jqueryUI")
+    @Styles.Render("~/Content/themes/bootstrap")
+    @Styles.Render("~/Content/themes/plugins")
+    @Styles.Render("~/Content/themes/mainStyles")
+    @Styles.Render("~/Content/themes/custom")
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jquerydata")
-    @Scripts.Render("~/bundles/bootstraptable")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/scripts/TroyPlus")
-
+    <!-- Load Scripts -->
+    @Scripts.Render("~/bundles/script/jPace")
+    @Scripts.Render("~/bundles/script/jLibs")
+    @Scripts.Render("~/bundles/script/bootstrap")
+    @Scripts.Render("~/bundles/script/jRespond")
+    @Scripts.Render("~/bundles/script/jSlimScrollBar")
+    @Scripts.Render("~/bundles/script/jAutoSize")
+    @Scripts.Render("~/bundles/script/jSearch")
+    @Scripts.Render("~/bundles/script/jBootbox")
+    @Scripts.Render("~/bundles/script/commonScripts")
 </head>
-<body class="supplier">
+
+<body>
     @if (Request.IsAuthenticated)
     {
-        <!-- Start #header -->
+            <!-- Start #header -->
         <div id="header">
             <div class="container-fluid">
                 <div class="navbar">
                     <div class="navbar-header">
-                        <span class="text-logo">TROY</span><span class="text-slogan">Plus</span>
+                        <a class="navbar-brand" href="index.html">
+                            <!-- LHS Company Logo-->
+                            <span class="text-logo">Troy </span><span class="text-slogan">Plus</span>
+                        </a>
                     </div>
                     <nav class="top-nav" role="navigation">
-                        <div class="navbar-collapse collapse">
-                            <ul class="nav navbar-nav">
-                                @*@if (Request.IsAuthenticated)
-                                    {
-                                        var menuList = Troy.Web.ApplicationUserManager.GetUserApplicationMenuItems(User.Identity.Name);
-                                        var mainMenus = (from m in menuList
-                                                         select m.Menu_Name).Distinct().ToList();
-                                        foreach (string menu in mainMenus)
-                                        {
-                                            var menuItems = (from m in menuList
-                                                             where m.Menu_Name == menu
-                                                             select m);
-
-                                            <li class=" dropdown" id="Suppliers">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@menu </a>
-                                                <ul class="dropdown-menu">
-                                                    @foreach (ApplicationUserRoleMenuItem menuItem in menuItems)
-                                                    {
-                                                        <li>@Html.ActionLink(@menuItem.SubMenu_name, "Index", @menuItem.Screen_Name)</li>
-                                                    }
-                                                </ul>
-                                            </li>
-                                        }
-                                    }*@
-                            </ul>
-
-                            <ul class="nav navbar-nav pull-right">
-                                <li>
-                                    <div class="navbar-collapse collapse">
-                                        @Html.Partial("_LoginPartial")
-                                    </div>
+                        <ul class="nav navbar-nav pull-left">
+                            @if (Request.IsAuthenticated)
+                            {
+                                <li id="toggle-sidebar-li">
+                                    <a href="#" id="toggle-sidebar" title="Show/Hide menu bar">
+                                        <i class="en-arrow-left2"></i>
+                                    </a>
                                 </li>
-                            </ul>
-                        </div>
-
+                            }
+                        </ul>
+                        <ul class="nav navbar-nav pull-right">
+                            @if (Request.IsAuthenticated)
+                            {
+                                @Html.Partial("_LoginPartial")
+                            }
+                        </ul>
                     </nav>
                 </div>
+                <!-- Start #header-area -->
+                <div id="header-area" class="fadeInDown">
+                    <div class="header-area-inner">
+                        <ul class="list-unstyled list-inline">
+                            <li>
+                                <div class="shortcut-button">
+                                    <a href="#">
+                                        <i class="im-pie"></i>
+                                        <span>Earning Stats</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="shortcut-button">
+                                    <a href="#">
+                                        <i class="ec-images color-dark"></i>
+                                        <span>Gallery</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="shortcut-button">
+                                    <a href="#">
+                                        <i class="en-light-bulb color-orange"></i>
+                                        <span>Fresh ideas</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="shortcut-button">
+                                    <a href="#">
+                                        <i class="ec-link color-blue"></i>
+                                        <span>Links</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="shortcut-button">
+                                    <a href="#">
+                                        <i class="ec-support color-red"></i>
+                                        <span>Support</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="shortcut-button">
+                                    <a href="#">
+                                        <i class="st-lock color-teal"></i>
+                                        <span>Lock area</span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- End #header-area -->
             </div>
+            <!-- Start .header-inner -->
         </div>
-        <!-- End #header -->
+            <!-- End #header -->
     }
     <!-- Start #sidebar -->
     @if (Request.IsAuthenticated)
     {
-
         <div id="sidebar">
             <!-- Start .sidebar-inner -->
             <div class="sidebar-inner">
                 <!-- Start #sideNav -->
                 <ul id="sideNav" class="nav nav-pills nav-stacked">
-                    <!-- Search Menu -->
                     <li class="top-search">
                         <form>
                             <input type="text" name="search" placeholder="Search ...">
@@ -93,67 +154,67 @@
                         </form>
                     </li>
                     @{
-                        var menuList = Troy.Web.ApplicationUserManager.GetUserApplicationMenuItems(User.Identity.Name);
-                        var mainMenus = (from m in menuList
-                                         select m.Menu_Name).Distinct().ToList();
-                        foreach (string menu in mainMenus)
-                        {
-                            var menuItems = (from m in menuList
-                                             where m.Menu_Name == menu
-                                             select m);
-
-                            <li>
-                                <a href="index.html">@menu <i class="im-screen"></i></a>
-                            </li>
-                            <ul class="nav sub">
-                                @foreach (ApplicationUserRoleMenuItem menuItem in menuItems)
-                                {
-                                    <li>
-                                        <a href="tables.html"><i class="en-arrow-right7"></i> @menuItem.SubMenu_name</a>
-                                    </li>
-                                }
-                            </ul>
-                        }
+        var menuList = Troy.Web.ApplicationUserManager.GetUserApplicationMenuItems(User.Identity.Name);
+        var mainMenus = (from m in menuList
+                         select m.Menu_Name).Distinct().ToList();
+        foreach (string menu in mainMenus)
+        {
+            var menuItems = (from m in menuList
+                             where m.Menu_Name == menu
+                             select m);
+            <li>
+                <a href="#">@menu<i class="im-menu2"></i></a>
+                <ul class="nav sub">
+                    @foreach (ApplicationUserRoleMenuItem menuItem in menuItems)
+                    {
+                        <li>
+                            <a href=@menuItem.Screen_Url><i class="en-arrow-right"></i>@menuItem.SubMenu_name</a>
+                        </li>
                     }
-
+                </ul>
+            </li>
+        }
+                    }
                 </ul>
                 <!-- End #sideNav -->
+                <!-- Start .sidebar-panel -->
+                <!-- End .sidebar-panel -->
             </div>
             <!-- End .sidebar-inner -->
         </div>
-
     }
     <!-- End #sidebar -->
-    <div class="row body-content">
-        <div class="row row-offcanvas row-offcanvas-left">
-            <div class="col-xs-1 col-sm-1 col-lg-1  ">
-            </div>
-            <div class="col-xs-10 col-sm-10 col-lg-10">
-                @RenderBody()
-            </div>
+    <!-- Body -->
+    <!-- Start #content -->
+    @RenderBody()
+
+    <!-- End #content -->
+    <!-- End Body -->
+
+
+    <div class="row">
+        <hr />
+        <div class="col-md-4 col-md-offset-4">
+            <p>Copyrights &copy; TroyPlus  @DateTime.Now.Year. All Rights Reserved </p>
         </div>
     </div>
-
-    <hr />
-    <footer>
-        <p align="center">Copyrights &copy; TroyPlus  @DateTime.Now.Year. All Rights Reserved </p>
-    </footer>
-    @*Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")*@
-
-
+    <!-- Inline Javascripts -->
     @RenderSection("scripts", required: false)
-    <!-- Important javascript libs(put in all pages) -->
-    @*<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script>
-        window.jQuery || document.write('<script src="assets/js/libs/jquery-2.1.1.min.js">\x3C/script>')
+        window.jQuery || document.write('<script src="~/~/Content/themes/TroyPlus/js/libs/jquery-2.1.1.min.js">\x3C/script>')
     </script>
-    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
     <script>
-        window.jQuery || document.write('<script src="assets/js/libs/jquery-ui-1.10.4.min.js">\x3C/script>')
-    </script>*@
+        window.jQuery || document.write('<script src="~/~/Content/themes/TroyPlus/js/libs/jquery-ui-1.10.4.min.js">\x3C/script>')
+    </script>
+
+
 </body>
 
 
 
 </html>
+
+
+
+

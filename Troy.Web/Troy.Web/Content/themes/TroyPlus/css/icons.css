@@ -3353,6 +3353,7 @@ Icon packs
   content: "\e70f";
 }
 .en-arrow-right7:before {
+    padding-left:10px;
   content: "\e710";
 }
 .en-arrow-left8:before {
