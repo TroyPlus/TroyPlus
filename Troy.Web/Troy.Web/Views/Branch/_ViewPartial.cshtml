@@ -1,6 +1,5 @@
 ﻿@model Troy.Web.Models.BranchViewModels
 
-
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -38,7 +37,7 @@
                                         @Html.LabelFor(m => m.Branch.Branch_Code)
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.Branch.Branch_Code, new { @class = "form-control control-text" })
+                                        @Html.TextBoxFor(model => model.Branch.Branch_Code, new { @readonly = "readonly", @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.Branch.Branch_Code)
                                     </div>
 
@@ -50,7 +49,7 @@
 
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.Branch.Branch_Name, new { @class = "form-control control-text" })
+                                        @Html.TextBoxFor(model => model.Branch.Branch_Name, new { @readonly = "readonly", @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.Branch.Branch_Name)
                                     </div>
                                 </div>
@@ -60,7 +59,7 @@
                                         @Html.LabelFor(model => model.Branch.Address1)
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.Branch.Address1, new { @class = "form-control control-text" })
+                                        @Html.TextBoxFor(model => model.Branch.Address1, new { @readonly = "readonly", @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.Branch.Address1)
                                     </div>
                                 </div>
@@ -70,7 +69,7 @@
                                         @Html.LabelFor(model => model.Branch.Address2)
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.Branch.Address2, new { @class = "form-control control-text" })
+                                        @Html.TextBoxFor(model => model.Branch.Address2, new { @readonly = "readonly", @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.Branch.Address2)
                                     </div>
                                 </div>
@@ -80,7 +79,7 @@
                                         @Html.LabelFor(model => model.Branch.Address3)
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.Branch.Address3, new { @class = "form-control control-text" })
+                                        @Html.TextBoxFor(model => model.Branch.Address3, new { @readonly = "readonly", @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.Branch.Address3)
                                     </div>
                                 </div>
@@ -92,7 +91,8 @@
                                         Country:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.DropDownListFor(m => m.Branch.Country_ID, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text" })
+                                        @Html.TextBoxFor(model => model.Branch.Country_ID, new { @readonly = "readonly", @class = "form-control control-text" })
+                                        @*@Html.DropDownListFor(m => m.Branch.Country_ID, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text" })*@
                                         @Html.ValidationMessageFor(model => model.Branch.Country_ID)
                                     </div>
                                 </div>
@@ -102,7 +102,8 @@
                                         State:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.DropDownListFor(m => m.Branch.State_ID, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "ui-widget" })
+                                        @Html.TextBoxFor(model => model.Branch.State_ID, new { @readonly = "readonly", @class = "form-control control-text" })
+                                        @*@Html.DropDownListFor(m => m.Branch.State_ID, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "ui-widget" })*@
                                         @Html.ValidationMessageFor(model => model.Branch.State_ID)
                                     </div>
                                 </div>
@@ -112,7 +113,8 @@
                                         City:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.DropDownListFor(m => m.Branch.City_ID, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text" })
+                                        @Html.TextBoxFor(model => model.Branch.City_ID, new { @readonly = "readonly", @class = "form-control control-text" })
+                                        @*@Html.DropDownListFor(m => m.Branch.City_ID, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text" })*@
                                         @Html.ValidationMessageFor(model => model.Branch.City_ID)
                                     </div>
                                 </div>
@@ -122,7 +124,7 @@
                                         @Html.LabelFor(model => model.Branch.Pin_Code)
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.Branch.Pin_Code, new { @class = "form-control control-text" })
+                                        @Html.TextBoxFor(model => model.Branch.Pin_Code, new { @readonly = "readonly", @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.Branch.Pin_Code)
                                     </div>
                                 </div>
@@ -132,11 +134,12 @@
                                         @Html.LabelFor(model => model.Branch.Order_Num)
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.Branch.Order_Num, new { @class = "form-control control-text" })
+                                        @Html.TextBoxFor(model => model.Branch.Order_Num, new { @readonly = "readonly", @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.Branch.Order_Num)
                                     </div>
                                 </div>
 
+                             
                             </div>
                         </div>
                     </div>
@@ -145,10 +148,9 @@
         </div>
 
         <div class="modal-footer">
-            <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+            @*<input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />*@
             <button class="btn pull-left" data-dismiss="modal">Close</button>
             @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
         </div>
     </div>
 </div>
-

@@ -14,6 +14,8 @@ using Troy.Model.States;
 using Troy.Utilities.CrossCutting;
 using System.Data.Entity;
 using Troy.Model.Branches;
+using System.Xml;
+using Troy.Model.SAP_OUT;
 
 
 namespace Troy.Data.Repository
@@ -22,6 +24,7 @@ namespace Troy.Data.Repository
     {
         private BranchContext branchContext = new BranchContext();
 
+        private SAPOUTContext sapcontext = new SAPOUTContext();
 
         public List<Branch> GetAllBranch()
         {
@@ -195,11 +198,37 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
-        public Branch CheckDuplicateName(string bname)
+        public Branch CheckDuplicateName(string brname)
         {
             return (from p in branchContext.Branch
-                    where p.Branch_Code.Equals(bname,StringComparison.CurrentCultureIgnoreCase)
+                    where p.Branch_Code.Equals(brname,StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
+        }
+
+        public Branch CheckDuplicateBranchName(string bname)
+        {
+            return (from p in branchContext.Branch
+                    where p.Branch_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
+
+
+        public Branch CheckDuplicateBranch(string bname, string CheckingType)
+        {
+            Branch qList = new Branch();
+            if (CheckingType == "Code")
+            {
+                qList = (from p in branchContext.Branch
+                         where p.Branch_Code.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                         select p).FirstOrDefault();
+            }
+            else if (CheckingType == "Name")
+            {
+                qList = (from p in branchContext.Branch
+                         where p.Branch_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                         select p).FirstOrDefault();
+            }
+            return qList;
         }
 
 
@@ -207,98 +236,59 @@ namespace Troy.Data.Repository
         {
             //var data = branchDb._ExporttoExcel(branch);
             return (from e in branchContext.Branch
-                    select e);
-
-            //e.Branch_Code,
-            //e.Branch_Name,
-            //e.Address1,
-            //e.Address2,
-            //e.Address3,
-            //e.Country_ID,
-            //e.State_ID,
-            //e.City_ID,
-            //e.Pin_Code,
-            //e.Order_Num,
-            //e.IsActive);
-            //try
-            //  {
-            //      branchContext.Database.Connection.Open();
-            //      // Run the sproc  
-            //      //var reader = cmd.ExecuteReader();
-
-            //      var result = ((IObjectContextAdapter)branchContext)
-            //      //    .ObjectContext
-            //      //    .Translate<Branch>(reader, "Branch", MergeOption.AppendOnly);
-
-
-            //      foreach (var item in result)
-            //      {
-            //          Branch model = new Branch()
-
-
-            //          {
-
-            //              Branch_Id = item.Branch_Id,
-            //              Branch_Code=item.Branch_Code,
-            //              Branch_Name = item.Branch_Name,
-            //              Address1=item.Address1,
-            //              Address2=item.Address2,
-            //              Address3=item.Address3,
-            //              Country_ID = item.Country_ID,
-            //              State_ID = item.State_ID,
-            //              City_ID = item.City_ID,
-            //              //country = item.country,
-            //              //city = item.city,
-            //              //state = item.state,
-            //              Order_Num = item.Order_Num,
-            //              Pin_Code = item.Pin_Code,
-            //              IsActive = item.IsActive,
-            //              Created_Branc_Id = item.Created_Branc_Id,
-            //              Created_Dte = item.Created_Dte,
-            //              Created_User_Id = item.Created_User_Id,
-            //              Modified_Branch_Id = item.Modified_Branch_Id,
-            //              Modified_Dte = item.Modified_Dte,
-            //              Modified_User_Id = item.Modified_User_Id
-            //          };
-
-            //          qList.Add(model);
-            //      }
-            //}
-            //finally
-            //{
-            //    branchContext.Database.Connection.Close();
-            //}
-
-            //return qList;
+                    select e);      
         }
 
 
 
 
 
-        //public bool InsertFileUploadDetails(List<Branch> branch)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public bool InsertFileUploadDetails(List<Branch> branch)
+        {
+            try
+            {
+                branchContext.Branch.AddRange(branch);
+                branchContext.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+                ExceptionHandler.LogException(ex);
+                return false;
+            }
+        }
 
 
+        public bool GenerateXML(Object obj)
+        {
+            try
+            {
+                string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
 
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(data);
 
+                SAPOUT mSAP = new SAPOUT();
+                mSAP.Object_typ = "Branch";
+                mSAP.Branch_Cde = "1";
+                mSAP.Troy_Created_Dte = Convert.ToDateTime(DateTime.Now.ToString());
+                mSAP.Troy_XML = doc.InnerXml;
 
+                SAPOUTRepository prgrprepo = new SAPOUTRepository();
+                if (prgrprepo.AddNew(mSAP))
+                {
 
-        //public List<BranchList> GetAddressList()
-        //{
-        //    var item = (from a in branchContext.Branch
-        //                select new BranchList
-        //                {
+                }
+                return true;
 
-        //                    BranchName = a.Branch_Name,
-        //                    BranchId = a.Branch_Id
-        //                }).ToList();
-
-        //    return item;
-        //}
-
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                return false;
+            }
+        }
 
         public List<CountryList> GetAddresscountryList()
         {

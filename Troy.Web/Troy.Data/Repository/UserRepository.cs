@@ -203,77 +203,17 @@
 //            return (from e in UserContext.Users
 //                    select e);
 
-//            //e.Branch_Code,
-//            //e.Branch_Name,
-//            //e.Address1,
-//            //e.Address2,
-//            //e.Address3,
-//            //e.Country_ID,
-//            //e.State_ID,
-//            //e.City_ID,
-//            //e.Pin_Code,
-//            //e.Order_Num,
-//            //e.IsActive);
-//            //try
-//            //  {
-//            //      branchContext.Database.Connection.Open();
-//            //      // Run the sproc  
-//            //      //var reader = cmd.ExecuteReader();
 
-//            //      var result = ((IObjectContextAdapter)branchContext)
-//            //      //    .ObjectContext
-//            //      //    .Translate<Branch>(reader, "Branch", MergeOption.AppendOnly);
-
-
-//            //      foreach (var item in result)
-//            //      {
-//            //          Branch model = new Branch()
-
-
-//            //          {
-
-//            //              Branch_Id = item.Branch_Id,
-//            //              Branch_Code=item.Branch_Code,
-//            //              Branch_Name = item.Branch_Name,
-//            //              Address1=item.Address1,
-//            //              Address2=item.Address2,
-//            //              Address3=item.Address3,
-//            //              Country_ID = item.Country_ID,
-//            //              State_ID = item.State_ID,
-//            //              City_ID = item.City_ID,
-//            //              //country = item.country,
-//            //              //city = item.city,
-//            //              //state = item.state,
-//            //              Order_Num = item.Order_Num,
-//            //              Pin_Code = item.Pin_Code,
-//            //              IsActive = item.IsActive,
-//            //              Created_Branc_Id = item.Created_Branc_Id,
-//            //              Created_Dte = item.Created_Dte,
-//            //              Created_User_Id = item.Created_User_Id,
-//            //              Modified_Branch_Id = item.Modified_Branch_Id,
-//            //              Modified_Dte = item.Modified_Dte,
-//            //              Modified_User_Id = item.Modified_User_Id
-//            //          };
-
-//            //          qList.Add(model);
-//            //      }
-//            //}
-//            //finally
-//            //{
-//            //    branchContext.Database.Connection.Close();
-//            //}
-
-//            //return qList;
 //        }
 
 
 
 
 
-//        //public bool InsertFileUploadDetails(List<Branch> branch)
-//        //{
-//        //    throw new NotImplementedException();
-//        //}
+//        public bool InsertFileUploadDetails(List<Branch> branch)
+//        {
+//            throw new NotImplementedException();
+//        }
 
 
 

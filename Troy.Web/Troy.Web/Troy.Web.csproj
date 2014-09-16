@@ -208,7 +208,6 @@
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BusinessPartnerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\IUserRepository.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManufacturerController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
@@ -1474,6 +1473,7 @@
     <Content Include="Views\Branch\Index.cshtml" />
     <Content Include="Views\Branch\_CreatePartial.cshtml" />
     <Content Include="Views\Branch\_EditPartial.cshtml" />
+    <Content Include="Views\Branch\_ViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />

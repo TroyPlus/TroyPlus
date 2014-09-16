@@ -86,14 +86,5 @@ namespace Troy.Model.AppMembership
         //public int Modified_Branch_Id { get; set; }
 
         //public DateTime? Modified_Date { get; set; }
-
-        //// Navigation Property
-        //public override ICollection<ApplicationUserRole> Roles
-        //{
-        //    get
-        //    {
-        //        return base.Roles;
-        //    }
-        //}
     }
 }

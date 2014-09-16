@@ -21,6 +21,10 @@ namespace Troy.Data.Repository
 
         Branch CheckDuplicateName(string bname);
 
+        Branch CheckDuplicateBranchName(string Branch_Name);
+
+        Branch CheckDuplicateBranch(string bname, string CheckingType);
+
         //Branch _ExporttoExcel(Branch branch);
 
         IEnumerable<Branch> _ExporttoExcel();
@@ -34,7 +38,7 @@ namespace Troy.Data.Repository
 
         List<CityList> GetAddresscityList();
 
-        //bool InsertFileUploadDetails(List<Branch> branch);
+        bool InsertFileUploadDetails(List<Branch> branch);
 
         bool AddNewBranch(Branch branch);
 
@@ -43,5 +47,8 @@ namespace Troy.Data.Repository
 
 
         //object CheckDuplicateName(string Branch_Code, string code);
+
+
+        bool GenerateXML(Object obj);
     }
 }
