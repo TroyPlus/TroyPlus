@@ -17,7 +17,7 @@
                             <li class="active">
                                 <a href="#viewdefault" data-toggle="tab">General </a>
                             </li>
-                            <li><a href="#viewadditional" data-toggle="tab">Product </a></li>
+                            <li><a href="#viewQuotationItem" data-toggle="tab">Product </a></li>
 
                         </ul>
 
@@ -146,68 +146,52 @@
 
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="viewadditional">
+                            <div class="tab-pane fade" id="viewQuotationItem">
 
-                                <div class="row">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Item Code:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.PurchaseQuotationItem.Product_id, new { @class = "form-control control-text", disabled = "disabled" })
-                                            @Html.ValidationMessageFor(model => model.PurchaseQuotationItem.Product_id)
-                                        </div>
-                                    </div>
+                                <br />
 
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Required Date:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.PurchaseQuotationItem.Required_date, new { @class = "form-control control-text datePicker", disabled = "disabled" })
-                                            @Html.ValidationMessageFor(model => model.PurchaseQuotationItem.Required_date)
-                                        </div>
-                                    </div>
+                                <div style="padding-left: 15px;">
 
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Required Quantity:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.PurchaseQuotationItem.Required_qty, new { @class = "form-control control-text", disabled = "disabled" })
-                                            @Html.ValidationMessageFor(model => model.PurchaseQuotationItem.Required_qty)
-                                        </div>
-                                    </div>
+                                    <table id="Table1" class="table table-bordered" cellspacing="6">
+                                        <thead>
+                                            <tr>
+                                                <th>Item Code</th>
+                                                <th>Required Date</th>
+                                                <th>Required Quantity</th>
+                                                <th>Unit Price</th>
+                                                <th>Discount Percentage</th>
+                                                <th>VAT Code</th>
+                                            </tr>
+                                        </thead>
 
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Unit Price:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.PurchaseQuotationItem.Unit_price, new { @class = "form-control control-text", disabled = "disabled" })
-                                            @Html.ValidationMessageFor(model => model.PurchaseQuotationItem.Unit_price)
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Discount Percentage:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.PurchaseQuotationItem.Discount_percent, new { @class = "form-control control-text", disabled = "disabled" })
-                                            @Html.ValidationMessageFor(model => model.PurchaseQuotationItem.Discount_percent)
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            VAT Code:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.PurchaseQuotationItem.Vat_Code, new { @class = "form-control control-text", disabled = "disabled" })
-                                            @Html.ValidationMessageFor(model => model.PurchaseQuotationItem.Vat_Code)
-                                        </div>
-                                    </div>
+                                        @for (int i = 0; i < Model.PurchaseQuotationItemList.Count; i++)
+                                        {
+                                            @Html.HiddenFor(model => model.PurchaseQuotationItemList[i].Quote_Item_Id)
+                                            <tr>
+                                                <td style="display:none;">
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].IsDummy, new { @class = "form-control control-text", disabled = "disabled" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text", disabled = "disabled" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @class = "form-control control-text datePicker", disabled = "disabled" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_qty, new { @class = "form-control control-text", disabled = "disabled" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Unit_price, new { @class = "form-control control-text", disabled = "disabled" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text", disabled = "disabled" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Vat_Code, new { @class = "form-control control-text", disabled = "disabled" })
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
 
                                 </div>
 

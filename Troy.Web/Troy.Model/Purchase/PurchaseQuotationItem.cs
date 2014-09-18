@@ -11,7 +11,9 @@ namespace Troy.Model.Purchase
     [Table("tblPurchaseQuotationItem")]
     public class PurchaseQuotationItem
     {
-        [Key]
+        [Key]       
+        public int Quote_Item_Id { get; set; }
+
         public int Purchase_Quote_Id { get; set; }
 
         public int Product_id { get; set; }
@@ -47,6 +49,9 @@ namespace Troy.Model.Purchase
         public int Modified_Branch_Id { get; set; }
 
         public DateTime Modified_Date { get; set; }
+
+        [NotMapped]
+        public int IsDummy { get; set; }
 
     }
 }

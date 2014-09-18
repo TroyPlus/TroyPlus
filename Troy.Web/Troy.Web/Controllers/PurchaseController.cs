@@ -21,6 +21,8 @@ namespace Troy.Web.Controllers
         private readonly IPurchaseRepository purchaseDb;
 
         private readonly IManufacturerRepository manufactureDb;
+
+        private string ErrorMessage = string.Empty;
         #endregion
 
         #region Constructor
@@ -36,7 +38,6 @@ namespace Troy.Web.Controllers
         // GET: Purchase
         public ActionResult Index(string searchColumn, string searchQuery)
         {
-
             try
             {
                 LogHandler.WriteLog("Purchase Index page requested by #UserId");
@@ -59,9 +60,8 @@ namespace Troy.Web.Controllers
         }
 
 
-
         [HttpPost]
-        public ActionResult Index(string submitButton, PurchaseViewModels model, HttpPostedFileBase file, string posting, string required, string valid)
+        public ActionResult Index(string submitButton, PurchaseViewModels model, HttpPostedFileBase file)
         {
             try
             {
@@ -74,24 +74,67 @@ namespace Troy.Web.Controllers
                     model.PurchaseQuotation.Modified_User_Id = 1;
                     model.PurchaseQuotation.Modified_Date = DateTime.Now;
                     model.PurchaseQuotation.Modified_Branch_Id = 1;
-                    model.PurchaseQuotation.Posting_Date = Convert.ToDateTime(posting);
+                    model.PurchaseQuotation.Posting_Date = DateTime.Now;
 
-                    model.PurchaseQuotationItem.Created_Branc_Id = 1;
-                    model.PurchaseQuotationItem.Created_Date = DateTime.Now;
-                    model.PurchaseQuotationItem.Created_User_Id = 1;  //GetUserId()
-                    model.PurchaseQuotationItem.Modified_Branch_Id = 1;
-                    model.PurchaseQuotationItem.Modified_Date = DateTime.Now;
-                    model.PurchaseQuotationItem.Modified_User_Id = 1;
-                    model.PurchaseQuotationItem.Quoted_qty = 10; //GetQuantity()
-                    model.PurchaseQuotationItem.Quoted_date = DateTime.Now.AddDays(2);
+                    var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
+                    model.PurchaseQuotationItemList = QuotationList.ToList();
 
-                    if (purchaseDb.AddNewQuotation(model.PurchaseQuotation, model.PurchaseQuotationItem))
+                    for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
+                    {
+                        model.PurchaseQuotationItemList[i].Created_Branc_Id = 1;
+                        model.PurchaseQuotationItemList[i].Created_Date = DateTime.Now;
+                        model.PurchaseQuotationItemList[i].Created_User_Id = 1;  //GetUserId()
+                        model.PurchaseQuotationItemList[i].Modified_Branch_Id = 1;
+                        model.PurchaseQuotationItemList[i].Modified_Date = DateTime.Now;
+                        model.PurchaseQuotationItemList[i].Modified_User_Id = 1;
+                        model.PurchaseQuotationItemList[i].Quoted_qty = 10; //GetQuantity()
+                        model.PurchaseQuotationItemList[i].Quoted_date = DateTime.Now.AddDays(2);
+                    }
+
+                    if (purchaseDb.AddNewQuotation(model.PurchaseQuotation, model.PurchaseQuotationItemList, ref ErrorMessage))
                     {
                         return RedirectToAction("Index", "Purchase");
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Quotation Not Saved");
+                        ViewBag.AppErrorMessage = ErrorMessage;
+                        return View("Error");
+                    }
+                }
+                else if (submitButton == "Update")
+                {
+                    model.PurchaseQuotation.Created_Branc_Id = 1;
+                    model.PurchaseQuotation.Created_Date = DateTime.Now;
+                    model.PurchaseQuotation.Created_User_Id = 1;  //GetUserId()
+                    model.PurchaseQuotation.Creating_Branch = 2;  //GetBranch 
+                    model.PurchaseQuotation.Modified_User_Id = 1;
+                    model.PurchaseQuotation.Modified_Date = DateTime.Now;
+                    model.PurchaseQuotation.Modified_Branch_Id = 1;
+                    model.PurchaseQuotation.Posting_Date = DateTime.Now;
+
+                    //var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
+                    //model.PurchaseQuotationItemList = QuotationList.ToList();
+
+                    for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
+                    {
+                        model.PurchaseQuotationItemList[i].Created_Branc_Id = 1;
+                        model.PurchaseQuotationItemList[i].Created_Date = DateTime.Now;
+                        model.PurchaseQuotationItemList[i].Created_User_Id = 1;  //GetUserId()
+                        model.PurchaseQuotationItemList[i].Modified_Branch_Id = 1;
+                        model.PurchaseQuotationItemList[i].Modified_Date = DateTime.Now;
+                        model.PurchaseQuotationItemList[i].Modified_User_Id = 1;
+                        model.PurchaseQuotationItemList[i].Quoted_qty = 10; //GetQuantity()
+                        model.PurchaseQuotationItemList[i].Quoted_date = DateTime.Now.AddDays(2);
+                    }
+
+                    if (purchaseDb.UpdateQuotation(model.PurchaseQuotation, model.PurchaseQuotationItemList, ref ErrorMessage))
+                    {
+                        return RedirectToAction("Index", "Purchase");
+                    }
+                    else
+                    {
+                        ViewBag.AppErrorMessage = ErrorMessage;
+                        return View("Error");
                     }
                 }
                 else if (submitButton == "Search")
@@ -103,7 +146,6 @@ namespace Troy.Web.Controllers
                 {
                     try
                     {
-
                         string fileExtension = System.IO.Path.GetExtension(Request.Files["FileUpload"].FileName);
 
                         string fileName = System.IO.Path.GetFileName(Request.Files["FileUpload"].FileName.ToString());
@@ -210,10 +252,10 @@ namespace Troy.Web.Controllers
                                             mlist.Add(mItem);
                                         }
 
-                                        //if (manufactureDb.InsertFileUploadDetails(mlist))
-                                        //{
-                                        //    return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
-                                        //}
+                                        if (manufactureDb.InsertFileUploadDetails(mlist))
+                                        {
+                                            return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
+                                        }
                                     }
                                     else
                                     {
@@ -252,7 +294,10 @@ namespace Troy.Web.Controllers
             {
                 PurchaseViewModels model = new PurchaseViewModels();
                 model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
-                model.PurchaseQuotationItem = purchaseDb.FindOneQuotationItemById(id);
+                model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
+
+                model.BranchList = purchaseDb.GetAddressList().ToList();
+
                 return PartialView(model);
             }
             catch (Exception ex)
@@ -269,7 +314,7 @@ namespace Troy.Web.Controllers
             {
                 PurchaseViewModels model = new PurchaseViewModels();
                 model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
-                model.PurchaseQuotationItem = purchaseDb.FindOneQuotationItemById(id);
+                model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
                 return PartialView(model);
             }
             catch (Exception ex)
