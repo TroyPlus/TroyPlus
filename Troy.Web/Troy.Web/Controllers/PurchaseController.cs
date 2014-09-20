@@ -34,6 +34,7 @@ namespace Troy.Web.Controllers
 
         #region Controller Actions
         // GET: Purchase
+        [Authorize]
         public ActionResult Index(string searchColumn, string searchQuery)
         {
 

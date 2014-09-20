@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Troy.Model.Branches;
 
 namespace Troy.Web.Models
 {
@@ -58,7 +59,8 @@ namespace Troy.Web.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-       
+        [Display(Name="Branch" )]
+        public IList<Branch> branchList { get; set; }
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }

@@ -1350,6 +1350,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+    <None Include="Properties\PublishProfiles\TroyPlusERP.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Troy.Data\Troy.Data.csproj">
