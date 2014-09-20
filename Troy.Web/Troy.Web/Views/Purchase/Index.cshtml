@@ -7,6 +7,62 @@
 
 <script type="text/javascript">
 
+    $(document).ready(function () {
+
+        $('.datePicker').datepicker();
+        //{ dateFormat: 'dd-mm-yy' }
+
+        var i = 1;
+
+        //Dynamically add quotation row
+        function addRow() {
+            var html = '<tr>' +
+                        '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="PurchaseQuotationItemList_' + i + '__IsDummy" name="PurchaseQuotationItemList[' + i + '].IsDummy" type="text" value=""> </td>' +
+                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseQuotationItemList_' + i + '__Product_id" name="PurchaseQuotationItemList[' + i + '].Product_id" type="text" value=""> </td>' +
+                        '<td> <input class="form-control control-text datePicker hasDatepicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_' + i + '__Required_date" name="PurchaseQuotationItemList[' + i + '].Required_date" type="text" value=""> </td>' +
+                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="PurchaseQuotationItemList_' + i + '__Required_qty" name="PurchaseQuotationItemList[' + i + '].Required_qty" type="text" value=""> </td>' +
+                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseQuotationItemList_' + i + '__Unit_price" name="PurchaseQuotationItemList[' + i + '].Unit_price" type="text" value=""> </td>' +
+                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-required="The Discount_percent field is required." id="PurchaseQuotationItemList_' + i + '__Discount_percent" name="PurchaseQuotationItemList[' + i + '].Discount_percent" type="text" value=""> </td>' +
+                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field VAT Code must be a number." data-val-required="The VAT Code field is required." id="PurchaseQuotationItemList_' + i + '__Vat_Code" name="PurchaseQuotationItemList[' + i + '].Vat_Code" type="text" value=""> </td>' +
+                        '<td><input type="button" class="BtnPlus btn pull-left" value="+" /> <input type="button" class="BtnMinus btn pull-left" value="-" /></td>' +
+
+                        @*'<td>@Html.TextBoxFor(model => model.PurchaseQuotationItemList[2].Required_date, new { @class = "form-control control-text datePicker" })</td>' +
+                        '<td> <input class="form-control control-text datePicker hasDatepicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_0__Required_date" name="PurchaseQuotationItemList[0].Required_date" type="text" value=""> </td>' +*@
+
+                        '</tr>'
+
+            $(html).appendTo($("#createItemTable"))
+
+            //debugger;
+
+            $("#PurchaseQuotationItemList_1__Required_date").datepicker("refresh");
+            i++;
+        };
+
+        //$(".BtnPlus").click(addRow);
+
+        $("#createItemTable").on("click", ".BtnPlus", addRow);
+
+        function deleteRow() {
+            //debugger;
+            var par = $(this).parent().parent();
+            //par.remove();
+            //$('#idEstablishmentRow td.ms-formbody span input').attr('id');
+            var id = par[0].childNodes[0].childNodes[1].id;
+
+            id = '#' + id;
+
+            $(id).val("1");
+
+            //par[0].childNodes[0].childNodes[1].value = 1;
+
+            //$(id).val(1);
+            par.hide();
+        };
+        $("#createItemTable").on("click", ".BtnMinus", deleteRow);
+
+    });
+
     function EditPurchase(id) {
 
         var url = $('#editModal').data('url') + '/' + id;
@@ -220,7 +276,7 @@
                                 <ul id="myTab" class="nav nav-tabs tabdrop">
                                     <li class="active">
                                         <a href="#default" data-toggle="tab">Bulk Addition</a>
-                                    </li>                                   
+                                    </li>
                                 </ul>
 
                                 <div id="myTabContent" class="tab-content">
@@ -235,27 +291,27 @@
                                                 </div>
                                             </div>
                                             @*<div class="row">
-                                    <div class="col-md-12 text-right">
-                                        <input type="button" id="btnUpload" name="FileUploadButton" value="Upload" class="btn btn-success"
-                                               onclick="return IFrameSubmit();" />
-                                    </div>
-                                </div>*@
+                                                    <div class="col-md-12 text-right">
+                                                        <input type="button" id="btnUpload" name="FileUploadButton" value="Upload" class="btn btn-success"
+                                                               onclick="return IFrameSubmit();" />
+                                                    </div>
+                                                </div>*@
                                         </div>
 
                                     </div>
                                 </div>
                             </div>
-                            </div>
                         </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
-                            <button class="btn pull-left" data-dismiss="modal">Close</button>
-                            @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
-                        </div>
-
                     </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
+                    <button class="btn pull-left" data-dismiss="modal">Close</button>
+                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+                </div>
+
+            </div>
         </div>
     </div>
 }

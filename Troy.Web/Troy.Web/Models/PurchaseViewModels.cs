@@ -14,6 +14,8 @@ namespace Troy.Web.Models
 
         public PurchaseQuotationItem PurchaseQuotationItem { get; set; }
 
+        public IList<PurchaseQuotationItem> PurchaseQuotationItemList { get; set; }      
+
         public List<PurchaseQuotation> PurchaseQuotationList { get; set; }
 
         //public Status QuotationStatus { get; set; }
