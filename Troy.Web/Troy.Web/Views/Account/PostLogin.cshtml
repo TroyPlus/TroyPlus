@@ -1,0 +1,71 @@
+﻿@using Troy.Web.Models
+@model PostLoginViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    ViewBag.Title = "Log in";
+}
+
+
+<div class="row">
+    &nbsp;
+</div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <section id="loginForm">
+            @using (Html.BeginForm("PostLoginSubmit", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {                
+                <div class="panel panel-primary">
+                    <div class="row panel-heading">
+                        <div class="form-horizontal">
+                            <div class="col-md-6 text-left">
+
+                                <h2>@ViewBag.title</h2>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <img src="~/Content/images/Troy Plus Logo - Rectangle.jpg" class="img-rounded LoginHeaderLogo" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control",@disabled="disabled" })
+                                
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @disabled = "disabled" })
+
+                            </div>
+                        </div>             
+                        <div class="form-group">
+                            <div class="col-md-offset-8 col-md-4">
+                                <input type="submit" value="Log in" class="btn btn-primary pull-right disabled" />
+                            </div>
+                        </div>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.FinancialYear, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(m => m.FinancialYear.Year, new SelectList(Model.YearList.AsEnumerable(), "Year", "Year"), "Select Year", new { @class = "form-control control-text" })
+                                @Html.ValidationMessageFor(m => m.FinancialYear.Year, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-8 col-md-4">
+                                <input type="submit" value="Launch" class="btn btn-primary pull-right" />
+                            </div>
+                        </div>
+                    </div>                                       
+                </div>
+            }
+        </section>
+    </div>
+</div>
+

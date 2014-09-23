@@ -10,6 +10,7 @@ using Troy.Web.Models;
 using Troy.Utilities.CrossCutting;
 using Troy.Data.Repository;
 using Troy.Data.Repository.MasterData;
+using System.Web.Routing;
 
 namespace Troy.Web.Controllers
 {
@@ -34,9 +35,6 @@ namespace Troy.Web.Controllers
             LogHandler.WriteLog("Login Reqested");
             ViewBag.ReturnUrl = returnUrl;
             LoginViewModel loginViewModel = new LoginViewModel();
-            loginViewModel.BranchList = _branchRepository.GetAllBranch();
-            loginViewModel.YearList = _yearRepository.GetAllFinancialYears();
-
             return View(loginViewModel);
         }
 
@@ -60,6 +58,7 @@ namespace Troy.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+               
                 return View(model);
             }
 
@@ -69,7 +68,7 @@ namespace Troy.Web.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToPostLoginUrl(returnUrl,model);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -82,6 +81,29 @@ namespace Troy.Web.Controllers
             }
         }
 
+        [Authorize]
+        public ActionResult PostLogin(PostLoginViewModel model,string returnUrl)
+        {            
+          
+            ViewBag.ReturnUrl = returnUrl;
+
+            return View(model);
+        }
+
+        //
+        // POST: /Account/PostLogin
+        [HttpPost]                
+        public ActionResult PostLoginSubmit(PostLoginViewModel model, string returnUrl)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.BranchList = _branchRepository.GetAllBranch();
+                model.YearList = _yearRepository.GetAllFinancialYears();
+                return View(model);
+            }
+
+            return RedirectToLocal(returnUrl);           
+        }
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
@@ -426,6 +448,16 @@ namespace Troy.Web.Controllers
                 return Redirect(returnUrl);
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        private ActionResult RedirectToPostLoginUrl(string returnUrl,LoginViewModel loginViewModel)
+        {
+            PostLoginViewModel model = new PostLoginViewModel();
+            model.UserName = loginViewModel.UserName;
+            model.Password = loginViewModel.Password;
+            model.BranchList = _branchRepository.GetAllBranch();
+            model.YearList = _yearRepository.GetAllFinancialYears();
+            return View("PostLogin",model);
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

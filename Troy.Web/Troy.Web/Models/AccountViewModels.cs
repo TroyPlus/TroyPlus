@@ -58,10 +58,23 @@ namespace Troy.Web.Models
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
+        
+        [Display(Name = "Remember me?")]
+        public bool RememberMe { get; set; }
+    }
 
-        [Required]
-        [Display(Name = "Branch")]
-        public Branch Branch { get; set; }
+    public class PostLoginViewModel
+    {        
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
+                
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        //[Required]
+        //[Display(Name = "Branch")]
+        //public Branch Branch { get; set; }
 
         public IList<Branch> BranchList { get; set; }
 
@@ -71,8 +84,6 @@ namespace Troy.Web.Models
 
         public IList<FinancialYear> YearList { get; set; }
 
-        [Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; }
     }
 
     public class RegisterViewModel

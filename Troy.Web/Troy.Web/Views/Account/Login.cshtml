@@ -1,7 +1,8 @@
 ﻿@using Troy.Web.Models
 @model LoginViewModel
 @{
-    ViewBag.Title = "Log in";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    ViewBag.Title = "Log in";    
 }
 
 
@@ -41,14 +42,7 @@
                     @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Branch, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.Branch.Branch_Name, new SelectList(Model.BranchList.AsEnumerable(), "BranchId", "BranchName"), "Select your branch", new { @class = "form-control control-text" })
-                    @Html.ValidationMessageFor(m => m.Branch.Branch_Name, "", new { @class = "text-danger" })
-                </div>
-            </div>
+            </div>            
             <div class="form-group">
                 <div class="col-md-offset-8 col-md-4">
                     <input type="submit" value="Log in" class="btn btn-primary pull-right" />

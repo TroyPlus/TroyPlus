@@ -1,0 +1,84 @@
+﻿@using Troy.Model.AppMembership;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Mobile specific metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Force IE9 to render in normal mode -->
+    @*[if IE]<meta http-equiv="x-ua-compatible" content="IE=9" />[endif]*@
+    <meta name="author" content="Troy Plus" />
+    <meta name="description" content="Troy Plus - ERP - SAP Integrated" />
+    <meta name="keywords" content="ERP, Troy Plus" />
+    <meta name="application-name" content="Troy Plus" />
+    <!-- Windows8 touch icon ( http://www.buildmypinnedsite.com/ )-->
+    <meta name="msapplication-TileColor" content="#3399cc" />
+
+    @*[if lt IE 9]
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet" type="text/css" />
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet" type="text/css" />
+        <link href="http://fonts.googleapis.com/css?family=Droid+Sans:400" rel="stylesheet" type="text/css" />
+        <link href="http://fonts.googleapis.com/css?family=Droid+Sans:700" rel="stylesheet" type="text/css" />
+        [endif]*@
+    <!-- Application Title-->
+    <title>@ViewBag.Title - Troy Plus</title>
+
+    <!-- Load Styles-->
+    @Styles.Render("~/Content/themes/icons")
+    @Styles.Render("~/Content/themes/jqueryUI")
+    @Styles.Render("~/Content/themes/bootstrap")
+    @Styles.Render("~/Content/themes/plugins")
+    @Styles.Render("~/Content/themes/mainStyles")
+    @Styles.Render("~/Content/themes/custom")
+
+    <!-- Load Scripts -->
+    @Scripts.Render("~/bundles/script/jPace")
+    @Scripts.Render("~/bundles/script/jLibs")
+    @Scripts.Render("~/bundles/script/bootstrap")
+    @Scripts.Render("~/bundles/script/jRespond")
+    @Scripts.Render("~/bundles/script/jSlimScrollBar")
+    @Scripts.Render("~/bundles/script/jAutoSize")
+    @Scripts.Render("~/bundles/script/jSearch")
+    @Scripts.Render("~/bundles/script/jBootbox")
+    @Scripts.Render("~/bundles/script/commonScripts")
+    @Scripts.Render("~/bundles/script/jqueryval")
+</head>
+
+<body>
+
+
+    <!-- Body -->
+    <!-- Start #content -->
+    @RenderBody()
+
+    <!-- End #content -->
+    <!-- End Body -->
+
+
+    <div class="row">
+        <hr />
+        <div class="col-md-6 col-md-offset-3 text-center">
+            <p>Copyrights &copy; TroyPlus  @DateTime.Now.Year. All Rights Reserved </p>
+        </div>
+    </div>
+    <!-- Inline Javascripts -->
+    @RenderSection("scripts", required: false)
+    <script>
+        window.jQuery || document.write('<script src="~/~/Content/themes/TroyPlus/js/libs/jquery-2.1.1.min.js">\x3C/script>')
+    </script>
+
+    <script>
+        window.jQuery || document.write('<script src="~/~/Content/themes/TroyPlus/js/libs/jquery-ui-1.10.4.min.js">\x3C/script>')
+    </script>
+
+
+</body>
+
+
+
+</html>
+
+
+
+
