@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -10,6 +7,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Troy.Model.AppMembership;
 using Troy.Web.Models;
+using Troy.Utilities.CrossCutting;
+using Troy.Data.Repository;
+using Troy.Data.Repository.MasterData;
 
 namespace Troy.Web.Controllers
 {
@@ -17,22 +17,27 @@ namespace Troy.Web.Controllers
     public class AccountController : Controller
     {
         private ApplicationUserManager _userManager;
+        private IYearRepository _yearRepository;
+        private IBranchRepository _branchRepository;
 
-        public AccountController()
+        public AccountController(IBranchRepository branchRepository,IYearRepository yearRepository)
         {
+            this._yearRepository = yearRepository;
+            this._branchRepository = branchRepository;
         }
-
-     
-
-     
 
         //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            LogHandler.WriteLog("Login Reqested");
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            LoginViewModel loginViewModel = new LoginViewModel();
+            loginViewModel.BranchList = _branchRepository.GetAllBranch();
+            loginViewModel.YearList = _yearRepository.GetAllFinancialYears();
+
+            return View(loginViewModel);
         }
 
         private ApplicationSignInManager _signInManager;
@@ -71,6 +76,7 @@ namespace Troy.Web.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
+
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }

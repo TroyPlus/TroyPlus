@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Troy.Model.Branches;
+using Troy.Model.Years;
 
 namespace Troy.Web.Models
 {
@@ -50,8 +51,7 @@ namespace Troy.Web.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "User Name")]
-        [EmailAddress]
+        [Display(Name = "User Name")]        
         public string UserName { get; set; }
 
         [Required]
@@ -59,8 +59,17 @@ namespace Troy.Web.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name="Branch" )]
-        public IList<Branch> branchList { get; set; }
+        [Required]
+        [Display(Name = "Branch")]
+        public Branch Branch { get; set; }
+
+        public IList<Branch> BranchList { get; set; }
+
+        [Required]
+        [Display(Name = "Year")]
+        public FinancialYear FinancialYear { get; set; }
+
+        public IList<FinancialYear> YearList { get; set; }
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
