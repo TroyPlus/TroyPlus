@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "BusinessPartner";
-    ViewBag.BodyCss = "supplier";
+    ViewBag.BodyCss = "BusinessPartner";
 }
 
 
@@ -27,7 +27,7 @@
         $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
         //var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
-        $('#grdManufacturer').dataTable({
+        $('#grdBusinessPartner').dataTable({
             "bFilter": false, "sPaginationType": "full_numbers",
             "oLanguage": {
                 "sInfo": "Total of _TOTAL_ entries to show (_START_ to _END_)"
@@ -52,25 +52,31 @@
                 Id = 'BP_Name';
                 $('#SearchColumn').val(Id);
                 $('#SearchBySpan').text(Id);
-            }           
+            }
+            if (this.id == 'Bill_Address1') {
+                $('#SearchQuery').removeAttr("disabled", "disabled");
+                Id = 'Bill_Address1';
+                $('#SearchColumn').val(Id);
+                $('#SearchBySpan').text(Id);
+            }
             if (this.id == 'IsActive') {
-                $('#SearchQuery').removeAttr("disabled", "disabled").datepicker();
+                $('#SearchQuery').removeAttr("disabled", "disabled");
                 Id = 'IsActive';
                 $('#SearchColumn').val(Id);
                 $('#SearchBySpan').text(Id);
             }
         });
 
-        $("#SearchString").autocomplete({
-            source: "/BusinessPartner/CheckForDuplication",
-            minLength: 1,
-            select: function (event, ui) {
-                if (ui.item) {
-                    $("#SearchString").val(ui.item.value);
-                    $("form").submit();
-                }
-            }
-        });
+        //$("#SearchString").autocomplete({
+        //    source: "/BusinessPartner/CheckForDuplication",
+        //    minLength: 1,
+        //    select: function (event, ui) {
+        //        if (ui.item) {
+        //            $("#SearchString").val(ui.item.value);
+        //            $("form").submit();
+        //        }
+        //    }
+        //});
     });
 
     function EditBusinessPartner(id) {
@@ -174,16 +180,12 @@
 
     $.validator.unobtrusive.parse('#myModal form');
 
-
-
     function GetValue() {
         var Contain = "";
         $("#Container1 :text").each(function () {
             Contain += $(this).val() + "$";
         });
     }
-
-
 
 </script>
 
@@ -199,7 +201,6 @@
     <div class="panel panel-default">
 
         <div class="panel-head">
-
             <div class="linkBar1">
                 <div class="col-md-8 text-left">
                     <h4>Business Partner List.</h4>
@@ -236,7 +237,7 @@
                                 <li id="Name" role="presentation">
                                     <a onclick="" role="menuitem" tabindex="-1"
                                        href="#">Name</a>
-                                </li>                               
+                                </li>
                                 <li id="IsActive" role="presentation"><a role="menuitem" tabindex="-1" href="#">IsActive</a></li>
                             </ul>
                         </div>
@@ -268,12 +269,27 @@
                             </th>
                             <th>
                                 <div class="lBor">
-                                    Bill Address
+                                    Group Type
                                 </div>
                             </th>
                             <th>
                                 <div class="lBor">
-                                    Is Active
+                                    Group Name
+                                </div>
+                            </th>
+                            <th>
+                                <div class="lBor">
+                                    Phone1
+                                </div>
+                            </th>
+                            <th>
+                                <div class="lBor">
+                                   Mobile
+                                </div>
+                            </th>
+                            <th>
+                                <div class="lBor">
+                                    IsActive
                                 </div>
                             </th>
                             <th>
@@ -285,36 +301,45 @@
                     <tbody>
                         @foreach (Troy.Model.BusinessPartner.BusinessPartner item in Model.BusinessPartnerList)
                         {
-                            <tr class="odd">
-                                <td style="display: none">
-                                    @item.BP_Id
-                                </td>
-                                <td>
-                                    @item.BP_Name
-                                </td>
-                                <td>
-                                    @item.Bill_Address1
-                                </td>
-                                <td>
-                                    @item.IsActive
-                                </td>
-                                <td>
-                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewBusinessPartner(@item.BP_Id);">
-                                        <img src="@Url.Content("../Content/images/application_view_detail.png")" />
-                                    </a>
-                                    <span class="text-muted">|</span>
-                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditBusinessPartner(@item.BP_Id);">
-                                        <img src="@Url.Content("../Content/images/pencil.png")" />
-                                    </a>
-                                    <span class="text-muted">|</span>
+                        <tr class="odd">
+                            <td style="display: none">
+                                @item.BP_Id
+                            </td>
+                            <td>
+                                @item.BP_Name
+                            </td>
+                            <td>
+                                @item.Group_Type
+                            </td>
+                            <td>
+                                @item.Group_id
+                            </td>
+                            <td>
+                                @item.Phone1
+                            </td>
+                            <td>
+                                @item.Mobile
+                            </td>
+                            <td>
+                                @item.IsActive
+                            </td>
+                            <td>
+                                <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewBusinessPartner(@item.BP_Id);">
+                                    <img src="@Url.Content("../Content/images/application_view_detail.png")" />
+                                </a>
+                                <span class="text-muted">|</span>
+                                <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditBusinessPartner(@item.BP_Id);">
+                                    <img src="@Url.Content("../Content/images/pencil.png")" />
+                                </a>
+                                <span class="text-muted">|</span>
 
-                                    <a href="@Url.Action("_DeletePartialView", "Manufacture", new { id = item.BP_Id })" data-modal="true">
-                                        <img src="@Url.Content("../Content/images/cross_script.png")" />
-                                    </a>
+                                <a href="@Url.Action("_DeletePartialView", "Manufacture", new { id = item.BP_Id })" data-modal="true">
+                                    <img src="@Url.Content("../Content/images/cross_script.png")" />
+                                </a>
 
-                                    @* @Html.ActionLink("Delete", "DeActivateExclusion", new { ruleId = item.Purchase_Quote_Id }, new { /*onclick = "return Deleteclick(" + item.Purchase_Quote_Id + ");" */ })*@
-                                </td>
-                            </tr>
+                                @* @Html.ActionLink("Delete", "DeActivateExclusion", new { ruleId = item.Purchase_Quote_Id }, new { /*onclick = "return Deleteclick(" + item.Purchase_Quote_Id + ");" */ })*@
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -379,7 +404,7 @@
 
                     <div class="modal-footer">
                         @*<input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />*@
-                        <input class="btn btn-primary pull-left" type="button" id="manufactureUpload" name="FileUploadButton" value="Upload" onclick="IFrameManuSubmit();" />
+                        <input class="btn btn-primary pull-left" type="button" id="BPUpload" name="FileUploadButton" value="Upload" onclick="IFrameManuSubmit();" />
                         <button class="btn pull-left" data-dismiss="modal">Close</button>
                         @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
                     </div>

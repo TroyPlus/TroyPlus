@@ -27,14 +27,12 @@ namespace Troy.Model.BusinessPartner
         [Index(IsUnique = true)]
         [Required(ErrorMessage = "Business Partner is required.")]
         [StringLength(30)]
-        [Column(TypeName = "varchar")]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string BP_Name { get; set; }
         //------------
 
         [Required(ErrorMessage = "Group Type is required.")]
         [StringLength(10)]
-        [Column(TypeName = "varchar")]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string Group_Type { get; set; }
         //------------
@@ -47,19 +45,16 @@ namespace Troy.Model.BusinessPartner
 
         [Required(ErrorMessage = "Ship Address is required.")]
         [StringLength(50)]
-        [Column(TypeName = "varchar")]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string Ship_Address1 { get; set; }
         //------------
 
         [StringLength(50)]
-        [Column(TypeName = "char")]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string Ship_address2 { get; set; }
         //------------
 
         [StringLength(50)]
-        [Column(TypeName = "varchar")]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string Ship_address3 { get; set; }
         //------------
@@ -84,26 +79,22 @@ namespace Troy.Model.BusinessPartner
 
         [Required(ErrorMessage = "Ship Pincode is required.")]
         [StringLength(10)]
-        [Column(TypeName = "varchar")]
         [RegularExpression(@"^[0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string Ship_pincode { get; set; }
         //------------
 
         [Required(ErrorMessage = "Bill Address is required.")]
         [StringLength(50)]
-        [Column(TypeName = "varchar")]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string Bill_Address1 { get; set; }
         //------------
 
         [StringLength(50)]
-        [Column(TypeName = "varchar")]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string Bill_address2 { get; set; }
         //------------
 
         [StringLength(50)]
-        [Column(TypeName = "varchar")]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string Bill_address3 { get; set; }
         //------------
@@ -128,15 +119,12 @@ namespace Troy.Model.BusinessPartner
 
         [Required(ErrorMessage = "Bill Pincode is required.")]
         [StringLength(10)]
-        [Column(TypeName = "varchar")]
         [RegularExpression(@"^[0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string Bill_pincode { get; set; }
         //------------
 
         [Required]
-        [StringLength(1)]
-        [Column(TypeName = "char")]
-        public string IsActive { get; set; }
+        public bool IsActive { get; set; }
         //------------
 
         [Required(ErrorMessage = "Price list is required.")]
@@ -156,44 +144,36 @@ namespace Troy.Model.BusinessPartner
         //------------
 
         [StringLength(10)]
-        [Column(TypeName = "varchar")]
         public string Phone1 { get; set; }
         //------------
 
         [StringLength(10)]
-        [Column(TypeName = "varchar")]
         public string Phone2 { get; set; }
         //------------
 
         [Required(ErrorMessage = "Mobile is required.")]
         [StringLength(10)]
-        [Column(TypeName = "varchar")]
         public string Mobile { get; set; }
         //------------
 
         [StringLength(30)]
-        [Column(TypeName = "varchar")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email_Address { get; set; }
         //------------
 
         [StringLength(20)]
-        [Column(TypeName = "varchar")]
         public string Website { get; set; }
         //------------
 
         [StringLength(20)]
-        [Column(TypeName = "varchar")]
         public string Contact_person { get; set; }
         //------------
 
         [StringLength(100)]
-        [Column(TypeName = "varchar")]
         public string Remarks { get; set; }
         //------------
 
-        [StringLength(100)]
-        [Column(TypeName = "varchar")]
+        [StringLength(20)]
         public string Ship_method { get; set; }
         //------------
 

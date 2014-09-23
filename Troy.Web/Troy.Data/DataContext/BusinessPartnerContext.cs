@@ -14,6 +14,13 @@ using Troy.Model.States;
 using Troy.Model.Branches;
 using Troy.Model.Employees;
 using Troy.Model.BusinessPartner;
+using Troy.Model.Designations;
+using Troy.Model.Departments;
+using Troy.Model.Initials;
+using Troy.Model.MaritalStatus;
+using Troy.Model.LeftReasons;
+using Troy.Model.Genders;
+
 
 namespace Troy.Data.DataContext
 {
@@ -40,6 +47,18 @@ namespace Troy.Data.DataContext
         public DbSet<PriceList> PriceList { get; set; }
 
         public DbSet<Ledger> Ledger { get; set; }
+
+        public DbSet<Designation> Designation { get; set; }
+
+        public DbSet<Department> Department { get; set; }
+
+        public DbSet<Initial> Initial { get; set; }
+
+        public DbSet<MaritalStatus> MaritalStatus { get; set; }
+
+        public DbSet<Gender> Gender { get; set; }
+
+        public DbSet<LeftReason> LeftReason { get; set; }
     
     }
 }

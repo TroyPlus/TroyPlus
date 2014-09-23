@@ -11,6 +11,14 @@ using System.Threading.Tasks;
 using Troy.Data.DataContext;
 using Troy.Model.BusinessPartner;
 using Troy.Utilities.CrossCutting;
+using Troy.Model.Cities;
+using Troy.Model.Countries;
+using Troy.Model.States;
+using Troy.Model.Groups;
+using Troy.Model.PriceLists;
+using Troy.Model.Branches;
+using Troy.Model.Ledgers;
+using Troy.Model.Employees;
 
 
 namespace Troy.Data.Repository
@@ -187,6 +195,103 @@ namespace Troy.Data.Repository
             //manufactureContext.Manufacture.Add(obj);  
 
             return true;
+        }
+
+        public List<GroupList> GetGroupList()
+        {
+            var item = (from a in businesspartnercontext.Group
+                        select new GroupList
+                        {
+                            Group_Id = a.Group_Id,
+                            Group_Name=a.Group_Name
+                        }).ToList();
+
+            return item;
+        }
+
+        public List<PricelistLists> GetPriceList()
+        {
+            var item = (from a in businesspartnercontext.PriceList
+                        select new PricelistLists
+                        {
+                            Id = a.Id,
+                            Price_List_Desc = a.Price_List_Desc
+                        }).ToList();
+
+            return item;
+        }
+
+        public List<BranchList> GetBranchList()
+        {
+            var item = (from a in businesspartnercontext.Branch
+                        select new BranchList
+                        {
+                            BranchId = a.Branch_Id,
+                            BranchName = a.Branch_Name
+                        }).ToList();
+
+            return item;
+        }
+
+        public List<LedgerList> GetLedgerList()
+        {
+            var item = (from a in businesspartnercontext.Ledger
+                        select new LedgerList
+                        {
+                            Ledger_Id = a.Ledger_Id,
+                            Ledger_Name = a.Ledger_Name
+                        }).ToList();
+
+            return item;
+        }
+
+        public List<EmployeeList> GetEmployeeList()
+        {
+            var item = (from a in businesspartnercontext.Employee
+                        select new EmployeeList
+                        {
+                            Emp_Id = a.Emp_Id,
+                            First_Name = a.First_Name
+                        }).ToList();
+
+            return item;
+        }
+
+        public List<CountryList> GetAddresscountryList()
+        {
+            var item = (from a in businesspartnercontext.Country
+                        select new CountryList
+                        {
+                            ID = a.ID,
+                            Country_Name = a.Country_Name
+                            //BranchId = a.Branch_Id
+                        }).ToList();
+
+            return item;
+        }
+
+        public List<StateList> GetAddressstateList()
+        {
+            var item = (from a in businesspartnercontext.State
+                        select new StateList
+                        {
+                            ID = a.ID,
+                            State_Name = a.State_Name
+                        }).ToList();
+
+            return item;
+        }
+
+        public List<CityList> GetAddresscityList()
+        {
+            var item = (from a in businesspartnercontext.City
+                        select new CityList
+                        {
+                            ID = a.ID,
+                            City_Name = a.City_Name
+                        }).ToList();
+
+            return item;
         }
     }
 }

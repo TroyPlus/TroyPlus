@@ -78,7 +78,7 @@ namespace Troy.Model.Branches
  
         public string Pin_Code { get; set; }
 
-        [Index(IsUnique = true)]
+        //[Index(IsUnique = true)]
         [Required(ErrorMessage = "Order number is required.")]
         [Display(Name = "Order number")]
         //[Remote("CheckForDuplication", "Branch")]
