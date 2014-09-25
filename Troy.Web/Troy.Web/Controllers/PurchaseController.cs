@@ -37,12 +37,12 @@ namespace Troy.Web.Controllers
         #region Controller Actions
         // GET: Purchase
         [Authorize]
-        public ActionResult Index(string searchColumn, string searchQuery)
+        public ActionResult Index()
         {
             try
             {
                 LogHandler.WriteLog("Purchase Index page requested by #UserId");
-                var qList = purchaseDb.GetFilterQuotation(searchColumn, searchQuery, Guid.Empty);   //GetUserId();                
+                var qList = purchaseDb.GetAllQuotation();
 
                 PurchaseViewModels model = new PurchaseViewModels();
                 model.PurchaseQuotationList = qList;
