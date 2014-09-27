@@ -41,6 +41,10 @@ namespace Troy.Web
                 , "~/Content/themes/TroyPlus/js/jquery-ui-js.js",
                 "~/Content/themes/TroyPlus/js/libs/jquery-ui-1.10.4.min.js"
                 ));
+            // UI Validation 
+            bundles.Add(new ScriptBundle("~/bundles/script/jqueryval").Include(
+                        "~/Scripts/jquery.unobtrusive*",
+                        "~/Scripts/jquery.validate*"));
 
             // Bootstrap plugins -->
             bundles.Add(new ScriptBundle("~/bundles/script/bootstrap").Include("~/Content/themes/TroyPlus/js/bootstrap/bootstrap.js"));
@@ -81,7 +85,7 @@ namespace Troy.Web
             #endregion
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
-            //BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = true;
         }
     }
 }

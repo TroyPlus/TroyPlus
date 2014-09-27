@@ -462,6 +462,11 @@
     <Content Include="Content\themes\TroyPlus\js\jquery-2.1.1.min.js" />
     <Content Include="Content\themes\TroyPlus\js\jquery-ui-js.js" />
     <Content Include="Content\themes\TroyPlus\js\jquery.sprFlat.js" />
+    <None Include="Content\themes\TroyPlus\js\jquery.validate-vsdoc.js" />
+    <Content Include="Content\themes\TroyPlus\js\jquery.validate.js" />
+    <Content Include="Content\themes\TroyPlus\js\jquery.validate.min.js" />
+    <Content Include="Content\themes\TroyPlus\js\jquery.validate.unobtrusive.js" />
+    <Content Include="Content\themes\TroyPlus\js\jquery.validate.unobtrusive.min.js" />
     <Content Include="Content\themes\TroyPlus\js\jRespond.min.js" />
     <Content Include="Content\themes\TroyPlus\js\libs\excanvas.min.js" />
     <Content Include="Content\themes\TroyPlus\js\libs\jquery-2.1.1.min.js" />
@@ -1338,6 +1343,8 @@
     <Content Include="Views\Branch\_CreatePartial.cshtml" />
     <Content Include="Views\Branch\_EditPartial.cshtml" />
     <Content Include="Views\Branch\_ViewPartial.cshtml" />
+    <Content Include="Views\Account\PostLogin.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />
@@ -1350,6 +1357,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+    <None Include="Properties\PublishProfiles\TroyPlusERP.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Troy.Data\Troy.Data.csproj">
