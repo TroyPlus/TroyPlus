@@ -1,7 +1,7 @@
 ﻿@model Troy.Web.Models.PurchaseViewModels
 
 @{
-    ViewBag.Title = "Purchase";
+    ViewBag.Title = "Purchases";
 }
 
 
@@ -136,14 +136,15 @@
             <div class="row">&nbsp;</div>
             <!-- Start .row -->
             <div class="row">
+                <!-- Start .bredcrumb -->
+                <ul id="crumb" class="breadcrumb"></ul>
+                <!-- End .breadcrumb -->
                 <!-- Start .page-header -->
                 <div class="form-group">
                     <label class="col-md-2 col-md-2 col-sm-12 h4 control-label pull-left">
                         @ViewBag.Title
                     </label>
-                    <!-- Start .bredcrumb -->
-                    @*<ul id="crumb" class="breadcrumb"></ul>*@
-                    <!-- End .breadcrumb -->
+
                     <!-- Start .option-buttons -->
                     <!-- Removed -->
                     <!-- End .option-buttons -->
@@ -187,8 +188,10 @@
                                 </div>
                             </div>
                             <div class="panel-body">
-                                <table class="table display" id="datatable">
-                                    <thead>
+                                
+                                <table class="table display" id="datatable">                                    
+                                    <thead>                     
+                                                         
                                         <tr>
                                             <th>Purchase QuotationId</th>
                                             <th>Vendor</th>
@@ -228,6 +231,7 @@
                                         }
                                     </tbody>
                                 </table>
+                                
                             </div>
                         </div>
                         <!-- End .panel -->
