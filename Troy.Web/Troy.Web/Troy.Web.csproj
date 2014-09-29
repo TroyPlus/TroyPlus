@@ -218,6 +218,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BranchViewModels.cs" />
+    <Compile Include="Models\BusinessPartnerViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ManufacturerViewModels.cs" />
     <Compile Include="Models\ProductGroupViewModels.cs" />
@@ -1463,11 +1464,6 @@
     <Content Include="Views\Manufacturer\_CreatePartial.cshtml" />
     <Content Include="Views\Manufacturer\_EditPartial.cshtml" />
     <Content Include="Views\Manufacturer\_ViewPartial.cshtml" />
-    <Content Include="Views\BusinessPartner\Create.cshtml" />
-    <Content Include="Views\BusinessPartner\Delete.cshtml" />
-    <Content Include="Views\BusinessPartner\Details.cshtml" />
-    <Content Include="Views\BusinessPartner\Edit.cshtml" />
-    <Content Include="Views\BusinessPartner\Index.cshtml" />
     <Content Include="Views\Branch\Create.cshtml" />
     <Content Include="Views\Branch\Delete.cshtml" />
     <Content Include="Views\Branch\Details.cshtml" />
@@ -1480,6 +1476,10 @@
     <Content Include="Views\ProductGroup\_CreatePartial.cshtml" />
     <Content Include="Views\ProductGroup\_EditPartial.cshtml" />
     <Content Include="Views\ProductGroup\_ViewPartial.cshtml" />
+    <Content Include="Views\BusinessPartner\_CreatePartial.cshtml" />
+    <Content Include="Views\BusinessPartner\Index.cshtml" />
+    <Content Include="Views\BusinessPartner\_EditPartial.cshtml" />
+    <Content Include="Views\BusinessPartner\_ViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />
