@@ -24,7 +24,7 @@
         $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
         //var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
-        $('#grdBranch').dataTable({
+        $('#grdApplicationUser').dataTable({
             "bFilter": false, "sPaginationType": "full_numbers",
             "oLanguage": {
                 "sInfo": "Total of _TOTAL_ entries to show (_START_ to _END_)"
@@ -43,66 +43,13 @@
             }
         });
 
-        $("#searchUL li").click(function () {
-            if (this.id == 'Code') {
-                $('#SearchQuery').removeAttr("disabled", "disabled");
-                Id = 'Branch_Code';
-                $('#SearchColumn').val(Id);
-                $('#SearchBySpan').text(Id);
-            }
-            //if (this.id == 'Name') {
-            //    $('#SearchQuery').removeAttr("disabled", "disabled");
-            //    Id = 'Branch_Name';
-            //    $('#SearchColumn').val(Id);
-            //    $('#SearchBySpan').text(Id);
-            //}
-            //if (this.id == 'IsActive') {
-            //    $('#SearchQuery').removeAttr("disabled", "disabled");
-            //    Id = 'IsActive';
-            //    $('#SearchColumn').val(Id);
-            //    $('#SearchBySpan').text(Id);
-            //}
-            //if (this.id == 'Country') {
-            //    $('#SearchQuery').removeAttr("disabled", "disabled");
-            //    Id = 'Country_Name';
-            //    $('#SearchColumn').val(Id);
-            //    $('#SearchBySpan').text(Id);
-            //}
-            //if (this.id == 'State') {
-            //    $('#SearchQuery').removeAttr("disabled", "disabled");
-            //    Id = 'State_Name';
-            //    $('#SearchColumn').val(Id);
-            //    $('#SearchBySpan').text(Id);
-            //}
-            //if (this.id == 'City') {
-            //    $('#SearchQuery').removeAttr("disabled", "disabled");
-            //    Id = 'City_Name';
-            //    $('#SearchColumn').val(Id);
-            //    $('#SearchBySpan').text(Id);
-            //    $('#SearchQuery').text(this.id);
-            //}
-        });
+        //$("#searchUL li").click(function () {
 
-        //$('#searchStatusUL li').click(function () {
-        //    if (this.id == 'City') {
-        //        $('#SearchQuery').attr("disabled", "disabled");
-        //        Id = 'City_ID';
-        //        $('#SearchColumn').val(Id);
-        //        $('#SearchBySpan').text(Id);
-        //        $('#SearchQuery').text(this.id);
-        //    }
-        //    //if (this.id == 'Closed') {
-        //    //    $('#SearchQuery').attr("disabled", "disabled");
-        //    //    Id = 'Quotation_Status';
-        //    //    $('#SearchColumn').val(Id);
-        //    //    $('#SearchBySpan').text(Id);
-        //    //    $('#SearchQuery').text(this.id);
-        //    //}
         //});
 
     });
 
-    function EditApplicationUser(id) {
+    function EditUser(id) {
 
         var url = $('#editModal').data('url') + '/' + id;
 
@@ -134,7 +81,7 @@
         }
 
         var formData = new FormData($('form')[0]);
-        var dataurl = "/ApplicationUser/index";
+        var dataurl = "/User/index";
         $.ajax({
             url: dataurl,
             type: 'POST',
@@ -170,6 +117,9 @@
 
     $.validator.unobtrusive.parse('#myModal form');
 </script>
+
+
+
 
 
 <div><span>&nbsp;</span></div>
@@ -218,17 +168,6 @@
                             <button class="btn btn-primary dropdown-toggle" type="button" id="SearchBy" data-toggle="dropdown">
                                 <span id="SearchBySpan">Search By</span><span class="caret"></span>
                             </button>
-                            <ul id="searchUL" class="dropdown-menu" role="menu" aria-labelledby="SearchBy">
-                                <li id="Code" role="presentation">
-                                    <a onclick="" role="menuitem" tabindex="-1"
-                                       href="#">Code</a>
-                                </li>
-                                <li id="Name" role="presentation"><a role="menuitem" tabindex="-1" href="#">Name</a></li>
-                                <li id="IsActive" role="presentation"><a role="menuitem" tabindex="-1" href="#">IsActive</a></li>
-                                <li id="Country" role="presentation"><a role="menuitem" tabindex="-1" href="#">Country</a></li>
-                                <li id="State" role="presentation"><a role="menuitem" tabindex="-1" href="#">State</a></li>
-                                <li id="City" role="presentation"><a role="menuitem" tabindex="-1" href="#">City</a></li>
-                            </ul>
                         </div>
                     </div>
                     <div class="form-group w230">
@@ -243,12 +182,12 @@
             </div>
 
             <div class="table-responsive">
-                <table id="grdBranch" class="table table-striped table-bordered table-hover">
+                <table id="grdUser" class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>
                                 <div class="lBor">
-                                       User Id
+                                    User Id
                                 </div>
                             </th>
                             <th>
@@ -261,22 +200,17 @@
                                     Email
                                 </div>
                             </th>
-                            <th>
+                            @*<th>
                                 <div class="lBor">
                                     Role
                                 </div>
-                            </th>
+                            </th>*@
                             <th>
                                 <div class="lBor" style="width: 122px;">
                                     IsActive
                                 </div>
                             </th>
-                            @*<th>
-                                <div class="lBor">
-                                    State
-                                </div>
-                            </th>*@
-                          
+
                         </tr>
                     </thead>
                     <tbody>
@@ -294,29 +228,25 @@
                                 <td>
                                     @item.Email
                                 </td>
-                                <td>
-                                    @item.Role_Id
-                                </td>
+                               
                                 <td>
                                     @item.IsActive
                                 </td>
-                                @*<td>
-                                    @item.State_Name
-                                </td>*@
+
 
                                 <td>
-                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Branch_Id);">
+                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Id);">
                                         <img src="@Url.Content("../Content/images/application_view_detail.png")" />
                                     </a>
                                     <span class="text-muted">|</span>
-                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditBranch(@item.Branch_Id);">
+                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditUser(@item.Id);">
                                         <img src="@Url.Content("../Content/images/pencil.png")" />
                                     </a>
                                     <span class="text-muted">|</span>
 
-                                    <a href="@Url.Action("_DeletePartialView", "Branch", new { id = item.Branch_Id })" data-modal="true">
-                                        <img src="@Url.Content("../Content/images/cross_script.png")" />
-                                    </a>
+                                    @*<a href="@Url.Action("_DeletePartialView", "Branch", new { id = item.Id })" data-modal="true">
+                                            <img src="@Url.Content("../Content/images/cross_script.png")" />
+                                        </a>*@
 
                                     @* @Html.ActionLink("Delete", "DeActivateExclusion", new { ruleId = item.Purchase_Quote_Id }, new { /*onclick = "return Deleteclick(" + item.Purchase_Quote_Id + ");" */ })*@
                                 </td>
@@ -333,7 +263,7 @@
             @Html.Partial("_CreatePartial", Model)
         </div>
 
-        <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
+        @*<div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
              aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
             <div id="editmodelcontainer">
             </div>
@@ -342,7 +272,7 @@
         <div class="modal fade bs-example-modal-lg" id="viewModal" tabindex="-1" role="dialog"
              aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPartial")'>
             <div id="viewmodelcontainer">
-            </div>
+            </div>*@
         </div>
 
         <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
@@ -376,8 +306,8 @@
                                                 </div>
                                             </div>*@
                                         @*<a href=@Url.Action("_TemplateExcelDownload", "Branch")>
-                                            Click here to Download template
-                                        </a>*@
+                                                Click here to Download template
+                                            </a>*@
                                     </div>
 
                                 </div>
@@ -396,7 +326,7 @@
             </div>
         </div>
 
-    </div>
+    @*</div>*@
 
 }
 

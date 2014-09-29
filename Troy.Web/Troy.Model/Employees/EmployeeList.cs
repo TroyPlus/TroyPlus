@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Web;
-using Troy.Model.Employees;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Troy.Web.Views.Employees
+namespace Troy.Model.Employees
 {
-    public class EmployeeList
+  public  class EmployeeList
     {
 
         [Key]

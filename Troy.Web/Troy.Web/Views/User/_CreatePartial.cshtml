@@ -29,7 +29,7 @@
 
                             <br />
 
-                            @Html.HiddenFor(m => m.ApplicationUsers.Id)
+                            @Html.HiddenFor(m => m.Id)
 
                             <div class="col-md-6">
 
@@ -38,8 +38,8 @@
                                         User Name
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.ApplicationUsers.UserName, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.ApplicationUsers.UserName)
+                                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.UserName)
                                     </div>
 
                                 </div>
@@ -50,29 +50,28 @@
 
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.PasswordFor(model => model.ApplicationUsers.PasswordHash, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.ApplicationUsers.PasswordHash)
+                                        @Html.PasswordFor(model => model.Password, new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.Password)
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Conform Password
+                                        Confirm Password
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.ApplicationUsers.ConfirmPassword, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.ApplicationUsers.ConfirmPassword)
+                                        @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.ConfirmPassword)
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
-
                                         User Email
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.ApplicationUsers.Email, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.ApplicationUsers.Email)
+                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.Email)
                                     </div>
                                 </div>
 
@@ -81,8 +80,8 @@
                                         ExpiryDate:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.ApplicationUsers.PasswordExpiryDate, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.ApplicationUsers.PasswordExpiryDate)
+                                        @Html.TextBoxFor(model => model.PasswordExpiryDate, new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.PasswordExpiryDate)
                                     </div>
                                 </div>
                             </div>
@@ -92,11 +91,11 @@
                                         Employee Name:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.ApplicationUsers.Emp_Id, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.ApplicationUsers.Emp_Id)
+                                        @Html.DropDownListFor(m => m.Employee_Id, new SelectList(Model.employeelist.AsEnumerable(), "Emp_Id", "First_Name"), "", new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.Employee_Id)
                                     </div>
                                 </div>
-                                <div class="row">
+                                @*<div class="row">
                                     <div class="col-md-4">
                                         Role Desc:
                                     </div>
@@ -104,14 +103,14 @@
                                         @Html.TextBoxFor(model => model.ApplicationUsers.Role_Id, new { @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.ApplicationUsers.Role_Id)
                                     </div>
-                                </div>
+                                </div>*@
                                 <div class="row">
                                     <div class="col-md-4">
                                         BranchName:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.ApplicationUsers.Branch_Id, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.ApplicationUsers.Branch_Id)
+                                        @Html.TextBoxFor(model => model.Branch_Id, new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.Branch_Id)
                                     </div>
                                 </div>
                                 <div class="row">
@@ -119,65 +118,11 @@
                                         DefaultBranch:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.ApplicationUsers.Branch_Id, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.ApplicationUsers.Branch_Id)
+                                        @Html.TextBoxFor(model => model.Branch_Id, new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.Branch_Id)
                                     </div>
                                 </div>
-
                             </div>
-
-                            @*<div class="col-md-6">*@
-                                @*<div class="row">
-                                        <div class="col-md-4">
-                                            Country:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.ApplicationUser.Country_ID, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.ApplicationUser.Country_ID)
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            State:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.ApplicationUser.State_ID, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "ui-widget" })
-                                            @Html.ValidationMessageFor(model => model.ApplicationUser.State_ID)
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            City:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.ApplicationUser.City_ID, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.ApplicationUser.City_ID)
-                                        </div>
-                                    </div>*@
-
-                                @*<div class="row">
-                                    <div class="col-md-4">
-                                        @Html.LabelFor(model => model.ApplicationUsers.EmailConfirmed)
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.ApplicationUsers.EmailConfirmed, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.ApplicationUsers.EmailConfirmed)
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        @Html.LabelFor(model => model.ApplicationUsers.LockoutEnabled)
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.ApplicationUsers.LockoutEnabled, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.ApplicationUsers.LockoutEnabled)
-                                    </div>
-                                </div>*@
-
-                            @*</div>*@
                         </div>
                     </div>
                 </div>

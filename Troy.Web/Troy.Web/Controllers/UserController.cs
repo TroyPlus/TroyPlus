@@ -20,6 +20,9 @@ using Troy.Utilities.CrossCutting;
 using Troy.Model.AppMembership;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Troy.Data.DataContext;
+using Troy.Model.Employees;
 #endregion
 
 //#endregion
@@ -42,6 +45,7 @@ namespace Troy.Web.Controllers
         public UserController(IUserRepository urepository)
         {
             this.userDb = urepository;
+            _userManager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(new ApplicationDbContext()));
         }
         #endregion
 
@@ -53,7 +57,7 @@ namespace Troy.Web.Controllers
                 ModelState.AddModelError("", error);
             }
         }
-         #endregion
+        #endregion
 
         // GET: /Account/Register
         [AllowAnonymous]
@@ -62,16 +66,69 @@ namespace Troy.Web.Controllers
             return View();
         }
 
-        #region Register 
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        #region Register
+        public async Task<ActionResult> Register( UserViewModels model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.UserName };
+                //string dateInString = Convert.ToString(DateTime.Now.AddDays(30));
+                string dateInString = Convert.ToString(DateTime.Now);
+                //PasswordExpiryDate=DateTime.Now.AddDays(ConfigurationHandler.GetAppSettingsValue string PasswordExpiryDuration);
+                DateTime startDate = DateTime.Parse(dateInString);
+                DateTime expiryDate = startDate.AddDays(30);
+                model.PasswordExpiryDate = expiryDate;
+                
+                //if (DateTime.Now > expiryDate)
+                //{
+                //    return RedirectToAction("Index", "User");  
+                //}
+                //else
+                //{
+                //    ModelState.AddModelError("", "User not saved");
+                //}
+                
+                //model.ApplicationUsers.PasswordExpiryDate=DateTime.Now ;
+                //model.registerusers.UserName = model.ApplicationUsers.UserName;
+                //model.registerusers.Password = model.ApplicationUsers.PasswordHash;
+                //model1.Password = model.ApplicationUsers.PasswordHash;
+                //model1.Password=currentUser.UserName;
+                //model1.ConfirmPassword="";
+                //model.ApplicationUsers.IsActive = "Y";
+                //model.ApplicationUsers.Created_Branch_Id = 1;
+                //model.ApplicationUsers.Created_Date = DateTime.Now;
+                //model.ApplicationUsers.Created_User_Id = 1;  //GetUserId()
+                //model.ApplicationUsers.Modified_User_Id = 1;
+                //model.ApplicationUsers.Modified_Date = DateTime.Now;
+                //model.ApplicationUsers.Modified_Branch_Id = 1;
+
+                //model.UserBranches.Id = model.ApplicationUsers.Id;
+                //model.UserBranches.Branch_Id = model.ApplicationUsers.Branch_Id;
+
+                var user = new ApplicationUser { UserName = model.UserName,
+                    Email = model.UserName,
+                    Employee_Id=model.Employee_Id, 
+                    Branch_Id=model.Branch_Id,
+                   IsActive="Y",
+                   Created_User_Id=1,
+                   Created_Branch_Id=1,
+                   Created_Date=DateTime.Now,
+                   Modified_User_Id=2,
+                   Modified_Branch_Id=2,
+                   Modified_Date=DateTime.Now,
+                   Id=model.Id     
+                   };
+                   
+                  
+                                                   // EmailConfirmed=model.ApplicationUsers.EmailConfirmed,PasswordHash=model.ApplicationUsers.PasswordHash,
+                                                    //PhoneNumber=model.ApplicationUsers.PhoneNumber,PhoneNumberConfirmed=model.ApplicationUsers.PhoneNumberConfirmed
+                                                      //,AccessFailedCount=model.ApplicationUsers.AccessFailedCount,
+                                                  
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -79,7 +136,7 @@ namespace Troy.Web.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "User");
                 }
                 AddErrors(result);
             }
@@ -97,16 +154,22 @@ namespace Troy.Web.Controllers
             try
             {
                 LogHandler.WriteLog("User Index page requested by #UserId");
-                var uList = userDb.GetFilterUser(searchColumn, searchQuery, Guid.Empty);   //GetUserId();                
+                       
 
                 UserViewModels model = new UserViewModels();
-                model.ApplicationUserList = uList;
+                //model.ApplicationUserList = uList;
 
-              
+                var EmployeeList = userDb.GetAddressEmployeeList().ToList();
+                model.employeelist = EmployeeList;
+
+
                 //model. = uList;
-
+                //UserViewModels model1 = userDb.GetAllUser().ToList();
+                //UserViewModels model1 = new UserViewModels();
                 var userlist = userDb.GetAllUser().ToList();
-
+                model.ApplicationUserList = userlist;
+              
+              
                 //var Allbranches = branchDb.GetAllBranches().ToList();
 
 
@@ -125,49 +188,44 @@ namespace Troy.Web.Controllers
 
 
         [HttpPost]
-        public ActionResult Index(string submitButton, UserViewModels model, HttpPostedFileBase file, string posting, string required, string valid)
+        public ActionResult Index(string submitButton, UserViewModels model, HttpPostedFileBase file)
         {
             try
             {
                 ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
                 if (submitButton == "Save")
                 {
-                    model.ApplicationUsers.IsActive = "Y";
-                    model.ApplicationUsers.Created_Branch_Id = 1;
-                    model.ApplicationUsers.Created_Date = DateTime.Now;
-                    model.ApplicationUsers.Created_User_Id = 1;  //GetUserId()
-                    model.ApplicationUsers.Modified_User_Id = 1;
-                    model.ApplicationUsers.Modified_Date = DateTime.Now;
-                    model.ApplicationUsers.Modified_Branch_Id = 1;
 
+                   
+                    Register(model);
 
-                    if (userDb.AddNewUser(model.ApplicationUsers))
-                    {
-                        return RedirectToAction("Index", "User");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "User Not Saved");
-                    }
+                    //if (userDb.AddNewUser(model.ApplicationUsers))
+                    //{
+                    //    return RedirectToAction("Index", "User");
+                    //}
+                    //else
+                    //{
+                    //    ModelState.AddModelError("", "User Not Saved");
+                    //}
                 }
                 else if (submitButton == "Update")
                 {
-                    model.ApplicationUsers.Created_Branch_Id = 1;
-                    model.ApplicationUsers.Created_Date = DateTime.Now;
-                    model.ApplicationUsers.Created_User_Id = 1;  //GetUserId()
-                    model.ApplicationUsers.Modified_User_Id = 1;
-                    model.ApplicationUsers.Modified_Date = DateTime.Now;
-                    model.ApplicationUsers.Modified_Branch_Id = 1;
+                    //model.Created_Branch_Id = 1;
+                    //model.Created_Date = DateTime.Now;
+                    //model.Created_User_Id = 1;  //GetUserId()
+                    //model.Modified_User_Id = 1;
+                    //model.ApplicationUsers.Modified_Date = DateTime.Now;
+                    //model.ApplicationUsers.Modified_Branch_Id = 1;
 
 
-                    if (userDb.EditUser(model.ApplicationUsers))
-                    {
-                        return RedirectToAction("Index", "User");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "User Not Updated");
-                    }
+                    //if (userDb.EditUser(model.ApplicationUsers))
+                    //{
+                    //    return RedirectToAction("Index", "User");
+                    //}
+                    //else
+                    //{
+                    //    ModelState.AddModelError("", "User Not Updated");
+                    //}
                 }
 
 
@@ -277,28 +335,28 @@ namespace Troy.Web.Controllers
 
 
         //Check for dupilicate
-        public JsonResult CheckForDuplication(ApplicationUser ApplicationUsers, [Bind(Prefix = "ApplicationUser.UserName")]string UserName, [Bind(Prefix = "ApplicationUsers.Email")]string Email)
-        {
+        //public JsonResult CheckForDuplication(ApplicationUser ApplicationUsers, [Bind(Prefix = "ApplicationUser.UserName")]string UserName, [Bind(Prefix = "ApplicationUsers.Email")]string Email)
+        //{
 
-            if (Email != null)
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
+        //    if (Email != null)
+        //    {
+        //        return Json(true, JsonRequestBehavior.AllowGet);
+        //    }
+        //    else
+        //    {
 
-                var data = userDb.CheckDuplicateName(UserName);
-                if (data != null)
-                {
-                    return Json("Sorry, UserName already exists", JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(true, JsonRequestBehavior.AllowGet);
-                }
+        //        var data = userDb.CheckDuplicateName(UserName);
+        //        if (data != null)
+        //        {
+        //            return Json("Sorry, UserName already exists", JsonRequestBehavior.AllowGet);
+        //        }
+        //        else
+        //        {
+        //            return Json(true, JsonRequestBehavior.AllowGet);
+        //        }
 
-            }
-        }
+        //    }
+        //}
 
 
         //public ActionResult _ExporttoExcel(Branch branch)
@@ -351,7 +409,10 @@ namespace Troy.Web.Controllers
             try
             {
                 UserViewModels model = new UserViewModels();
-                model.ApplicationUsers = userDb.FindOneUserById(id);
+                //model.ApplicationUsers = userDb.FindOneUserById(id);
+
+                var EmployeeList = userDb.GetAddressEmployeeList().ToList();
+                model.employeelist = EmployeeList;
 
 
 
@@ -370,7 +431,7 @@ namespace Troy.Web.Controllers
             try
             {
                 UserViewModels model = new UserViewModels();
-                model.ApplicationUsers = userDb.FindOneUserById(id);
+                //model.ApplicationUsers = userDb.FindOneUserById(id);
 
                 return PartialView(model);
             }

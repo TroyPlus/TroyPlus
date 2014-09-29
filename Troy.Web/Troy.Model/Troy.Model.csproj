@@ -73,6 +73,7 @@
     <Compile Include="Departments\Department.cs" />
     <Compile Include="Designations\Designation.cs" />
     <Compile Include="Employees\Employee.cs" />
+    <Compile Include="Employees\EmployeeList.cs" />
     <Compile Include="Genders\Gender.cs" />
     <Compile Include="Groups\Group.cs" />
     <Compile Include="Initials\Initial.cs" />

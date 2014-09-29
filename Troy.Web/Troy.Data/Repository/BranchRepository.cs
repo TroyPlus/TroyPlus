@@ -306,12 +306,18 @@ namespace Troy.Data.Repository
 
         }
 
-      //public int FindCodeForCountryId(string name)
-      //  {
-      //      int Country_id = (from p in countryContext.country
-      //                        where p.ID == name
-      //                        select p.SAP_Country_Code).FirstOrDefault();
-      //  }
+        //public int FindCodeForCountryId(int name)
+        //{
+
+        //    return (from p in branchContext.country
+        //            where p.ID == name
+        //            select p.SAP_Country_Code).FirstOrDefault();
+
+
+        //    //int Country_id = (from p in countryContext.country
+        //    //                  where p.ID == name
+        //    //                  select p.SAP_Country_Code).FirstOrDefault();
+        //}
 
         public IEnumerable<Branch> _ExporttoExcel()
         {

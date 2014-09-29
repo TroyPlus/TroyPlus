@@ -12,6 +12,7 @@ using Troy.Utilities.CrossCutting;
 using System.Data.Entity;
 using Troy.Model.Branches;
 using Troy.Model.AppMembership;
+using Troy.Model.Employees;
 
 
 namespace Troy.Data.Repository
@@ -19,6 +20,8 @@ namespace Troy.Data.Repository
     public class UserRepository : BaseRepository, IUserRepository
     {
         private ApplicationDbContext UserContext = new ApplicationDbContext();
+
+        //private UserBranch userbranch = new UserBranch();
 
 
         public List<ApplicationUser> GetAllUser()
@@ -31,7 +34,20 @@ namespace Troy.Data.Repository
             return qList;
         }
 
-        
+        public List<EmployeeList> GetAddressEmployeeList()
+        {
+            var item = (from a in UserContext.employee
+                        select new EmployeeList
+                        {
+                            Emp_Id = a.Emp_Id,
+                            First_Name = a.First_Name
+                            //BranchId = a.Branch_Id
+                        }).ToList();
+
+            return item;
+        }
+
+
         public List<ApplicationUser> GetFilterUser(string searchColumn, string searchString, Guid userId)
         {
             List<ApplicationUser> qList = new List<ApplicationUser>();
@@ -159,30 +175,14 @@ namespace Troy.Data.Repository
         //}
 
 
-
-
-
-
-        //public List<BranchList> GetAddressList()
-        //{
-        //    var item = (from a in branchContext.Branch
-        //                select new BranchList
-        //                {
-
-        //                    BranchName = a.Branch_Name,
-        //                    BranchId = a.Branch_Id
-        //                }).ToList();
-
-        //    return item;
-        //}
-
-
-
         public bool AddNewUser(ApplicationUser ApplicationUsers)
         {
             try
             {
+               
                 UserContext.Users.Add(ApplicationUsers);
+
+                //UserContext.userbranch.Add(UserBranches);
 
                 UserContext.SaveChanges();
 
