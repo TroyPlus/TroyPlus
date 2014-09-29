@@ -18,6 +18,7 @@ namespace Troy.Utilities.CrossCutting
     {
         public static string ConvertModelToXMLString(Object obj)
         {
+           
             XmlSerializer serializer = new XmlSerializer(obj.GetType());
             MemoryStream aStream = new MemoryStream();
             StreamReader streamReader = null;

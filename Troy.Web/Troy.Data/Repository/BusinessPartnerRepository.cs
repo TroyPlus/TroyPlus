@@ -19,14 +19,15 @@ using Troy.Model.PriceLists;
 using Troy.Model.Branches;
 using Troy.Model.Ledgers;
 using Troy.Model.Employees;
-
+using Troy.Model.SAP_OUT;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Troy.Data.Repository
 {
     public class BusinessPartnerRepository : BaseRepository, IBusinessPartnerRepository
     {
         private BusinessPartnerContext businesspartnercontext = new BusinessPartnerContext();
-
 
         public List<BusinessPartner> GetAllBusinessPartner()
         {
@@ -145,8 +146,8 @@ namespace Troy.Data.Repository
             // throw new NotImplementedException();
             try
             {
-                //businesspartnercontext.BusinessPartner.Add(businesspartner);
-                //businesspartnercontext.SaveChanges();
+                businesspartnercontext.BusinessPartner.AddRange(businesspartner);
+                businesspartnercontext.SaveChanges();
 
                 return true;
             }
@@ -292,6 +293,91 @@ namespace Troy.Data.Repository
                         }).ToList();
 
             return item;
+        }
+
+        public bool GenerateXML(Object obj1)
+        {
+            try
+            {
+                string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj1);
+
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(data);
+
+
+                SAPOUT mSAP = new SAPOUT();
+                mSAP.Object_typ = "BUSINESS PARTNER";
+                mSAP.Branch_Cde = "1";
+                mSAP.Troy_Created_Dte = Convert.ToDateTime(DateTime.Now.ToString());
+                mSAP.Troy_XML = doc.InnerXml;
+                SAPOUTRepository saprepo = new SAPOUTRepository();
+                if (saprepo.AddNew(mSAP))
+                {
+
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                return false;
+            }
+        }
+
+        public Country CheckCountry(string bname)
+        {
+            return (from p in businesspartnercontext.Country
+                    where p.Country_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
+
+        public State CheckState(string bname)
+        {
+            return (from p in businesspartnercontext.State
+                    where p.State_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
+
+        public City CheckCity(string bname)
+        {
+            return (from p in businesspartnercontext.City
+                    where p.City_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
+
+        public Group CheckGroup(string bname)
+        {
+            return (from p in businesspartnercontext.Group
+                    where p.Group_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
+
+        public PriceList CheckPriceList(string bname)
+        {
+            return (from p in businesspartnercontext.PriceList
+                    where p.Price_List_Desc.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
+
+        public Employee CheckEmployee(string bname)
+        {
+            return (from p in businesspartnercontext.Employee
+                    where p.First_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
+
+        public Branch CheckBranch(string bname)
+        {
+            return (from p in businesspartnercontext.Branch
+                    where p.Branch_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
+
+        public Ledger CheckControlAccountID(string bname)
+        {
+            return (from p in businesspartnercontext.Ledger
+                    where p.Ledger_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
         }
     }
 }

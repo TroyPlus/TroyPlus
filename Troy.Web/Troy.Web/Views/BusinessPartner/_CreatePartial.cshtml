@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Group_Type:
+                                        Group Type:
                                     </div>
                                     <div class="col-md-8">
                                         @Html.TextBoxFor(model => model.BusinessPartner.Group_Type, new { @class = "form-control control-text" })
@@ -159,7 +159,7 @@
                                         Ship City:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.BusinessPartner.Ship_City, new { @class = "form-control control-text" })
+                                        @Html.DropDownListFor(m => m.BusinessPartner.Ship_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_City)
                                     </div>
                                 </div>
@@ -168,7 +168,7 @@
                                         Ship State:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.BusinessPartner.Ship_State, new { @class = "form-control control-text" })
+                                        @Html.DropDownListFor(m => m.BusinessPartner.Ship_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_State)
                                     </div>
                                 </div>
@@ -177,7 +177,7 @@
                                         Ship Country:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.BusinessPartner.Ship_Country, new { @class = "form-control control-text" })
+                                        @Html.DropDownListFor(m => m.BusinessPartner.Ship_Country, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_Country)
                                     </div>
                                 </div>
@@ -189,6 +189,10 @@
                                         @Html.TextBoxFor(model => model.BusinessPartner.Ship_pincode, new { @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_pincode)
                                     </div>
+                                </div>
+                                <div class="row">
+                                    <input type="checkbox" name="billingtoo" onclick="FillBilling()">
+                                    <em>Check this box if Shipping Address and Billing Address are the same.</em>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -233,8 +237,8 @@
                                         Bill State:
                                     </div>
                                     <div class="col-md-8">
-                                       @Html.DropDownListFor(m => m.BusinessPartner.Bill_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text" })
-                                       @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_State)
+                                        @Html.DropDownListFor(m => m.BusinessPartner.Bill_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_State)
                                     </div>
                                 </div>
                                 <div class="row">
@@ -325,12 +329,11 @@
                     </div>
                 </div>
             </div>
-
             <div class="modal-footer">
                 <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
                 <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                 @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
             </div>
-        </div>
+        </div>       
     </div>
 </div>

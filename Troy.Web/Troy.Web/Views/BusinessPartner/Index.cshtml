@@ -187,6 +187,13 @@
         });
     }
 
+    function FillBilling() {
+        if (f.billingtoo.checked == true) {
+            f.billingname.value = f.shippingname.value;
+            f.billingcity.value = f.shippingcity.value;
+        }
+    }
+
 </script>
 
 <div><span>&nbsp;</span></div>
@@ -210,9 +217,9 @@
                         <img src="@Url.Content("../Content/images/upload-icon.png")" />
                     </a>
                     &nbsp;
-                    <button type="button" class="btn-link">
+                    <a href=@Url.Action("_ExporttoExcel", "BusinessPartner")>
                         <img src="@Url.Content("../Content/images/table-icon.png")" style="height:32px;width:32px" />
-                    </button>
+                    </a>
                     &nbsp;
 
                     @*<a href="@Url.Action("_createpartialview" , "Suppliers" )" data-modal="true" class="top-right">*@
@@ -299,7 +306,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (Troy.Model.BusinessPartner.BusinessPartner item in Model.BusinessPartnerList)
+                        @foreach (Troy.Model.BusinessPartner.BusinessPartner item in Model.BusinessPartnerList)                            
                         {
                         <tr class="odd">
                             <td style="display: none">
@@ -394,6 +401,9 @@
                                                            onclick="return IFrameSubmit();" />
                                                 </div>
                                             </div>*@
+                                        <a href=@Url.Action("_TemplateExcelDownload", "BusinessPartner")>
+                                            Click here to Download template
+                                        </a>
                                     </div>
 
                                 </div>

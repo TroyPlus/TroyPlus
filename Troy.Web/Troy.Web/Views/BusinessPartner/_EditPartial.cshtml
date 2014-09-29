@@ -24,16 +24,16 @@
 
                     <div class="row">
 
-                        <ul id="tabs" class="nav nav-pills nav-pills-justified">
+                        <ul id="edittabs" class="nav nav-pills nav-pills-justified">
                             <li class="active">
-                                <a href="#default" data-toggle="tab">Business Partner </a>
+                                <a href="#editdefault" data-toggle="tab">Business Partner </a>
                             </li>
-                            <li><a href="#additional" data-toggle="tab">Contact</a></li>
+                            <li><a href="#editadditional" data-toggle="tab">Contact</a></li>
                         </ul>
 
-                        <div id="myTabContent" class="tab-content">
+                        <div id="editTabContent" class="tab-content">
 
-                            <div class="tab-pane fade in active" id="default">
+                            <div class="tab-pane fade in active" id="editdefault">
 
                                 <br />
                                 @Html.HiddenFor(model => model.BusinessPartner.BP_Id)
@@ -50,7 +50,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Group_Type:
+                                            Group Type:
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Group_Type, new { @class = "form-control control-text" })
@@ -134,7 +134,7 @@
                                 </div>
 
                             </div>
-                            <div class="tab-pane fade" id="additional">
+                            <div class="tab-pane fade" id="editadditional">
                                 <br />
                                 <div class="col-md-4">
                                     <div class="row">
@@ -169,7 +169,7 @@
                                             Ship City:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Ship_City, new { @class = "form-control control-text" })
+                                            @Html.DropDownListFor(m => m.BusinessPartner.Ship_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text" })
                                             @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_City)
                                         </div>
                                     </div>
@@ -178,7 +178,7 @@
                                             Ship State:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Ship_State, new { @class = "form-control control-text" })
+                                            @Html.DropDownListFor(m => m.BusinessPartner.Ship_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text" })
                                             @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_State)
                                         </div>
                                     </div>
@@ -187,7 +187,7 @@
                                             Ship Country:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Ship_Country, new { @class = "form-control control-text" })
+                                            @Html.DropDownListFor(m => m.BusinessPartner.Ship_Country, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text" })
                                             @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_Country)
                                         </div>
                                     </div>
@@ -330,6 +330,16 @@
                                             @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_method)
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            Is Active:
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.RadioButtonFor(model => model.BusinessPartner.IsActive, "True", new { id = "Y" }) True
+                                            @Html.RadioButtonFor(model => model.BusinessPartner.IsActive, "False", new { id = "N" }) False
+                                            @Html.ValidationMessageFor(model => model.BusinessPartner.IsActive)
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -337,7 +347,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+                    <input class="btn btn-primary pull-left" type="submit" id="btnEditSubmit" name="submitButton" value="Update" onclick="return EditSubmit(this);" />
+                    <input type="hidden" id="submitAction" name="submitButton" />
                     <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                     @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
                 </div>

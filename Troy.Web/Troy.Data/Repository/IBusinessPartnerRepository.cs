@@ -12,7 +12,8 @@ using Troy.Model.PriceLists;
 using Troy.Model.Branches;
 using Troy.Model.Ledgers;
 using Troy.Model.Employees;
-
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Troy.Data.Repository
 {
@@ -34,6 +35,8 @@ namespace Troy.Data.Repository
 
         bool AddBulkBusinessPartner(Object obj);
 
+        bool GenerateXML(Object obj1);
+
         List<GroupList> GetGroupList();
 
         List<PricelistLists> GetPriceList();
@@ -49,5 +52,21 @@ namespace Troy.Data.Repository
         List<StateList> GetAddressstateList();
 
         List<CityList> GetAddresscityList();
+
+        Country CheckCountry(string bname);
+
+        State CheckState(string bname);
+
+        City CheckCity(string bname);
+
+        Group CheckGroup(string bname);
+
+        PriceList CheckPriceList(string bname);
+
+        Employee CheckEmployee(string bname);
+
+        Branch CheckBranch(string bname);
+
+        Ledger CheckControlAccountID(string bname);
     }
 }

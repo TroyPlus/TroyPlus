@@ -5,7 +5,7 @@
 
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Edit BusinessPartner</h4>
+            <h4 class="modal-title" id="myModalLabel">View BusinessPartner</h4>
         </div>
 
         <div class="modal-body">
@@ -16,14 +16,14 @@
 
                     <ul id="edittabs" class="nav nav-pills nav-pills-justified">
                         <li class="active">
-                            <a href="#editdefault" data-toggle="tab">Business Partner </a>
+                            <a href="#viewdefault" data-toggle="tab">Business Partner </a>
                         </li>
-                        <li><a href="#editadditional" data-toggle="tab">Contact</a></li>
+                        <li><a href="#viewadditional" data-toggle="tab">Contact</a></li>
                     </ul>
 
                     <div id="editTabContent" class="tab-content">
 
-                        <div class="tab-pane fade in active" id="editdefault">
+                        <div class="tab-pane fade in active" id="viewdefault">
 
                             <br />
                             @Html.HiddenFor(model => model.BusinessPartner.BP_Id)
@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Group_Type:
+                                        Group Type:
                                     </div>
                                     <div class="col-md-8">
                                         @Html.TextBoxFor(model => model.BusinessPartner.Group_Type, new { @class = "form-control control-text", disabled = "disabled" })
@@ -124,7 +124,7 @@
                             </div>
 
                         </div>
-                        <div class="tab-pane fade" id="editadditional">
+                        <div class="tab-pane fade" id="viewadditional">
                             <br />
                             <div class="col-md-4">
                                 <div class="row">
@@ -159,7 +159,7 @@
                                         Ship City:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.BusinessPartner.Ship_City, new { @class = "form-control control-text", disabled = "disabled" })
+                                       @Html.DropDownListFor(m => m.BusinessPartner.Ship_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_City)
                                     </div>
                                 </div>
@@ -168,7 +168,7 @@
                                         Ship State:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.BusinessPartner.Ship_State, new { @class = "form-control control-text", disabled = "disabled" })
+                                        @Html.DropDownListFor(m => m.BusinessPartner.Ship_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_State)
                                     </div>
                                 </div>
@@ -177,7 +177,7 @@
                                         Ship Country:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.BusinessPartner.Ship_Country, new { @class = "form-control control-text", disabled = "disabled" })
+                                       @Html.DropDownListFor(m => m.BusinessPartner.Ship_Country, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_Country)
                                     </div>
                                 </div>
@@ -318,6 +318,16 @@
                                     <div class="col-md-8">
                                         @Html.TextBoxFor(model => model.BusinessPartner.Ship_method, new { @class = "form-control control-text", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_method)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        Is Active:
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.RadioButtonFor(model => model.BusinessPartner.IsActive, "True", new { id = "Y" }) True
+                                        @Html.RadioButtonFor(model => model.BusinessPartner.IsActive, "False", new { id = "N" }) False
+                                        @Html.ValidationMessageFor(model => model.BusinessPartner.IsActive)
                                     </div>
                                 </div>
                             </div>
