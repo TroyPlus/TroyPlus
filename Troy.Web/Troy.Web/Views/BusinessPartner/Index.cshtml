@@ -187,12 +187,26 @@
         });
     }
 
-    function FillBilling() {
-        if (f.billingtoo.checked == true) {
-            f.billingname.value = f.shippingname.value;
-            f.billingcity.value = f.shippingcity.value;
+    $('input:checkbox[id*=chkCopy]').change(function () {
+        if ($(this).is(':checked')) {
+            $('input:text[id*=BillingAddress1]').val($('input:text[id*=ShippingAddress1]').val());
+            $('input:text[id*=BillingAddress2]').val($('input:text[id*=ShippingAddress2]').val());
+            $('input:text[id*=BillingAddress3]').val($('input:text[id*=ShippingAddress3]').val());
+            //$('input:dropdown[id*=BillingCity]').text($('input:text[id*=ShippingCity]').text());
+            //$('input:dropdown[id*=BillingState]').val($('input:text[id*=ShippingState]').val());
+            //$('input:dropdown[id*=BillingCountry]').val($('input:text[id*=ShippingCountry]').val());
+            $('input:text[id*=BillingPinCode]').val($('input:text[id*=ShippingPinCode]').val());
         }
-    }
+        else {
+            $('input:text[id*=BillingAddress1]').val('');
+            $('input:text[id*=BillingAddress2]').val('');
+            $('input:text[id*=BillingAddress3]').val('');
+            //$('input:dropdown[id*=BillingCity]').text('');
+            //$('input:dropdown[id*=BillingState]').val('');
+            //$('input:dropdown[id*=BillingCountry]').val('');
+            $('input:text[id*=BillingPinCode]').val('');
+        }
+    });
 
 </script>
 
