@@ -214,10 +214,10 @@ namespace Troy.Data.Repository
         {
             try
             {
-                //string data= ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
+                string data= ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
 
                 XmlDocument doc = new XmlDocument();
-                //doc.LoadXml(data);
+                doc.LoadXml(data);
 
 
                 SAPOUT mSAP = new SAPOUT();
