@@ -203,23 +203,16 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManufacturerController.cs" />
-    <Compile Include="Controllers\PurchaseController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ConfiguirationViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ManufacturerViewModels.cs" />
-    <Compile Include="Models\PurchaseViewModels.cs" />
-    <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Models\ViewModelBranch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -1336,10 +1329,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Purchase\Index.cshtml" />
-    <Content Include="Views\Purchase\_CreatePartial.cshtml" />
-    <Content Include="Views\Purchase\_EditPartial.cshtml" />
-    <Content Include="Views\Purchase\_ViewPartial.cshtml" />
     <Content Include="Views\Manufacturer\Index.cshtml" />
     <Content Include="Views\Manufacturer\_CreatePartial.cshtml" />
     <Content Include="Views\Manufacturer\_EditPartial.cshtml" />

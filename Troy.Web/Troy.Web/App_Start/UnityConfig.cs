@@ -7,7 +7,7 @@ using Troy.Data.DataContext;
 using Troy.Data.Repository;
 using Troy.Model.AppMembership;
 using Troy.Web.Controllers;
-using Troy.Data.Repository.MasterData;
+using Troy.Data.Repository;
 
 namespace Troy.Web.App_Start
 {
@@ -45,10 +45,11 @@ namespace Troy.Web.App_Start
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
 
-            container.RegisterType<IPurchaseRepository, PurchaseRepository>();
+            //container.RegisterType<IPurchaseRepository, PurchaseRepository>();
             container.RegisterType<IManufacturerRepository, ManufactureRepository>();
-            container.RegisterType<IBranchRepository, BranchRepository>();
+            //container.RegisterType<IBranchRepository, BranchRepository>();
             container.RegisterType<IProductGroupRepository, ProductGroupRepository>();
+            container.RegisterType<IConfigurationRepository, ConfigurationRepository>();
 
             container.RegisterType(typeof(UserManager<>), new InjectionConstructor(typeof(IUserStore<>)));
             container.RegisterType<IUser>(new InjectionFactory(c => c.Resolve<Microsoft.AspNet.Identity.IUser>()));
@@ -60,7 +61,7 @@ namespace Troy.Web.App_Start
             container.RegisterType<IUserStore<ApplicationUser, int>, UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>>(new HierarchicalLifetimeManager());
             container.RegisterType<DbContext, ApplicationDbContext>(new HierarchicalLifetimeManager());
 
-            container.RegisterType<AccountController>(new InjectionConstructor(new object[] { typeof(IBranchRepository), typeof(IYearRepository) }));
+            //container.RegisterType<AccountController>(new InjectionConstructor(new object[] { typeof(IBranchRepository), typeof(IYearRepository) }));
         }
     }
 }
