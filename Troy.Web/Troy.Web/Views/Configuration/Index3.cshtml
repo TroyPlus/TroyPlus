@@ -1,0 +1,235 @@
+﻿@model Troy.Web.Models.ConfigurationViewModels
+
+@{
+    ViewBag.Title = "Department";
+}
+
+
+<script type="text/javascript">
+
+    function EditDepartment(id) {
+
+        var url = $('#editDepartment').data('url') + '/' + id;
+
+        $.get(url, function (data) {
+
+            $('#editmodelcontainer').html(data);
+
+            $('#editDepartment').modal('show');
+        });
+    }
+
+    function ViewDepartment(id) {
+
+        var url = $('#viewDepartment').data('url') + '/' + id;
+
+        $.get(url, function (data) {
+            $('#viewmodelcontainer').html(data);
+
+            $('#viewDepartment').modal('show');
+        });
+    }
+
+    function IFrameSubmit() {
+
+        var fileSelected = $('#FileUpload').val();
+        if (fileSelected == '') {
+            alert('Please choose the Excel to Upload');
+            return false;
+        }
+
+        var formData = new FormData($('form')[0]);
+
+        $.ajax({
+            url: 'Configuration',
+            type: 'POST',
+            xhr: function () {
+                var myXhr = $.ajaxSettings.xhr();
+                return myXhr;
+            },
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+
+                if (data.success == "true") {
+                    alert(data.Message);
+                }
+                else {
+                    alert(data.Error);
+                }
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+    }
+</script>
+
+
+@using (Html.BeginForm())
+{
+
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m => m.SearchColumn)
+
+    <div id="content">
+        <!-- Start .content-wrapper -->
+        <div class="content-wrapper">
+            <div class="row">&nbsp;</div>
+            <!-- Start .row -->
+            <div class="row">
+                <!-- Start .page-header -->
+                <div class="form-group">
+                    <label class="col-md-2 col-md-2 col-sm-12 h4 control-label pull-left">
+                        @ViewBag.Title
+                    </label>
+                    <!-- Start .bredcrumb -->
+                    @*<ul id="crumb" class="breadcrumb"></ul>*@
+                    <!-- End .breadcrumb -->
+                    <!-- Start .option-buttons -->
+                    <!-- Removed -->
+                    <!-- End .option-buttons -->
+
+                    <div class="col-lg-10 col-md-10">
+                        <div class="row">
+                            <div class="btn-group pull-right">
+
+                                <button type="button" title="New Department" class="btn btn-primary h5" data-toggle="modal" data-target="#Department" data-backdrop="static" data-keyboard="false">
+                                    <i class="en-add-to-list">New</i>
+                                </button>
+                                <button type="button" title="Bulk Addition" class="btn btn-primary h5">
+                                    <i class="st-file-add">Bulk</i>
+                                </button>
+
+                                <button type="button" title="Excel Export" class="btn btn-primary h5">
+                                    <i class="im-file-excel">Export</i>
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- End .page-header -->
+            </div>
+            <!-- End .row -->
+            <div class="row">&nbsp;</div>
+            <div class="outlet">
+                <!-- Start .outlet -->
+                <!-- Page start here ( usual with .row ) -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- col-lg-12 start here -->
+                        <div class="panel panel-default plain">
+                            <!-- Start .panel -->
+                            <div class="panel-heading">
+                                <div class="row">
+
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="navbar navbar-inverse ">
+                                    <div class="container">
+                                        <div class="navbar-header">
+                                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                                <span class="icon-bar"></span>
+                                                <span class="icon-bar"></span>
+                                                <span class="icon-bar"></span>
+                                                <span class="icon-bar"></span>
+
+                                            </button>
+                                            @Html.ActionLink("Configuration", "Index", "Configuration", null, new { @class = "navbar-brand" })
+                                        </div>
+                                        <div class="navbar-collapse collapse">
+                                            <ul class="nav navbar-nav">
+                                                <li>@Html.ActionLink("Country", "Index", "Configuration")</li>
+                                                <li>@Html.ActionLink("State", "Index1", "Configuration")</li>
+                                                <li>@Html.ActionLink("City", "Index2", "Configuration")</li>
+                                                <li>@Html.ActionLink("Department", "Index3", "Configuration")</li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal">
+                                    <div class="row">
+
+                                        <table class="table display" id="datatable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Department Name</th>
+
+                                                    <th>IsActive</th>
+
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (Troy.Model.Configuration.Department item in Model.DepartmentList)
+                                            {
+                                                    <tr class="odd gradeX">
+                                                        <td>@item.Department_Name</td>
+
+                                                        <td>@item.IsActive</td>
+
+
+
+                                                        <td>
+                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#viewDepartment" data-backdrop="static" data-keyboard="false" onclick="ViewDepartment(@item.Department_Id);">
+                                                                <i class="im-eye2"></i>
+
+                                                            </a>
+                                                            <span class="text-muted">|</span>
+                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#editDepartment" data-backdrop="static" data-keyboard="false" onclick="EditDepartment(@item.Department_Id);">
+                                                                <i class="im-pencil2"></i>
+                                                            </a>
+                                                            <span class="text-muted">|</span>
+
+                                                            <a href="@Url.Action(" _deletepartialview", "Suppliers" , new { id=item.Department_Id })" data-modal="true">
+                                                                <i class="im-remove2"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                            }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- End .panel -->
+                </div>
+                <!-- col-lg-12 end here -->
+            </div>
+            <!-- Page End here -->
+        </div>
+        <!-- End .outlet -->
+    </div>
+    <!-- End .content-wrapper -->
+
+    <div class="clearfix"></div>
+    <div class="modal fade bs-example-modal-lg" id="Department" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        @Html.Partial("_CreatePartial3", Model)
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="editDepartment" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial3")'>
+        <div id="editmodelcontainer">
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="viewDepartment" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPartial3")'>
+        <div id="viewmodelcontainer">
+        </div>
+    </div>
+
+
+}
+

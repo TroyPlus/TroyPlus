@@ -62,31 +62,19 @@
     <Compile Include="AppMembership\ApplicationUserRole.cs" />
     <Compile Include="AppGUI\Menu.cs" />
     <Compile Include="AppGUI\MenuItem.cs" />
-    <Compile Include="Branches\Branch.cs" />
-    <Compile Include="Branches\BranchList.cs" />
-    <Compile Include="Branches\ViewBranches.cs" />
-    <Compile Include="BusinessPartner\BusinessPartner.cs" />
-    <Compile Include="Cities\City.cs" />
-    <Compile Include="Cities\CityList.cs" />
-    <Compile Include="Countries\Country.cs" />
-    <Compile Include="Countries\CountryList.cs" />
-    <Compile Include="Departments\Department.cs" />
-    <Compile Include="Designations\Designation.cs" />
+    <Compile Include="Configuration\City.cs" />
+    <Compile Include="Configuration\Country.cs" />
+    <Compile Include="Configuration\CountryList.cs" />
+    <Compile Include="Configuration\Department.cs" />
+    <Compile Include="Configuration\State.cs" />
+    <Compile Include="Configuration\StateList.cs" />
     <Compile Include="Employees\Employee.cs" />
-    <Compile Include="Genders\Gender.cs" />
-    <Compile Include="Groups\Group.cs" />
-    <Compile Include="Initials\Initial.cs" />
-    <Compile Include="Ledgers\Ledger.cs" />
-    <Compile Include="LeftReasons\LeftReason.cs" />
     <Compile Include="Manufacturer\Manufacture.cs" />
-    <Compile Include="PriceLists\PriceList.cs" />
     <Compile Include="ProductGroup\ProductGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchase\PurchaseQuotation.cs" />
     <Compile Include="Purchase\PurchaseQuotationItem.cs" />
     <Compile Include="SAP OUT\SAPOUT.cs" />
-    <Compile Include="States\State.cs" />
-    <Compile Include="States\StateList.cs" />
     <Compile Include="Years\FinancialYear.cs" />
   </ItemGroup>
   <ItemGroup>

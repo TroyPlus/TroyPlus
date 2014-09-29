@@ -205,8 +205,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\BranchController.cs" />
-    <Compile Include="Controllers\BusinessPartnerController.cs" />
+    <Compile Include="Controllers\ConfigurationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManufacturerController.cs" />
@@ -216,7 +215,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\BranchViewModels.cs" />
+    <Compile Include="Models\ConfiguirationViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ManufacturerViewModels.cs" />
     <Compile Include="Models\PurchaseViewModels.cs" />
@@ -224,6 +223,20 @@
     <Compile Include="Models\ViewModelBranch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <None Include="Views\Configuration\Index2.cshtml" />
+    <Content Include="Views\Configuration\Index3.cshtml" />
+    <Content Include="Views\Configuration\_CreatePartial.cshtml" />
+    <Content Include="Views\Configuration\_CreatePartial1.cshtml" />
+    <Content Include="Views\Configuration\_CreatePartial2.cshtml" />
+    <Content Include="Views\Configuration\_CreatePartial3.cshtml" />
+    <Content Include="Views\Configuration\_EditPartial.cshtml" />
+    <Content Include="Views\Configuration\_EditPartial1.cshtml" />
+    <Content Include="Views\Configuration\_EditPartial2.cshtml" />
+    <Content Include="Views\Configuration\_EditPartial3.cshtml" />
+    <Content Include="Views\Configuration\_ViewPartial.cshtml" />
+    <Content Include="Views\Configuration\_ViewPartial1.cshtml" />
+    <Content Include="Views\Configuration\_ViewPartial2.cshtml" />
+    <Content Include="Views\Configuration\_ViewPartial3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\images\Troy Plus Logo - Rectangle.jpg" />
@@ -1331,21 +1344,10 @@
     <Content Include="Views\Manufacturer\_CreatePartial.cshtml" />
     <Content Include="Views\Manufacturer\_EditPartial.cshtml" />
     <Content Include="Views\Manufacturer\_ViewPartial.cshtml" />
-    <Content Include="Views\BusinessPartner\Create.cshtml" />
-    <Content Include="Views\BusinessPartner\Delete.cshtml" />
-    <Content Include="Views\BusinessPartner\Details.cshtml" />
-    <Content Include="Views\BusinessPartner\Edit.cshtml" />
-    <Content Include="Views\BusinessPartner\Index.cshtml" />
-    <Content Include="Views\Branch\Create.cshtml" />
-    <Content Include="Views\Branch\Delete.cshtml" />
-    <Content Include="Views\Branch\Details.cshtml" />
-    <Content Include="Views\Branch\Edit.cshtml" />
-    <Content Include="Views\Branch\Index.cshtml" />
-    <Content Include="Views\Branch\_CreatePartial.cshtml" />
-    <Content Include="Views\Branch\_EditPartial.cshtml" />
-    <Content Include="Views\Branch\_ViewPartial.cshtml" />
     <Content Include="Views\Account\PostLogin.cshtml" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\Configuration\Index.cshtml" />
+    <Content Include="Views\Configuration\Index1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />
