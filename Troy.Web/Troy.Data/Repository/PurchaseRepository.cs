@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
@@ -44,22 +45,7 @@ namespace Troy.Data.Repository
             var cmd = purchaseContext.Database.Connection.CreateCommand();
             cmd.CommandText = "[dbo].[USP_GetPurchaseQuotation]";
             cmd.CommandType = CommandType.StoredProcedure;
-
-            //var searchParam = new SqlParameter();
-            //searchParam.ParameterName = "@SearchColumn";
-            //searchParam.SqlDbType = SqlDbType.NVarChar;
-            //searchParam.SqlValue = searchColumn;
-            ////searchParam.ParameterDirection = ParameterDirection.Output;
-
-            //var stringParam = new SqlParameter();
-            //stringParam.ParameterName = "@SearchString";
-            //stringParam.SqlDbType = SqlDbType.NVarChar;
-            //stringParam.SqlValue = searchString;
-            ////stringParam.ParameterDirection = ParameterDirection.Output;
-
-            //cmd.Parameters.Add(searchParam);
-            //cmd.Parameters.Add(stringParam);
-
+           
             cmd.Parameters.Add(new SqlParameter("@SearchColumn", searchColumn));
             cmd.Parameters.Add(new SqlParameter("@SearchString", searchString));
 
@@ -124,12 +110,11 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
-        public PurchaseQuotationItem FindOneQuotationItemById(int qId)
+        public IList<PurchaseQuotationItem> FindOneQuotationItemById(int qId)
         {
             return (from p in purchaseContext.PurchaseQuotationItem
                     where p.Purchase_Quote_Id == qId
-                    select p).FirstOrDefault();
-
+                    select p).ToList();
         }
 
         public List<BranchList> GetAddressList()
@@ -144,13 +129,23 @@ namespace Troy.Data.Repository
             return item;
         }
 
-        public bool AddNewQuotation(PurchaseQuotation Quotation, PurchaseQuotationItem QuotationItem)
+        public bool AddNewQuotation(PurchaseQuotation Quotation, IList<PurchaseQuotationItem> QuotationItemList, ref string ErrorMessage)
         {
+            ErrorMessage = string.Empty;
             try
             {
                 purchaseContext.PurchaseQuotation.Add(Quotation);
 
-                purchaseContext.PurchaseQuotationItem.Add(QuotationItem);
+                purchaseContext.SaveChanges();
+
+                int currentId = Quotation.Purchase_Quote_Id;
+
+                for (int i = 0; i < QuotationItemList.Count; i++)
+                {
+                    QuotationItemList[i].Purchase_Quote_Id = currentId;
+                }
+
+                purchaseContext.PurchaseQuotationItem.AddRange(QuotationItemList);
 
                 purchaseContext.SaveChanges();
 
@@ -159,9 +154,51 @@ namespace Troy.Data.Repository
             catch (Exception ex)
             {
                 ExceptionHandler.LogException(ex);
+                ErrorMessage = ex.Message;
                 return false;
             }
-        }      
+        }
+
+        public bool UpdateQuotation(PurchaseQuotation Quotation, IList<PurchaseQuotationItem> QuotationItemList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                purchaseContext.Entry(Quotation).State = EntityState.Modified;
+                purchaseContext.SaveChanges();
+
+                foreach (var model in QuotationItemList)
+                {
+                    if (model.IsDummy == 1)
+                    {
+                        purchaseContext.Entry(model).State = EntityState.Deleted;
+                        purchaseContext.SaveChanges();
+                    }
+                    else
+                    {
+                        if (model.Quote_Item_Id == 0)
+                        {
+                            model.Purchase_Quote_Id = Quotation.Purchase_Quote_Id;
+                            purchaseContext.PurchaseQuotationItem.Add(model);
+                            purchaseContext.SaveChanges();
+                        }
+                        else
+                        {
+                            purchaseContext.Entry(model).State = EntityState.Modified;
+                            purchaseContext.SaveChanges();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ErrorMessage = ex.Message;
+                return false;
+            }
+        }
 
     }
 }

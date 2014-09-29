@@ -18,6 +18,10 @@ namespace Troy.Web.Models
         //public List<Model.Branch.Branch> bList;
 
         public Branch Branch { get; set; }
+
+        public Country country { get; set; }
+
+        public State state { get; set; }
         public List<ViewBranches> BranchList { get; set; }
 
         //public List<ViewBranches> AllBranches { get; set; }
@@ -33,6 +37,10 @@ namespace Troy.Web.Models
         public string SearchQuery { get; set; }
 
         public string SearchColumn { get; set; }
+
+        public string SAP_Country_Code { get; set; }
+
+        public string SAP_State_Code { get; set; }
     }
     [XmlRoot("AddBranch")]
     public class Viewmodel_AddBranch
@@ -91,6 +99,12 @@ namespace Troy.Web.Models
 
         [XmlElement("Modified_Dte")]
         public string ModifiedDateTime { get; set; }
+
+        public string SAP_Country_Code { get; set; }
+
+        public string SAP_State_Code { get; set; }
+
+       
     }
 
     [XmlRoot("ModifyBranch")]

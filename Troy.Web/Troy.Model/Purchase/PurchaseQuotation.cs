@@ -29,6 +29,9 @@ namespace Troy.Model.Purchase
 
         [Required]
         [Display(Name = "Posting Date")]
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime Posting_Date { get; set; }
 
         [Required]

@@ -87,7 +87,7 @@
             backToTop: {
                 active: true, //activate back to top
                 scrolltime: 800, //scroll time speed
-                imgsrc: 'assets/img/backtop.png', //image 
+                imgsrc: '/Content/themes/TroyPlus/img/backtop.png', //image 
                 width: 48, //width of image
                 place: 'bottom-right', //position top-left, top-right, bottom-right, bottom-left
                 fadein: 500, //fadein speed
@@ -591,7 +591,8 @@
                 } else {
                     //absolute url is disabled
                     var afterDomain = window.location.pathname.split( '/' );
-                    var afterDomain = afterDomain.pop();
+                    //var afterDomain = afterDomain.pop(); #CSG
+                    var afterDomain = location.pathname;
                     if(plugin.settings.sideNav.subDir != ''){
                         var afterDomain = window.location.pathname + plugin.settings.sideNav.subDir;
                     }

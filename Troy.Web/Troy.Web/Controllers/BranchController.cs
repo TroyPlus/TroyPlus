@@ -104,7 +104,16 @@ namespace Troy.Web.Controllers
                     xmlAddBranch.Address1 = model.Branch.Address1;
                     xmlAddBranch.Address2 = model.Branch.Address2;
                     xmlAddBranch.Address3 = model.Branch.Address3;
-                    xmlAddBranch.Country_ID = model.Branch.Country_ID.ToString();
+                    //xmlAddBranch.Country_ID = model.Branch.Country_ID.ToString();
+                    //xmlAddBranch.Country_ID = model.country.SAP_Country_Code;
+
+                    //int country_ID = Convert.ToInt32(model.Branch.Country_ID);
+
+                    //string SAP_Country_Code = branchDb.FindCodeForCountryId(country_ID);
+
+                    xmlAddBranch.SAP_Country_Code = model.SAP_Country_Code;
+                    xmlAddBranch.SAP_State_Code = model.SAP_State_Code;
+                    //xmlAddBranch.Country_ID = model.Branch.Country_ID.ToString();
                     xmlAddBranch.State_ID = model.Branch.State_ID.ToString();
                     xmlAddBranch.City_ID = model.Branch.City_ID.ToString();
                     xmlAddBranch.Pin_Code = model.Branch.Pin_Code;
@@ -116,6 +125,7 @@ namespace Troy.Web.Controllers
                     xmlAddBranch.ModifiedUser = model.Branch.Modified_User_Id.ToString();
                     xmlAddBranch.ModifiedBranch = model.Branch.Modified_Branch_Id.ToString();
                     xmlAddBranch.ModifiedDateTime = model.Branch.Modified_Dte.ToString();
+                    //xmlAddBranch. = model.SAP_Country_Code;
 
                     if (branchDb.GenerateXML(xmlAddBranch))
                     {
@@ -285,26 +295,69 @@ namespace Troy.Web.Controllers
                                     }
                                 }
                                 #endregion
+ 
+                                #region Check Country Name
+                                foreach (DataRow dr in ds.Tables[0].Rows)
+                                {
+                                    string mExcelCountry_Name = Convert.ToString(dr["Country"]);
+                                    //string CheckingType = "country";
+                                    if (mExcelCountry_Name != null && mExcelCountry_Name != "")
+                                    {
+                                        var data = branchDb.CheckCountry(mExcelCountry_Name);
+                                        if (data ==null)
+                                        {
+                                            return Json(new { success = true, Message = "Country: " + mExcelCountry_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
+                                        }
+                                    }
+                                    
+                                    else
+                                    {
+                                        return Json(new { success = false, Error = "Country Name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                                #endregion
 
-                                //#region Check Country Name
-                                //foreach (DataRow dr in ds.Tables[0].Rows)
-                                //{
-                                //    string mExcelCountry_Name = Convert.ToString(dr["Country"]);
-                                //    string CheckingType = "Country";
-                                //    if (mExcelCountry_Name != null && mExcelCountry_Name != "")
-                                //    {
-                                //        var data = branchDb.CheckDuplicateBranch(mExcelCountry_Name, CheckingType);
-                                //        if (data != null)
-                                //        {
-                                //            return Json(new { success = true, Message = "Country: " + mExcelCountry_Name + " - already exists in the master." }, JsonRequestBehavior.AllowGet);
-                                //        }
-                                //    }
-                                //    else
-                                //    {
-                                //        return Json(new { success = false, Error = "Branch Name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                //    }
-                                //}
-                                //#endregion
+                                #region Check state Name
+                                foreach (DataRow dr in ds.Tables[0].Rows)
+                                {
+                                    string mExcelState_Name = Convert.ToString(dr["State"]);
+                                    //string CheckingType = "country";
+                                    if (mExcelState_Name != null && mExcelState_Name != "")
+                                    {
+                                        var data = branchDb.CheckState(mExcelState_Name);
+                                        if (data == null)
+                                        {
+                                            return Json(new { success = true, Message = "State: " + mExcelState_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
+                                        }
+                                    }
+
+                                    else
+                                    {
+                                        return Json(new { success = false, Error = "State Name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                                #endregion
+
+                                #region Check City Name
+                                foreach (DataRow dr in ds.Tables[0].Rows)
+                                {
+                                    string mExcelCity_Name = Convert.ToString(dr["City"]);
+                                    //string CheckingType = "country";
+                                    if (mExcelCity_Name != null && mExcelCity_Name != "")
+                                    {
+                                        var data = branchDb.CheckCity(mExcelCity_Name);
+                                        if (data == null)
+                                        {
+                                            return Json(new { success = true, Message = "Country: " + mExcelCity_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
+                                        }
+                                    }
+
+                                    else
+                                    {
+                                        return Json(new { success = false, Error = "City Name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                                #endregion
 
                                 # region Already Branchname exists in sheet
                                 int i = 1;
@@ -407,17 +460,29 @@ namespace Troy.Web.Controllers
 
                                         if (ds.Tables[0].Rows[j]["Country"] != null)
                                         {
-                                            bItem.Country_ID = Convert.ToInt32(ds.Tables[0].Rows[j]["Country"]);
+                                            string country_name = Convert.ToString(ds.Tables[0].Rows[j]["Country"]);
+
+                                            int country_id = branchDb.FindIdForCountryName(country_name);
+
+                                            bItem.Country_ID = Convert.ToInt32(country_id);
                                         }
 
                                         if (ds.Tables[0].Rows[j]["State"] != null)
                                         {
-                                            bItem.State_ID = Convert.ToInt32(ds.Tables[0].Rows[j]["State"]);
+                                            string state_name = Convert.ToString(ds.Tables[0].Rows[j]["State"]);
+
+                                            int state_id = branchDb.FindIdForStateName(state_name);
+
+                                            bItem.State_ID = Convert.ToInt32(state_id);
                                         }
 
                                         if (ds.Tables[0].Rows[j]["City"] != null)
                                         {
-                                            bItem.City_ID = Convert.ToInt32(ds.Tables[0].Rows[j]["City"]);
+                                            string city_name = Convert.ToString(ds.Tables[0].Rows[j]["City"]);
+
+                                            int city_id = branchDb.FindIdForCityName(city_name);
+
+                                            bItem.City_ID = Convert.ToInt32(city_id);
                                         }
 
                                         if (ds.Tables[0].Rows[j]["Order Number"] != null)
@@ -504,7 +569,7 @@ namespace Troy.Web.Controllers
                 ViewBag.AppErrorMessage = ex.Message;
                 return View("Error");
             }
-        }
+           }
 
         //Check for dupilicate  
         #region Check for duplicate code
@@ -702,4 +767,4 @@ namespace Troy.Web.Controllers
         #endregion
 
     }
-}
+}   

@@ -16,11 +16,14 @@ namespace Troy.Data.Repository
 
         PurchaseQuotation FindOneQuotationById(int qId);
 
-        PurchaseQuotationItem FindOneQuotationItemById(int qId);
+        IList<PurchaseQuotationItem> FindOneQuotationItemById(int qId);
 
         List<BranchList> GetAddressList();
 
-        bool AddNewQuotation(PurchaseQuotation Quotation, PurchaseQuotationItem QuotationItem);
+        bool AddNewQuotation(PurchaseQuotation Quotation, IList<PurchaseQuotationItem> QuotationItemList, ref string ErrorMessage);
+
+        bool UpdateQuotation(PurchaseQuotation Quotation, IList<PurchaseQuotationItem> QuotationItemList, ref string ErrorMessage);
+
 
     }
 }

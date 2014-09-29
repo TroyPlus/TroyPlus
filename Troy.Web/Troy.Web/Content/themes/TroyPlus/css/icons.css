@@ -3,77 +3,77 @@ Icon packs
 ========================================================================== */
 @font-face {
   font-family: 'icomoon';
-  src:url('../fonts/icomoon.eot');
-  src:url('../fonts/icomoon.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.ttf') format('truetype'),
-    url('../fonts/icomoon.woff') format('woff'),
-    url('../fonts/icomoon.svg#icomoon') format('svg');
+  src:url('TroyPlus/fonts/icomoon.eot');
+  src:url('TroyPlus/fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+    url('TroyPlus/fonts/icomoon.ttf') format('truetype'),
+    url('TroyPlus/fonts/icomoon.woff') format('woff'),
+    url('TroyPlus/fonts/icomoon.svg#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'brocolidry';
-  src:url('../fonts/brocolidry.eot');
-  src:url('../fonts/brocolidry.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/brocolidry.ttf') format('truetype'),
-    url('../fonts/brocolidry.woff') format('woff'),
-    url('../fonts/brocolidry.svg#brocolidry') format('svg');
+  src:url('TroyPlus/fonts/brocolidry.eot');
+  src:url('TroyPlus/fonts/brocolidry.eot?#iefix') format('embedded-opentype'),
+    url('TroyPlus/fonts/brocolidry.ttf') format('truetype'),
+    url('TroyPlus/fonts/brocolidry.woff') format('woff'),
+    url('TroyPlus/fonts/brocolidry.svg#brocolidry') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'ecoico';
-  src:url('../fonts/ecoico.eot');
-  src:url('../fonts/ecoico.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/ecoico.ttf') format('truetype'),
-    url('../fonts/ecoico.woff') format('woff'),
-    url('../fonts/ecoico.svg#ecoico') format('svg');
+  src:url('TroyPlus/fonts/ecoico.eot');
+  src:url('TroyPlus/fonts/ecoico.eot?#iefix') format('embedded-opentype'),
+    url('TroyPlus/fonts/ecoico.ttf') format('truetype'),
+    url('TroyPlus/fonts/ecoico.woff') format('woff'),
+    url('TroyPlus/fonts/ecoico.svg#ecoico') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'steadysets';
-  src:url('../fonts/steadysets.eot');
-  src:url('../fonts/steadysets.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/steadysets.ttf') format('truetype'),
-    url('../fonts/steadysets.woff') format('woff'),
-    url('../fonts/steadysets.svg#steadysets') format('svg');
+  src:url('TroyPlus/fonts/steadysets.eot');
+  src:url('TroyPlus/fonts/steadysets.eot?#iefix') format('embedded-opentype'),
+    url('TroyPlus/fonts/steadysets.ttf') format('truetype'),
+    url('TroyPlus/fonts/steadysets.woff') format('woff'),
+    url('TroyPlus/fonts/steadysets.svg#steadysets') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'meteo';
-  src:url('../fonts/meteo.eot');
-  src:url('../fonts/meteo.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/meteo.ttf') format('truetype'),
-    url('../fonts/meteo.woff') format('woff'),
-    url('../fonts/meteo.svg#meteo') format('svg');
+  src:url('TroyPlus/fonts/meteo.eot');
+  src:url('TroyPlus/fonts/meteo.eot?#iefix') format('embedded-opentype'),
+    url('TroyPlus/fonts/meteo.ttf') format('truetype'),
+    url('TroyPlus/fonts/meteo.woff') format('woff'),
+    url('TroyPlus/fonts/meteo.svg#meteo') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'entypo';
-  src:url('../fonts/entypo.eot');
-  src:url('../fonts/entypo.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/entypo.ttf') format('truetype'),
-    url('../fonts/entypo.woff') format('woff'),
-    url('../fonts/entypo.svg#entypo') format('svg');
+  src:url('TroyPlus/fonts/entypo.eot');
+  src:url('TroyPlus/fonts/entypo.eot?#iefix') format('embedded-opentype'),
+    url('TroyPlus/fonts/entypo.ttf') format('truetype'),
+    url('TroyPlus/fonts/entypo.woff') format('woff'),
+    url('TroyPlus/fonts/entypo.svg#entypo') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'fontawesome';
-  src:url('../fonts/fontawesome.eot');
-  src:url('../fonts/fontawesome.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/fontawesome.ttf') format('truetype'),
-    url('../fonts/fontawesome.woff') format('woff'),
-    url('../fonts/fontawesome.svg#fontawesome') format('svg');
+  src:url('TroyPlus/fonts/fontawesome.eot');
+  src:url('TroyPlus/fonts/fontawesome.eot?#iefix') format('embedded-opentype'),
+    url('TroyPlus/fonts/fontawesome.ttf') format('truetype'),
+    url('TroyPlus/fonts/fontawesome.woff') format('woff'),
+    url('TroyPlus/fonts/fontawesome.svg#fontawesome') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -3353,6 +3353,7 @@ Icon packs
   content: "\e70f";
 }
 .en-arrow-right7:before {
+    padding-left:10px;
   content: "\e710";
 }
 .en-arrow-left8:before {

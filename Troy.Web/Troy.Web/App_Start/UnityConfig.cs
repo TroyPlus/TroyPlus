@@ -7,6 +7,7 @@ using Troy.Data.DataContext;
 using Troy.Data.Repository;
 using Troy.Model.AppMembership;
 using Troy.Web.Controllers;
+using Troy.Data.Repository.MasterData;
 
 namespace Troy.Web.App_Start
 {
@@ -48,7 +49,6 @@ namespace Troy.Web.App_Start
             container.RegisterType<IManufacturerRepository, ManufactureRepository>();
             container.RegisterType<IBranchRepository, BranchRepository>();
             container.RegisterType<IProductGroupRepository, ProductGroupRepository>();
-            container.RegisterType<IBusinessPartnerRepository, BusinessPartnerRepository>();
 
             container.RegisterType(typeof(UserManager<>), new InjectionConstructor(typeof(IUserStore<>)));
             container.RegisterType<IUser>(new InjectionFactory(c => c.Resolve<Microsoft.AspNet.Identity.IUser>()));
@@ -60,7 +60,7 @@ namespace Troy.Web.App_Start
             container.RegisterType<IUserStore<ApplicationUser, int>, UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>>(new HierarchicalLifetimeManager());
             container.RegisterType<DbContext, ApplicationDbContext>(new HierarchicalLifetimeManager());
 
-            container.RegisterType<AccountController>(new InjectionConstructor());
+            container.RegisterType<AccountController>(new InjectionConstructor(new object[] { typeof(IBranchRepository), typeof(IYearRepository) }));
         }
     }
 }
