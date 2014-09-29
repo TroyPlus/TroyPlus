@@ -25,7 +25,7 @@ namespace Troy.Data.Repository
 
         //List<BranchList> GetAddressList();
 
-        //bool InsertFileUploadDetails(List<Branch> branch);
+        //bool InsertFileUploadDetails(List<ApplicationUser> ApplicationUsers);
 
         bool AddNewUser(ApplicationUser ApplicationUsers);
 

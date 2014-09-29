@@ -220,6 +220,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ManufacturerViewModels.cs" />
     <Compile Include="Models\PurchaseViewModels.cs" />
+    <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Models\ViewModelBranch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -1350,6 +1351,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\_CreatePartial.cshtml" />
+    <Content Include="Views\User\_EditPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Troy.Data\Troy.Data.csproj">

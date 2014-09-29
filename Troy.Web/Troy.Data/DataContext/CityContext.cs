@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Data.Entity;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -12,21 +13,16 @@ using Troy.Model.States;
 
 namespace Troy.Data.DataContext
 {
-    public class BranchContext : DbContext
+  public  class CityContext: DbContext
     {
-        public BranchContext()
+    
+      public CityContext()
             : base("DefaultConnection")
         { }
 
         public DbSet<Branch> Branch { get; set; }
-
-        public DbSet<Country> country { get; set; }
-       
-
-        public DbSet<State> state { get; set; }
-
+         
         public DbSet<City> city { get; set; }
 
     }
 }
-

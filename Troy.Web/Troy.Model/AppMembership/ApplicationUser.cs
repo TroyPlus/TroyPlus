@@ -24,67 +24,77 @@ namespace Troy.Model.AppMembership
         //public int Id { get; set; }
 
 
-        //[Display(Name = "User Name")]
-        ////[Remote("CheckForDuplication", "ApplicationUser")]
-        //[StringLength(30)]
-        //public string UserName { get; set; }
+        [Display(Name = "User Name")]
+        [Remote("CheckForDuplication", "ApplicationUser", AdditionalFields = "Email")]
+        [StringLength(30)]
+        public string UserName { get; set; }
 
-        //public int Emp_Id { get; set; }
+        public int Emp_Id { get; set; }
 
-        //[Required]
-        //public int Branch_Id { get; set; }
+        [Required]
+        public int Branch_Id { get; set; }
 
-        //[Required]
-        //[StringLength(256)]
-        //public string Email { get; set; }
+        [Required]
+        [StringLength(256)]
+        public string Email { get; set; }
 
         //[Required]
         //[StringLength(1)]
         //public string EmailConfirmed { get; set; }
 
-        //[Required]
-        //public string PasswordHash { get; set; }
+        [Required]
+        public string PasswordHash { get; set; }
 
-        //[Required]
-        //public string SecurityStamp { get; set; }
+        [NotMapped]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        //[Compare("PasswordHash", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
 
-        //[Required]
+        [Required]
+        public string SecurityStamp { get; set; }
 
-        //public string PhoneNumber { get; set; }
+        [Required]
+
+        public string PhoneNumber { get; set; }
+
+        public int Role_Id { get; set; }
 
         //[Required]
         //[StringLength(1)]
         //public string PhoneNumberConfirmed { get; set; }
 
-        //[Required]
+        [Required]
 
-        //public bool TwoFactorEnabled { get; set; }
+        public bool TwoFactorEnabled { get; set; }
 
         //[Required]
         //public bool LockoutEndDateUtc { get; set; }
 
-        //[Required]
-        //public bool LockoutEnabled { get; set; }
+        [Required]
+        public bool LockoutEnabled { get; set; }
 
-        //[Required]
-        //public int AccessFailedCount { get; set; }
+        [Required]
+        public int AccessFailedCount { get; set; }
 
-        //[Required]
-        //public DateTime? PasswordExpiryDate { get; set; }
+        [Required]
+        [Display(Name = "Posting Date")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTime? PasswordExpiryDate { get; set; }
 
-        //[StringLength(1)]
-        //public string IsActive { get; set; }
+        [StringLength(1)]
+        public string IsActive { get; set; }
 
-        //public int Created_User_Id { get; set; }
+        public int Created_User_Id { get; set; }
 
-        //public int Created_Branch_Id { get; set; }
+        public int Created_Branch_Id { get; set; }
 
-        //public DateTime? Created_Date { get; set; }
+        public DateTime? Created_Date { get; set; }
 
-        //public int Modified_User_Id { get; set; }
+        public int Modified_User_Id { get; set; }
 
-        //public int Modified_Branch_Id { get; set; }
+        public int Modified_Branch_Id { get; set; }
 
-        //public DateTime? Modified_Date { get; set; }
+        public DateTime? Modified_Date { get; set; }
     }
 }
