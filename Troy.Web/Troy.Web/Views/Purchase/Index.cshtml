@@ -1,0 +1,328 @@
+﻿@model Troy.Web.Models.PurchaseViewModels
+
+@{
+    ViewBag.Title = "Purchases";
+}
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('.datePicker').datepicker();
+        //{ dateFormat: 'dd-mm-yy' }
+
+        var i = 1;
+
+        //Dynamically add quotation row
+        function addRow() {
+            var html = '<tr>' +
+                        '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="PurchaseQuotationItemList_' + i + '__IsDummy" name="PurchaseQuotationItemList[' + i + '].IsDummy" type="text" value="">  </td>' +
+                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseQuotationItemList_' + i + '__Product_id" name="PurchaseQuotationItemList[' + i + '].Product_id" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Product_id" data-valmsg-replace="true"></span>  </td>' +
+                        '<td> <input class="form-control control-text datePicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_' + i + '__Required_date" name="PurchaseQuotationItemList[' + i + '].Required_date" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_date" data-valmsg-replace="true"></span>  </td>' +
+                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="PurchaseQuotationItemList_' + i + '__Required_qty" name="PurchaseQuotationItemList[' + i + '].Required_qty" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_qty" data-valmsg-replace="true"></span>  </td>' +
+                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseQuotationItemList_' + i + '__Unit_price" name="PurchaseQuotationItemList[' + i + '].Unit_price" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Unit_price" data-valmsg-replace="true"></span> </td>' +
+                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-required="The Discount_percent field is required." id="PurchaseQuotationItemList_' + i + '__Discount_percent" name="PurchaseQuotationItemList[' + i + '].Discount_percent" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Discount_percent" data-valmsg-replace="true"></span> </td>' +
+                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field VAT Code must be a number." data-val-required="The VAT Code field is required." id="PurchaseQuotationItemList_' + i + '__Vat_Code" name="PurchaseQuotationItemList[' + i + '].Vat_Code" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Vat_Code" data-valmsg-replace="true"></span> </td>' +
+                        '<td><input type="button" class="BtnPlus btn pull-left" value="+" /> <input type="button" class="BtnMinus btn pull-left" value="-" /></td>' +
+
+                        @*'<td>@Html.TextBoxFor(model => model.PurchaseQuotationItemList[2].Required_date, new { @class = "form-control control-text datePicker" })</td>' +
+                        '<td> <input class="form-control control-text datePicker hasDatepicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_0__Required_date" name="PurchaseQuotationItemList[0].Required_date" type="text" value=""> </td>' +*@
+
+                        '</tr>'
+
+            $(html).appendTo($("#createItemTable"))
+
+            //$("#PurchaseQuotationItemList_1__Required_date").datepicker("refresh");
+            i++;
+
+            $("form").removeData("validator");
+            $("form").removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse("form");
+
+            $("#createItemTable").delegate(".datePicker", "focusin", function () {
+                $(this).datepicker();
+            });
+        };
+
+        //$(".BtnPlus").click(addRow);
+
+        $("#createItemTable").on("click", ".BtnPlus", addRow);
+
+        function deleteRow() {
+            //debugger;
+            var par = $(this).parent().parent();
+            //par.remove();
+            //$('#idEstablishmentRow td.ms-formbody span input').attr('id');
+            var id = par[0].childNodes[0].childNodes[1].id;
+
+            id = '#' + id;
+
+            $(id).val("1");
+
+            //par[0].childNodes[0].childNodes[1].value = 1;
+
+            //$(id).val(1);
+            par.hide();
+        };
+        $("#createItemTable").on("click", ".BtnMinus", deleteRow);
+
+    });
+
+    function EditPurchase(id) {
+
+        var url = $('#editModal').data('url') + '/' + id;
+
+        $.get(url, function (data) {
+
+            $('#editmodelcontainer').html(data);
+
+            $('#editModal').modal('show');
+        });
+    }
+
+    function ViewPurchase(id) {
+
+        var url = $('#viewModal').data('url') + '/' + id;
+
+        $.get(url, function (data) {
+            $('#viewmodelcontainer').html(data);
+
+            $('#viewModal').modal('show');
+        });
+    }
+
+    function IFrameSubmit() {
+
+        var fileSelected = $('#FileUpload').val();
+        if (fileSelected == '') {
+            alert('Please choose the Excel to Upload');
+            return false;
+        }
+
+        var formData = new FormData($('form')[0]);
+
+        $.ajax({
+            url: 'Purchase',
+            type: 'POST',
+            xhr: function () {
+                var myXhr = $.ajaxSettings.xhr();
+                return myXhr;
+            },
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+
+                if (data.success == "true") {
+                    alert(data.Message);
+                }
+                else {
+                    alert(data.Error);
+                }
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+    }
+</script>
+
+
+@using (Html.BeginForm())
+{
+
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m => m.SearchColumn)
+
+    <div id="content">
+        <!-- Start .content-wrapper -->
+        <div class="content-wrapper">
+            <div class="row">&nbsp;</div>
+            <!-- Start .row -->
+            <div class="row">
+                <!-- Start .bredcrumb -->
+                <ul id="crumb" class="breadcrumb"></ul>
+                <!-- End .breadcrumb -->
+                <!-- Start .page-header -->
+                <div class="form-group">
+                    <label class="col-md-2 col-md-2 col-sm-12 h4 control-label pull-left">
+                        @ViewBag.Title
+                    </label>
+
+                    <!-- Start .option-buttons -->
+                    <!-- Removed -->
+                    <!-- End .option-buttons -->
+
+                    <div class="col-lg-10 col-md-10">
+                        <div class="row">
+                            <div class="pull-right group-button btn-toolbar" >
+                                <button type="button" title="New Purchase" class="btn btn-primary" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false">
+                                    <i class="en-add-to-list strong"></i>
+                                    <span> New</span>
+                                </button>
+
+                                <button type="button" title="Bulk Addition" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal" data-backdrop="static" data-keyboard="false">
+                                    <i class="st-file-add strong"></i>
+                                    <span> Bulk</span>
+                                </button>
+
+                                <button type="button" title="Excel Export" class="btn btn-primary">
+                                    <i class="im-file-excel strong"></i>
+                                    <span> Export</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End .page-header -->
+            </div>
+            <!-- End .row -->
+            <div class="row">&nbsp;</div>
+            <div class="outlet">
+                <!-- Start .outlet -->
+                <!-- Page start here ( usual with .row ) -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- col-lg-12 start here -->
+                        <div class="panel panel-default plain">
+                            <!-- Start .panel -->
+                            <div class="panel-heading">
+                                <div class="row">
+
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                
+                                <table class="table display" id="datatable">                                    
+                                    <thead>                     
+                                                         
+                                        <tr>
+                                            <th>Purchase QuotationId</th>
+                                            <th>Vendor</th>
+                                            <th>Refrence Number</th>
+                                            <th>Quotation Status</th>
+                                            <th>Posting Date</th>
+                                            <th>Valid Date</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (Troy.Model.Purchase.PurchaseQuotation item in Model.PurchaseQuotationList)
+                                        {
+                                            <tr class="odd gradeX">
+                                                <td>@item.Purchase_Quote_Id</td>
+                                                <td>@item.Vendor</td>
+                                                <td>@item.Reference_Number</td>
+                                                <td>@item.Quotation_Status</td>
+                                                <td>@item.Posting_Date</td>
+                                                <td>@item.Valid_Date</td>
+                                                <td>
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Purchase_Quote_Id);">
+                                                        <i class="im-eye2"></i>
+
+                                                    </a>
+                                                    <span class="text-muted">|</span>
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Purchase_Quote_Id);">
+                                                        <i class="im-pencil2"></i>
+                                                    </a>
+                                                    <span class="text-muted">|</span>
+
+                                                    <a href="@Url.Action("_DeletePartialView", "Suppliers", new { id = item.Purchase_Quote_Id })" data-modal="true">
+                                                        <i class="im-remove2"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
+                        <!-- End .panel -->
+                    </div>
+                    <!-- col-lg-12 end here -->
+                </div>
+                <!-- Page End here -->
+            </div>
+            <!-- End .outlet -->
+        </div>
+        <!-- End .content-wrapper -->
+    </div>
+    <div class="clearfix"></div>
+    <div class="modal fade bs-example-modal-lg" id="createModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        @Html.Partial("_CreatePartial", Model)
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
+        <div id="editmodelcontainer">
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="viewModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPartial")'>
+        <div id="viewmodelcontainer">
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">File Upload</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="tabs">
+                                <ul id="myTab" class="nav nav-tabs tabdrop">
+                                    <li class="active">
+                                        <a href="#default" data-toggle="tab">Bulk Addition</a>
+                                    </li>
+                                </ul>
+
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade in active" id="default">
+                                        <br />
+
+                                        <div id="FileUploadDiv">
+                                            <iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <input type="file" id="FileUpload" name="FileUpload" />
+                                                </div>
+                                            </div>
+                                            @*<div class="row">
+                                                    <div class="col-md-12 text-right">
+                                                        <input type="button" id="btnUpload" name="FileUploadButton" value="Upload" class="btn btn-success"
+                                                               onclick="return IFrameSubmit();" />
+                                                    </div>
+                                                </div>*@
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
+                    <button class="btn pull-left" data-dismiss="modal">Close</button>
+                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
