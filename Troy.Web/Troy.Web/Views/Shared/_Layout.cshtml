@@ -42,6 +42,7 @@
     @Scripts.Render("~/bundles/script/jSearch")
     @Scripts.Render("~/bundles/script/jBootbox")
     @Scripts.Render("~/bundles/script/commonScripts")
+    @Scripts.Render("~/bundles/script/jqueryval")
 </head>
 
 <body>
@@ -184,17 +185,19 @@
         </div>
     }
     <!-- End #sidebar -->
-    <!-- Body -->
-    <!-- Start #content -->
-    @RenderBody()
-
-    <!-- End #content -->
-    <!-- End Body -->
+   
 
 
     <div class="row">
-        <hr />
-        <div class="col-md-6 col-md-offset-3 text-center">
+        <!-- Body -->
+        <!-- Start #content -->
+        @RenderBody()
+
+        <!-- End #content -->
+        <!-- End Body -->
+        
+        <div class="col-md-12 text-center page-footer">
+            <hr />
             <p>Copyrights &copy; TroyPlus  @DateTime.Now.Year. All Rights Reserved </p>
         </div>
     </div>

@@ -155,6 +155,13 @@ namespace Troy.Web
     }
 
 
+    public interface IApplicationSignInManager 
+    {                
+         Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user);
+        ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context);
+      
+    }
+
     // Configure the application sign-in manager which is used in this application.
     public class ApplicationSignInManager : SignInManager<ApplicationUser, int>
     {

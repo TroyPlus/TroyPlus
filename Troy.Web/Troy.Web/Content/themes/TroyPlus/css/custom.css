@@ -2,21 +2,8 @@
    Custom.css - put your own changes here 
 ----------------------------------------- */
 
-.icon-operations
-{
-    padding-top:5px;
-    padding-right:10px;
-    padding-bottom:5px;
-    font-size:20px;
-    float:right;
-    color:white;
-    min-height:10px;
-}
+.page-footer{
+    margin-top:20px;    
+    height:40px;
 
-.LoginHeaderLogo {
-    height: 60px !important;
-    width: 140px !important; 
-    margin: 10px 0px;    
-    float:right;
-    background-repeat:no-repeat;
 }

@@ -60,6 +60,7 @@
     <Compile Include="DataContext\CityContext.cs" />
     <Compile Include="DataContext\CountryContext.cs" />
     <Compile Include="DataContext\ManufactureContext.cs" />
+    <Compile Include="DataContext\MasterDataContext.cs" />
     <Compile Include="DataContext\ProductGroupContext.cs" />
     <Compile Include="DataContext\PurchaseContext.cs" />
     <Compile Include="DataContext\SAPOUTContext.cs" />
@@ -76,6 +77,8 @@
     <Compile Include="Repository\ISAPOUTRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
     <Compile Include="Repository\ManufactureRepository.cs" />
+    <Compile Include="Repository\MasterData\IYearRepository.cs" />
+    <Compile Include="Repository\MasterData\YearRepository.cs" />
     <Compile Include="Repository\ProductGroupRepository.cs" />
     <Compile Include="Repository\PurchaseRepository.cs" />
     <Compile Include="Repository\SAPOUTRepository.cs" />

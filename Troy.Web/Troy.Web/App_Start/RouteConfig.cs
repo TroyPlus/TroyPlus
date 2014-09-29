@@ -18,6 +18,13 @@ namespace Troy.Web
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+            name: "IIS",
+            url: "TroyERP/{controller}/{action}/{id}",
+            defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
+        );
+
         }
     }
 }

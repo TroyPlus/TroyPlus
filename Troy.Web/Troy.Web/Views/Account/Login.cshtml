@@ -1,7 +1,8 @@
 ﻿@using Troy.Web.Models
 @model LoginViewModel
 @{
-    ViewBag.Title = "Log in";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    ViewBag.Title = "Log in";    
 }
 
 
@@ -18,10 +19,11 @@
         <div class="row panel-heading">
             <div class="form-horizontal">
                 <div class="col-md-6 text-left">
+                    
                     <h2>@ViewBag.title</h2>
                 </div>
                 <div class="col-md-6 text-right">
-                    <img src="/Content/images/Troy Plus Logo - Rectangle.jpg" class="img-rounded LoginHeaderLogo" />
+                    <img src="~/Content/images/Troy Plus Logo - Rectangle.jpg" class="img-rounded LoginHeaderLogo" />
                 </div>
             </div>
         </div>        
@@ -40,11 +42,17 @@
                     @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
+            </div>          
+            <div class="form-group">
+                @Html.LabelFor(m => m.CompanyCode, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.CompanyCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.CompanyCode, "", new { @class = "text-danger" })
+                </div>
             </div>
-
             <div class="form-group">
                 <div class="col-md-offset-8 col-md-4">
-                    <input type="submit" value="Log in" class="btn btn-primary pull-right" />
+                    <input type="submit" value="Authenticate" class="btn btn-primary pull-right" />
                 </div>
             </div>
         </div>
