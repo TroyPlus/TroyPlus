@@ -223,6 +223,7 @@
     <Compile Include="Models\ManufacturerViewModels.cs" />
     <Compile Include="Models\ProductGroupViewModels.cs" />
     <Compile Include="Models\PurchaseViewModels.cs" />
+    <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Models\ViewModelBranch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

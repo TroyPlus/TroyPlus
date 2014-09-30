@@ -83,6 +83,7 @@
     <Compile Include="LeftReasons\LeftReason.cs" />
     <Compile Include="Manufacturer\Manufacture.cs" />
     <Compile Include="MaritalStatus\MaritalStatus.cs" />
+    <Compile Include="MasterData\FinancialYear.cs" />
     <Compile Include="PriceLists\PriceList.cs" />
     <Compile Include="PriceLists\PricelistLists.cs" />
     <Compile Include="ProductGroup\ProductGroup.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="SAP OUT\SAPOUT.cs" />
     <Compile Include="States\State.cs" />
     <Compile Include="States\StateList.cs" />
+    <Compile Include="Years\FinancialYear.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
