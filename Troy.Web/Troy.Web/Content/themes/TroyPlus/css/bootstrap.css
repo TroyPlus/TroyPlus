@@ -1360,11 +1360,18 @@ th {
   vertical-align: top;
   border-top: 2px solid #777777;
 }
+
+.table > tfoot > tr > td {
+  padding: 0px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #f3f5f6;
+}
+
 .table > tbody > tr > th,
 .table > tfoot > tr > th,
 .table > thead > tr > td,
-.table > tbody > tr > td,
-.table > tfoot > tr > td {
+.table > tbody > tr > td {
   padding: 10px;
   line-height: 1.42857143;
   vertical-align: top;

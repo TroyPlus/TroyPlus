@@ -37,7 +37,7 @@
 
                                         <div class="row">
                                             <div class="col-md-4">
-                                                Reference Number:
+                                                Ref. Number:
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.PurchaseQuotation.Reference_Number, new { @class = "form-control control-text" })
@@ -147,13 +147,11 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane fade" id="addQuotationlist">
+                            <div class="tab-pane fade" id="addQuotationlist">                                
 
-                                <br />
+                                <div>
 
-                                <div style="padding-left: 15px;">
-
-                                    <table id="createItemTable" class="table table-bordered" cellspacing="6">
+                                    <table id="createItemTable" class="table display">
                                         <thead>
                                             <tr>
                                                 <th>Item Code</th>
@@ -165,45 +163,46 @@
                                                 <th></th>
                                             </tr>
                                         </thead>
+                                        <tbody>
+                                            @for (int i = 0; i < 1; i++)
+                                            {
 
-                                        @for (int i = 0; i < 1; i++)
-                                        {
+                                                <tr>
+                                                    <td style="display:none;">
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].IsDummy, new { @class = "form-control control-text" })
 
-                                            <tr>
-                                                <td style="display:none;">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].IsDummy, new { @class = "form-control control-text" })
-                                                    
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Product_id)
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @class = "form-control control-text datePicker" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_qty, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_qty)
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Unit_price, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Unit_price)
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Discount_percent)
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Vat_Code, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Vat_Code)
-                                                </td>
-                                                <td style="width: 90px;">
-                                                    <input class="BtnPlus btn pull-left" type="button" value="+" />
-                                                    @*<input class="BtnMinus btn pull-left" type="button" value="-" />*@
-                                                </td>
-                                            </tr>
-                                        }
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Product_id)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @class = "form-control control-text datePicker" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_qty, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_qty)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Unit_price, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Unit_price)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Discount_percent)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Vat_Code, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Vat_Code)
+                                                    </td>
+                                                    <td style="width: 90px;">
+                                                        <input class="BtnPlus btn pull-left" type="button" value="+" />
+                                                        @*<input class="BtnMinus btn pull-left" type="button" value="-" />*@
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
                                     </table>
 
                                 </div>

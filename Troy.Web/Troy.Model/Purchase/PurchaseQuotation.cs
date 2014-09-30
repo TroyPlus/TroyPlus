@@ -21,7 +21,7 @@ namespace Troy.Model.Purchase
         public int Vendor { get; set; }
 
         [Required]
-        [Display(Name = "Reference No")]
+        [Display(Name = "Ref. No")]
         public string Reference_Number { get; set; }
 
         [Display(Name = "Quotation Status")]

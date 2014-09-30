@@ -2,6 +2,21 @@
    Custom.css - put your own changes here 
 ----------------------------------------- */
 
+.login-panel{
+    height:auto;
+    width:500px;
+    max-width:600px;
+    padding:20px;
+    
+}
+.login-header-logo {
+    height: 60px !important;
+    width: 140px !important; 
+    margin: 10px 0px;    
+    float:right;
+    background-repeat:no-repeat;
+}
+
 .page-footer{
     margin-top:20px;    
     height:40px;

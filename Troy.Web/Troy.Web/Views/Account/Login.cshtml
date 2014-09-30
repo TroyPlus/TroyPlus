@@ -7,58 +7,67 @@
 
 
 <div class="row">
-    &nbsp;
+    <br />
+    <br />
 </div>
 <div class="row">    
-    <div class="col-md-6 col-md-offset-3">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    <div class="col-md-offset-3 col-md-6 ">
+        <div class="login-panel center-block">
+            <section id="loginForm">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
-                @Html.AntiForgeryToken()
-    <div class="panel panel-primary" >      
-        <div class="row panel-heading">
-            <div class="form-horizontal">
-                <div class="col-md-6 text-left">
-                    
-                    <h2>@ViewBag.title</h2>
-                </div>
-                <div class="col-md-6 text-right">
-                    <img src="~/Content/images/Troy Plus Logo - Rectangle.jpg" class="img-rounded LoginHeaderLogo" />
-                </div>
-            </div>
-        </div>        
-        <div class="panel-body">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10" >
-                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                </div>
-            </div>          
-            <div class="form-group">
-                @Html.LabelFor(m => m.CompanyCode, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.CompanyCode, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.CompanyCode, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-8 col-md-4">
-                    <input type="submit" value="Authenticate" class="btn btn-primary pull-right" />
-                </div>
-            </div>
+                    @Html.AntiForgeryToken()
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-horizontal">
+                                <div class="col-md-6 text-left text-orange">                                                                       
+                                    <h2>@ViewBag.title</h2>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <img src="~/Content/images/Troy Plus Logo - Rectangle.jpg" class="img-rounded login-header-logo" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+                            </div>
+                            <div class="row">
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.UserName, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-9">
+                                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Password, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-9">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.CompanyCode, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-9">
+                                        @Html.TextBoxFor(m => m.CompanyCode, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.CompanyCode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-8 col-md-4">
+                                        <input type="submit" value="Authenticate" class="btn btn-primary pull-right" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            }
+            </section>
         </div>
     </div>
-            }
-        </section>
-    </div>    
 </div>
 
