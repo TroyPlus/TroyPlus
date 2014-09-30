@@ -25,6 +25,12 @@ namespace Troy.Data.Repository
 
         Branch CheckDuplicateBranch(string bname, string CheckingType);
 
+        Country CheckCountry(string bname);
+
+        State CheckState(string bname);
+
+        City CheckCity(string bname);
+
         //Branch _ExporttoExcel(Branch branch);
 
         IEnumerable<Branch> _ExporttoExcel();
@@ -45,7 +51,13 @@ namespace Troy.Data.Repository
         bool EditBranch(Branch branch);
 
 
+        int FindIdForCountryName(string name);
 
+        int FindIdForStateName(string name);
+
+        int FindIdForCityName(string name);
+
+        //String FindCodeForCountryId(int name);
         //object CheckDuplicateName(string Branch_Code, string code);
 
 

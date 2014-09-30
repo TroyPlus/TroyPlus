@@ -261,7 +261,7 @@ namespace Troy.Web.Controllers
                                 #region Check Manufacturer Name
                                 foreach (DataRow dr in ds.Tables[0].Rows)
                                 {
-                                    string mExcelManu_Name = Convert.ToString(dr["Manufacturer_Name"]);
+                                    string mExcelManu_Name = Convert.ToString(dr["Manufacturer Name"]);
                                     if (mExcelManu_Name != null && mExcelManu_Name != "")
                                     {
                                         var data = manufactureDb.CheckDuplicateName(mExcelManu_Name);
@@ -305,7 +305,7 @@ namespace Troy.Web.Controllers
                                 string itemc = string.Empty;
                                 foreach (DataRow dr in ds.Tables[0].Rows)
                                 {
-                                    itemc = Convert.ToString(dr["Manufacturer_Name"]);
+                                    itemc = Convert.ToString(dr["Manufacturer Name"]);
 
                                     if ((itemc == null) || (itemc == ""))
                                     {
@@ -340,9 +340,9 @@ namespace Troy.Web.Controllers
                                     for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
                                     {
                                         Manufacture mItem = new Manufacture();
-                                        if (ds.Tables[0].Rows[j]["Manufacturer_Name"] != null)
+                                        if (ds.Tables[0].Rows[j]["Manufacturer Name"] != null)
                                         {
-                                            mItem.Manufacturer_Name = ds.Tables[0].Rows[j]["Manufacturer_Name"].ToString();
+                                            mItem.Manufacturer_Name = ds.Tables[0].Rows[j]["Manufacturer Name"].ToString();
                                         }
 
                                         if (ds.Tables[0].Rows[j]["Level"] != null)
@@ -364,7 +364,7 @@ namespace Troy.Web.Controllers
 
                                         Viewmodel_AddManufacturer xmlAddManufacture = new Viewmodel_AddManufacturer();
                                         xmlAddManufacture.UniqueID = UniqueID.ToString();
-                                        xmlAddManufacture.manufacturer_Name = ds.Tables[0].Rows[j]["Manufacturer_Name"].ToString();
+                                        xmlAddManufacture.manufacturer_Name = ds.Tables[0].Rows[j]["Manufacturer Name"].ToString();
                                         xmlAddManufacture.CreatedUser = "1";
                                         xmlAddManufacture.CreatedBranch = "1";
                                         xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
@@ -382,7 +382,7 @@ namespace Troy.Web.Controllers
                                     if (manufactureDb.InsertFileUploadDetails(mlist))
                                     {
                                         //System.IO.File.Delete(fileLocation);
-                                        return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
+                                        return Json(new { success = true, Message = mlist.Count + " Records Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
                                     }
                                 }
                                 else
@@ -525,7 +525,7 @@ namespace Troy.Web.Controllers
         public ActionResult _TemplateExcelDownload()
         {
             DataTable dt = new DataTable();
-            dt.Columns.Add(new DataColumn("Manufacturer_Name"));
+            dt.Columns.Add(new DataColumn("Manufacturer Name"));
             dt.Columns.Add(new DataColumn("Level"));
 
             DataRow dr = dt.NewRow();

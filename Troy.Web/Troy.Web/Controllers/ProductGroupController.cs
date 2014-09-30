@@ -351,7 +351,7 @@ namespace Troy.Web.Controllers
                                     if (ProductGroupDb.InsertFileUploadDetails(mlist))
                                     {
                                         //System.IO.File.Delete(fileLocation);
-                                        return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
+                                        return Json(new { success = true, Message = mlist.Count + " Records Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
                                     }
                                 }
                                 else

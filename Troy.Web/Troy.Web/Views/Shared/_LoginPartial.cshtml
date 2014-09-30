@@ -8,8 +8,8 @@
                 <ul class="nav navbar-nav pull-right">
                     <li>
                         <div class="navbar-collapse collapse">
-                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-                            {
+                            @*@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                            {*@
                                 @Html.AntiForgeryToken()
                                 <ul class="nav navbar-nav navbar-right">
                                     <li>
@@ -17,7 +17,7 @@
                                     </li>
                                     <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                                 </ul>
-                            }
+                            @*}*@
                         </div>
                     </li>
                 </ul>

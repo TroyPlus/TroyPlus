@@ -24,6 +24,13 @@ namespace Troy.Data.Repository
     {
         private BranchContext branchContext = new BranchContext();
 
+        private CountryContext countryContext = new CountryContext();
+
+        private CityContext cityContext = new CityContext();
+
+        private StateContext stateContext = new StateContext();
+
+
         private SAPOUTContext sapcontext = new SAPOUTContext();
 
         public List<Branch> GetAllBranch()
@@ -168,9 +175,9 @@ namespace Troy.Data.Repository
                         Modified_Branch_Id = item.Modified_Branch_Id,
                         Modified_Dte = item.Modified_Dte,
                         Modified_User_Id = item.Modified_User_Id,
-                        Country_Name=item.Country_Name,
-                        State_Name=item.State_Name,
-                        City_Name=item.City_Name
+                        Country_Name = item.Country_Name,
+                        State_Name = item.State_Name,
+                        City_Name = item.City_Name
                     };
 
                     qList.Add(model);
@@ -201,7 +208,7 @@ namespace Troy.Data.Repository
         public Branch CheckDuplicateName(string brname)
         {
             return (from p in branchContext.Branch
-                    where p.Branch_Code.Equals(brname,StringComparison.CurrentCultureIgnoreCase)
+                    where p.Branch_Code.Equals(brname, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
 
@@ -230,17 +237,97 @@ namespace Troy.Data.Repository
             }
             return qList;
         }
+        public Country CheckCountry(string bname)
+        {
+            
+            
+            return (from p in countryContext.country
+                         where p.Country_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                         select p).FirstOrDefault();       
+       }
 
+        public State CheckState(string bname)
+        {
+
+
+            return (from p in stateContext.state
+                    where p.State_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
+        public City CheckCity(string bname)
+        {
+
+
+            return (from p in cityContext.city
+                    where p.City_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+      }
+
+            
+        //    else if (CheckingType == "state")
+        //    {
+        //        qList = (from p in countryContext.state
+        //                 where p.State_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+        //                 select p).FirstOrDefault();
+        //    }
+        //    else if (CheckingType == "state")
+        //    {
+        //        qList = (from p in branchContext.Branch
+        //                 where p.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+        //                 select p).FirstOrDefault();
+        //    }
+        //    return qList;
+        //}
+
+        public int FindIdForCountryName(string name)
+        {
+            int Country_id = (from p in countryContext.country
+                      where p.Country_Name == name
+                      select p.ID).FirstOrDefault();
+            return Country_id;
+
+        }
+
+        public int FindIdForStateName(string name)
+        {
+            int State_id = (from p in stateContext.state
+                      where p.State_Name == name
+                      select p.ID).FirstOrDefault();
+            return State_id;
+
+        }
+
+        public int FindIdForCityName(string name)
+        {
+            int City_id = (from p in cityContext.city
+                      where p.City_Name == name
+                      select p.ID).FirstOrDefault();
+            return City_id;
+
+        }
+
+        //public int FindCodeForCountryId(int name)
+        //{
+
+        //    return (from p in branchContext.country
+        //            where p.ID == name
+        //            select p.SAP_Country_Code).FirstOrDefault();
+
+
+        //    //int Country_id = (from p in countryContext.country
+        //    //                  where p.ID == name
+        //    //                  select p.SAP_Country_Code).FirstOrDefault();
+        //}
 
         public IEnumerable<Branch> _ExporttoExcel()
         {
             //var data = branchDb._ExporttoExcel(branch);
+            //List<ViewBranches> qList = new List<ViewBranches>();
+
+
             return (from e in branchContext.Branch
-                    select e);      
+                    select e);
         }
-
-
-
 
 
         public bool InsertFileUploadDetails(List<Branch> branch)
@@ -264,10 +351,10 @@ namespace Troy.Data.Repository
         {
             try
             {
-                string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
+               // string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
 
                 XmlDocument doc = new XmlDocument();
-                doc.LoadXml(data);
+                //doc.LoadXml(data);
 
                 SAPOUT mSAP = new SAPOUT();
                 mSAP.Object_typ = "Branch";
