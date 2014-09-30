@@ -18,7 +18,6 @@
     }
 </style>
 
-
 <script type="text/javascript">
 
 
@@ -100,45 +99,7 @@
 
             $('#viewModal').modal('show');
         });
-    }
-
-    function IFrameSubmit() {
-
-        debugger;
-
-        var fileSelected = $('#FileUpload').val();
-        if (fileSelected == '') {
-            alert('Please choose the Excel to Upload');
-            return false;
-        }
-
-        var formData = new FormData($('form')[0]);
-
-        $.ajax({
-            url: 'BusinessPartner',
-            type: 'POST',
-            xhr: function () {
-                var myXhr = $.ajaxSettings.xhr();
-                return myXhr;
-            },
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-
-                if (data.success == "true") {
-                    alert(data.Message);
-                }
-                else {
-                    alert(data.Error);
-                }
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
-            }
-        });
-    }
+    }    
 
     function IFrameManuSubmit() {
         //debugger;
@@ -187,7 +148,7 @@
         });
     }
 
-    $('input:checkbox[id*=chkCopy]').change(function () {
+    $('input:checkbox[id*=chkCopy]').change(function () {       
         if ($(this).is(':checked')) {
             $('input:text[id*=BillingAddress1]').val($('input:text[id*=ShippingAddress1]').val());
             $('input:text[id*=BillingAddress2]').val($('input:text[id*=ShippingAddress2]').val());
