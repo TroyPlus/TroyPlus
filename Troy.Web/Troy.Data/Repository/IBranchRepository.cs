@@ -12,11 +12,11 @@ namespace Troy.Data.Repository
 {
     public interface IBranchRepository
     {
-        List<Branch> GetAllBranch();
+        List<ViewBranches> GetAllUserBranch();
         //List<ViewBranches> GetAllBranches();
         List<ViewBranches> GetFilterBranch(string searchColumn, string searchString, Guid userId);
 
-
+        List<Branch> GetAllBranch();
         Branch FindOneBranchById(int qId);
 
         Branch CheckDuplicateName(string bname);
@@ -57,10 +57,12 @@ namespace Troy.Data.Repository
 
         int FindIdForCityName(string name);
 
-        //String FindCodeForCountryId(int name);
+        String FindCodeForCountryId(int name);
+
+        String FindCodeForStateId(int name);
         //object CheckDuplicateName(string Branch_Code, string code);
 
-
+        string FindNameForCityId(int city_id);
         bool GenerateXML(Object obj);
     }
 }

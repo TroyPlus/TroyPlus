@@ -122,8 +122,8 @@ namespace Troy.Data.Repository
             var item = (from a in purchaseContext.Branch
                         select new BranchList
                         {
-                            BranchName = a.Branch_Name,
-                            BranchId = a.Branch_Id
+                            Branch_Name = a.Branch_Name,
+                            Branch_Id = a.Branch_Id
                         }).ToList();
 
             return item;

@@ -1484,6 +1484,9 @@
     <Content Include="Views\Account\PostLogin.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\_CreatePartial.cshtml" />
+    <Content Include="Views\User\_EditPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />

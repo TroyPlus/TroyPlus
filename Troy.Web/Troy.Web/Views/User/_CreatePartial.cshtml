@@ -95,20 +95,24 @@
                                         @Html.ValidationMessageFor(model => model.Employee_Id)
                                     </div>
                                 </div>
-                                @*<div class="row">
+                                <div class="row">
                                     <div class="col-md-4">
-                                        Role Desc:
+                                        Role Description:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.ApplicationUsers.Role_Id, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.ApplicationUsers.Role_Id)
+                                        @Html.DropDownListFor(m => m.Role_Id, new SelectList(Model.rolelist.AsEnumerable(), "Id", "Name"), "", new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.Role_Id)
+                                        @*@Html.TextBoxFor(model => model.Branch_Id, new { @class = "form-control control-text" })
+                @Html.ValidationMessageFor(model => model.Branch_Id)*@
                                     </div>
-                                </div>*@
+                                </div>
                                 <div class="row">
                                     <div class="col-md-4">
                                         BranchName:
                                     </div>
                                     <div class="col-md-8">
+                                        @*@Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.Branch_Id)*@
                                         @Html.TextBoxFor(model => model.Branch_Id, new { @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.Branch_Id)
                                     </div>
@@ -118,6 +122,8 @@
                                         DefaultBranch:
                                     </div>
                                     <div class="col-md-8">
+                                        @*@Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.Branch_Id)*@
                                         @Html.TextBoxFor(model => model.Branch_Id, new { @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.Branch_Id)
                                     </div>

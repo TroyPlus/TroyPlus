@@ -31,6 +31,8 @@ namespace Troy.Data.Repository
             qList = (from p in UserContext.Users
                      select p).ToList();
 
+            
+
             return qList;
         }
 
@@ -47,6 +49,60 @@ namespace Troy.Data.Repository
             return item;
         }
 
+
+        public string GetApplicationIdforName(int roleid)
+        {
+            string name=(from p in UserContext.Roles
+                             where p.Id== roleid
+                             select p.Name).FirstOrDefault();
+            return name;
+        }
+
+        //public ApplicationRole GetApplicationIdforName(int roleid)
+        //{
+        //    var Name = (from p in UserContext.Roles
+        //                where p.Id == roleid
+        //                select p).FirstOrDefault();
+        //    return Name;
+        //}
+
+        public List<ApplicationRole> GetAddressRoleList()
+        {
+            var item = (from a in UserContext.Roles
+                         select a)
+                        .ToList();
+
+            return item;
+        }
+                        
+     
+
+        //public List<UserBranches> GetAddressBranchList()
+        //{
+        //    var item = (from a in UserContext.userbranches
+        //                select new UserBranches
+        //                {
+        //                    Branch_Id = a.Branch_Id,
+        //                    Branch_Name = a.Branch_Name
+        //                    //Emp_Id = a.Emp_Id,
+        //                    //First_Name = a.First_Name
+        //                    //BranchId = a.Branch_Id
+        //                }).ToList();
+
+        //    return item;
+        //}
+
+        //public List<UserBranches> GetAddressUserBranchList()
+        //{
+        //    var item = (from a in UserContext.userbranches
+        //                select new UserBranches
+        //                {
+        //                    User_Id = a.User_Id,
+        //                    Branch_Id = a.Branch_Id
+        //                }).ToList();
+        //    return item;
+
+        //}
 
         public List<ApplicationUser> GetFilterUser(string searchColumn, string searchString, Guid userId)
         {
@@ -148,6 +204,8 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
+        
+
         public ApplicationUser CheckDuplicateName(string uname)
         {
             return (from p in UserContext.Users
@@ -179,7 +237,7 @@ namespace Troy.Data.Repository
         {
             try
             {
-               
+
                 UserContext.Users.Add(ApplicationUsers);
 
                 //UserContext.userbranch.Add(UserBranches);

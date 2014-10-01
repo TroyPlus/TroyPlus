@@ -17,6 +17,7 @@ namespace Troy.Web.Models
         //public List<Model.Branch.Branch> branchList;
         //public List<Model.Branch.Branch> bList;
 
+        //public List<Branch> branchlist;
         public Branch Branch { get; set; }
 
         public Country country { get; set; }
@@ -41,6 +42,8 @@ namespace Troy.Web.Models
         public string SAP_Country_Code { get; set; }
 
         public string SAP_State_Code { get; set; }
+
+        public string City_Name { get; set; }
     }
     [XmlRoot("AddBranch")]
     public class Viewmodel_AddBranch
@@ -64,14 +67,16 @@ namespace Troy.Web.Models
         [XmlElement("Address3")]
         public string Address3 { get; set; }
 
-        [XmlElement("Country")]
-        public string Country_ID { get; set; }
 
-        [XmlElement("state")]
-        public string State_ID { get; set; }
+
+        [XmlElement("SAP_Country_Code")]
+        public string SAP_Country_Code { get; set; }
+
+        [XmlElement("SAP_State_Code")]
+        public string SAP_State_Code { get; set; }
 
         [XmlElement("City")]
-        public string City_ID { get; set; }
+        public string City_Name { get; set; }
 
         [XmlElement("pincode")]
         public string Pin_Code { get; set; }
@@ -100,9 +105,9 @@ namespace Troy.Web.Models
         [XmlElement("Modified_Dte")]
         public string ModifiedDateTime { get; set; }
 
-        public string SAP_Country_Code { get; set; }
+        //public string SAP_Country_Code { get; set; }
 
-        public string SAP_State_Code { get; set; }
+        //public string SAP_State_Code { get; set; }
 
        
     }

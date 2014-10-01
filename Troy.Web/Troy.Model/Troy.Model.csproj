@@ -62,8 +62,10 @@
     <Compile Include="AppMembership\ApplicationUserRole.cs" />
     <Compile Include="AppGUI\Menu.cs" />
     <Compile Include="AppGUI\MenuItem.cs" />
+    <Compile Include="AppMembership\ViewUsers.cs" />
     <Compile Include="Branches\Branch.cs" />
     <Compile Include="Branches\BranchList.cs" />
+    <Compile Include="Branches\UserBranches.cs" />
     <Compile Include="Branches\ViewBranches.cs" />
     <Compile Include="BusinessPartner\BusinessPartner.cs" />
     <Compile Include="Cities\City.cs" />

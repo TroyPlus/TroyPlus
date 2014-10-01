@@ -22,9 +22,17 @@ namespace Troy.Model.AppMembership
             return userIdentity;
         }
 
+
+        //[Key]
+        //[ForeignKey("Id")]
+        //public int Id { get; set; }
+        //public virtual ApplicationUser user { get; set; }
+
         public int Employee_Id { get; set; }
 
         public int Branch_Id { get; set; }
+
+        //public int Role_Id { get; set; }
 
         public DateTime? PasswordExpiryDate { get; set; }
 
@@ -47,6 +55,7 @@ namespace Troy.Model.AppMembership
         {
             get
             {
+               
                 return base.Roles;
             }
         }

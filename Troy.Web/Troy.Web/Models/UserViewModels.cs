@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using Troy.Model.AppMembership;
+using Troy.Model.Branches;
 using Troy.Model.Employees;
 
 namespace Troy.Web.Models
@@ -30,9 +31,16 @@ namespace Troy.Web.Models
         public string ConfirmPassword { get; set; }
 
 
-        public int Id { get; set; }
 
+        //[Key]
+        //[ForeignKey("Id")]
+        public int Id { get; set; }
+        //public virtual ApplicationUser user { get; set; }
         public string UserName { get; set; }
+
+        public int Role_Id { get; set; }
+
+        public string RoleName { get; set; }
 
         public string Email { get; set; }
 
@@ -51,6 +59,14 @@ namespace Troy.Web.Models
 
         //public List<ViewBranches> AllBranches { get; set; }
         public List<EmployeeList> employeelist { get; set; }
+
+        public List<ApplicationRole> rolelist { get; set; }
+
+        //public List<BranchList> branchlist { get; set; }
+
+
+
+        //public List<UserBranches> userbranches { get; set; }
 
         public string code { get; set; }
 

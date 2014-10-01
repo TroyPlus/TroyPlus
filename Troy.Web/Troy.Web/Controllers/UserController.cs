@@ -107,7 +107,9 @@ namespace Troy.Web.Controllers
                 var user = new ApplicationUser { UserName = model.UserName,
                     Email = model.UserName,
                     Employee_Id=model.Employee_Id, 
+                    //Role_Id=model.Role_Id,
                     Branch_Id=model.Branch_Id,
+                    PasswordExpiryDate=model.PasswordExpiryDate,
                    IsActive="Y",
                    Created_User_Id=1,
                    Created_Branch_Id=1,
@@ -122,7 +124,12 @@ namespace Troy.Web.Controllers
                                                    // EmailConfirmed=model.ApplicationUsers.EmailConfirmed,PasswordHash=model.ApplicationUsers.PasswordHash,
                                                     //PhoneNumber=model.ApplicationUsers.PhoneNumber,PhoneNumberConfirmed=model.ApplicationUsers.PhoneNumberConfirmed
                                                       //,AccessFailedCount=model.ApplicationUsers.AccessFailedCount,
-                                                  
+                ApplicationUserRole userrole = new ApplicationUserRole();
+                userrole.RoleId =model.Role_Id;
+                //userrole.RoleId = Convert.ToString(model.Name);
+                //userrole.RoleId = model.Name;
+
+                user.Roles.Add(userrole);
 
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -150,6 +157,9 @@ namespace Troy.Web.Controllers
         #region Controller Actions
         // GET: Branch
         public ActionResult Index(string searchColumn, string searchQuery)
+        
+        
+        
         {
             try
             {
@@ -161,6 +171,17 @@ namespace Troy.Web.Controllers
 
                 var EmployeeList = userDb.GetAddressEmployeeList().ToList();
                 model.employeelist = EmployeeList;
+
+                var RoleList = userDb.GetAddressRoleList().ToList();
+                model.rolelist = RoleList;
+
+                //var UserBranches = userDb.GetAddressBranchList().ToList();
+                //model.userbranches = UserBranches;
+                //var UserBranches = userDb.
+                //var BranchList = userDb.GetAddressBranchList().ToList();
+                //model.branchlist = BranchList;
+                //var UserBranches = userDb.GetAddressUserBranchList().ToList();
+                //model.userbranches = UserBranches;
 
 
                 //model. = uList;
@@ -414,6 +435,13 @@ namespace Troy.Web.Controllers
                 var EmployeeList = userDb.GetAddressEmployeeList().ToList();
                 model.employeelist = EmployeeList;
 
+                var RoleList = userDb.GetAddressRoleList().ToList();
+                model.rolelist = RoleList;
+
+                //var BranchList = userDb.GetAddressBranchList().ToList();
+                //model.branchlist = BranchList;
+                //var UserBranches = userDb.GetAddressBranchList().ToList();
+                //model.userbranches = UserBranches;
 
 
                 return PartialView(model);
