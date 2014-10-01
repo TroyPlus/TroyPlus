@@ -1486,10 +1486,9 @@
     <Content Include="Views\Account\PostLogin.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\Employee\Create.cshtml" />
-    <Content Include="Views\Employee\Delete.cshtml" />
-    <Content Include="Views\Employee\Details.cshtml" />
-    <Content Include="Views\Employee\Edit.cshtml" />
+    <Content Include="Views\Employee\_CreatePartial.cshtml" />
+    <Content Include="Views\Employee\_ViewPartial.cshtml" />
+    <Content Include="Views\Employee\_EditPartial.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,7 @@ using Troy.Model.Initials;
 using Troy.Model.MaritalStatus;
 using Troy.Model.Genders;
 using Troy.Model.LeftReasons;
+using Troy.Model.Branches;
 
 namespace Troy.Data.DataContext
 {
@@ -25,6 +26,8 @@ namespace Troy.Data.DataContext
         public DbSet<Designation> Designation { get; set; }
 
         public DbSet<Department> Department { get; set; }
+
+        public DbSet<Branch> Branch { get; set; }
 
         public DbSet<Initial> Initial { get; set; }
 

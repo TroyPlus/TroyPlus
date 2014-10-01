@@ -47,6 +47,24 @@ namespace Troy.Web.Controllers
                 EmployeeViewModels model = new EmployeeViewModels();
                 model.EmployeeList = qList;
 
+                var DesignationList = employeeDb.GetDesignationList().ToList();
+                model.DesignationList = DesignationList;
+
+                var DepartmentList = employeeDb.GetDepartmentList().ToList();
+                model.DepartmentList = DepartmentList;
+
+                var BranchList = employeeDb.GetBranchList().ToList();
+                model.BranchList = BranchList;
+
+                //var MaritalStatusList = employeeDb.GetMaritalStatusList().ToList();
+                //model.MaritalList = MaritalStatusList;
+
+                var GenderList = employeeDb.GetGenderList().ToList();
+                model.GenderList = GenderList;
+
+                var LeftReasonList = employeeDb.GetLeftReasonList().ToList();
+                model.LeftReasonList = LeftReasonList;
+
                 return View(model);
             }
             catch (Exception ex)
@@ -470,6 +488,24 @@ namespace Troy.Web.Controllers
 
                 EmployeeViewModels model = new EmployeeViewModels();
                 model.Employee = employeeDb.FindOneEmployeeById(id);
+
+                var DesignationList = employeeDb.GetDesignationList().ToList();
+                model.DesignationList = DesignationList;
+
+                var DepartmentList = employeeDb.GetDepartmentList().ToList();
+                model.DepartmentList = DepartmentList;
+
+                var BranchList = employeeDb.GetBranchList().ToList();
+                model.BranchList = BranchList;
+
+                //var MaritalStatusList = employeeDb.GetMaritalStatusList().ToList();
+                //model.MaritalList = MaritalStatusList;
+
+                var GenderList = employeeDb.GetGenderList().ToList();
+                model.GenderList = GenderList;
+
+                var LeftReasonList = employeeDb.GetLeftReasonList().ToList();
+                model.LeftReasonList = LeftReasonList;
                
                 return PartialView(model);
             }

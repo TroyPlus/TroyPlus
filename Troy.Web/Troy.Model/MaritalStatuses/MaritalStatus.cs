@@ -15,6 +15,8 @@ namespace Troy.Model.MaritalStatus
     {
         [Key]
         public int Id { get; set; }
+        [ForeignKey("Id")]
+        public virtual MaritalStatus maritalstatus { get; set; }
              
         [StringLength(30)]
         public string Troy_values { get; set; }

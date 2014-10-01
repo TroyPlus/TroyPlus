@@ -14,6 +14,12 @@ using Troy.Utilities.CrossCutting;
 using System.Xml;
 using System.Xml.Serialization;
 using Troy.Model.SAP_OUT;
+using Troy.Model.Designations;
+using Troy.Model.Departments;
+using Troy.Model.Branches;
+using Troy.Model.LeftReasons;
+using Troy.Model.MaritalStatus;
+using Troy.Model.Genders;
 
 namespace Troy.Data.Repository
 {
@@ -29,9 +35,9 @@ namespace Troy.Data.Repository
             return qList;
         }
 
-        public List<Employee> GetFilterEmployee(string searchColumn, string searchString, Guid userId)
+        public List<ViewEmployee> GetFilterEmployee(string searchColumn, string searchString, Guid userId)
         {
-            List<Employee> qList = new List<Employee>();
+            List<ViewEmployee> qList = new List<ViewEmployee>();
 
             if (searchColumn == null)
             {
@@ -62,11 +68,11 @@ namespace Troy.Data.Repository
 
                 foreach (var item in result)
                 {
-                    Employee model = new Employee()
+                    ViewEmployee model = new ViewEmployee()
                     {
                         Emp_Id=item.Emp_Id,
                         Emp_No=item.Emp_No,
-                        Initial=item.Initial,
+                        Initial= item.Initial,
                         First_Name=item.First_Name,
                         Middle_Name=item.Middle_Name,
                         Last_Name=item.Last_Name,
@@ -206,6 +212,73 @@ namespace Troy.Data.Repository
                 ExceptionHandler.LogException(ex);
                 return false;
             }
+        }
+
+        public List<DesignationList> GetDesignationList()
+        {
+            var item = (from a in employeecontext.Designation
+                        select new  DesignationList
+                        {
+                            Designation_Id=a.Designation_Id,
+                            Designation_Name=a.Designation_Name
+                        }).ToList();
+
+            return item;
+        }
+
+        public List<DepartmentList> GetDepartmentList()
+        {
+            var item = (from a in employeecontext.Department
+                        select new DepartmentList
+                        {
+                            Department_Id = a.Department_Id,
+                            Department_Name = a.Department_Name
+                        }).ToList();
+            return item;
+        }
+
+        public List<BranchList> GetBranchList()
+        {
+            var item = (from a in employeecontext.Branch
+                        select new BranchList
+                        {
+                            BranchId = a.Branch_Id,
+                            BranchName = a.Branch_Name
+                        }).ToList();
+            return item;
+        }
+
+        public List<GenderList> GetGenderList()
+        {
+            var item = (from a in employeecontext.Gender
+                        select new GenderList
+                        {
+                            Id = a.Id,
+                            Troyvalues = a.Troyvalues
+                        }).ToList();
+            return item;
+        }
+
+        //public List<MaritalStatus> GetMaritalStatusList()
+        //{
+        //    var item = (from a in employeecontext.MaritalStatus
+        //                select new MaritalStatus
+        //                {
+        //                    Id = a.Id,
+        //                    Troy_values = a.Troy_values
+        //                }).ToList();
+        //    return item;
+        //}
+
+        public List<LeftReasonList> GetLeftReasonList()
+        {
+            var item = (from a in employeecontext.LeftReason
+                        select new LeftReasonList
+                        {
+                            Id = a.Id,
+                            Troyvalues = a.Troyvalues
+                        }).ToList();
+            return item;
         }
     }
 }
