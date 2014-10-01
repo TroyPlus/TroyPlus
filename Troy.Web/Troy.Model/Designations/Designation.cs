@@ -15,6 +15,8 @@ namespace Troy.Model.Designations
     {
         [Key]
         public int Designation_Id { get; set; }
+        [ForeignKey("Designation_Id")]
+        public virtual Designation designation { get; set; }
 
         [StringLength(30)]
         public string Designation_Name { get; set; }
