@@ -15,6 +15,8 @@ namespace Troy.Model.Initials
     {
         [Key]
         public int Id { get; set; }
+        [ForeignKey("Id")]
+        public virtual Initial initial { get; set; }
 
         [StringLength(10)]
         public string Troyvalues { get; set; }

@@ -119,12 +119,12 @@ namespace Troy.Web.Controllers
                     model.BusinessPartner.Modified_Branch_Id = 1;
 
                     if (BusinesspartnerDb.AddNewBusinessPartner(model.BusinessPartner))
-                    {                       
+                    {
                         //return RedirectToAction("Index", "BusinessPartner");
 
                         Guid GuidRandomNo = Guid.NewGuid();
                         string mUniqueID = GuidRandomNo.ToString();
-                      
+
                         #region ViewModel-XML-Fill
 
                         //addbp class
@@ -134,13 +134,26 @@ namespace Troy.Web.Controllers
                         //header class
                         addbp.Header.BPCode = Convert.ToString(model.BusinessPartner.BP_Id);
                         addbp.Header.BPName = model.BusinessPartner.BP_Name;
-                        addbp.Header.BPType = model.BusinessPartner.Group_Type;                        
-                        addbp.Header.GroupCode = Convert.ToString(model.BusinessPartner.Group_id);
-                        addbp.Header.PriceList = Convert.ToString(model.BusinessPartner.Pricelist);
-                        addbp.Header.EmpNo = Convert.ToString(model.BusinessPartner.Emp_Id);
+                        addbp.Header.BPType = model.BusinessPartner.Group_Type;
+
+                        int group_ID = Convert.ToInt32(model.BusinessPartner.Group_id);
+                        string group_Name = BusinesspartnerDb.FindGroupNameForGroupId(group_ID);
+                        addbp.Header.GroupCode = group_Name;
+
+                        int pricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+                        string pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(pricelist_ID);
+                        addbp.Header.PriceList = pricelist_desc;
+
+                        int emp_ID = Convert.ToInt32(model.BusinessPartner.Emp_Id);
+                        string emp_first_Name = BusinesspartnerDb.FindEmpNameForEmpId(emp_ID);
+                        addbp.Header.EmpNo = emp_first_Name;
 
                         //general class
-                        addbp.general.Branch = Convert.ToString(model.BusinessPartner.Branch_id);
+
+                        int branch_ID = Convert.ToInt32(model.BusinessPartner.Branch_id);
+                        string branch_Name = BusinesspartnerDb.FindBranchNameForBranchId(branch_ID);
+                        addbp.general.Branch = branch_Name;
+
                         addbp.general.Phone1 = model.BusinessPartner.Phone1;
                         addbp.general.Phone2 = model.BusinessPartner.Phone2;
                         addbp.general.Mobile = model.BusinessPartner.Mobile;
@@ -155,17 +168,30 @@ namespace Troy.Web.Controllers
 
                         //accounts class                       
                         addbp.accounts.ControlAccount = Convert.ToString(model.BusinessPartner.Control_account_id);
-                        addbp.accounts.AccountPriceList = Convert.ToString(model.BusinessPartner.Pricelist);
-                               
-            
+
+                        int accpricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+                        string acc_pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(accpricelist_ID);
+                        addbp.accounts.AccountPriceList = acc_pricelist_desc; 
+
+
                         //ShipTo class        
-                        ShipTo shipto = new ShipTo(); 
+                        ShipTo shipto = new ShipTo();
                         shipto.ShipAddress1 = model.BusinessPartner.Ship_Address1;
                         shipto.ShipAddress2 = model.BusinessPartner.Ship_address2;
                         shipto.ShipAddress3 = model.BusinessPartner.Ship_address3;
-                        shipto.ShipCity =  Convert.ToString(model.BusinessPartner.Ship_City);
-                        shipto.ShipCountry = Convert.ToString(model.BusinessPartner.Ship_Country);
-                        shipto.ShipState = Convert.ToString(model.BusinessPartner.Ship_State);
+
+                        int shipcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
+                        string SAP_City_Code = BusinesspartnerDb.FindSAPCodeForCityId(shipcity_ID);
+                        shipto.ShipCity = SAP_City_Code;
+
+                        int shipcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
+                        string SAP_Country_Code = BusinesspartnerDb.FindSAPCodeForCountryId(shipcountry_ID);
+                        shipto.ShipCountry = SAP_Country_Code;
+
+                        int shipstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
+                        string SAP_State_Code = BusinesspartnerDb.FindSAPCodeForStateId(shipstate_ID);
+                        shipto.ShipState = SAP_Country_Code;
+
                         shipto.ShipPincode = model.BusinessPartner.Ship_pincode;
 
                         //BillTo class 
@@ -176,6 +202,20 @@ namespace Troy.Web.Controllers
                         billto.BillCity = Convert.ToString(model.BusinessPartner.Bill_City);
                         billto.BillCountry = Convert.ToString(model.BusinessPartner.Bill_Country);
                         billto.BillState = Convert.ToString(model.BusinessPartner.Bill_State);
+
+                        int billcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
+                        string SAP_billCity_Code = BusinesspartnerDb.FindSAPCodeForCityId(billcity_ID);
+                        billto.BillCity = SAP_billCity_Code;
+
+                        int billcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
+                        string SAP_billCountry_Code = BusinesspartnerDb.FindSAPCodeForCountryId(billcountry_ID);
+                        billto.BillCountry = SAP_billCountry_Code;
+
+                        int billstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
+                        string SAP_billState_Code = BusinesspartnerDb.FindSAPCodeForStateId(billstate_ID);
+                        billto.BillState = SAP_billState_Code;
+
+
                         billto.BillPincode = Convert.ToString(model.BusinessPartner.Bill_pincode);
 
                         addbp.address.ShipTo = shipto;
@@ -216,9 +256,11 @@ namespace Troy.Web.Controllers
 
                     if (BusinesspartnerDb.EditExistingBusinessPartner(model.BusinessPartner))
                     {
-                       // return RedirectToAction("Index", "BusinessPartner");
+                        // return RedirectToAction("Index", "BusinessPartner");
                         Guid GuidRandomNo = Guid.NewGuid();
                         string mUniqueID = GuidRandomNo.ToString();
+
+                      
 
                         #region ViewModel-XML-Fill
 
@@ -230,12 +272,25 @@ namespace Troy.Web.Controllers
                         modifybp.Header.BPCode = Convert.ToString(model.BusinessPartner.BP_Id);
                         modifybp.Header.BPName = model.BusinessPartner.BP_Name;
                         modifybp.Header.BPType = model.BusinessPartner.Group_Type;
-                        modifybp.Header.GroupCode = Convert.ToString(model.BusinessPartner.Group_id);
-                        modifybp.Header.PriceList = Convert.ToString(model.BusinessPartner.Pricelist);
-                        modifybp.Header.EmpNo = Convert.ToString(model.BusinessPartner.Emp_Id);
+
+                        int group_ID = Convert.ToInt32(model.BusinessPartner.Group_id);
+                        string group_Name = BusinesspartnerDb.FindGroupNameForGroupId(group_ID);
+                        modifybp.Header.GroupCode = group_Name;
+
+                        int pricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+                        string pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(pricelist_ID);
+                        modifybp.Header.PriceList = pricelist_desc;
+
+                        int emp_ID = Convert.ToInt32(model.BusinessPartner.Emp_Id);
+                        string emp_first_Name = BusinesspartnerDb.FindEmpNameForEmpId(emp_ID);
+                        modifybp.Header.EmpNo = emp_first_Name;
 
                         //general class
-                        modifybp.general.Branch = Convert.ToString(model.BusinessPartner.Branch_id);
+
+                        int branch_ID = Convert.ToInt32(model.BusinessPartner.Branch_id);
+                        string branch_Name = BusinesspartnerDb.FindBranchNameForBranchId(branch_ID);
+                        modifybp.general.Branch = branch_Name;
+
                         modifybp.general.Phone1 = model.BusinessPartner.Phone1;
                         modifybp.general.Phone2 = model.BusinessPartner.Phone2;
                         modifybp.general.Mobile = model.BusinessPartner.Mobile;
@@ -250,7 +305,10 @@ namespace Troy.Web.Controllers
 
                         //accounts class                       
                         modifybp.accounts.ControlAccount = Convert.ToString(model.BusinessPartner.Control_account_id);
-                        modifybp.accounts.AccountPriceList = Convert.ToString(model.BusinessPartner.Pricelist);
+
+                        int accpricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+                        string acc_pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(accpricelist_ID);
+                        modifybp.accounts.AccountPriceList = acc_pricelist_desc;
 
 
                         //ShipTo class        
@@ -258,9 +316,19 @@ namespace Troy.Web.Controllers
                         shipto.ShipAddress1 = model.BusinessPartner.Ship_Address1;
                         shipto.ShipAddress2 = model.BusinessPartner.Ship_address2;
                         shipto.ShipAddress3 = model.BusinessPartner.Ship_address3;
-                        shipto.ShipCity = Convert.ToString(model.BusinessPartner.Ship_City);
-                        shipto.ShipCountry = Convert.ToString(model.BusinessPartner.Ship_Country);
-                        shipto.ShipState = Convert.ToString(model.BusinessPartner.Ship_State);
+
+                        int shipcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
+                        string SAP_City_Code = BusinesspartnerDb.FindSAPCodeForCityId(shipcity_ID);
+                        shipto.ShipCity = SAP_City_Code;
+
+                        int shipcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
+                        string SAP_Country_Code = BusinesspartnerDb.FindSAPCodeForCountryId(shipcountry_ID);
+                        shipto.ShipCountry = SAP_Country_Code;
+
+                        int shipstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
+                        string SAP_State_Code = BusinesspartnerDb.FindSAPCodeForStateId(shipstate_ID);
+                        shipto.ShipState = SAP_Country_Code;
+
                         shipto.ShipPincode = model.BusinessPartner.Ship_pincode;
 
                         //BillTo class 
@@ -271,6 +339,20 @@ namespace Troy.Web.Controllers
                         billto.BillCity = Convert.ToString(model.BusinessPartner.Bill_City);
                         billto.BillCountry = Convert.ToString(model.BusinessPartner.Bill_Country);
                         billto.BillState = Convert.ToString(model.BusinessPartner.Bill_State);
+
+                        int billcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
+                        string SAP_billCity_Code = BusinesspartnerDb.FindSAPCodeForCityId(billcity_ID);
+                        billto.BillCity = SAP_billCity_Code;
+
+                        int billcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
+                        string SAP_billCountry_Code = BusinesspartnerDb.FindSAPCodeForCountryId(billcountry_ID);
+                        billto.BillCountry = SAP_billCountry_Code;
+
+                        int billstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
+                        string SAP_billState_Code = BusinesspartnerDb.FindSAPCodeForStateId(billstate_ID);
+                        billto.BillState = SAP_billState_Code;
+
+
                         billto.BillPincode = Convert.ToString(model.BusinessPartner.Bill_pincode);
 
                         modifybp.address.ShipTo = shipto;

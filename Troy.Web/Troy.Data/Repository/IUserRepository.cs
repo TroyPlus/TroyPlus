@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Model.AppMembership;
+using Troy.Model.Branches;
 using Troy.Model.Employees;
 
 namespace Troy.Data.Repository
@@ -31,5 +32,15 @@ namespace Troy.Data.Repository
 
 
         List<EmployeeList> GetAddressEmployeeList();
+
+        List<ApplicationRole> GetAddressRoleList();
+
+        string GetApplicationIdforName(int roleid);
+
+        //int GetApplicationIdforName(string name);
+
+        //List<UserBranches> GetAddressBranchList();
+
+        //List<UserBranches> GetAddressUserBranchList();
     }
 }

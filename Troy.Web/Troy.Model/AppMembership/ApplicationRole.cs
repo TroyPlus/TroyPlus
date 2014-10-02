@@ -8,6 +8,8 @@ namespace Troy.Model.AppMembership
     [Table("tblRole")]
     public class ApplicationRole : IdentityRole<int, ApplicationUserRole>
     {
+
+      
         public bool IsActive { get; set; }
 
         public int Created_User_Id { get; set; }

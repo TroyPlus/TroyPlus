@@ -68,7 +68,7 @@ namespace Troy.Web.Tests.Controllers
 
             // Prepare the return data for the GetAddressList() method.
             var branchList = new List<BranchList>();
-            branchList.Add(new BranchList { BranchId = 1, BranchName = "MADURAI MAIN" });
+            branchList.Add(new BranchList { Branch_Id = 1, Branch_Name = "MADURAI MAIN" });
 
             // Mock up the GetAddressList() repository method with expected return value.
             mockPurchaseRepository.Setup(m => m.GetAddressList()).Returns(branchList);
@@ -99,7 +99,7 @@ namespace Troy.Web.Tests.Controllers
 
             // Prepare the return data for the GetAddressList() method.
             var branchList = new List<BranchList>();
-            branchList.Add(new BranchList { BranchId = 1, BranchName = "MADURAI MAIN" });
+            branchList.Add(new BranchList { Branch_Id = 1, Branch_Name = "MADURAI MAIN" });
 
             // Mock up the GetAddressList() repository method with expected return value.
             //mockPurchaseRepository.Setup(m => m.GetAddressList()).Returns(branchList);

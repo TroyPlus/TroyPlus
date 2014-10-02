@@ -68,5 +68,19 @@ namespace Troy.Data.Repository
         Branch CheckBranch(string bname);
 
         Ledger CheckControlAccountID(string bname);
+
+        string FindSAPCodeForCountryId(int country_id);
+
+        string FindSAPCodeForCityId(int city_id);
+
+        string FindSAPCodeForStateId(int state_id);
+
+        string FindGroupNameForGroupId(int group_id);
+
+        string FindEmpNameForEmpId(int emp_id);
+
+        string FindPriceListDescForPricelist(int pricelist_id);
+
+        string FindBranchNameForBranchId(int branch_id);
     }
 }

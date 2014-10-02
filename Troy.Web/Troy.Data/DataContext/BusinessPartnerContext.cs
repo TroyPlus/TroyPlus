@@ -48,17 +48,17 @@ namespace Troy.Data.DataContext
 
         public DbSet<Ledger> Ledger { get; set; }
 
-        public DbSet<Designation> Designation { get; set; }
+       // public DbSet<Designation> Designation { get; set; }
 
-        public DbSet<Department> Department { get; set; }
+       // public DbSet<Department> Department { get; set; }
 
-        public DbSet<Initial> Initial { get; set; }
+       // public DbSet<Initial> Initial { get; set; }
 
-        public DbSet<MaritalStatus> MaritalStatus { get; set; }
+        //public DbSet<MaritalStatus> MaritalStatus { get; set; }
 
-        public DbSet<Gender> Gender { get; set; }
+        //public DbSet<Gender> Gender { get; set; }
 
-        public DbSet<LeftReason> LeftReason { get; set; }
+        //public DbSet<LeftReason> LeftReason { get; set; }
     
     }
 }

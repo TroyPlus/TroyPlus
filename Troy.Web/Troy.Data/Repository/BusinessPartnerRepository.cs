@@ -133,7 +133,7 @@ namespace Troy.Data.Repository
                     where p.BP_Id == qId
                     select p).FirstOrDefault();
         }
-        
+
         public BusinessPartner CheckDuplicateName(string mBusinessPartner_Name)
         {
             return (from p in businesspartnercontext.BusinessPartner
@@ -204,7 +204,7 @@ namespace Troy.Data.Repository
                         select new GroupList
                         {
                             Group_Id = a.Group_Id,
-                            Group_Name=a.Group_Name
+                            Group_Name = a.Group_Name
                         }).ToList();
 
             return item;
@@ -227,8 +227,8 @@ namespace Troy.Data.Repository
             var item = (from a in businesspartnercontext.Branch
                         select new BranchList
                         {
-                            BranchId = a.Branch_Id,
-                            BranchName = a.Branch_Name
+                            Branch_Id = a.Branch_Id,
+                            Branch_Name = a.Branch_Name
                         }).ToList();
 
             return item;
@@ -378,6 +378,69 @@ namespace Troy.Data.Repository
             return (from p in businesspartnercontext.Ledger
                     where p.Ledger_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
+        }
+
+        public string FindSAPCodeForCountryId(int country_id)
+        {
+            string sap_country_code = (from p in businesspartnercontext.Country
+                                       where p.ID == country_id
+                                       select p.SAP_Country_Code).FirstOrDefault();
+
+            return sap_country_code;
+        }
+
+        public string FindSAPCodeForCityId(int city_id)
+        {
+            string sap_city_code = (from p in businesspartnercontext.City
+                                    where p.ID == city_id
+                                    select p.City_Name).FirstOrDefault();
+
+            return sap_city_code;
+        }
+
+        public string FindSAPCodeForStateId(int state_id)
+        {
+            string sap_state_code = (from p in businesspartnercontext.State
+                                     where p.ID == state_id
+                                     select p.SAP_State_Code).FirstOrDefault();
+
+            return sap_state_code;
+        }
+
+        public string FindGroupNameForGroupId(int group_id)
+        {
+            string group_name = (from p in businesspartnercontext.Group
+                                 where p.Group_Id == group_id
+                                 select p.Group_Name).FirstOrDefault();
+
+            return group_name;
+        }
+
+        public string FindEmpNameForEmpId(int emp_id)
+        {
+            string emp_name = (from p in businesspartnercontext.Employee
+                               where p.Emp_Id == emp_id
+                               select p.Father_Name).FirstOrDefault();
+
+            return emp_name;
+        }
+
+        public string FindPriceListDescForPricelist(int pricelist_id)
+        {
+            string pricelist_desc = (from p in businesspartnercontext.PriceList
+                                     where p.Id==pricelist_id
+                                     select p.Price_List_Desc).FirstOrDefault();
+
+            return pricelist_desc;
+        }
+
+        public string FindBranchNameForBranchId(int branch_id)
+        {
+            string branch_name = (from p in businesspartnercontext.Branch
+                                  where p.Branch_Id == branch_id
+                                     select p.Branch_Name).FirstOrDefault();
+
+            return branch_name;
         }
     }
 }

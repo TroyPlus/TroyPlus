@@ -33,12 +33,57 @@ namespace Troy.Data.Repository
 
         private SAPOUTContext sapcontext = new SAPOUTContext();
 
+
+
         public List<Branch> GetAllBranch()
         {
             List<Branch> qList = new List<Branch>();
 
             qList = (from p in branchContext.Branch
-                     select p).ToList();
+                   select p).ToList();
+
+            return qList;
+        }
+        public List<ViewBranches> GetAllUserBranch()
+        {
+            List<ViewBranches> qList = new List<ViewBranches>();
+
+            qList = (from item in branchContext.Branch
+                     join c in branchContext.country
+                        on item.Country_ID equals c.ID
+                     join s in branchContext.state
+                        on item.State_ID equals s.ID
+                     join ct in branchContext.city
+                        on item.City_ID equals ct.ID
+
+                     select new ViewBranches()
+                    {
+
+                        Branch_Id = item.Branch_Id,
+                        Branch_Code = item.Branch_Code,
+                        Branch_Name = item.Branch_Name,
+                        Address1 = item.Address1,
+                        Address2 = item.Address2,
+                        Address3 = item.Address3,
+                        Country_ID = item.Country_ID,
+                        State_ID = item.State_ID,
+                        City_ID = item.City_ID,
+                        //country = item.country,
+                        //city = item.city,
+                        //state = item.state,
+                        Order_Num = item.Order_Num,
+                        Pin_Code = item.Pin_Code,
+                        IsActive = item.IsActive,
+                        Created_Branc_Id = item.Created_Branc_Id,
+                        Created_Dte = item.Created_Dte,
+                        Created_User_Id = item.Created_User_Id,
+                        Modified_Branch_Id = item.Modified_Branch_Id,
+                        Modified_Dte = item.Modified_Dte,
+                        Modified_User_Id = item.Modified_User_Id,
+                        Country_Name = c.Country_Name,
+                        State_Name = s.State_Name,
+                        City_Name = ct.City_Name
+                    }).ToList();
 
             return qList;
         }
@@ -306,18 +351,43 @@ namespace Troy.Data.Repository
 
         }
 
-        //public int FindCodeForCountryId(int name)
-        //{
+        public string FindCodeForCountryId(int country_id)
+        {
 
-        //    return (from p in branchContext.country
-        //            where p.ID == name
-        //            select p.SAP_Country_Code).FirstOrDefault();
+            string sap_country_code = (from p in branchContext.country
+                    where p.ID == country_id
+                    select p.SAP_Country_Code).FirstOrDefault();
+
+            return sap_country_code;
+
+        }
 
 
-        //    //int Country_id = (from p in countryContext.country
-        //    //                  where p.ID == name
-        //    //                  select p.SAP_Country_Code).FirstOrDefault();
-        //}
+        public string FindCodeForStateId(int state_id)
+        {
+
+            string sap_state_code = (from p in branchContext.state
+                                       where p.ID == state_id
+                                       select p.SAP_State_Code).FirstOrDefault();
+
+            return sap_state_code;
+
+            //int Country_id = (from p in countryContext.country
+            //                  where p.ID == name
+            //                  select p.SAP_Country_Code).FirstOrDefault();
+        }
+
+
+        public string FindNameForCityId(int city_id)
+        {
+
+            string cityname = (from p in branchContext.city
+                                       where p.ID == city_id
+                                       select p.City_Name).FirstOrDefault();
+
+            return cityname;
+
+        }
 
         public IEnumerable<Branch> _ExporttoExcel()
         {
@@ -351,10 +421,10 @@ namespace Troy.Data.Repository
         {
             try
             {
-               // string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
+                string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
 
                 XmlDocument doc = new XmlDocument();
-                //doc.LoadXml(data);
+                doc.LoadXml(data);
 
                 SAPOUT mSAP = new SAPOUT();
                 mSAP.Object_typ = "Branch";

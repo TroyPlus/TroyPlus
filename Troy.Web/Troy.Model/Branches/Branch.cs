@@ -17,6 +17,8 @@ namespace Troy.Model.Branches
     {
         [Key]
         public int Branch_Id { get; set; }
+        [ForeignKey("Branch_Id")]
+        public virtual Branch branch { get; set; }
 
         [Index(IsUnique = true)]
         [Required(ErrorMessage = "Branch Code is required.")]

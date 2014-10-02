@@ -207,6 +207,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BusinessPartnerController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManufacturerController.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BranchViewModels.cs" />
     <Compile Include="Models\BusinessPartnerViewModels.cs" />
+    <Compile Include="Models\EmployeeViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ManufacturerViewModels.cs" />
     <Compile Include="Models\ProductGroupViewModels.cs" />
@@ -1484,6 +1486,10 @@
     <Content Include="Views\Account\PostLogin.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Employee\_CreatePartial.cshtml" />
+    <Content Include="Views\Employee\_ViewPartial.cshtml" />
+    <Content Include="Views\Employee\_EditPartial.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />

@@ -59,6 +59,7 @@
     <Compile Include="DataContext\BusinessPartnerContext.cs" />
     <Compile Include="DataContext\CityContext.cs" />
     <Compile Include="DataContext\CountryContext.cs" />
+    <Compile Include="DataContext\EmployeeContext.cs" />
     <Compile Include="DataContext\ManufactureContext.cs" />
     <Compile Include="DataContext\MasterDataContext.cs" />
     <Compile Include="DataContext\ProductGroupContext.cs" />
@@ -69,8 +70,10 @@
     <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Repository\BranchRepository.cs" />
     <Compile Include="Repository\BusinessPartnerRepository.cs" />
+    <Compile Include="Repository\EmployeeRepository.cs" />
     <Compile Include="Repository\IBranchRepository.cs" />
     <Compile Include="Repository\IBusinessPartnerRepository.cs" />
+    <Compile Include="Repository\IEmployeeRepository.cs" />
     <Compile Include="Repository\IManufacturerRepository.cs" />
     <Compile Include="Repository\IProductGroupRepository.cs" />
     <Compile Include="Repository\IPurchaseRepository.cs" />
