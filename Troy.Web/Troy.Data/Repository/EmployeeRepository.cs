@@ -242,8 +242,8 @@ namespace Troy.Data.Repository
             var item = (from a in employeecontext.Branch
                         select new BranchList
                         {
-                            BranchId = a.Branch_Id,
-                            BranchName = a.Branch_Name
+                            Branch_Id = a.Branch_Id,
+                            Branch_Name = a.Branch_Name
                         }).ToList();
             return item;
         }
