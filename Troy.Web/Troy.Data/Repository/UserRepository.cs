@@ -21,15 +21,44 @@ namespace Troy.Data.Repository
     {
         private ApplicationDbContext UserContext = new ApplicationDbContext();
 
+        private BranchContext BranchContext = new BranchContext();
+
         //private UserBranch userbranch = new UserBranch();
 
 
-        public List<ApplicationUser> GetAllUser()
+
+
+        //public List<ViewUsers> GetAllUser()
+        //{
+        //    List<ViewUsers> qList = new List<ViewUsers>();
+
+        //    qList = (from p in UserContext.Users
+        //             select p).ToList();
+
+        //    return qList;
+        //}
+
+        public List<ViewUsers> GetAllUser()
         {
-            List<ApplicationUser> qList = new List<ApplicationUser>();
+            List<ViewUsers> qList = new List<ViewUsers>();
 
             qList = (from p in UserContext.Users
-                     select p).ToList();
+                     join r in UserContext.Roles 
+                                     on p.Roles.FirstOrDefault().RoleId equals r.Id
+                                     into u_r
+                    from ur in u_r.DefaultIfEmpty()
+                     select new ViewUsers()
+                     {
+                         Id = p.Id,
+                         UserName = p.UserName,
+                         Email = p.Email,
+                         //Branch_Id = ur.Branch_Id,
+                         Employee_Id = p.Employee_Id,
+                         PasswordExpiryDate = p.PasswordExpiryDate,
+                         Role_Id = p.Roles.FirstOrDefault().RoleId,
+                         Name=ur.Name,
+                         IsActive=p.IsActive                    
+                     }).ToList();
 
             
 
@@ -50,15 +79,92 @@ namespace Troy.Data.Repository
         }
 
 
-        public string GetApplicationIdforName(int roleid)
+
+        public List<BranchList> GetAddressBranchList()
         {
-            string name=(from p in UserContext.Roles
-                             where p.Id== roleid
-                             select p.Name).FirstOrDefault();
-            return name;
+
+            //List<UserBranches> item = new List<UserBranches>();
+
+         var  item = (from a in UserContext.branch
+                         select new BranchList
+                     
+                        {
+                            Branch_Id = a.Branch_Id,
+                            Branch_Name= a.Branch_Name
+
+                        }).ToList();
+            return item;
         }
 
-        //public ApplicationRole GetApplicationIdforName(int roleid)
+
+     
+
+         public List<ViewUsers> GetApplicationIdforName()
+        {
+            List<ViewUsers> qList = new List<ViewUsers>();
+
+            qList = (from p in UserContext.Users
+                         //join u in 
+                         //      on p.Id equals u.
+                         //join s in UserContext.Roles
+                         //   on p.Id equals s.Name
+                         //    select s.Name).FirstOrDefault();
+                       
+                         select new ViewUsers()
+                         {
+                             Id= p.Id,
+                             UserName=p.UserName,
+                             Email=p.Email,
+                             Role_Id=p.Roles.FirstOrDefault().RoleId,
+                             //Name =p.Roles.FirstOrDefault().RoleId
+                             //Name=p.Roles.FirstOrDefault(Role_Id)
+                         }).ToList();
+
+                      
+
+            //return qList;
+
+             var result =(from p in qList
+                              join r in UserContext.Roles
+                                       on p.Role_Id equals r.Id
+                                       //on p.Role_Id equals r.Name
+                                    //on q.Role_Id equals r.Name
+
+                                  select new ViewUsers()
+                                  {
+                                      Id=r.Id,
+                                      UserName=p.UserName,
+                                      Email=p.Email,
+                                      //UserName=r.Users.FirstOrDefault().,
+                                      //UserName = q.UserName,
+                                      //Email = q.Email,
+                                      //Role_Id = q.Role_Id,
+                                     Name=r.Name
+                                  }).ToList();
+             return result;
+
+             return qList;
+        }
+
+         public bool SaveUserBranches(UserBranches userBranches,ref string errorMessage)
+         {
+             try
+             {
+                 UserContext.userbranches.Add(userBranches);
+                 UserContext.SaveChanges();
+                 return true;
+             }
+             catch (Exception ex)
+             {
+                 errorMessage = ex.Message;
+                 return false;
+             }
+         }
+       //public string  getalluserview()
+       // {
+           
+       // }
+        //public string GetApplicationIdforName(int roleid)
         //{
         //    var Name = (from p in UserContext.Roles
         //                where p.Id == roleid
@@ -76,6 +182,7 @@ namespace Troy.Data.Repository
         }
                         
      
+       
 
         //public List<UserBranches> GetAddressBranchList()
         //{
@@ -197,11 +304,36 @@ namespace Troy.Data.Repository
             return qList;
         }
 
-        public ApplicationUser FindOneUserById(int uId)
+        public ViewUsers FindOneUserById(int uId)
         {
+            //return (from p in UserContext.Users
+            //        where p.Id == uId
+            //        select p).FirstOrDefault();
+
+
             return (from p in UserContext.Users
+                    join r in UserContext.Roles
+                                    on p.Roles.FirstOrDefault().RoleId equals r.Id
+                                    into u_r
+                    from ur in u_r.DefaultIfEmpty()
+                    join b in UserContext.userbranches
+                        on p.Id equals b.User_Id
+                        into b_u
+                    from urb in b_u.DefaultIfEmpty()
                     where p.Id == uId
-                    select p).FirstOrDefault();
+                    select new ViewUsers()
+                    {
+                        Id = p.Id,
+                        UserName = p.UserName,
+                        Email = p.Email,
+                        Branch_Id = urb.Branch_Id != null ? urb.Branch_Id:0,
+                        Employee_Id = p.Employee_Id,
+                        PasswordExpiryDate = p.PasswordExpiryDate,
+                        Role_Id = p.Roles.FirstOrDefault().RoleId,
+                        Name = ur.Name,
+                        IsActive = p.IsActive,
+                        Roles = p.Roles.ToList()
+                    }).FirstOrDefault();
         }
 
         

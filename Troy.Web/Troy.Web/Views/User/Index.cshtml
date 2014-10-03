@@ -49,7 +49,7 @@
 
     });
 
-    function EditUser(id) {
+    function EditApplicationUser(id) {
 
         var url = $('#editModal').data('url') + '/' + id;
 
@@ -214,7 +214,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (Troy.Model.AppMembership.ApplicationUser item in Model.ApplicationUserList)
+                        @foreach (Troy.Model.AppMembership.ViewUsers item in Model.UserList)
                         {
                             <tr class="odd">
                                 <td>
@@ -229,7 +229,7 @@
                                     @item.Email
                                 </td>
                                 <td>
-                                    @item.
+                                    @item.Name
                                 </td>
                                 <td>
                                     @item.IsActive
@@ -237,11 +237,11 @@
 
 
                                 <td>
-                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Id);">
+                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewApplicationUser(@item.Id);">
                                         <img src="@Url.Content("../Content/images/application_view_detail.png")" />
                                     </a>
                                     <span class="text-muted">|</span>
-                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditUser(@item.Id);">
+                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditApplicationUser(@item.Id);">
                                         <img src="@Url.Content("../Content/images/pencil.png")" />
                                     </a>
                                     <span class="text-muted">|</span>
@@ -265,7 +265,7 @@
             @Html.Partial("_CreatePartial", Model)
         </div>
 
-        @*<div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
+        <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
              aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
             <div id="editmodelcontainer">
             </div>
@@ -274,7 +274,7 @@
         <div class="modal fade bs-example-modal-lg" id="viewModal" tabindex="-1" role="dialog"
              aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPartial")'>
             <div id="viewmodelcontainer">
-            </div>*@
+            </div>
         </div>
 
         <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
@@ -328,7 +328,7 @@
             </div>
         </div>
 
-    @*</div>*@
+    </div>
 
 }
 

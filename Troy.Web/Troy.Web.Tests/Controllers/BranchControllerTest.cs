@@ -10,6 +10,7 @@ using Troy.Web.Controllers;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Troy.Web.Models;
+using System.Web;
 
 namespace Troy.Web.Tests.Controllers
 {
@@ -55,7 +56,7 @@ namespace Troy.Web.Tests.Controllers
         /// Unit test method for Index action.
         /// </summary>
         [TestMethod]
-        public void Index()
+        public void Index( )
         {
             /*  
              *  First identify the repository methods which are invoked form Index action. Then Setup the mock 
@@ -69,7 +70,7 @@ namespace Troy.Web.Tests.Controllers
             #region Arrange
             // Prepare the return data for GetAllQuotation() method.
             List<ViewBranches> branchList = new List<ViewBranches>();
-            branchList.Add(new ViewBranches { Branch_Id = 4, Branch_Name = "kakathopu", Address1 = "no:201,bagavath singh street", Country_ID = 1, State_ID = 1, City_ID = 1 });
+            branchList.Add(new ViewBranches { Branch_Id = 4, Branch_Name = "kakathopu",  Address1 = "no:201,bagavath singh street", Country_ID = 1, State_ID = 1, City_ID = 1 });
 
             // Mock up the GetAllQuotation() repository method with expected return values.
             mockBranchRepository.Setup(m => m.GetAllUserBranch()).Returns(branchList);
@@ -162,10 +163,99 @@ namespace Troy.Web.Tests.Controllers
             Assert.IsNotNull("Error", actionResult.ViewName);
             
         }
-        
-        
+
+        [TestMethod]
+        public void saveBranch( )
+        {
+
+            string submit ="save";
+            //BranchViewModels model= ;
+
+            /*  
+             *  First identify the repository methods which are invoked form Index action. Then Setup the mock 
+             *  for all the identified methods.
+             *  
+             *  Then invoke the Controller's Index action with necessary input parameters and ensure that you have 
+             *  invoked the Index action for all the different cases (code blocks) available in that, which should 
+             *  cover all the blocks/statements in the Index action.
+             *  
+             */
+            #region Arrange
+            // Prepare the return data for GetAllQuotation() method.
+            Branch branch = new Branch();
+            {
+                branch.Branch_Name="salai";
+                branch.Address1="hhggh";
+
+            }
+            //branch({ branch.Branch_Name="salai",branch.Branch_Code=2});
+            //branch.Add(new Branch { Branch_Id = 4, Branch_Name = "kakathopu", Address1 = "no:201,bagavath singh street", Country_ID = 1, State_ID = 1, City_ID = 1 });
+
+            // Mock up the GetAllQuotation() repository method with expected return values.
+            int countryId = 1;
+            int stateId =1;
+           
+            mockBranchRepository.Setup(m => m.AddNewBranch(branch)).Returns(true);
+            mockBranchRepository.Setup(m => m.FindCodeForCountryId(countryId)).Returns("IN");
+            mockBranchRepository.Setup(m => m.FindCodeForStateId(stateId)).Returns("TN");
+            //mockCountryRespository.Setup(m => m.GetAddresscountryList()).Returns(branchList);
+            var branchlist = new BranchViewModels();
+            { 
+                branch.Branch_Id= 4;
+                branch.Branch_Name = "kakathopu" ;
+                branch.Country_ID = countryId;
+            }
+            branchlist.Branch=branch;
+
+
+       
+            //mockBranchRepository.Setup(m => m.AddNewBranch(branchlist.Branch=)).Returns(model);
+            // Prepare the return data for the GetAddressList() method.
+            //var countrylist = new List<CountryList>();
+            //countrylist.Add(new CountryList { ID = 1, Country_Name = "India" });
+
+            //mockBranchRepository.Setup(m => m.GetAddresscountryList()).Returns(countrylist);
+            ////var branchList1 = new List<BranchList>();
+            ////branchList1.Add(new BranchList { BranchId = 1, BranchName = "MADURAI MAIN" });
+
+            //var statelist = new List<StateList>();
+            //statelist.Add(new StateList { ID = 1, State_Name = "Tamil Nadu" });
+
+            //mockBranchRepository.Setup(m => m.GetAddressstateList()).Returns(statelist);
+
+
+            //var citylist = new List<CityList>();
+            //citylist.Add(new CityList { ID = 1, City_Name = "Madurai" });
+
+            //mockBranchRepository.Setup(m => m.GetAddresscityList()).Returns(citylist);
+
+            //var country=new List<coun>
+            // Mock up the GetAddressList() repository method with expected return value.
+            //mockBranchRepository.Setup(m => m.GetAddressList()).Returns(branchList);
+            #endregion
+
+            // Now invoke the Index action.
+            var actionResult = branchController.Index(submit,branchlist);
+
+            // Validate the expected result.
+            ViewResult expectedResult = new ViewResult();
+
+            Assert.IsNotNull(actionResult);
+            //(branchList, (actionResult.Model as BranchViewModels).BranchList);
+            //Assert.AreEqual(countrylist, (actionResult.Model as BranchViewModels).CountryList);
+            //Assert.AreEqual(statelist, (actionResult.Model as BranchViewModels).StateList);
+            //Assert.AreEqual(citylist, (actionResult.Model as BranchViewModels).CityList);
+            //Assert.AreEqual(branchList, (actionResult.Model as PurchaseViewModels).BranchList);
+        }
 
         #endregion
+        [TestMethod]
+
+        //public void indexIndex(string submitButton, BranchViewModels model, HttpPostedFileBase file)
+        //{
+        //    List<ViewBranches> branchList = new List<ViewBranches>();
+        //    branchList.Add(new ViewBranches);
+        //}
 
         #region Purchase Repository Method Stubs
         private void SetupPurchaseRepositoryMethods()

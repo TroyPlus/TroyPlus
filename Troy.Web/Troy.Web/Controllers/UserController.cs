@@ -13,7 +13,6 @@ using System.IO;
 using System.Web.UI.WebControls;
 using System.Web.UI;
 using Troy.Data.Repository;
-using Troy.Model.Manufacturer;
 using Troy.Web.Models;
 using Troy.Web;
 using Troy.Utilities.CrossCutting;
@@ -23,6 +22,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Troy.Data.DataContext;
 using Troy.Model.Employees;
+using Troy.Model.Branches;
 #endregion
 
 //#endregion
@@ -71,11 +71,15 @@ namespace Troy.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                //string dateInString = Convert.ToString(DateTime.Now.AddDays(30));
-                string dateInString = Convert.ToString(DateTime.Now);
-                //PasswordExpiryDate=DateTime.Now.AddDays(ConfigurationHandler.GetAppSettingsValue string PasswordExpiryDuration);
-                DateTime startDate = DateTime.Parse(dateInString);
-                DateTime expiryDate = startDate.AddDays(30);
+
+                var userlist = userDb.GetApplicationIdforName().ToList();
+                model.UserList = userlist;
+                              
+
+
+                int PasswordExpiryDate =int.Parse(ConfigurationHandler.GetAppSettingsValue("PasswordExpiryDateRange"));
+                
+                DateTime expiryDate = DateTime.Now.AddDays(PasswordExpiryDate);
                 model.PasswordExpiryDate = expiryDate;
                 
                 //if (DateTime.Now > expiryDate)
@@ -108,7 +112,7 @@ namespace Troy.Web.Controllers
                     Email = model.UserName,
                     Employee_Id=model.Employee_Id, 
                     //Role_Id=model.Role_Id,
-                    Branch_Id=model.Branch_Id,
+                    //Branch_Id=model.Branch_Id,
                     PasswordExpiryDate=model.PasswordExpiryDate,
                    IsActive="Y",
                    Created_User_Id=1,
@@ -132,18 +136,30 @@ namespace Troy.Web.Controllers
                 user.Roles.Add(userrole);
 
                 var result = await _userManager.CreateAsync(user, model.Password);
+                int userId = user.Id;
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "User");
+                    UserBranches userbranch = new UserBranches()
+                    {
+                        Branch_Id = model.Branch_Id,
+                        User_Id = userId,
+                        Created_User_Id = 1,
+                        Created_Branch_Id = 1,
+                        Created_Date = DateTime.Now,
+                        Modified_User_Id = 2,
+                        Modified_Branch_Id = 2,
+                        Modified_Date = DateTime.Now
+                    };
+                    string errorMsg = string.Empty;
+                    if (userDb.SaveUserBranches(userbranch,ref errorMsg))
+                    {
+                        return RedirectToAction("Index", "User");
+                    }
+                    else
+                    {
+                        ViewBag.AppErrorMessage = errorMsg;
+                        return View("Error");
+                    }
                 }
                 AddErrors(result);
             }
@@ -154,12 +170,92 @@ namespace Troy.Web.Controllers
         #endregion
 
 
+
+
+
+        #region Register
+        public async Task<ActionResult> EditUser(EditUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var userlist = userDb.GetApplicationIdforName().ToList();
+                model.UserList = userlist;
+             
+                var user = new ApplicationUser
+                {
+                    UserName = model.UserName,
+                    Email = model.UserName,
+                    Employee_Id = model.Employee_Id,
+                    //Role_Id=model.Role_Id,
+                    //Branch_Id=model.Branch_Id,
+                    //PasswordExpiryDate = model.PasswordExpiryDate,
+                    //IsActive = "Y",
+                    IsActive=model.IsActive,
+                    Created_User_Id = 1,
+                    Created_Branch_Id = 1,
+                    Created_Date = DateTime.Now,
+                    Modified_User_Id = 2,
+                    Modified_Branch_Id = 2,
+                    Modified_Date = DateTime.Now,
+                    Id = model.Id
+                    
+                };
+
+
+
+
+                //user.Roles.FirstOrDefault().RoleId = model.Role_Id;
+                //var result = (uaer)
+                IdentityResult result;
+                try
+                {
+                    result = _userManager.Update(user);
+
+                    int userId = user.Id;
+                    if (result.Succeeded)
+                    {
+                        UserBranches userbranch = new UserBranches()
+                        {
+                            Branch_Id = model.Branch_Id,
+                            User_Id = userId,
+                            //Created_User_Id = 1,
+                            //Created_Branch_Id = 1,
+                            //Created_Date = DateTime.Now,
+                            //Modified_User_Id = 2,
+                            //Modified_Branch_Id = 2,
+                            //Modified_Date = DateTime.Now
+                        };
+                        string errorMsg = string.Empty;
+                        if (userDb.SaveUserBranches(userbranch, ref errorMsg))
+                        {
+                            return RedirectToAction("Index", "User");
+                        }
+                        else
+                        {
+                            ViewBag.AppErrorMessage = errorMsg;
+                            return View("Error");
+                        }
+                        AddErrors(result);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogHandler.WriteLog(ex.Message);
+                }
+               
+                
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+        #endregion
+
+
         #region Controller Actions
         // GET: Branch
-        public ActionResult Index(string searchColumn, string searchQuery)
-        
-        
-        
+        public ActionResult Index()    
         {
             try
             {
@@ -175,8 +271,8 @@ namespace Troy.Web.Controllers
                 var RoleList = userDb.GetAddressRoleList().ToList();
                 model.rolelist = RoleList;
 
-                //var UserBranches = userDb.GetAddressBranchList().ToList();
-                //model.userbranches = UserBranches;
+                var BranchList = userDb.GetAddressBranchList().ToList();
+                model.branchlist = BranchList;
                 //var UserBranches = userDb.
                 //var BranchList = userDb.GetAddressBranchList().ToList();
                 //model.branchlist = BranchList;
@@ -188,7 +284,7 @@ namespace Troy.Web.Controllers
                 //UserViewModels model1 = userDb.GetAllUser().ToList();
                 //UserViewModels model1 = new UserViewModels();
                 var userlist = userDb.GetAllUser().ToList();
-                model.ApplicationUserList = userlist;
+                model.UserList = userlist;
               
               
                 //var Allbranches = branchDb.GetAllBranches().ToList();
@@ -231,6 +327,8 @@ namespace Troy.Web.Controllers
                 }
                 else if (submitButton == "Update")
                 {
+
+                    //EditUser(model1);
                     //model.Created_Branch_Id = 1;
                     //model.Created_Date = DateTime.Now;
                     //model.Created_User_Id = 1;  //GetUserId()
@@ -355,6 +453,136 @@ namespace Troy.Web.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult Update(string submitButton, EditUserViewModel model, HttpPostedFileBase file)
+        {
+            try
+            {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+               
+                 if (submitButton == "Update")
+                {
+
+                    EditUser(model);
+                    //model.Created_Branch_Id = 1;
+                    //model.Created_Date = DateTime.Now;
+                    //model.Created_User_Id = 1;  //GetUserId()
+                    //model.Modified_User_Id = 1;
+                    //model.ApplicationUsers.Modified_Date = DateTime.Now;
+                    //model.ApplicationUsers.Modified_Branch_Id = 1;
+
+
+                    //if (userDb.EditUser(model.ApplicationUsers))
+                    //{
+                    //    return RedirectToAction("Index", "User");
+                    //}
+                    //else
+                    //{
+                    //    ModelState.AddModelError("", "User Not Updated");
+                    //}
+                }
+
+
+               
+                if (Convert.ToString(Request.Files["FileUpload"]).Length > 0)
+                {
+                    try
+                    {
+
+                        string fileExtension = System.IO.Path.GetExtension(Request.Files["FileUpload"].FileName);
+
+                        string fileName = System.IO.Path.GetFileName(Request.Files["FileUpload"].FileName.ToString());
+
+                        if (fileExtension == ".xls" || fileExtension == ".xlsx")
+                        {
+                            string fileLocation = string.Format("{0}/{1}", Server.MapPath("~/App_Data/ExcelFiles"), fileName);
+
+                            if (System.IO.File.Exists(fileLocation))
+                            {
+                                System.IO.File.Delete(fileLocation);
+                            }
+                            Request.Files["FileUpload"].SaveAs(fileLocation);
+                            string excelConnectionString = string.Empty;
+                            excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
+                            fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+
+                            //connection String for xls file format.
+                            if (fileExtension == ".xls")
+                            {
+                                excelConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
+                                fileLocation + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
+                            }
+                            //connection String for xlsx file format.
+                            else if (fileExtension == ".xlsx")
+                            {
+                                excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
+                                fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+                            }
+
+                            //Create Connection to Excel work book and add oledb namespace
+                            OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
+                            excelConnection.Open();
+                            DataTable dt = new DataTable();
+                            string exquery;
+                            dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                            if (dt == null)
+                            {
+                                return null;
+                            }
+
+                            String[] excelSheets = new String[dt.Rows.Count];
+                            int t = 0;
+                            //excel data saves in temp file here.
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                excelSheets[t] = row["TABLE_NAME"].ToString();
+                                t++;
+                            }
+
+                            for (int k = 0; k < dt.Rows.Count; k++)
+                            {
+                                DataSet ds = new DataSet();
+                                int sheets = k + 1;
+
+                                OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
+
+                                exquery = string.Format("Select * from [{0}]", excelSheets[k]);
+                                using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
+                                {
+                                    dataAdapter.Fill(ds);
+                                }
+
+                                if (ds != null)
+                                {
+                                    if (ds.Tables[0].Rows.Count > 0)
+                                    {
+
+
+                                    }
+                                    else
+                                    {
+                                        return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { success = false, Error = "File Upload failed :" + ex.Message }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+
+                return RedirectToAction("Index", "User");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
+
         //Check for dupilicate
         //public JsonResult CheckForDuplication(ApplicationUser ApplicationUsers, [Bind(Prefix = "ApplicationUser.UserName")]string UserName, [Bind(Prefix = "ApplicationUsers.Email")]string Email)
         //{
@@ -429,14 +657,37 @@ namespace Troy.Web.Controllers
         {
             try
             {
-                UserViewModels model = new UserViewModels();
+                EditUserViewModel model = new EditUserViewModel();
+                //model.ApplicationUserList = userDb.FindOneUserById(id);
+
+                var CurrentUser = userDb.FindOneUserById(id);
+                model.UserName = CurrentUser.UserName;
+                model.Id = CurrentUser.Id;
+                model.Email = CurrentUser.Email;
+                model.Role_Id = CurrentUser.Role_Id;
+                model.IsActive = CurrentUser.IsActive;
+                model.Employee_Id = CurrentUser.Employee_Id;
+                model.Branch_Id = CurrentUser.Branch_Id;
+                model.Roles = CurrentUser.Roles;
+                //model.BranchName =Convert.ToString(CurrentUser.Branch_Id);
+                //model.ApplicationUserList = userDb.FindOneUserById(id);
                 //model.ApplicationUsers = userDb.FindOneUserById(id);
+
+                //var userlist = userDb.FindOneUserById().ToList();
+                //model.UserList = userlist;
 
                 var EmployeeList = userDb.GetAddressEmployeeList().ToList();
                 model.employeelist = EmployeeList;
 
                 var RoleList = userDb.GetAddressRoleList().ToList();
                 model.rolelist = RoleList;
+
+                var BranchList = userDb.GetAddressBranchList().ToList();
+                //model.branchlist.FirstOrDefault().Branch_Id = CurrentUser.Branch_Id;
+                model.branchlist = BranchList;
+               
+
+                   
 
                 //var BranchList = userDb.GetAddressBranchList().ToList();
                 //model.branchlist = BranchList;
@@ -459,7 +710,20 @@ namespace Troy.Web.Controllers
             try
             {
                 UserViewModels model = new UserViewModels();
-                //model.ApplicationUsers = userDb.FindOneUserById(id);
+                model.ApplicationUserList = userDb.FindOneUserById(id);
+
+
+                //var userlist = userDb.GetApplicationIdforName().ToList();
+                //model.UserList = userlist;
+
+                var EmployeeList = userDb.GetAddressEmployeeList().ToList();
+                model.employeelist = EmployeeList;
+
+                var RoleList = userDb.GetAddressRoleList().ToList();
+                model.rolelist = RoleList;
+
+                var BranchList = userDb.GetAddressBranchList().ToList();
+                model.branchlist = BranchList;
 
                 return PartialView(model);
             }

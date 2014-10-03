@@ -11,11 +11,11 @@ namespace Troy.Data.Repository
 {
     public interface IUserRepository
     {
-        List<ApplicationUser> GetAllUser();
+        List<ViewUsers> GetAllUser();
 
         List<ApplicationUser> GetFilterUser(string searchColumn, string searchString, Guid userId);
 
-        ApplicationUser FindOneUserById(int uId);
+        ViewUsers FindOneUserById(int uId);
 
         //ApplicationUser CheckDuplicateName(string uname);
 
@@ -29,13 +29,18 @@ namespace Troy.Data.Repository
 
         bool EditUser(ApplicationUser ApplicationUsers);
 
-
+        List<ViewUsers> GetApplicationIdforName();
 
         List<EmployeeList> GetAddressEmployeeList();
 
+        List<BranchList> GetAddressBranchList();
         List<ApplicationRole> GetAddressRoleList();
 
-        string GetApplicationIdforName(int roleid);
+        bool SaveUserBranches(UserBranches userBranches, ref string errorMessage);
+
+        //List<Branch> GetAddressBranchList();
+
+        //string GetApplicationIdforName(int roleid);
 
         //int GetApplicationIdforName(string name);
 

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
-//using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using Troy.Model.Branches;
 
 namespace Troy.Model.AppMembership
 {
@@ -30,7 +30,7 @@ namespace Troy.Model.AppMembership
 
         public int Employee_Id { get; set; }
 
-        public int Branch_Id { get; set; }
+        //public int Branch_Id { get; set; }
 
         //public int Role_Id { get; set; }
 
@@ -59,7 +59,16 @@ namespace Troy.Model.AppMembership
                 return base.Roles;
             }
         }
+        //Navigation Property
+        //public  ICollection<UserBranches> Userbranches
+        //{
+        //    get;
+        //    set;
+        //}
     }
+
+
+
 
     // [Table("tblUserBranches")]
 

@@ -23,7 +23,7 @@ namespace Troy.Data.DataContext
 
         public DbSet<ApplicationScreen> ApplicationScreens { get; set; }
 
-        //public DbSet<UserBranch> userbranch { get; set; }
+        public DbSet<UserBranches> userbranches { get; set; }
 
         //public DbSet<ApplicationUser> ApplicationUsers { get; set; } 
         public DbSet<ApplicationRoleScreenAccess> ApplicationRoleAccess { get; set; }
@@ -32,7 +32,9 @@ namespace Troy.Data.DataContext
 
         public DbSet<Employee> employee { get; set; }
 
-        //public DbSet<Branch> branch { get; set; }
+
+
+        public DbSet<Branch> branch { get; set; }
 
         //public DbSet<UserBranches> userbranches { get; set; }
 

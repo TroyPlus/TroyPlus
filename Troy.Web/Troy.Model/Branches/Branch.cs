@@ -110,6 +110,14 @@ namespace Troy.Model.Branches
         public DateTime Modified_Dte { get; set; }
 
 
+
+        //public  ICollection<UserBranches> branches
+        //{
+        //    get;
+        //    set;
+           
+        //}
+
     }
 
     //[Table("tblCountry")]
