@@ -140,15 +140,13 @@ namespace Troy.Web.Controllers
                         xmlAddBranch.Address1 = model.Branch.Address1;
                         xmlAddBranch.Address2 = model.Branch.Address2;
                         xmlAddBranch.Address3 = model.Branch.Address3;
-                        //xmlAddBranch.Country_ID = model.Branch.Country_ID.ToString();
-                        //xmlAddBranch.Country_ID = model.country.SAP_Country_Code;
-
-                        int country_ID = Convert.ToInt32(model.Branch.Country_ID);
+                     
+                        int country_ID = model.Branch.Country_ID;
                         string SAP_Country_Code = branchRepository.FindCodeForCountryId(country_ID);
 
                         xmlAddBranch.SAP_Country_Code = SAP_Country_Code;
 
-                        int state_ID = Convert.ToInt32(model.Branch.State_ID);
+                        int state_ID = model.Branch.State_ID;
                         string SAP_State_Code = branchRepository.FindCodeForStateId(state_ID);
 
                         xmlAddBranch.SAP_State_Code = SAP_State_Code;

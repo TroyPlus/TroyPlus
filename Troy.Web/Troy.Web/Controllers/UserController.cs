@@ -210,6 +210,8 @@ namespace Troy.Web.Controllers
                 IdentityResult result;
                 try
                 {
+                    //result = _userManager.Update(user);
+
                     result = _userManager.Update(user);
 
                     int userId = user.Id;
@@ -242,6 +244,8 @@ namespace Troy.Web.Controllers
                 catch (Exception ex)
                 {
                     LogHandler.WriteLog(ex.Message);
+                    ViewBag.AppErrorMessage = ex.Message;
+                    return View("Error");
                 }
                
                 

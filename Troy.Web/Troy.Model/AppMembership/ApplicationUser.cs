@@ -55,10 +55,11 @@ namespace Troy.Model.AppMembership
         {
             get
             {
-               
+
                 return base.Roles;
             }
         }
+
         //Navigation Property
         //public  ICollection<UserBranches> Userbranches
         //{
