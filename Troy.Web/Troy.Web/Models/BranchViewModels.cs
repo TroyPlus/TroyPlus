@@ -125,14 +125,15 @@ namespace Troy.Web.Models
         [XmlElement("Address3")]
         public string Address3 { get; set; }
 
-        [XmlElement("Country")]
-        public string Country_ID { get; set; }
+        [XmlElement("SAP_Country_Code")]
+        public string SAP_Country_Code { get; set; }
 
-        [XmlElement("state")]
-        public string State_ID { get; set; }
+        [XmlElement("SAP_State_Code")]
+        public string SAP_State_Code { get; set; }
+
 
         [XmlElement("City")]
-        public string City_ID { get; set; }
+        public string City_Name { get; set; }
 
         [XmlElement("pincode")]
         public string Pin_Code { get; set; }
@@ -142,6 +143,15 @@ namespace Troy.Web.Models
 
         [XmlElement("IsActive")]
         public string IsActive { get; set; }
+
+        [XmlElement("Created_User_Id")]
+        public string CreatedUser { get; set; }
+
+        [XmlElement("Created_Branch_Id")]
+        public string CreatedBranch { get; set; }
+
+        [XmlElement("Created_Dte")]
+        public string CreatedDateTime { get; set; }
 
         [XmlElement("Modified_User_Id")]
         public string ModifiedUser { get; set; }
