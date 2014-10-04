@@ -27,8 +27,6 @@ namespace Troy.Web.Models
 
         public string Pin_Cod { get; set; }
 
-        //public int Order_Num { get; set; }
-
         public string IsActive { get; set; }
 
         //public int Created_User_Id { get; set; }

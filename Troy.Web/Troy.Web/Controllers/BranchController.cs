@@ -47,7 +47,7 @@ namespace Troy.Web.Controllers
         //        BranchViewModels model = new BranchViewModels();
         //        model.BranchList = bList;
 
-                
+
 
         //        //var Allbranches = branchDb.GetAllBranches().ToList();
 
@@ -74,7 +74,6 @@ namespace Troy.Web.Controllers
 
 
         public ActionResult Index()
-        
         {
             try
             {
@@ -113,7 +112,7 @@ namespace Troy.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string submitButton, BranchViewModels model, HttpPostedFileBase file=null)
+        public ActionResult Index(string submitButton, BranchViewModels model, HttpPostedFileBase file = null)
         {
             try
             {
@@ -159,12 +158,12 @@ namespace Troy.Web.Controllers
                     string SAP_State_Code = branchRepository.FindCodeForStateId(state_ID);
 
                     xmlAddBranch.SAP_State_Code = SAP_State_Code;
-                   
+
                     int city_ID = Convert.ToInt32(model.Branch.City_ID);
                     string CityName = branchRepository.FindNameForCityId(city_ID);
 
                     xmlAddBranch.City_Name = CityName;
-                      
+
                     xmlAddBranch.Pin_Code = model.Branch.Pin_Code;
                     xmlAddBranch.Order_Num = model.Branch.Order_Num.ToString();
                     xmlAddBranch.IsActive = model.Branch.IsActive;
@@ -226,9 +225,6 @@ namespace Troy.Web.Controllers
 
                     xmlEditBranch.City_Name = CityName;
 
-                    //xmlEditBranch.Country_ID = model.Branch.Country_ID.ToString();
-                    //xmlEditBranch.State_ID = model.Branch.State_ID.ToString();
-                    //xmlEditBranch.City_ID = model.Branch.City_ID.ToString();
                     xmlEditBranch.Pin_Code = model.Branch.Pin_Code;
                     xmlEditBranch.Order_Num = model.Branch.Order_Num.ToString();
                     xmlEditBranch.IsActive = model.Branch.IsActive;
@@ -360,7 +356,7 @@ namespace Troy.Web.Controllers
                                     }
                                 }
                                 #endregion
- 
+
                                 #region Check Country Name
                                 foreach (DataRow dr in ds.Tables[0].Rows)
                                 {
@@ -369,12 +365,12 @@ namespace Troy.Web.Controllers
                                     if (mExcelCountry_Name != null && mExcelCountry_Name != "")
                                     {
                                         var data = branchRepository.CheckCountry(mExcelCountry_Name);
-                                        if (data ==null)
+                                        if (data == null)
                                         {
                                             return Json(new { success = true, Message = "Country: " + mExcelCountry_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
                                         }
                                     }
-                                    
+
                                     else
                                     {
                                         return Json(new { success = false, Error = "Country Name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
@@ -520,7 +516,7 @@ namespace Troy.Web.Controllers
 
                                         if (ds.Tables[0].Rows[j]["Address3"] != null)
                                         {
-                
+
                                             bItem.Address3 = ds.Tables[0].Rows[j]["Address3"].ToString();
                                         }
 
@@ -648,7 +644,7 @@ namespace Troy.Web.Controllers
                 ViewBag.AppErrorMessage = ex.Message;
                 return View("Error");
             }
-           }
+        }
 
         //Check for dupilicate  
         #region Check for duplicate code
@@ -846,4 +842,4 @@ namespace Troy.Web.Controllers
         #endregion
 
     }
-}   
+}

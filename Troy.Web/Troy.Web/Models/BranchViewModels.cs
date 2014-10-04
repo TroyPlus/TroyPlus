@@ -25,8 +25,6 @@ namespace Troy.Web.Models
         public State state { get; set; }
         public List<ViewBranches> BranchList { get; set; }
 
-        //public List<ViewBranches> AllBranches { get; set; }
-
         public List<CountryList> CountryList { get; set; }
 
         public List<StateList> StateList { get; set; }
@@ -105,11 +103,8 @@ namespace Troy.Web.Models
         [XmlElement("Modified_Dte")]
         public string ModifiedDateTime { get; set; }
 
-        //public string SAP_Country_Code { get; set; }
 
-        //public string SAP_State_Code { get; set; }
 
-       
     }
 
     [XmlRoot("ModifyBranch")]

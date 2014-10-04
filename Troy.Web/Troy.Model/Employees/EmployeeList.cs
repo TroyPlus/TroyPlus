@@ -11,10 +11,10 @@ namespace Troy.Model.Employees
     public class EmployeeList
     {
 
-        [Key]
+        //[Key]
         public int Emp_Id { get; set; }
-        [ForeignKey("Emp_Id")]
-        public virtual Employee employee { get; set; }
+        //[ForeignKey("Emp_Id")]
+        //public virtual Employee employee { get; set; }
 
         //[Index(IsUnique = true)]
         //[Required(ErrorMessage = "Employee No is required.")]

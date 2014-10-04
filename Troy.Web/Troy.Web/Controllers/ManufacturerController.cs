@@ -98,7 +98,7 @@ namespace Troy.Web.Controllers
         {
             try
             {
-                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+                //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
              
                 if (submitButton == "Save")
                 {

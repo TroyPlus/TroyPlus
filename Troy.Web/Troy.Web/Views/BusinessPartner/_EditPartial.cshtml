@@ -91,7 +91,7 @@
                                             Branch:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Branch_id, new SelectList(Model.BranchList.AsEnumerable(), "BranchId", "BranchName"), "", new { @class = "form-control control-text" })
+                                            @Html.DropDownListFor(m => m.BusinessPartner.Branch_id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
                                             @Html.ValidationMessageFor(model => model.BusinessPartner.Branch_id)
                                         </div>
                                     </div>
@@ -109,7 +109,7 @@
                                             Control account id:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Control_account_id, new SelectList(Model.LedgerList.AsEnumerable(), "Ledger_Id", "Ledger_Name"), "", new { @class = "form-control control-text" })
+                                            @Html.DropDownListFor(m => m.BusinessPartner.Control_account_id, new SelectList(Model.GroupList.AsEnumerable(), "Control_Account_Id", "Group_Name"), "", new { @class = "form-control control-text" })
                                             @Html.ValidationMessageFor(model => model.BusinessPartner.Control_account_id)
                                         </div>
                                     </div>
@@ -292,6 +292,15 @@
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Mobile, new { @class = "form-control control-text" })
                                             @Html.ValidationMessageFor(model => model.BusinessPartner.Mobile)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            Fax:
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(model => model.BusinessPartner.Fax, new { @class = "form-control control-text" })
+                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Fax)
                                         </div>
                                     </div>
                                     <div class="row">

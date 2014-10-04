@@ -18,6 +18,7 @@
     }
 </style>
 
+<script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script type="text/javascript">
 
 
@@ -281,7 +282,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (Troy.Model.BusinessPartner.BusinessPartner item in Model.BusinessPartnerList)                            
+                        @foreach (Troy.Model.BusinessPartner.ViewBusinessPartner item in Model.BusinessPartnerList)                            
                         {
                         <tr class="odd">
                             <td style="display: none">
@@ -294,7 +295,7 @@
                                 @item.Group_Type
                             </td>
                             <td>
-                                @item.Group_id
+                                @item.Group_Name
                             </td>
                             <td>
                                 @item.Phone1

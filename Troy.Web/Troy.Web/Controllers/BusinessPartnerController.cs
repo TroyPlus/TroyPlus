@@ -46,7 +46,7 @@ namespace Troy.Web.Controllers
             try
             {
                 LogHandler.WriteLog("Business Partner Index page requested by #UserId");
-                var qList = BusinesspartnerDb.GetFilterBusinessPartner(searchColumn, searchQuery, Guid.Empty);   //GetUserId();                
+                var qList = BusinesspartnerDb.GetAllBusinessPartner();   //GetUserId();                
 
                 BusinessPartnerViewModels model = new BusinessPartnerViewModels();
                 model.BusinessPartnerList = qList;
@@ -106,7 +106,7 @@ namespace Troy.Web.Controllers
         {
             try
             {
-                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+                //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
                 if (submitButton == "Save")
                 {
@@ -157,7 +157,7 @@ namespace Troy.Web.Controllers
                         addbp.general.Phone1 = model.BusinessPartner.Phone1;
                         addbp.general.Phone2 = model.BusinessPartner.Phone2;
                         addbp.general.Mobile = model.BusinessPartner.Mobile;
-                        addbp.general.Fax = "testfax";
+                        addbp.general.Fax = model.BusinessPartner.Fax;//"testfax";
                         addbp.general.Email = model.BusinessPartner.Email_Address;
                         addbp.general.Website = model.BusinessPartner.Website;
                         addbp.general.ShipType = model.BusinessPartner.Ship_method;
@@ -238,11 +238,7 @@ namespace Troy.Web.Controllers
                     else
                     {
                         ModelState.AddModelError("", "BusinessPartner Not Saved");
-                    }
-
-                    //string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(xmlAddManufacture);          
-
-
+                    }  
                 }
                 else if (submitButton == "Update")
                 {
@@ -259,8 +255,7 @@ namespace Troy.Web.Controllers
                         // return RedirectToAction("Index", "BusinessPartner");
                         Guid GuidRandomNo = Guid.NewGuid();
                         string mUniqueID = GuidRandomNo.ToString();
-
-                      
+                                              
 
                         #region ViewModel-XML-Fill
 
@@ -294,7 +289,7 @@ namespace Troy.Web.Controllers
                         modifybp.general.Phone1 = model.BusinessPartner.Phone1;
                         modifybp.general.Phone2 = model.BusinessPartner.Phone2;
                         modifybp.general.Mobile = model.BusinessPartner.Mobile;
-                        modifybp.general.Fax = "testfax";
+                        modifybp.general.Fax = model.BusinessPartner.Fax;// "testfax";
                         modifybp.general.Email = model.BusinessPartner.Email_Address;
                         modifybp.general.Website = model.BusinessPartner.Website;
                         modifybp.general.ShipType = model.BusinessPartner.Ship_method;
@@ -1185,25 +1180,25 @@ namespace Troy.Web.Controllers
                 dr_final1["BPId"] = e.BP_Id;
                 dr_final1["BusinessPartner Name"] = e.BP_Name;
                 dr_final1["Group Type"] = e.Group_Type;
-                dr_final1["Group"] = e.group.Group_Name;
+                //dr_final1["Group"] = e.group.Group_Name;
                 dr_final1["Ship Address1"] = e.Ship_Address1;
                 dr_final1["Ship Address2"] = e.Ship_address2;
                 dr_final1["Ship Address3"] = e.Ship_address3;
-                dr_final1["Ship City"] = e.city.City_Name;
-                dr_final1["Ship State"] = e.state.State_Name;
-                dr_final1["Ship Country"] = e.country.Country_Name;
+               // dr_final1["Ship City"] = e.city.City_Name;
+                //dr_final1["Ship State"] = e.state.State_Name;
+                //dr_final1["Ship Country"] = e.country.Country_Name;
                 dr_final1["Ship Pincode"] = e.Ship_pincode;
                 dr_final1["Bill Address1"] = e.Ship_Address1;
                 dr_final1["Bill Address2"] = e.Ship_address2;
                 dr_final1["Bill Address3"] = e.Ship_address3;
-                dr_final1["Bill City"] = e.city.City_Name;
-                dr_final1["Bill State"] = e.state.State_Name;
-                dr_final1["Bill Country"] = e.country.Country_Name;
+                //dr_final1["Bill City"] = e.city.City_Name;
+                //dr_final1["Bill State"] = e.state.State_Name;
+                //dr_final1["Bill Country"] = e.country.Country_Name;
                 dr_final1["Bill Pincode"] = e.Ship_pincode;
                 dr_final1["Is Active"] = e.IsActive;
-                dr_final1["PriceList"] = e.PList.Price_List_Desc;
-                dr_final1["Employee"] = e.employee.First_Name;
-                dr_final1["Branch"] = e.branch.Branch_Name;
+               // dr_final1["PriceList"] = e.PList.Price_List_Desc;
+                //dr_final1["Employee"] = e.employee.First_Name;
+                //dr_final1["Branch"] = e.branch.Branch_Name;
                 dr_final1["Phone1"] = e.Phone1;
                 dr_final1["Phone2"] = e.Phone2;
                 dr_final1["Mobile"] = e.Mobile;
@@ -1212,7 +1207,7 @@ namespace Troy.Web.Controllers
                 dr_final1["Contact Person"] = e.Contact_person;
                 dr_final1["Remarks"] = e.Remarks;
                 dr_final1["Ship Method"] = e.Ship_method;
-                dr_final1["Control Account Id"] = e.ledger.Ledger_Name;
+                //dr_final1["Control Account Id"] = e.ledger.Ledger_Name;
                 dr_final1["Opening Balance"] = e.Opening_Balance;
                 dr_final1["Due Date"] = e.Due_date;
 
@@ -1309,7 +1304,6 @@ namespace Troy.Web.Controllers
             {
                 BusinessPartnerViewModels model = new BusinessPartnerViewModels();
                 model.BusinessPartner = BusinesspartnerDb.FindOneBusinessPartnerById(id);
-                TempData["oldManufacter_Name"] = model.BusinessPartner.BP_Name;
 
                 var Grouplist = BusinesspartnerDb.GetGroupList().ToList();
                 model.GroupList = Grouplist;
@@ -1334,6 +1328,7 @@ namespace Troy.Web.Controllers
 
                 var citylist = BusinesspartnerDb.GetAddresscityList().ToList();
                 model.CityList = citylist;
+
 
                 return PartialView(model);
             }

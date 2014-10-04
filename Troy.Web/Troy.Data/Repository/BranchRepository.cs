@@ -40,7 +40,7 @@ namespace Troy.Data.Repository
             List<Branch> qList = new List<Branch>();
 
             qList = (from p in branchContext.Branch
-                   select p).ToList();
+                     select p).ToList();
 
             return qList;
         }
@@ -68,9 +68,6 @@ namespace Troy.Data.Repository
                         Country_ID = item.Country_ID,
                         State_ID = item.State_ID,
                         City_ID = item.City_ID,
-                        //country = item.country,
-                        //city = item.city,
-                        //state = item.state,
                         Order_Num = item.Order_Num,
                         Pin_Code = item.Pin_Code,
                         IsActive = item.IsActive,
@@ -162,22 +159,6 @@ namespace Troy.Data.Repository
             var cmd = branchContext.Database.Connection.CreateCommand();
             cmd.CommandText = "[dbo].[USP_GetBranch]";
             cmd.CommandType = CommandType.StoredProcedure;
-
-            //var searchParam = new SqlParameter();
-            //searchParam.ParameterName = "@SearchColumn";
-            //searchParam.SqlDbType = SqlDbType.NVarChar;
-            //searchParam.SqlValue = searchColumn;
-            ////searchParam.ParameterDirection = ParameterDirection.Output;
-
-            //var stringParam = new SqlParameter();
-            //stringParam.ParameterName = "@SearchString";
-            //stringParam.SqlDbType = SqlDbType.NVarChar;
-            //stringParam.SqlValue = searchString;
-            ////stringParam.ParameterDirection = ParameterDirection.Output;
-
-            //cmd.Parameters.Add(searchParam);
-            //cmd.Parameters.Add(stringParam);
-
             cmd.Parameters.Add(new SqlParameter("@SearchColumn", searchColumn));
             cmd.Parameters.Add(new SqlParameter("@SearchString", searchString));
 
@@ -208,9 +189,6 @@ namespace Troy.Data.Repository
                         Country_ID = item.Country_ID,
                         State_ID = item.State_ID,
                         City_ID = item.City_ID,
-                        //country = item.country,
-                        //city = item.city,
-                        //state = item.state,
                         Order_Num = item.Order_Num,
                         Pin_Code = item.Pin_Code,
                         IsActive = item.IsActive,
@@ -284,12 +262,12 @@ namespace Troy.Data.Repository
         }
         public Country CheckCountry(string bname)
         {
-            
-            
+
+
             return (from p in countryContext.country
-                         where p.Country_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
-                         select p).FirstOrDefault();       
-       }
+                    where p.Country_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
 
         public State CheckState(string bname)
         {
@@ -306,29 +284,15 @@ namespace Troy.Data.Repository
             return (from p in cityContext.city
                     where p.City_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
-      }
+        }
 
-            
-        //    else if (CheckingType == "state")
-        //    {
-        //        qList = (from p in countryContext.state
-        //                 where p.State_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
-        //                 select p).FirstOrDefault();
-        //    }
-        //    else if (CheckingType == "state")
-        //    {
-        //        qList = (from p in branchContext.Branch
-        //                 where p.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
-        //                 select p).FirstOrDefault();
-        //    }
-        //    return qList;
-        //}
+
 
         public int FindIdForCountryName(string name)
         {
             int Country_id = (from p in countryContext.country
-                      where p.Country_Name == name
-                      select p.ID).FirstOrDefault();
+                              where p.Country_Name == name
+                              select p.ID).FirstOrDefault();
             return Country_id;
 
         }
@@ -336,8 +300,8 @@ namespace Troy.Data.Repository
         public int FindIdForStateName(string name)
         {
             int State_id = (from p in stateContext.state
-                      where p.State_Name == name
-                      select p.ID).FirstOrDefault();
+                            where p.State_Name == name
+                            select p.ID).FirstOrDefault();
             return State_id;
 
         }
@@ -345,8 +309,8 @@ namespace Troy.Data.Repository
         public int FindIdForCityName(string name)
         {
             int City_id = (from p in cityContext.city
-                      where p.City_Name == name
-                      select p.ID).FirstOrDefault();
+                           where p.City_Name == name
+                           select p.ID).FirstOrDefault();
             return City_id;
 
         }
@@ -355,8 +319,8 @@ namespace Troy.Data.Repository
         {
 
             string sap_country_code = (from p in branchContext.country
-                    where p.ID == country_id
-                    select p.SAP_Country_Code).FirstOrDefault();
+                                       where p.ID == country_id
+                                       select p.SAP_Country_Code).FirstOrDefault();
 
             return sap_country_code;
 
@@ -367,14 +331,11 @@ namespace Troy.Data.Repository
         {
 
             string sap_state_code = (from p in branchContext.state
-                                       where p.ID == state_id
-                                       select p.SAP_State_Code).FirstOrDefault();
+                                     where p.ID == state_id
+                                     select p.SAP_State_Code).FirstOrDefault();
 
             return sap_state_code;
 
-            //int Country_id = (from p in countryContext.country
-            //                  where p.ID == name
-            //                  select p.SAP_Country_Code).FirstOrDefault();
         }
 
 
@@ -382,8 +343,8 @@ namespace Troy.Data.Repository
         {
 
             string cityname = (from p in branchContext.city
-                                       where p.ID == city_id
-                                       select p.City_Name).FirstOrDefault();
+                               where p.ID == city_id
+                               select p.City_Name).FirstOrDefault();
 
             return cityname;
 
@@ -391,8 +352,7 @@ namespace Troy.Data.Repository
 
         public IEnumerable<Branch> _ExporttoExcel()
         {
-            //var data = branchDb._ExporttoExcel(branch);
-            //List<ViewBranches> qList = new List<ViewBranches>();
+
 
 
             return (from e in branchContext.Branch
@@ -454,7 +414,6 @@ namespace Troy.Data.Repository
                         {
                             ID = a.ID,
                             Country_Name = a.Country_Name
-                            //BranchId = a.Branch_Id
                         }).ToList();
 
             return item;

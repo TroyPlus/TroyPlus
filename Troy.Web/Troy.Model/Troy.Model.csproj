@@ -68,6 +68,7 @@
     <Compile Include="Branches\UserBranches.cs" />
     <Compile Include="Branches\ViewBranches.cs" />
     <Compile Include="BusinessPartner\BusinessPartner.cs" />
+    <Compile Include="BusinessPartner\ViewBusinessPartner.cs" />
     <Compile Include="Cities\City.cs" />
     <Compile Include="Cities\CityList.cs" />
     <Compile Include="Countries\Country.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Groups\Group.cs" />
     <Compile Include="Groups\GroupList.cs" />
     <Compile Include="Initials\Initial.cs" />
+    <Compile Include="Initials\InitialList.cs" />
     <Compile Include="Ledgers\Ledger.cs" />
     <Compile Include="Ledgers\LedgerList.cs" />
     <Compile Include="LeftReasons\LeftReason.cs" />

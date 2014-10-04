@@ -11,5 +11,7 @@ namespace Troy.Model.Groups
         public int Group_Id { get; set; }
 
         public string Group_Name { get; set; }
+
+        public int Control_Account_Id { get; set; }
     }
 }

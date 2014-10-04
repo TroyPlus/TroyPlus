@@ -156,6 +156,11 @@ namespace Troy.Model.BusinessPartner
         public string Mobile { get; set; }
         //------------
 
+        [Required(ErrorMessage = "Fax is required.")]
+        [StringLength(10)]
+        public string Fax { get; set; }
+        //------------
+
         [StringLength(30)]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email_Address { get; set; }
@@ -178,9 +183,9 @@ namespace Troy.Model.BusinessPartner
         //------------
 
         [Required(ErrorMessage = "Account id is required.")]
-        [ForeignKey("ledger")]
+        //[ForeignKey("grpControlId")]
         public int Control_account_id { get; set; }
-        public virtual Ledger ledger { get; set; }
+        //public virtual Group grpControlId { get; set; }
         //------------
 
         [Required(ErrorMessage = "Opening Balance is required.")]
