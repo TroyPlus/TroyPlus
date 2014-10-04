@@ -28,20 +28,72 @@ namespace Troy.Data.Repository
     public class BusinessPartnerRepository : BaseRepository, IBusinessPartnerRepository
     {
         private BusinessPartnerContext businesspartnercontext = new BusinessPartnerContext();
+        
 
-        public List<BusinessPartner> GetAllBusinessPartner()
+        public List<ViewBusinessPartner> GetAllBusinessPartner()
         {
-            List<BusinessPartner> qList = new List<BusinessPartner>();
+            List<ViewBusinessPartner> qList = new List<ViewBusinessPartner>();
+                       
 
-            qList = (from p in businesspartnercontext.BusinessPartner
-                     select p).ToList();
+            qList = (from item in businesspartnercontext.BusinessPartner
+                     join c in businesspartnercontext.Group
+                     on item.Group_id equals c.Group_Id
+
+                     select new ViewBusinessPartner()
+                     {
+                         BP_Id = item.BP_Id,
+                         BP_Name = item.BP_Name,
+                         Group_Type = item.Group_Type,
+                         Group_Name=c.Group_Name,
+                         Ship_Address1 = item.Ship_Address1,
+                         Ship_address2 = item.Ship_address2,
+                         Ship_address3 = item.Ship_address3,
+                         Ship_City = item.Ship_City,
+                         Ship_State = item.Ship_State,
+                         Ship_Country = item.Ship_Country,
+                         Ship_pincode = item.Ship_pincode,
+                         Bill_Address1 = item.Bill_Address1,
+                         Bill_address2 = item.Bill_address2,
+                         Bill_address3 = item.Bill_address3,
+                         Bill_City = item.Bill_City,
+                         Bill_State = item.Bill_State,
+                         Bill_Country = item.Bill_Country,
+                         Bill_pincode = item.Bill_pincode,
+                         IsActive = item.IsActive,
+                         Pricelist = item.Pricelist,
+                         Emp_Id = item.Emp_Id,
+                         Branch_id = item.Branch_id,
+                         Phone1 = item.Phone1,
+                         Phone2 = item.Phone2,
+                         Mobile = item.Mobile,
+                         Fax = item.Fax,
+                         Email_Address = item.Email_Address,
+                         Website = item.Website,
+                         Contact_person = item.Contact_person,
+                         Remarks = item.Remarks,
+                         Ship_method = item.Ship_method,
+                         Control_account_id = item.Control_account_id,
+                         Opening_Balance = item.Opening_Balance,
+                         Due_date = item.Due_date,
+                         Created_Branc_Id = item.Created_Branc_Id,
+                         Created_Dte = item.Created_Dte,
+                         Created_User_Id = item.Created_User_Id,
+                         Modified_Branch_Id = item.Modified_Branch_Id,
+                         Modified_Dte = item.Modified_Dte,
+                         Modified_User_Id = item.Modified_User_Id
+                     }).ToList();
 
             return qList;
+
+            //qList = (from p in businesspartnercontext.BusinessPartner
+            //         select p).ToList();
+
+            //return qList;
         }
 
-        public List<BusinessPartner> GetFilterBusinessPartner(string searchColumn, string searchString, Guid userId)
+        public List<ViewBusinessPartner> GetFilterBusinessPartner(string searchColumn, string searchString, Guid userId)
         {
-            List<BusinessPartner> qList = new List<BusinessPartner>();
+            List<ViewBusinessPartner> qList = new List<ViewBusinessPartner>();
 
             if (searchColumn == null)
             {
@@ -67,18 +119,19 @@ namespace Troy.Data.Repository
 
                 var result = ((IObjectContextAdapter)businesspartnercontext)
                     .ObjectContext
-                    .Translate<BusinessPartner>(reader, "BusinessPartner", MergeOption.AppendOnly);
+                    .Translate<ViewBusinessPartner>(reader, "BusinessPartner", MergeOption.AppendOnly);
 
 
                 foreach (var item in result)
                 {
-                    BusinessPartner model = new BusinessPartner()
+                    ViewBusinessPartner model = new ViewBusinessPartner()
                     {
 
                         BP_Id = item.BP_Id,
                         BP_Name = item.BP_Name,
                         Group_Type = item.Group_Type,
                         Group_id = item.Group_id,
+                        Group_Name=item.Group_Name,
                         Ship_Address1 = item.Ship_Address1,
                         Ship_address2 = item.Ship_address2,
                         Ship_address3 = item.Ship_address3,
@@ -100,6 +153,7 @@ namespace Troy.Data.Repository
                         Phone1 = item.Phone1,
                         Phone2 = item.Phone2,
                         Mobile = item.Mobile,
+                        Fax=item.Fax,
                         Email_Address = item.Email_Address,
                         Website = item.Website,
                         Contact_person = item.Contact_person,
@@ -204,11 +258,24 @@ namespace Troy.Data.Repository
                         select new GroupList
                         {
                             Group_Id = a.Group_Id,
+                            Control_Account_Id = a.Control_Account_Id,
                             Group_Name = a.Group_Name
                         }).ToList();
 
             return item;
         }
+
+        //public List<GroupList> GetGroupControlList()
+        //{
+        //    var item = (from a in businesspartnercontext.Group
+        //                select new GroupList
+        //                {
+        //                    Control_Account_Id = a.Control_Account_Id,
+        //                    Group_Name = a.Group_Name
+        //                }).ToList();
+
+        //    return item;
+        //}
 
         public List<PricelistLists> GetPriceList()
         {

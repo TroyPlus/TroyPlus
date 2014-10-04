@@ -19,9 +19,9 @@ namespace Troy.Data.Repository
 {
     public interface IBusinessPartnerRepository
     {
-        List<BusinessPartner> GetAllBusinessPartner();
+        List<ViewBusinessPartner> GetAllBusinessPartner();
 
-        List<BusinessPartner> GetFilterBusinessPartner(string searchColumn, string searchString, Guid UserId);
+        List<ViewBusinessPartner> GetFilterBusinessPartner(string searchColumn, string searchString, Guid UserId);
 
         BusinessPartner FindOneBusinessPartnerById(int qId);
 
@@ -38,6 +38,8 @@ namespace Troy.Data.Repository
         bool GenerateXML(Object obj1);
 
         List<GroupList> GetGroupList();
+
+        //List<GroupList> GetGroupControlList();
 
         List<PricelistLists> GetPriceList();
 

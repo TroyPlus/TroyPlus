@@ -20,18 +20,81 @@ using Troy.Model.Branches;
 using Troy.Model.LeftReasons;
 using Troy.Model.MaritalStatus;
 using Troy.Model.Genders;
+using Troy.Model.Initials;
 
 namespace Troy.Data.Repository
 {
-    public class EmployeeRepository:BaseRepository,IEmployeeRepository
+    public class EmployeeRepository : BaseRepository, IEmployeeRepository
     {
         private EmployeeContext employeecontext = new EmployeeContext();
 
-        public List<Employee> GetAllEmployee()
+        public List<ViewEmployee> GetAllEmployee()
         {
-            List<Employee> qList = new List<Employee>();
-            qList = (from p in employeecontext.Employee
-                     select p).ToList();
+            List<ViewEmployee> qList = new List<ViewEmployee>();
+
+            qList = (from item in employeecontext.Employee
+                     join ini in employeecontext.Initial
+                        on item.Initial equals ini.Id
+                     join de in employeecontext.Designation
+                        on item.Designation_Id equals de.Designation_Id
+                     join dp in employeecontext.Department
+                        on item.Department_Id equals dp.Department_Id
+                     join br in employeecontext.Branch
+                        on item.Branch_Id equals br.Branch_Id
+                     join ms in employeecontext.MaritalStatus
+                        on item.Marital_Status equals ms.Id
+                     join gd in employeecontext.Gender
+                        on item.Gender equals gd.Id
+                    join lr in employeecontext.LeftReason
+                       on item.Left_Reason equals lr.Id
+
+                     select new ViewEmployee()
+                     {
+                         Emp_Id = item.Emp_Id,
+                         Emp_No = item.Emp_No,
+                         Initial = item.Initial,
+                         Initial_Desc = ini.Troyvalues,
+                         First_Name = item.First_Name,
+                         Middle_Name = item.Middle_Name,
+                         Last_Name = item.Last_Name,
+                         Father_Name = item.Father_Name,
+                         Designation_Id = item.Designation_Id,
+                         Designation_Name = de.Designation_Name,
+                         Department_Id = item.Department_Id,
+                         Department_Name = dp.Department_Name,
+                         Manager_empid = item.Manager_empid,
+                         Branch_Id = item.Branch_Id,
+                         Branch_Name = br.Branch_Name,
+                         ID_Number = item.ID_Number,
+                         Mobile_number = item.Mobile_number,
+                         Email = item.Email,
+                         Start_Dte = item.Start_Dte,
+                         Left_Dte = item.Left_Dte,
+                         Left_Reason = item.Left_Reason,
+                         Left_Reason_TroyValues=lr.Troyvalues,
+                         DOB = item.DOB,
+                         Marital_Status = item.Marital_Status,
+                         Gender = item.Gender,
+                         Noof_Children = item.Noof_Children,
+                         Passport_no = item.Passport_no,
+                         Passport_Expiry_Dte = item.Passport_Expiry_Dte,
+                         Photo = item.Photo,
+                         Salary = item.Salary,
+                         ETC = item.ETC,
+                         Bank_Cde = item.Bank_Cde,
+                         Bank_Acc_No = item.Bank_Acc_No,
+                         Bank_Branch_Name = item.Bank_Branch_Name,
+                         Remarks = item.Remarks,
+                         IsActive = item.IsActive,
+                         Created_User_Id = item.Created_User_Id,
+                         Created_Branc_Id = item.Created_Branc_Id,
+                         Created_Dte = item.Created_Dte,
+                         Modified_User_Id = item.Modified_User_Id,
+                         Modified_Branch_Id = item.Modified_Branch_Id,
+                         Modified_Dte = item.Modified_Dte,
+                         Image_Url = item.Image_Url
+                     }).ToList();
+
             return qList;
         }
 
@@ -70,44 +133,44 @@ namespace Troy.Data.Repository
                 {
                     ViewEmployee model = new ViewEmployee()
                     {
-                        Emp_Id=item.Emp_Id,
-                        Emp_No=item.Emp_No,
-                        Initial= item.Initial,
-                        First_Name=item.First_Name,
-                        Middle_Name=item.Middle_Name,
-                        Last_Name=item.Last_Name,
-                        Father_Name=item.Father_Name,
-                        Designation_Id=item.Designation_Id,
-                        Department_Id=item.Department_Id,
-                        Manager_empid=item.Manager_empid,
-                        Branch_Id=item.Branch_Id,
-                        ID_Number=item.ID_Number,
-                        Mobile_number=item.Mobile_number,
-                        Email=item.Email,
-                        Start_Dte=item.Start_Dte,
-                        Left_Dte=item.Left_Dte,
-                        Left_Reason=item.Left_Reason,
-                        DOB=item.DOB,
-                        Marital_Status=item.Marital_Status,
-                        Gender=item.Gender,
-                        Noof_Children=item.Noof_Children,
-                        Passport_no=item.Passport_no,
-                        Passport_Expiry_Dte=item.Passport_Expiry_Dte,
-                        Photo=item.Photo,
-                        Salary=item.Salary,
-                        ETC=item.ETC,
-                        Bank_Cde=item.Bank_Cde,
-                        Bank_Acc_No=item.Bank_Acc_No,
-                        Bank_Branch_Name=item.Bank_Branch_Name,
-                        Remarks=item.Remarks,
-                        IsActive=item.IsActive,
+                        Emp_Id = item.Emp_Id,
+                        Emp_No = item.Emp_No,
+                        Initial = item.Initial,
+                        First_Name = item.First_Name,
+                        Middle_Name = item.Middle_Name,
+                        Last_Name = item.Last_Name,
+                        Father_Name = item.Father_Name,
+                        Designation_Id = item.Designation_Id,
+                        Department_Id = item.Department_Id,
+                        Manager_empid = item.Manager_empid,
+                        Branch_Id = item.Branch_Id,
+                        ID_Number = item.ID_Number,
+                        Mobile_number = item.Mobile_number,
+                        Email = item.Email,
+                        Start_Dte = item.Start_Dte,
+                        Left_Dte = item.Left_Dte,
+                        Left_Reason = item.Left_Reason,
+                        DOB = item.DOB,
+                        Marital_Status = item.Marital_Status,
+                        Gender = item.Gender,
+                        Noof_Children = item.Noof_Children,
+                        Passport_no = item.Passport_no,
+                        Passport_Expiry_Dte = item.Passport_Expiry_Dte,
+                        Photo = item.Photo,
+                        Salary = item.Salary,
+                        ETC = item.ETC,
+                        Bank_Cde = item.Bank_Cde,
+                        Bank_Acc_No = item.Bank_Acc_No,
+                        Bank_Branch_Name = item.Bank_Branch_Name,
+                        Remarks = item.Remarks,
+                        IsActive = item.IsActive,
                         Created_User_Id = item.Created_User_Id,
                         Created_Branc_Id = item.Created_Branc_Id,
                         Created_Dte = item.Created_Dte,
                         Modified_User_Id = item.Modified_User_Id,
                         Modified_Branch_Id = item.Modified_Branch_Id,
                         Modified_Dte = item.Modified_Dte,
-                        Image_Url=item.Image_Url
+                        Image_Url = item.Image_Url
                     };
 
                     qList.Add(model);
@@ -128,10 +191,10 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
-        public Employee CheckDuplicateName(string mEmployee_No)
+        public Employee CheckDuplicateName(int mEmployee_No)
         {
             return (from p in employeecontext.Employee
-                    where p.Emp_No.Equals(mEmployee_No)
+                    where p.Emp_No == mEmployee_No
                     select p).FirstOrDefault();
         }
 
@@ -217,10 +280,10 @@ namespace Troy.Data.Repository
         public List<DesignationList> GetDesignationList()
         {
             var item = (from a in employeecontext.Designation
-                        select new  DesignationList
+                        select new DesignationList
                         {
-                            Designation_Id=a.Designation_Id,
-                            Designation_Name=a.Designation_Name
+                            Designation_Id = a.Designation_Id,
+                            Designation_Name = a.Designation_Name
                         }).ToList();
 
             return item;
@@ -242,8 +305,8 @@ namespace Troy.Data.Repository
             var item = (from a in employeecontext.Branch
                         select new BranchList
                         {
-                            BranchId = a.Branch_Id,
-                            BranchName = a.Branch_Name
+                            Branch_Id = a.Branch_Id,
+                            Branch_Name = a.Branch_Name
                         }).ToList();
             return item;
         }
@@ -279,6 +342,53 @@ namespace Troy.Data.Repository
                             Troyvalues = a.Troyvalues
                         }).ToList();
             return item;
+        }
+
+        public List<InitialList> GetInitialList()
+        {
+            var item = (from a in employeecontext.Initial
+                        select new InitialList
+                        {
+                            Id = a.Id,
+                            Troyvalues = a.Troyvalues
+                        }).ToList();
+            return item;
+        }
+
+        public Employee CheckEmployeeName(string ename)
+        {
+            return (from p in employeecontext.Employee
+                    where p.First_Name.Equals(ename, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
+
+        public Branch CheckBranchName(string bname)
+        {
+            return (from p in employeecontext.Branch
+                    where p.Branch_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
+
+
+        public Designation CheckDesignationName(string dname)
+        {
+            return (from p in employeecontext.Designation
+                    where p.Designation_Name.Equals(dname, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
+
+        public Department CheckDepartmentName(string dtname)
+        {
+            return (from p in employeecontext.Department
+                    where p.Department_Name.Equals(dtname, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
+
+        public LeftReason CheckLeftReason_TroyValue(string lftValue)
+        {
+            return (from p in employeecontext.LeftReason
+                    where p.Troyvalues.Equals(lftValue, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
         }
     }
 }

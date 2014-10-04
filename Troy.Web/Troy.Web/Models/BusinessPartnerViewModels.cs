@@ -24,7 +24,7 @@ namespace Troy.Web.Models
     {
         public BusinessPartner BusinessPartner { get; set; }
 
-        public List<BusinessPartner> BusinessPartnerList { get; set; }
+        public List<ViewBusinessPartner> BusinessPartnerList { get; set; }
 
         public List<CountryList> CountryList { get; set; }
 

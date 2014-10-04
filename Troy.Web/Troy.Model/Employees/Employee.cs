@@ -21,19 +21,20 @@ namespace Troy.Model.Employees
     {       
 
         [Key]
-        [ForeignKey("employee")]
+        //[ForeignKey("employee")]
         public int Emp_Id { get; set; }       
-        public virtual Employee employee { get; set; }
+        //public virtual Employee employee { get; set; }
         //-----------
 
         [Index(IsUnique = true)]
         [Required(ErrorMessage = "Employee No is required.")]
+        [Remote("CheckForDuplication", "Employee", AdditionalFields = "Emp_Id")]
         public int Emp_No { get; set; }
         //----------
 
-        [ForeignKey("initial")]
+        //[ForeignKey("initial")]
         public int? Initial { get; set; }        
-        public virtual Initial initial { get; set; }
+        //public virtual Initial initial { get; set; }
         //------------
 
         [Required(ErrorMessage = "First Name is required.")]
@@ -60,24 +61,24 @@ namespace Troy.Model.Employees
         //----------
 
         [Required]
-        [ForeignKey("designation")]
+        //[ForeignKey("designation")]
         public int Designation_Id { get; set; }        
-        public virtual Designation designation { get; set; }
+        //public virtual Designation designation { get; set; }
         //---------
 
         [Required]
-        [ForeignKey("department")]
+        //[ForeignKey("department")]
         public int Department_Id { get; set; }        
-        public virtual Department department { get; set; }
+        //public virtual Department department { get; set; }
         //--------
 
         public int? Manager_empid { get; set; }
         //-------
 
         [Required]
-        [ForeignKey("branch")]
+        //[ForeignKey("branch")]
         public int Branch_Id { get; set; }        
-        public virtual Branch branch { get; set; }
+        //public virtual Branch branch { get; set; }
         //-------------
 
         [StringLength(30)]
@@ -116,9 +117,9 @@ namespace Troy.Model.Employees
         //--------
 
         [Required]
-        [ForeignKey("gender")]
+        //[ForeignKey("gender")]
         public int Gender { get; set; }        
-        public virtual Gender gender { get; set; }
+        //public virtual Gender gender { get; set; }
         //----------
 
         public int? Noof_Children { get; set; }

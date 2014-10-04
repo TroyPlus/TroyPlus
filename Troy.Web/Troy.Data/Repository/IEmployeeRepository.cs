@@ -10,18 +10,19 @@ using Troy.Model.Branches;
 using Troy.Model.Genders;
 using Troy.Model.MaritalStatus;
 using Troy.Model.LeftReasons;
+using Troy.Model.Initials;
 
 namespace Troy.Data.Repository
 {
     public interface IEmployeeRepository
     {
-        List<Employee> GetAllEmployee();
+        List<ViewEmployee> GetAllEmployee();
 
         List<ViewEmployee> GetFilterEmployee(string searchColumn, string searchString, Guid userId);
 
         Employee FindOneEmployeeById(int qId);
 
-        Employee CheckDuplicateName(string mEmployee_No);
+        Employee CheckDuplicateName(int mEmployee_No);
 
         bool InsertFileUploadDetails(List<Employee> employee);
 
@@ -42,5 +43,17 @@ namespace Troy.Data.Repository
         //List<MaritalStatus> GetMaritalStatusList();
 
         List<LeftReasonList> GetLeftReasonList();
+
+        List<InitialList> GetInitialList();
+
+        Branch CheckBranchName(string bname);       
+
+        Designation CheckDesignationName(string dname);
+
+        Department CheckDepartmentName(string dtname);
+
+        LeftReason CheckLeftReason_TroyValue(string lftValue);
+
+        Employee CheckEmployeeName(string ename);
     }
 }

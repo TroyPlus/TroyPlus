@@ -81,7 +81,7 @@
                                         Branch:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.DropDownListFor(m => m.BusinessPartner.Branch_id, new SelectList(Model.BranchList.AsEnumerable(), "BranchId", "BranchName"), "", new { @class = "form-control control-text", disabled = "disabled" })
+                                        @Html.DropDownListFor(m => m.BusinessPartner.Branch_id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.BusinessPartner.Branch_id)
                                     </div>
                                 </div>
@@ -282,6 +282,15 @@
                                     <div class="col-md-8">
                                         @Html.TextBoxFor(model => model.BusinessPartner.Mobile, new { @class = "form-control control-text", disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.BusinessPartner.Mobile)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        Fax:
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(model => model.BusinessPartner.Fax, new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.BusinessPartner.Fax)
                                     </div>
                                 </div>
                                 <div class="row">

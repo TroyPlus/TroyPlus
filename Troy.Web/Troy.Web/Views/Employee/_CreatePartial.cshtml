@@ -33,6 +33,15 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
+                                        Initial:
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(m => m.Employee.Initial, new SelectList(Model.InitialList.AsEnumerable(), "Id", "Troyvalues"), "", new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.Employee.Initial)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
                                         First Name:
                                     </div>
                                     <div class="col-md-8">
@@ -92,7 +101,7 @@
                                         Branch:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.DropDownListFor(m => m.Employee.Branch_Id, new SelectList(Model.BranchList.AsEnumerable(), "BranchId", "BranchName"), "", new { @class = "form-control control-text" })
+                                        @Html.DropDownListFor(m => m.Employee.Branch_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.Employee.Branch_Id)
                                     </div>
                                 </div>
@@ -101,8 +110,8 @@
                                         Manager:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.Employee.Emp_Id, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.Employee.Emp_Id)
+                                        @Html.DropDownListFor(m => m.Employee.Manager_empid, new SelectList(Model.EmployeeList.AsEnumerable(), "Emp_Id", "First_Name"), "", new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.Employee.Manager_empid)
                                     </div>
                                 </div>
                                 <div class="row">
@@ -172,7 +181,7 @@
                                         @Html.ValidationMessageFor(model => model.Employee.Marital_Status)
 
                                         @*@Html.DropDownListFor(m => m.Employee.Marital_Status, new SelectList(Model.GetMaritalStatusList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.Employee.Marital_Status)*@
+                                            @Html.ValidationMessageFor(model => model.Employee.Marital_Status)*@
                                     </div>
                                 </div>
                                 <div class="row">
@@ -246,6 +255,15 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
+                                        Salary:
+                                    </div>
+                                    <div class="col-md-8" id="container1">
+                                        @Html.TextBoxFor(model => model.Employee.Salary, new { @class = "form-control control-text info" })
+                                        @Html.ValidationMessageFor(model => model.Employee.Salary)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
                                         ETC:
                                     </div>
                                     <div class="col-md-8" id="container1">
@@ -304,7 +322,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+                <input class="btn btn-primary pull-left" type="submit" id="AddbtnSubmit" name="submitButton" value="Save" />
                 <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                 @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
             </div>
