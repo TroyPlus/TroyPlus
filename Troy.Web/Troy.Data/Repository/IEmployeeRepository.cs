@@ -55,5 +55,19 @@ namespace Troy.Data.Repository
         LeftReason CheckLeftReason_TroyValue(string lftValue);
 
         Employee CheckEmployeeName(string ename);
+
+        Initial CheckInitialName(string iniName);
+
+        int FindIdForDepartmentName(string deptname);
+
+        int FindIdForInitial(string initName);
+
+        int FindIdForDesignationName(string desgname);
+
+        int FindIdForManagerName(string managername);
+
+        int FindIdForBranchName(string branchname);
+
+        int FindIdForLeftReason(string lftReasonName);
     }
 }

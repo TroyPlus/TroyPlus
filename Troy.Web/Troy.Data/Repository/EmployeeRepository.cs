@@ -390,5 +390,61 @@ namespace Troy.Data.Repository
                     where p.Troyvalues.Equals(lftValue, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
+
+        public Initial CheckInitialName(string iniName)
+        {
+            return (from p in employeecontext.Initial
+                    where p.Troyvalues.Equals(iniName, StringComparison.CurrentCultureIgnoreCase)
+                    select p).FirstOrDefault();
+        }
+
+        public int FindIdForDepartmentName(string deptname)
+        {
+            int Dept_id = (from p in  employeecontext.Department
+                           where p.Department_Name == deptname
+                              select p.Department_Id).FirstOrDefault();
+            return Dept_id;
+
+        }
+
+        public int FindIdForInitial(string initName)
+        {
+            int init_id = (from p in employeecontext.Initial
+                           where p.Troyvalues == initName
+                           select p.Id).FirstOrDefault();
+            return init_id;
+        }
+
+        public int FindIdForDesignationName(string desgname)
+        {
+            int Desg_id = (from p in employeecontext.Designation
+                           where p.Designation_Name == desgname
+                           select p.Designation_Id).FirstOrDefault();
+            return Desg_id;
+        }
+
+        public int FindIdForManagerName(string managername)
+        {
+            int EmpManager_id = (from p in employeecontext.Employee
+                                 where p.First_Name == managername
+                                 select p.Emp_Id).FirstOrDefault();
+            return EmpManager_id;
+        }
+
+        public int FindIdForBranchName(string branchname)
+        {
+            int Branch_id = (from p in employeecontext.Branch
+                             where p.Branch_Name == branchname
+                             select p.Branch_Id).FirstOrDefault();
+            return Branch_id;
+        }
+
+        public int FindIdForLeftReason(string lftReasonName)
+        {
+            int Leftreason_id = (from p in employeecontext.LeftReason
+                                 where p.Troyvalues == lftReasonName
+                                 select p.Id).FirstOrDefault();
+            return Leftreason_id;
+        }
     }
 }

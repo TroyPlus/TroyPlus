@@ -509,5 +509,69 @@ namespace Troy.Data.Repository
 
             return branch_name;
         }
+
+        public int FindIdForGroupName(string groupname)
+        {
+            int Group_id = (from p in businesspartnercontext.Group
+                            where p.Group_Name == groupname
+                             select p.Group_Id).FirstOrDefault();
+            return Group_id;
+        }
+
+        public int FindIdForBranchName(string branchname)
+        {
+            int Branch_id = (from p in businesspartnercontext.Branch
+                             where p.Branch_Name == branchname
+                            select p.Branch_Id).FirstOrDefault();
+            return Branch_id;
+        }
+
+        public int FindIdForCityName(string cityname)
+        {
+            int City_id = (from p in businesspartnercontext.City
+                           where p.City_Name == cityname
+                            select p.ID).FirstOrDefault();
+            return City_id;
+        }
+
+        public int FindIdForStateName(string statename)
+        {
+            int State_id = (from p in businesspartnercontext.State
+                            where p.State_Name == statename
+                             select p.ID).FirstOrDefault();
+            return State_id;
+        }
+
+        public int FindIdForCountryName(string countryname)
+        {
+            int Country_id = (from p in businesspartnercontext.Country
+                              where p.Country_Name == countryname
+                            select p.ID).FirstOrDefault();
+            return Country_id;
+        }
+
+        public int FindConAccIdForGroupName(string conAccname)
+        {
+            int ConAcc_Id = (from p in businesspartnercontext.Group
+                             where p.Group_Name == conAccname
+                             select p.Control_Account_Id).FirstOrDefault();
+            return ConAcc_Id;
+        }
+
+        public int FindEmpIdForEmployeeName(string employeename)
+        {
+            int Emp_Id = (from p in businesspartnercontext.Employee
+                             where p.First_Name == employeename
+                             select p.Emp_Id).FirstOrDefault();
+            return Emp_Id;
+        }
+
+        public int FindIdForPriceListDesc(string pricelstDesc)
+        {
+            int Pricelst_Id = (from p in businesspartnercontext.PriceList
+                               where p.Price_List_Desc == pricelstDesc
+                               select p.Id).FirstOrDefault();
+            return Pricelst_Id;
+        }
     }
 }

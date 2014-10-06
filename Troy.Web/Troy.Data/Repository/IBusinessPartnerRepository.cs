@@ -84,5 +84,21 @@ namespace Troy.Data.Repository
         string FindPriceListDescForPricelist(int pricelist_id);
 
         string FindBranchNameForBranchId(int branch_id);
+
+        int FindIdForGroupName(string groupname);
+
+        int FindIdForBranchName(string branchname);
+
+        int FindIdForCityName(string statename);
+
+        int FindIdForStateName(string statename);
+
+        int FindIdForCountryName(string countryname);
+
+        int FindConAccIdForGroupName(string conAccname);
+
+        int FindEmpIdForEmployeeName(string employeename);
+
+        int FindIdForPriceListDesc(string pricelstDesc);
     }
 }

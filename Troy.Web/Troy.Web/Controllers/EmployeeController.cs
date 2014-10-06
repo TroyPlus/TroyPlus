@@ -339,7 +339,27 @@ namespace Troy.Web.Controllers
                                 }
                                 #endregion
 
-                                //#region Check Designation Name
+                                #region Check Initial Name
+                                //foreach (DataRow dr in ds.Tables[0].Rows)
+                                //{
+                                //    string mExcelIni_Name = Convert.ToString(dr["Initial"]);
+                                //    if (mExcelIni_Name != null && mExcelIni_Name != "")
+                                //    {
+                                //        var data = employeeDb.CheckInitialName(mExcelIni_Name);
+                                //        if (data == null)
+                                //        {
+                                //            return Json(new { success = true, Message = "Initial: " + mExcelIni_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
+                                //        }
+                                //    }
+
+                                //    else
+                                //    {
+                                //        return Json(new { success = false, Error = "Initial cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                //    }
+                                //}
+                                #endregion
+
+                                #region Check Designation Name
                                 //foreach (DataRow dr in ds.Tables[0].Rows)
                                 //{
                                 //    string mExcelDes_Name = Convert.ToString(dr["Designation Name"]);
@@ -357,7 +377,7 @@ namespace Troy.Web.Controllers
                                 //        return Json(new { success = false, Error = "Designation Name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                 //    }
                                 //}
-                                //#endregion
+                                #endregion
 
                                 #region Check Department Name
                                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -399,7 +419,7 @@ namespace Troy.Web.Controllers
                                 }
                                 #endregion
 
-                                //#region Check Branch Name
+                                #region Check Branch Name
                                 //foreach (DataRow dr in ds.Tables[0].Rows)
                                 //{
                                 //    string mExcelBranch_Name = Convert.ToString(dr["Branch Name"]);
@@ -417,7 +437,7 @@ namespace Troy.Web.Controllers
                                 //        return Json(new { success = false, Error = "Branch Name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                 //    }
                                 //}
-                                //#endregion
+                                #endregion
 
                                 #region Check Left Reason
                                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -495,7 +515,12 @@ namespace Troy.Web.Controllers
                                         #region Fill Initial
                                         if (ds.Tables[0].Rows[j]["Initial"] != null)
                                         {
-                                            mItem.Initial = Convert.ToInt32(ds.Tables[0].Rows[j]["Initial"].ToString());
+                                            //mItem.Initial = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Initial"].ToString());
+                                            string init_name = ds.Tables[0].Rows[j]["Initial"].ToString();
+
+                                            int init_id = employeeDb.FindIdForInitial(init_name);
+
+                                            mItem.Initial = Convert.ToInt32(init_id);
                                         }
                                         else
                                         {
@@ -550,7 +575,12 @@ namespace Troy.Web.Controllers
                                         #region Fill Designation
                                         if (ds.Tables[0].Rows[j]["Designation Name"] != null)
                                         {
-                                            mItem.Designation_Id = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Designation Name"].ToString());
+                                            //mItem.Designation_Id = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Designation Name"].ToString());
+                                            string desig_name = ds.Tables[0].Rows[j]["Designation Name"].ToString();
+
+                                            int desig_id = employeeDb.FindIdForDesignationName(desig_name);
+
+                                            mItem.Designation_Id = Convert.ToInt32(desig_id);
                                         }
                                         else
                                         {
@@ -561,7 +591,13 @@ namespace Troy.Web.Controllers
                                         #region Fill Department
                                         if (ds.Tables[0].Rows[j]["Department Name"] != null)
                                         {
-                                            mItem.Department_Id = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Department Name"].ToString());
+                                           // mItem.Department_Id = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Department Name"].ToString());
+
+                                            string dept_name = ds.Tables[0].Rows[j]["Department Name"].ToString();
+
+                                            int dept_id = employeeDb.FindIdForDepartmentName(dept_name);
+
+                                            mItem.Department_Id = Convert.ToInt32(dept_id);
                                         }
                                         else
                                         {
@@ -572,7 +608,12 @@ namespace Troy.Web.Controllers
                                         # region Fill Manager
                                         if (ds.Tables[0].Rows[j]["Manager Name"] != null)
                                         {
-                                            mItem.Manager_empid = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Manager Name"].ToString());
+                                            //mItem.Manager_empid = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Manager Name"].ToString());
+                                            string manager_name = ds.Tables[0].Rows[j]["Manager Name"].ToString();
+
+                                            int emp_id = employeeDb.FindIdForManagerName(manager_name);
+
+                                            mItem.Manager_empid = Convert.ToInt32(emp_id);
                                         }
                                         else
                                         {
@@ -583,7 +624,12 @@ namespace Troy.Web.Controllers
                                         #region Fill Branch Name
                                         if (ds.Tables[0].Rows[j]["Branch Name"] != null)
                                         {
-                                            mItem.Branch_Id = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Branch Name"].ToString());
+                                            //mItem.Branch_Id = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Branch Name"].ToString());
+                                            string branch_name = ds.Tables[0].Rows[j]["Branch Name"].ToString();
+
+                                            int branch_id = employeeDb.FindIdForBranchName(branch_name);
+
+                                            mItem.Branch_Id = Convert.ToInt32(branch_id);
                                         }
                                         else
                                         {
@@ -649,7 +695,12 @@ namespace Troy.Web.Controllers
                                         #region Fill Left Reason
                                         if (ds.Tables[0].Rows[j]["Left Reason"] != null)
                                         {
-                                            mItem.Left_Reason = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Left Reason"].ToString());
+                                            //mItem.Left_Reason = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Left Reason"].ToString());
+                                            string leftreason_name = ds.Tables[0].Rows[j]["Left Reason"].ToString();
+
+                                            int leftreason_id = employeeDb.FindIdForLeftReason(leftreason_name);
+
+                                            mItem.Left_Reason = Convert.ToInt32(leftreason_id);
                                         }
                                         else
                                         {

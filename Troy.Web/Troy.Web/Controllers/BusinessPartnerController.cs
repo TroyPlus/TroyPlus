@@ -140,13 +140,16 @@ namespace Troy.Web.Controllers
                         string group_Name = BusinesspartnerDb.FindGroupNameForGroupId(group_ID);
                         addbp.Header.GroupCode = group_Name;
 
-                        int pricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
-                        string pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(pricelist_ID);
-                        addbp.Header.PriceList = pricelist_desc;
+                        //int pricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+                        //string pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(pricelist_ID);
+                        //addbp.Header.PriceList = pricelist_desc;
+                        addbp.Header.PriceList = Convert.ToString(model.BusinessPartner.Pricelist);
 
-                        int emp_ID = Convert.ToInt32(model.BusinessPartner.Emp_Id);
-                        string emp_first_Name = BusinesspartnerDb.FindEmpNameForEmpId(emp_ID);
-                        addbp.Header.EmpNo = emp_first_Name;
+                        //int emp_ID = Convert.ToInt32(model.BusinessPartner.Emp_Id);
+                        //string emp_first_Name = BusinesspartnerDb.FindEmpNameForEmpId(emp_ID);
+                        //addbp.Header.EmpNo = emp_first_Name;
+                        addbp.Header.EmpNo = Convert.ToString(model.BusinessPartner.Emp_Id);
+
 
                         //general class
 
@@ -169,9 +172,10 @@ namespace Troy.Web.Controllers
                         //accounts class                       
                         addbp.accounts.ControlAccount = Convert.ToString(model.BusinessPartner.Control_account_id);
 
-                        int accpricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
-                        string acc_pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(accpricelist_ID);
-                        addbp.accounts.AccountPriceList = acc_pricelist_desc; 
+                        //int accpricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+                        //string acc_pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(accpricelist_ID);
+                        //addbp.accounts.AccountPriceList = acc_pricelist_desc; 
+                        addbp.accounts.AccountPriceList = Convert.ToString(model.BusinessPartner.Pricelist);
 
 
                         //ShipTo class        
@@ -272,13 +276,15 @@ namespace Troy.Web.Controllers
                         string group_Name = BusinesspartnerDb.FindGroupNameForGroupId(group_ID);
                         modifybp.Header.GroupCode = group_Name;
 
-                        int pricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
-                        string pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(pricelist_ID);
-                        modifybp.Header.PriceList = pricelist_desc;
+                        //int pricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+                        //string pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(pricelist_ID);
+                        //modifybp.Header.PriceList = pricelist_desc;
+                        modifybp.Header.PriceList = Convert.ToString(model.BusinessPartner.Pricelist);
 
-                        int emp_ID = Convert.ToInt32(model.BusinessPartner.Emp_Id);
-                        string emp_first_Name = BusinesspartnerDb.FindEmpNameForEmpId(emp_ID);
-                        modifybp.Header.EmpNo = emp_first_Name;
+                        //int emp_ID = Convert.ToInt32(model.BusinessPartner.Emp_Id);
+                        //string emp_first_Name = BusinesspartnerDb.FindEmpNameForEmpId(emp_ID);
+                        //modifybp.Header.EmpNo = emp_first_Name;
+                        modifybp.Header.EmpNo = Convert.ToString(model.BusinessPartner.Emp_Id);
 
                         //general class
 
@@ -301,9 +307,10 @@ namespace Troy.Web.Controllers
                         //accounts class                       
                         modifybp.accounts.ControlAccount = Convert.ToString(model.BusinessPartner.Control_account_id);
 
-                        int accpricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
-                        string acc_pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(accpricelist_ID);
-                        modifybp.accounts.AccountPriceList = acc_pricelist_desc;
+                        //int accpricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+                        //string acc_pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(accpricelist_ID);
+                        //modifybp.accounts.AccountPriceList = acc_pricelist_desc;
+                        modifybp.accounts.AccountPriceList = Convert.ToString(model.BusinessPartner.Pricelist);
 
 
                         //ShipTo class        
@@ -379,17 +386,15 @@ namespace Troy.Web.Controllers
 
                 if (Convert.ToString(Request.Files["FileUpload"]).Length > 0)
                 {
-
                     try
                     {
-
                         string fileExtension = System.IO.Path.GetExtension(Request.Files["FileUpload"].FileName);
 
                         string fileName = System.IO.Path.GetFileName(Request.Files["FileUpload"].FileName.ToString());
 
                         if (fileExtension == ".xls" || fileExtension == ".xlsx")
                         {
-                            string fileLocation = string.Format("{0}/{1}", Server.MapPath("~/App_Data/ExcelFiles"), fileName);
+                            string fileLocation = string.Format("{0}/{1}", Server.MapPath("~\\App_Data\\ExcelFiles"), fileName);
 
                             if (System.IO.File.Exists(fileLocation))
                             {
@@ -719,6 +724,8 @@ namespace Troy.Web.Controllers
                                     for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
                                     {
                                         BusinessPartner mItem = new BusinessPartner();
+
+                                        #region Businesspartner Name
                                         if (ds.Tables[0].Rows[j]["BusinessPartner Name"] != null)
                                         {
                                             mItem.BP_Name = ds.Tables[0].Rows[j]["BusinessPartner Name"].ToString();
@@ -727,7 +734,9 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "BusinessPartner name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
+                                        #endregion
 
+                                        #region Group Type
                                         if (ds.Tables[0].Rows[j]["Group Type"] != null)
                                         {
                                             mItem.Group_Type = ds.Tables[0].Rows[j]["Group Type"].ToString();
@@ -736,13 +745,21 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Group Type cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
+                                        #endregion
 
+                                        #region Group
                                         if (ds.Tables[0].Rows[j]["Group"] != null)
                                         {
-                                            mItem.Group_id = 1;//ds.Tables[0].Rows[j]["Group"].ToString();
+                                            //mItem.Group_id = 1;//ds.Tables[0].Rows[j]["Group"].ToString();
+                                            string group_name = ds.Tables[0].Rows[j]["Group"].ToString();
+
+                                            int group_id = BusinesspartnerDb.FindIdForGroupName(group_name);
+
+                                            mItem.Group_id = Convert.ToInt32(group_id);
                                         }
+                                        #endregion
 
-
+                                        #region ShipAddress1
                                         if (ds.Tables[0].Rows[j]["Ship Address1"] != null)
                                         {
                                             mItem.Ship_Address1 = ds.Tables[0].Rows[j]["Ship Address1"].ToString();
@@ -751,7 +768,9 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Ship Address1 cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
+                                        #endregion
 
+                                        #region ShipAddress2
                                         if (ds.Tables[0].Rows[j]["Ship Address2"] != null)
                                         {
                                             mItem.Ship_address2 = ds.Tables[0].Rows[j]["Ship Address2"].ToString();
@@ -760,7 +779,9 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Ship Address2 cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
+                                        #endregion
 
+                                        #region Shipaddress3
                                         if (ds.Tables[0].Rows[j]["Ship Address3"] != null)
                                         {
                                             mItem.Ship_address3 = ds.Tables[0].Rows[j]["Ship Address3"].ToString();
@@ -769,19 +790,45 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Ship Address3 cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
+                                        #endregion
 
+                                        #region ShipCity
                                         if (ds.Tables[0].Rows[j]["Ship City"] != null)
                                         {
-                                            mItem.Ship_City = 1;//ds.Tables[0].Rows[j]["Ship City"].ToString();
+                                            //mItem.Ship_City = 1;//ds.Tables[0].Rows[j]["Ship City"].ToString();
+                                            string city_name = ds.Tables[0].Rows[j]["Ship City"].ToString();
+
+                                            int city_id = BusinesspartnerDb.FindIdForCityName(city_name);
+
+                                            mItem.Ship_City = Convert.ToInt32(city_id);
                                         }
+                                        #endregion
+
+                                        #region ShipState
                                         if (ds.Tables[0].Rows[j]["Ship State"] != null)
                                         {
-                                            mItem.Ship_State = 1;//ds.Tables[0].Rows[j]["Ship State"].ToString();
+                                            //mItem.Ship_State = 1;//ds.Tables[0].Rows[j]["Ship State"].ToString();
+                                            string state_name = ds.Tables[0].Rows[j]["Ship State"].ToString();
+
+                                            int state_id = BusinesspartnerDb.FindIdForStateName(state_name);
+
+                                            mItem.Ship_State = Convert.ToInt32(state_id);
                                         }
+                                        #endregion
+
+                                        #region ShipCountry
                                         if (ds.Tables[0].Rows[j]["Ship Country"] != null)
                                         {
-                                            mItem.Ship_Country = 1;//ds.Tables[0].Rows[j]["Ship Country"].ToString();
+                                           // mItem.Ship_Country = 1;//ds.Tables[0].Rows[j]["Ship Country"].ToString();
+                                            string country_name = ds.Tables[0].Rows[j]["Ship Country"].ToString();
+
+                                            int country_id = BusinesspartnerDb.FindIdForCountryName(country_name);
+
+                                            mItem.Ship_Country = Convert.ToInt32(country_id);
                                         }
+                                        #endregion
+
+                                        #region ShipPinCode
                                         if (ds.Tables[0].Rows[j]["Ship Pincode"] != null)
                                         {
                                             mItem.Ship_pincode = ds.Tables[0].Rows[j]["Ship Pincode"].ToString();
@@ -790,7 +837,9 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Ship Pincode cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
-
+                                        #endregion
+                                        
+                                        #region BillAddress1
                                         if (ds.Tables[0].Rows[j]["Bill Address1"] != null)
                                         {
                                             mItem.Bill_Address1 = ds.Tables[0].Rows[j]["Bill Address1"].ToString();
@@ -799,7 +848,9 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Bill Address1 cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
-
+                                        #endregion
+                                        
+                                        #region BillAddress2
                                         if (ds.Tables[0].Rows[j]["Bill Address2"] != null)
                                         {
                                             mItem.Bill_address2 = ds.Tables[0].Rows[j]["Bill Address2"].ToString();
@@ -808,7 +859,9 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Bill Address2 cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
-
+                                        #endregion
+                                        
+                                        #region BillAddress3
                                         if (ds.Tables[0].Rows[j]["Bill Address3"] != null)
                                         {
                                             mItem.Bill_address3 = ds.Tables[0].Rows[j]["Bill Address3"].ToString();
@@ -817,20 +870,45 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Bill Address3 cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
+                                        #endregion
 
+                                        #region BillCity
                                         if (ds.Tables[0].Rows[j]["Bill City"] != null)
                                         {
-                                            mItem.Bill_City = 1;// ds.Tables[0].Rows[j]["Bill City"].ToString();
+                                           // mItem.Bill_City = 1;// ds.Tables[0].Rows[j]["Bill City"].ToString();
+                                            string city_name = ds.Tables[0].Rows[j]["Bill City"].ToString();
+
+                                            int city_id = BusinesspartnerDb.FindIdForCityName(city_name);
+
+                                            mItem.Bill_City = Convert.ToInt32(city_id);
                                         }
+                                        #endregion
+                                        
+                                        #region BillState
                                         if (ds.Tables[0].Rows[j]["Bill State"] != null)
                                         {
-                                            mItem.Bill_City = 1;// ds.Tables[0].Rows[j]["Bill State"].ToString();
+                                           // mItem.Bill_State = 1;// ds.Tables[0].Rows[j]["Bill State"].ToString();
+                                            string state_name = ds.Tables[0].Rows[j]["Bill State"].ToString();
+
+                                            int state_id = BusinesspartnerDb.FindIdForStateName(state_name);
+
+                                            mItem.Bill_State = Convert.ToInt32(state_id);
                                         }
+                                        #endregion
+
+                                        #region BillCountry
                                         if (ds.Tables[0].Rows[j]["Bill Country"] != null)
                                         {
-                                            mItem.Bill_Country = 1;// ds.Tables[0].Rows[j]["Bill Country"].ToString();
-                                        }
+                                            //mItem.Bill_Country = 1;// ds.Tables[0].Rows[j]["Bill Country"].ToString();
+                                            string country_name = ds.Tables[0].Rows[j]["Bill Country"].ToString();
 
+                                            int country_id = BusinesspartnerDb.FindIdForCountryName(country_name);
+
+                                            mItem.Bill_Country = Convert.ToInt32(country_id);
+                                        }
+                                        #endregion
+
+                                        #region BillPincode
                                         if (ds.Tables[0].Rows[j]["Bill Pincode"] != null)
                                         {
                                             mItem.Bill_pincode = ds.Tables[0].Rows[j]["Bill Pincode"].ToString();
@@ -839,20 +917,47 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Bill Pincode cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
+                                        #endregion
 
+                                        #region PriceList
                                         if (ds.Tables[0].Rows[j]["PriceList"] != null)
                                         {
-                                            mItem.Pricelist = 1;// ds.Tables[0].Rows[j]["PriceList"].ToString();
+                                            //mItem.Pricelist = 1;// ds.Tables[0].Rows[j]["PriceList"].ToString();
+                                            string pricelist_desc = ds.Tables[0].Rows[j]["PriceList"].ToString();
+
+                                            int pricelist_id = BusinesspartnerDb.FindIdForPriceListDesc(pricelist_desc);
+
+                                            mItem.Pricelist = Convert.ToInt32(pricelist_id);
                                         }
+                                        #endregion
+
+                                        #region Employee
                                         if (ds.Tables[0].Rows[j]["Employee"] != null)
                                         {
-                                            mItem.Emp_Id = 1;// ds.Tables[0].Rows[j]["Employee"].ToString();
+                                            //mItem.Emp_Id = 1;// ds.Tables[0].Rows[j]["Employee"].ToString();     
+
+                                            string employee_name = ds.Tables[0].Rows[j]["Employee"].ToString();
+
+                                            int emp_id = BusinesspartnerDb.FindEmpIdForEmployeeName(employee_name);
+
+                                            mItem.Emp_Id = Convert.ToInt32(emp_id);
+                                          
                                         }
+                                        #endregion
+
+                                        #region Branch
                                         if (ds.Tables[0].Rows[j]["Branch"] != null)
                                         {
-                                            mItem.Branch_id = 1;// ds.Tables[0].Rows[j]["Branch"].ToString();
-                                        }
+                                            //mItem.Branch_id = 1;// ds.Tables[0].Rows[j]["Branch"].ToString();
+                                            string branch_name = ds.Tables[0].Rows[j]["Branch"].ToString();
 
+                                            int branch_id = BusinesspartnerDb.FindIdForBranchName(branch_name);
+
+                                            mItem.Branch_id = Convert.ToInt32(branch_id);
+                                        }
+                                        #endregion
+
+                                        #region Phone1
                                         if (ds.Tables[0].Rows[j]["Phone1"] != null)
                                         {
                                             mItem.Phone1 = ds.Tables[0].Rows[j]["Phone1"].ToString();
@@ -861,7 +966,9 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Phone1 cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
+                                        #endregion
 
+                                        #region Phone2
                                         if (ds.Tables[0].Rows[j]["Phone2"] != null)
                                         {
                                             mItem.Phone2 = ds.Tables[0].Rows[j]["Phone2"].ToString();
@@ -870,7 +977,9 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Phone2 cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
-
+                                        #endregion
+                                        
+                                        #region Mobile
                                         if (ds.Tables[0].Rows[j]["Mobile"] != null)
                                         {
                                             mItem.Mobile = ds.Tables[0].Rows[j]["Mobile"].ToString();
@@ -879,7 +988,20 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Mobile cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
+                                        #endregion
 
+                                        #region Fax
+                                        if (ds.Tables[0].Rows[j]["Fax"] != null)
+                                        {
+                                            mItem.Fax = ds.Tables[0].Rows[j]["Fax"].ToString();
+                                        }
+                                        else
+                                        {
+                                            return Json(new { success = false, Error = "Fax cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                        }
+                                        #endregion
+
+                                        #region EmailAddress
                                         if (ds.Tables[0].Rows[j]["Email Address"] != null)
                                         {
                                             mItem.Email_Address = ds.Tables[0].Rows[j]["Email Address"].ToString();
@@ -888,7 +1010,9 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Email Address cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
+                                        #endregion
 
+                                        #region Website
                                         if (ds.Tables[0].Rows[j]["Website"] != null)
                                         {
                                             mItem.Website = ds.Tables[0].Rows[j]["Website"].ToString();
@@ -897,12 +1021,16 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Website cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
+                                        #endregion
 
+                                        #region ContactPerson
                                         if (ds.Tables[0].Rows[j]["Contact Person"] != null)
                                         {
-                                            mItem.Contact_person = ds.Tables[0].Rows[j]["Contact Person"].ToString();
+                                            mItem.Contact_person = ds.Tables[0].Rows[j]["Contact Person"].ToString();                                           
                                         }
+                                        #endregion
 
+                                        #region Remarks
                                         if (ds.Tables[0].Rows[j]["Remarks"] != null)
                                         {
                                             mItem.Remarks = ds.Tables[0].Rows[j]["Remarks"].ToString();
@@ -911,7 +1039,9 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Remarks cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
+                                        #endregion
 
+                                        #region ShipMethod
                                         if (ds.Tables[0].Rows[j]["Ship Method"] != null)
                                         {
                                             mItem.Ship_method = ds.Tables[0].Rows[j]["Ship Method"].ToString();
@@ -920,12 +1050,21 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Ship Method cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
+                                        #endregion
 
+                                        #region ControlAccountId
                                         if (ds.Tables[0].Rows[j]["Control Account Id"] != null)
                                         {
-                                            mItem.Control_account_id = 1;// ds.Tables[0].Rows[j]["Control Account Id"].ToString();
-                                        }
+                                            //mItem.Control_account_id = 1;// ds.Tables[0].Rows[j]["Control Account Id"].ToString();
+                                            string group_name = ds.Tables[0].Rows[j]["Control Account Id"].ToString();
 
+                                            int conAcc_id = BusinesspartnerDb.FindConAccIdForGroupName(group_name);
+
+                                            mItem.Control_account_id = Convert.ToInt32(conAcc_id);
+                                        }
+                                        #endregion
+
+                                        #region OpeningBalance
                                         if (ds.Tables[0].Rows[j]["Opening Balance"] != null)
                                         {
                                             mItem.Opening_Balance = Convert.ToInt32(ds.Tables[0].Rows[j]["Opening Balance"].ToString());
@@ -934,7 +1073,9 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Opening Balance cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
+                                        #endregion
 
+                                        #region DueDate
                                         if (ds.Tables[0].Rows[j]["Due Date"] != null)
                                         {
                                             mItem.Due_date = Convert.ToDateTime(ds.Tables[0].Rows[j]["Due Date"].ToString());
@@ -943,6 +1084,8 @@ namespace Troy.Web.Controllers
                                         {
                                             return Json(new { success = false, Error = "Due date cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
+                                        #endregion
+
                                         mItem.IsActive = true;
                                         mItem.Created_User_Id = 1; //GetUserId();
                                         mItem.Created_Branc_Id = 2; //GetBranchId();
@@ -967,26 +1110,26 @@ namespace Troy.Web.Controllers
                                         addbp.Header.BPName = ds.Tables[0].Rows[j]["BusinessPartner Name"].ToString();
                                         addbp.Header.BPType = ds.Tables[0].Rows[j]["Group Type"].ToString();
                                         addbp.Header.GroupCode = ds.Tables[0].Rows[j]["Group"].ToString();
-                                        addbp.Header.PriceList = ds.Tables[0].Rows[j]["PriceList"].ToString();
-                                        addbp.Header.EmpNo = ds.Tables[0].Rows[j]["Employee"].ToString();
+                                        addbp.Header.PriceList = mItem.Emp_Id.ToString();// ds.Tables[0].Rows[j]["PriceList"].ToString();
+                                        addbp.Header.EmpNo = mItem.Emp_Id.ToString();  //ds.Tables[0].Rows[j]["Employee"].ToString();
 
                                         //general class
                                         addbp.general.Branch = ds.Tables[0].Rows[j]["Branch"].ToString();
                                         addbp.general.Phone1 = ds.Tables[0].Rows[j]["Phone1"].ToString();
                                         addbp.general.Phone2 = ds.Tables[0].Rows[j]["Phone2"].ToString();
                                         addbp.general.Mobile = ds.Tables[0].Rows[j]["Mobile"].ToString();
-                                        addbp.general.Fax = "testfax";
+                                        addbp.general.Fax = ds.Tables[0].Rows[j]["Fax"].ToString();
                                         addbp.general.Email = ds.Tables[0].Rows[j]["Email Address"].ToString();
                                         addbp.general.Website = ds.Tables[0].Rows[j]["Website"].ToString();
                                         addbp.general.ShipType = ds.Tables[0].Rows[j]["Ship Method"].ToString();
                                         addbp.general.ContactPerson = ds.Tables[0].Rows[j]["Contact Person"].ToString();
                                         addbp.general.Remarks = ds.Tables[0].Rows[j]["Remarks"].ToString();
-                                        addbp.general.ContactEmployee = ds.Tables[0].Rows[j]["Employee"].ToString();
+                                        addbp.general.ContactEmployee = mItem.Emp_Id.ToString();// ds.Tables[0].Rows[j]["Employee"].ToString();
                                         addbp.general.Active = "True";
 
                                         //accounts class                       
-                                        addbp.accounts.ControlAccount = ds.Tables[0].Rows[j]["PriceList"].ToString();
-                                        addbp.accounts.AccountPriceList = ds.Tables[0].Rows[j]["PriceList"].ToString();
+                                        addbp.accounts.ControlAccount = mItem.Pricelist.ToString();// ds.Tables[0].Rows[j]["PriceList"].ToString();
+                                        addbp.accounts.AccountPriceList = mItem.Pricelist.ToString();// ds.Tables[0].Rows[j]["PriceList"].ToString();
 
                                         //ShipTo class        
                                         ShipTo shipto = new ShipTo();
