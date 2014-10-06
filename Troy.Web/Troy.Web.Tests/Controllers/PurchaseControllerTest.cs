@@ -81,7 +81,7 @@ namespace Troy.Web.Tests.Controllers
             ViewResult expectedResult = new ViewResult();
 
             Assert.AreEqual(purchaseQuotationList, (actionResult.Model as PurchaseViewModels).PurchaseQuotationList);
-            Assert.AreEqual(branchList, (actionResult.Model as PurchaseViewModels).BranchList);
+            //Assert.AreEqual(branchList, (actionResult.Model as PurchaseViewModels).BranchList);
         }
 
         [TestMethod]

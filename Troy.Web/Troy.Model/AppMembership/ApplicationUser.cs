@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
-//using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using Troy.Model.Branches;
 
 namespace Troy.Model.AppMembership
 {
@@ -27,10 +27,15 @@ namespace Troy.Model.AppMembership
         //[ForeignKey("Id")]
         //public int Id { get; set; }
         //public virtual ApplicationUser user { get; set; }
+        //[Index(IsUnique = true)]
+        //[Required(ErrorMessage = "Branch Code is required.")]
+        //[Display(Name = "User Name")]
+        //[Remote("CheckForDuplication", "User", AdditionalFields = "Id")]
+        //public string UserName { get; set; }
 
         public int Employee_Id { get; set; }
 
-        public int Branch_Id { get; set; }
+        //public int Branch_Id { get; set; }
 
         //public int Role_Id { get; set; }
 
@@ -55,11 +60,21 @@ namespace Troy.Model.AppMembership
         {
             get
             {
-               
+
                 return base.Roles;
             }
         }
+
+        //Navigation Property
+        //public  ICollection<UserBranches> Userbranches
+        //{
+        //    get;
+        //    set;
+        //}
     }
+
+
+
 
     // [Table("tblUserBranches")]
 
