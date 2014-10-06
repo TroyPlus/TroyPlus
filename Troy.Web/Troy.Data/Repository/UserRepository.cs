@@ -160,6 +160,21 @@ namespace Troy.Data.Repository
                  return false;
              }
          }
+
+
+
+
+
+
+         //public ApplicationUser CheckDuplicateUserName(string bname)
+         //{
+         //    return (from p in UserContext.Users
+         //            where p.UserName.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+         //            select p).FirstOrDefault();
+         //}
+
+
+
        //public string  getalluserview()
        // {
            

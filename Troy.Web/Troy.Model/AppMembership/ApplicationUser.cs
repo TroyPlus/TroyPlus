@@ -27,6 +27,11 @@ namespace Troy.Model.AppMembership
         //[ForeignKey("Id")]
         //public int Id { get; set; }
         //public virtual ApplicationUser user { get; set; }
+        //[Index(IsUnique = true)]
+        //[Required(ErrorMessage = "Branch Code is required.")]
+        //[Display(Name = "User Name")]
+        //[Remote("CheckForDuplication", "User", AdditionalFields = "Id")]
+        //public string UserName { get; set; }
 
         public int Employee_Id { get; set; }
 

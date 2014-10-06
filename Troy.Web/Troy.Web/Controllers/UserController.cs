@@ -121,7 +121,7 @@ namespace Troy.Web.Controllers
                    Modified_User_Id=2,
                    Modified_Branch_Id=2,
                    Modified_Date=DateTime.Now,
-                   Id=model.Id     
+                   //Id=model.Id     
                    };
                    
                   
@@ -328,123 +328,7 @@ namespace Troy.Web.Controllers
                     //{
                     //    ModelState.AddModelError("", "User Not Saved");
                     //}
-                }
-                else if (submitButton == "Update")
-                {
-
-                    //EditUser(model1);
-                    //model.Created_Branch_Id = 1;
-                    //model.Created_Date = DateTime.Now;
-                    //model.Created_User_Id = 1;  //GetUserId()
-                    //model.Modified_User_Id = 1;
-                    //model.ApplicationUsers.Modified_Date = DateTime.Now;
-                    //model.ApplicationUsers.Modified_Branch_Id = 1;
-
-
-                    //if (userDb.EditUser(model.ApplicationUsers))
-                    //{
-                    //    return RedirectToAction("Index", "User");
-                    //}
-                    //else
-                    //{
-                    //    ModelState.AddModelError("", "User Not Updated");
-                    //}
-                }
-
-
-                else if (submitButton == "Search")
-                {
-                    return RedirectToAction("Index", "ApplicationUser", new { model.SearchColumn, model.SearchQuery });
-                }
-
-                if (Convert.ToString(Request.Files["FileUpload"]).Length > 0)
-                {
-                    try
-                    {
-
-                        string fileExtension = System.IO.Path.GetExtension(Request.Files["FileUpload"].FileName);
-
-                        string fileName = System.IO.Path.GetFileName(Request.Files["FileUpload"].FileName.ToString());
-
-                        if (fileExtension == ".xls" || fileExtension == ".xlsx")
-                        {
-                            string fileLocation = string.Format("{0}/{1}", Server.MapPath("~/App_Data/ExcelFiles"), fileName);
-
-                            if (System.IO.File.Exists(fileLocation))
-                            {
-                                System.IO.File.Delete(fileLocation);
-                            }
-                            Request.Files["FileUpload"].SaveAs(fileLocation);
-                            string excelConnectionString = string.Empty;
-                            excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-                            fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-
-                            //connection String for xls file format.
-                            if (fileExtension == ".xls")
-                            {
-                                excelConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
-                                fileLocation + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
-                            }
-                            //connection String for xlsx file format.
-                            else if (fileExtension == ".xlsx")
-                            {
-                                excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-                                fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-                            }
-
-                            //Create Connection to Excel work book and add oledb namespace
-                            OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
-                            excelConnection.Open();
-                            DataTable dt = new DataTable();
-                            string exquery;
-                            dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            if (dt == null)
-                            {
-                                return null;
-                            }
-
-                            String[] excelSheets = new String[dt.Rows.Count];
-                            int t = 0;
-                            //excel data saves in temp file here.
-                            foreach (DataRow row in dt.Rows)
-                            {
-                                excelSheets[t] = row["TABLE_NAME"].ToString();
-                                t++;
-                            }
-
-                            for (int k = 0; k < dt.Rows.Count; k++)
-                            {
-                                DataSet ds = new DataSet();
-                                int sheets = k + 1;
-
-                                OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
-
-                                exquery = string.Format("Select * from [{0}]", excelSheets[k]);
-                                using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
-                                {
-                                    dataAdapter.Fill(ds);
-                                }
-
-                                if (ds != null)
-                                {
-                                    if (ds.Tables[0].Rows.Count > 0)
-                                    {
-
-
-                                    }
-                                    else
-                                    {
-                                        return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        return Json(new { success = false, Error = "File Upload failed :" + ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                }
+                }     
 
                 return RedirectToAction("Index", "User");
             }
@@ -486,97 +370,6 @@ namespace Troy.Web.Controllers
                     //}
                 }
 
-
-               
-                if (Convert.ToString(Request.Files["FileUpload"]).Length > 0)
-                {
-                    try
-                    {
-
-                        string fileExtension = System.IO.Path.GetExtension(Request.Files["FileUpload"].FileName);
-
-                        string fileName = System.IO.Path.GetFileName(Request.Files["FileUpload"].FileName.ToString());
-
-                        if (fileExtension == ".xls" || fileExtension == ".xlsx")
-                        {
-                            string fileLocation = string.Format("{0}/{1}", Server.MapPath("~/App_Data/ExcelFiles"), fileName);
-
-                            if (System.IO.File.Exists(fileLocation))
-                            {
-                                System.IO.File.Delete(fileLocation);
-                            }
-                            Request.Files["FileUpload"].SaveAs(fileLocation);
-                            string excelConnectionString = string.Empty;
-                            excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-                            fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-
-                            //connection String for xls file format.
-                            if (fileExtension == ".xls")
-                            {
-                                excelConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
-                                fileLocation + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
-                            }
-                            //connection String for xlsx file format.
-                            else if (fileExtension == ".xlsx")
-                            {
-                                excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-                                fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-                            }
-
-                            //Create Connection to Excel work book and add oledb namespace
-                            OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
-                            excelConnection.Open();
-                            DataTable dt = new DataTable();
-                            string exquery;
-                            dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            if (dt == null)
-                            {
-                                return null;
-                            }
-
-                            String[] excelSheets = new String[dt.Rows.Count];
-                            int t = 0;
-                            //excel data saves in temp file here.
-                            foreach (DataRow row in dt.Rows)
-                            {
-                                excelSheets[t] = row["TABLE_NAME"].ToString();
-                                t++;
-                            }
-
-                            for (int k = 0; k < dt.Rows.Count; k++)
-                            {
-                                DataSet ds = new DataSet();
-                                int sheets = k + 1;
-
-                                OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
-
-                                exquery = string.Format("Select * from [{0}]", excelSheets[k]);
-                                using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
-                                {
-                                    dataAdapter.Fill(ds);
-                                }
-
-                                if (ds != null)
-                                {
-                                    if (ds.Tables[0].Rows.Count > 0)
-                                    {
-
-
-                                    }
-                                    else
-                                    {
-                                        return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        return Json(new { success = false, Error = "File Upload failed :" + ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                }
-
                 return RedirectToAction("Index", "User");
             }
             catch (Exception ex)
@@ -586,6 +379,42 @@ namespace Troy.Web.Controllers
                 return View("Error");
             }
         }
+
+
+
+
+        //#region Check for duplicate name
+        //public JsonResult CheckForDuplicationName([Bind(Prefix = "ApplicationUser.UserName")]string UserName, [Bind(Prefix = "ApplicationUser.Id")]int? Id)
+        //{
+
+        //    if (Id != null)
+        //    {
+        //        return Json(true, JsonRequestBehavior.AllowGet);
+        //    }
+        //    else
+        //    {
+
+        //        var data = userDb.CheckDuplicateUserName(UserName);
+        //        if (data != null)
+        //        {
+        //            return Json("Sorry, User Name already exists", JsonRequestBehavior.AllowGet);
+        //        }
+        //        else
+        //        {
+        //            return Json(true, JsonRequestBehavior.AllowGet);
+        //        }
+
+        //    }
+        //}
+        //#endregion
+
+
+
+
+
+
+
+
 
         //Check for dupilicate
         //public JsonResult CheckForDuplication(ApplicationUser ApplicationUsers, [Bind(Prefix = "ApplicationUser.UserName")]string UserName, [Bind(Prefix = "ApplicationUsers.Email")]string Email)
@@ -612,41 +441,87 @@ namespace Troy.Web.Controllers
         //}
 
 
-        //public ActionResult _ExporttoExcel(Branch branch)
+        //public ActionResult _ExporttoExcel(ViewUsers User)
         //{
-        //var data= branchDb._ExporttoExcel(branch);
-        //var Branch = from e in branchDb._ExporttoExcel.AsEnumerable()
-        //             select new
-        //             {
-        //                 e.Branch_Cde,
-        //                 e.Branch_Name,
-        //                 e.Address1,
-        //                 e.Address2,
-        //                 e.Address3,
-        //                 e.Country_Id,
-        //                 e.State_Id,
-        //                 e.City_Id,
-        //                 e.Pin_Cod,
-        //                 e.Order_Num,
-        //                 e.IsActive
-        //             };
+        //    var data = userDb._ExporttoExcel();
+        //    var user = from e in userDb._ExporttoExcel.AsEnumerable()
+        //               select new
+        //               {
 
-        //System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
-        //gridvw.DataSource = Branch.ToList().Take(100); //bind the datatable to the gridview
-        //gridvw.DataBind();
-        //Response.ClearContent();
-        //Response.Buffer = true;
-        //Response.AddHeader("content-disposition", "attachment; filename=BranchList.xls");//Microsoft Office Excel Worksheet (.xlsx)
-        //Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        //Response.Charset = "";
-        //StringWriter sw = new StringWriter();
-        //HtmlTextWriter htw = new HtmlTextWriter(sw);
-        //gridvw.RenderControl(htw);
-        //Response.Output.Write(sw.ToString());
-        //Response.Flush();
-        //Response.End();
-        //return RedirectToAction("Index");
+        //               };
+
+        //    System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+        //    gridvw.DataSource = ViewUsers.ToList().Take(100); //bind the datatable to the gridview
+        //    gridvw.DataBind();
+        //    Response.ClearContent();
+        //    Response.Buffer = true;
+        //    Response.AddHeader("content-disposition", "attachment; filename=BranchList.xls");//Microsoft Office Excel Worksheet (.xlsx)
+        //    Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        //    Response.Charset = "";
+        //    StringWriter sw = new StringWriter();
+        //    HtmlTextWriter htw = new HtmlTextWriter(sw);
+        //    gridvw.RenderControl(htw);
+        //    Response.Output.Write(sw.ToString());
+        //    Response.Flush();
+        //    Response.End();
+        //    return RedirectToAction("Index");
         //}
+
+
+
+
+
+
+        #region Export to excel
+        public ActionResult _ExporttoExcel()
+        {
+            var user = userDb.GetAllUser().ToList();
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("User Id"));
+            dt.Columns.Add(new DataColumn("User Name"));
+            dt.Columns.Add(new DataColumn("Email"));
+            dt.Columns.Add(new DataColumn("Role Description"));
+            dt.Columns.Add(new DataColumn("Is Active"));
+            //dt.Columns.Add(new DataColumn(""));
+            //dt.Columns.Add(new DataColumn(" "));
+            //dt.Columns.Add(new DataColumn(""));
+            //dt.Columns.Add(new DataColumn(""));
+
+            foreach (var e in user)
+            {
+                DataRow dr_final1 = dt.NewRow();
+                dr_final1["User Id"] = e.Id;
+                dr_final1["User Name"] = e.UserName;
+                dr_final1["Email"] = e.Email;
+                dr_final1["Role Description"] = e.Name;
+                //dr_final1[""] = e.;
+                //dr_final1[""] = e.;
+                //dr_final1[" "] = e.;
+                //dr_final1[""] = e.;
+                dr_final1["Is Active"] = e.IsActive;
+                dt.Rows.Add(dr_final1);
+            }
+
+            System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+            gridvw.DataSource = dt; //bind the datatable to the gridview
+            gridvw.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=UserList.xls");//Microsoft Office Excel Worksheet (.xlsx)
+            Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gridvw.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+            return RedirectToAction("Index", "User");
+        }
+        #endregion
+
+
+
 
 
         #endregion

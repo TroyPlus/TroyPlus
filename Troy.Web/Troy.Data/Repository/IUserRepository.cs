@@ -19,6 +19,9 @@ namespace Troy.Data.Repository
 
         //ApplicationUser CheckDuplicateName(string uname);
 
+        //ApplicationUser CheckDuplicateUserName(string bname);
+
+        //ViewUsers _ExporttoExcel();
         IEnumerable<ApplicationUser> _ExporttoExcel();
 
         //bool InsertFileUploadDetails(List<ApplicationUser> ApplicationUsers);
