@@ -19,11 +19,9 @@ namespace Troy.Data.Repository
 {
     public interface IBusinessPartnerRepository
     {
-        List<ViewBusinessPartner> GetAllBusinessPartner();
+        List<ViewBusinessPartner> GetAllBusinessPartner();      
 
-        List<ViewBusinessPartner> GetFilterBusinessPartner(string searchColumn, string searchString, Guid UserId);
-
-        BusinessPartner FindOneBusinessPartnerById(int qId);
+        BusinessPartner GetBusinessPartnerById(int qId);
 
         BusinessPartner CheckDuplicateName(string mBusinessPartner_Name);
 
@@ -33,13 +31,10 @@ namespace Troy.Data.Repository
 
         bool EditExistingBusinessPartner(BusinessPartner businesspartner);
 
-        bool AddBulkBusinessPartner(Object obj);
 
         bool GenerateXML(Object obj1);
 
-        List<GroupList> GetGroupList();
-
-        //List<GroupList> GetGroupControlList();
+        List<GroupList> GetGroupList();       
 
         List<PricelistLists> GetPriceList();
 

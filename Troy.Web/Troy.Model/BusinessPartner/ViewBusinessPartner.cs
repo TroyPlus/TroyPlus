@@ -54,8 +54,13 @@ namespace Troy.Model.BusinessPartner
         public string City_Name { get; set; }        
         public string State_Name { get; set; }
         public string Country_Name { get; set; }
+        public string billCity_Name { get; set; }
+        public string billState_Name { get; set; }
+        public string billCountry_Name { get; set; }
         public string Price_List_Desc { get; set; }
         public string First_Name { get; set; }
         public string Branch_Name { get; set; }
+
+        public string Employee_Name { get; set; }
     }
 }

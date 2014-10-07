@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region Namespaces
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ using Troy.Model.LeftReasons;
 using Troy.Model.MaritalStatus;
 using Troy.Model.Genders;
 using Troy.Model.Initials;
+#endregion
 
 namespace Troy.Data.Repository
 {
@@ -75,6 +77,7 @@ namespace Troy.Data.Repository
                          DOB = item.DOB,
                          Marital_Status = item.Marital_Status,
                          Gender = item.Gender,
+                         Gender_TroyValues=gd.Troyvalues,
                          Noof_Children = item.Noof_Children,
                          Passport_no = item.Passport_no,
                          Passport_Expiry_Dte = item.Passport_Expiry_Dte,
@@ -98,93 +101,93 @@ namespace Troy.Data.Repository
             return qList;
         }
 
-        public List<ViewEmployee> GetFilterEmployee(string searchColumn, string searchString, Guid userId)
-        {
-            List<ViewEmployee> qList = new List<ViewEmployee>();
+        //public List<ViewEmployee> GetFilterEmployee(string searchColumn, string searchString, Guid userId)
+        //{
+        //    List<ViewEmployee> qList = new List<ViewEmployee>();
 
-            if (searchColumn == null)
-            {
-                searchColumn = "";
-                searchString = "";
-            }
+        //    if (searchColumn == null)
+        //    {
+        //        searchColumn = "";
+        //        searchString = "";
+        //    }
 
-            employeecontext.Database.Initialize(force: false);
+        //    employeecontext.Database.Initialize(force: false);
 
-            var cmd = employeecontext.Database.Connection.CreateCommand();
-            cmd.CommandText = "[dbo].[USP_GetEmployee]";
-            cmd.CommandType = CommandType.StoredProcedure;
-
-
-            cmd.Parameters.Add(new SqlParameter("@SearchColumn", searchColumn));
-            cmd.Parameters.Add(new SqlParameter("@SearchString", searchString));
-
-            try
-            {
-                employeecontext.Database.Connection.Open();
-                // Run the sproc  
-                var reader = cmd.ExecuteReader();
-
-                var result = ((IObjectContextAdapter)employeecontext)
-                    .ObjectContext
-                    .Translate<Employee>(reader, "Employee", MergeOption.AppendOnly);
+        //    var cmd = employeecontext.Database.Connection.CreateCommand();
+        //    cmd.CommandText = "[dbo].[USP_GetEmployee]";
+        //    cmd.CommandType = CommandType.StoredProcedure;
 
 
-                foreach (var item in result)
-                {
-                    ViewEmployee model = new ViewEmployee()
-                    {
-                        Emp_Id = item.Emp_Id,
-                        Emp_No = item.Emp_No,
-                        Initial = item.Initial,
-                        First_Name = item.First_Name,
-                        Middle_Name = item.Middle_Name,
-                        Last_Name = item.Last_Name,
-                        Father_Name = item.Father_Name,
-                        Designation_Id = item.Designation_Id,
-                        Department_Id = item.Department_Id,
-                        Manager_empid = item.Manager_empid,
-                        Branch_Id = item.Branch_Id,
-                        ID_Number = item.ID_Number,
-                        Mobile_number = item.Mobile_number,
-                        Email = item.Email,
-                        Start_Dte = item.Start_Dte,
-                        Left_Dte = item.Left_Dte,
-                        Left_Reason = item.Left_Reason,
-                        DOB = item.DOB,
-                        Marital_Status = item.Marital_Status,
-                        Gender = item.Gender,
-                        Noof_Children = item.Noof_Children,
-                        Passport_no = item.Passport_no,
-                        Passport_Expiry_Dte = item.Passport_Expiry_Dte,
-                        Photo = item.Photo,
-                        Salary = item.Salary,
-                        ETC = item.ETC,
-                        Bank_Cde = item.Bank_Cde,
-                        Bank_Acc_No = item.Bank_Acc_No,
-                        Bank_Branch_Name = item.Bank_Branch_Name,
-                        Remarks = item.Remarks,
-                        IsActive = item.IsActive,
-                        Created_User_Id = item.Created_User_Id,
-                        Created_Branc_Id = item.Created_Branc_Id,
-                        Created_Dte = item.Created_Dte,
-                        Modified_User_Id = item.Modified_User_Id,
-                        Modified_Branch_Id = item.Modified_Branch_Id,
-                        Modified_Dte = item.Modified_Dte,
-                        Image_Url = item.Image_Url
-                    };
+        //    cmd.Parameters.Add(new SqlParameter("@SearchColumn", searchColumn));
+        //    cmd.Parameters.Add(new SqlParameter("@SearchString", searchString));
 
-                    qList.Add(model);
-                }
-            }
-            finally
-            {
-                employeecontext.Database.Connection.Close();
-            }
+        //    try
+        //    {
+        //        employeecontext.Database.Connection.Open();
+        //        // Run the sproc  
+        //        var reader = cmd.ExecuteReader();
 
-            return qList;
-        }
+        //        var result = ((IObjectContextAdapter)employeecontext)
+        //            .ObjectContext
+        //            .Translate<Employee>(reader, "Employee", MergeOption.AppendOnly);
 
-        public Employee FindOneEmployeeById(int qId)
+
+        //        foreach (var item in result)
+        //        {
+        //            ViewEmployee model = new ViewEmployee()
+        //            {
+        //                Emp_Id = item.Emp_Id,
+        //                Emp_No = item.Emp_No,
+        //                Initial = item.Initial,
+        //                First_Name = item.First_Name,
+        //                Middle_Name = item.Middle_Name,
+        //                Last_Name = item.Last_Name,
+        //                Father_Name = item.Father_Name,
+        //                Designation_Id = item.Designation_Id,
+        //                Department_Id = item.Department_Id,
+        //                Manager_empid = item.Manager_empid,
+        //                Branch_Id = item.Branch_Id,
+        //                ID_Number = item.ID_Number,
+        //                Mobile_number = item.Mobile_number,
+        //                Email = item.Email,
+        //                Start_Dte = item.Start_Dte,
+        //                Left_Dte = item.Left_Dte,
+        //                Left_Reason = item.Left_Reason,
+        //                DOB = item.DOB,
+        //                Marital_Status = item.Marital_Status,
+        //                Gender = item.Gender,
+        //                Noof_Children = item.Noof_Children,
+        //                Passport_no = item.Passport_no,
+        //                Passport_Expiry_Dte = item.Passport_Expiry_Dte,
+        //                Photo = item.Photo,
+        //                Salary = item.Salary,
+        //                ETC = item.ETC,
+        //                Bank_Cde = item.Bank_Cde,
+        //                Bank_Acc_No = item.Bank_Acc_No,
+        //                Bank_Branch_Name = item.Bank_Branch_Name,
+        //                Remarks = item.Remarks,
+        //                IsActive = item.IsActive,
+        //                Created_User_Id = item.Created_User_Id,
+        //                Created_Branc_Id = item.Created_Branc_Id,
+        //                Created_Dte = item.Created_Dte,
+        //                Modified_User_Id = item.Modified_User_Id,
+        //                Modified_Branch_Id = item.Modified_Branch_Id,
+        //                Modified_Dte = item.Modified_Dte,
+        //                Image_Url = item.Image_Url
+        //            };
+
+        //            qList.Add(model);
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        employeecontext.Database.Connection.Close();
+        //    }
+
+        //    return qList;
+        //}
+
+        public Employee GetEmployeeById(int qId)
         {
             return (from p in employeecontext.Employee
                     where p.Emp_Id == qId
@@ -200,7 +203,6 @@ namespace Troy.Data.Repository
 
         public bool InsertFileUploadDetails(List<Employee> employee)
         {
-            // throw new NotImplementedException();
             try
             {
                 employeecontext.Employee.AddRange(employee);
@@ -264,10 +266,8 @@ namespace Troy.Data.Repository
                 mSAP.Troy_Created_Dte = Convert.ToDateTime(DateTime.Now.ToString());
                 mSAP.Troy_XML = doc.InnerXml;
                 SAPOUTRepository saprepo = new SAPOUTRepository();
-                if (saprepo.AddNew(mSAP))
-                {
-
-                }
+                saprepo.AddNew(mSAP);
+               
                 return true;
             }
             catch (Exception ex)

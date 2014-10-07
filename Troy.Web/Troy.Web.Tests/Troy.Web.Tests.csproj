@@ -119,6 +119,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BranchControllerTest.cs" />
+    <Compile Include="Controllers\BusinessPartnerControllerTest.cs" />
+    <Compile Include="Controllers\EmployeeControllerTest.cs" />
+    <Compile Include="Controllers\ManufacturerControllerTest.cs" />
+    <Compile Include="Controllers\ProductGroupControllerTest.cs" />
     <Compile Include="Controllers\PurchaseControllerTest.cs" />
     <Compile Include="Controllers\AccountControllerTest.cs" />
     <Compile Include="Controllers\UserControllerTest.cs" />

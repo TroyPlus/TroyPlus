@@ -28,14 +28,14 @@ namespace Troy.Web.Controllers
     public class BusinessPartnerController : Controller
     {
         #region Fields
-        private readonly IBusinessPartnerRepository BusinesspartnerDb;
+        private readonly IBusinessPartnerRepository businesspartnerRepository;
         #endregion
 
         #region Constructor
         //inject dependency
         public BusinessPartnerController(IBusinessPartnerRepository mrepository)
         {
-            this.BusinesspartnerDb = mrepository;
+            this.businesspartnerRepository = mrepository;
         }
         #endregion
 
@@ -46,33 +46,41 @@ namespace Troy.Web.Controllers
             try
             {
                 LogHandler.WriteLog("Business Partner Index page requested by #UserId");
-                var qList = BusinesspartnerDb.GetAllBusinessPartner();   //GetUserId();                
+                var qList = businesspartnerRepository.GetAllBusinessPartner();   //GetUserId();                
 
                 BusinessPartnerViewModels model = new BusinessPartnerViewModels();
                 model.BusinessPartnerList = qList;
 
-                var Grouplist = BusinesspartnerDb.GetGroupList().ToList();
+                //Bind Group
+                var Grouplist = businesspartnerRepository.GetGroupList().ToList();
                 model.GroupList = Grouplist;
 
-                var Pricelist = BusinesspartnerDb.GetPriceList().ToList();
+                //Bind Pricelist
+                var Pricelist = businesspartnerRepository.GetPriceList().ToList();
                 model.PricelistLists = Pricelist;
 
-                var Employeelist = BusinesspartnerDb.GetEmployeeList().ToList();
+                //Bind Employee
+                var Employeelist = businesspartnerRepository.GetEmployeeList().ToList();
                 model.EmployeeList = Employeelist;
 
-                var Branchlist = BusinesspartnerDb.GetBranchList().ToList();
+                //Bind Branch
+                var Branchlist = businesspartnerRepository.GetBranchList().ToList();
                 model.BranchList = Branchlist;
 
-                var Ledgerlist = BusinesspartnerDb.GetLedgerList().ToList();
+                //Bind Ledger
+                var Ledgerlist = businesspartnerRepository.GetLedgerList().ToList();
                 model.LedgerList = Ledgerlist;
 
-                var countrylist = BusinesspartnerDb.GetAddresscountryList().ToList();
+                //Bind Country
+                var countrylist = businesspartnerRepository.GetAddresscountryList().ToList();
                 model.CountryList = countrylist;
 
-                var statelist = BusinesspartnerDb.GetAddressstateList().ToList();
+                //Bind State
+                var statelist = businesspartnerRepository.GetAddressstateList().ToList();
                 model.StateList = statelist;
 
-                var citylist = BusinesspartnerDb.GetAddresscityList().ToList();
+                //Bind City
+                var citylist = businesspartnerRepository.GetAddresscityList().ToList();
                 model.CityList = citylist;
 
                 return View(model);
@@ -89,20 +97,265 @@ namespace Troy.Web.Controllers
 
         public JsonResult CheckForDuplication([Bind(Prefix = "BusinessPartner.BP_Name")]string BP_Name, [Bind(Prefix = "BusinessPartner.BP_Id")]int? BP_Id)
         {
-            var data = BusinesspartnerDb.CheckDuplicateName(BP_Name);
-            if (data != null)
+            try
             {
-                return Json("Sorry, Business Partner Name already exists", JsonRequestBehavior.AllowGet);
+                var data = businesspartnerRepository.CheckDuplicateName(BP_Name);
+                if (data != null)
+                {
+                    return Json("Sorry, Business Partner Name already exists", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Json(true, JsonRequestBehavior.AllowGet);
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return Json(new { Error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 
+        private void XMLGenerate_SAPInsert(BusinessPartnerViewModels model)
+        {
+            Guid GuidRandomNo = Guid.NewGuid();
+            string mUniqueID = GuidRandomNo.ToString();
+
+            #region ViewModel-XML-Fill
+
+            //addbp class
+            var addbp = new AddBp();
+            addbp.UniqueID = mUniqueID;
+
+            //header class
+            addbp.Header.BPCode = Convert.ToString(model.BusinessPartner.BP_Id);
+            addbp.Header.BPName = model.BusinessPartner.BP_Name;
+            addbp.Header.BPType = model.BusinessPartner.Group_Type;
+
+            int group_ID = Convert.ToInt32(model.BusinessPartner.Group_id);
+            string group_Name = businesspartnerRepository.FindGroupNameForGroupId(group_ID);
+            addbp.Header.GroupCode = group_Name;
+
+            //Save Pricelist Desc
+            //int pricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+            //string pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(pricelist_ID);
+            //addbp.Header.PriceList = pricelist_desc;
+
+            addbp.Header.PriceList = Convert.ToString(model.BusinessPartner.Pricelist);
+
+            //Save EmployeeName
+            //int emp_ID = Convert.ToInt32(model.BusinessPartner.Emp_Id);
+            //string emp_first_Name = BusinesspartnerDb.FindEmpNameForEmpId(emp_ID);
+            //addbp.Header.EmpNo = emp_first_Name;
+
+            addbp.Header.EmpNo = Convert.ToString(model.BusinessPartner.Emp_Id);
+
+
+            //general class
+
+            int branch_ID = Convert.ToInt32(model.BusinessPartner.Branch_id);
+            string branch_Name = businesspartnerRepository.FindBranchNameForBranchId(branch_ID);
+            addbp.general.Branch = branch_Name;
+
+            addbp.general.Phone1 = model.BusinessPartner.Phone1;
+            addbp.general.Phone2 = model.BusinessPartner.Phone2;
+            addbp.general.Mobile = model.BusinessPartner.Mobile;
+            addbp.general.Fax = model.BusinessPartner.Fax;//"testfax";
+            addbp.general.Email = model.BusinessPartner.Email_Address;
+            addbp.general.Website = model.BusinessPartner.Website;
+            addbp.general.ShipType = model.BusinessPartner.Ship_method;
+            addbp.general.ContactPerson = model.BusinessPartner.Contact_person;
+            addbp.general.Remarks = model.BusinessPartner.Remarks;
+            addbp.general.ContactEmployee = Convert.ToString(model.BusinessPartner.Control_account_id);
+            addbp.general.Active = Convert.ToString(model.BusinessPartner.IsActive);
+
+            //accounts class                       
+            addbp.accounts.ControlAccount = Convert.ToString(model.BusinessPartner.Control_account_id);
+
+            //Save PriceList Desc
+            //int accpricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+            //string acc_pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(accpricelist_ID);
+            //addbp.accounts.AccountPriceList = acc_pricelist_desc; 
+
+            addbp.accounts.AccountPriceList = Convert.ToString(model.BusinessPartner.Pricelist);
+
+            //ShipTo class        
+            ShipTo shipto = new ShipTo();
+            shipto.ShipAddress1 = model.BusinessPartner.Ship_Address1;
+            shipto.ShipAddress2 = model.BusinessPartner.Ship_address2;
+            shipto.ShipAddress3 = model.BusinessPartner.Ship_address3;
+
+            int shipcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
+            string SAP_City_Code = businesspartnerRepository.FindSAPCodeForCityId(shipcity_ID);
+            shipto.ShipCity = SAP_City_Code;
+
+            int shipcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
+            string SAP_Country_Code = businesspartnerRepository.FindSAPCodeForCountryId(shipcountry_ID);
+            shipto.ShipCountry = SAP_Country_Code;
+
+            int shipstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
+            string SAP_State_Code = businesspartnerRepository.FindSAPCodeForStateId(shipstate_ID);
+            shipto.ShipState = SAP_Country_Code;
+
+            shipto.ShipPincode = model.BusinessPartner.Ship_pincode;
+
+            //BillTo class 
+            BillTo billto = new BillTo();
+            billto.BillAddress1 = model.BusinessPartner.Bill_Address1;
+            billto.BillAddress2 = model.BusinessPartner.Bill_address2;
+            billto.BillAddress3 = model.BusinessPartner.Bill_address3;
+            billto.BillCity = Convert.ToString(model.BusinessPartner.Bill_City);
+            billto.BillCountry = Convert.ToString(model.BusinessPartner.Bill_Country);
+            billto.BillState = Convert.ToString(model.BusinessPartner.Bill_State);
+
+            int billcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
+            string SAP_billCity_Code = businesspartnerRepository.FindSAPCodeForCityId(billcity_ID);
+            billto.BillCity = SAP_billCity_Code;
+
+            int billcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
+            string SAP_billCountry_Code = businesspartnerRepository.FindSAPCodeForCountryId(billcountry_ID);
+            billto.BillCountry = SAP_billCountry_Code;
+
+            int billstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
+            string SAP_billState_Code = businesspartnerRepository.FindSAPCodeForStateId(billstate_ID);
+            billto.BillState = SAP_billState_Code;
+
+
+            billto.BillPincode = Convert.ToString(model.BusinessPartner.Bill_pincode);
+
+            addbp.address.ShipTo = shipto;
+            addbp.address.BillTo = billto;
+
+
+            //xmlAddManufacture.CreatedUser = "1";
+            //xmlAddManufacture.CreatedBranch = "1";
+            //xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
+            //xmlAddManufacture.LastModifyUser = "2";
+            //xmlAddManufacture.LastModifyBranch = "2";
+            //xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString(); 
+            #endregion
+
+            businesspartnerRepository.GenerateXML(addbp);
+        }
+
+        private void XMLGenerate_SAPUpdate(BusinessPartnerViewModels model)
+        {
+            Guid GuidRandomNo = Guid.NewGuid();
+            string mUniqueID = GuidRandomNo.ToString();
+
+            #region ViewModel-XML-Fill
+
+            //addbp class
+            var modifybp = new ModifyBP();
+            modifybp.UniqueID = mUniqueID;
+
+            //header class
+            modifybp.Header.BPCode = Convert.ToString(model.BusinessPartner.BP_Id);
+            modifybp.Header.BPName = model.BusinessPartner.BP_Name;
+            modifybp.Header.BPType = model.BusinessPartner.Group_Type;
+
+            int group_ID = Convert.ToInt32(model.BusinessPartner.Group_id);
+            string group_Name = businesspartnerRepository.FindGroupNameForGroupId(group_ID);
+            modifybp.Header.GroupCode = group_Name;
+
+            //int pricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+            //string pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(pricelist_ID);
+            //modifybp.Header.PriceList = pricelist_desc;
+            modifybp.Header.PriceList = Convert.ToString(model.BusinessPartner.Pricelist);
+
+            //int emp_ID = Convert.ToInt32(model.BusinessPartner.Emp_Id);
+            //string emp_first_Name = BusinesspartnerDb.FindEmpNameForEmpId(emp_ID);
+            //modifybp.Header.EmpNo = emp_first_Name;
+            modifybp.Header.EmpNo = Convert.ToString(model.BusinessPartner.Emp_Id);
+
+            //general class
+
+            int branch_ID = Convert.ToInt32(model.BusinessPartner.Branch_id);
+            string branch_Name = businesspartnerRepository.FindBranchNameForBranchId(branch_ID);
+            modifybp.general.Branch = branch_Name;
+
+            modifybp.general.Phone1 = model.BusinessPartner.Phone1;
+            modifybp.general.Phone2 = model.BusinessPartner.Phone2;
+            modifybp.general.Mobile = model.BusinessPartner.Mobile;
+            modifybp.general.Fax = model.BusinessPartner.Fax;// "testfax";
+            modifybp.general.Email = model.BusinessPartner.Email_Address;
+            modifybp.general.Website = model.BusinessPartner.Website;
+            modifybp.general.ShipType = model.BusinessPartner.Ship_method;
+            modifybp.general.ContactPerson = model.BusinessPartner.Contact_person;
+            modifybp.general.Remarks = model.BusinessPartner.Remarks;
+            modifybp.general.ContactEmployee = Convert.ToString(model.BusinessPartner.Control_account_id);
+            modifybp.general.Active = Convert.ToString(model.BusinessPartner.IsActive);
+
+            //accounts class                       
+            modifybp.accounts.ControlAccount = Convert.ToString(model.BusinessPartner.Control_account_id);
+
+            //int accpricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+            //string acc_pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(accpricelist_ID);
+            //modifybp.accounts.AccountPriceList = acc_pricelist_desc;
+            modifybp.accounts.AccountPriceList = Convert.ToString(model.BusinessPartner.Pricelist);
+
+
+            //ShipTo class        
+            ShipTo shipto = new ShipTo();
+            shipto.ShipAddress1 = model.BusinessPartner.Ship_Address1;
+            shipto.ShipAddress2 = model.BusinessPartner.Ship_address2;
+            shipto.ShipAddress3 = model.BusinessPartner.Ship_address3;
+
+            int shipcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
+            string SAP_City_Code = businesspartnerRepository.FindSAPCodeForCityId(shipcity_ID);
+            shipto.ShipCity = SAP_City_Code;
+
+            int shipcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
+            string SAP_Country_Code = businesspartnerRepository.FindSAPCodeForCountryId(shipcountry_ID);
+            shipto.ShipCountry = SAP_Country_Code;
+
+            int shipstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
+            string SAP_State_Code = businesspartnerRepository.FindSAPCodeForStateId(shipstate_ID);
+            shipto.ShipState = SAP_Country_Code;
+
+            shipto.ShipPincode = model.BusinessPartner.Ship_pincode;
+
+            //BillTo class 
+            BillTo billto = new BillTo();
+            billto.BillAddress1 = model.BusinessPartner.Bill_Address1;
+            billto.BillAddress2 = model.BusinessPartner.Bill_address2;
+            billto.BillAddress3 = model.BusinessPartner.Bill_address3;
+            billto.BillCity = Convert.ToString(model.BusinessPartner.Bill_City);
+            billto.BillCountry = Convert.ToString(model.BusinessPartner.Bill_Country);
+            billto.BillState = Convert.ToString(model.BusinessPartner.Bill_State);
+
+            int billcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
+            string SAP_billCity_Code = businesspartnerRepository.FindSAPCodeForCityId(billcity_ID);
+            billto.BillCity = SAP_billCity_Code;
+
+            int billcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
+            string SAP_billCountry_Code = businesspartnerRepository.FindSAPCodeForCountryId(billcountry_ID);
+            billto.BillCountry = SAP_billCountry_Code;
+
+            int billstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
+            string SAP_billState_Code = businesspartnerRepository.FindSAPCodeForStateId(billstate_ID);
+            billto.BillState = SAP_billState_Code;
+
+
+            billto.BillPincode = Convert.ToString(model.BusinessPartner.Bill_pincode);
+
+            modifybp.address.ShipTo = shipto;
+            modifybp.address.BillTo = billto;
+
+            //xmlAddManufacture.CreatedUser = "1";
+            //xmlAddManufacture.CreatedBranch = "1";
+            //xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
+            //xmlAddManufacture.LastModifyUser = "2";
+            //xmlAddManufacture.LastModifyBranch = "2";
+            //xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString();    
+            #endregion
+
+            businesspartnerRepository.GenerateXML(modifybp);
+        }
 
         [HttpPost]
-        public ActionResult Index(string submitButton, BusinessPartnerViewModels model, HttpPostedFileBase file)
+        public ActionResult Index(string submitButton, BusinessPartnerViewModels model, HttpPostedFileBase file=null)
         {
             try
             {
@@ -111,268 +364,37 @@ namespace Troy.Web.Controllers
                 if (submitButton == "Save")
                 {
                     model.BusinessPartner.IsActive = true;
-                    model.BusinessPartner.Created_Branc_Id = 1;
+                    model.BusinessPartner.Created_Branc_Id = 1;//GetBranchId();
                     model.BusinessPartner.Created_Dte = DateTime.Now;
-                    model.BusinessPartner.Created_User_Id = 1;  //GetUserId()
-                    model.BusinessPartner.Modified_User_Id = 1;
+                    model.BusinessPartner.Created_User_Id = 1;  //GetUserId();
+                    model.BusinessPartner.Modified_User_Id = 1; //GetUserId();
                     model.BusinessPartner.Modified_Dte = DateTime.Now;
-                    model.BusinessPartner.Modified_Branch_Id = 1;
+                    model.BusinessPartner.Modified_Branch_Id = 1;//GetBranchId();
 
-                    if (BusinesspartnerDb.AddNewBusinessPartner(model.BusinessPartner))
+                    if (businesspartnerRepository.AddNewBusinessPartner(model.BusinessPartner))
                     {
-                        //return RedirectToAction("Index", "BusinessPartner");
-
-                        Guid GuidRandomNo = Guid.NewGuid();
-                        string mUniqueID = GuidRandomNo.ToString();
-
-                        #region ViewModel-XML-Fill
-
-                        //addbp class
-                        var addbp = new AddBp();
-                        addbp.UniqueID = mUniqueID;
-
-                        //header class
-                        addbp.Header.BPCode = Convert.ToString(model.BusinessPartner.BP_Id);
-                        addbp.Header.BPName = model.BusinessPartner.BP_Name;
-                        addbp.Header.BPType = model.BusinessPartner.Group_Type;
-
-                        int group_ID = Convert.ToInt32(model.BusinessPartner.Group_id);
-                        string group_Name = BusinesspartnerDb.FindGroupNameForGroupId(group_ID);
-                        addbp.Header.GroupCode = group_Name;
-
-                        //int pricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
-                        //string pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(pricelist_ID);
-                        //addbp.Header.PriceList = pricelist_desc;
-                        addbp.Header.PriceList = Convert.ToString(model.BusinessPartner.Pricelist);
-
-                        //int emp_ID = Convert.ToInt32(model.BusinessPartner.Emp_Id);
-                        //string emp_first_Name = BusinesspartnerDb.FindEmpNameForEmpId(emp_ID);
-                        //addbp.Header.EmpNo = emp_first_Name;
-                        addbp.Header.EmpNo = Convert.ToString(model.BusinessPartner.Emp_Id);
-
-
-                        //general class
-
-                        int branch_ID = Convert.ToInt32(model.BusinessPartner.Branch_id);
-                        string branch_Name = BusinesspartnerDb.FindBranchNameForBranchId(branch_ID);
-                        addbp.general.Branch = branch_Name;
-
-                        addbp.general.Phone1 = model.BusinessPartner.Phone1;
-                        addbp.general.Phone2 = model.BusinessPartner.Phone2;
-                        addbp.general.Mobile = model.BusinessPartner.Mobile;
-                        addbp.general.Fax = model.BusinessPartner.Fax;//"testfax";
-                        addbp.general.Email = model.BusinessPartner.Email_Address;
-                        addbp.general.Website = model.BusinessPartner.Website;
-                        addbp.general.ShipType = model.BusinessPartner.Ship_method;
-                        addbp.general.ContactPerson = model.BusinessPartner.Contact_person;
-                        addbp.general.Remarks = model.BusinessPartner.Remarks;
-                        addbp.general.ContactEmployee = Convert.ToString(model.BusinessPartner.Control_account_id);
-                        addbp.general.Active = Convert.ToString(model.BusinessPartner.IsActive);
-
-                        //accounts class                       
-                        addbp.accounts.ControlAccount = Convert.ToString(model.BusinessPartner.Control_account_id);
-
-                        //int accpricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
-                        //string acc_pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(accpricelist_ID);
-                        //addbp.accounts.AccountPriceList = acc_pricelist_desc; 
-                        addbp.accounts.AccountPriceList = Convert.ToString(model.BusinessPartner.Pricelist);
-
-
-                        //ShipTo class        
-                        ShipTo shipto = new ShipTo();
-                        shipto.ShipAddress1 = model.BusinessPartner.Ship_Address1;
-                        shipto.ShipAddress2 = model.BusinessPartner.Ship_address2;
-                        shipto.ShipAddress3 = model.BusinessPartner.Ship_address3;
-
-                        int shipcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
-                        string SAP_City_Code = BusinesspartnerDb.FindSAPCodeForCityId(shipcity_ID);
-                        shipto.ShipCity = SAP_City_Code;
-
-                        int shipcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
-                        string SAP_Country_Code = BusinesspartnerDb.FindSAPCodeForCountryId(shipcountry_ID);
-                        shipto.ShipCountry = SAP_Country_Code;
-
-                        int shipstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
-                        string SAP_State_Code = BusinesspartnerDb.FindSAPCodeForStateId(shipstate_ID);
-                        shipto.ShipState = SAP_Country_Code;
-
-                        shipto.ShipPincode = model.BusinessPartner.Ship_pincode;
-
-                        //BillTo class 
-                        BillTo billto = new BillTo();
-                        billto.BillAddress1 = model.BusinessPartner.Bill_Address1;
-                        billto.BillAddress2 = model.BusinessPartner.Bill_address2;
-                        billto.BillAddress3 = model.BusinessPartner.Bill_address3;
-                        billto.BillCity = Convert.ToString(model.BusinessPartner.Bill_City);
-                        billto.BillCountry = Convert.ToString(model.BusinessPartner.Bill_Country);
-                        billto.BillState = Convert.ToString(model.BusinessPartner.Bill_State);
-
-                        int billcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
-                        string SAP_billCity_Code = BusinesspartnerDb.FindSAPCodeForCityId(billcity_ID);
-                        billto.BillCity = SAP_billCity_Code;
-
-                        int billcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
-                        string SAP_billCountry_Code = BusinesspartnerDb.FindSAPCodeForCountryId(billcountry_ID);
-                        billto.BillCountry = SAP_billCountry_Code;
-
-                        int billstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
-                        string SAP_billState_Code = BusinesspartnerDb.FindSAPCodeForStateId(billstate_ID);
-                        billto.BillState = SAP_billState_Code;
-
-
-                        billto.BillPincode = Convert.ToString(model.BusinessPartner.Bill_pincode);
-
-                        addbp.address.ShipTo = shipto;
-                        addbp.address.BillTo = billto;
-
-                        #endregion
-
-                        //xmlAddManufacture.CreatedUser = "1";
-                        //xmlAddManufacture.CreatedBranch = "1";
-                        //xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
-                        //xmlAddManufacture.LastModifyUser = "2";
-                        //xmlAddManufacture.LastModifyBranch = "2";
-                        //xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString();                                              
-
-                        if (BusinesspartnerDb.GenerateXML(addbp))
-                        {
-                            return RedirectToAction("Index", "BusinessPartner");
-                        }
+                        XMLGenerate_SAPInsert(model);
+                        return RedirectToAction("Index", "BusinessPartner");
                     }
                     else
                     {
                         ModelState.AddModelError("", "BusinessPartner Not Saved");
-                    }  
+                    }
                 }
                 else if (submitButton == "Update")
                 {
                     var Temp_manufacture = TempData["oldManufacter_Name"];
-                    model.BusinessPartner.Created_Branc_Id = 1;
+                    model.BusinessPartner.Created_Branc_Id = 1;//GetBranchId();
                     model.BusinessPartner.Created_Dte = DateTime.Now;
-                    model.BusinessPartner.Created_User_Id = 1;  //GetUserId()
-                    model.BusinessPartner.Modified_User_Id = 1;
+                    model.BusinessPartner.Created_User_Id = 1;  //GetUserId();
+                    model.BusinessPartner.Modified_User_Id = 1; //GetUserId();
                     model.BusinessPartner.Modified_Dte = DateTime.Now;
-                    model.BusinessPartner.Modified_Branch_Id = 1;
+                    model.BusinessPartner.Modified_Branch_Id = 1;//GetBranchId();
 
-                    if (BusinesspartnerDb.EditExistingBusinessPartner(model.BusinessPartner))
+                    if (businesspartnerRepository.EditExistingBusinessPartner(model.BusinessPartner))
                     {
-                        // return RedirectToAction("Index", "BusinessPartner");
-                        Guid GuidRandomNo = Guid.NewGuid();
-                        string mUniqueID = GuidRandomNo.ToString();
-                                              
-
-                        #region ViewModel-XML-Fill
-
-                        //addbp class
-                        var modifybp = new ModifyBP();
-                        modifybp.UniqueID = mUniqueID;
-
-                        //header class
-                        modifybp.Header.BPCode = Convert.ToString(model.BusinessPartner.BP_Id);
-                        modifybp.Header.BPName = model.BusinessPartner.BP_Name;
-                        modifybp.Header.BPType = model.BusinessPartner.Group_Type;
-
-                        int group_ID = Convert.ToInt32(model.BusinessPartner.Group_id);
-                        string group_Name = BusinesspartnerDb.FindGroupNameForGroupId(group_ID);
-                        modifybp.Header.GroupCode = group_Name;
-
-                        //int pricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
-                        //string pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(pricelist_ID);
-                        //modifybp.Header.PriceList = pricelist_desc;
-                        modifybp.Header.PriceList = Convert.ToString(model.BusinessPartner.Pricelist);
-
-                        //int emp_ID = Convert.ToInt32(model.BusinessPartner.Emp_Id);
-                        //string emp_first_Name = BusinesspartnerDb.FindEmpNameForEmpId(emp_ID);
-                        //modifybp.Header.EmpNo = emp_first_Name;
-                        modifybp.Header.EmpNo = Convert.ToString(model.BusinessPartner.Emp_Id);
-
-                        //general class
-
-                        int branch_ID = Convert.ToInt32(model.BusinessPartner.Branch_id);
-                        string branch_Name = BusinesspartnerDb.FindBranchNameForBranchId(branch_ID);
-                        modifybp.general.Branch = branch_Name;
-
-                        modifybp.general.Phone1 = model.BusinessPartner.Phone1;
-                        modifybp.general.Phone2 = model.BusinessPartner.Phone2;
-                        modifybp.general.Mobile = model.BusinessPartner.Mobile;
-                        modifybp.general.Fax = model.BusinessPartner.Fax;// "testfax";
-                        modifybp.general.Email = model.BusinessPartner.Email_Address;
-                        modifybp.general.Website = model.BusinessPartner.Website;
-                        modifybp.general.ShipType = model.BusinessPartner.Ship_method;
-                        modifybp.general.ContactPerson = model.BusinessPartner.Contact_person;
-                        modifybp.general.Remarks = model.BusinessPartner.Remarks;
-                        modifybp.general.ContactEmployee = Convert.ToString(model.BusinessPartner.Control_account_id);
-                        modifybp.general.Active = Convert.ToString(model.BusinessPartner.IsActive);
-
-                        //accounts class                       
-                        modifybp.accounts.ControlAccount = Convert.ToString(model.BusinessPartner.Control_account_id);
-
-                        //int accpricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
-                        //string acc_pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(accpricelist_ID);
-                        //modifybp.accounts.AccountPriceList = acc_pricelist_desc;
-                        modifybp.accounts.AccountPriceList = Convert.ToString(model.BusinessPartner.Pricelist);
-
-
-                        //ShipTo class        
-                        ShipTo shipto = new ShipTo();
-                        shipto.ShipAddress1 = model.BusinessPartner.Ship_Address1;
-                        shipto.ShipAddress2 = model.BusinessPartner.Ship_address2;
-                        shipto.ShipAddress3 = model.BusinessPartner.Ship_address3;
-
-                        int shipcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
-                        string SAP_City_Code = BusinesspartnerDb.FindSAPCodeForCityId(shipcity_ID);
-                        shipto.ShipCity = SAP_City_Code;
-
-                        int shipcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
-                        string SAP_Country_Code = BusinesspartnerDb.FindSAPCodeForCountryId(shipcountry_ID);
-                        shipto.ShipCountry = SAP_Country_Code;
-
-                        int shipstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
-                        string SAP_State_Code = BusinesspartnerDb.FindSAPCodeForStateId(shipstate_ID);
-                        shipto.ShipState = SAP_Country_Code;
-
-                        shipto.ShipPincode = model.BusinessPartner.Ship_pincode;
-
-                        //BillTo class 
-                        BillTo billto = new BillTo();
-                        billto.BillAddress1 = model.BusinessPartner.Bill_Address1;
-                        billto.BillAddress2 = model.BusinessPartner.Bill_address2;
-                        billto.BillAddress3 = model.BusinessPartner.Bill_address3;
-                        billto.BillCity = Convert.ToString(model.BusinessPartner.Bill_City);
-                        billto.BillCountry = Convert.ToString(model.BusinessPartner.Bill_Country);
-                        billto.BillState = Convert.ToString(model.BusinessPartner.Bill_State);
-
-                        int billcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
-                        string SAP_billCity_Code = BusinesspartnerDb.FindSAPCodeForCityId(billcity_ID);
-                        billto.BillCity = SAP_billCity_Code;
-
-                        int billcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
-                        string SAP_billCountry_Code = BusinesspartnerDb.FindSAPCodeForCountryId(billcountry_ID);
-                        billto.BillCountry = SAP_billCountry_Code;
-
-                        int billstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
-                        string SAP_billState_Code = BusinesspartnerDb.FindSAPCodeForStateId(billstate_ID);
-                        billto.BillState = SAP_billState_Code;
-
-
-                        billto.BillPincode = Convert.ToString(model.BusinessPartner.Bill_pincode);
-
-                        modifybp.address.ShipTo = shipto;
-                        modifybp.address.BillTo = billto;
-
-                        #endregion
-
-                        //xmlAddManufacture.CreatedUser = "1";
-                        //xmlAddManufacture.CreatedBranch = "1";
-                        //xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
-                        //xmlAddManufacture.LastModifyUser = "2";
-                        //xmlAddManufacture.LastModifyBranch = "2";
-                        //xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString();                                              
-
-                        if (BusinesspartnerDb.GenerateXML(modifybp))
-                        {
-                            return RedirectToAction("Index", "BusinessPartner");
-                        }
+                        XMLGenerate_SAPUpdate(model);
+                        return RedirectToAction("Index", "BusinessPartner");
                     }
                     else
                     {
@@ -400,12 +422,6 @@ namespace Troy.Web.Controllers
                             {
                                 System.IO.File.Delete(fileLocation);
                             }
-
-                            //if (System.IO.File.Exists(Server.MapPath("~/App_Data/ExcelFiles") + fileName + System.IO.Path.GetExtension(Request.Files["FileUpload"].FileName)))
-                            //{
-                            //    System.IO.File.Delete(Server.MapPath("~/App_Data/ExcelFiles") + fileName +
-                            //    System.IO.Path.GetExtension(Request.Files["FileUpload"].FileName));
-                            //}
 
                             Request.Files["FileUpload"].SaveAs(fileLocation);
                             string excelConnectionString = string.Empty;
@@ -464,7 +480,7 @@ namespace Troy.Web.Controllers
                                     //string CheckingType = "country";
                                     if (mExcelCountry_Name != null && mExcelCountry_Name != "")
                                     {
-                                        var data = BusinesspartnerDb.CheckCountry(mExcelCountry_Name);
+                                        var data = businesspartnerRepository.CheckCountry(mExcelCountry_Name);
                                         if (data == null)
                                         {
                                             return Json(new { success = true, Message = "Bill Country Name: " + mExcelCountry_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
@@ -485,7 +501,7 @@ namespace Troy.Web.Controllers
                                     //string CheckingType = "country";
                                     if (mExcelState_Name != null && mExcelState_Name != "")
                                     {
-                                        var data = BusinesspartnerDb.CheckState(mExcelState_Name);
+                                        var data = businesspartnerRepository.CheckState(mExcelState_Name);
                                         if (data == null)
                                         {
                                             return Json(new { success = true, Message = "Bill State Name: " + mExcelState_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
@@ -506,7 +522,7 @@ namespace Troy.Web.Controllers
                                     //string CheckingType = "country";
                                     if (mExcelCity_Name != null && mExcelCity_Name != "")
                                     {
-                                        var data = BusinesspartnerDb.CheckCity(mExcelCity_Name);
+                                        var data = businesspartnerRepository.CheckCity(mExcelCity_Name);
                                         if (data == null)
                                         {
                                             return Json(new { success = true, Message = "Bill City Name: " + mExcelCity_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
@@ -527,7 +543,7 @@ namespace Troy.Web.Controllers
                                     //string CheckingType = "country";
                                     if (mExcelCountry_Name != null && mExcelCountry_Name != "")
                                     {
-                                        var data = BusinesspartnerDb.CheckCountry(mExcelCountry_Name);
+                                        var data = businesspartnerRepository.CheckCountry(mExcelCountry_Name);
                                         if (data == null)
                                         {
                                             return Json(new { success = true, Message = "Ship Country Name: " + mExcelCountry_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
@@ -548,7 +564,7 @@ namespace Troy.Web.Controllers
                                     //string CheckingType = "country";
                                     if (mExcelState_Name != null && mExcelState_Name != "")
                                     {
-                                        var data = BusinesspartnerDb.CheckState(mExcelState_Name);
+                                        var data = businesspartnerRepository.CheckState(mExcelState_Name);
                                         if (data == null)
                                         {
                                             return Json(new { success = true, Message = "Ship State Name: " + mExcelState_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
@@ -569,7 +585,7 @@ namespace Troy.Web.Controllers
                                     //string CheckingType = "country";
                                     if (mExcelCity_Name != null && mExcelCity_Name != "")
                                     {
-                                        var data = BusinesspartnerDb.CheckCity(mExcelCity_Name);
+                                        var data = businesspartnerRepository.CheckCity(mExcelCity_Name);
                                         if (data == null)
                                         {
                                             return Json(new { success = true, Message = "Ship City Name: " + mExcelCity_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
@@ -589,7 +605,7 @@ namespace Troy.Web.Controllers
                                     string mExcelGroup_Name = Convert.ToString(dr["Group"]);
                                     if (mExcelGroup_Name != null && mExcelGroup_Name != "")
                                     {
-                                        var data = BusinesspartnerDb.CheckGroup(mExcelGroup_Name);
+                                        var data = businesspartnerRepository.CheckGroup(mExcelGroup_Name);
                                         if (data == null)
                                         {
                                             return Json(new { success = true, Message = "Group Name: " + mExcelGroup_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
@@ -609,7 +625,7 @@ namespace Troy.Web.Controllers
                                     string mExcelPriceList_Name = Convert.ToString(dr["PriceList"]);
                                     if (mExcelPriceList_Name != null && mExcelPriceList_Name != "")
                                     {
-                                        var data = BusinesspartnerDb.CheckPriceList(mExcelPriceList_Name);
+                                        var data = businesspartnerRepository.CheckPriceList(mExcelPriceList_Name);
                                         if (data == null)
                                         {
                                             return Json(new { success = true, Message = "PriceList: " + mExcelPriceList_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
@@ -629,7 +645,7 @@ namespace Troy.Web.Controllers
                                     string mExcelEmployee_Name = Convert.ToString(dr["Employee"]);
                                     if (mExcelEmployee_Name != null && mExcelEmployee_Name != "")
                                     {
-                                        var data = BusinesspartnerDb.CheckEmployee(mExcelEmployee_Name);
+                                        var data = businesspartnerRepository.CheckEmployee(mExcelEmployee_Name);
                                         if (data == null)
                                         {
                                             return Json(new { success = true, Message = "Employee Name: " + mExcelEmployee_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
@@ -649,7 +665,7 @@ namespace Troy.Web.Controllers
                                     string mExcelBranch_Name = Convert.ToString(dr["Branch"]);
                                     if (mExcelBranch_Name != null && mExcelBranch_Name != "")
                                     {
-                                        var data = BusinesspartnerDb.CheckBranch(mExcelBranch_Name);
+                                        var data = businesspartnerRepository.CheckBranch(mExcelBranch_Name);
                                         if (data == null)
                                         {
                                             return Json(new { success = true, Message = "Branch: " + mExcelBranch_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
@@ -669,7 +685,7 @@ namespace Troy.Web.Controllers
                                     string mExcelControlAccount_ID = Convert.ToString(dr["Control Account Id"]);
                                     if (mExcelControlAccount_ID != null && mExcelControlAccount_ID != "")
                                     {
-                                        var data = BusinesspartnerDb.CheckControlAccountID(mExcelControlAccount_ID);
+                                        var data = businesspartnerRepository.CheckControlAccountID(mExcelControlAccount_ID);
                                         if (data == null)
                                         {
                                             return Json(new { success = true, Message = "Ledger: " + mExcelControlAccount_ID + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
@@ -753,7 +769,7 @@ namespace Troy.Web.Controllers
                                             //mItem.Group_id = 1;//ds.Tables[0].Rows[j]["Group"].ToString();
                                             string group_name = ds.Tables[0].Rows[j]["Group"].ToString();
 
-                                            int group_id = BusinesspartnerDb.FindIdForGroupName(group_name);
+                                            int group_id = businesspartnerRepository.FindIdForGroupName(group_name);
 
                                             mItem.Group_id = Convert.ToInt32(group_id);
                                         }
@@ -798,7 +814,7 @@ namespace Troy.Web.Controllers
                                             //mItem.Ship_City = 1;//ds.Tables[0].Rows[j]["Ship City"].ToString();
                                             string city_name = ds.Tables[0].Rows[j]["Ship City"].ToString();
 
-                                            int city_id = BusinesspartnerDb.FindIdForCityName(city_name);
+                                            int city_id = businesspartnerRepository.FindIdForCityName(city_name);
 
                                             mItem.Ship_City = Convert.ToInt32(city_id);
                                         }
@@ -810,7 +826,7 @@ namespace Troy.Web.Controllers
                                             //mItem.Ship_State = 1;//ds.Tables[0].Rows[j]["Ship State"].ToString();
                                             string state_name = ds.Tables[0].Rows[j]["Ship State"].ToString();
 
-                                            int state_id = BusinesspartnerDb.FindIdForStateName(state_name);
+                                            int state_id = businesspartnerRepository.FindIdForStateName(state_name);
 
                                             mItem.Ship_State = Convert.ToInt32(state_id);
                                         }
@@ -819,10 +835,10 @@ namespace Troy.Web.Controllers
                                         #region ShipCountry
                                         if (ds.Tables[0].Rows[j]["Ship Country"] != null)
                                         {
-                                           // mItem.Ship_Country = 1;//ds.Tables[0].Rows[j]["Ship Country"].ToString();
+                                            // mItem.Ship_Country = 1;//ds.Tables[0].Rows[j]["Ship Country"].ToString();
                                             string country_name = ds.Tables[0].Rows[j]["Ship Country"].ToString();
 
-                                            int country_id = BusinesspartnerDb.FindIdForCountryName(country_name);
+                                            int country_id = businesspartnerRepository.FindIdForCountryName(country_name);
 
                                             mItem.Ship_Country = Convert.ToInt32(country_id);
                                         }
@@ -838,7 +854,7 @@ namespace Troy.Web.Controllers
                                             return Json(new { success = false, Error = "Ship Pincode cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
                                         #endregion
-                                        
+
                                         #region BillAddress1
                                         if (ds.Tables[0].Rows[j]["Bill Address1"] != null)
                                         {
@@ -849,7 +865,7 @@ namespace Troy.Web.Controllers
                                             return Json(new { success = false, Error = "Bill Address1 cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
                                         #endregion
-                                        
+
                                         #region BillAddress2
                                         if (ds.Tables[0].Rows[j]["Bill Address2"] != null)
                                         {
@@ -860,7 +876,7 @@ namespace Troy.Web.Controllers
                                             return Json(new { success = false, Error = "Bill Address2 cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
                                         #endregion
-                                        
+
                                         #region BillAddress3
                                         if (ds.Tables[0].Rows[j]["Bill Address3"] != null)
                                         {
@@ -875,22 +891,22 @@ namespace Troy.Web.Controllers
                                         #region BillCity
                                         if (ds.Tables[0].Rows[j]["Bill City"] != null)
                                         {
-                                           // mItem.Bill_City = 1;// ds.Tables[0].Rows[j]["Bill City"].ToString();
+                                            // mItem.Bill_City = 1;// ds.Tables[0].Rows[j]["Bill City"].ToString();
                                             string city_name = ds.Tables[0].Rows[j]["Bill City"].ToString();
 
-                                            int city_id = BusinesspartnerDb.FindIdForCityName(city_name);
+                                            int city_id = businesspartnerRepository.FindIdForCityName(city_name);
 
                                             mItem.Bill_City = Convert.ToInt32(city_id);
                                         }
                                         #endregion
-                                        
+
                                         #region BillState
                                         if (ds.Tables[0].Rows[j]["Bill State"] != null)
                                         {
-                                           // mItem.Bill_State = 1;// ds.Tables[0].Rows[j]["Bill State"].ToString();
+                                            // mItem.Bill_State = 1;// ds.Tables[0].Rows[j]["Bill State"].ToString();
                                             string state_name = ds.Tables[0].Rows[j]["Bill State"].ToString();
 
-                                            int state_id = BusinesspartnerDb.FindIdForStateName(state_name);
+                                            int state_id = businesspartnerRepository.FindIdForStateName(state_name);
 
                                             mItem.Bill_State = Convert.ToInt32(state_id);
                                         }
@@ -902,7 +918,7 @@ namespace Troy.Web.Controllers
                                             //mItem.Bill_Country = 1;// ds.Tables[0].Rows[j]["Bill Country"].ToString();
                                             string country_name = ds.Tables[0].Rows[j]["Bill Country"].ToString();
 
-                                            int country_id = BusinesspartnerDb.FindIdForCountryName(country_name);
+                                            int country_id = businesspartnerRepository.FindIdForCountryName(country_name);
 
                                             mItem.Bill_Country = Convert.ToInt32(country_id);
                                         }
@@ -925,7 +941,7 @@ namespace Troy.Web.Controllers
                                             //mItem.Pricelist = 1;// ds.Tables[0].Rows[j]["PriceList"].ToString();
                                             string pricelist_desc = ds.Tables[0].Rows[j]["PriceList"].ToString();
 
-                                            int pricelist_id = BusinesspartnerDb.FindIdForPriceListDesc(pricelist_desc);
+                                            int pricelist_id = businesspartnerRepository.FindIdForPriceListDesc(pricelist_desc);
 
                                             mItem.Pricelist = Convert.ToInt32(pricelist_id);
                                         }
@@ -938,10 +954,10 @@ namespace Troy.Web.Controllers
 
                                             string employee_name = ds.Tables[0].Rows[j]["Employee"].ToString();
 
-                                            int emp_id = BusinesspartnerDb.FindEmpIdForEmployeeName(employee_name);
+                                            int emp_id = businesspartnerRepository.FindEmpIdForEmployeeName(employee_name);
 
                                             mItem.Emp_Id = Convert.ToInt32(emp_id);
-                                          
+
                                         }
                                         #endregion
 
@@ -951,7 +967,7 @@ namespace Troy.Web.Controllers
                                             //mItem.Branch_id = 1;// ds.Tables[0].Rows[j]["Branch"].ToString();
                                             string branch_name = ds.Tables[0].Rows[j]["Branch"].ToString();
 
-                                            int branch_id = BusinesspartnerDb.FindIdForBranchName(branch_name);
+                                            int branch_id = businesspartnerRepository.FindIdForBranchName(branch_name);
 
                                             mItem.Branch_id = Convert.ToInt32(branch_id);
                                         }
@@ -978,7 +994,7 @@ namespace Troy.Web.Controllers
                                             return Json(new { success = false, Error = "Phone2 cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                         }
                                         #endregion
-                                        
+
                                         #region Mobile
                                         if (ds.Tables[0].Rows[j]["Mobile"] != null)
                                         {
@@ -1026,7 +1042,7 @@ namespace Troy.Web.Controllers
                                         #region ContactPerson
                                         if (ds.Tables[0].Rows[j]["Contact Person"] != null)
                                         {
-                                            mItem.Contact_person = ds.Tables[0].Rows[j]["Contact Person"].ToString();                                           
+                                            mItem.Contact_person = ds.Tables[0].Rows[j]["Contact Person"].ToString();
                                         }
                                         #endregion
 
@@ -1058,7 +1074,7 @@ namespace Troy.Web.Controllers
                                             //mItem.Control_account_id = 1;// ds.Tables[0].Rows[j]["Control Account Id"].ToString();
                                             string group_name = ds.Tables[0].Rows[j]["Control Account Id"].ToString();
 
-                                            int conAcc_id = BusinesspartnerDb.FindConAccIdForGroupName(group_name);
+                                            int conAcc_id = businesspartnerRepository.FindConAccIdForGroupName(group_name);
 
                                             mItem.Control_account_id = Convert.ToInt32(conAcc_id);
                                         }
@@ -1154,8 +1170,6 @@ namespace Troy.Web.Controllers
                                         addbp.address.ShipTo = shipto;
                                         addbp.address.BillTo = billto;
 
-                                        #endregion
-
                                         //xmlAddManufacture.CreatedUser = "1";
                                         //xmlAddManufacture.CreatedBranch = "1";
                                         //xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
@@ -1163,16 +1177,13 @@ namespace Troy.Web.Controllers
                                         //xmlAddManufacture.LastModifyBranch = "2";
                                         //xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString();     
 
+                                        #endregion
 
-                                        if (BusinesspartnerDb.GenerateXML(addbp))
-                                        {
-
-                                        }
+                                        businesspartnerRepository.GenerateXML(addbp);
                                     }
 
-                                    if (BusinesspartnerDb.InsertFileUploadDetails(mlist))
+                                    if (businesspartnerRepository.InsertFileUploadDetails(mlist))
                                     {
-                                        //System.IO.File.Delete(fileLocation);
                                         return Json(new { success = true, Message = mlist.Count + " Records Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
                                     }
                                 }
@@ -1187,76 +1198,6 @@ namespace Troy.Web.Controllers
                             {
                                 return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
                             }
-
-                            #region OLD Code
-                            //for (int k = 0; k < dt.Rows.Count; k++)
-                            //{
-                            //    DataSet ds = new DataSet();
-                            //    int sheets = k + 1;
-
-                            //    OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
-
-                            //    exquery = string.Format("Select * from [{0}]", excelSheets[k]);
-                            //    using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
-                            //    {
-                            //        dataAdapter.Fill(ds);
-                            //    }
-
-                            //if (ds != null)
-                            //{
-                            //    if (ds.Tables[0].Rows.Count > 0)
-                            //    {
-                            //        List<Manufacture> mlist = new List<Manufacture>();
-
-                            //        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                            //        {
-                            //            Manufacture mItem = new Manufacture();
-                            //            if (ds.Tables[0].Rows[i]["Manufacturer_Name"] != null)
-                            //            {
-                            //                mItem.Manufacturer_Name = ds.Tables[0].Rows[i]["Manufacturer_Name"].ToString();
-                            //            }
-                            //            else
-                            //            {
-                            //                return Json(new { success = false, Error = "Manufacture name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
-                            //            }
-
-                            //            if (ds.Tables[0].Rows[i]["Level"] != null)
-                            //            {
-                            //                mItem.Level = Convert.ToInt32(ds.Tables[0].Rows[i]["Level"]);
-                            //            }
-                            //            else
-                            //            {
-                            //                return Json(new { success = false, Error = "Level field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                            //            }
-                            //            if (ds.Tables[0].Rows[i]["IsActive"] != null)
-                            //            {
-                            //                mItem.IsActive = ds.Tables[0].Rows[i]["IsActive"].ToString();
-                            //            }
-                            //            else
-                            //            {
-                            //                return Json(new { success = false, Error = "IsActive field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                            //            }
-                            //            mItem.Created_User_Id = 1; //GetUserId();
-                            //            mItem.Created_Branc_Id = 2; //GetBranchId();
-                            //            mItem.Created_Dte = DateTime.Now;
-                            //            mItem.Modified_User_Id = 2; //GetUserId();
-                            //            mItem.Modified_Branch_Id = 2; //GetBranchId();
-                            //            mItem.Modified_Dte = DateTime.Now;
-                            //            mlist.Add(mItem);
-                            //        }
-
-                            //        if (manufactureDb.InsertFileUploadDetails(mlist))
-                            //        {
-                            //            return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
-                            //        }
-                            //    }
-                            //    else
-                            //    {
-                            //        return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
-                            //    }
-                            //    }
-                            //} 
-                            #endregion
                         }
                     }
                     catch (Exception ex)
@@ -1277,160 +1218,181 @@ namespace Troy.Web.Controllers
 
         public ActionResult _ExporttoExcel()
         {
-            var businesspartner = BusinesspartnerDb.GetAllBusinessPartner().ToList();
-
-            DataTable dt = new DataTable();
-
-            dt.Columns.Add(new DataColumn("BPId"));
-            dt.Columns.Add(new DataColumn("BusinessPartner Name"));
-            dt.Columns.Add(new DataColumn("Group Type"));
-            dt.Columns.Add(new DataColumn("Group"));
-            dt.Columns.Add(new DataColumn("Ship Address1"));
-            dt.Columns.Add(new DataColumn("Ship Address2"));
-            dt.Columns.Add(new DataColumn("Ship Address3"));
-            dt.Columns.Add(new DataColumn("Ship City"));
-            dt.Columns.Add(new DataColumn("Ship State"));
-            dt.Columns.Add(new DataColumn("Ship Country"));
-            dt.Columns.Add(new DataColumn("Ship Pincode"));
-            dt.Columns.Add(new DataColumn("Bill Address1"));
-            dt.Columns.Add(new DataColumn("Bill Address2"));
-            dt.Columns.Add(new DataColumn("Bill Address3"));
-            dt.Columns.Add(new DataColumn("Bill City"));
-            dt.Columns.Add(new DataColumn("Bill State"));
-            dt.Columns.Add(new DataColumn("Bill Country"));
-            dt.Columns.Add(new DataColumn("Bill Pincode"));
-            dt.Columns.Add(new DataColumn("Is Active"));
-            dt.Columns.Add(new DataColumn("PriceList"));
-            dt.Columns.Add(new DataColumn("Employee"));
-            dt.Columns.Add(new DataColumn("Branch"));
-            dt.Columns.Add(new DataColumn("Phone1"));
-            dt.Columns.Add(new DataColumn("Phone2"));
-            dt.Columns.Add(new DataColumn("Mobile"));
-            dt.Columns.Add(new DataColumn("Email Address"));
-            dt.Columns.Add(new DataColumn("Website"));
-            dt.Columns.Add(new DataColumn("Contact Person"));
-            dt.Columns.Add(new DataColumn("Remarks"));
-            dt.Columns.Add(new DataColumn("Ship Method"));
-            dt.Columns.Add(new DataColumn("Control Account Id"));
-            dt.Columns.Add(new DataColumn("Opening Balance"));
-            dt.Columns.Add(new DataColumn("Due Date"));
-
-
-
-            foreach (var e in businesspartner)
+            try
             {
-                DataRow dr_final1 = dt.NewRow();
-                dr_final1["BPId"] = e.BP_Id;
-                dr_final1["BusinessPartner Name"] = e.BP_Name;
-                dr_final1["Group Type"] = e.Group_Type;
-                //dr_final1["Group"] = e.group.Group_Name;
-                dr_final1["Ship Address1"] = e.Ship_Address1;
-                dr_final1["Ship Address2"] = e.Ship_address2;
-                dr_final1["Ship Address3"] = e.Ship_address3;
-               // dr_final1["Ship City"] = e.city.City_Name;
-                //dr_final1["Ship State"] = e.state.State_Name;
-                //dr_final1["Ship Country"] = e.country.Country_Name;
-                dr_final1["Ship Pincode"] = e.Ship_pincode;
-                dr_final1["Bill Address1"] = e.Ship_Address1;
-                dr_final1["Bill Address2"] = e.Ship_address2;
-                dr_final1["Bill Address3"] = e.Ship_address3;
-                //dr_final1["Bill City"] = e.city.City_Name;
-                //dr_final1["Bill State"] = e.state.State_Name;
-                //dr_final1["Bill Country"] = e.country.Country_Name;
-                dr_final1["Bill Pincode"] = e.Ship_pincode;
-                dr_final1["Is Active"] = e.IsActive;
-               // dr_final1["PriceList"] = e.PList.Price_List_Desc;
-                //dr_final1["Employee"] = e.employee.First_Name;
-                //dr_final1["Branch"] = e.branch.Branch_Name;
-                dr_final1["Phone1"] = e.Phone1;
-                dr_final1["Phone2"] = e.Phone2;
-                dr_final1["Mobile"] = e.Mobile;
-                dr_final1["Email Address"] = e.Email_Address;
-                dr_final1["Website"] = e.Website;
-                dr_final1["Contact Person"] = e.Contact_person;
-                dr_final1["Remarks"] = e.Remarks;
-                dr_final1["Ship Method"] = e.Ship_method;
-                //dr_final1["Control Account Id"] = e.ledger.Ledger_Name;
-                dr_final1["Opening Balance"] = e.Opening_Balance;
-                dr_final1["Due Date"] = e.Due_date;
+                //get all businesspartner
+                var businesspartner = businesspartnerRepository.GetAllBusinessPartner().ToList();
 
-                dt.Rows.Add(dr_final1);
+                //create datatable and add columns
+                DataTable dt = new DataTable();
+
+                dt.Columns.Add(new DataColumn("BPId"));
+                dt.Columns.Add(new DataColumn("BusinessPartner Name"));
+                dt.Columns.Add(new DataColumn("Group Type"));
+                dt.Columns.Add(new DataColumn("Group"));
+                dt.Columns.Add(new DataColumn("Ship Address1"));
+                dt.Columns.Add(new DataColumn("Ship Address2"));
+                dt.Columns.Add(new DataColumn("Ship Address3"));
+                dt.Columns.Add(new DataColumn("Ship City"));
+                dt.Columns.Add(new DataColumn("Ship State"));
+                dt.Columns.Add(new DataColumn("Ship Country"));
+                dt.Columns.Add(new DataColumn("Ship Pincode"));
+                dt.Columns.Add(new DataColumn("Bill Address1"));
+                dt.Columns.Add(new DataColumn("Bill Address2"));
+                dt.Columns.Add(new DataColumn("Bill Address3"));
+                dt.Columns.Add(new DataColumn("Bill City"));
+                dt.Columns.Add(new DataColumn("Bill State"));
+                dt.Columns.Add(new DataColumn("Bill Country"));
+                dt.Columns.Add(new DataColumn("Bill Pincode"));
+                dt.Columns.Add(new DataColumn("Is Active"));
+                dt.Columns.Add(new DataColumn("PriceList"));
+                dt.Columns.Add(new DataColumn("Employee"));
+                dt.Columns.Add(new DataColumn("Branch"));
+                dt.Columns.Add(new DataColumn("Phone1"));
+                dt.Columns.Add(new DataColumn("Phone2"));
+                dt.Columns.Add(new DataColumn("Mobile"));
+                dt.Columns.Add(new DataColumn("Email Address"));
+                dt.Columns.Add(new DataColumn("Website"));
+                dt.Columns.Add(new DataColumn("Contact Person"));
+                dt.Columns.Add(new DataColumn("Remarks"));
+                dt.Columns.Add(new DataColumn("Ship Method"));
+                dt.Columns.Add(new DataColumn("Control Account Id"));
+                dt.Columns.Add(new DataColumn("Opening Balance"));
+                dt.Columns.Add(new DataColumn("Due Date"));
+
+
+                //fill datatable
+                foreach (var e in businesspartner)
+                {
+                    DataRow dr_final1 = dt.NewRow();
+                    dr_final1["BPId"] = e.BP_Id;
+                    dr_final1["BusinessPartner Name"] = e.BP_Name;
+                    dr_final1["Group Type"] = e.Group_Type;
+                    dr_final1["Group"] = e.Group_Name;
+                    dr_final1["Ship Address1"] = e.Ship_Address1;
+                    dr_final1["Ship Address2"] = e.Ship_address2;
+                    dr_final1["Ship Address3"] = e.Ship_address3;
+                    dr_final1["Ship City"] = e.City_Name;
+                    dr_final1["Ship State"] = e.State_Name;
+                    dr_final1["Ship Country"] = e.Country_Name;
+                    dr_final1["Ship Pincode"] = e.Ship_pincode;
+                    dr_final1["Bill Address1"] = e.Ship_Address1;
+                    dr_final1["Bill Address2"] = e.Ship_address2;
+                    dr_final1["Bill Address3"] = e.Ship_address3;
+                    dr_final1["Bill City"] = e.billCity_Name;
+                    dr_final1["Bill State"] = e.billState_Name;
+                    dr_final1["Bill Country"] = e.billCountry_Name;
+                    dr_final1["Bill Pincode"] = e.Ship_pincode;
+                    dr_final1["Is Active"] = e.IsActive;
+                    dr_final1["PriceList"] = e.Price_List_Desc;
+                    dr_final1["Employee"] = e.Employee_Name;
+                    dr_final1["Branch"] = e.Branch_Name;
+                    dr_final1["Phone1"] = e.Phone1;
+                    dr_final1["Phone2"] = e.Phone2;
+                    dr_final1["Mobile"] = e.Mobile;
+                    dr_final1["Email Address"] = e.Email_Address;
+                    dr_final1["Website"] = e.Website;
+                    dr_final1["Contact Person"] = e.Contact_person;
+                    dr_final1["Remarks"] = e.Remarks;
+                    dr_final1["Ship Method"] = e.Ship_method;
+                    dr_final1["Control Account Id"] = e.Group_Name;
+                    dr_final1["Opening Balance"] = e.Opening_Balance;
+                    dr_final1["Due Date"] = e.Due_date;
+
+                    dt.Rows.Add(dr_final1);
+                }
+
+                System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+                gridvw.DataSource = dt; //bind the datatable to the gridview
+                gridvw.DataBind();
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=BusinessPartnerList.xls");//Microsoft Office Excel Worksheet (.xlsx)
+                Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.Charset = "";
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gridvw.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+
+                return RedirectToAction("Index", "BusinessPartner");
             }
-
-            System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
-            gridvw.DataSource = dt; //bind the datatable to the gridview
-            gridvw.DataBind();
-            Response.ClearContent();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=BusinessPartnerList.xls");//Microsoft Office Excel Worksheet (.xlsx)
-            Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            Response.Charset = "";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            gridvw.RenderControl(htw);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
-
-            return RedirectToAction("Index", "BusinessPartner");
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return View("Error");
+            }
         }
 
         public ActionResult _TemplateExcelDownload()
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add(new DataColumn("BusinessPartner Name"));
-            dt.Columns.Add(new DataColumn("Group Type"));
-            dt.Columns.Add(new DataColumn("Group"));
-            dt.Columns.Add(new DataColumn("Ship Address1"));
-            dt.Columns.Add(new DataColumn("Ship Address2"));
-            dt.Columns.Add(new DataColumn("Ship Address3"));
-            dt.Columns.Add(new DataColumn("Ship City"));
-            dt.Columns.Add(new DataColumn("Ship State"));
-            dt.Columns.Add(new DataColumn("Ship Country"));
-            dt.Columns.Add(new DataColumn("Ship Pincode"));
-            dt.Columns.Add(new DataColumn("Bill Address1"));
-            dt.Columns.Add(new DataColumn("Bill Address2"));
-            dt.Columns.Add(new DataColumn("Bill Address3"));
-            dt.Columns.Add(new DataColumn("Bill City"));
-            dt.Columns.Add(new DataColumn("Bill State"));
-            dt.Columns.Add(new DataColumn("Bill Country"));
-            dt.Columns.Add(new DataColumn("Bill Pincode"));
-            dt.Columns.Add(new DataColumn("Is Active"));
-            dt.Columns.Add(new DataColumn("PriceList"));
-            dt.Columns.Add(new DataColumn("Employee"));
-            dt.Columns.Add(new DataColumn("Branch"));
-            dt.Columns.Add(new DataColumn("Phone1"));
-            dt.Columns.Add(new DataColumn("Phone2"));
-            dt.Columns.Add(new DataColumn("Mobile"));
-            dt.Columns.Add(new DataColumn("Email Address"));
-            dt.Columns.Add(new DataColumn("Website"));
-            dt.Columns.Add(new DataColumn("Contact Person"));
-            dt.Columns.Add(new DataColumn("Remarks"));
-            dt.Columns.Add(new DataColumn("Ship Method"));
-            dt.Columns.Add(new DataColumn("Control Account Id"));
-            dt.Columns.Add(new DataColumn("Opening Balance"));
-            dt.Columns.Add(new DataColumn("Due Date"));
+            try
+            {
+                //create datatable and add columns
+                DataTable dt = new DataTable();
+                dt.Columns.Add(new DataColumn("BusinessPartner Name"));
+                dt.Columns.Add(new DataColumn("Group Type"));
+                dt.Columns.Add(new DataColumn("Group"));
+                dt.Columns.Add(new DataColumn("Ship Address1"));
+                dt.Columns.Add(new DataColumn("Ship Address2"));
+                dt.Columns.Add(new DataColumn("Ship Address3"));
+                dt.Columns.Add(new DataColumn("Ship City"));
+                dt.Columns.Add(new DataColumn("Ship State"));
+                dt.Columns.Add(new DataColumn("Ship Country"));
+                dt.Columns.Add(new DataColumn("Ship Pincode"));
+                dt.Columns.Add(new DataColumn("Bill Address1"));
+                dt.Columns.Add(new DataColumn("Bill Address2"));
+                dt.Columns.Add(new DataColumn("Bill Address3"));
+                dt.Columns.Add(new DataColumn("Bill City"));
+                dt.Columns.Add(new DataColumn("Bill State"));
+                dt.Columns.Add(new DataColumn("Bill Country"));
+                dt.Columns.Add(new DataColumn("Bill Pincode"));
+                dt.Columns.Add(new DataColumn("Is Active"));
+                dt.Columns.Add(new DataColumn("PriceList"));
+                dt.Columns.Add(new DataColumn("Employee"));
+                dt.Columns.Add(new DataColumn("Branch"));
+                dt.Columns.Add(new DataColumn("Phone1"));
+                dt.Columns.Add(new DataColumn("Phone2"));
+                dt.Columns.Add(new DataColumn("Mobile"));
+                dt.Columns.Add(new DataColumn("Email Address"));
+                dt.Columns.Add(new DataColumn("Website"));
+                dt.Columns.Add(new DataColumn("Contact Person"));
+                dt.Columns.Add(new DataColumn("Remarks"));
+                dt.Columns.Add(new DataColumn("Ship Method"));
+                dt.Columns.Add(new DataColumn("Control Account Id"));
+                dt.Columns.Add(new DataColumn("Opening Balance"));
+                dt.Columns.Add(new DataColumn("Due Date"));
 
+                //add one empty row
+                DataRow dr = dt.NewRow();
+                dt.Rows.Add(dt);
 
-            DataRow dr = dt.NewRow();
-            dt.Rows.Add(dt);
+                System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+                gridvw.DataSource = dt; //bind the datatable to the gridview
+                gridvw.DataBind();
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=BusinessPartnerList.xls");//Microsoft Office Excel Worksheet (.xlsx)
+                Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.Charset = "";
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gridvw.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
 
-            System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
-            gridvw.DataSource = dt; //bind the datatable to the gridview
-            gridvw.DataBind();
-            Response.ClearContent();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=BusinessPartnerList.xls");//Microsoft Office Excel Worksheet (.xlsx)
-            Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            Response.Charset = "";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            gridvw.RenderControl(htw);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
-
-            return RedirectToAction("Index", "BusinessPartner");
+                return RedirectToAction("Index", "BusinessPartner");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return View("Error");
+            }
         }
 
         #endregion
@@ -1446,30 +1408,38 @@ namespace Troy.Web.Controllers
             try
             {
                 BusinessPartnerViewModels model = new BusinessPartnerViewModels();
-                model.BusinessPartner = BusinesspartnerDb.FindOneBusinessPartnerById(id);
+                model.BusinessPartner = businesspartnerRepository.GetBusinessPartnerById(id);
 
-                var Grouplist = BusinesspartnerDb.GetGroupList().ToList();
+                //Bind Group
+                var Grouplist = businesspartnerRepository.GetGroupList().ToList();
                 model.GroupList = Grouplist;
 
-                var Pricelist = BusinesspartnerDb.GetPriceList().ToList();
+                //Bind Pricelist
+                var Pricelist = businesspartnerRepository.GetPriceList().ToList();
                 model.PricelistLists = Pricelist;
 
-                var Employeelist = BusinesspartnerDb.GetEmployeeList().ToList();
+                //Bind Employee
+                var Employeelist = businesspartnerRepository.GetEmployeeList().ToList();
                 model.EmployeeList = Employeelist;
 
-                var Branchlist = BusinesspartnerDb.GetBranchList().ToList();
+                //Bind Branch
+                var Branchlist = businesspartnerRepository.GetBranchList().ToList();
                 model.BranchList = Branchlist;
 
-                var Ledgerlist = BusinesspartnerDb.GetLedgerList().ToList();
+                //Bind Ledger
+                var Ledgerlist = businesspartnerRepository.GetLedgerList().ToList();
                 model.LedgerList = Ledgerlist;
 
-                var countrylist = BusinesspartnerDb.GetAddresscountryList().ToList();
+                //Bind Country
+                var countrylist = businesspartnerRepository.GetAddresscountryList().ToList();
                 model.CountryList = countrylist;
 
-                var statelist = BusinesspartnerDb.GetAddressstateList().ToList();
+                //Bind State
+                var statelist = businesspartnerRepository.GetAddressstateList().ToList();
                 model.StateList = statelist;
 
-                var citylist = BusinesspartnerDb.GetAddresscityList().ToList();
+                //Bind City
+                var citylist = businesspartnerRepository.GetAddresscityList().ToList();
                 model.CityList = citylist;
 
 
@@ -1488,31 +1458,40 @@ namespace Troy.Web.Controllers
             try
             {
                 BusinessPartnerViewModels model = new BusinessPartnerViewModels();
-                model.BusinessPartner = BusinesspartnerDb.FindOneBusinessPartnerById(id);
+                model.BusinessPartner = businesspartnerRepository.GetBusinessPartnerById(id);
 
-                var Grouplist = BusinesspartnerDb.GetGroupList().ToList();
+                //Bind Group
+                var Grouplist = businesspartnerRepository.GetGroupList().ToList();
                 model.GroupList = Grouplist;
 
-                var Pricelist = BusinesspartnerDb.GetPriceList().ToList();
+                //Bind Pricelist
+                var Pricelist = businesspartnerRepository.GetPriceList().ToList();
                 model.PricelistLists = Pricelist;
 
-                var Employeelist = BusinesspartnerDb.GetEmployeeList().ToList();
+                //Bind Employee
+                var Employeelist = businesspartnerRepository.GetEmployeeList().ToList();
                 model.EmployeeList = Employeelist;
 
-                var Branchlist = BusinesspartnerDb.GetBranchList().ToList();
+                //Bind branch
+                var Branchlist = businesspartnerRepository.GetBranchList().ToList();
                 model.BranchList = Branchlist;
 
-                var Ledgerlist = BusinesspartnerDb.GetLedgerList().ToList();
+                //Bind Ledger
+                var Ledgerlist = businesspartnerRepository.GetLedgerList().ToList();
                 model.LedgerList = Ledgerlist;
 
-                var countrylist = BusinesspartnerDb.GetAddresscountryList().ToList();
+                //Bind country
+                var countrylist = businesspartnerRepository.GetAddresscountryList().ToList();
                 model.CountryList = countrylist;
 
-                var statelist = BusinesspartnerDb.GetAddressstateList().ToList();
+                //Bind State
+                var statelist = businesspartnerRepository.GetAddressstateList().ToList();
                 model.StateList = statelist;
-
-                var citylist = BusinesspartnerDb.GetAddresscityList().ToList();
+                
+                //Bind City
+                var citylist = businesspartnerRepository.GetAddresscityList().ToList();
                 model.CityList = citylist;
+
                 return PartialView(model);
             }
             catch (Exception ex)
