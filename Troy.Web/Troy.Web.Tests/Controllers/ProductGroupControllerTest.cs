@@ -156,7 +156,7 @@ namespace Troy.Web.Tests.Controllers
         }
 
         [TestMethod]
-        public void Editbranch()
+        public void EditProductGroup()
         {
             string submit = "Update";
 

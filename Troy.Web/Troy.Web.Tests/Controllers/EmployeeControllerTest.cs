@@ -172,7 +172,7 @@ namespace Troy.Web.Tests.Controllers
         public void saveEmployee()
         {
 
-            string submit = "save";          
+            string submit = "Save";          
 
             /*  
              *  First identify the repository methods which are invoked form Index action. Then Setup the mock 
