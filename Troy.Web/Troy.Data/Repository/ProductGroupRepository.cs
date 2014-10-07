@@ -105,14 +105,7 @@ namespace Troy.Data.Repository
             return qList;
         }
 
-        public List<ProductGroup> GetAllProductGroupByFilter()
-        {
-            List<ProductGroup> qList = new List<ProductGroup>();
-
-            return qList;
-        }
-
-        public ProductGroup FindOneProductGroupById(int qId)
+        public ProductGroup GetProductGroupById(int qId)
         {
             return (from p in ProductGroupContext.ProductGroup
                     where p.Product_Group_Id == qId
@@ -167,11 +160,6 @@ namespace Troy.Data.Repository
             }
         }
 
-        public bool AddBulkProductGroup(Object obj)
-        {
-            //manufactureContext.Manufacture.Add(obj);
-            return true;
-        }
         
         public bool EditExistingProductGroup(ProductGroup ProductGroup)
         {
@@ -218,15 +206,10 @@ namespace Troy.Data.Repository
                 mSAP.Object_typ = "PRODUCT GROUP";
                 mSAP.Branch_Cde = "1";
                 mSAP.Troy_Created_Dte = Convert.ToDateTime(DateTime.Now.ToString());
-                mSAP.Troy_XML=doc.InnerXml;
-                             
+                mSAP.Troy_XML=doc.InnerXml;                             
                 SAPOUTRepository prgrprepo = new SAPOUTRepository();
-                if (prgrprepo.AddNew(mSAP))
-                {
-
-                }
-                return true;
-              
+                prgrprepo.AddNew(mSAP);                
+                return true;              
             }
             catch (Exception ex)
             {

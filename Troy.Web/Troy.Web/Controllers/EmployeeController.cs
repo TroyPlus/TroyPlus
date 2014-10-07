@@ -1,4 +1,4 @@
-﻿#region Employee
+﻿#region Namespaces
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -24,48 +24,55 @@ namespace Troy.Web.Controllers
     public class EmployeeController : Controller
     {
         #region Fields
-        private readonly IEmployeeRepository employeeDb;
+        private readonly IEmployeeRepository employeeRepository; //declare repository
         #endregion
 
         #region Constructor
         //inject dependency
         public EmployeeController(IEmployeeRepository mrepository)
         {
-            this.employeeDb = mrepository;
+            this.employeeRepository = mrepository;
         }
         #endregion
 
         #region Controller Actions
-        // GET: Purchase
+        // GET: Employee
         public ActionResult Index(string searchColumn, string searchQuery)
         {
             try
             {
                 LogHandler.WriteLog("Employee Index page requested by #UserId");
-                var qList = employeeDb.GetAllEmployee();   //GetUserId();                
+                var qList = employeeRepository.GetAllEmployee();   //GetAllEmployee();                
 
                 EmployeeViewModels model = new EmployeeViewModels();
                 model.EmployeeList = qList;
 
-                var DesignationList = employeeDb.GetDesignationList().ToList();
+                //Bind Designation
+                var DesignationList = employeeRepository.GetDesignationList().ToList();
                 model.DesignationList = DesignationList;
 
-                var DepartmentList = employeeDb.GetDepartmentList().ToList();
+                //Bind Department
+                var DepartmentList = employeeRepository.GetDepartmentList().ToList();
                 model.DepartmentList = DepartmentList;
 
-                var BranchList = employeeDb.GetBranchList().ToList();
+                //Bind Branch
+                var BranchList = employeeRepository.GetBranchList().ToList();
                 model.BranchList = BranchList;
 
+                //Bind MaritalStatus
                 //var MaritalStatusList = employeeDb.GetMaritalStatusList().ToList();
                 //model.MaritalList = MaritalStatusList;
 
-                var GenderList = employeeDb.GetGenderList().ToList();
+                //Bind Gender
+                var GenderList = employeeRepository.GetGenderList().ToList();
                 model.GenderList = GenderList;
 
-                var LeftReasonList = employeeDb.GetLeftReasonList().ToList();
+                //Bind LeftReason
+                var LeftReasonList = employeeRepository.GetLeftReasonList().ToList();
                 model.LeftReasonList = LeftReasonList;
 
-                var InitialList = employeeDb.GetInitialList().ToList();
+                //Bind Initial
+                var InitialList = employeeRepository.GetInitialList().ToList();
                 model.InitialList = InitialList;
 
                 return View(model);
@@ -79,23 +86,155 @@ namespace Troy.Web.Controllers
         }
 
         //---- check unique key-------   
-
         public JsonResult CheckForDuplication([Bind(Prefix = "Employee.Emp_No")]int Emp_No)
         {
-            var data = employeeDb.CheckDuplicateName(Emp_No);
-            if (data != null)
+            try
             {
-                return Json("Sorry, Employee Number already exists", JsonRequestBehavior.AllowGet);
+                var data = employeeRepository.CheckDuplicateName(Emp_No);
+                if (data != null)
+                {
+                    return Json("Sorry, Employee Number already exists", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Json(true, JsonRequestBehavior.AllowGet);
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return Json(new { Error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private void XMLGenerate_SAPInsert(EmployeeViewModels model)
+        {
+            try
+            {
+                //unique id generation
+                Guid GuidRandomNo = Guid.NewGuid();
+                string mUniqueID = GuidRandomNo.ToString();
+
+                #region ViewModel-XML-Fill
+
+                //addemployee class
+                var addEmp = new AddEmployee();
+                addEmp.UniqueID = mUniqueID;
+
+                //general class
+                addEmp.general.FirstName = model.Employee.First_Name;
+                addEmp.general.MiddleName = model.Employee.Middle_Name;
+                addEmp.general.LastName = model.Employee.Last_Name;
+                addEmp.general.JobTitle = Convert.ToString(model.Employee.Designation_Id);
+                addEmp.general.Department = Convert.ToString(model.Employee.Department_Id);
+                addEmp.general.Branch = Convert.ToString(model.Employee.Branch_Id);
+                addEmp.general.Supervisor = Convert.ToString(model.Employee.Emp_Id);
+                addEmp.general.Active = model.Employee.IsActive;
+                addEmp.general.MobilePhone = model.Employee.Mobile_number;
+                addEmp.general.EMail = model.Employee.Email;
+
+                //admin class
+                addEmp.admin.StartDate = Convert.ToString(model.Employee.Start_Dte);
+                addEmp.admin.LeftDate = Convert.ToString(model.Employee.Left_Dte);
+                addEmp.admin.LeftReason = Convert.ToString(model.Employee.Left_Reason);
+
+                //personal class
+                addEmp.personal.DOB = Convert.ToString(model.Employee.DOB);
+                addEmp.personal.MaritalStatus = Convert.ToString(model.Employee.Marital_Status);
+                addEmp.personal.Gender = Convert.ToString(model.Employee.Gender);
+                addEmp.personal.NumofChildren = Convert.ToString(model.Employee.Noof_Children);
+                addEmp.personal.EmpId = Convert.ToString(model.Employee.Emp_Id);
+                addEmp.personal.FatherName = model.Employee.Father_Name;
+                addEmp.personal.PassportNumber = model.Employee.Passport_no;
+                addEmp.personal.PassportExpDate = Convert.ToString(model.Employee.Passport_Expiry_Dte);
+
+                //finance class
+                addEmp.finance.Salary = Convert.ToString(model.Employee.Salary);
+                addEmp.finance.EmpCost = model.Employee.ETC;
+                addEmp.finance.BankCode = model.Employee.Bank_Cde;
+                addEmp.finance.BankBranch = model.Employee.Bank_Branch_Name;
+                addEmp.finance.BankAccount = Convert.ToString(model.Employee.Bank_Acc_No);
+
+                //addEmp class for remarks tag
+                addEmp.Remarks = model.Employee.Remarks;
+
+                employeeRepository.GenerateXML(addEmp);
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+            }
+        }
+
+        private void XMLGenerate_SAPUpdate(EmployeeViewModels model)
+        {
+            try
+            {
+                //unique id generation
+                Guid GuidRandomNo = Guid.NewGuid();
+                string mUniqueID = GuidRandomNo.ToString();
+
+                #region ViewModel-XML-Fill
+
+                //addemployee class
+                var modifyEmp = new ModifyEmployee();
+                modifyEmp.UniqueID = mUniqueID;
+
+                //general class
+                modifyEmp.general.FirstName = model.Employee.First_Name;
+                modifyEmp.general.MiddleName = model.Employee.Middle_Name;
+                modifyEmp.general.LastName = model.Employee.Last_Name;
+                modifyEmp.general.JobTitle = Convert.ToString(model.Employee.Designation_Id);
+                modifyEmp.general.Department = Convert.ToString(model.Employee.Department_Id);
+                modifyEmp.general.Branch = Convert.ToString(model.Employee.Branch_Id);
+                modifyEmp.general.Supervisor = Convert.ToString(model.Employee.Emp_Id);
+                modifyEmp.general.Active = model.Employee.IsActive;
+                modifyEmp.general.MobilePhone = model.Employee.Mobile_number;
+                modifyEmp.general.EMail = model.Employee.Email;
+
+                //admin class
+                modifyEmp.admin.StartDate = Convert.ToString(model.Employee.Start_Dte);
+                modifyEmp.admin.LeftDate = Convert.ToString(model.Employee.Left_Dte);
+                modifyEmp.admin.LeftReason = Convert.ToString(model.Employee.Left_Reason);
+
+                //personal class
+                modifyEmp.personal.DOB = Convert.ToString(model.Employee.DOB);
+                modifyEmp.personal.MaritalStatus = Convert.ToString(model.Employee.Marital_Status);
+                modifyEmp.personal.Gender = Convert.ToString(model.Employee.Gender);
+                modifyEmp.personal.NumofChildren = Convert.ToString(model.Employee.Noof_Children);
+                modifyEmp.personal.EmpId = Convert.ToString(model.Employee.Emp_Id);
+                modifyEmp.personal.FatherName = model.Employee.Father_Name;
+                modifyEmp.personal.PassportNumber = model.Employee.Passport_no;
+                modifyEmp.personal.PassportExpDate = Convert.ToString(model.Employee.Passport_Expiry_Dte);
+
+                //finance class
+                modifyEmp.finance.Salary = Convert.ToString(model.Employee.Salary);
+                modifyEmp.finance.EmpCost = model.Employee.ETC;
+                modifyEmp.finance.BankCode = model.Employee.Bank_Cde;
+                modifyEmp.finance.BankBranch = model.Employee.Bank_Branch_Name;
+                modifyEmp.finance.BankAccount = Convert.ToString(model.Employee.Bank_Acc_No);
+
+                //addEmp class for remarks tag
+                modifyEmp.Remarks = model.Employee.Remarks;
+
+                employeeRepository.GenerateXML(modifyEmp);
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
             }
         }
 
 
         [HttpPost]
-        public ActionResult Index(string submitButton, EmployeeViewModels model, HttpPostedFileBase file)
+        public ActionResult Index(string submitButton, EmployeeViewModels model, HttpPostedFileBase file=null)
         {
             try
             {
@@ -104,67 +243,17 @@ namespace Troy.Web.Controllers
                 if (submitButton == "Save")
                 {
                     model.Employee.IsActive = "Y";
-                    model.Employee.Created_Branc_Id = 1;
+                    model.Employee.Created_Branc_Id = 1;//GetBranchId();
                     model.Employee.Created_Dte = DateTime.Now;
-                    model.Employee.Created_User_Id = 1;  //GetUserId()
-                    model.Employee.Modified_User_Id = 1;
+                    model.Employee.Created_User_Id = 1;  //GetUserId();
+                    model.Employee.Modified_User_Id = 1;//GetUserId();
                     model.Employee.Modified_Dte = DateTime.Now;
-                    model.Employee.Modified_Branch_Id = 1;
+                    model.Employee.Modified_Branch_Id = 1;//GetBranchId();
 
-                    if (employeeDb.AddNewEmployee(model.Employee))
+                    if (employeeRepository.AddNewEmployee(model.Employee))
                     {
-                        Guid GuidRandomNo = Guid.NewGuid();
-                        string mUniqueID = GuidRandomNo.ToString();
-
-                        #region ViewModel-XML-Fill
-
-                        //addemployee class
-                        var addEmp = new AddEmployee();
-                        addEmp.UniqueID = mUniqueID;
-
-                        //general class
-                        addEmp.general.FirstName = model.Employee.First_Name;
-                        addEmp.general.MiddleName = model.Employee.Middle_Name;
-                        addEmp.general.LastName = model.Employee.Last_Name;
-                        addEmp.general.JobTitle = Convert.ToString(model.Employee.Designation_Id);
-                        addEmp.general.Department = Convert.ToString(model.Employee.Department_Id);
-                        addEmp.general.Branch = Convert.ToString(model.Employee.Branch_Id);
-                        addEmp.general.Supervisor = Convert.ToString(model.Employee.Emp_Id);
-                        addEmp.general.Active = model.Employee.IsActive;
-                        addEmp.general.MobilePhone = model.Employee.Mobile_number;
-                        addEmp.general.EMail = model.Employee.Email;
-
-                        //admin class
-                        addEmp.admin.StartDate = Convert.ToString(model.Employee.Start_Dte);
-                        addEmp.admin.LeftDate = Convert.ToString(model.Employee.Left_Dte);
-                        addEmp.admin.LeftReason = Convert.ToString(model.Employee.Left_Reason);
-
-                        //personal class
-                        addEmp.personal.DOB = Convert.ToString(model.Employee.DOB);
-                        addEmp.personal.MaritalStatus = Convert.ToString(model.Employee.Marital_Status);
-                        addEmp.personal.Gender = Convert.ToString(model.Employee.Gender);
-                        addEmp.personal.NumofChildren = Convert.ToString(model.Employee.Noof_Children);
-                        addEmp.personal.EmpId = Convert.ToString(model.Employee.Emp_Id);
-                        addEmp.personal.FatherName = model.Employee.Father_Name;
-                        addEmp.personal.PassportNumber = model.Employee.Passport_no;
-                        addEmp.personal.PassportExpDate = Convert.ToString(model.Employee.Passport_Expiry_Dte);
-
-                        //finance class
-                        addEmp.finance.Salary = Convert.ToString(model.Employee.Salary);
-                        addEmp.finance.EmpCost = model.Employee.ETC;
-                        addEmp.finance.BankCode = model.Employee.Bank_Cde;
-                        addEmp.finance.BankBranch = model.Employee.Bank_Branch_Name;
-                        addEmp.finance.BankAccount = Convert.ToString(model.Employee.Bank_Acc_No);
-
-                        //addEmp class for remarks tag
-                        addEmp.Remarks = model.Employee.Remarks;
-
-                        #endregion
-
-                        if (employeeDb.GenerateXML(addEmp))
-                        {
-                            return RedirectToAction("Index", "Employee");
-                        }
+                        XMLGenerate_SAPInsert(model);
+                        return RedirectToAction("Index", "Employee");
                     }
                     else
                     {
@@ -173,67 +262,17 @@ namespace Troy.Web.Controllers
                 }
                 else if (submitButton == "Update")
                 {
-                    model.Employee.Created_Branc_Id = 1;
+                    model.Employee.Created_Branc_Id = 1;//GetBranchId();
                     model.Employee.Created_Dte = DateTime.Now;
-                    model.Employee.Created_User_Id = 1;  //GetUserId()
-                    model.Employee.Modified_User_Id = 1;
+                    model.Employee.Created_User_Id = 1;  //GetUserId();
+                    model.Employee.Modified_User_Id = 1;//GetUserId();
                     model.Employee.Modified_Dte = DateTime.Now;
-                    model.Employee.Modified_Branch_Id = 1;
+                    model.Employee.Modified_Branch_Id = 1;//GetBranchId();
 
-                    if (employeeDb.EditExistingEmployee(model.Employee))
+                    if (employeeRepository.EditExistingEmployee(model.Employee))
                     {
-                        Guid GuidRandomNo = Guid.NewGuid();
-                        string mUniqueID = GuidRandomNo.ToString();
-
-                        #region ViewModel-XML-Fill
-
-                        //addemployee class
-                        var modifyEmp = new ModifyEmployee();
-                        modifyEmp.UniqueID = mUniqueID;
-
-                        //general class
-                        modifyEmp.general.FirstName = model.Employee.First_Name;
-                        modifyEmp.general.MiddleName = model.Employee.Middle_Name;
-                        modifyEmp.general.LastName = model.Employee.Last_Name;
-                        modifyEmp.general.JobTitle = Convert.ToString(model.Employee.Designation_Id);
-                        modifyEmp.general.Department = Convert.ToString(model.Employee.Department_Id);
-                        modifyEmp.general.Branch = Convert.ToString(model.Employee.Branch_Id);
-                        modifyEmp.general.Supervisor = Convert.ToString(model.Employee.Emp_Id);
-                        modifyEmp.general.Active = model.Employee.IsActive;
-                        modifyEmp.general.MobilePhone = model.Employee.Mobile_number;
-                        modifyEmp.general.EMail = model.Employee.Email;
-
-                        //admin class
-                        modifyEmp.admin.StartDate = Convert.ToString(model.Employee.Start_Dte);
-                        modifyEmp.admin.LeftDate = Convert.ToString(model.Employee.Left_Dte);
-                        modifyEmp.admin.LeftReason = Convert.ToString(model.Employee.Left_Reason);
-
-                        //personal class
-                        modifyEmp.personal.DOB = Convert.ToString(model.Employee.DOB);
-                        modifyEmp.personal.MaritalStatus = Convert.ToString(model.Employee.Marital_Status);
-                        modifyEmp.personal.Gender = Convert.ToString(model.Employee.Gender);
-                        modifyEmp.personal.NumofChildren = Convert.ToString(model.Employee.Noof_Children);
-                        modifyEmp.personal.EmpId = Convert.ToString(model.Employee.Emp_Id);
-                        modifyEmp.personal.FatherName = model.Employee.Father_Name;
-                        modifyEmp.personal.PassportNumber = model.Employee.Passport_no;
-                        modifyEmp.personal.PassportExpDate = Convert.ToString(model.Employee.Passport_Expiry_Dte);
-
-                        //finance class
-                        modifyEmp.finance.Salary = Convert.ToString(model.Employee.Salary);
-                        modifyEmp.finance.EmpCost = model.Employee.ETC;
-                        modifyEmp.finance.BankCode = model.Employee.Bank_Cde;
-                        modifyEmp.finance.BankBranch = model.Employee.Bank_Branch_Name;
-                        modifyEmp.finance.BankAccount = Convert.ToString(model.Employee.Bank_Acc_No);
-
-                        //addEmp class for remarks tag
-                        modifyEmp.Remarks = model.Employee.Remarks;
-
-                        #endregion
-
-                        if (employeeDb.GenerateXML(modifyEmp))
-                        {
-                            return RedirectToAction("Index", "Employee");
-                        }
+                        XMLGenerate_SAPUpdate(model);
+                        return RedirectToAction("Index", "Employee");
                     }
                     else
                     {
@@ -245,6 +284,7 @@ namespace Troy.Web.Controllers
                     return RedirectToAction("Index", "Employee", new { model.SearchColumn, model.SearchQuery });
                 }
 
+                //Bulk Addition file upload
                 if (Convert.ToString(Request.Files["FileUpload"]).Length > 0)
                 {
 
@@ -263,12 +303,6 @@ namespace Troy.Web.Controllers
                             {
                                 System.IO.File.Delete(fileLocation);
                             }
-
-                            //if (System.IO.File.Exists(Server.MapPath("~/App_Data/ExcelFiles") + fileName + System.IO.Path.GetExtension(Request.Files["FileUpload"].FileName)))
-                            //{
-                            //    System.IO.File.Delete(Server.MapPath("~/App_Data/ExcelFiles") + fileName +
-                            //    System.IO.Path.GetExtension(Request.Files["FileUpload"].FileName));
-                            //}
 
                             Request.Files["FileUpload"].SaveAs(fileLocation);
                             string excelConnectionString = string.Empty;
@@ -326,7 +360,7 @@ namespace Troy.Web.Controllers
                                     int mExcelEmp_no = Convert.ToInt32(dr["Employee No"].ToString());
                                     if (mExcelEmp_no != null)
                                     {
-                                        var data = employeeDb.CheckDuplicateName(mExcelEmp_no);
+                                        var data = employeeRepository.CheckDuplicateName(mExcelEmp_no);
                                         if (data != null)
                                         {
                                             return Json(new { success = true, Message = "Employee Number: " + mExcelEmp_no + " - already exists." }, JsonRequestBehavior.AllowGet);
@@ -339,7 +373,27 @@ namespace Troy.Web.Controllers
                                 }
                                 #endregion
 
-                                //#region Check Designation Name
+                                #region Check Initial Name
+                                //foreach (DataRow dr in ds.Tables[0].Rows)
+                                //{
+                                //    string mExcelIni_Name = Convert.ToString(dr["Initial"]);
+                                //    if (mExcelIni_Name != null && mExcelIni_Name != "")
+                                //    {
+                                //        var data = employeeDb.CheckInitialName(mExcelIni_Name);
+                                //        if (data == null)
+                                //        {
+                                //            return Json(new { success = true, Message = "Initial: " + mExcelIni_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
+                                //        }
+                                //    }
+
+                                //    else
+                                //    {
+                                //        return Json(new { success = false, Error = "Initial cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                //    }
+                                //}
+                                #endregion
+
+                                #region Check Designation Name
                                 //foreach (DataRow dr in ds.Tables[0].Rows)
                                 //{
                                 //    string mExcelDes_Name = Convert.ToString(dr["Designation Name"]);
@@ -357,7 +411,7 @@ namespace Troy.Web.Controllers
                                 //        return Json(new { success = false, Error = "Designation Name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                 //    }
                                 //}
-                                //#endregion
+                                #endregion
 
                                 #region Check Department Name
                                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -365,7 +419,7 @@ namespace Troy.Web.Controllers
                                     string mExcelDpt_Name = Convert.ToString(dr["Department Name"]);
                                     if (mExcelDpt_Name != null && mExcelDpt_Name != "")
                                     {
-                                        var data = employeeDb.CheckDepartmentName(mExcelDpt_Name);
+                                        var data = employeeRepository.CheckDepartmentName(mExcelDpt_Name);
                                         if (data == null)
                                         {
                                             return Json(new { success = true, Message = "Department Name: " + mExcelDpt_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
@@ -385,7 +439,7 @@ namespace Troy.Web.Controllers
                                     string mExcelManager_Name = Convert.ToString(dr["Manager Name"]);
                                     if (mExcelManager_Name != null && mExcelManager_Name != "")
                                     {
-                                        var data = employeeDb.CheckEmployeeName(mExcelManager_Name);
+                                        var data = employeeRepository.CheckEmployeeName(mExcelManager_Name);
                                         if (data == null)
                                         {
                                             return Json(new { success = true, Message = "Manager Name: " + mExcelManager_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
@@ -399,7 +453,7 @@ namespace Troy.Web.Controllers
                                 }
                                 #endregion
 
-                                //#region Check Branch Name
+                                #region Check Branch Name
                                 //foreach (DataRow dr in ds.Tables[0].Rows)
                                 //{
                                 //    string mExcelBranch_Name = Convert.ToString(dr["Branch Name"]);
@@ -417,7 +471,7 @@ namespace Troy.Web.Controllers
                                 //        return Json(new { success = false, Error = "Branch Name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                 //    }
                                 //}
-                                //#endregion
+                                #endregion
 
                                 #region Check Left Reason
                                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -425,7 +479,7 @@ namespace Troy.Web.Controllers
                                     string mExcelLeft_Name = Convert.ToString(dr["Left Reason"]);
                                     if (mExcelLeft_Name != null && mExcelLeft_Name != "")
                                     {
-                                        var data = employeeDb.CheckLeftReason_TroyValue(mExcelLeft_Name);
+                                        var data = employeeRepository.CheckLeftReason_TroyValue(mExcelLeft_Name);
                                         if (data == null)
                                         {
                                             return Json(new { success = true, Message = "Left Reason: " + mExcelLeft_Name + " - does not exists in the master." }, JsonRequestBehavior.AllowGet);
@@ -495,7 +549,12 @@ namespace Troy.Web.Controllers
                                         #region Fill Initial
                                         if (ds.Tables[0].Rows[j]["Initial"] != null)
                                         {
-                                            mItem.Initial = Convert.ToInt32(ds.Tables[0].Rows[j]["Initial"].ToString());
+                                            //mItem.Initial = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Initial"].ToString());
+                                            string init_name = ds.Tables[0].Rows[j]["Initial"].ToString();
+
+                                            int init_id = employeeRepository.FindIdForInitial(init_name);
+
+                                            mItem.Initial = Convert.ToInt32(init_id);
                                         }
                                         else
                                         {
@@ -550,7 +609,12 @@ namespace Troy.Web.Controllers
                                         #region Fill Designation
                                         if (ds.Tables[0].Rows[j]["Designation Name"] != null)
                                         {
-                                            mItem.Designation_Id = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Designation Name"].ToString());
+                                            //mItem.Designation_Id = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Designation Name"].ToString());
+                                            string desig_name = ds.Tables[0].Rows[j]["Designation Name"].ToString();
+
+                                            int desig_id = employeeRepository.FindIdForDesignationName(desig_name);
+
+                                            mItem.Designation_Id = Convert.ToInt32(desig_id);
                                         }
                                         else
                                         {
@@ -561,7 +625,13 @@ namespace Troy.Web.Controllers
                                         #region Fill Department
                                         if (ds.Tables[0].Rows[j]["Department Name"] != null)
                                         {
-                                            mItem.Department_Id = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Department Name"].ToString());
+                                            // mItem.Department_Id = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Department Name"].ToString());
+
+                                            string dept_name = ds.Tables[0].Rows[j]["Department Name"].ToString();
+
+                                            int dept_id = employeeRepository.FindIdForDepartmentName(dept_name);
+
+                                            mItem.Department_Id = Convert.ToInt32(dept_id);
                                         }
                                         else
                                         {
@@ -572,7 +642,12 @@ namespace Troy.Web.Controllers
                                         # region Fill Manager
                                         if (ds.Tables[0].Rows[j]["Manager Name"] != null)
                                         {
-                                            mItem.Manager_empid = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Manager Name"].ToString());
+                                            //mItem.Manager_empid = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Manager Name"].ToString());
+                                            string manager_name = ds.Tables[0].Rows[j]["Manager Name"].ToString();
+
+                                            int emp_id = employeeRepository.FindIdForManagerName(manager_name);
+
+                                            mItem.Manager_empid = Convert.ToInt32(emp_id);
                                         }
                                         else
                                         {
@@ -583,7 +658,12 @@ namespace Troy.Web.Controllers
                                         #region Fill Branch Name
                                         if (ds.Tables[0].Rows[j]["Branch Name"] != null)
                                         {
-                                            mItem.Branch_Id = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Branch Name"].ToString());
+                                            //mItem.Branch_Id = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Branch Name"].ToString());
+                                            string branch_name = ds.Tables[0].Rows[j]["Branch Name"].ToString();
+
+                                            int branch_id = employeeRepository.FindIdForBranchName(branch_name);
+
+                                            mItem.Branch_Id = Convert.ToInt32(branch_id);
                                         }
                                         else
                                         {
@@ -649,7 +729,12 @@ namespace Troy.Web.Controllers
                                         #region Fill Left Reason
                                         if (ds.Tables[0].Rows[j]["Left Reason"] != null)
                                         {
-                                            mItem.Left_Reason = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Left Reason"].ToString());
+                                            //mItem.Left_Reason = 1;// Convert.ToInt32(ds.Tables[0].Rows[j]["Left Reason"].ToString());
+                                            string leftreason_name = ds.Tables[0].Rows[j]["Left Reason"].ToString();
+
+                                            int leftreason_id = employeeRepository.FindIdForLeftReason(leftreason_name);
+
+                                            mItem.Left_Reason = Convert.ToInt32(leftreason_id);
                                         }
                                         else
                                         {
@@ -847,13 +932,13 @@ namespace Troy.Web.Controllers
 
                                         #endregion
 
-                                        if (employeeDb.GenerateXML(addEmp))
+                                        if (employeeRepository.GenerateXML(addEmp))
                                         {
 
                                         }
                                     }
 
-                                    if (employeeDb.InsertFileUploadDetails(mlist))
+                                    if (employeeRepository.InsertFileUploadDetails(mlist))
                                     {
                                         //System.IO.File.Delete(fileLocation);
                                         return Json(new { success = true, Message = mlist.Count + " Records Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
@@ -890,154 +975,172 @@ namespace Troy.Web.Controllers
 
         public ActionResult _ExporttoExcel()
         {
-            var employee = employeeDb.GetAllEmployee().ToList();
-
-            DataTable dt = new DataTable();
-
-            dt.Columns.Add(new DataColumn("Employee Id"));
-            dt.Columns.Add(new DataColumn("Employee No"));
-            dt.Columns.Add(new DataColumn("Initial"));
-            dt.Columns.Add(new DataColumn("First Name"));
-            dt.Columns.Add(new DataColumn("Middle Name"));
-            dt.Columns.Add(new DataColumn("Last Name"));
-            dt.Columns.Add(new DataColumn("Father Name"));
-            dt.Columns.Add(new DataColumn("Designation Id"));
-            dt.Columns.Add(new DataColumn("Department Id"));
-            dt.Columns.Add(new DataColumn("Manager EmployeeId"));
-            dt.Columns.Add(new DataColumn("Branch Id"));
-            dt.Columns.Add(new DataColumn("ID Number"));
-            dt.Columns.Add(new DataColumn("Mobile number"));
-            dt.Columns.Add(new DataColumn("Email"));
-            dt.Columns.Add(new DataColumn("Start Date"));
-            dt.Columns.Add(new DataColumn("Left Date"));
-            dt.Columns.Add(new DataColumn("Left Reason"));
-            dt.Columns.Add(new DataColumn("DOB"));
-            dt.Columns.Add(new DataColumn("Marital Status"));
-            dt.Columns.Add(new DataColumn("Gender"));
-            dt.Columns.Add(new DataColumn("No of Children"));
-            dt.Columns.Add(new DataColumn("Passport no"));
-            dt.Columns.Add(new DataColumn("Passport Expiry Date"));
-            dt.Columns.Add(new DataColumn("Photo"));
-            dt.Columns.Add(new DataColumn("Salary"));
-            dt.Columns.Add(new DataColumn("ETC"));
-            dt.Columns.Add(new DataColumn("Bank Code"));
-            dt.Columns.Add(new DataColumn("Bank Account No"));
-            dt.Columns.Add(new DataColumn("Bank Branch Name"));
-            dt.Columns.Add(new DataColumn("Remarks"));
-            dt.Columns.Add(new DataColumn("IsActive"));
-            dt.Columns.Add(new DataColumn("Image_Url"));
-
-
-
-            foreach (var e in employee)
+            try
             {
-                DataRow dr_final1 = dt.NewRow();
-                dr_final1["Employee Id"] = e.Emp_Id;
-                dr_final1["Employee No"] = e.Emp_No;
-                dr_final1["Initial"] = e.Initial_Desc;
-                dr_final1["First Name"] = e.First_Name;
-                dr_final1["Middle Name"] = e.Middle_Name;
-                dr_final1["Last Name"] = e.Last_Name;
-                dr_final1["Father Name"] = e.First_Name;
-                dr_final1["Designation Id"] = e.Designation_Name;
-                dr_final1["Department Id"] = e.Department_Name;
-                dr_final1["Manager EmployeeId"] = e.First_Name;
-                dr_final1["Branch Id"] = e.Branch_Name;
-                dr_final1["ID Number"] = e.ID_Number;
-                dr_final1["Mobile number"] = e.Mobile_number;
-                dr_final1["Email"] = e.Email;
-                dr_final1["Start Date"] = e.Start_Dte;
-                dr_final1["Left Date"] = e.Left_Dte;
-                dr_final1["Left Reason"] = e.Left_Reason_TroyValues;
-                dr_final1["DOB"] = e.DOB;
-                dr_final1["Marital Status"] = e.Marital_Status;
-                dr_final1["Gender"] = e.Gender;
-                dr_final1["No of Children"] = e.Noof_Children;
-                dr_final1["Passport no"] = e.Passport_no;
-                dr_final1["Passport Expiry Date"] = e.Passport_Expiry_Dte;
-                dr_final1["Photo"] = e.Photo;
-                dr_final1["Salary"] = e.Salary;
-                dr_final1["ETC"] = e.ETC;
-                dr_final1["Bank Code"] = e.Bank_Cde;
-                dr_final1["Bank Account No"] = e.Bank_Acc_No;
-                dr_final1["Bank Branch Name"] = e.Bank_Branch_Name;
-                dr_final1["Remarks"] = e.Remarks;
-                dr_final1["IsActive"] = e.IsActive;
-                dr_final1["Image_Url"] = e.Image_Url;
+                var employee = employeeRepository.GetAllEmployee().ToList();
 
-                dt.Rows.Add(dr_final1);
+                DataTable dt = new DataTable();
+
+                dt.Columns.Add(new DataColumn("Employee Id"));
+                dt.Columns.Add(new DataColumn("Employee No"));
+                dt.Columns.Add(new DataColumn("Initial"));
+                dt.Columns.Add(new DataColumn("First Name"));
+                dt.Columns.Add(new DataColumn("Middle Name"));
+                dt.Columns.Add(new DataColumn("Last Name"));
+                dt.Columns.Add(new DataColumn("Father Name"));
+                dt.Columns.Add(new DataColumn("Designation Id"));
+                dt.Columns.Add(new DataColumn("Department Id"));
+                dt.Columns.Add(new DataColumn("Manager EmployeeId"));
+                dt.Columns.Add(new DataColumn("Branch Id"));
+                dt.Columns.Add(new DataColumn("ID Number"));
+                dt.Columns.Add(new DataColumn("Mobile number"));
+                dt.Columns.Add(new DataColumn("Email"));
+                dt.Columns.Add(new DataColumn("Start Date"));
+                dt.Columns.Add(new DataColumn("Left Date"));
+                dt.Columns.Add(new DataColumn("Left Reason"));
+                dt.Columns.Add(new DataColumn("DOB"));
+                dt.Columns.Add(new DataColumn("Marital Status"));
+                dt.Columns.Add(new DataColumn("Gender"));
+                dt.Columns.Add(new DataColumn("No of Children"));
+                dt.Columns.Add(new DataColumn("Passport no"));
+                dt.Columns.Add(new DataColumn("Passport Expiry Date"));
+                dt.Columns.Add(new DataColumn("Photo"));
+                dt.Columns.Add(new DataColumn("Salary"));
+                dt.Columns.Add(new DataColumn("ETC"));
+                dt.Columns.Add(new DataColumn("Bank Code"));
+                dt.Columns.Add(new DataColumn("Bank Account No"));
+                dt.Columns.Add(new DataColumn("Bank Branch Name"));
+                dt.Columns.Add(new DataColumn("Remarks"));
+                dt.Columns.Add(new DataColumn("IsActive"));
+                dt.Columns.Add(new DataColumn("Image_Url"));
+
+
+
+                foreach (var e in employee)
+                {
+                    DataRow dr_final1 = dt.NewRow();
+                    dr_final1["Employee Id"] = e.Emp_Id;
+                    dr_final1["Employee No"] = e.Emp_No;
+                    dr_final1["Initial"] = e.Initial_Desc;
+                    dr_final1["First Name"] = e.First_Name;
+                    dr_final1["Middle Name"] = e.Middle_Name;
+                    dr_final1["Last Name"] = e.Last_Name;
+                    dr_final1["Father Name"] = e.First_Name;
+                    dr_final1["Designation Id"] = e.Designation_Name;
+                    dr_final1["Department Id"] = e.Department_Name;
+                    dr_final1["Manager EmployeeId"] = e.First_Name;
+                    dr_final1["Branch Id"] = e.Branch_Name;
+                    dr_final1["ID Number"] = e.ID_Number;
+                    dr_final1["Mobile number"] = e.Mobile_number;
+                    dr_final1["Email"] = e.Email;
+                    dr_final1["Start Date"] = e.Start_Dte;
+                    dr_final1["Left Date"] = e.Left_Dte;
+                    dr_final1["Left Reason"] = e.Left_Reason_TroyValues;
+                    dr_final1["DOB"] = e.DOB;
+                    dr_final1["Marital Status"] = e.Marital_Status;
+                    dr_final1["Gender"] = e.Gender_TroyValues;
+                    dr_final1["No of Children"] = e.Noof_Children;
+                    dr_final1["Passport no"] = e.Passport_no;
+                    dr_final1["Passport Expiry Date"] = e.Passport_Expiry_Dte;
+                    dr_final1["Photo"] = e.Photo;
+                    dr_final1["Salary"] = e.Salary;
+                    dr_final1["ETC"] = e.ETC;
+                    dr_final1["Bank Code"] = e.Bank_Cde;
+                    dr_final1["Bank Account No"] = e.Bank_Acc_No;
+                    dr_final1["Bank Branch Name"] = e.Bank_Branch_Name;
+                    dr_final1["Remarks"] = e.Remarks;
+                    dr_final1["IsActive"] = e.IsActive;
+                    dr_final1["Image_Url"] = e.Image_Url;
+
+                    dt.Rows.Add(dr_final1);
+                }
+
+                System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+                gridvw.DataSource = dt; //bind the datatable to the gridview
+                gridvw.DataBind();
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=EmployeeList.xls");//Microsoft Office Excel Worksheet (.xlsx)
+                Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.Charset = "";
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gridvw.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+
+                return RedirectToAction("Index", "Employee");
             }
-
-            System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
-            gridvw.DataSource = dt; //bind the datatable to the gridview
-            gridvw.DataBind();
-            Response.ClearContent();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=EmployeeList.xls");//Microsoft Office Excel Worksheet (.xlsx)
-            Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            Response.Charset = "";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            gridvw.RenderControl(htw);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
-
-            return RedirectToAction("Index", "Employee");
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return View("Error");
+            }
         }
 
         public ActionResult _TemplateExcelDownload()
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add(new DataColumn("Employee No"));
-            dt.Columns.Add(new DataColumn("Initial"));
-            dt.Columns.Add(new DataColumn("First Name"));
-            dt.Columns.Add(new DataColumn("Middle Name"));
-            dt.Columns.Add(new DataColumn("Last Name"));
-            dt.Columns.Add(new DataColumn("Father Name"));
-            dt.Columns.Add(new DataColumn("Designation Name"));
-            dt.Columns.Add(new DataColumn("Department Name"));
-            dt.Columns.Add(new DataColumn("Manager Name"));
-            dt.Columns.Add(new DataColumn("Branch Name"));
-            dt.Columns.Add(new DataColumn("ID Number"));
-            dt.Columns.Add(new DataColumn("Mobile number"));
-            dt.Columns.Add(new DataColumn("Email"));
-            dt.Columns.Add(new DataColumn("Start Date"));
-            dt.Columns.Add(new DataColumn("Left Date"));
-            dt.Columns.Add(new DataColumn("Left Reason"));
-            dt.Columns.Add(new DataColumn("DOB"));
-            dt.Columns.Add(new DataColumn("Marital Status"));
-            dt.Columns.Add(new DataColumn("Gender"));
-            dt.Columns.Add(new DataColumn("No of Children"));
-            dt.Columns.Add(new DataColumn("Passport no"));
-            dt.Columns.Add(new DataColumn("Passport Expiry Date"));
-            dt.Columns.Add(new DataColumn("Salary"));
-            dt.Columns.Add(new DataColumn("ETC"));
-            dt.Columns.Add(new DataColumn("Bank Code"));
-            dt.Columns.Add(new DataColumn("Bank Account No"));
-            dt.Columns.Add(new DataColumn("Bank Branch Name"));
-            dt.Columns.Add(new DataColumn("Remarks"));
+            try
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add(new DataColumn("Employee No"));
+                dt.Columns.Add(new DataColumn("Initial"));
+                dt.Columns.Add(new DataColumn("First Name"));
+                dt.Columns.Add(new DataColumn("Middle Name"));
+                dt.Columns.Add(new DataColumn("Last Name"));
+                dt.Columns.Add(new DataColumn("Father Name"));
+                dt.Columns.Add(new DataColumn("Designation Name"));
+                dt.Columns.Add(new DataColumn("Department Name"));
+                dt.Columns.Add(new DataColumn("Manager Name"));
+                dt.Columns.Add(new DataColumn("Branch Name"));
+                dt.Columns.Add(new DataColumn("ID Number"));
+                dt.Columns.Add(new DataColumn("Mobile number"));
+                dt.Columns.Add(new DataColumn("Email"));
+                dt.Columns.Add(new DataColumn("Start Date"));
+                dt.Columns.Add(new DataColumn("Left Date"));
+                dt.Columns.Add(new DataColumn("Left Reason"));
+                dt.Columns.Add(new DataColumn("DOB"));
+                dt.Columns.Add(new DataColumn("Marital Status"));
+                dt.Columns.Add(new DataColumn("Gender"));
+                dt.Columns.Add(new DataColumn("No of Children"));
+                dt.Columns.Add(new DataColumn("Passport no"));
+                dt.Columns.Add(new DataColumn("Passport Expiry Date"));
+                dt.Columns.Add(new DataColumn("Salary"));
+                dt.Columns.Add(new DataColumn("ETC"));
+                dt.Columns.Add(new DataColumn("Bank Code"));
+                dt.Columns.Add(new DataColumn("Bank Account No"));
+                dt.Columns.Add(new DataColumn("Bank Branch Name"));
+                dt.Columns.Add(new DataColumn("Remarks"));
 
 
-            DataRow dr = dt.NewRow();
-            dt.Rows.Add(dt);
+                DataRow dr = dt.NewRow();
+                dt.Rows.Add(dt);
 
-            System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
-            gridvw.DataSource = dt; //bind the datatable to the gridview
-            gridvw.DataBind();
-            Response.ClearContent();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=EmployeeList.xls");//Microsoft Office Excel Worksheet (.xlsx)
-            Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            Response.Charset = "";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            gridvw.RenderControl(htw);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
+                System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+                gridvw.DataSource = dt; //bind the datatable to the gridview
+                gridvw.DataBind();
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=EmployeeList.xls");//Microsoft Office Excel Worksheet (.xlsx)
+                Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.Charset = "";
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gridvw.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
 
-            return RedirectToAction("Index", "Employee");
+                return RedirectToAction("Index", "Employee");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return View("Error");
+            }
         }
 
         #endregion
@@ -1054,24 +1157,30 @@ namespace Troy.Web.Controllers
             {
 
                 EmployeeViewModels model = new EmployeeViewModels();
-                model.Employee = employeeDb.FindOneEmployeeById(id);
-
-                var DesignationList = employeeDb.GetDesignationList().ToList();
+                model.Employee = employeeRepository.GetEmployeeById(id);
+                
+                //Bind Designation
+                var DesignationList = employeeRepository.GetDesignationList().ToList();
                 model.DesignationList = DesignationList;
 
-                var DepartmentList = employeeDb.GetDepartmentList().ToList();
+                //Bind Department
+                var DepartmentList = employeeRepository.GetDepartmentList().ToList();
                 model.DepartmentList = DepartmentList;
 
-                var BranchList = employeeDb.GetBranchList().ToList();
+                //Bind Branch
+                var BranchList = employeeRepository.GetBranchList().ToList();
                 model.BranchList = BranchList;
 
+                //Bind Marital status
                 //var MaritalStatusList = employeeDb.GetMaritalStatusList().ToList();
                 //model.MaritalList = MaritalStatusList;
 
-                var GenderList = employeeDb.GetGenderList().ToList();
+                //Bind Genderlist
+                var GenderList = employeeRepository.GetGenderList().ToList();
                 model.GenderList = GenderList;
 
-                var LeftReasonList = employeeDb.GetLeftReasonList().ToList();
+                //Bind Leftreason
+                var LeftReasonList = employeeRepository.GetLeftReasonList().ToList();
                 model.LeftReasonList = LeftReasonList;
 
                 return PartialView(model);
@@ -1089,24 +1198,30 @@ namespace Troy.Web.Controllers
             try
             {
                 EmployeeViewModels model = new EmployeeViewModels();
-                model.Employee = employeeDb.FindOneEmployeeById(id);
+                model.Employee = employeeRepository.GetEmployeeById(id);
 
-                var DesignationList = employeeDb.GetDesignationList().ToList();
+                //Bind Designation
+                var DesignationList = employeeRepository.GetDesignationList().ToList();
                 model.DesignationList = DesignationList;
 
-                var DepartmentList = employeeDb.GetDepartmentList().ToList();
+                //Bind Department
+                var DepartmentList = employeeRepository.GetDepartmentList().ToList();
                 model.DepartmentList = DepartmentList;
 
-                var BranchList = employeeDb.GetBranchList().ToList();
+                //Bind Branch
+                var BranchList = employeeRepository.GetBranchList().ToList();
                 model.BranchList = BranchList;
 
+                //Bind Maritalstatus
                 //var MaritalStatusList = employeeDb.GetMaritalStatusList().ToList();
                 //model.MaritalList = MaritalStatusList;
 
-                var GenderList = employeeDb.GetGenderList().ToList();
+                //Bind Gender
+                var GenderList = employeeRepository.GetGenderList().ToList();
                 model.GenderList = GenderList;
 
-                var LeftReasonList = employeeDb.GetLeftReasonList().ToList();
+                //Bind Leftreason
+                var LeftReasonList = employeeRepository.GetLeftReasonList().ToList();
                 model.LeftReasonList = LeftReasonList;
 
                 return PartialView(model);

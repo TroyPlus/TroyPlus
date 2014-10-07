@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region Namespaces
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -14,6 +15,7 @@ using Troy.Data.DataContext;
 using Troy.Model.Manufacturer;
 using Troy.Model.SAP_OUT;
 using Troy.Utilities.CrossCutting;
+#endregion
 
 
 namespace Troy.Data.Repository
@@ -47,22 +49,7 @@ namespace Troy.Data.Repository
 
             var cmd = manufactureContext.Database.Connection.CreateCommand();
             cmd.CommandText = "[dbo].[USP_GetManufacturer]";
-            cmd.CommandType = CommandType.StoredProcedure;
-
-            //var searchParam = new SqlParameter();
-            //searchParam.ParameterName = "@SearchColumn";
-            //searchParam.SqlDbType = SqlDbType.NVarChar;
-            //searchParam.SqlValue = searchColumn;
-            ////searchParam.ParameterDirection = ParameterDirection.Output;
-
-            //var stringParam = new SqlParameter();
-            //stringParam.ParameterName = "@SearchString";
-            //stringParam.SqlDbType = SqlDbType.NVarChar;
-            //stringParam.SqlValue = searchString;
-            ////stringParam.ParameterDirection = ParameterDirection.Output;
-
-            //cmd.Parameters.Add(searchParam);
-            //cmd.Parameters.Add(stringParam);
+            cmd.CommandType = CommandType.StoredProcedure;           
 
             cmd.Parameters.Add(new SqlParameter("@SearchColumn", searchColumn));
             cmd.Parameters.Add(new SqlParameter("@SearchString", searchString));
@@ -106,14 +93,8 @@ namespace Troy.Data.Repository
             return qList;
         }
 
-        public List<Manufacture> GetAllManufactureByFilter()
-        {
-            List<Manufacture> qList = new List<Manufacture>();
 
-            return qList;
-        }
-
-        public Manufacture FindOneManufacturerById(int qId)
+        public Manufacture GetManufacturerById(int qId)
         {
             return (from p in manufactureContext.Manufacture
                     where p.Manufacturer_Id == qId
@@ -168,16 +149,6 @@ namespace Troy.Data.Repository
             }
         }
 
-        public bool AddBulkManufacturer(Object obj)
-        {
-            //manufactureContext.Manufacture.Add(obj);            
-            //return true;
-
-            //List<propertyinfo> propertyList = obj.GetProperties().ToList();
-
-
-            return true;
-        }
 
         public bool EditExistingManufacturer(Manufacture manufacturer)
         {
@@ -226,10 +197,7 @@ namespace Troy.Data.Repository
                 mSAP.Troy_Created_Dte = Convert.ToDateTime(DateTime.Now.ToString());
                 mSAP.Troy_XML = doc.InnerXml;
                 SAPOUTRepository saprepo = new SAPOUTRepository();
-                if (saprepo.AddNew(mSAP))
-                {
-
-                }
+                saprepo.AddNew(mSAP);               
                 return true;
             }
             catch (Exception ex)

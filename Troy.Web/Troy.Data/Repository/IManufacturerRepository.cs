@@ -12,10 +12,8 @@ namespace Troy.Data.Repository
         List<Manufacture> GetAllManufacturer();
 
         List<Manufacture> GetFilterManufacturer(string searchColumn, string searchString, Guid userId);
-        
-        Manufacture FindOneManufacturerById(int qId);
 
-        //  List<BranchList> GetAddressList();
+        Manufacture GetManufacturerById(int qId);    
 
         Manufacture CheckDuplicateName(string mManu_Name);
 
@@ -26,8 +24,6 @@ namespace Troy.Data.Repository
         bool AddNewManufacturer(Manufacture manufacturer);
 
         bool EditExistingManufacturer(Manufacture manufacturer);
-
-        bool AddBulkManufacturer(Object obj);
 
         bool GenerateXML(Object obj);
 

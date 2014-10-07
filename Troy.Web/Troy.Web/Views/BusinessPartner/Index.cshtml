@@ -147,28 +147,72 @@
         $("#Container1 :text").each(function () {
             Contain += $(this).val() + "$";
         });
-    }
+    }  
 
-    $('input:checkbox[id*=chkCopy]').change(function () {       
-        if ($(this).is(':checked')) {
-            $('input:text[id*=BillingAddress1]').val($('input:text[id*=ShippingAddress1]').val());
-            $('input:text[id*=BillingAddress2]').val($('input:text[id*=ShippingAddress2]').val());
-            $('input:text[id*=BillingAddress3]').val($('input:text[id*=ShippingAddress3]').val());
-            //$('input:dropdown[id*=BillingCity]').text($('input:text[id*=ShippingCity]').text());
-            //$('input:dropdown[id*=BillingState]').val($('input:text[id*=ShippingState]').val());
-            //$('input:dropdown[id*=BillingCountry]').val($('input:text[id*=ShippingCountry]').val());
-            $('input:text[id*=BillingPinCode]').val($('input:text[id*=ShippingPinCode]').val());
+    function check()
+    {
+        debugger;
+        var isChecked = document.getElementById("chkCopy").checked;       
+        if (isChecked.toString() == "true") {            
+           
+            $('#BillingAddress1').val($('#ShippingAddress1').val());
+            $('#BillingAddress2').val($('#ShippingAddress2').val());
+            $('#BillingAddress3').val($('#ShippingAddress3').val());
+            $('#BillingCity').val($('#ShippingCity').val());            
+            $('#BillingState').val($('#ShippingState').val());
+            $('#BillingCountry').val($('#ShippingCountry').val());
+            $('#BillingPinCode').val($('#ShippingPinCode').val());
+
+            $('#BillingAddress1').attr('readonly', true);
+            $('#BillingAddress2').attr('readonly', true);
+            $('#BillingAddress3').attr('readonly', true);
+            $('#BillingCity').attr('readonly', true);
+            $('#BillingState').attr('readonly', true);
+            $('#BillingCountry').attr('readonly', true);
+            $('#BillingPinCode').attr('readonly', true);
         }
         else {
-            $('input:text[id*=BillingAddress1]').val('');
-            $('input:text[id*=BillingAddress2]').val('');
-            $('input:text[id*=BillingAddress3]').val('');
-            //$('input:dropdown[id*=BillingCity]').text('');
-            //$('input:dropdown[id*=BillingState]').val('');
-            //$('input:dropdown[id*=BillingCountry]').val('');
-            $('input:text[id*=BillingPinCode]').val('');
+            $('#BillingAddress1').attr('readonly', false);
+            $('#BillingAddress2').attr('readonly', false);
+            $('#BillingAddress3').attr('readonly', false);
+            $('#BillingCity').attr('readonly', false);
+            $('#BillingState').attr('readonly', false);
+            $('#BillingCountry').attr('readonly', false);
+            $('#BillingPinCode').attr('readonly', false);
         }
-    });
+    }
+
+    function Editcheck() {
+        debugger;
+        var isChecked = document.getElementById("chkeditCopy").checked;
+        if (isChecked.toString() == "true") {
+
+            $('#eBillingAddress1').val($('#eShippingAddress1').val());
+            $('#eBillingAddress2').val($('#eShippingAddress2').val());
+            $('#eBillingAddress3').val($('#eShippingAddress3').val());
+            $('#eBillingCity').val($('#eShippingCity').val());
+            $('#eBillingState').val($('#eShippingState').val());
+            $('#eBillingCountry').val($('#eShippingCountry').val());
+            $('#eBillingPinCode').val($('#eShippingPinCode').val());
+
+            $('#eBillingAddress1').attr('readonly', true);
+            $('#eBillingAddress2').attr('readonly', true);
+            $('#eBillingAddress3').attr('readonly', true);
+            $('#eBillingCity').attr('readonly', true);
+            $('#eBillingState').attr('readonly', true);
+            $('#eBillingCountry').attr('readonly', true);
+            $('#eBillingPinCode').attr('readonly', true);
+        }
+        else {
+            $('#eBillingAddress1').attr('readonly', false);
+            $('#eBillingAddress2').attr('readonly', false);
+            $('#eBillingAddress3').attr('readonly', false);
+            $('#eBillingCity').attr('readonly', false);
+            $('#eBillingState').attr('readonly', false);
+            $('#eBillingCountry').attr('readonly', false);
+            $('#eBillingPinCode').attr('readonly', false);
+        }
+    }
 
 </script>
 

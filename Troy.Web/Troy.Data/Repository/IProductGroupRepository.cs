@@ -13,10 +13,7 @@ namespace Troy.Data.Repository
 
         List<ProductGroup> GetFilterProductGroup(string searchColumn, string searchString, Guid userId);
 
-
-        ProductGroup FindOneProductGroupById(int qId);
-
-        //  List<BranchList> GetAddressList();
+        ProductGroup GetProductGroupById(int qId);     
 
         ProductGroup CheckDuplicateName(string mProdGrp_Name);
 
@@ -26,9 +23,7 @@ namespace Troy.Data.Repository
 
         bool AddNewProductGroup(ProductGroup ProductGroup);
 
-        bool EditExistingProductGroup(ProductGroup ProductGroup);
-
-        bool AddBulkProductGroup(Object obj);
+        bool EditExistingProductGroup(ProductGroup ProductGroup);       
 
         bool GenerateXML(Object obj);
     }

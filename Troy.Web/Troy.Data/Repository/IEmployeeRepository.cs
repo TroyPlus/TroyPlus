@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region Namespaces
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,16 +12,15 @@ using Troy.Model.Genders;
 using Troy.Model.MaritalStatus;
 using Troy.Model.LeftReasons;
 using Troy.Model.Initials;
+#endregion
 
 namespace Troy.Data.Repository
 {
     public interface IEmployeeRepository
     {
-        List<ViewEmployee> GetAllEmployee();
+        List<ViewEmployee> GetAllEmployee();      
 
-        List<ViewEmployee> GetFilterEmployee(string searchColumn, string searchString, Guid userId);
-
-        Employee FindOneEmployeeById(int qId);
+        Employee GetEmployeeById(int qId);
 
         Employee CheckDuplicateName(int mEmployee_No);
 
@@ -55,5 +55,19 @@ namespace Troy.Data.Repository
         LeftReason CheckLeftReason_TroyValue(string lftValue);
 
         Employee CheckEmployeeName(string ename);
+
+        Initial CheckInitialName(string iniName);
+
+        int FindIdForDepartmentName(string deptname);
+
+        int FindIdForInitial(string initName);
+
+        int FindIdForDesignationName(string desgname);
+
+        int FindIdForManagerName(string managername);
+
+        int FindIdForBranchName(string branchname);
+
+        int FindIdForLeftReason(string lftReasonName);
     }
 }

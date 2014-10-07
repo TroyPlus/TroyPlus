@@ -16,6 +16,7 @@ namespace Troy.Web.Tests.Controllers
     public class PurchaseControllerTest
     {
         private PurchaseController purchaseController;
+
         #region Repository Objects
         private Mock<IPurchaseRepository> mockPurchaseRepository;
         private Mock<IManufacturerRepository> mockManufacturerRepository;

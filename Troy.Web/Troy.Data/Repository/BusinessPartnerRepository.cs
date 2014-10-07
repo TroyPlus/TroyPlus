@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region Namespaces
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -22,47 +23,76 @@ using Troy.Model.Employees;
 using Troy.Model.SAP_OUT;
 using System.Xml;
 using System.Xml.Serialization;
+#endregion
 
 namespace Troy.Data.Repository
 {
     public class BusinessPartnerRepository : BaseRepository, IBusinessPartnerRepository
     {
         private BusinessPartnerContext businesspartnercontext = new BusinessPartnerContext();
-        
+
 
         public List<ViewBusinessPartner> GetAllBusinessPartner()
         {
             List<ViewBusinessPartner> qList = new List<ViewBusinessPartner>();
-                       
+
 
             qList = (from item in businesspartnercontext.BusinessPartner
                      join c in businesspartnercontext.Group
-                     on item.Group_id equals c.Group_Id
+                        on item.Group_id equals c.Group_Id
+                     join sc in businesspartnercontext.City
+                        on item.Ship_City equals sc.ID
+                     join bc in businesspartnercontext.City
+                        on item.Bill_City equals bc.ID
+                     join scu in businesspartnercontext.Country
+                        on item.Ship_Country equals scu.ID
+                     join bcu in businesspartnercontext.Country
+                       on item.Bill_Country equals bcu.ID
+                     join sst in businesspartnercontext.State
+                       on item.Ship_City equals sst.ID
+                     join bst in businesspartnercontext.State
+                       on item.Bill_State equals bst.ID
+                     join pl in businesspartnercontext.PriceList
+                       on item.Pricelist equals pl.Id
+                     join em in businesspartnercontext.Employee
+                       on item.Emp_Id equals em.Emp_Id
+                    join br in businesspartnercontext.Branch
+                      on item.Branch_id equals br.Branch_Id
+
 
                      select new ViewBusinessPartner()
                      {
                          BP_Id = item.BP_Id,
                          BP_Name = item.BP_Name,
                          Group_Type = item.Group_Type,
-                         Group_Name=c.Group_Name,
+                         Group_Name = c.Group_Name,
                          Ship_Address1 = item.Ship_Address1,
                          Ship_address2 = item.Ship_address2,
                          Ship_address3 = item.Ship_address3,
-                         Ship_City = item.Ship_City,
+                         Ship_City =  item.Ship_City,
+                         City_Name=sc.City_Name,
                          Ship_State = item.Ship_State,
+                         State_Name=sst.State_Name,
                          Ship_Country = item.Ship_Country,
+                         Country_Name=bcu.Country_Name,
                          Ship_pincode = item.Ship_pincode,
                          Bill_Address1 = item.Bill_Address1,
                          Bill_address2 = item.Bill_address2,
                          Bill_address3 = item.Bill_address3,
                          Bill_City = item.Bill_City,
-                         Bill_State = item.Bill_State,
+                         billCity_Name =bc.City_Name,
+                         Bill_State = item.Bill_State,      
+                         billState_Name=sst.State_Name,
                          Bill_Country = item.Bill_Country,
+                         billCountry_Name=scu.Country_Name,
                          Bill_pincode = item.Bill_pincode,
                          IsActive = item.IsActive,
                          Pricelist = item.Pricelist,
+                         Price_List_Desc=pl.Price_List_Desc,
                          Emp_Id = item.Emp_Id,
+                         Employee_Name=em.First_Name,
                          Branch_id = item.Branch_id,
+                         Branch_Name=br.Branch_Name,
                          Phone1 = item.Phone1,
                          Phone2 = item.Phone2,
                          Mobile = item.Mobile,
@@ -83,105 +113,10 @@ namespace Troy.Data.Repository
                          Modified_User_Id = item.Modified_User_Id
                      }).ToList();
 
-            return qList;
-
-            //qList = (from p in businesspartnercontext.BusinessPartner
-            //         select p).ToList();
-
-            //return qList;
+            return qList;           
         }
 
-        public List<ViewBusinessPartner> GetFilterBusinessPartner(string searchColumn, string searchString, Guid userId)
-        {
-            List<ViewBusinessPartner> qList = new List<ViewBusinessPartner>();
-
-            if (searchColumn == null)
-            {
-                searchColumn = "";
-                searchString = "";
-            }
-
-            businesspartnercontext.Database.Initialize(force: false);
-
-            var cmd = businesspartnercontext.Database.Connection.CreateCommand();
-            cmd.CommandText = "[dbo].[USP_GetBusinessPartner]";
-            cmd.CommandType = CommandType.StoredProcedure;
-
-
-            cmd.Parameters.Add(new SqlParameter("@SearchColumn", searchColumn));
-            cmd.Parameters.Add(new SqlParameter("@SearchString", searchString));
-
-            try
-            {
-                businesspartnercontext.Database.Connection.Open();
-                // Run the sproc  
-                var reader = cmd.ExecuteReader();
-
-                var result = ((IObjectContextAdapter)businesspartnercontext)
-                    .ObjectContext
-                    .Translate<ViewBusinessPartner>(reader, "BusinessPartner", MergeOption.AppendOnly);
-
-
-                foreach (var item in result)
-                {
-                    ViewBusinessPartner model = new ViewBusinessPartner()
-                    {
-
-                        BP_Id = item.BP_Id,
-                        BP_Name = item.BP_Name,
-                        Group_Type = item.Group_Type,
-                        Group_id = item.Group_id,
-                        Group_Name=item.Group_Name,
-                        Ship_Address1 = item.Ship_Address1,
-                        Ship_address2 = item.Ship_address2,
-                        Ship_address3 = item.Ship_address3,
-                        Ship_City = item.Ship_City,
-                        Ship_State = item.Ship_State,
-                        Ship_Country = item.Ship_Country,
-                        Ship_pincode = item.Ship_pincode,
-                        Bill_Address1 = item.Bill_Address1,
-                        Bill_address2 = item.Bill_address2,
-                        Bill_address3 = item.Bill_address3,
-                        Bill_City = item.Bill_City,
-                        Bill_State = item.Bill_State,
-                        Bill_Country = item.Bill_Country,
-                        Bill_pincode = item.Bill_pincode,
-                        IsActive = item.IsActive,
-                        Pricelist = item.Pricelist,
-                        Emp_Id = item.Emp_Id,
-                        Branch_id = item.Branch_id,
-                        Phone1 = item.Phone1,
-                        Phone2 = item.Phone2,
-                        Mobile = item.Mobile,
-                        Fax=item.Fax,
-                        Email_Address = item.Email_Address,
-                        Website = item.Website,
-                        Contact_person = item.Contact_person,
-                        Remarks = item.Remarks,
-                        Ship_method = item.Ship_method,
-                        Control_account_id = item.Control_account_id,
-                        Opening_Balance = item.Opening_Balance,
-                        Due_date = item.Due_date,
-                        Created_Branc_Id = item.Created_Branc_Id,
-                        Created_Dte = item.Created_Dte,
-                        Created_User_Id = item.Created_User_Id,
-                        Modified_Branch_Id = item.Modified_Branch_Id,
-                        Modified_Dte = item.Modified_Dte,
-                        Modified_User_Id = item.Modified_User_Id
-                    };
-
-                    qList.Add(model);
-                }
-            }
-            finally
-            {
-                businesspartnercontext.Database.Connection.Close();
-            }
-
-            return qList;
-        }
-
-        public BusinessPartner FindOneBusinessPartnerById(int qId)
+        public BusinessPartner GetBusinessPartnerById(int qId)
         {
             return (from p in businesspartnercontext.BusinessPartner
                     where p.BP_Id == qId
@@ -243,13 +178,6 @@ namespace Troy.Data.Repository
                 ExceptionHandler.LogException(ex);
                 return false;
             }
-        }
-
-        public bool AddBulkBusinessPartner(Object obj)
-        {
-            //manufactureContext.Manufacture.Add(obj);  
-
-            return true;
         }
 
         public List<GroupList> GetGroupList()
@@ -378,10 +306,7 @@ namespace Troy.Data.Repository
                 mSAP.Troy_Created_Dte = Convert.ToDateTime(DateTime.Now.ToString());
                 mSAP.Troy_XML = doc.InnerXml;
                 SAPOUTRepository saprepo = new SAPOUTRepository();
-                if (saprepo.AddNew(mSAP))
-                {
-
-                }
+                saprepo.AddNew(mSAP);
                 return true;
             }
             catch (Exception ex)
@@ -495,7 +420,7 @@ namespace Troy.Data.Repository
         public string FindPriceListDescForPricelist(int pricelist_id)
         {
             string pricelist_desc = (from p in businesspartnercontext.PriceList
-                                     where p.Id==pricelist_id
+                                     where p.Id == pricelist_id
                                      select p.Price_List_Desc).FirstOrDefault();
 
             return pricelist_desc;
@@ -505,9 +430,73 @@ namespace Troy.Data.Repository
         {
             string branch_name = (from p in businesspartnercontext.Branch
                                   where p.Branch_Id == branch_id
-                                     select p.Branch_Name).FirstOrDefault();
+                                  select p.Branch_Name).FirstOrDefault();
 
             return branch_name;
+        }
+
+        public int FindIdForGroupName(string groupname)
+        {
+            int Group_id = (from p in businesspartnercontext.Group
+                            where p.Group_Name == groupname
+                            select p.Group_Id).FirstOrDefault();
+            return Group_id;
+        }
+
+        public int FindIdForBranchName(string branchname)
+        {
+            int Branch_id = (from p in businesspartnercontext.Branch
+                             where p.Branch_Name == branchname
+                             select p.Branch_Id).FirstOrDefault();
+            return Branch_id;
+        }
+
+        public int FindIdForCityName(string cityname)
+        {
+            int City_id = (from p in businesspartnercontext.City
+                           where p.City_Name == cityname
+                           select p.ID).FirstOrDefault();
+            return City_id;
+        }
+
+        public int FindIdForStateName(string statename)
+        {
+            int State_id = (from p in businesspartnercontext.State
+                            where p.State_Name == statename
+                            select p.ID).FirstOrDefault();
+            return State_id;
+        }
+
+        public int FindIdForCountryName(string countryname)
+        {
+            int Country_id = (from p in businesspartnercontext.Country
+                              where p.Country_Name == countryname
+                              select p.ID).FirstOrDefault();
+            return Country_id;
+        }
+
+        public int FindConAccIdForGroupName(string conAccname)
+        {
+            int ConAcc_Id = (from p in businesspartnercontext.Group
+                             where p.Group_Name == conAccname
+                             select p.Control_Account_Id).FirstOrDefault();
+            return ConAcc_Id;
+        }
+
+        public int FindEmpIdForEmployeeName(string employeename)
+        {
+            int Emp_Id = (from p in businesspartnercontext.Employee
+                          where p.First_Name == employeename
+                          select p.Emp_Id).FirstOrDefault();
+            return Emp_Id;
+        }
+
+        public int FindIdForPriceListDesc(string pricelstDesc)
+        {
+            int Pricelst_Id = (from p in businesspartnercontext.PriceList
+                               where p.Price_List_Desc == pricelstDesc
+                               select p.Id).FirstOrDefault();
+            return Pricelst_Id;
         }
     }
 }

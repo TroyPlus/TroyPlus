@@ -15,8 +15,7 @@ using System.Web;
 namespace Troy.Web.Tests.Controllers
 {
     [TestClass]
-    public class BranchControllerTest
-    
+    public class BranchControllerTest    
     {
         private BranchController branchController;
       
@@ -260,8 +259,8 @@ namespace Troy.Web.Tests.Controllers
         }
 
         #endregion
-        [TestMethod]
 
+        [TestMethod]
         public void Editbranch()
         {
             string submit = "Update";

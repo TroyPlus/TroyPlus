@@ -52,5 +52,6 @@ namespace Troy.Model.Employees
         public string Branch_Name { get; set; }
         public string Initial_Desc { get; set; }
         public string Left_Reason_TroyValues { get; set; }
+        public string Gender_TroyValues { get; set; }
     }
 }
