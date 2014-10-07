@@ -122,10 +122,10 @@
                                         DefaultBranch:
                                     </div>
                                     <div class="col-md-8">
-                                        @*@Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.Branch_Id)*@
-                                        @Html.TextBoxFor(model => model.Branch_Id, new { @class = "form-control control-text" })
+                                        @Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.Branch_Id)
+                                        @*@Html.TextBoxFor(model => model.Branch_Id, new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(model => model.Branch_Id)*@
                                     </div>
                                 </div>
                             </div>

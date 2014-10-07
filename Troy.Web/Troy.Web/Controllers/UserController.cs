@@ -109,7 +109,7 @@ namespace Troy.Web.Controllers
                 //model.UserBranches.Branch_Id = model.ApplicationUsers.Branch_Id;
 
                 var user = new ApplicationUser { UserName = model.UserName,
-                    Email = model.UserName,
+                    Email = model.Email,
                     Employee_Id=model.Employee_Id, 
                     //Role_Id=model.Role_Id,
                     //Branch_Id=model.Branch_Id,
@@ -207,20 +207,21 @@ namespace Troy.Web.Controllers
 
                 //user.Roles.FirstOrDefault().RoleId = model.Role_Id;
                 //var result = (uaer)
-                IdentityResult result;
+                //IdentityResult result;
                 try
                 {
                     //result = _userManager.Update(user);
-
-                    result = _userManager.Update(user);
-
+                    ApplicationUserRole userrole = new ApplicationUserRole();
+                    userrole.RoleId = model.Role_Id;
                     int userId = user.Id;
+                  var  result =await _userManager.UpdateAsync(user);
+                  //int userId = user.Id;
                     if (result.Succeeded)
                     {
                         UserBranches userbranch = new UserBranches()
                         {
                             Branch_Id = model.Branch_Id,
-                            User_Id = userId,
+                            User_Id = model.Id,
                             //Created_User_Id = 1,
                             //Created_Branch_Id = 1,
                             //Created_Date = DateTime.Now,

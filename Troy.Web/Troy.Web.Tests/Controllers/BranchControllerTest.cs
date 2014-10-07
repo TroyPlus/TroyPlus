@@ -70,7 +70,7 @@ namespace Troy.Web.Tests.Controllers
             #region Arrange
             // Prepare the return data for GetAllQuotation() method.
             List<ViewBranches> branchList = new List<ViewBranches>();
-            branchList.Add(new ViewBranches { Branch_Id = 4, Branch_Name = "kakathopu",  Address1 = "no:201,bagavath singh street", Country_ID = 1, State_ID = 1, City_ID = 1 });
+            branchList.Add(new ViewBranches { Branch_Id = 4, Branch_Name = "kakathopu",  Address1 = "no:201,bagavath singh street", Country_Name="India", State_Name= "Tamil Nadu", City_Name = "Madurai" });
 
             // Mock up the GetAllQuotation() repository method with expected return values.
             mockBranchRepository.Setup(m => m.GetAllUserBranch()).Returns(branchList);
@@ -204,11 +204,22 @@ namespace Troy.Web.Tests.Controllers
                 branch.Branch_Id= 4;
                 branch.Branch_Name = "kakathopu" ;
                 branch.Country_ID = countryId;
+                branch.State_ID = stateId;
             }
             branchlist.Branch=branch;
 
+            var countrylist = new List<CountryList>();
+            countrylist.Add(new CountryList { ID = 1, Country_Name = "India" });
 
+            mockBranchRepository.Setup(m => m.FindCodeForCountryId(countryId)).Returns("IN");
+
+            var statelist = new List<StateList>();
+            statelist.Add(new StateList { ID = 1, State_Name = "Tamil Nadu" });
+
+            mockBranchRepository.Setup(m => m.FindCodeForStateId(stateId)).Returns("TN");
        
+
+
             //mockBranchRepository.Setup(m => m.AddNewBranch(branchlist.Branch=)).Returns(model);
             // Prepare the return data for the GetAddressList() method.
             //var countrylist = new List<CountryList>();
@@ -259,7 +270,7 @@ namespace Troy.Web.Tests.Controllers
          Branch branch = new Branch();
             {
                 branch.Branch_Name="salai";
-                branch.Address1="hhggh";
+                branch.Address1="no 90 kamrajar salai";
 
             }
             //branch({ branch.Branch_Name="salai",branch.Branch_Code=2});
@@ -292,10 +303,15 @@ namespace Troy.Web.Tests.Controllers
             ////var branchList1 = new List<BranchList>();
             ////branchList1.Add(new BranchList { BranchId = 1, BranchName = "MADURAI MAIN" });
 
-            //var statelist = new List<StateList>();
-            //statelist.Add(new StateList { ID = 1, State_Name = "Tamil Nadu" });
+            var countrylist = new List<CountryList>();
+            countrylist.Add(new CountryList { ID = 1, Country_Name = "India" });
 
-            //mockBranchRepository.Setup(m => m.GetAddressstateList()).Returns(statelist);
+            mockBranchRepository.Setup(m => m.FindCodeForCountryId(countryId)).Returns("IN");
+
+            var statelist = new List<StateList>();
+            statelist.Add(new StateList { ID = 1, State_Name = "Tamil Nadu" });
+
+            mockBranchRepository.Setup(m => m.FindCodeForStateId(stateId)).Returns("TN");
 
 
             //var citylist = new List<CityList>();

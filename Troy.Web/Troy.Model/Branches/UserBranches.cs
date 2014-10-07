@@ -16,12 +16,14 @@ namespace Troy.Model.Branches
 
        [Key]
        [ForeignKey("user")]
+        [Required]
         public int User_Id { get; set; }
         public virtual ApplicationUser user { get; set; }
         //------------
 
         
         [ForeignKey("branch")]
+        [Required]
         public int Branch_Id { get; set; }
 
         public virtual Branch branch { get; set; }
