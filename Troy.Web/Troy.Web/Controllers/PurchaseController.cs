@@ -39,8 +39,8 @@ namespace Troy.Web.Controllers
         // GET: Purchase
         //[Authorize]
         public ActionResult Index()
-        {
-            try
+        { 
+            try 
             {
                 LogHandler.WriteLog("Purchase Index page requested by #UserId");
                 var qList = purchaseDb.GetAllQuotation();
@@ -48,9 +48,14 @@ namespace Troy.Web.Controllers
                 PurchaseViewModels model = new PurchaseViewModels();
                 model.PurchaseQuotationList = qList;
 
-                var branchlist = purchaseDb.GetAddressList().ToList();
+                var branchlist = purchaseDb.GetAddressList().ToList(); 
 
                 model.BranchList = branchlist;
+
+                //model.PurchaseQuotation.Valid_Date = DateTime.Now;
+                //model.PurchaseQuotation.Required_Date = DateTime.Now;
+                //model.PurchaseQuotation.Posting_Date = DateTime.Now;
+
                 return View(model);
             }
             catch (Exception ex)

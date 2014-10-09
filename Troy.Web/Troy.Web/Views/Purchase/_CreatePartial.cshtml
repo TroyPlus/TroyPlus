@@ -12,157 +12,149 @@
         <div class="modal-body">
             <div class="form-horizontal">
                 <div class="row">
-                    <div class="tabs">
+                    <div class="tabs"> 
                         <ul id="createtabs" class="nav nav-tabs tabdrop">
                             <li class="active">
                                 <a href="#default" data-toggle="tab">General</a>
                             </li>
-                            <li><a href="#addQuotationlist" data-toggle="tab">Product </a></li>
+                            <li><a href="#addQuotationlist" data-toggle="tab">Product </a></li> 
+                             
                         </ul>
 
                         <div id="createtabContent" class="tab-content">
 
                             <div class="tab-pane fade active in" id="default">
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                @Html.LabelFor(m => m.PurchaseQuotation.Vendor):
-                                            </div>
-                                            <div class="col-md-8">
-                                                @Html.TextBoxFor(model => model.PurchaseQuotation.Vendor, new { @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotation.Vendor)
-                                            </div>
-                                        </div>
+                                    <div class="col-md-6"> 
+                                        <div class="form-horizontal">
 
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                Reference Number:
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(m => m.PurchaseQuotation.Vendor, new { @class = "control-label normal" })
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Vendor, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Vendor)
+                                                </div>
                                             </div>
-                                            <div class="col-md-8">
-                                                @Html.TextBoxFor(model => model.PurchaseQuotation.Reference_Number, new { @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotation.Reference_Number)
-                                            </div>
-                                        </div>
 
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                Status:
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(m => m.PurchaseQuotation.Reference_Number, new { @class = "control-label normal" })
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Reference_Number, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Reference_Number)
+                                                </div>
                                             </div>
-                                            <div class="col-md-8">
-                                                @Html.DropDownListFor(model => model.PurchaseQuotation.Quotation_Status, new List<SelectListItem>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "control-label normal" })
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownListFor(model => model.PurchaseQuotation.Quotation_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
                                                             new SelectListItem{ Text="Closed", Value = "Closed" }
                                                          }, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(m => m.PurchaseQuotation.Ship_To, new { @class = "control-label normal" })
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownListFor(m => m.PurchaseQuotation.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Ship_To)
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(m => m.PurchaseQuotation.Fright, new { @class = "control-label normal" })
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Fright, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Fright)
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(m => m.PurchaseQuotation.Loading, new { @class = "control-label normal" })
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Loading, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Loading)
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                Ship To:
-                                            </div>
-                                            <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.PurchaseQuotation.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "BranchId", "BranchName"), "", new { @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotation.Ship_To)
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                Fright:
-                                            </div>
-                                            <div class="col-md-8">
-                                                @Html.TextBoxFor(model => model.PurchaseQuotation.Fright, new { @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotation.Fright)
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                Loading:
-                                            </div>
-                                            <div class="col-md-8">
-                                                @Html.TextBoxFor(model => model.PurchaseQuotation.Loading, new { @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotation.Loading)
-                                            </div>
-                                        </div>
-
                                     </div>
 
                                     <div class="col-md-6">
-
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                Posting Date:
+                                        <div class="form-horizontal">
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(m => m.PurchaseQuotation.Posting_Date, new { @class = "control-label normal" })
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date.Date, new { @Value = DateTime.Now.Date, @class = "form-control control-text datePicker" })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
+                                                </div>
                                             </div>
-                                            <div class="col-md-8">
-                                                @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(m => m.PurchaseQuotation.Valid_Date, new { @class = "control-label normal" })
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date.Date, new { @Value = DateTime.Now.Date, @class = "form-control control-text datePicker" })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Valid_Date)
+                                                </div>
+                                            </div>
+
+                                            <div class="row  form-group">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(m => m.PurchaseQuotation.Required_Date, new { @class = "control-label normal" })
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date.Date, new { @Value = DateTime.Now.Date, @class = "form-control control-text datePicker" })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Required_Date)
+                                                </div>
+                                            </div>
+
+                                            <div class="row  form-group">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(m => m.PurchaseQuotation.Discount, new { @class = "control-label normal" })
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Discount, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Discount)
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(m => m.PurchaseQuotation.Remarks, new { @class = "control-label normal" })
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextAreaFor(model => model.PurchaseQuotation.Remarks, new { @class = "form-control", @cols = 55, @rows = 5 })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Remarks)
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                Valid Date:
-                                            </div>
-                                            <div class="col-md-8">
-                                                @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date, new { @class = "form-control control-text datePicker" })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotation.Valid_Date)
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                Required Date:
-                                            </div>
-                                            <div class="col-md-8">
-                                                @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @class = "form-control control-text datePicker" })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotation.Required_Date)
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                Discount:
-                                            </div>
-                                            <div class="col-md-8">
-                                                @Html.TextBoxFor(model => model.PurchaseQuotation.Discount, new { @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotation.Discount)
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                Remarks:
-                                            </div>
-                                            <div class="col-md-8">
-                                                @Html.TextAreaFor(model => model.PurchaseQuotation.Remarks, new { @class = "form-control", @cols = 55, @rows = 5 })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotation.Remarks)
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
-
-                                <div class="modal-footer">
-
-                                    <input class="btn btn-primary pull-left" type="button" id="btnNextTab" name="nextButton" value="Next" />
-                                    <button class="btn pull-left" data-dismiss="modal">Close</button>
-                                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
-
-                                </div>
-
                             </div>
 
                             <div class="tab-pane fade" id="addQuotationlist">
 
-                                <br />
+                                <div>
 
-                                <div style="padding-left: 15px;">
-
-                                    <table id="createItemTable" class="table table-bordered" cellspacing="6">
+                                    <table id="createItemTable" class="table display">
                                         <thead>
                                             <tr>
                                                 <th>Item Code</th>
@@ -174,54 +166,47 @@
                                                 <th></th>
                                             </tr>
                                         </thead>
+                                        <tbody>
+                                            @for (int i = 0; i < 1; i++)
+                                            {
 
-                                        @for (int i = 0; i < 1; i++)
-                                        {
+                                                <tr>
+                                                    <td style="display:none;">
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].IsDummy, new { @class = "form-control control-text" })
 
-                                        <tr>
-                                            <td style="display:none;">
-                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].IsDummy, new { @class = "form-control control-text" })
-
-                                            </td>
-                                            <td>
-                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Product_id)
-                                            </td>
-                                            <td>
-                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @class = "form-control control-text datePicker" })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
-                                            </td>
-                                            <td>
-                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_qty, new { @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_qty)
-                                            </td>
-                                            <td>
-                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Unit_price, new { @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Unit_price)
-                                            </td>
-                                            <td>
-                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Discount_percent)
-                                            </td>
-                                            <td>
-                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Vat_Code, new { @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Vat_Code)
-                                            </td>
-                                            <td style="width: 90px;">
-                                                <input class="BtnPlus btn pull-left" type="button" value="+" />
-                                                @*<input class="BtnMinus btn pull-left" type="button" value="-" />*@
-                                            </td>
-                                        </tr>
-                                        }
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Product_id)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = DateTime.Now.Date, @class = "form-control control-text datePicker" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_qty, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_qty)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Unit_price, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Unit_price)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Discount_percent)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Vat_Code, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Vat_Code)
+                                                    </td>
+                                                    <td style="width: 90px;">
+                                                        <input class="BtnPlus btn pull-left" type="button" value="+" />
+                                                        @*<input class="BtnMinus btn pull-left" type="button" value="-" />*@
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
                                     </table>
-
-                                </div>
-
-                                <div class="modal-footer">
-
-                                    <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
-                                    <button class="btn pull-left" data-dismiss="modal">Close</button>
-                                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
 
                                 </div>
 
@@ -233,6 +218,10 @@
             </div>
         </div>
 
+        <div class="modal-footer">
+            <input class="btn btn-primary" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+            <button class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+        </div>
     </div>
 </div>
 

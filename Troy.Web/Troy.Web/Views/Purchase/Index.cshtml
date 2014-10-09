@@ -1,7 +1,7 @@
 ﻿@model Troy.Web.Models.PurchaseViewModels
 
 @{
-    ViewBag.Title = "Purchases";
+    ViewBag.Title = "Purchase";
 }
 
 
@@ -268,9 +268,9 @@
                                         @foreach (Troy.Model.Purchase.PurchaseQuotation item in Model.PurchaseQuotationList)
                                         {
                                             <tr class="odd gradeX">
-                                                <td>@item.Purchase_Quote_Id</td>
-                                                <td>@item.Vendor</td>
-                                                <td>@item.Reference_Number</td>
+                                                <td style="text-align:center;">@item.Purchase_Quote_Id</td>
+                                                <td style="text-align:center;">@item.Vendor</td>
+                                                <td style="text-align:center;">@item.Reference_Number</td>
                                                 <td>@item.Quotation_Status</td>
                                                 <td>@item.Posting_Date</td>
                                                 <td>@item.Valid_Date</td>

@@ -19,6 +19,7 @@ namespace Troy.Data.Repository
     public class PurchaseRepository : BaseRepository, IPurchaseRepository
     {
         private PurchaseContext purchaseContext = new PurchaseContext();
+        BranchContext branchContext = new BranchContext();
 
         public List<PurchaseQuotation> GetAllQuotation()
         {
@@ -119,7 +120,7 @@ namespace Troy.Data.Repository
 
         public List<BranchList> GetAddressList()
         {
-            var item = (from a in purchaseContext.Branch
+            var item = (from a in branchContext.Branch
                         select new BranchList
                         {
                             Branch_Name = a.Branch_Name,
