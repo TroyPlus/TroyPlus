@@ -140,7 +140,6 @@
 
     $(function () {
         $("#btnNextTab").click(function (e) {
-            debugger;
             e.preventDefault();
             var _this = $(this);
             var _form = _this.closest("#default");
@@ -148,7 +147,6 @@
             var validator = $("#default").validate(); // obtain validator
             var anyError = false;
             _form.find("input").each(function () {
-                debugger;
 
                 if (!validator.element(this)) { // validate every input element inside this step
                     anyError = true;
@@ -156,7 +154,6 @@
             });
 
             _form.find("select").each(function () {
-                debugger;
 
                 if (!validator.element(this)) { // validate every input element inside this step
                     anyError = true;
