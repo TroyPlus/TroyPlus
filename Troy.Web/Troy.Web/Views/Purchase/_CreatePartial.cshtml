@@ -13,7 +13,7 @@
             <div class="form-horizontal">
                 <div class="row">
                     <div class="tabs">
-                        <ul id="myTab" class="nav nav-tabs tabdrop">
+                        <ul id="createtabs" class="nav nav-tabs tabdrop">
                             <li class="active">
                                 <a href="#default" data-toggle="tab">General</a>
                             </li>
@@ -21,7 +21,8 @@
 
                         </ul>
 
-                        <div id="myTabContent" class="tab-content">
+                        <div id="createtabContent" class="tab-content">
+
                             <div class="tab-pane fade active in" id="default">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -145,6 +146,15 @@
 
                                     </div>
                                 </div>
+
+                                <div class="modal-footer">
+
+                                    <input class="btn btn-primary pull-left" type="button" id="btnNextTab" name="nextButton" value="Next" />
+                                    <button class="btn pull-left" data-dismiss="modal">Close</button>
+                                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+
+                                </div>
+
                             </div>
 
                             <div class="tab-pane fade" id="addQuotationlist">
@@ -169,42 +179,50 @@
                                         @for (int i = 0; i < 1; i++)
                                         {
 
-                                            <tr>
-                                                <td style="display:none;">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].IsDummy, new { @class = "form-control control-text" })
-                                                    
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Product_id)
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @class = "form-control control-text datePicker" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_qty, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_qty)
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Unit_price, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Unit_price)
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Discount_percent)
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Vat_Code, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Vat_Code)
-                                                </td>
-                                                <td style="width: 90px;">
-                                                    <input class="BtnPlus btn pull-left" type="button" value="+" />
-                                                    @*<input class="BtnMinus btn pull-left" type="button" value="-" />*@
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td style="display:none;">
+                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].IsDummy, new { @class = "form-control control-text" })
+
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Product_id)
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @class = "form-control control-text datePicker" })
+                                                @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_qty, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_qty)
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Unit_price, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Unit_price)
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Discount_percent)
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Vat_Code, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Vat_Code)
+                                            </td>
+                                            <td style="width: 90px;">
+                                                <input class="BtnPlus btn pull-left" type="button" value="+" />
+                                                @*<input class="BtnMinus btn pull-left" type="button" value="-" />*@
+                                            </td>
+                                        </tr>
                                         }
                                     </table>
+
+                                </div>
+
+                                <div class="modal-footer">
+
+                                    <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+                                    <button class="btn pull-left" data-dismiss="modal">Close</button>
+                                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
 
                                 </div>
 
@@ -216,13 +234,6 @@
             </div>
         </div>
 
-        <div class="modal-footer">
-            <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
-            <button class="btn pull-left" data-dismiss="modal">Close</button>
-            @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
-
-
-        </div>
     </div>
 </div>
 

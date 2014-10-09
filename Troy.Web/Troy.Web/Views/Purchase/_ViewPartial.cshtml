@@ -50,10 +50,11 @@
                                                 Status:
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownList("Status", new List<SelectListItem>
+
+                                                @Html.DropDownListFor(model => model.PurchaseQuotation.Quotation_Status, new List<SelectListItem>
                                                          {
-                                                            new SelectListItem{ Text="Open", Value = "1" },
-                                                            new SelectListItem{ Text="Closed", Value = "0" }
+                                                            new SelectListItem{ Text="Open", Value = "Open" },
+                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
                                                          }, new { @class = "form-control", disabled = "disabled" })
                                             </div>
                                         </div>
@@ -63,7 +64,7 @@
                                                 Ship To:
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.TextBoxFor(model => model.PurchaseQuotation.Ship_To, new { @class = "form-control control-text", disabled = "disabled" })
+                                                @Html.DropDownListFor(m => m.PurchaseQuotation.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "BranchId", "BranchName"), "", new { @class = "form-control control-text", disabled = "disabled" })
                                                 @Html.ValidationMessageFor(model => model.PurchaseQuotation.Ship_To)
                                             </div>
                                         </div>

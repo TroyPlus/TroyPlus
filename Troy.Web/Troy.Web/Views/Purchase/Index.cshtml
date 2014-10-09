@@ -102,8 +102,10 @@
 
         var formData = new FormData($('form')[0]);
 
+        var dataUrl = "/Purchase/index";
+
         $.ajax({
-            url: 'Purchase',
+            url: dataUrl,
             type: 'POST',
             xhr: function () {
                 var myXhr = $.ajaxSettings.xhr();
@@ -117,9 +119,10 @@
 
                 if (data.success == "true") {
                     alert(data.Message);
+                    window.location.reload();
                 }
                 else {
-                    alert(data.Error);
+                    alert(data.Message);
                 }
             },
             error: function (request, status, error) {
@@ -127,6 +130,62 @@
             }
         });
     }
+
+    function TabChange() {
+        //if ($("#btnSubmit").val == "Next") {
+        $('#createtabs a[href = #addQuotationlist]').tab('show');
+        //    $("#btnSubmit").val("Save");
+        //}
+    }
+
+    $(function () {
+        $("#btnNextTab").click(function (e) {
+            debugger;
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#default");
+
+            var validator = $("#default").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+                debugger;
+
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            _form.find("select").each(function () {
+                debugger;
+
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                $('#createtabs a[href = #addQuotationlist]').tab('show');
+            }// exit if any error found
+
+            //$.post(_form.attr("action"), _form.serialize(), function (data) {
+            //    //check the result and do whatever you want
+            //    $('#createtabs a[href = #addQuotationlist]').tab('show');
+            //})
+
+
+            //$("#default").validate({
+            //    showErrors: function (errorMap, errorList) {
+            //        debugger;
+            //    }
+            //});
+
+        });
+
+    });
+
 </script>
 
 
