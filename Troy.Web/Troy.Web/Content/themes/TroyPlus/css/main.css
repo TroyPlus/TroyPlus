@@ -1044,11 +1044,12 @@ body.full-screen #header {
   width: auto;
   height: 100%;
 }
+/*
 #sidebar #sideNav .top-search {
   position: relative;
 }
 #sidebar #sideNav .top-search input {
-  border: none;
+  border: 1px solid #79859b;
   border-bottom: 1px solid transparent;
   background: none;
   height: 50px;
@@ -1072,6 +1073,7 @@ body.full-screen #header {
 #sidebar #sideNav .top-search button i {
   color: #acb1b8;
 }
+*/
 #sidebar #sideNav li {
   float: left;
   width: 100%;
@@ -1079,10 +1081,10 @@ body.full-screen #header {
   border-right: 1px solid #e7e7e2;
 }
 #sidebar #sideNav li a {    
-    padding:15px;
+  padding:15px;
   position: relative;
   color: #768399;
-  height: 50px;
+  height: 100%;
   border-radius: 0;
   background: #f3f5f6;
   -webkit-transition: background;

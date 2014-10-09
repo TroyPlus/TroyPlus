@@ -21,6 +21,7 @@ namespace Troy.Data.DataContext
         public DbSet<Branch> Branch { get; set; }
 
         public DbSet<Country> country { get; set; }
+       
 
         public DbSet<State> state { get; set; }
 

@@ -1031,7 +1031,7 @@
                 if($(this).hasClass('in') == false){
                   $(this).show();
                 };
-                var contentHeight = $(window).height() - 60;
+                var contentHeight = $(window).height() - 50;
                 var headerHeight = $(this).find('.modal-header').outerHeight() || 2;
                 var footerHeight = $(this).find('.modal-footer').outerHeight() || 2;
 
@@ -1071,7 +1071,7 @@
             var navsub = navel.closest('.nav.sub');
             //empty curmb
             breadcrumb.empty();
-            breadcrumb.append('<li>'+homeIcon+'<a href="index.html">Home</a>'+rightArrow+'</li>');
+            breadcrumb.append('<li>'+homeIcon+'<a href="../Home/Index"> Home</a></li>');
 
             if (navsub.closest('li').hasClass('hasSub')) {
                 //get previous
@@ -1080,16 +1080,16 @@
                 icon1 = navel1.children('i').not('.sideNav-arrow').prop('outerHTML');
                 text1 = navel1.children('.notification').remove().end().text().trim();
 
-                breadcrumb.append('<li>'+icon1+'<a href="'+link+'">'+text1+'</a>'+rightArrow+'</li>');
+                breadcrumb.append('<li>'+icon1+'<a href="'+link+'"> '+text1+'</a></li>');
 
                 icon = navel.children('i').prop('outerHTML');
                 text = navel.children('.indicator').remove().end().text();
-                breadcrumb.append('<li>'+ icon +' '+ text +'</li>');
+                breadcrumb.append('<li>'+ icon +'  '+ text +'</li>');
 
             } else {
                 icon = navel.children('i').prop('outerHTML');
                 text = navel.children('.indicator').remove().end().text();
-                breadcrumb.append('<li>'+ icon +' '+ text +'</li>');
+                breadcrumb.append('<li>'+ icon +'  '+ text +'</li>');
             }         
 
         }

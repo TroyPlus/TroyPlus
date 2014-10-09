@@ -264,7 +264,7 @@ html {
 }
 body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.42857143;
   color: #768399;
   background-color: #ffffff;
@@ -1354,12 +1354,24 @@ th {
   width: 100%;
   margin-bottom: 20px;
 }
-.table > thead > tr > th,
+.table > thead > tr > th{
+  padding: 10px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 2px solid #777777;
+}
+
+.table > tfoot > tr > td {
+  padding: 0px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #f3f5f6;
+}
+
 .table > tbody > tr > th,
 .table > tfoot > tr > th,
 .table > thead > tr > td,
-.table > tbody > tr > td,
-.table > tfoot > tr > td {
+.table > tbody > tr > td {
   padding: 10px;
   line-height: 1.42857143;
   vertical-align: top;
@@ -1367,7 +1379,7 @@ th {
 }
 .table > thead > tr > th {
   vertical-align: bottom;
-  border-bottom: 2px solid #f3f5f6;
+  border-bottom: 2px solid #777777;
 }
 .table > caption + thead > tr:first-child > th,
 .table > colgroup + thead > tr:first-child > th,
@@ -3712,6 +3724,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   margin: 7.5px -15px;
 }
 .navbar-nav > li > a {
+        
   padding-top: 10px;
   padding-bottom: 10px;
   line-height: 20px;

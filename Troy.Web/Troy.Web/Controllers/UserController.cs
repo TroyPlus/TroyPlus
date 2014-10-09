@@ -1,434 +1,621 @@
-﻿//#region Namespaces
-//using System;
-//using System.Collections.Generic;
-//using System.Data;
-//using System.Data.OleDb;
-//using System.Linq;
-//using System.Web;
-//using System.Web.Mvc;
-//using Troy.Data.Repository;
-//using Troy.Model;
-//using Troy.Web.Models;
-//using Troy.Utilities.CrossCutting;
-//using Troy.Model.Branches;
-//using Troy.Model.AppMembership;
-//using System.IO;
-//using System.Web.UI;
+﻿#region Namespaces
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.OleDb;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using System.Text;
+using System.IO;
+using System.Web.UI.WebControls;
+using System.Web.UI;
+using Troy.Data.Repository;
+using Troy.Web.Models;
+using Troy.Web;
+using Troy.Utilities.CrossCutting;
+using Troy.Model.AppMembership;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Troy.Data.DataContext;
+using Troy.Model.Employees;
+using Troy.Model.Branches;
+#endregion
 
 //#endregion
 
-//namespace Troy.Web.Controllers
-//{
-//    public class UserController : BaseController
-//    {
-//        #region Fields
-//        private readonly IUserRepository userDb;
-//        #endregion
+namespace Troy.Web.Controllers
+{
+    public class UserController : BaseController
+    {
+        #region Fields
+        private readonly IUserRepository userDb;
 
-//        #region Constructor
-//        //inject dependency
-//        public UserController(IUserRepository urepository)
-//        {
-//            this.userDb = urepository;
-//        }
-//        #endregion
+        private readonly ApplicationUserManager _userManager;
 
-//        #region Controller Actions
-//        // GET: Branch
-//        public ActionResult Index(string searchColumn, string searchQuery)
-//        {
-//            try
-//            {
-//                LogHandler.WriteLog("Branch Index page requested by #UserId");
-//                var uList = userDb.GetFilterUser(searchColumn, searchQuery, Guid.Empty);   //GetUserId();                
+        private readonly ApplicationSignInManager SignInManager;
 
-//                ApplicationUser model = new ApplicationUser();
-//                //model. = uList;
+        #endregion
 
-//                //var branchlist = userDb.GetAllUser().ToList();
+        #region Constructor
+        //inject dependency
+        public UserController(IUserRepository urepository)
+        {
+            this.userDb = urepository;
+            _userManager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(new ApplicationDbContext()));
+        }
+        #endregion
 
-//                //var Allbranches = branchDb.GetAllBranches().ToList();
+        #region Add Error
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
+        #endregion
 
+        // GET: /Account/Register
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        #region Register
+        public async Task<ActionResult> Register( UserViewModels model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var userlist = userDb.GetApplicationIdforName().ToList();
+                model.UserList = userlist;
+                              
+
+
+                int PasswordExpiryDate =int.Parse(ConfigurationHandler.GetAppSettingsValue("PasswordExpiryDateRange"));
+                
+                DateTime expiryDate = DateTime.Now.AddDays(PasswordExpiryDate);
+                model.PasswordExpiryDate = expiryDate;
+                
+                //if (DateTime.Now > expiryDate)
+                //{
+                //    return RedirectToAction("Index", "User");  
+                //}
+                //else
+                //{
+                //    ModelState.AddModelError("", "User not saved");
+                //}
+                
+                //model.ApplicationUsers.PasswordExpiryDate=DateTime.Now ;
+                //model.registerusers.UserName = model.ApplicationUsers.UserName;
+                //model.registerusers.Password = model.ApplicationUsers.PasswordHash;
+                //model1.Password = model.ApplicationUsers.PasswordHash;
+                //model1.Password=currentUser.UserName;
+                //model1.ConfirmPassword="";
+                //model.ApplicationUsers.IsActive = "Y";
+                //model.ApplicationUsers.Created_Branch_Id = 1;
+                //model.ApplicationUsers.Created_Date = DateTime.Now;
+                //model.ApplicationUsers.Created_User_Id = 1;  //GetUserId()
+                //model.ApplicationUsers.Modified_User_Id = 1;
+                //model.ApplicationUsers.Modified_Date = DateTime.Now;
+                //model.ApplicationUsers.Modified_Branch_Id = 1;
+
+                //model.UserBranches.Id = model.ApplicationUsers.Id;
+                //model.UserBranches.Branch_Id = model.ApplicationUsers.Branch_Id;
+
+                var user = new ApplicationUser { UserName = model.UserName,
+                    Email = model.Email,
+                    Employee_Id=model.Employee_Id, 
+                    //Role_Id=model.Role_Id,
+                    //Branch_Id=model.Branch_Id,
+                    PasswordExpiryDate=model.PasswordExpiryDate,
+                   IsActive="Y",
+                   Created_User_Id=1,
+                   Created_Branch_Id=1,
+                   Created_Date=DateTime.Now,
+                   Modified_User_Id=2,
+                   Modified_Branch_Id=2,
+                   Modified_Date=DateTime.Now,
+                   //Id=model.Id     
+                   };
+                   
+                  
+                                                   // EmailConfirmed=model.ApplicationUsers.EmailConfirmed,PasswordHash=model.ApplicationUsers.PasswordHash,
+                                                    //PhoneNumber=model.ApplicationUsers.PhoneNumber,PhoneNumberConfirmed=model.ApplicationUsers.PhoneNumberConfirmed
+                                                      //,AccessFailedCount=model.ApplicationUsers.AccessFailedCount,
+                ApplicationUserRole userrole = new ApplicationUserRole();
+                userrole.RoleId =model.Role_Id;
+                //userrole.RoleId = Convert.ToString(model.Name);
+                //userrole.RoleId = model.Name;
+
+                user.Roles.Add(userrole);
+
+                var result = await _userManager.CreateAsync(user, model.Password);
+                int userId = user.Id;
+                if (result.Succeeded)
+                {
+                    UserBranches userbranch = new UserBranches()
+                    {
+                        Branch_Id = model.Branch_Id,
+                        User_Id = userId,
+                        Created_User_Id = 1,
+                        Created_Branch_Id = 1,
+                        Created_Date = DateTime.Now,
+                        Modified_User_Id = 2,
+                        Modified_Branch_Id = 2,
+                        Modified_Date = DateTime.Now
+                    };
+                    string errorMsg = string.Empty;
+                    if (userDb.SaveUserBranches(userbranch,ref errorMsg))
+                    {
+                        return RedirectToAction("Index", "User");
+                    }
+                    else
+                    {
+                        ViewBag.AppErrorMessage = errorMsg;
+                        return View("Error");
+                    }
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+        #endregion
+
+
+
+
+
+        #region Register
+        public async Task<ActionResult> EditUser(EditUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var userlist = userDb.GetApplicationIdforName().ToList();
+                model.UserList = userlist;
+             
+                var user = new ApplicationUser
+                {
+                    UserName = model.UserName,
+                    Email = model.UserName,
+                    Employee_Id = model.Employee_Id,
+                    //Role_Id=model.Role_Id,
+                    //Branch_Id=model.Branch_Id,
+                    //PasswordExpiryDate = model.PasswordExpiryDate,
+                    //IsActive = "Y",
+                    IsActive=model.IsActive,
+                    Created_User_Id = 1,
+                    Created_Branch_Id = 1,
+                    Created_Date = DateTime.Now,
+                    Modified_User_Id = 2,
+                    Modified_Branch_Id = 2,
+                    Modified_Date = DateTime.Now,
+                    Id = model.Id
+                    
+                };
+
+
+
+
+                //user.Roles.FirstOrDefault().RoleId = model.Role_Id;
+                //var result = (uaer)
+                //IdentityResult result;
+                try
+                {
+                    //result = _userManager.Update(user);
+                    ApplicationUserRole userrole = new ApplicationUserRole();
+                    userrole.RoleId = model.Role_Id;
+                    int userId = user.Id;
+                  var  result =await _userManager.UpdateAsync(user);
+                  //int userId = user.Id;
+                    if (result.Succeeded)
+                    {
+                        UserBranches userbranch = new UserBranches()
+                        {
+                            Branch_Id = model.Branch_Id,
+                            User_Id = model.Id,
+                            //Created_User_Id = 1,
+                            //Created_Branch_Id = 1,
+                            //Created_Date = DateTime.Now,
+                            //Modified_User_Id = 2,
+                            //Modified_Branch_Id = 2,
+                            //Modified_Date = DateTime.Now
+                        };
+                        string errorMsg = string.Empty;
+                        if (userDb.SaveUserBranches(userbranch, ref errorMsg))
+                        {
+                            return RedirectToAction("Index", "User");
+                        }
+                        else
+                        {
+                            ViewBag.AppErrorMessage = errorMsg;
+                            return View("Error");
+                        }
+                        AddErrors(result);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogHandler.WriteLog(ex.Message);
+                    ViewBag.AppErrorMessage = ex.Message;
+                    return View("Error");
+                }
+               
+                
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+        #endregion
+
+
+        #region Controller Actions
+        // GET: Branch
+        public ActionResult Index()    
+        {
+            try
+            {
+                LogHandler.WriteLog("User Index page requested by #UserId");
+                       
+
+                UserViewModels model = new UserViewModels();
+                //model.ApplicationUserList = uList;
+
+                var EmployeeList = userDb.GetAddressEmployeeList().ToList();
+                model.employeelist = EmployeeList;
+
+                var RoleList = userDb.GetAddressRoleList().ToList();
+                model.rolelist = RoleList;
+
+                var BranchList = userDb.GetAddressBranchList().ToList();
+                model.branchlist = BranchList;
+                //var UserBranches = userDb.
+                //var BranchList = userDb.GetAddressBranchList().ToList();
+                //model.branchlist = BranchList;
+                //var UserBranches = userDb.GetAddressUserBranchList().ToList();
+                //model.userbranches = UserBranches;
+
+
+                //model. = uList;
+                //UserViewModels model1 = userDb.GetAllUser().ToList();
+                //UserViewModels model1 = new UserViewModels();
+                var userlist = userDb.GetAllUser().ToList();
+                model.UserList = userlist;
               
-//                //model.CountryList = countrylist;
-//                return View(model);
-//            }
-//            catch (Exception ex)
-//            {
-//                ExceptionHandler.LogException(ex);
-//                ViewBag.AppErrorMessage = ex.Message;
-//                return View("Error");
-//            }
-//        }
+              
+                //var Allbranches = branchDb.GetAllBranches().ToList();
+
+
+                //model.CountryList = countrylist;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
 
 
 
 
-//        [HttpPost]
-//        public ActionResult Index(string submitButton, ApplicationUser model, HttpPostedFileBase file, string posting, string required, string valid)
-//        {
-//            try
-//            {
-//                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
-//                if (submitButton == "Save")
-//                {
-//                    model.IsActive = "Y";
-//                    model.Created_Branch_Id = 1;
-//                    model.Created_Date = DateTime.Now;
-//                    model.Created_User_Id = 1;  //GetUserId()
-//                    model.Modified_User_Id = 1;
-//                    model.Modified_Date = DateTime.Now;
-//                    model.Modified_Branch_Id = 1;
+        [HttpPost]
+        public ActionResult Index(string submitButton, UserViewModels model, HttpPostedFileBase file)
+        {
+            try
+            {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+                if (submitButton == "Save")
+                {
+
+                   
+                    Register(model);
+
+                    //if (userDb.AddNewUser(model.ApplicationUsers))
+                    //{
+                    //    return RedirectToAction("Index", "User");
+                    //}
+                    //else
+                    //{
+                    //    ModelState.AddModelError("", "User Not Saved");
+                    //}
+                }     
+
+                return RedirectToAction("Index", "User");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
 
 
-//                    if (userDb.AddNewUser(model))
-//                    {
-//                        return RedirectToAction("Index", "ApplicationUser");
-//                    }
-//                    else
-//                    {
-//                        ModelState.AddModelError("", "Branch Not Saved");
-//                    }
-//                }
-//                else if (submitButton == "Update")
-//                {
-//                    model.Created_Branch_Id = 1;
-//                    model.Created_Date = DateTime.Now;
-//                    model.Created_User_Id = 1;  //GetUserId()
-//                    model.Modified_User_Id = 1;
-//                    model.Modified_Date = DateTime.Now;
-//                    model.Modified_Branch_Id = 1;
+        [HttpPost]
+        public ActionResult Update(string submitButton, EditUserViewModel model, HttpPostedFileBase file)
+        {
+            try
+            {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+               
+                 if (submitButton == "Update")
+                {
+
+                    EditUser(model);
+                    //model.Created_Branch_Id = 1;
+                    //model.Created_Date = DateTime.Now;
+                    //model.Created_User_Id = 1;  //GetUserId()
+                    //model.Modified_User_Id = 1;
+                    //model.ApplicationUsers.Modified_Date = DateTime.Now;
+                    //model.ApplicationUsers.Modified_Branch_Id = 1;
 
 
-//                    if (userDb.EditBranch(model.ApplicationUser))
-//                    {
-//                        return RedirectToAction("Index", "ApplicationUser");
-//                    }
-//                    else
-//                    {
-//                        ModelState.AddModelError("", "Branch Not Updated");
-//                    }
-//                }
+                    //if (userDb.EditUser(model.ApplicationUsers))
+                    //{
+                    //    return RedirectToAction("Index", "User");
+                    //}
+                    //else
+                    //{
+                    //    ModelState.AddModelError("", "User Not Updated");
+                    //}
+                }
+
+                return RedirectToAction("Index", "User");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
 
 
-//                else if (submitButton == "Search")
-//                {
-//                    return RedirectToAction("Index", "ApplicationUser", new { model.SearchColumn, model.SearchQuery });
-//                }
-
-//                if (Convert.ToString(Request.Files["FileUpload"]).Length > 0)
-//                {
-//                    try
-//                    {
-
-//                        string fileExtension = System.IO.Path.GetExtension(Request.Files["FileUpload"].FileName);
-
-//                        string fileName = System.IO.Path.GetFileName(Request.Files["FileUpload"].FileName.ToString());
-
-//                        if (fileExtension == ".xls" || fileExtension == ".xlsx")
-//                        {
-//                            string fileLocation = string.Format("{0}/{1}", Server.MapPath("~/App_Data/ExcelFiles"), fileName);
-
-//                            if (System.IO.File.Exists(fileLocation))
-//                            {
-//                                System.IO.File.Delete(fileLocation);
-//                            }
-//                            Request.Files["FileUpload"].SaveAs(fileLocation);
-//                            string excelConnectionString = string.Empty;
-//                            excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-//                            fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-
-//                            //connection String for xls file format.
-//                            if (fileExtension == ".xls")
-//                            {
-//                                excelConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
-//                                fileLocation + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
-//                            }
-//                            //connection String for xlsx file format.
-//                            else if (fileExtension == ".xlsx")
-//                            {
-//                                excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-//                                fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-//                            }
-
-//                            //Create Connection to Excel work book and add oledb namespace
-//                            OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
-//                            excelConnection.Open();
-//                            DataTable dt = new DataTable();
-//                            string exquery;
-//                            dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-//                            if (dt == null)
-//                            {
-//                                return null;
-//                            }
-
-//                            String[] excelSheets = new String[dt.Rows.Count];
-//                            int t = 0;
-//                            //excel data saves in temp file here.
-//                            foreach (DataRow row in dt.Rows)
-//                            {
-//                                excelSheets[t] = row["TABLE_NAME"].ToString();
-//                                t++;
-//                            }
-
-//                            for (int k = 0; k < dt.Rows.Count; k++)
-//                            {
-//                                DataSet ds = new DataSet();
-//                                int sheets = k + 1;
-
-//                                OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
-
-//                                exquery = string.Format("Select * from [{0}]", excelSheets[k]);
-//                                using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
-//                                {
-//                                    dataAdapter.Fill(ds);
-//                                }
-
-//                                if (ds != null)
-//                                {
-//                                    if (ds.Tables[0].Rows.Count > 0)
-//                                    {
-//                                        List<Branch> mlist = new List<Branch>();
-
-//                                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-//                                        {
-//                                            Branch mItem = new Branch();
-//                                            if (ds.Tables[0].Rows[i]["Branch_Code"] != null)
-//                                            {
-//                                                mItem.Branch_Code = ds.Tables[0].Rows[i]["Branch_Code"].ToString();
-//                                            }
-//                                            else
-//                                            {
-//                                                return Json(new { success = false, Error = "Branch_Code name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
-//                                            }
-
-//                                            if (ds.Tables[0].Rows[i]["Branch_Name"] != null)
-//                                            {
-//                                                //mItem.Branch_Cde = Convert.ToInt32(ds.Tables[0].Rows[i]["Branch_Cde"]);
-//                                                mItem.Branch_Name = ds.Tables[0].Rows[i]["Branch_Name"].ToString();
-//                                            }
-//                                            else
-//                                            {
-//                                                return Json(new { success = false, Error = "Branch_Name field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-//                                            }
-//                                            if (ds.Tables[0].Rows[i]["Address1"] != null)
-//                                            {
-//                                                mItem.Address1 = ds.Tables[0].Rows[i]["Address1"].ToString();
-//                                            }
-//                                            else
-//                                            {
-//                                                return Json(new { success = false, Error = "Address1 field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-//                                            }
-//                                            if (ds.Tables[0].Rows[i]["Address2"] != null)
-//                                            {
-//                                                mItem.Address2 = ds.Tables[0].Rows[i]["Address2"].ToString();
-//                                            }
-//                                            else
-//                                            {
-//                                                return Json(new { success = false, Error = "Address2 field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-//                                            }
-//                                            if (ds.Tables[0].Rows[i]["Address3"] != null)
-//                                            {
-//                                                mItem.Address3 = ds.Tables[0].Rows[i]["Address3"].ToString();
-//                                            }
-//                                            else
-//                                            {
-//                                                return Json(new { success = false, Error = "Address3 field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-//                                            }
-//                                            if (ds.Tables[0].Rows[i]["Country_ID"] != null)
-//                                            {
-//                                                mItem.Country_ID = Convert.ToInt32(ds.Tables[0].Rows[i]["Country_ID"]);
-//                                            }
-//                                            else
-//                                            {
-//                                                return Json(new { success = false, Error = "Country_Cde field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-//                                            }
-//                                            if (ds.Tables[0].Rows[i]["State_ID"] != null)
-//                                            {
-//                                                mItem.State_ID = Convert.ToInt32(ds.Tables[0].Rows[i]["State_ID"]);
-//                                            }
-//                                            else
-//                                            {
-//                                                return Json(new { success = false, Error = "State_Cde field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-//                                            }
-//                                            if (ds.Tables[0].Rows[i]["City_ID"] != null)
-//                                            {
-//                                                mItem.City_ID = Convert.ToInt32(ds.Tables[0].Rows[i]["City_ID"]);
-//                                            }
-//                                            else
-//                                            {
-//                                                return Json(new { success = false, Error = "City_Cde field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-//                                            }
-//                                            if (ds.Tables[0].Rows[i]["Pin_Code"] != null)
-//                                            {
-//                                                mItem.Pin_Code = ds.Tables[0].Rows[i]["Pin_Code"].ToString();
-//                                            }
-//                                            else
-//                                            {
-//                                                return Json(new { success = false, Error = "Pin_Code field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-//                                            }
-//                                            if (ds.Tables[0].Rows[i]["Order_Num"] != null)
-//                                            {
-//                                                mItem.Order_Num = Convert.ToInt32(ds.Tables[0].Rows[i]["Order_Num"]);
-//                                            }
-//                                            else
-//                                            {
-//                                                return Json(new { success = false, Error = "Order_Num field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-//                                            }
-//                                            if (ds.Tables[0].Rows[i]["IsActive"] != null)
-//                                            {
-//                                                mItem.IsActive = ds.Tables[0].Rows[i]["IsActive"].ToString();
-//                                            }
-//                                            else
-//                                            {
-//                                                return Json(new { success = false, Error = "IsActive field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-//                                            }
-
-//                                            mItem.Created_User_Id = 1; //GetUserId();
-//                                            mItem.Created_Branc_Id = 2; //GetBranchId();
-//                                            mItem.Created_Dte = DateTime.Now;
-//                                            mItem.Modified_User_Id = 2; //GetUserId();
-//                                            mItem.Modified_Branch_Id = 2; //GetBranchId();
-//                                            mItem.Modified_Dte = DateTime.Now;
-//                                            mlist.Add(mItem);
-//                                        }
-
-//                                        //if (branchDb.InsertFileUploadDetails(mlist))
-//                                        //{
-//                                        //    return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
-//                                        //}
-//                                    }
-//                                    else
-//                                    {
-//                                        return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                    catch (Exception ex)
-//                    {
-//                        return Json(new { success = false, Error = "File Upload failed :" + ex.Message }, JsonRequestBehavior.AllowGet);
-//                    }
-//                }
-
-//                return RedirectToAction("Index", "Branch");
-//            }
-//            catch (Exception ex)
-//            {
-//                ExceptionHandler.LogException(ex);
-//                ViewBag.AppErrorMessage = ex.Message;
-//                return View("Error");
-//            }
-//        }
 
 
-//        //Check for dupilicate
-//        public JsonResult CheckForDuplication(Branch branch, [Bind(Prefix = "Branch.Branch_Code")]string Branch_Code)
-//        //public ActionResult CheckForDuplication(Manufacture manufacture, [Bind(Prefix = "Manufacturer_Name")]string Manufacturer_Name)
-//        {
-//            var data = userDb.CheckDuplicateName(Branch_Code);
-//            if (data != null)
-//            {
-//                return Json("Sorry, Branch Code already exists", JsonRequestBehavior.AllowGet);
-//            }
-//            else
-//            {
-//                return Json(true, JsonRequestBehavior.AllowGet);
-//            }
-//        }
+        //#region Check for duplicate name
+        //public JsonResult CheckForDuplicationName([Bind(Prefix = "ApplicationUser.UserName")]string UserName, [Bind(Prefix = "ApplicationUser.Id")]int? Id)
+        //{
+
+        //    if (Id != null)
+        //    {
+        //        return Json(true, JsonRequestBehavior.AllowGet);
+        //    }
+        //    else
+        //    {
+
+        //        var data = userDb.CheckDuplicateUserName(UserName);
+        //        if (data != null)
+        //        {
+        //            return Json("Sorry, User Name already exists", JsonRequestBehavior.AllowGet);
+        //        }
+        //        else
+        //        {
+        //            return Json(true, JsonRequestBehavior.AllowGet);
+        //        }
+
+        //    }
+        //}
+        //#endregion
 
 
-//        //public ActionResult _ExporttoExcel(Branch branch)
-//        //{
-//        //var data= branchDb._ExporttoExcel(branch);
-//        //var Branch = from e in branchDb._ExporttoExcel.AsEnumerable()
-//        //             select new
-//        //             {
-//        //                 e.Branch_Cde,
-//        //                 e.Branch_Name,
-//        //                 e.Address1,
-//        //                 e.Address2,
-//        //                 e.Address3,
-//        //                 e.Country_Id,
-//        //                 e.State_Id,
-//        //                 e.City_Id,
-//        //                 e.Pin_Cod,
-//        //                 e.Order_Num,
-//        //                 e.IsActive
-//        //             };
-
-//        //System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
-//        //gridvw.DataSource = Branch.ToList().Take(100); //bind the datatable to the gridview
-//        //gridvw.DataBind();
-//        //Response.ClearContent();
-//        //Response.Buffer = true;
-//        //Response.AddHeader("content-disposition", "attachment; filename=BranchList.xls");//Microsoft Office Excel Worksheet (.xlsx)
-//        //Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-//        //Response.Charset = "";
-//        //StringWriter sw = new StringWriter();
-//        //HtmlTextWriter htw = new HtmlTextWriter(sw);
-//        //gridvw.RenderControl(htw);
-//        //Response.Output.Write(sw.ToString());
-//        //Response.Flush();
-//        //Response.End();
-//        //return RedirectToAction("Index");
-//        //}
 
 
-//        #endregion
-
-//        #region Partial Views
-//        public PartialViewResult _CreatePartial()
-//        {
-//            return PartialView();
-//        }
-
-//        public PartialViewResult _EditPartial(int id)
-//        {
-//            try
-//            {
-//                BranchViewModels model = new BranchViewModels();
-//                model.Branch = userDb.FindOneBranchById(id);
-
-//                var countrylist = userDb.GetAddresscountryList().ToList();
-//                model.CountryList = countrylist;
 
 
-//                var statelist = userDb.GetAddressstateList().ToList();
-//                model.StateList = statelist;
 
-//                var citylist = userDb.GetAddresscityList().ToList();
-//                model.CityList = citylist;
 
-//                return PartialView(model);
-//            }
-//            catch (Exception ex)
-//            {
-//                ExceptionHandler.LogException(ex);
-//                ViewBag.AppErrorMessage = ex.Message;
-//                return PartialView("Error");
-//            }
-//        }
 
-//        public PartialViewResult _ViewPartial(int id)
-//        {
-//            try
-//            {
-//                BranchViewModels model = new BranchViewModels();
-//                model.Branch = userDb.FindOneBranchById(id);
+        //Check for dupilicate
+        //public JsonResult CheckForDuplication(ApplicationUser ApplicationUsers, [Bind(Prefix = "ApplicationUser.UserName")]string UserName, [Bind(Prefix = "ApplicationUsers.Email")]string Email)
+        //{
 
-//                return PartialView(model);
-//            }
-//            catch (Exception ex)
-//            {
-//                ExceptionHandler.LogException(ex);
-//                ViewBag.AppErrorMessage = ex.Message;
-//                return PartialView("Error");
-//            }
-//        }
-//        #endregion
+        //    if (Email != null)
+        //    {
+        //        return Json(true, JsonRequestBehavior.AllowGet);
+        //    }
+        //    else
+        //    {
 
-//    }
-//}
+        //        var data = userDb.CheckDuplicateName(UserName);
+        //        if (data != null)
+        //        {
+        //            return Json("Sorry, UserName already exists", JsonRequestBehavior.AllowGet);
+        //        }
+        //        else
+        //        {
+        //            return Json(true, JsonRequestBehavior.AllowGet);
+        //        }
+
+        //    }
+        //}
+
+
+        //public ActionResult _ExporttoExcel(ViewUsers User)
+        //{
+        //    var data = userDb._ExporttoExcel();
+        //    var user = from e in userDb._ExporttoExcel.AsEnumerable()
+        //               select new
+        //               {
+
+        //               };
+
+        //    System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+        //    gridvw.DataSource = ViewUsers.ToList().Take(100); //bind the datatable to the gridview
+        //    gridvw.DataBind();
+        //    Response.ClearContent();
+        //    Response.Buffer = true;
+        //    Response.AddHeader("content-disposition", "attachment; filename=BranchList.xls");//Microsoft Office Excel Worksheet (.xlsx)
+        //    Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        //    Response.Charset = "";
+        //    StringWriter sw = new StringWriter();
+        //    HtmlTextWriter htw = new HtmlTextWriter(sw);
+        //    gridvw.RenderControl(htw);
+        //    Response.Output.Write(sw.ToString());
+        //    Response.Flush();
+        //    Response.End();
+        //    return RedirectToAction("Index");
+        //}
+
+
+
+
+
+
+        #region Export to excel
+        public ActionResult _ExporttoExcel()
+        {
+            var user = userDb.GetAllUser().ToList();
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("User Id"));
+            dt.Columns.Add(new DataColumn("User Name"));
+            dt.Columns.Add(new DataColumn("Email"));
+            dt.Columns.Add(new DataColumn("Role Description"));
+            dt.Columns.Add(new DataColumn("Is Active"));
+            //dt.Columns.Add(new DataColumn(""));
+            //dt.Columns.Add(new DataColumn(" "));
+            //dt.Columns.Add(new DataColumn(""));
+            //dt.Columns.Add(new DataColumn(""));
+
+            foreach (var e in user)
+            {
+                DataRow dr_final1 = dt.NewRow();
+                dr_final1["User Id"] = e.Id;
+                dr_final1["User Name"] = e.UserName;
+                dr_final1["Email"] = e.Email;
+                dr_final1["Role Description"] = e.Name;
+                //dr_final1[""] = e.;
+                //dr_final1[""] = e.;
+                //dr_final1[" "] = e.;
+                //dr_final1[""] = e.;
+                dr_final1["Is Active"] = e.IsActive;
+                dt.Rows.Add(dr_final1);
+            }
+
+            System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+            gridvw.DataSource = dt; //bind the datatable to the gridview
+            gridvw.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=UserList.xls");//Microsoft Office Excel Worksheet (.xlsx)
+            Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gridvw.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+            return RedirectToAction("Index", "User");
+        }
+        #endregion
+
+
+
+
+
+        #endregion
+
+        #region Partial Views
+        public PartialViewResult _CreatePartial()
+        {
+            return PartialView();
+        }
+
+        public PartialViewResult _EditPartial(int id)
+        {
+            try
+            {
+                EditUserViewModel model = new EditUserViewModel();
+                //model.ApplicationUserList = userDb.FindOneUserById(id);
+
+                var CurrentUser = userDb.FindOneUserById(id);
+                model.UserName = CurrentUser.UserName;
+                model.Id = CurrentUser.Id;
+                model.Email = CurrentUser.Email;
+                model.Role_Id = CurrentUser.Role_Id;
+                model.IsActive = CurrentUser.IsActive;
+                model.Employee_Id = CurrentUser.Employee_Id;
+                model.Branch_Id = CurrentUser.Branch_Id;
+                model.Roles = CurrentUser.Roles;
+                //model.BranchName =Convert.ToString(CurrentUser.Branch_Id);
+                //model.ApplicationUserList = userDb.FindOneUserById(id);
+                //model.ApplicationUsers = userDb.FindOneUserById(id);
+
+                //var userlist = userDb.FindOneUserById().ToList();
+                //model.UserList = userlist;
+
+                var EmployeeList = userDb.GetAddressEmployeeList().ToList();
+                model.employeelist = EmployeeList;
+
+                var RoleList = userDb.GetAddressRoleList().ToList();
+                model.rolelist = RoleList;
+
+                var BranchList = userDb.GetAddressBranchList().ToList();
+                //model.branchlist.FirstOrDefault().Branch_Id = CurrentUser.Branch_Id;
+                model.branchlist = BranchList;
+               
+
+                   
+
+                //var BranchList = userDb.GetAddressBranchList().ToList();
+                //model.branchlist = BranchList;
+                //var UserBranches = userDb.GetAddressBranchList().ToList();
+                //model.userbranches = UserBranches;
+
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+        }
+
+        public PartialViewResult _ViewPartial(int id)
+        {
+            try
+            {
+                UserViewModels model = new UserViewModels();
+                model.ApplicationUserList = userDb.FindOneUserById(id);
+
+
+                //var userlist = userDb.GetApplicationIdforName().ToList();
+                //model.UserList = userlist;
+
+                var EmployeeList = userDb.GetAddressEmployeeList().ToList();
+                model.employeelist = EmployeeList;
+
+                var RoleList = userDb.GetAddressRoleList().ToList();
+                model.rolelist = RoleList;
+
+                var BranchList = userDb.GetAddressBranchList().ToList();
+                model.branchlist = BranchList;
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+        }
+        #endregion
+
+    }
+}
 

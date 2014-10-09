@@ -12,11 +12,10 @@ namespace Troy.Data.Repository
 {
     public interface IBranchRepository
     {
-        List<Branch> GetAllBranch();
-        //List<ViewBranches> GetAllBranches();
+        List<ViewBranches> GetAllUserBranch();
         List<ViewBranches> GetFilterBranch(string searchColumn, string searchString, Guid userId);
 
-
+        List<Branch> GetAllBranch();
         Branch FindOneBranchById(int qId);
 
         Branch CheckDuplicateName(string bname);
@@ -25,12 +24,13 @@ namespace Troy.Data.Repository
 
         Branch CheckDuplicateBranch(string bname, string CheckingType);
 
-        //Branch _ExporttoExcel(Branch branch);
+        Country CheckCountry(string bname);
+
+        State CheckState(string bname);
+
+        City CheckCity(string bname);
 
         IEnumerable<Branch> _ExporttoExcel();
-     
-
-        //List<BranchList> GetAddressList();
 
         List<CountryList> GetAddresscountryList();
 
@@ -45,10 +45,17 @@ namespace Troy.Data.Repository
         bool EditBranch(Branch branch);
 
 
+        int FindIdForCountryName(string name);
 
-        //object CheckDuplicateName(string Branch_Code, string code);
+        int FindIdForStateName(string name);
 
+        int FindIdForCityName(string name);
 
+        String FindCodeForCountryId(int name);
+
+        String FindCodeForStateId(int name);
+
+        string FindNameForCityId(int city_id);
         bool GenerateXML(Object obj);
     }
 }

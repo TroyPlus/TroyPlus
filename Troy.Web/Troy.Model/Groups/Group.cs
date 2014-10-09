@@ -29,7 +29,9 @@ namespace Troy.Model.Groups
         [Required]
         public int Pricelist { get; set; }
 
-        [Required]
+        [Required]       
         public int Control_Account_Id { get; set; }
+        //[ForeignKey("Control_Account_Id")]        
+        //public virtual Group grpControlId { get; set; }
     }
 }

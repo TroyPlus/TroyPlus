@@ -4986,7 +4986,8 @@ table.dataTable td.dataTables_empty {
   text-align: center;
 }
 table.dataTable tr.odd {
-  background: #f9fafa;
+  /* Troy Plus Custom Change*/
+    background:#f9f6f6;
 }
 table.dataTable tr.even {
   background: #ffffff;

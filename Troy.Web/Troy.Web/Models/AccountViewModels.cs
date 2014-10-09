@@ -58,7 +58,11 @@ namespace Troy.Web.Models
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-        
+
+        [Required]
+        [Display(Name="Company Code")]        
+        public string CompanyCode { get; set; }
+
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }

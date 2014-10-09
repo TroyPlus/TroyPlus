@@ -147,11 +147,20 @@
                 <!-- Start #sideNav -->
                 <ul id="sideNav" class="nav nav-pills nav-stacked">
                     <li class="top-search">
-                        <form>
-                            <input type="text" name="search" placeholder="Search ...">
-                            <button type="submit">
-                                <i class="ec-search s20"></i>
-                            </button>
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                            <div class="row">
+                                <div class="">
+                                    <input class="form-control right-icon" type="text" placeholder="Search ..." />
+                                    <i class="ec-search s16 right-input-icon"></i>
+
+
+                                    @*<button type="button" class="form-control">
+                <i class="ec-search s20"></i>
+            </button>*@
+                                </div>
+                                </div>
+                            </div>
                         </form>
                     </li>
                     @{
@@ -185,17 +194,19 @@
         </div>
     }
     <!-- End #sidebar -->
-    <!-- Body -->
-    <!-- Start #content -->
-    @RenderBody()
 
-    <!-- End #content -->
-    <!-- End Body -->
 
 
     <div class="row">
-        <hr />
-        <div class="col-md-6 col-md-offset-3 text-center">
+        <!-- Body -->
+        <!-- Start #content -->
+        @RenderBody()
+
+        <!-- End #content -->
+        <!-- End Body -->
+
+        <div class="col-md-12 text-center page-footer">
+            <hr />
             <p>Copyrights &copy; TroyPlus  @DateTime.Now.Year. All Rights Reserved </p>
         </div>
     </div>

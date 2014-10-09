@@ -24,35 +24,33 @@ namespace Troy.Web.Controllers
     public class ProductGroupController : Controller
     {
         #region Fields
-        private readonly IProductGroupRepository ProductGroupDb;
+        private readonly IProductGroupRepository productgroupRepository; //declare repository
+        public string Temp_productgroup; //declare old productgroup name for XML Generation
         #endregion
 
         #region Constructor
         //inject dependency
         public ProductGroupController(IProductGroupRepository prepository)
         {
-            this.ProductGroupDb = prepository;
+            this.productgroupRepository = prepository;
         }
         #endregion
 
         #region Controller Actions
 
 
-        // GET: /ProductGroup/
+        // GET: ProductGroup
         public ActionResult Index(string searchColumn, string searchQuery)
         {
             try
             {
                 LogHandler.WriteLog("Purchase Index page requested by #UserId");
 
-                var qList = ProductGroupDb.GetFilterProductGroup(searchColumn, searchQuery, Guid.Empty);   //GetUserId();        
+                var qList = productgroupRepository.GetFilterProductGroup(searchColumn, searchQuery, Guid.Empty);   //GetUserId();        
 
                 ProductGroupViewModels model = new ProductGroupViewModels();
                 model.ProductGroupList = qList;
 
-                //var ProductGroupList = ProductGroupDb.GetAllProductGroup().ToList();
-
-                //model.ProductGroupList = ProductGroupList;
                 return View(model);
             }
             catch (Exception ex)
@@ -63,105 +61,122 @@ namespace Troy.Web.Controllers
             }
         }
 
+        //check unique key
         public JsonResult CheckForDuplication([Bind(Prefix = "ProductGroup.Product_Group_Name")]string Product_Group_Name, [Bind(Prefix = "ProductGroup.Product_Group_Id")]int? Product_Group_Id)
         {
-            if (Product_Group_Id != null)
+            try
             {
-                //return Json(true, JsonRequestBehavior.AllowGet);
-                if (!(ProductGroupDb.CheckDuplicateNameWithId(Convert.ToInt32(Product_Group_Id), Product_Group_Name)))
+                if (Product_Group_Id != null)
                 {
-                    return Json("Sorry, Product Group Name already exists", JsonRequestBehavior.AllowGet);
+                    if (!(productgroupRepository.CheckDuplicateNameWithId(Convert.ToInt32(Product_Group_Id), Product_Group_Name)))
+                    {
+                        return Json("Sorry, Product Group Name already exists", JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(true, JsonRequestBehavior.AllowGet);
+                    }
                 }
                 else
                 {
-                    return Json(true, JsonRequestBehavior.AllowGet);
+                    var data = productgroupRepository.CheckDuplicateName(Product_Group_Name);
+                    if (data != null)
+                    {
+                        return Json("Sorry, Product Group Name already exists", JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(true, JsonRequestBehavior.AllowGet);
+                    }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                var data = ProductGroupDb.CheckDuplicateName(Product_Group_Name);
-                if (data != null)
-                {
-                    return Json("Sorry, Product Group Name already exists", JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(true, JsonRequestBehavior.AllowGet);
-                }
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return Json(new { Error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 
+        private void XMLGenerate_SAPInsert(ProductGroupViewModels model)
+        {
+            //unique id generation
+            Guid GuidRandomNo = Guid.NewGuid();
+            string UniqueID = GuidRandomNo.ToString();
+
+            //fill view model
+            Viewmodel_AddProductGroup xmlAddProductGroup = new Viewmodel_AddProductGroup();
+            xmlAddProductGroup.UniqueID = UniqueID.ToString();
+            xmlAddProductGroup.Productgroup_Name = model.ProductGroup.Product_Group_Name;
+
+            //generate xml
+            productgroupRepository.GenerateXML(xmlAddProductGroup);
+
+        }
+
+        private void XMLGenerate_SAPUpdate(ProductGroupViewModels model)
+        {
+            //unique id generation
+            Guid GuidRandomNo = Guid.NewGuid();
+            string UniqueID = GuidRandomNo.ToString();
+
+            //fill view model
+            Viewmodel_ModifyProductGroup xmlEditProductGroup = new Viewmodel_ModifyProductGroup();
+            xmlEditProductGroup.UniqueID = UniqueID.ToString();
+            xmlEditProductGroup.old_Productgroup_Name = Temp_productgroup.ToString().Trim();
+            xmlEditProductGroup.New_Productgroup_Name = model.ProductGroup.Product_Group_Name;
+
+            //generate xml
+            productgroupRepository.GenerateXML(xmlEditProductGroup);
+        }
+
         [HttpPost]
-        public ActionResult Index(string submitButton, ProductGroupViewModels model, HttpPostedFileBase file)
+        public ActionResult Index(string submitButton, ProductGroupViewModels model, HttpPostedFileBase file=null)
         {
             try
             {
                 if (submitButton == "Save")
                 {
-                    ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+                    //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
                     model.ProductGroup.IsActive = "Y";
-                    model.ProductGroup.Created_Branc_Id = 1;
+                    model.ProductGroup.Created_Branc_Id = 1;//GetBranchId();
                     model.ProductGroup.Created_Dte = DateTime.Now;
-                    model.ProductGroup.Created_User_Id = 1;  //GetUserId()
-                    model.ProductGroup.Modified_User_Id = 1;
+                    model.ProductGroup.Created_User_Id = 1;  //GetUserId();
+                    model.ProductGroup.Modified_User_Id = 1;//GetUserId();
                     model.ProductGroup.Modified_Dte = DateTime.Now;
-                    model.ProductGroup.Modified_Branch_Id = 1;
+                    model.ProductGroup.Modified_Branch_Id = 1;//GetBranchId();
 
-                    if (ProductGroupDb.AddNewProductGroup(model.ProductGroup))
+                    if (productgroupRepository.AddNewProductGroup(model.ProductGroup))//insert into productgroup table
                     {
-                        //return RedirectToAction("Index", "ProductGroup");
+                        XMLGenerate_SAPInsert(model);
+                        return RedirectToAction("Index", "ProductGroup");
                     }
                     else
                     {
                         ModelState.AddModelError("", "Product Group Not Saved");
                     }
-
-                    Guid GuidRandomNo = Guid.NewGuid();
-                    string UniqueID = GuidRandomNo.ToString();
-
-                    Viewmodel_AddProductGroup xmlAddProductGroup = new Viewmodel_AddProductGroup();
-                    xmlAddProductGroup.UniqueID = UniqueID.ToString();
-                    xmlAddProductGroup.Productgroup_Name = model.ProductGroup.Product_Group_Name;
-
-                    if (ProductGroupDb.GenerateXML(xmlAddProductGroup))
-                    {
-                        return RedirectToAction("Index", "ProductGroup");
-                    }
-
-                    //string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(xmlAddProductGroup);
                 }
                 else if (submitButton == "Update")
                 {
-                    var Temp_productgroup = TempData["OldName"];
+                    //store productgroup name in temporary variable
+                    Temp_productgroup = Convert.ToString(TempData["OldName"]);
 
-                    model.ProductGroup.Created_Branc_Id = 1;
+                    model.ProductGroup.Created_Branc_Id = 1; //GetBranchId();
                     model.ProductGroup.Created_Dte = DateTime.Now;
-                    model.ProductGroup.Created_User_Id = 1;  //GetUserId()
-                    model.ProductGroup.Modified_User_Id = 1;
+                    model.ProductGroup.Created_User_Id = 1;  //GetUserId();
+                    model.ProductGroup.Modified_User_Id = 1; //GetUserId();
                     model.ProductGroup.Modified_Dte = DateTime.Now;
-                    model.ProductGroup.Modified_Branch_Id = 1;
+                    model.ProductGroup.Modified_Branch_Id = 1; //GetBranchId();
 
-                    if (ProductGroupDb.EditExistingProductGroup(model.ProductGroup))
+                    if (productgroupRepository.EditExistingProductGroup(model.ProductGroup))//update into productgroup table
                     {
-                        //return RedirectToAction("Index", "ProductGroup");
+                        XMLGenerate_SAPUpdate(model);
+                        return RedirectToAction("Index", "ProductGroup");
                     }
                     else
                     {
                         ModelState.AddModelError("", "Product Group Not Updated");
-                    }
-
-                    Guid GuidRandomNo = Guid.NewGuid();
-                    string UniqueID = GuidRandomNo.ToString();
-
-                    Viewmodel_ModifyProductGroup xmlEditProductGroup = new Viewmodel_ModifyProductGroup();
-                    xmlEditProductGroup.UniqueID = UniqueID.ToString();
-                    xmlEditProductGroup.old_Productgroup_Name = Temp_productgroup.ToString().Trim();
-                    xmlEditProductGroup.New_Productgroup_Name = model.ProductGroup.Product_Group_Name;
-
-                    if (ProductGroupDb.GenerateXML(xmlEditProductGroup))
-                    {
-                        return RedirectToAction("Index", "ProductGroup");
                     }
                 }
                 else if (submitButton == "Search")
@@ -169,6 +184,7 @@ namespace Troy.Web.Controllers
                     return RedirectToAction("Index", "ProductGroup", new { model.SearchColumn, model.SearchQuery });
                 }
 
+                //bulk addition file upload
                 if (Convert.ToString(Request.Files["FileUpload"]).Length > 0)
                 {
                     try
@@ -230,7 +246,7 @@ namespace Troy.Web.Controllers
                             exquery = string.Format("Select * from [{0}]", excelSheets[0]);
                             using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
                             {
-                                dataAdapter.Fill(ds);
+                                dataAdapter.Fill(ds); //fill dataset
                             }
 
                             if (ds != null)
@@ -238,10 +254,10 @@ namespace Troy.Web.Controllers
                                 #region Check Product Group Name
                                 foreach (DataRow dr in ds.Tables[0].Rows)
                                 {
-                                    string mExcelPrGrp_Name = Convert.ToString(dr["Product_Group_Name"]);
+                                    string mExcelPrGrp_Name = Convert.ToString(dr["Product Group Name"]);
                                     if (mExcelPrGrp_Name != null && mExcelPrGrp_Name != "")
                                     {
-                                        var data = ProductGroupDb.CheckDuplicateName(mExcelPrGrp_Name);
+                                        var data = productgroupRepository.CheckDuplicateName(mExcelPrGrp_Name);
                                         if (data != null)
                                         {
                                             return Json(new { success = true, Message = "Product Group Name: " + mExcelPrGrp_Name + " - already exists in the master." }, JsonRequestBehavior.AllowGet);
@@ -335,23 +351,23 @@ namespace Troy.Web.Controllers
                                         mItem.Modified_Dte = DateTime.Now;
                                         mlist.Add(mItem);
 
+                                        //unique id generation
                                         Guid GuidRandomNo = Guid.NewGuid();
                                         string UniqueID = GuidRandomNo.ToString();
 
+                                        //fill viewmodel
                                         Viewmodel_AddProductGroup xmlAddProductGroup = new Viewmodel_AddProductGroup();
                                         xmlAddProductGroup.UniqueID = UniqueID.ToString();
                                         xmlAddProductGroup.Productgroup_Name = ds.Tables[0].Rows[j]["Product_Group_Name"].ToString();
 
-                                        if (ProductGroupDb.GenerateXML(xmlAddProductGroup))
-                                        {
+                                        //generate xml
+                                        productgroupRepository.GenerateXML(xmlAddProductGroup);
 
-                                        }
                                     }
 
-                                    if (ProductGroupDb.InsertFileUploadDetails(mlist))
+                                    if (productgroupRepository.InsertFileUploadDetails(mlist))
                                     {
-                                        //System.IO.File.Delete(fileLocation);
-                                        return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
+                                        return Json(new { success = true, Message = mlist.Count + " Records Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
                                     }
                                 }
                                 else
@@ -365,76 +381,6 @@ namespace Troy.Web.Controllers
                             {
                                 return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
                             }
-
-                            #region OLD Code
-                            //for (int k = 0; k < dt.Rows.Count; k++)
-                            //{
-                            //    DataSet ds = new DataSet();
-                            //    int sheets = k + 1;
-
-                            //    OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
-
-                            //    exquery = string.Format("Select * from [{0}]", excelSheets[k]);
-                            //    using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
-                            //    {
-                            //        dataAdapter.Fill(ds);
-                            //    }
-
-                            //    if (ds != null)
-                            //    {
-                            //        if (ds.Tables[0].Rows.Count > 0)
-                            //        {
-                            //            List<ProductGroup> mlist = new List<ProductGroup>();
-
-                            //            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                            //            {
-                            //                ProductGroup mItem = new ProductGroup();
-                            //                if (ds.Tables[0].Rows[i]["Product_Group_Name"] != null)
-                            //                {
-                            //                    mItem.Product_Group_Name = ds.Tables[0].Rows[i]["Product_Group_Name"].ToString();
-                            //                }
-                            //                else
-                            //                {
-                            //                    return Json(new { success = false, Error = "ProductGroup name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
-                            //                }
-
-                            //                if (ds.Tables[0].Rows[i]["Level"] != null)
-                            //                {
-                            //                    mItem.Level = Convert.ToInt32(ds.Tables[0].Rows[i]["Level"]);
-                            //                }
-                            //                else
-                            //                {
-                            //                    return Json(new { success = false, Error = "Level field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                            //                }
-                            //                if (ds.Tables[0].Rows[i]["IsActive"] != null)
-                            //                {
-                            //                    mItem.IsActive = ds.Tables[0].Rows[i]["IsActive"].ToString();
-                            //                }
-                            //                else
-                            //                {
-                            //                    return Json(new { success = false, Error = "IsActive field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                            //                }
-                            //                mItem.Created_User_Id = 1; //GetUserId();
-                            //                mItem.Created_Branc_Id = 2; //GetBranchId();
-                            //                mItem.Created_Dte = DateTime.Now;
-                            //                mItem.Modified_User_Id = 2; //GetUserId();
-                            //                mItem.Modified_Branch_Id = 2; //GetBranchId();
-                            //                mItem.Modified_Dte = DateTime.Now;
-                            //                mlist.Add(mItem);
-                            //            }
-
-                            //            if (ProductGroupDb.InsertFileUploadDetails(mlist))
-                            //            {
-                            //                return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
-                            //            }
-                            //        }
-                            //        else
-                            //        {
-                            //            return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
-                            //        }
-                            //    }
-                            //}
-                            #endregion
                         }
                     }
                     catch (Exception ex)
@@ -455,67 +401,90 @@ namespace Troy.Web.Controllers
 
         public ActionResult _ExporttoExcel()
         {
-            var productgroup = ProductGroupDb.GetAllProductGroup().ToList();
-
-            DataTable dt = new DataTable();
-            dt.Columns.Add(new DataColumn("ProductGroupID"));
-            dt.Columns.Add(new DataColumn("ProductGroup Name"));
-            dt.Columns.Add(new DataColumn("Level"));
-            dt.Columns.Add(new DataColumn("Is Active"));
-
-            foreach (var e in productgroup)
+            try
             {
-                DataRow dr_final1 = dt.NewRow();
-                dr_final1["ProductGroupID"] = e.Product_Group_Id;
-                dr_final1["ProductGroup Name"] = e.Product_Group_Name;
-                dr_final1["Level"] = e.Level;
-                dr_final1["Is Active"] = e.IsActive;
-                dt.Rows.Add(dr_final1);
+                //get All Productgroup
+                var productgroup = productgroupRepository.GetAllProductGroup().ToList();
+
+                //create datatable and add columns
+                DataTable dt = new DataTable();
+                dt.Columns.Add(new DataColumn("ProductGroupID"));
+                dt.Columns.Add(new DataColumn("ProductGroup Name"));
+                dt.Columns.Add(new DataColumn("Level"));
+                dt.Columns.Add(new DataColumn("Is Active"));
+
+                //fill datatable
+                foreach (var e in productgroup)
+                {
+                    DataRow dr_final1 = dt.NewRow();
+                    dr_final1["ProductGroupID"] = e.Product_Group_Id;
+                    dr_final1["ProductGroup Name"] = e.Product_Group_Name;
+                    dr_final1["Level"] = e.Level;
+                    dr_final1["Is Active"] = e.IsActive;
+                    dt.Rows.Add(dr_final1);
+                }
+
+                System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+                gridvw.DataSource = dt; //bind the datatable to the gridview
+                gridvw.DataBind();
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=ProductGroupList.xls");//Microsoft Office Excel Worksheet (.xlsx)
+                Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.Charset = "";
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gridvw.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+
+                return RedirectToAction("Index", "ProductGroup");
             }
-
-            System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
-            gridvw.DataSource = dt; //bind the datatable to the gridview
-            gridvw.DataBind();
-            Response.ClearContent();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=ProductGroupList.xls");//Microsoft Office Excel Worksheet (.xlsx)
-            Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            Response.Charset = "";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            gridvw.RenderControl(htw);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
-
-            return RedirectToAction("Index", "ProductGroup");
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return View("Error");
+            }
         }
 
         public ActionResult _TemplateExcelDownload()
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add(new DataColumn("Product_Group_Name"));
-            dt.Columns.Add(new DataColumn("Level"));
+            try
+            {
+                //create datatable and columns
+                DataTable dt = new DataTable();
+                dt.Columns.Add(new DataColumn("Product Group Name"));
+                dt.Columns.Add(new DataColumn("Level"));
 
-            DataRow dr = dt.NewRow();
-            dt.Rows.Add(dt);
+                //add one empty row
+                DataRow dr = dt.NewRow();
+                dt.Rows.Add(dt);
 
-            System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
-            gridvw.DataSource = dt; //bind the datatable to the gridview
-            gridvw.DataBind();
-            Response.ClearContent();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=ProductGroup.xls");//Microsoft Office Excel Worksheet (.xlsx)
-            Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            Response.Charset = "";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            gridvw.RenderControl(htw);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
+                System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+                gridvw.DataSource = dt; //bind the datatable to the gridview
+                gridvw.DataBind();
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=ProductGroup.xls");//Microsoft Office Excel Worksheet (.xlsx)
+                Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.Charset = "";
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gridvw.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
 
-            return RedirectToAction("Index", "Manufacturer");
+                return RedirectToAction("Index", "ProductGroup");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return View("Error");
+            }
         }
         #endregion
 
@@ -530,7 +499,7 @@ namespace Troy.Web.Controllers
             try
             {
                 ProductGroupViewModels model = new ProductGroupViewModels();
-                model.ProductGroup = ProductGroupDb.FindOneProductGroupById(id);
+                model.ProductGroup = productgroupRepository.GetProductGroupById(id);
                 TempData["OldName"] = model.ProductGroup.Product_Group_Name;
                 return PartialView(model);
             }
@@ -547,7 +516,7 @@ namespace Troy.Web.Controllers
             try
             {
                 ProductGroupViewModels model = new ProductGroupViewModels();
-                model.ProductGroup = ProductGroupDb.FindOneProductGroupById(id);
+                model.ProductGroup = productgroupRepository.GetProductGroupById(id);
                 return PartialView(model);
             }
             catch (Exception ex)

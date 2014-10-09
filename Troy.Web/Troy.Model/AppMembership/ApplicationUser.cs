@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using Troy.Model.Branches;
 
 namespace Troy.Model.AppMembership
 {
@@ -21,70 +22,66 @@ namespace Troy.Model.AppMembership
             return userIdentity;
         }
 
+
+        //[Key]
+        //[ForeignKey("Id")]
         //public int Id { get; set; }
-
-
+        //public virtual ApplicationUser user { get; set; }
+        //[Index(IsUnique = true)]
+        //[Required(ErrorMessage = "Branch Code is required.")]
         //[Display(Name = "User Name")]
-        ////[Remote("CheckForDuplication", "ApplicationUser")]
-        //[StringLength(30)]
+        //[Remote("CheckForDuplication", "User", AdditionalFields = "Id")]
         //public string UserName { get; set; }
 
-        //public int Emp_Id { get; set; }
+        public int Employee_Id { get; set; }
 
-        //[Required]
         //public int Branch_Id { get; set; }
 
-        //[Required]
-        //[StringLength(256)]
-        //public string Email { get; set; }
+        //public int Role_Id { get; set; }
 
-        //[Required]
-        //[StringLength(1)]
-        //public string EmailConfirmed { get; set; }
+        public DateTime? PasswordExpiryDate { get; set; }
 
-        //[Required]
-        //public string PasswordHash { get; set; }
+        public string IsActive { get; set; }
 
-        //[Required]
-        //public string SecurityStamp { get; set; }
+        public int Created_User_Id { get; set; }
 
-        //[Required]
+        public int Created_Branch_Id { get; set; }
 
-        //public string PhoneNumber { get; set; }
+        public DateTime? Created_Date { get; set; }
 
-        //[Required]
-        //[StringLength(1)]
-        //public string PhoneNumberConfirmed { get; set; }
+        public int Modified_User_Id { get; set; }
 
-        //[Required]
+        public int Modified_Branch_Id { get; set; }
 
-        //public bool TwoFactorEnabled { get; set; }
+        public DateTime? Modified_Date { get; set; }
 
-        //[Required]
-        //public bool LockoutEndDateUtc { get; set; }
+            // Navigation Property
+        public override ICollection<ApplicationUserRole> Roles
+        {
+            get
+            {
 
-        //[Required]
-        //public bool LockoutEnabled { get; set; }
+                return base.Roles;
+            }
+        }
 
-        //[Required]
-        //public int AccessFailedCount { get; set; }
-
-        //[Required]
-        //public DateTime? PasswordExpiryDate { get; set; }
-
-        //[StringLength(1)]
-        //public string IsActive { get; set; }
-
-        //public int Created_User_Id { get; set; }
-
-        //public int Created_Branch_Id { get; set; }
-
-        //public DateTime? Created_Date { get; set; }
-
-        //public int Modified_User_Id { get; set; }
-
-        //public int Modified_Branch_Id { get; set; }
-
-        //public DateTime? Modified_Date { get; set; }
+        //Navigation Property
+        //public  ICollection<UserBranches> Userbranches
+        //{
+        //    get;
+        //    set;
+        //}
     }
+
+
+
+
+    // [Table("tblUserBranches")]
+
+    //public class UserBranch 
+    //{
+    //     public string Id { get; set; }
+
+    //     public string Branch_Id { get; set; }
+    //}
 }

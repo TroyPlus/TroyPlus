@@ -83,10 +83,8 @@ namespace Troy.Web.Controllers
 
         [Authorize]
         public ActionResult PostLogin(PostLoginViewModel model,string returnUrl)
-        {            
-          
+        {          
             ViewBag.ReturnUrl = returnUrl;
-
             return View(model);
         }
 

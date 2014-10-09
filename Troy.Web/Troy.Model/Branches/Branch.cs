@@ -17,12 +17,14 @@ namespace Troy.Model.Branches
     {
         [Key]
         public int Branch_Id { get; set; }
+        [ForeignKey("Branch_Id")]
+        public virtual Branch branch { get; set; }
 
         [Index(IsUnique = true)]
         [Required(ErrorMessage = "Branch Code is required.")]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         [StringLength(3)]
-      
+
         [Display(Name = "Branch Code")]
         [Remote("CheckForDuplication", "Branch", AdditionalFields = "Branch_Id")]
         public string Branch_Code { get; set; }
@@ -36,56 +38,41 @@ namespace Troy.Model.Branches
         [Required(ErrorMessage = "Branch Address is required.")]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( / - ) are not allowed in the name.")]
         [StringLength(50)]
-  
         public string Address1 { get; set; }
 
         [StringLength(50)]
-    
         public string Address2 { get; set; }
 
         [StringLength(50)]
- 
-
         public string Address3 { get; set; }
 
-        
-       
-        
-        //public int Country_ID { get; set; }
         [Required]
         [ForeignKey("country")]
         public int Country_ID { get; set; }
         public virtual Country country { get; set; }
 
-        
         [Required]
         [ForeignKey("state")]
         public int State_ID { get; set; }
         public virtual State state { get; set; }
-       
-        //public int State_ID { get; set; }
 
         [Required]
         [ForeignKey("city")]
         public int City_ID { get; set; }
         public virtual City city { get; set; }
-        //public int City_ID { get; set; }
 
-        [Required(ErrorMessage = "PinCode is required.")]
+       // [Required(ErrorMessage = "PinCode is required.")]
         [RegularExpression(@"^[0-9 + /'' ']+$", ErrorMessage = @"Special characters ( / - ) are allowed in the code.")]
 
         [StringLength(10)]
- 
         public string Pin_Code { get; set; }
 
-        [Index(IsUnique = true)]
-        [Required(ErrorMessage = "Order number is required.")]
+       // [Index(IsUnique = true)]
+       // [Required(ErrorMessage = "Order number is required.")]
         [Display(Name = "Order number")]
-        //[Remote("CheckForDuplication", "Branch")]
         public int Order_Num { get; set; }
 
         [StringLength(1)]
-  
         public string IsActive { get; set; }
 
         [Required]
@@ -97,6 +84,7 @@ namespace Troy.Model.Branches
         [Required]
         [Column(TypeName = "date")]
         public DateTime Created_Dte { get; set; }
+
         [Required]
         public int Modified_User_Id { get; set; }
 
@@ -108,6 +96,13 @@ namespace Troy.Model.Branches
         public DateTime Modified_Dte { get; set; }
 
 
+        //public  ICollection<UserBranches> branches
+        //{
+        //    get;
+        //    set;
+
+        //}
+        
     }
 
     //[Table("tblCountry")]
