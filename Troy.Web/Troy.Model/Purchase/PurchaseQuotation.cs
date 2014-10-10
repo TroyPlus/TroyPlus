@@ -16,15 +16,15 @@ namespace Troy.Model.Purchase
         [Display(Name = "PurchaseId")]
         public int Purchase_Quote_Id { get; set; }
 
-        [Required]
+        [Required]   
         [Display(Name = "Vendor")]
         public int Vendor { get; set; }
-
-        [Required]
+         
+        [Required] 
         [Display(Name = "Ref. No")]
         public string Reference_Number { get; set; }
 
-        [Display(Name = "Quote Status")]
+        [Display(Name = "Quotn Status")]
         public string Quotation_Status { get; set; }
 
         [Required]
@@ -35,7 +35,7 @@ namespace Troy.Model.Purchase
         public DateTime Posting_Date { get; set; }
 
         [Required]
-        [Display(Name = "Valid Date")]
+        [Display(Name = "Valid UpTo")]        
         public DateTime Valid_Date { get; set; }
 
         [Display(Name = "Required Date")]
@@ -46,6 +46,7 @@ namespace Troy.Model.Purchase
         public int Ship_To { get; set; }
 
         [Required]
+        [Display(Name = "Freight")]
         public int? Fright { get; set; }
 
         [Required]

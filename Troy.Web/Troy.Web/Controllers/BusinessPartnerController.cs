@@ -355,14 +355,14 @@ namespace Troy.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string submitButton, BusinessPartnerViewModels model, HttpPostedFileBase file=null)
+        public ActionResult Index(string submitButton, BusinessPartnerViewModels model, HttpPostedFileBase file = null)
         {
             try
             {
                 //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
                 if (submitButton == "Save")
-                {
+                {   
                     model.BusinessPartner.IsActive = true;
                     model.BusinessPartner.Created_Branc_Id = 1;//GetBranchId();
                     model.BusinessPartner.Created_Dte = DateTime.Now;

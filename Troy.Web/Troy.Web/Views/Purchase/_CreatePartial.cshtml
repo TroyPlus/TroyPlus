@@ -12,20 +12,22 @@
         <div class="modal-body">
             <div class="form-horizontal">
                 <div class="row">
-                    <div class="tabs">
-                        <ul id="myTab" class="nav nav-tabs tabdrop">
+                    <div class="tabs"> 
+                        <ul id="createtabs" class="nav nav-tabs tabdrop">
                             <li class="active">
                                 <a href="#default" data-toggle="tab">General</a>
                             </li>
-                            <li><a href="#addQuotationlist" data-toggle="tab">Product </a></li>
-
+                            <li><a href="#addQuotationlist" data-toggle="tab">Product </a></li> 
+                             
                         </ul>
 
-                        <div id="myTabContent" class="tab-content">
+                        <div id="createtabContent" class="tab-content">
+
                             <div class="tab-pane fade active in" id="default">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6"> 
                                         <div class="form-horizontal">
+
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     @Html.LabelFor(m => m.PurchaseQuotation.Vendor, new { @class = "control-label normal" })
@@ -64,7 +66,7 @@
                                                     @Html.LabelFor(m => m.PurchaseQuotation.Ship_To, new { @class = "control-label normal" })
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.DropDownListFor(m => m.PurchaseQuotation.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "BranchId", "BranchName"), "", new { @class = "form-control control-text" })
+                                                    @Html.DropDownListFor(m => m.PurchaseQuotation.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Ship_To)
                                                 </div>
                                             </div>
@@ -99,7 +101,7 @@
                                                 </div>
                                                 <div class="col-md-8">
                                                     @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date.Date, new { @Value = DateTime.Now.Date, @class = "form-control control-text datePicker" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
                                                 </div>
                                             </div>
@@ -109,7 +111,7 @@
                                                     @Html.LabelFor(m => m.PurchaseQuotation.Valid_Date, new { @class = "control-label normal" })
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date, new { @class = "form-control control-text datePicker" })
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date.Date, new { @Value = DateTime.Now.Date, @class = "form-control control-text datePicker" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Valid_Date)
                                                 </div>
                                             </div>
@@ -119,7 +121,7 @@
                                                     @Html.LabelFor(m => m.PurchaseQuotation.Required_Date, new { @class = "control-label normal" })
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @class = "form-control control-text datePicker" })
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date.Date, new { @Value = DateTime.Now.Date, @class = "form-control control-text datePicker" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Required_Date)
                                                 </div>
                                             </div>
@@ -178,7 +180,7 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Product_id)
                                                     </td>
                                                     <td>
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @class = "form-control control-text datePicker" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = DateTime.Now.Date, @class = "form-control control-text datePicker" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
                                                     </td>
                                                     <td>
@@ -218,10 +220,7 @@
 
         <div class="modal-footer">
             <input class="btn btn-primary" type="submit" id="btnSubmit" name="submitButton" value="Save" />
-            <button class="btn btn-default pull-right" data-dismiss="modal">Close</button>
-
-
-
+            <button class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
         </div>
     </div>
 </div>

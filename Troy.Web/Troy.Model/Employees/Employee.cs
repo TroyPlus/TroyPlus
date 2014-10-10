@@ -21,9 +21,9 @@ namespace Troy.Model.Employees
     {       
 
         [Key]
-        //[ForeignKey("employee")]
-        public int Emp_Id { get; set; }       
-        //public virtual Employee employee { get; set; }
+        [ForeignKey("employee")]
+        public int Emp_Id { get; set; }
+        public virtual Employee employee { get; set; }
         //-----------
 
         [Index(IsUnique = true)]
@@ -32,9 +32,9 @@ namespace Troy.Model.Employees
         public int Emp_No { get; set; }
         //----------
 
-        //[ForeignKey("initial")]
-        public int? Initial { get; set; }        
-        //public virtual Initial initial { get; set; }
+        [ForeignKey("initial")]
+        public int? Initial { get; set; }
+        public virtual Initial initial { get; set; }
         //------------
 
         [Required(ErrorMessage = "First Name is required.")]
@@ -61,24 +61,24 @@ namespace Troy.Model.Employees
         //----------
 
         [Required]
-        //[ForeignKey("designation")]
-        public int Designation_Id { get; set; }        
-        //public virtual Designation designation { get; set; }
+        [ForeignKey("designation")]
+        public int Designation_Id { get; set; }
+        public virtual Designation designation { get; set; }
         //---------
 
         [Required]
-        //[ForeignKey("department")]
-        public int Department_Id { get; set; }        
-        //public virtual Department department { get; set; }
+        [ForeignKey("department")]
+        public int Department_Id { get; set; }
+        public virtual Department department { get; set; }
         //--------
 
         public int? Manager_empid { get; set; }
         //-------
 
         [Required]
-        //[ForeignKey("branch")]
-        public int Branch_Id { get; set; }        
-        //public virtual Branch branch { get; set; }
+        [ForeignKey("branch")]
+        public int Branch_Id { get; set; }
+        public virtual Branch branch { get; set; }
         //-------------
 
         [StringLength(30)]
@@ -117,9 +117,9 @@ namespace Troy.Model.Employees
         //--------
 
         [Required]
-        //[ForeignKey("gender")]
-        public int Gender { get; set; }        
-        //public virtual Gender gender { get; set; }
+        [ForeignKey("gender")]
+        public int Gender { get; set; }
+        public virtual Gender gender { get; set; }
         //----------
 
         public int? Noof_Children { get; set; }

@@ -298,7 +298,7 @@ namespace Troy.Web.Controllers
                                 string itemc = string.Empty;
                                 foreach (DataRow dr in ds.Tables[0].Rows)
                                 {
-                                    itemc = Convert.ToString(dr["Product_Group_Name"]);
+                                    itemc = Convert.ToString(dr["Product Group Name"]);
 
                                     if ((itemc == null) || (itemc == ""))
                                     {
@@ -312,7 +312,7 @@ namespace Troy.Web.Controllers
                                             }
                                             else
                                             {
-                                                if (itemc == Convert.ToString(drd["Product_Group_Name"]))
+                                                if (itemc == Convert.ToString(drd["Product Group Name"]))
                                                 {
                                                     return Json(new { success = true, Message = "Product Group Name: " + itemc + " - already exists in the excel." }, JsonRequestBehavior.AllowGet);
                                                 }
@@ -333,9 +333,9 @@ namespace Troy.Web.Controllers
                                     for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
                                     {
                                         ProductGroup mItem = new ProductGroup();
-                                        if (ds.Tables[0].Rows[j]["Product_Group_Name"] != null)
+                                        if (ds.Tables[0].Rows[j]["Product Group Name"] != null)
                                         {
-                                            mItem.Product_Group_Name = ds.Tables[0].Rows[j]["Product_Group_Name"].ToString();
+                                            mItem.Product_Group_Name = ds.Tables[0].Rows[j]["Product Group Name"].ToString();
                                         }
 
                                         if (ds.Tables[0].Rows[j]["Level"] != null)
@@ -358,7 +358,7 @@ namespace Troy.Web.Controllers
                                         //fill viewmodel
                                         Viewmodel_AddProductGroup xmlAddProductGroup = new Viewmodel_AddProductGroup();
                                         xmlAddProductGroup.UniqueID = UniqueID.ToString();
-                                        xmlAddProductGroup.Productgroup_Name = ds.Tables[0].Rows[j]["Product_Group_Name"].ToString();
+                                        xmlAddProductGroup.Productgroup_Name = ds.Tables[0].Rows[j]["Product Group Name"].ToString();
 
                                         //generate xml
                                         productgroupRepository.GenerateXML(xmlAddProductGroup);
