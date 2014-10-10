@@ -6,81 +6,93 @@
 
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Add City</h4>
+            <h4 class="modal-title" id="myModalLabel">View VAT  </h4>
         </div>
 
         <div class="modal-body">
+
             <div class="form-horizontal">
+
                 <div class="row">
                     <div class="tabs">
-                        <ul id="myTab" class="nav nav-tabs tabdrop">
+                        <ul id="viewtabs" class="nav nav-tabs tabdrop">
                             <li class="active">
-                                <a href="#City" data-toggle="tab">City</a>
+                                <a href="#viewVAT" data-toggle="tab">VAT </a>
                             </li>
+
                         </ul>
                     </div>
-                    <div id="myTabContent" class="tab-content">
-                        <div class="tab-pane fade active in" id="City">
+                    <div id="viewTabContent" class="tab-content">
+
+                        <div class="tab-pane fade in active" id="viewVAT">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            @Html.LabelFor(m => m.City.City_Name):
+                                            @Html.LabelFor(m => m.VAT.VAT_Desc):
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.City.City_Name, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.City.City_Name)
+                                            @Html.TextBoxFor(model => model.VAT.VAT_Desc, new { @class = "form-control control-text", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.VAT.VAT_Desc)
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            City Code:
+                                            VAT percentage:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.City.City_Code, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.City.City_Code)
+                                            @Html.TextBoxFor(model => model.VAT.VAT_percentage, new { @class = "form-control control-text", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.VAT.VAT_percentage)
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            State Code:
+                                            VAT Type
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.City.State_Code, new SelectList(Model.StateList1.AsEnumerable(), "ID", "State_Code", 1), "Select State", new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.City.State_Code)
+                                            @Html.TextBoxFor(model => model.VAT.VAT_Type, new { @class = "form-control control-text", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.VAT.VAT_Type)
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Country Code:
+                                            VAT Default
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.City.Country_Code, new SelectList(Model.CountryListDp.AsEnumerable(), "ID", "Country_Code", 1), "Select Country", new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.City.Country_Code)
+                                            @Html.TextBoxFor(model => model.VAT.VAT_Default, new { @readonly = "readonly", @class = "form-control control-text" })
+                                            @Html.ValidationMessageFor(model => model.VAT.VAT_Default)
                                         </div>
                                     </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            Is Active:
+                                        </div>
 
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(model => model.VAT.IsActive, new { @readonly = "readonly", @class = "form-control control-text" })
+                                            @Html.ValidationMessageFor(model => model.VAT.IsActive)
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-
         </div>
+
 
         <div class="modal-footer">
-            <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+            @*<input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />*@
             <button class="btn pull-left" data-dismiss="modal">Close</button>
             @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
-
-
         </div>
+
     </div>
 </div>
 
