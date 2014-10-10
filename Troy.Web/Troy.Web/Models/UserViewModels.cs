@@ -41,6 +41,8 @@ namespace Troy.Web.Models
         //[ForeignKey("Id")]
         public int Id { get; set; }
         //public virtual ApplicationUser user { get; set; }
+
+
         public string UserName { get; set; }
 
         public int Role_Id { get; set; }

@@ -61,14 +61,14 @@ namespace Troy.Model.Branches
         public int City_ID { get; set; }
         public virtual City city { get; set; }
 
-        [Required(ErrorMessage = "PinCode is required.")]
+       // [Required(ErrorMessage = "PinCode is required.")]
         [RegularExpression(@"^[0-9 + /'' ']+$", ErrorMessage = @"Special characters ( / - ) are allowed in the code.")]
 
         [StringLength(10)]
         public string Pin_Code { get; set; }
 
-        [Index(IsUnique = true)]
-        [Required(ErrorMessage = "Order number is required.")]
+       // [Index(IsUnique = true)]
+       // [Required(ErrorMessage = "Order number is required.")]
         [Display(Name = "Order number")]
         public int Order_Num { get; set; }
 

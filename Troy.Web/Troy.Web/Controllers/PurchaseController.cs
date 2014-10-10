@@ -11,6 +11,7 @@ using Troy.Model;
 using Troy.Web.Models;
 using Troy.Utilities.CrossCutting;
 using Troy.Model.Manufacturer;
+using Troy.Model.Purchase;
 #endregion
 
 namespace Troy.Web.Controllers
@@ -36,10 +37,10 @@ namespace Troy.Web.Controllers
 
         #region Controller Actions
         // GET: Purchase
-        [Authorize]
+        //[Authorize]
         public ActionResult Index()
-        {
-            try
+        { 
+            try 
             {
                 LogHandler.WriteLog("Purchase Index page requested by #UserId");
                 var qList = purchaseDb.GetAllQuotation();
@@ -47,9 +48,14 @@ namespace Troy.Web.Controllers
                 PurchaseViewModels model = new PurchaseViewModels();
                 model.PurchaseQuotationList = qList;
 
-                var branchlist = purchaseDb.GetAddressList().ToList();
+                var branchlist = purchaseDb.GetAddressList().ToList(); 
 
                 model.BranchList = branchlist;
+
+                //model.PurchaseQuotation.Valid_Date = DateTime.Now;
+                //model.PurchaseQuotation.Required_Date = DateTime.Now;
+                //model.PurchaseQuotation.Posting_Date = DateTime.Now;
+
                 return View(model);
             }
             catch (Exception ex)
@@ -137,11 +143,7 @@ namespace Troy.Web.Controllers
                         ViewBag.AppErrorMessage = ErrorMessage;
                         return View("Error");
                     }
-                }
-                else if (submitButton == "Search")
-                {
-                    return RedirectToAction("Index", "Purchase", new { model.SearchColumn, model.SearchQuery });
-                }
+                }                
 
                 if (Convert.ToString(Request.Files["FileUpload"]).Length > 0)
                 {
@@ -153,116 +155,13 @@ namespace Troy.Web.Controllers
 
                         if (fileExtension == ".xls" || fileExtension == ".xlsx")
                         {
-                            string fileLocation = string.Format("{0}/{1}", Server.MapPath("~/App_Data/ExcelFiles"), fileName);
-
-                            if (System.IO.File.Exists(fileLocation))
+                            if (UploadExcelData(fileExtension, fileName, ref ErrorMessage))
                             {
-                                System.IO.File.Delete(fileLocation);
+                                return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
                             }
-                            Request.Files["FileUpload"].SaveAs(fileLocation);
-                            string excelConnectionString = string.Empty;
-                            excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-                            fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-
-                            //connection String for xls file format.
-                            if (fileExtension == ".xls")
+                            else
                             {
-                                excelConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
-                                fileLocation + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
-                            }
-                            //connection String for xlsx file format.
-                            else if (fileExtension == ".xlsx")
-                            {
-                                excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-                                fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-                            }
-
-                            //Create Connection to Excel work book and add oledb namespace
-                            OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
-                            excelConnection.Open();
-                            DataTable dt = new DataTable();
-                            string exquery;
-                            dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            if (dt == null)
-                            {
-                                return null;
-                            }
-
-                            String[] excelSheets = new String[dt.Rows.Count];
-                            int t = 0;
-                            //excel data saves in temp file here.
-                            foreach (DataRow row in dt.Rows)
-                            {
-                                excelSheets[t] = row["TABLE_NAME"].ToString();
-                                t++;
-                            }
-
-                            for (int k = 0; k < dt.Rows.Count; k++)
-                            {
-                                DataSet ds = new DataSet();
-                                int sheets = k + 1;
-
-                                OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
-
-                                exquery = string.Format("Select * from [{0}]", excelSheets[k]);
-                                using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
-                                {
-                                    dataAdapter.Fill(ds);
-                                }
-
-                                if (ds != null)
-                                {
-                                    if (ds.Tables[0].Rows.Count > 0)
-                                    {
-                                        List<Manufacture> mlist = new List<Manufacture>();
-
-                                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                                        {
-                                            Manufacture mItem = new Manufacture();
-                                            if (ds.Tables[0].Rows[i]["Manufacturer_Name"] != null)
-                                            {
-                                                mItem.Manufacturer_Name = ds.Tables[0].Rows[i]["Manufacturer_Name"].ToString();
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "Manufacture name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-
-                                            if (ds.Tables[0].Rows[i]["Level"] != null)
-                                            {
-                                                mItem.Level = Convert.ToInt32(ds.Tables[0].Rows[i]["Level"]);
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "Level field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-                                            if (ds.Tables[0].Rows[i]["IsActive"] != null)
-                                            {
-                                                mItem.IsActive = ds.Tables[0].Rows[i]["IsActive"].ToString();
-                                            }
-                                            else
-                                            {
-                                                return Json(new { success = false, Error = "IsActive field cannot be null in the excel sheet" }, JsonRequestBehavior.AllowGet);
-                                            }
-                                            mItem.Created_User_Id = 1; //GetUserId();
-                                            mItem.Created_Branc_Id = 2; //GetBranchId();
-                                            mItem.Created_Dte = DateTime.Now;
-                                            mItem.Modified_User_Id = 2; //GetUserId();
-                                            mItem.Modified_Branch_Id = 2; //GetBranchId();
-                                            mItem.Modified_Dte = DateTime.Now;
-                                            mlist.Add(mItem);
-                                        }
-
-                                        if (manufactureDb.InsertFileUploadDetails(mlist))
-                                        {
-                                            return Json(new { success = true, Message = "File Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
-                                    }
-                                }
+                                return Json(new { success = false, Message = ErrorMessage }, JsonRequestBehavior.AllowGet);
                             }
                         }
                     }
@@ -281,6 +180,7 @@ namespace Troy.Web.Controllers
                 return View("Error");
             }
         }
+
         #endregion
 
         #region Partial Views
@@ -316,6 +216,9 @@ namespace Troy.Web.Controllers
                 PurchaseViewModels model = new PurchaseViewModels();
                 model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
                 model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
+
+                model.BranchList = purchaseDb.GetAddressList().ToList();
+
                 return PartialView(model);
             }
             catch (Exception ex)
@@ -325,6 +228,607 @@ namespace Troy.Web.Controllers
                 return PartialView("Error");
             }
         }
+        #endregion
+
+        #region Methods
+
+        public bool UploadExcelData(string fileExtension, string fileName, ref string returnMessage)
+        {
+            try
+            {
+                string fileLocation = string.Format("{0}/{1}", Server.MapPath("~/App_Data/ExcelFiles"), fileName);
+
+                if (System.IO.File.Exists(fileLocation))
+                {
+                    System.IO.File.Delete(fileLocation);
+                }
+                Request.Files["FileUpload"].SaveAs(fileLocation);
+                string excelConnectionString = string.Empty;
+                excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
+                fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+
+                //connection String for xls file format.
+                if (fileExtension == ".xls")
+                {
+                    excelConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
+                    fileLocation + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
+                }
+                //connection String for xlsx file format.
+                else if (fileExtension == ".xlsx")
+                {
+                    excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
+                    fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+                }
+
+                //Create Connection to Excel work book and add oledb namespace
+                OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
+                excelConnection.Open();
+                DataTable dt = new DataTable();
+                string exquery;
+                dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                if (dt == null)
+                {
+                    returnMessage = "Excel file is empty";
+                    return false;
+                }
+
+                String[] excelSheets = new String[dt.Rows.Count];
+                int t = 0;
+                //excel data saves in temp file here.
+                foreach (DataRow row in dt.Rows)
+                {
+                    excelSheets[t] = row["TABLE_NAME"].ToString();
+                    t++;
+                }
+
+                for (int k = 0; k < dt.Rows.Count; k++)
+                {
+                    DataSet ds = new DataSet();
+                    int sheets = k + 1;
+
+                    OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
+
+                    exquery = string.Format("Select * from [{0}]", excelSheets[k]);
+                    using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
+                    {
+                        dataAdapter.Fill(ds);
+                    }
+
+                    if (ds != null)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            if (ExcelDataIsValid(ds, ref returnMessage))
+                            {
+                                int row = 0;
+                                int vendorId = 0;
+                                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                                {
+                                    List<PurchaseQuotationItem> pqItemList = new List<PurchaseQuotationItem>();
+
+                                    PurchaseQuotation pItem = new PurchaseQuotation();
+                                    PurchaseQuotationItem pqItem = new PurchaseQuotationItem();
+
+                                    if (ds.Tables[0].Rows[i]["Vendor"] != null)
+                                    {
+                                        pItem.Vendor = Convert.ToInt32(ds.Tables[0].Rows[i]["Vendor"]);
+                                        vendorId = pItem.Vendor;
+
+                                        pqItem = GetExcelQuotationItem(ds, i, ref returnMessage);
+
+                                        if (pqItem != null)
+                                        {
+                                            pqItemList.Add(pqItem);
+                                        }
+                                        else
+                                        {
+                                            returnMessage = "Vendor name cannot be empty it the excel sheet";
+                                            return false;
+                                        }
+
+                                        for (int j = i + 1; j < ds.Tables[0].Rows.Count; j++)
+                                        {
+                                            if (ds.Tables[0].Rows[j]["Vendor"].ToString() == "" || ds.Tables[0].Rows[j]["Vendor"].ToString() == null)
+                                            {
+                                                pqItem = GetExcelQuotationItem(ds, j, ref returnMessage);
+
+                                                if (pqItem != null)
+                                                {
+                                                    pqItemList.Add(pqItem);
+                                                    row = j;
+                                                }
+                                                else
+                                                {
+                                                    returnMessage = "Vendor name cannot be empty it the excel sheet";
+                                                    return false;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                row = j - 1;
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    else
+                                    {
+
+                                    }
+
+                                    pItem.Reference_Number = ds.Tables[0].Rows[i]["Reference Number"].ToString();
+                                    pItem.Quotation_Status = ds.Tables[0].Rows[i]["Status"].ToString();
+                                    pItem.Ship_To = Convert.ToInt32(ds.Tables[0].Rows[i]["Ship To"]);
+                                    pItem.Fright = Convert.ToInt32(ds.Tables[0].Rows[i]["Fright"]);
+                                    pItem.Loading = Convert.ToInt32(ds.Tables[0].Rows[i]["Loading"]);
+                                    pItem.Posting_Date = Convert.ToDateTime(ds.Tables[0].Rows[i]["Posting Date"]);
+                                    pItem.Valid_Date = Convert.ToDateTime(ds.Tables[0].Rows[i]["Valid Date"]);
+                                    pItem.Required_Date = Convert.ToDateTime(ds.Tables[0].Rows[i]["Required Date"]);
+                                    pItem.Discount = Convert.ToInt32(ds.Tables[0].Rows[i]["Discount"]);
+                                    pItem.Remarks = ds.Tables[0].Rows[i]["Remarks"].ToString();
+
+                                    pItem.Created_User_Id = 1; //GetUserId();
+                                    pItem.Created_Branc_Id = 2; //GetBranchId();
+                                    pItem.Created_Date = DateTime.Now;
+                                    pItem.Modified_User_Id = 2; //GetUserId();
+                                    pItem.Modified_Branch_Id = 2; //GetBranchId();
+                                    pItem.Modified_Date = DateTime.Now;
+
+                                    //plist.PurchaseQuotationList.Add(pItem);
+
+                                    if (purchaseDb.AddNewQuotation(pItem, pqItemList, ref returnMessage))
+                                    {
+                                        i = row;
+                                    }
+                                    else
+                                    {
+                                        return false;
+                                    }
+
+                                }
+                                //return plist;
+                                return true;
+                            }
+                            else
+                            {
+                                //returnMessage = "12325";
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            returnMessage = "Excel file is empty";
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        returnMessage = "Excel file is empty";
+                        return false;
+                    }
+                }
+
+                returnMessage = "Excel file is empty";
+                return false;
+            }
+            catch (Exception ex)
+            {
+                returnMessage = ex.Message;
+                return false;
+            }
+        }
+
+        public PurchaseQuotationItem GetExcelQuotationItem(DataSet ds, int i, ref string errorMessage)
+        {
+            PurchaseQuotationItem pqItem = new PurchaseQuotationItem();
+
+            try
+            {
+                if (ds.Tables[0].Rows[i]["Item Code"] != null)
+                {
+                    pqItem.Product_id = Convert.ToInt32(ds.Tables[0].Rows[i]["Item Code"]);
+                }
+                else
+                {
+                    return null;
+                }
+
+                if (ds.Tables[0].Rows[i]["Item Required Date"] != null)
+                {
+                    pqItem.Required_date = Convert.ToDateTime(ds.Tables[0].Rows[i]["Item Required Date"]);
+                }
+                else
+                {
+                    return null;
+                }
+
+                if (ds.Tables[0].Rows[i]["Required Quantity"] != null)
+                {
+                    pqItem.Required_qty = Convert.ToInt32(ds.Tables[0].Rows[i]["Required Quantity"]);
+                }
+                else
+                {
+                    //returnMessage = "Required Quantity cannot be empty it the excel sheet";
+                    return null;
+                }
+
+                if (ds.Tables[0].Rows[i]["Unit Price"] != null)
+                {
+                    pqItem.Unit_price = Convert.ToInt32(ds.Tables[0].Rows[i]["Unit Price"]);
+                }
+                else
+                {
+                    //returnMessage = "Unit Price cannot be empty it the excel sheet";
+                    return null;
+                }
+
+                if (ds.Tables[0].Rows[i]["Discount Percentage"] != null)
+                {
+                    pqItem.Discount_percent = Convert.ToInt32(ds.Tables[0].Rows[i]["Discount Percentage"]);
+                }
+                else
+                {
+                    //returnMessage = "Discount Percentage cannot be empty it the excel sheet";
+                    return null;
+                }
+
+                if (ds.Tables[0].Rows[i]["VAT Code"] != null)
+                {
+                    pqItem.Discount_percent = Convert.ToInt32(ds.Tables[0].Rows[i]["VAT Code"]);
+                }
+                else
+                {
+                    //returnMessage = "VAT Code cannot be empty it the excel sheet";
+                    return null;
+                }
+
+                pqItem.Created_Branc_Id = 1;
+                pqItem.Created_Date = DateTime.Now;
+                pqItem.Created_User_Id = 1;  //GetUserId()
+                pqItem.Modified_Branch_Id = 1;
+                pqItem.Modified_Date = DateTime.Now;
+                pqItem.Modified_User_Id = 1;
+                pqItem.Quoted_qty = 10; //GetQuantity()
+                pqItem.Quoted_date = DateTime.Now.AddDays(2);
+
+                return pqItem;
+
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return null;
+            }
+        }
+
+        public bool IsQuotationExist(DataSet ds, int i, ref string errorMessage)
+        {
+            bool response = false;
+
+            if (ds.Tables[0].Rows[i]["Reference Number"].ToString() == "" || ds.Tables[0].Rows[i]["Reference Number"] == null)
+            {
+                response = true;
+            }
+            else
+            {
+                errorMessage = "Invalid Reference Number at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            if (ds.Tables[0].Rows[i]["Status"].ToString() == "" || ds.Tables[0].Rows[i]["Status"] == null)
+            {
+                response = true;
+            }
+            else
+            {
+                errorMessage = "Invalid Status at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            if (ds.Tables[0].Rows[i]["Ship To"].ToString() == "" || ds.Tables[0].Rows[i]["Ship To"] == null)
+            {
+                response = true;
+            }
+            else
+            {
+                errorMessage = "Invalid Ship To at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            if (ds.Tables[0].Rows[i]["Fright"].ToString() == "" || ds.Tables[0].Rows[i]["Fright"] == null)
+            {
+                response = true;
+            }
+            else
+            {
+                errorMessage = "invalid Fright at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            if (ds.Tables[0].Rows[i]["Loading"].ToString() == "" || ds.Tables[0].Rows[i]["Loading"] == null)
+            {
+                response = true;
+            }
+            else
+            {
+                errorMessage = "Invalid Loading at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            if (ds.Tables[0].Rows[i]["Posting Date"].ToString() == "" || ds.Tables[0].Rows[i]["Posting Date"] == null)
+            {
+                response = true;
+            }
+            else
+            {
+                errorMessage = "Invalid Posting Date at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            if (ds.Tables[0].Rows[i]["Valid Date"].ToString() == "" || ds.Tables[0].Rows[i]["Valid Date"] == null)
+            {
+                response = true;
+            }
+            else
+            {
+                errorMessage = "Invalid Valid Date at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            if (ds.Tables[0].Rows[i]["Required Date"].ToString() == "" || ds.Tables[0].Rows[i]["Required Date"] == null)
+            {
+                response = true;
+            }
+            else
+            {
+                errorMessage = "Invalid Required Date at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            if (ds.Tables[0].Rows[i]["Discount"].ToString() == "" || ds.Tables[0].Rows[i]["Discount"] == null)
+            {
+                response = true;
+            }
+            else
+            {
+                errorMessage = "Invalid Discount at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            if (ds.Tables[0].Rows[i]["Remarks"].ToString() == "" || ds.Tables[0].Rows[i]["Remarks"] == null)
+            {
+                response = true;
+            }
+            else
+            {
+                errorMessage = "invalid Remarks at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            return response;
+        }
+
+        public bool IsQuotationItemExist(DataSet ds, int i, ref string returnItemMessage)
+        {
+            bool response = false;
+
+            if (ds.Tables[0].Rows[i]["Item Code"].ToString() != "" && ds.Tables[0].Rows[i]["Item Code"] != null)
+            {
+                response = true;
+            }
+            else
+            {
+                returnItemMessage = "Item Code cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            if (ds.Tables[0].Rows[i]["Item Required Date"].ToString() != "" && ds.Tables[0].Rows[i]["Item Required Date"] != null)
+            {
+                response = true;
+            }
+            else
+            {
+                returnItemMessage = "Status cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            if (ds.Tables[0].Rows[i]["Required Quantity"].ToString() != "" && ds.Tables[0].Rows[i]["Required Quantity"] != null)
+            {
+                response = true;
+            }
+            else
+            {
+                returnItemMessage = "Ship To cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            if (ds.Tables[0].Rows[i]["Unit Price"].ToString() != "" && ds.Tables[0].Rows[i]["Unit Price"] != null)
+            {
+                response = true;
+            }
+            else
+            {
+                returnItemMessage = "Fright cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            if (ds.Tables[0].Rows[i]["Discount Percentage"].ToString() != "" && ds.Tables[0].Rows[i]["Discount Percentage"] != null)
+            {
+                response = true;
+            }
+            else
+            {
+                returnItemMessage = "Loading cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            if (ds.Tables[0].Rows[i]["VAT Code"].ToString() != "" && ds.Tables[0].Rows[i]["VAT Code"] != null)
+            {
+                response = true;
+            }
+            else
+            {
+                returnItemMessage = "Posting Date cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            return response;
+        }
+
+        public bool ExcelDataIsValid(DataSet ds, ref string returnMessage)
+        {
+            bool response = false;
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                if (ds.Tables[0].Rows[i]["Vendor"].ToString() != "" && ds.Tables[0].Rows[i]["Vendor"] != null)
+                {
+                }
+                else
+                {
+                    if (i != 0)
+                    {
+                        if (IsQuotationExist(ds, i, ref returnMessage))
+                        {
+                            if (IsQuotationItemExist(ds, i, ref returnMessage))
+                            {
+                                //return true;
+                                //break;
+                                continue;
+                            }
+                            else
+                            {
+                                //returnMessage = returnMessage;
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            //returnMessage = "Vendor value cannot be empty at '" + i + "' row";
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        //returnMessage = "Vendor value cannot be empty at '" + i + "' row";
+                        return false;
+                    }
+                }
+
+                if (ds.Tables[0].Rows[i]["Reference Number"].ToString() != "" && ds.Tables[0].Rows[i]["Reference Number"] != null)
+                {
+                    //pItem.Reference_Number = ds.Tables[0].Rows[i]["Reference Number"].ToString();
+                }
+                else
+                {
+                    returnMessage = "Reference Number cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                    return false;
+                }
+
+                if (ds.Tables[0].Rows[i]["Status"].ToString() != "" && ds.Tables[0].Rows[i]["Status"] != null)
+                {
+                    //pItem.Quotation_Status = ds.Tables[0].Rows[i]["Status"].ToString();
+                }
+                else
+                {
+                    returnMessage = "Status cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                    return false;
+                }
+
+                if (ds.Tables[0].Rows[i]["Ship To"].ToString() != "" && ds.Tables[0].Rows[i]["Ship To"] != null)
+                {
+                    //pItem.Ship_To = Convert.ToInt32(ds.Tables[0].Rows[i]["Ship To"]);
+                }
+                else
+                {
+                    returnMessage = "Ship To cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                    return false;
+                }
+
+                if (ds.Tables[0].Rows[i]["Fright"].ToString() != "" && ds.Tables[0].Rows[i]["Fright"] != null)
+                {
+                    //pItem.Fright = Convert.ToInt32(ds.Tables[0].Rows[i]["Fright"]);
+                }
+                else
+                {
+                    returnMessage = "Fright cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                    return false;
+                }
+
+                if (ds.Tables[0].Rows[i]["Loading"].ToString() != "" && ds.Tables[0].Rows[i]["Loading"] != null)
+                {
+                    //pItem.Loading = Convert.ToInt32(ds.Tables[0].Rows[i]["Loading"]);
+                }
+                else
+                {
+                    returnMessage = "Loading cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                    return false;
+                }
+
+                if (ds.Tables[0].Rows[i]["Posting Date"].ToString() != "" && ds.Tables[0].Rows[i]["Posting Date"] != null)
+                {
+                    //pItem.Posting_Date = Convert.ToDateTime(ds.Tables[0].Rows[i]["Posting Date"]);
+                }
+                else
+                {
+                    returnMessage = "Posting Date cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                    return false;
+                }
+
+                if (ds.Tables[0].Rows[i]["Valid Date"].ToString() != "" && ds.Tables[0].Rows[i]["Valid Date"] != null)
+                {
+                    //pItem.Valid_Date = Convert.ToDateTime(ds.Tables[0].Rows[i]["Valid Date"]);
+                }
+                else
+                {
+                    returnMessage = "Valid Date cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                    return false;
+                }
+
+                if (ds.Tables[0].Rows[i]["Required Date"].ToString() != "" && ds.Tables[0].Rows[i]["Required Date"] != null)
+                {
+                    //pItem.Required_Date = Convert.ToDateTime(ds.Tables[0].Rows[i]["Required Date"]);
+                }
+                else
+                {
+                    returnMessage = "Required Date cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                    return false;
+                }
+
+                if (ds.Tables[0].Rows[i]["Discount"].ToString() != "" && ds.Tables[0].Rows[i]["Discount"] != null)
+                {
+                    //pItem.Discount = Convert.ToInt32(ds.Tables[0].Rows[i]["Discount"]);
+                }
+                else
+                {
+                    returnMessage = "Discount cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                    return false;
+                }
+
+                if (ds.Tables[0].Rows[i]["Remarks"].ToString() != "" && ds.Tables[0].Rows[i]["Remarks"] != null)
+                {
+                    //pItem.Remarks = ds.Tables[0].Rows[i]["Remarks"].ToString();
+                }
+                else
+                {
+                    returnMessage = "Remarks cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                    return false;
+                }
+
+                if (IsQuotationItemExist(ds, i, ref returnMessage))
+                {
+                    response = true;
+                }
+                else
+                {
+                    //returnMessage = "Quotation Item value cannot be empty";
+                    return false;
+                }
+
+            }
+
+            return response;
+        }
+
         #endregion
 
     }

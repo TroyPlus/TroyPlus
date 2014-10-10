@@ -82,25 +82,15 @@ namespace Troy.Web.Controllers
                 BranchViewModels model = new BranchViewModels();
 
 
-                var branchlist = branchRepository.GetAllUserBranch().ToList();
 
-                //BranchViewModels model = new BranchViewModels();
-                model.BranchList = branchlist;
+                model.BranchList = branchRepository.GetAllUserBranch().ToList();
 
+                model.CountryList = branchRepository.GetAddresscountryList().ToList();
 
+                model.StateList = branchRepository.GetAddressstateList().ToList();
 
-                //var Allbranches = branchDb.GetAllBranches().ToList();
+                model.CityList = branchRepository.GetAddresscityList().ToList();
 
-                var countrylist = branchRepository.GetAddresscountryList().ToList();
-                model.CountryList = countrylist;
-
-                var statelist = branchRepository.GetAddressstateList().ToList();
-                model.StateList = statelist;
-
-                var citylist = branchRepository.GetAddresscityList().ToList();
-
-                model.CityList = citylist;
-                //model.CountryList = countrylist;
                 return View(model);
             }
             catch (Exception ex)
@@ -111,6 +101,8 @@ namespace Troy.Web.Controllers
             }
         }
 
+
+        //INDEX (SAVE and UPDATE)
         [HttpPost]
         public ActionResult Index(string submitButton, BranchViewModels model, HttpPostedFileBase file = null)
         {
@@ -131,28 +123,28 @@ namespace Troy.Web.Controllers
                     if (branchRepository.AddNewBranch(model.Branch))
                     {
                         Guid GuidRandomNo = Guid.NewGuid();
-                        string UniqueID = GuidRandomNo.ToString();
+                        string UniqueID = GuidRandomNo.ToString();    //Generate unique id for xml generatiom
 
-                        Viewmodel_AddBranch xmlAddBranch = new Viewmodel_AddBranch();
+                        Viewmodel_AddBranch xmlAddBranch = new Viewmodel_AddBranch(); //Add xml
                         xmlAddBranch.UniqueID = UniqueID.ToString();
                         xmlAddBranch.Branch_Code = model.Branch.Branch_Code;
                         xmlAddBranch.Branch_Name = model.Branch.Branch_Name;
                         xmlAddBranch.Address1 = model.Branch.Address1;
                         xmlAddBranch.Address2 = model.Branch.Address2;
                         xmlAddBranch.Address3 = model.Branch.Address3;
-                     
+
                         int country_ID = model.Branch.Country_ID;
-                        string SAP_Country_Code = branchRepository.FindCodeForCountryId(country_ID);
+                        string SAP_Country_Code = branchRepository.FindCodeForCountryId(country_ID); //Get SAP_Country_Code
 
                         xmlAddBranch.SAP_Country_Code = SAP_Country_Code;
 
                         int state_ID = model.Branch.State_ID;
-                        string SAP_State_Code = branchRepository.FindCodeForStateId(state_ID);
+                        string SAP_State_Code = branchRepository.FindCodeForStateId(state_ID);// Get SAP_State_Code
 
                         xmlAddBranch.SAP_State_Code = SAP_State_Code;
 
                         int city_ID = Convert.ToInt32(model.Branch.City_ID);
-                        string CityName = branchRepository.FindNameForCityId(city_ID);
+                        string CityName = branchRepository.FindNameForCityId(city_ID);//Get CityName
 
                         xmlAddBranch.City_Name = CityName;
 
@@ -165,7 +157,7 @@ namespace Troy.Web.Controllers
                         xmlAddBranch.ModifiedUser = model.Branch.Modified_User_Id.ToString();
                         xmlAddBranch.ModifiedBranch = model.Branch.Modified_Branch_Id.ToString();
                         xmlAddBranch.ModifiedDateTime = model.Branch.Modified_Dte.ToString();
-                        //xmlAddBranch. = model.SAP_Country_Code;
+                  
 
                         if (branchRepository.GenerateXML(xmlAddBranch))
                         {
@@ -177,50 +169,7 @@ namespace Troy.Web.Controllers
                         ModelState.AddModelError("", "Branch Not Saved");
                     }
                 }
-                //    Guid GuidRandomNo = Guid.NewGuid();
-                //    string UniqueID = GuidRandomNo.ToString();
 
-                //    Viewmodel_AddBranch xmlAddBranch = new Viewmodel_AddBranch();
-                //    xmlAddBranch.UniqueID = UniqueID.ToString();
-                //    xmlAddBranch.Branch_Code = model.Branch.Branch_Code;
-                //    xmlAddBranch.Branch_Name = model.Branch.Branch_Name;
-                //    xmlAddBranch.Address1 = model.Branch.Address1;
-                //    xmlAddBranch.Address2 = model.Branch.Address2;
-                //    xmlAddBranch.Address3 = model.Branch.Address3;
-                //    //xmlAddBranch.Country_ID = model.Branch.Country_ID.ToString();
-                //    //xmlAddBranch.Country_ID = model.country.SAP_Country_Code;
-
-                //    int country_ID = Convert.ToInt32(model.Branch.Country_ID);
-                //    string SAP_Country_Code = branchRepository.FindCodeForCountryId(country_ID);
-
-                //    xmlAddBranch.SAP_Country_Code = SAP_Country_Code;
-
-                //    int state_ID = Convert.ToInt32(model.Branch.State_ID);
-                //    string SAP_State_Code = branchRepository.FindCodeForStateId(state_ID);
-
-                //    xmlAddBranch.SAP_State_Code = SAP_State_Code;
-
-                //    int city_ID = Convert.ToInt32(model.Branch.City_ID);
-                //    string CityName = branchRepository.FindNameForCityId(city_ID);
-
-                //    xmlAddBranch.City_Name = CityName;
-
-                //    xmlAddBranch.Pin_Code = model.Branch.Pin_Code;
-                //    xmlAddBranch.Order_Num = model.Branch.Order_Num.ToString();
-                //    xmlAddBranch.IsActive = model.Branch.IsActive;
-                //    xmlAddBranch.CreatedUser = model.Branch.Created_User_Id.ToString();
-                //    xmlAddBranch.CreatedBranch = model.Branch.Created_Branc_Id.ToString();
-                //    xmlAddBranch.CreatedDateTime = model.Branch.Created_Dte.ToString();
-                //    xmlAddBranch.ModifiedUser = model.Branch.Modified_User_Id.ToString();
-                //    xmlAddBranch.ModifiedBranch = model.Branch.Modified_Branch_Id.ToString();
-                //    xmlAddBranch.ModifiedDateTime = model.Branch.Modified_Dte.ToString();
-                //    //xmlAddBranch. = model.SAP_Country_Code;
-
-                //    if (branchRepository.GenerateXML(xmlAddBranch))
-                //    {
-                //        return RedirectToAction("Index", "Branch");
-                //    }
-                //}
                 else if (submitButton == "Update")
                 {
                     model.Branch.Created_Branc_Id = 1;
@@ -246,17 +195,17 @@ namespace Troy.Web.Controllers
                         xmlEditBranch.Address3 = model.Branch.Address3;
 
                         int country_ID = Convert.ToInt32(model.Branch.Country_ID);
-                        string SAP_Country_Code = branchRepository.FindCodeForCountryId(country_ID);
+                        string SAP_Country_Code = branchRepository.FindCodeForCountryId(country_ID); //Get SAP_Country_Code
 
                         xmlEditBranch.SAP_Country_Code = SAP_Country_Code;
 
                         int state_ID = Convert.ToInt32(model.Branch.State_ID);
-                        string SAP_State_Code = branchRepository.FindCodeForStateId(state_ID);
+                        string SAP_State_Code = branchRepository.FindCodeForStateId(state_ID);// Get SAP_State_Code
 
                         xmlEditBranch.SAP_State_Code = SAP_State_Code;
 
                         int city_ID = Convert.ToInt32(model.Branch.City_ID);
-                        string CityName = branchRepository.FindNameForCityId(city_ID);
+                        string CityName = branchRepository.FindNameForCityId(city_ID);// Get CityName
 
                         xmlEditBranch.City_Name = CityName;
 
@@ -280,46 +229,6 @@ namespace Troy.Web.Controllers
                         ModelState.AddModelError("", "Branch Not Updated");
                     }
 
-                    //Guid GuidRandomNo = Guid.NewGuid();
-                    //string UniqueID = GuidRandomNo.ToString();
-
-                    //Viewmodel_AddBranch xmlEditBranch = new Viewmodel_AddBranch();
-                    //xmlEditBranch.UniqueID = UniqueID.ToString();
-                    //xmlEditBranch.Branch_Code = model.Branch.Branch_Code;
-                    ////xmlEditBranch.Branch_Name = model.Branch.Branch_Name;
-                    //xmlEditBranch.Address1 = model.Branch.Address1;
-                    //xmlEditBranch.Address2 = model.Branch.Address2;
-                    //xmlEditBranch.Address3 = model.Branch.Address3;
-
-                    //int country_ID = Convert.ToInt32(model.Branch.Country_ID);
-                    //string SAP_Country_Code = branchRepository.FindCodeForCountryId(country_ID);
-
-                    //xmlEditBranch.SAP_Country_Code = SAP_Country_Code;
-
-                    //int state_ID = Convert.ToInt32(model.Branch.State_ID);
-                    //string SAP_State_Code = branchRepository.FindCodeForStateId(state_ID);
-
-                    //xmlEditBranch.SAP_State_Code = SAP_State_Code;
-
-                    //int city_ID = Convert.ToInt32(model.Branch.City_ID);
-                    //string CityName = branchRepository.FindNameForCityId(city_ID);
-
-                    //xmlEditBranch.City_Name = CityName;
-
-                    //xmlEditBranch.Pin_Code = model.Branch.Pin_Code;
-                    //xmlEditBranch.Order_Num = model.Branch.Order_Num.ToString();
-                    //xmlEditBranch.IsActive = model.Branch.IsActive;
-                    //xmlEditBranch.CreatedUser = model.Branch.Created_User_Id.ToString();
-                    //xmlEditBranch.CreatedBranch = model.Branch.Created_Branc_Id.ToString();
-                    //xmlEditBranch.CreatedDateTime = model.Branch.Created_Dte.ToString();
-                    //xmlEditBranch.ModifiedUser = model.Branch.Modified_User_Id.ToString();
-                    //xmlEditBranch.ModifiedBranch = model.Branch.Modified_Branch_Id.ToString();
-                    //xmlEditBranch.ModifiedDateTime = model.Branch.Modified_Dte.ToString();
-
-                    //if (branchRepository.GenerateXML(xmlEditBranch))
-                    //{
-                    //    return RedirectToAction("Index", "Branch");
-                    //}
                 }
 
 
@@ -382,11 +291,8 @@ namespace Troy.Web.Controllers
                                 excelSheets[t] = row["TABLE_NAME"].ToString();
                                 t++;
                             }
-
-                            //for (int k = 0; k < dt.Rows.Count; k++)
-                            //{
-                            DataSet ds = new DataSet();
-                            //int sheets = k + 1;
+                        
+                            DataSet ds = new DataSet();        
 
                             OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
 
@@ -418,6 +324,8 @@ namespace Troy.Web.Controllers
                                 }
                                 #endregion
 
+                                //checkbranchcode();
+
                                 #region Check Branch Name
                                 foreach (DataRow dr in ds.Tables[0].Rows)
                                 {
@@ -437,6 +345,7 @@ namespace Troy.Web.Controllers
                                     }
                                 }
                                 #endregion
+
 
                                 #region Check Country Name
                                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -727,7 +636,7 @@ namespace Troy.Web.Controllers
             }
         }
 
-        //Check for dupilicate  
+        //Check for dupilicate Branch Code
         #region Check for duplicate code
         public JsonResult CheckForDuplication([Bind(Prefix = "Branch.Branch_Code")]string Branch_Code, [Bind(Prefix = "Branch.Branch_Id")]int? Branch_Id)
         {
@@ -753,6 +662,8 @@ namespace Troy.Web.Controllers
         }
         #endregion
 
+
+        //Check duplicate Branch name
         #region Check for duplicate name
         public JsonResult CheckForDuplicationName([Bind(Prefix = "Branch.Branch_Name")]string Branch_Name, [Bind(Prefix = "Branch.Branch_Id")]int? Branch_Id)
         {
@@ -777,6 +688,35 @@ namespace Troy.Web.Controllers
             }
         }
         #endregion
+
+        //#region Methods
+
+        //public bool checkbranchcode()
+        //{
+        //    DataSet ds = new DataSet();
+        //    foreach (DataRow dr in ds.Tables[0].Rows)
+        //    {
+        //        string mExcelBranch_Code = Convert.ToString(dr["Branch Code"]);
+        //        string CheckingType = "Code";
+        //        if (mExcelBranch_Code != null && mExcelBranch_Code != "")
+        //        {
+        //            var data = branchRepository.CheckDuplicateBranch(mExcelBranch_Code, CheckingType);
+        //            if (data != null)
+        //            {
+        //                return true;
+
+        //                //return Json(new { success = true, Message = "Branch Code: " + mExcelBranch_Code + " - already exists in the master." }, JsonRequestBehavior.AllowGet);
+        //            }
+        //        }
+
+        //    }
+        //    return false;
+        //}
+
+        //#endregion
+
+
+
 
 
         #region Export to excel
@@ -829,6 +769,8 @@ namespace Troy.Web.Controllers
         }
         #endregion
 
+
+        //Templates For Branch For bulk Upload
         #region Templates for Branch
         public ActionResult _TemplateExcelDownload()
         {
@@ -922,5 +864,5 @@ namespace Troy.Web.Controllers
         }
         #endregion
 
-    } 
+    }
 }

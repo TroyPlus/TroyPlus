@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -16,24 +17,25 @@ namespace Troy.Model.Purchase
 
         public int Purchase_Quote_Id { get; set; }
 
-        public int Product_id { get; set; }
+        public int Product_id { get; set; }    
 
         [Required]
         [Display(Name = "Required Quantity")]
-        public int Required_qty { get; set; }
+        public int Required_qty { get; set; } 
 
         [Required]
-        [Display(Name = "Required Date")]
+        [Display(Name = "Required Date")]        
         public DateTime Required_date { get; set; }
 
         public int Quoted_qty { get; set; }
 
         public DateTime Quoted_date { get; set; }
 
+        [Display(Name = "Discount%")]
         public decimal Discount_percent { get; set; }
 
         [Required]
-        [Display(Name = "VAT Code")]
+        [Display(Name = "VAT")]
         public int Vat_Code { get; set; }
 
         public decimal Unit_price { get; set; }
