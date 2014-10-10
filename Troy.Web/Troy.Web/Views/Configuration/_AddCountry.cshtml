@@ -1,0 +1,80 @@
+﻿@model Troy.Web.Models.ConfigurationViewModels
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")" type="text/javascript"></script>
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Add Country</h4>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="row">
+                    <div class="tabs">
+                        <ul id="myTab" class="nav nav-tabs tabdrop">
+                            <li class="active">
+                                <a href="#Country" data-toggle="tab">Country</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade active in" id="Country">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(m => m.Country.Country_Name):
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(model => model.Country.Country_Name, new { @class = "form-control control-text" })
+                                            @Html.ValidationMessageFor(model => model.Country.Country_Name)
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            Country Code:
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(model => model.Country.Country_Code, new { @class = "form-control control-text" })
+                                            @Html.ValidationMessageFor(model => model.Country.Country_Code)
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            SAP Country Code:
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(model => model.Country.SAP_Country_Code, new { @class = "form-control control-text" })
+                                            @Html.ValidationMessageFor(model => model.Country.SAP_Country_Code)
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+            <button class="btn pull-left" data-dismiss="modal">Close</button>
+            @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+
+
+        </div>
+    </div>
+</div>
+

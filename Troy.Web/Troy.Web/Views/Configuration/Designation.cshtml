@@ -1,0 +1,209 @@
+﻿@model Troy.Web.Models.ConfigurationViewModels
+
+@{
+    ViewBag.Title = "Designation";
+}
+
+
+<script type="text/javascript">
+
+    function EditDesignation(id) {
+
+        var url = $('#editDesignation').data('url') + '/' + id;
+
+        $.get(url, function (data) {
+
+            $('#editmodelcontainer').html(data);
+
+            $('#editDesignation').modal('show');
+        });
+    }
+
+    function ViewDesignation(id) {
+
+        var url = $('#viewDesignation').data('url') + '/' + id;
+
+        $.get(url, function (data) {
+            $('#viewmodelcontainer').html(data);
+
+            $('#viewDesignation').modal('show');
+        });
+    }
+
+    $.validator.unobtrusive.parse('#myModal form');
+
+</script>
+
+
+
+<div><span>&nbsp;</span></div>
+@using (Html.BeginForm())
+{
+
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m => m.SearchColumn)
+
+    <div id="content">
+        <!-- Start .content-wrapper -->
+        <div class="content-wrapper">
+            <div class="row">&nbsp;</div>
+            <!-- Start .row -->
+            <div class="row">
+                <!-- Start .page-header -->
+                <div class="form-group">
+                    <label class="col-md-2 col-md-2 col-sm-12 h4 control-label pull-left">
+                        @ViewBag.Title
+                    </label>
+                    <!-- Start .bredcrumb -->
+                    @*<ul id="crumb" class="breadcrumb"></ul>*@
+                    <!-- End .breadcrumb -->
+                    <!-- Start .option-buttons -->
+                    <!-- Removed -->
+                    <!-- End .option-buttons -->
+
+                    <div class="col-lg-10 col-md-10">
+                        <div class="row">
+                            <div class="btn-group pull-right">
+
+                                <button type="button" title="New Designation" class="btn btn-primary h5" data-toggle="modal" data-target="#Designation" data-backdrop="static" data-keyboard="false">
+                                    <i class="en-add-to-list">New</i>
+                                </button>
+                                <button type="button" title="Bulk Addition" class="btn btn-primary h5">
+                                    <i class="st-file-add">Bulk</i>
+                                </button>
+
+                                <button type="button" title="Excel Export" class="btn btn-primary h5">
+                                    <i class="im-file-excel">Export</i>
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- End .page-header -->
+            </div>
+            <!-- End .row -->
+            <div class="row">&nbsp;</div>
+            <div class="outlet">
+                <!-- Start .outlet -->
+                <!-- Page start here ( usual with .row ) -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- col-lg-12 start here -->
+                        <div class="panel panel-default plain">
+                            <!-- Start .panel -->
+                            <div class="panel-heading">
+                                <div class="row">
+
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="navbar navbar-inverse ">
+                                    <div class="container">
+                                        <div class="navbar-header">
+                                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                                <span class="icon-bar"></span>
+                                                <span class="icon-bar"></span>
+                                                <span class="icon-bar"></span>
+                                                <span class="icon-bar"></span>
+                                                <span class="icon-bar"></span>
+                                                <span class="icon-bar"></span>
+                                                <span class="icon-bar"></span>
+                                            </button>
+                                            @Html.ActionLink("Configuration", "Country", "Configuration", null, new { @class = "navbar-brand" })
+                                        </div>
+                                        <div class="navbar-collapse collapse">
+                                            <ul class="nav navbar-nav">
+                                                <li>@Html.ActionLink("Country", "Country", "Configuration")</li>
+                                                <li>@Html.ActionLink("State", "State", "Configuration")</li>
+                                                <li>@Html.ActionLink("City", "City", "Configuration")</li>
+                                                <li>@Html.ActionLink("Department", "Department", "Configuration")</li>
+                                                <li>@Html.ActionLink("Designation", "Designation", "Configuration")</li>
+                                                <li>@Html.ActionLink("PriceList", "PriceList", "Configuration")</li>
+                                                <li>@Html.ActionLink("VAT", "VAT", "Configuration")</li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal">
+                                    <div class="row">
+
+                                        <table class="table display" id="datatable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Designation Name</th>
+
+                                                    <th>IsActive</th>
+
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (Troy.Model.Configuration.Designation item in Model.DesignationList)
+                                                {
+                                                    <tr class="odd gradeX">
+                                                        <td>@item.Designation_Name</td>
+
+                                                        <td>@item.IsActive</td>
+
+
+
+                                                        <td>
+                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#viewDesignation" data-backdrop="static" data-keyboard="false" onclick="ViewDesignation(@item.Designation_Id);">
+                                                                <i class="im-eye2"></i>
+
+                                                            </a>
+                                                            <span class="text-muted">|</span>
+                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#editDesignation" data-backdrop="static" data-keyboard="false" onclick="EditDesignation(@item.Designation_Id);">
+                                                                <i class="im-pencil2"></i>
+                                                            </a>
+                                                            <span class="text-muted">|</span>
+
+                                                            <a href="@Url.Action(" _deletepartialview", "Suppliers", new { id = item.Designation_Id })" data-modal="true">
+                                                                <i class="im-remove2"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- End .panel -->
+                </div>
+                <!-- col-lg-12 end here -->
+            </div>
+            <!-- Page End here -->
+        </div>
+        <!-- End .outlet -->
+    </div>
+    <!-- End .content-wrapper -->
+
+    <div class="clearfix"></div>
+    <div class="modal fade bs-example-modal-lg" id="Designation" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        @Html.Partial("_AddDesignation", Model)
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="editDesignation" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditDesignation")'>
+        <div id="editmodelcontainer">
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="viewDesignation" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewDesignation")'>
+        <div id="viewmodelcontainer">
+        </div>
+    </div>
+
+
+}
+
