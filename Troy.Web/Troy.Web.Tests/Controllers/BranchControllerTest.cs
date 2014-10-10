@@ -107,6 +107,7 @@ namespace Troy.Web.Tests.Controllers
             ViewResult expectedResult = new ViewResult();
 
             Assert.IsNotNull(actionResult);
+     
                 //(branchList, (actionResult.Model as BranchViewModels).BranchList);
             //Assert.AreEqual(countrylist, (actionResult.Model as BranchViewModels).CountryList);
             //Assert.AreEqual(statelist, (actionResult.Model as BranchViewModels).StateList);
@@ -167,7 +168,7 @@ namespace Troy.Web.Tests.Controllers
         public void saveBranch( )
         {
 
-            string submit ="save";
+            string submit ="Save";
             //BranchViewModels model= ;
 
             /*  
@@ -260,6 +261,59 @@ namespace Troy.Web.Tests.Controllers
 
         #endregion
 
+
+        [TestMethod]
+        public void saveBranchException()
+        {
+
+            string submit = "Save";
+            {
+                Branch branch = new Branch();
+                {
+                    branch.Branch_Code = "3";
+                    branch.Address1 = "hhggh";
+
+                }
+
+                int countryId = 1;
+                int stateId = 1;
+
+                mockBranchRepository.Setup(m => m.AddNewBranch(branch)).Returns(false);
+                mockBranchRepository.Setup(m => m.FindCodeForCountryId(countryId)).Returns("IN");
+                mockBranchRepository.Setup(m => m.FindCodeForStateId(stateId)).Returns("TN");
+
+                var branchlist = new BranchViewModels();
+                {
+                    branch.Branch_Code = "kalai";
+                    branch.Branch_Name = "kakathopu";
+                    branch.Country_ID = countryId;
+                    branch.State_ID = stateId;
+                }
+                branchlist.Branch = branch;
+
+                var countrylist = new List<CountryList>();
+                countrylist.Add(new CountryList { ID = 1, Country_Name = "India" });
+
+                mockBranchRepository.Setup(m => m.FindCodeForCountryId(countryId)).Returns("IN");
+
+                var statelist = new List<StateList>();
+                statelist.Add(new StateList { ID = 1, State_Name = "Tamil Nadu" });
+
+                mockBranchRepository.Setup(m => m.FindCodeForStateId(stateId)).Returns("TN");
+
+                var actionResult = branchController.Index(submit, branchlist);
+
+                // Validate the expected result.
+                ViewResult expectedResult = new ViewResult();
+
+                Assert.IsNotNull(actionResult);
+                //Assert.IsTrue(true, branchlist,(actionResult));
+                //branchList, (actionResult.Model as BranchViewModels).BranchList);
+            }
+        }
+
+
+
         [TestMethod]
         public void Editbranch()
         {
@@ -324,18 +378,141 @@ namespace Troy.Web.Tests.Controllers
          
 
             // Now invoke the Index action.
-            var actionResult = branchController.Index(submit,branchlist);
+            var actionResult = branchController.Index(submit,branchlist) as ViewResult ;
 
             // Validate the expected result.
             ViewResult expectedResult = new ViewResult();
 
-            Assert.IsNotNull(actionResult);
-            //(branchList, (actionResult.Model as BranchViewModels).BranchList);
+            //Assert.IsNotNull(actionResult);
+            Assert.IsTrue(actionResult.Model is BranchViewModels);
             //Assert.AreEqual(countrylist, (actionResult.Model as BranchViewModels).CountryList);
             //Assert.AreEqual(statelist, (actionResult.Model as BranchViewModels).StateList);
             //Assert.AreEqual(citylist, (actionResult.Model as BranchViewModels).CityList);
             //Assert.AreEqual(branchList, (actionResult.Model as PurchaseViewModels).BranchList);
         }
+      
+
+        [TestMethod]
+        public void EditBranchException()
+        {
+
+            string submit = "Update";
+            {
+                Branch branch = new Branch();
+                {
+                    branch.Branch_Code = "salai";
+                    branch.Address1 = "no 90 kamrajar salai";
+
+                }
+
+                int countryId = 1;
+                int stateId = 1;
+
+                mockBranchRepository.Setup(m => m.EditBranch(branch)).Returns(false);
+                mockBranchRepository.Setup(m => m.FindCodeForCountryId(countryId)).Returns("IN");
+                mockBranchRepository.Setup(m => m.FindCodeForStateId(stateId)).Returns("TN");
+
+                var branchlist = new BranchViewModels();
+                {
+                    branch.Order_Num = 9;
+                    branch.Country_ID = countryId;
+                    branch.State_ID = stateId;
+                }
+                branchlist.Branch = branch;
+
+                var countrylist = new List<CountryList>();
+                countrylist.Add(new CountryList { ID = 1, Country_Name = "India" });
+
+                mockBranchRepository.Setup(m => m.FindCodeForCountryId(countryId)).Returns("IN");
+
+                var statelist = new List<StateList>();
+                statelist.Add(new StateList { ID = 1, State_Name = "Tamil Nadu" });
+
+                mockBranchRepository.Setup(m => m.FindCodeForStateId(stateId)).Returns("TN");
+
+                var actionResult = branchController.Index(submit, branchlist);
+
+                // Validate the expected result.
+                ViewResult expectedResult = new ViewResult();
+                //Assert.AreEqual(branchlist, (actionResult.Model as BranchViewModels).BranchList);
+                //Assert.IsNotNull(actionResult);
+                Assert.IsTrue(true);
+                //Assert.IsTrue(true, branchlist,(actionResult));
+                //branchList, (actionResult.Model as BranchViewModels).BranchList);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+        //[TestMethod]
+        //public void Bulkaddition()
+        //{
+        //    string submit = "FileUpload";
+           
+
+
+        //    List<Branch> branch = new List<Branch>();
+        //    {
+
+             
+        //      //Branch_Name = "salai";
+        //      //branch.  branch.Address1 = "no 90 kamrajar salai";
+        //      //  branch.Branch_Code="9";
+        //      //  branch.country.Country_Name = "India";
+        //      //  branch.state.State_Name = "TamilNadu";
+        //      //  branch.city.City_Name = "Madurai";
+                
+        //    }
+        //    Country country = new Country();
+        //    {
+        //        country.Country_Name = "India";
+
+        //    }
+        //    //string bname = "salai";
+        //    //string countryId = 1;
+        //    mockBranchRepository.Setup(m => m.InsertFileUploadDetails(branch)).Returns(true);
+
+        //    //mockBranchRepository.Setup(m => m.GetAllUserBranch()).Returns(branch);
+
+        //    //mockCountryRespository.Setup(m => m.GetAddresscountryList()).Returns(branchList);
+
+        //    // Prepare the return data for the GetAddressList() method.
+        //    var countrylist = new List<CountryList>();
+        //    countrylist.Add(new CountryList { ID = 1, Country_Name = "India" });
+
+        //    mockBranchRepository.Setup(m => m.GetAddresscountryList()).Returns(countrylist);
+        //    //var branchList1 = new List<BranchList>();
+        //    //branchList1.Add(new BranchList { BranchId = 1, BranchName = "MADURAI MAIN" });
+
+        //    var statelist = new List<StateList>();
+        //    statelist.Add(new StateList { ID = 1, State_Name = "Tamil Nadu" });
+
+        //    mockBranchRepository.Setup(m => m.GetAddressstateList()).Returns(statelist);
+
+
+        //    var citylist = new List<CityList>();
+        //    citylist.Add(new CityList { ID = 1, City_Name = "Madurai" });
+
+        //    mockBranchRepository.Setup(m => m.GetAddresscityList()).Returns(citylist);
+
+        //    //mockBranchRepository.Setup(m => m.CheckCountry()).Returns("IN");
+        //    //mockBranchRepository.Setup(m => m.CheckDuplicateBranchName(bname)).Returns(bname);
+        //    // Now invoke the Index action.
+        //    var actionResult = branchController.Index() as ViewResult;
+
+        //    // Validate the expected result.
+        //    ViewResult expectedResult = new ViewResult();
+
+        //    Assert.IsNotNull(actionResult);
+        //}
+
         //public void indexIndex(string submitButton, BranchViewModels model, HttpPostedFileBase file)
         //{
         //    List<ViewBranches> branchList = new List<ViewBranches>();

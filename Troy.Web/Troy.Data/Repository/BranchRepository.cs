@@ -481,7 +481,7 @@ namespace Troy.Data.Repository
             try
             {
                 branchContext.Branch.Add(branch);
-
+        
                 branchContext.SaveChanges();
 
                 return true;

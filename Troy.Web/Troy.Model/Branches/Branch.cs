@@ -15,6 +15,8 @@ namespace Troy.Model.Branches
     [Table("tblBranch")]
     public class Branch
     {
+       
+
         [Key]
         public int Branch_Id { get; set; }
         [ForeignKey("Branch_Id")]
@@ -51,6 +53,7 @@ namespace Troy.Model.Branches
         public int Country_ID { get; set; }
         public virtual Country country { get; set; }
 
+
         [Required]
         [ForeignKey("state")]
         public int State_ID { get; set; }
@@ -72,6 +75,7 @@ namespace Troy.Model.Branches
         [Display(Name = "Order number")]
         public int Order_Num { get; set; }
 
+        [Required]
         [StringLength(1)]
         public string IsActive { get; set; }
 
