@@ -580,5 +580,19 @@ namespace Troy.Data.Repository
 
             return item;
         }
+
+
+        public List<CityList> GetAddressClist()
+        {
+            var item = (from a in ConfigurationContext.City
+                        select new CityList
+                        {
+                            ID = a.ID,
+                            City_Name=a.City_Name
+
+                        }).ToList();
+
+            return item;
+        }
     }
 }

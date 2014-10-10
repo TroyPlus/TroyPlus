@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Troy.Model.Countries;
-using Troy.Model.States;
-using Troy.Model.Cities;
 using Troy.Model.Branches;
 using System.Xml;
 using System.Xml.Serialization;
+using Troy.Model.Configuration;
 
 namespace Troy.Web.Models
 {

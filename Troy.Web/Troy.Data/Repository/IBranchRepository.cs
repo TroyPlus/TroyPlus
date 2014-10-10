@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Troy.Model.Countries;
-using Troy.Model.States;
-using Troy.Model.Cities;
 using Troy.Model.Branches;
+using Troy.Model.Configuration;
 
 namespace Troy.Data.Repository
 {

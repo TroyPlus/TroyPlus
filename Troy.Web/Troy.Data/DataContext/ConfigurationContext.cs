@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Troy.Model.Branches;
 using Troy.Model.Configuration;
 
 
@@ -26,6 +27,8 @@ namespace Troy.Data.DataContext
 
         public DbSet<PriceList> PriceList { get; set; }
         public DbSet<VAT> VAT { get; set; }
+
+        //public DbSet<Branch> Branch { get; set; }
 
 
 

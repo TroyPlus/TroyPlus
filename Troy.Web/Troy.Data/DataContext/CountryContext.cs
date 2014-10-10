@@ -1,27 +1,27 @@
-﻿using System.Data.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Troy.Model;
-using Troy.Model.Branches;
-using Troy.Model.Cities;
-using Troy.Model.Countries;
-using Troy.Model.States;
+﻿//using System.Data.Entity;
+//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using Troy.Model;
+//using Troy.Model.Branches;
+//using Troy.Model.Cities;
+//using Troy.Model.Countries;
+//using Troy.Model.States;
 
-namespace Troy.Data.DataContext
-{
-   public class CountryContext: DbContext
-    {
-      public CountryContext()
-            : base("DefaultConnection")
-        { }
+//namespace Troy.Data.DataContext
+//{
+//   public class CountryContext: DbContext
+//    {
+//      public CountryContext()
+//            : base("DefaultConnection")
+//        { }
 
-        public DbSet<Branch> Branch { get; set; }
+//        public DbSet<Branch> Branch { get; set; }
 
-        public DbSet<Country> country { get; set; }
+//        public DbSet<Country> country { get; set; }
 
 
-    }
-}
+//    }
+//}

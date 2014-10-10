@@ -8,14 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Data.DataContext;
-using Troy.Model.Countries;
-using Troy.Model.Cities;
-using Troy.Model.States;
 using Troy.Utilities.CrossCutting;
 using System.Data.Entity;
 using Troy.Model.Branches;
 using System.Xml;
 using Troy.Model.SAP_OUT;
+using Troy.Model.Configuration;
 
 
 namespace Troy.Data.Repository
@@ -24,11 +22,13 @@ namespace Troy.Data.Repository
     {
         private BranchContext branchContext = new BranchContext();
 
-        private CountryContext countryContext = new CountryContext();
+        private ConfigurationContext configurationContext = new ConfigurationContext();
 
-        private CityContext cityContext = new CityContext();
+        //private CountryContext countryContext = new CountryContext();
 
-        private StateContext stateContext = new StateContext();
+        //private CityContext cityContext = new CityContext();
+
+        //private StateContext stateContext = new StateContext();
 
 
         private SAPOUTContext sapcontext = new SAPOUTContext();
@@ -52,16 +52,15 @@ namespace Troy.Data.Repository
             List<ViewBranches> qList = new List<ViewBranches>();
 
             qList = (from item in branchContext.Branch
-                     join c in branchContext.country
+                     join c in branchContext.Country
                         on item.Country_ID equals c.ID
-                     join s in branchContext.state
+                     join s in branchContext.State
                         on item.State_ID equals s.ID
-                     join ct in branchContext.city
+                     join ct in branchContext.City
                         on item.City_ID equals ct.ID
 
                      select new ViewBranches()
                     {
-
                         Branch_Id = item.Branch_Id,
                         Branch_Code = item.Branch_Code,
                         Branch_Name = item.Branch_Name,
@@ -278,7 +277,7 @@ namespace Troy.Data.Repository
         {
 
 
-            return (from p in countryContext.country
+            return (from p in configurationContext.Country
                     where p.Country_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
@@ -288,7 +287,7 @@ namespace Troy.Data.Repository
         {
 
 
-            return (from p in stateContext.state
+            return (from p in configurationContext.State
                     where p.State_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
@@ -298,7 +297,7 @@ namespace Troy.Data.Repository
         {
 
 
-            return (from p in cityContext.city
+            return (from p in configurationContext.City
                     where p.City_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
@@ -308,7 +307,7 @@ namespace Troy.Data.Repository
         //FindIdForCountryName
         public int FindIdForCountryName(string name)
         {
-            int Country_id = (from p in countryContext.country
+            int Country_id = (from p in configurationContext.Country
                               where p.Country_Name == name
                               select p.ID).FirstOrDefault();
             return Country_id;
@@ -319,7 +318,7 @@ namespace Troy.Data.Repository
         //FindIdForStateName
         public int FindIdForStateName(string name)
         {
-            int State_id = (from p in stateContext.state
+            int State_id = (from p in configurationContext.State
                             where p.State_Name == name
                             select p.ID).FirstOrDefault();
             return State_id;
@@ -329,7 +328,7 @@ namespace Troy.Data.Repository
         //FindIdForCityName
         public int FindIdForCityName(string name)
         {
-            int City_id = (from p in cityContext.city
+            int City_id = (from p in configurationContext.City
                            where p.City_Name == name
                            select p.ID).FirstOrDefault();
             return City_id;
@@ -342,7 +341,7 @@ namespace Troy.Data.Repository
         public string FindCodeForCountryId(int country_id)
         {
 
-            string sap_country_code = (from p in branchContext.country
+            string sap_country_code = (from p in configurationContext.Country
                                        where p.ID == country_id
                                        select p.SAP_Country_Code).FirstOrDefault();
 
@@ -354,7 +353,7 @@ namespace Troy.Data.Repository
         public string FindCodeForStateId(int state_id)
         {
 
-            string sap_state_code = (from p in branchContext.state
+            string sap_state_code = (from p in configurationContext.State
                                      where p.ID == state_id
                                      select p.SAP_State_Code).FirstOrDefault();
 
@@ -366,7 +365,7 @@ namespace Troy.Data.Repository
         public string FindNameForCityId(int city_id)
         {
 
-            string cityname = (from p in branchContext.city
+            string cityname = (from p in configurationContext.City
                                where p.ID == city_id
                                select p.City_Name).FirstOrDefault();
 
@@ -436,7 +435,7 @@ namespace Troy.Data.Repository
         //GetAddresscountryList
         public List<CountryList> GetAddresscountryList()
         {
-            var item = (from a in branchContext.country
+            var item = (from a in configurationContext.Country
                         select new CountryList
                         {
                             ID = a.ID,
@@ -450,7 +449,7 @@ namespace Troy.Data.Repository
         //GetAddressstateList
         public List<StateList> GetAddressstateList()
         {
-            var item = (from a in branchContext.state
+            var item = (from a in configurationContext.State
                         select new StateList
                         {
                             ID = a.ID,
@@ -464,7 +463,7 @@ namespace Troy.Data.Repository
         //GetAddresscityList
         public List<CityList> GetAddresscityList()
         {
-            var item = (from a in branchContext.city
+            var item = (from a in configurationContext.City
                         select new CityList
                         {
                             ID = a.ID,

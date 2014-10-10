@@ -23,6 +23,7 @@ namespace Troy.Web.Controllers
     {
         #region Fields
         private readonly IBranchRepository branchRepository;
+        private readonly IConfigurationRepository configurationRepository;
         #endregion
 
         #region Constructor

@@ -6,9 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Troy.Model.Countries;
-using Troy.Model.States;
-using Troy.Model.Cities;
+using Troy.Model.Configuration;
 
 namespace Troy.Model.Branches
 {
