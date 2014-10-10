@@ -47,6 +47,7 @@ namespace Troy.Web.App_Start
 
             container.RegisterType<IPurchaseRepository, PurchaseRepository>();
             container.RegisterType<IManufacturerRepository, ManufactureRepository>();
+            container.RegisterType<IConfigurationRepository,ConfigurationRepository>();
             container.RegisterType<IBranchRepository, BranchRepository>();
             container.RegisterType<IProductGroupRepository, ProductGroupRepository>();
             container.RegisterType<IBusinessPartnerRepository, BusinessPartnerRepository>();

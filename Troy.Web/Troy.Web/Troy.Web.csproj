@@ -207,6 +207,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BusinessPartnerController.cs" />
+    <Compile Include="Controllers\ConfigurationController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -220,6 +221,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BranchViewModels.cs" />
     <Compile Include="Models\BusinessPartnerViewModels.cs" />
+    <Compile Include="Models\ConfigurationViewModels.cs" />
     <Compile Include="Models\EditUserViewModel.cs" />
     <Compile Include="Models\EmployeeViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -1495,9 +1497,24 @@
     <Content Include="Views\User\_CreatePartial.cshtml" />
     <Content Include="Views\User\_EditPartial.cshtml" />
     <Content Include="Views\User\_ViewPartial.cshtml" />
+    <Content Include="Views\Configuration\Country.cshtml" />
+    <Content Include="Views\Configuration\State.cshtml" />
+    <Content Include="Views\Configuration\City.cshtml" />
+    <Content Include="Views\Configuration\Department.cshtml" />
+    <Content Include="Views\Configuration\Designation.cshtml" />
+    <Content Include="Views\Configuration\PriceList.cshtml" />
+    <Content Include="Views\Configuration\VAT.cshtml" />
+    <Content Include="Views\Configuration\_AddCountry.cshtml" />
+    <Content Include="Views\Configuration\_AddState.cshtml" />
+    <Content Include="Views\Configuration\_AddCity.cshtml" />
+    <Content Include="Views\Configuration\_AddDepartment.cshtml" />
+    <Content Include="Views\Configuration\_AddDesignation.cshtml" />
+    <Content Include="Views\Configuration\_AddPriceList.cshtml" />
+    <Content Include="Views\Configuration\_AddVAT.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />
+    <Folder Include="Views\NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
