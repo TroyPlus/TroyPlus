@@ -81,7 +81,7 @@ namespace Troy.Web.Controllers
                     model.PurchaseQuotation.Modified_User_Id = 1;
                     model.PurchaseQuotation.Modified_Date = DateTime.Now;
                     model.PurchaseQuotation.Modified_Branch_Id = 1;
-                    model.PurchaseQuotation.Posting_Date = DateTime.Now;
+                    //model.PurchaseQuotation.Posting_Date = DateTime.Now;
 
                     var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
                     model.PurchaseQuotationItemList = QuotationList.ToList();
@@ -117,7 +117,6 @@ namespace Troy.Web.Controllers
                     model.PurchaseQuotation.Modified_User_Id = 1;
                     model.PurchaseQuotation.Modified_Date = DateTime.Now;
                     model.PurchaseQuotation.Modified_Branch_Id = 1;
-                    model.PurchaseQuotation.Posting_Date = DateTime.Now;
 
                     //var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
                     //model.PurchaseQuotationItemList = QuotationList.ToList();

@@ -31,14 +31,17 @@ namespace Troy.Model.Purchase
         [Display(Name = "Posting Date")]
         //[DataType(DataType.Date)]
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        [DisplayFormat(DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime Posting_Date { get; set; }
 
         [Required]
-        [Display(Name = "Valid UpTo")]        
+        [Display(Name = "Valid up to")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime Valid_Date { get; set; }
 
+        [Required]
         [Display(Name = "Required Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime Required_Date { get; set; }
 
         [Required]
@@ -52,7 +55,8 @@ namespace Troy.Model.Purchase
         [Required]
         public int? Loading { get; set; }
 
-
+        [Required]
+        [Display(Name = "Discount %")]
         public int? Discount { get; set; }
 
         public string Remarks { get; set; }
