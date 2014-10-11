@@ -15,8 +15,24 @@ namespace Troy.Web
             bundles.Add(new StyleBundle("~/Content/themes/icons").Include(
                         "~/Content/themes/TroyPlus/css/icons.css"));
             // jQueryUI 
+            //bundles.Add(new StyleBundle("~/Content/themes/jqueryUI").Include(
+            //                "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.all.css"));
+
             bundles.Add(new StyleBundle("~/Content/themes/jqueryUI").Include(
-                            "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.all.css"));
+                       "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.core.css",
+                       "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.resizable.css",
+                       "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.selectable.css",
+                       "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.accordion.css",
+                       "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.autocomplete.css",
+                       "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.button.css",
+                       "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.dialog.css",
+                       "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.slider.css",
+                       "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.tabs.css",
+                       "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.datepicker.css",
+                       "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.progressbar.css",
+                       "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.theme.css"));
+
+
             // Bootstrap stylesheets (included template modifications) 
             bundles.Add(new StyleBundle("~/Content/themes/bootstrap").Include(
                             "~/Content/themes/TroyPlus/css/bootstrap.css"));
@@ -28,7 +44,7 @@ namespace Troy.Web
                             "~/Content/themes/TroyPlus/css/main.css"));
             // Custom stylesheets ( Put your own changes here ) 
             bundles.Add(new StyleBundle("~/Content/themes/custom").Include(
-                            "~/Content/themes/TroyPlus/css/custom.css"));
+                            "~/Content/themes/TroyPlus/css/custom.css"));          
 
             #endregion
 

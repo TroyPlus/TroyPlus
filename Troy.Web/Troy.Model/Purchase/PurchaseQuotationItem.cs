@@ -24,7 +24,8 @@ namespace Troy.Model.Purchase
         public int Required_qty { get; set; } 
 
         [Required]
-        [Display(Name = "Required Date")]        
+        [Display(Name = "Required Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime Required_date { get; set; }
 
         public int Quoted_qty { get; set; }
