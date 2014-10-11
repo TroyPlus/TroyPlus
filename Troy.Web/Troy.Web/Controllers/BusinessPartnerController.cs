@@ -29,6 +29,7 @@ namespace Troy.Web.Controllers
     {
         #region Fields
         private readonly IBusinessPartnerRepository businesspartnerRepository;
+        private string ErrorMessage = string.Empty;
         #endregion
 
         #region Constructor
@@ -354,6 +355,144 @@ namespace Troy.Web.Controllers
             businesspartnerRepository.GenerateXML(modifybp);
         }
 
+        public bool Validation_EmpName_Select(BusinessPartnerViewModels model, ref string returnMessage)
+        {
+            try
+            {
+                if (model.BusinessPartner.BP_Name == "" || model.BusinessPartner.BP_Name == null)
+                {
+                    //return Json(new { success = true, Message = "Enter Business Partner Name" }, JsonRequestBehavior.AllowGet);
+                    returnMessage = "Enter Business Partner Name";
+                    return true;
+                }
+                return true;
+                //else if (model.BusinessPartner.Group_Type == "" || model.BusinessPartner.Group_Type == null)
+                //{
+                //    return Json(new { success = true, Message = "Enter Group Type" }, JsonRequestBehavior.AllowGet);
+                //}
+                //else if (model.BusinessPartner.Group_id == null)
+                //{
+                //    return Json(new { success = true, Message = "Select Group Name" }, JsonRequestBehavior.AllowGet);
+                //}
+                //else if (model.BusinessPartner.Pricelist == null)
+                //{
+                //    return Json(new { success = true, Message = "Select Price List" }, JsonRequestBehavior.AllowGet);
+                //}
+                //else if (model.BusinessPartner.Branch_id == null)
+                //{
+                //    return Json(new { success = true, Message = "Select Branch Name" }, JsonRequestBehavior.AllowGet);
+                //}
+                //else if (model.BusinessPartner.Control_account_id == null)
+                //{
+                //    return Json(new { success = true, Message = "Select Control AccountID" }, JsonRequestBehavior.AllowGet);
+                //}
+                //else
+                //{
+                //    return Json(true, JsonRequestBehavior.AllowGet);
+                //}
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return false;
+                //return Json(new { Error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult ValidationAllRequired(BusinessPartnerViewModels model)
+        {
+            try
+            {
+                if (model.BusinessPartner.BP_Name == "" || model.BusinessPartner.BP_Name == null)
+                {                   
+                    return Json(new { success = true, Message = "Enter Business Partner Name" }, JsonRequestBehavior.AllowGet);                   
+                }
+                else if (model.BusinessPartner.Group_Type == "" || model.BusinessPartner.Group_Type == null)
+                {
+                    return Json(new { success = true, Message = "Enter Group Type" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Group_id == null)
+                {
+                    return Json(new { success = true, Message = "Select Group Name" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Pricelist == null)
+                {
+                    return Json(new { success = true, Message = "Select Price List" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Branch_id == null)
+                {
+                    return Json(new { success = true, Message = "Select Branch Name" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Control_account_id == null)
+                {
+                    return Json(new { success = true, Message = "Select Control AccountID" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Ship_Address1 == "" || model.BusinessPartner.Ship_Address1 == null)
+                {
+                    return Json(new { success = true, Message = "Enter Shipping Address1" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Ship_address2 == "" || model.BusinessPartner.Ship_address2 == null)
+                {
+                    return Json(new { success = true, Message = "Enter Shipping Address2" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Ship_City == null)
+                {
+                    return Json(new { success = true, Message = "Select Ship City" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Ship_State == null)
+                {
+                    return Json(new { success = true, Message = "Select Ship State" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Ship_Country == null)
+                {
+                    return Json(new { success = true, Message = "Select Ship Country" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Bill_Address1 == null)
+                {
+                    return Json(new { success = true, Message = "Enter Bill Adddress1" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Bill_address2 == null)
+                {
+                    return Json(new { success = true, Message = "Enter Bill Adddress2" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Bill_City == null)
+                {
+                    return Json(new { success = true, Message = "Select Bill City" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Bill_State == null)
+                {
+                    return Json(new { success = true, Message = "Select Bill State" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Bill_Country == null)
+                {
+                    return Json(new { success = true, Message = "Select Bill Country" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Bill_pincode == null)
+                {
+                    return Json(new { success = true, Message = "Enter Bill Pincode" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Mobile == null)
+                {
+                    return Json(new { success = true, Message = "Enter Mobile" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (model.BusinessPartner.Ship_method == null)
+                {
+                    return Json(new { success = true, Message = "Enter Ship Method" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return Json(new { Error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [HttpPost]
         public ActionResult Index(string submitButton, BusinessPartnerViewModels model, HttpPostedFileBase file = null)
         {
@@ -362,7 +501,20 @@ namespace Troy.Web.Controllers
                 //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
                 if (submitButton == "Save")
-                {   
+                {
+                    if (model.BusinessPartner.Emp_Id == null)
+                    {
+                        ValidationAllRequired(model);
+                    }
+                    else
+                    {
+                      if(Validation_EmpName_Select(model, ref ErrorMessage))
+                      {
+                          //return Json(new { success = true, Message = ErrorMessage }, JsonRequestBehavior.AllowGet);
+                          ViewBag.AppErrorMessage = ErrorMessage;
+                          return View();
+                      }
+                    }
                     model.BusinessPartner.IsActive = true;
                     model.BusinessPartner.Created_Branc_Id = 1;//GetBranchId();
                     model.BusinessPartner.Created_Dte = DateTime.Now;
@@ -1487,7 +1639,7 @@ namespace Troy.Web.Controllers
                 //Bind State
                 var statelist = businesspartnerRepository.GetAddressstateList().ToList();
                 model.StateList = statelist;
-                
+
                 //Bind City
                 var citylist = businesspartnerRepository.GetAddresscityList().ToList();
                 model.CityList = citylist;
