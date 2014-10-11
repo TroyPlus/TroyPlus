@@ -118,7 +118,7 @@ namespace Troy.Web.Controllers
 
                     if (ConfigurationDb.AddNewCountry(model.Country))
                     {
-                        return RedirectToAction("COUNTRY", "Configuration");
+                        return RedirectToAction("Country", "Configuration");
                     }
                     else
                     {
@@ -479,8 +479,6 @@ namespace Troy.Web.Controllers
             {
                 if (submitButton == "Save")
                 {
-
-
 
                     model.Department.IsActive = "Y";
                     model.Department.Created_Branc_Id = 1;
