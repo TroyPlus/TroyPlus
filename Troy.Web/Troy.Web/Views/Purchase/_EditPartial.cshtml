@@ -138,7 +138,7 @@
                                                     Ship To:
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.DropDownListFor(m => m.PurchaseQuotation.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "BranchId", "BranchName"), "", new { @class = "form-control control-text" })
+                                                    @Html.DropDownListFor(m => m.PurchaseQuotation.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Ship_To)
                                                 </div>
                                             </div>
