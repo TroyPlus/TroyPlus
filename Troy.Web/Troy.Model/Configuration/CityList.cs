@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Troy.Model.Configuration
 {
-    public class CountryList
+    public class CityList
     {
         public int ID { get; set; }
 
-        public string Country_Code { get; set; }
-
-        public string Country_Name { get; set; }
+        public string City_Name { get; set; }
     }
 }

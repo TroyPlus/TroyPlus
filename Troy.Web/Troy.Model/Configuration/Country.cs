@@ -15,7 +15,8 @@ namespace Troy.Model.Configuration
     {
         [Key]
         public int ID { get; set; }
-
+        [ForeignKey("ID")]
+      public virtual Country country { get; set; }
 
 
 

@@ -12,6 +12,7 @@ namespace Troy.Model.Configuration
 
         public string State_Code { get; set; }
 
+        public string State_Name { get; set; }
 
 
     }

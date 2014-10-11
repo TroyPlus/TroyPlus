@@ -77,6 +77,8 @@ namespace Troy.Data.Repository
 
         List<StateList> GetAddressSlist();
 
+        List<CityList> GetAddressClist();
+
 
 
 
