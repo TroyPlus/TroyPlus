@@ -71,6 +71,16 @@
     <Compile Include="BusinessPartner\ViewBusinessPartner.cs" />
     <Compile Include="Cities\City.cs" />
     <Compile Include="Cities\CityList.cs" />
+    <Compile Include="Configuration\City.cs" />
+    <Compile Include="Configuration\CityList.cs" />
+    <Compile Include="Configuration\Country.cs" />
+    <Compile Include="Configuration\CountryList.cs" />
+    <Compile Include="Configuration\Department.cs" />
+    <Compile Include="Configuration\Designation.cs" />
+    <Compile Include="Configuration\PriceList.cs" />
+    <Compile Include="Configuration\State.cs" />
+    <Compile Include="Configuration\StateList.cs" />
+    <Compile Include="Configuration\VAT.cs" />
     <Compile Include="Countries\Country.cs" />
     <Compile Include="Countries\CountryList.cs" />
     <Compile Include="Departments\Department.cs" />

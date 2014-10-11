@@ -23,6 +23,7 @@ namespace Troy.Web.Controllers
     {
         #region Fields
         private readonly IBranchRepository branchRepository;
+        private readonly IConfigurationRepository configurationRepository;
         #endregion
 
         #region Constructor
@@ -74,6 +75,8 @@ namespace Troy.Web.Controllers
 
 
         public ActionResult Index()
+        
+        
         {
             try
             {
@@ -118,6 +121,10 @@ namespace Troy.Web.Controllers
                     model.Branch.Modified_User_Id = 1;
                     model.Branch.Modified_Dte = DateTime.Now;
                     model.Branch.Modified_Branch_Id = 1;
+                    //model.country.Country_Name = "INDIA";
+                    //{
+                    //    return this.View(model);
+                    //}
 
 
                     if (branchRepository.AddNewBranch(model.Branch))
@@ -307,12 +314,26 @@ namespace Troy.Web.Controllers
                                 #region Check Branch Code
                                 foreach (DataRow dr in ds.Tables[0].Rows)
                                 {
+                                    //string mExcelBranch_Code = Convert.ToString(dr["Branch Code"]);
+                                    //string CheckingType = "Code";
+                                    //if (mExcelBranch_Code != null && mExcelBranch_Code != "")
+                                    //{
+                                    //    var data = branchRepository.CheckDuplicateBranch(mExcelBranch_Code, CheckingType);
+                                    //    if (data != null)
+                                    //    {
+                                    //        return Json(new { success = true, Message = "Branch Code: " + mExcelBranch_Code + " - already exists in the master." }, JsonRequestBehavior.AllowGet);
+                                    //    }
+                                    //}
+                                    //else
+                                    //{
+                                    //    return Json(new { success = false, Error = "Branch Code cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                    //}
+
                                     string mExcelBranch_Code = Convert.ToString(dr["Branch Code"]);
-                                    string CheckingType = "Code";
                                     if (mExcelBranch_Code != null && mExcelBranch_Code != "")
                                     {
-                                        var data = branchRepository.CheckDuplicateBranch(mExcelBranch_Code, CheckingType);
-                                        if (data != null)
+                                        bool Branch_Code = checkbranchcode(mExcelBranch_Code);
+                                        if (Branch_Code == false)
                                         {
                                             return Json(new { success = true, Message = "Branch Code: " + mExcelBranch_Code + " - already exists in the master." }, JsonRequestBehavior.AllowGet);
                                         }
@@ -321,10 +342,12 @@ namespace Troy.Web.Controllers
                                     {
                                         return Json(new { success = false, Error = "Branch Code cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
                                     }
+                                        
+
                                 }
                                 #endregion
 
-                                //checkbranchcode();
+                                
 
                                 #region Check Branch Name
                                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -689,31 +712,26 @@ namespace Troy.Web.Controllers
         }
         #endregion
 
-        //#region Methods
 
-        //public bool checkbranchcode()
-        //{
-        //    DataSet ds = new DataSet();
-        //    foreach (DataRow dr in ds.Tables[0].Rows)
-        //    {
-        //        string mExcelBranch_Code = Convert.ToString(dr["Branch Code"]);
-        //        string CheckingType = "Code";
-        //        if (mExcelBranch_Code != null && mExcelBranch_Code != "")
-        //        {
-        //            var data = branchRepository.CheckDuplicateBranch(mExcelBranch_Code, CheckingType);
-        //            if (data != null)
-        //            {
-        //                return true;
+         
+        #region Methods
 
-        //                //return Json(new { success = true, Message = "Branch Code: " + mExcelBranch_Code + " - already exists in the master." }, JsonRequestBehavior.AllowGet);
-        //            }
-        //        }
+        public bool checkbranchcode(string mExcelBranch_Code)
+        {
+            string CheckingType = "Code";
+            
+            var data = branchRepository.CheckDuplicateBranch(mExcelBranch_Code, CheckingType);
+            if (data != null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
-        //    }
-        //    return false;
-        //}
-
-        //#endregion
+        #endregion
 
 
 

@@ -1,0 +1,66 @@
+﻿@model Troy.Web.Models.ConfigurationViewModels
+
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">View PriceList</h4>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="form-horizontal">
+
+                <div class="row">
+                    <div class="tabs">
+                        <ul id="viewtabs" class="nav nav-tabs tabdrop">
+                            <li class="active">
+                                <a href="#viewPriceList" data-toggle="tab">PriceList </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div id="viewTabContent" class="tab-content">
+
+                        <div class="tab-pane fade in active" id="viewPriceList">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(m => m.PriceList.Price_List_Desc)
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(model => model.PriceList.Price_List_Desc, new { @class = "form-control control-text", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.PriceList.Price_List_Desc)
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            Mandatory:
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(model => model.PriceList.Mandatory, new { @readonly = "readonly", @class = "form-control control-text", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.PriceList.Mandatory)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            @*<input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />*@
+            <button class="btn pull-left" data-dismiss="modal">Close</button>
+            @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+        </div>
+
+    </div>
+</div>
+

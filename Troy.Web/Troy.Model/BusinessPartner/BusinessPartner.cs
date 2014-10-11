@@ -10,12 +10,8 @@ using System.ComponentModel;
 using Troy.Model.Branches;
 using Troy.Model.Employees;
 using Troy.Model.Groups;
-using Troy.Model.PriceLists;
 using Troy.Model.Ledgers;
-using Troy.Model.Cities;
-using Troy.Model.Countries;
-using Troy.Model.States;
-
+using Troy.Model.Configuration;
 namespace Troy.Model.BusinessPartner
 {
     [Table("tblBp")]

@@ -1,0 +1,120 @@
+﻿@model Troy.Web.Models.ConfigurationViewModels
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")" type="text/javascript"></script>
+
+
+@using (Html.BeginForm("VAT", "Configuration"))
+{
+
+    @Html.ValidationSummary(true)
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Edit VAT</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="form-horizontal">
+
+                    <div class="row">
+                        <div class="tabs">
+                            <ul id="edittabs" class="nav nav-tabs tabdrop">
+                                <li class="active">
+                                    <a href="#editVAT" data-toggle="tab">VAT </a>
+                                </li>
+
+
+                            </ul>
+
+                            <div id="editTabContent" class="tab-content">
+
+                                <div class="tab-pane fade active in" id="editVAT">
+                                    <br />
+                                    @Html.HiddenFor(model => model.VAT.VAT_Id)
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    VAT Desc:
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.VAT.VAT_Desc, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.VAT.VAT_Desc)
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    VAT percentage
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.VAT.VAT_percentage, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.VAT.VAT_percentage)
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    VAT Type:
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.VAT.VAT_Type, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.VAT.VAT_Type)
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    VAT Default
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.RadioButtonFor(model => model.VAT.VAT_Default, "Y", new { id = "Y" }) YES
+                                                    @Html.RadioButtonFor(model => model.VAT.VAT_Default, "N", new { id = "N" }) NO
+                                                    @Html.ValidationMessageFor(model => model.VAT.VAT_Default)
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    Is Active:
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.RadioButtonFor(model => model.VAT.IsActive, "Y", new { id = "Y" }) YES
+                                                    @Html.RadioButtonFor(model => model.VAT.IsActive, "N", new { id = "N" }) NO
+                                                    @Html.ValidationMessageFor(model => model.VAT.IsActive)
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="modal-footer">
+                <input class="btn btn-primary pull-left" type="submit" id="btnEditSubmit" name="submitButton" value="Update" />
+                <button class="btn pull-left" data-dismiss="modal">Close</button>
+                @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+            </div>
+
+        </div>
+    </div>
+}
+

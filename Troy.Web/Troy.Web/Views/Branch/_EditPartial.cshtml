@@ -2,6 +2,24 @@
 
 @Scripts.Render("~/bundles/jqueryval")
 
+@*@Scripts.Render("~/bundles/script/jqueryval")*@
+
+
+@*<script type="text/javascript">
+    $(document).ready(function () {
+       
+        //Dynamically add quotation row
+        function addRow() {
+
+            $("form").removeData("validator");
+            $("form").removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse("form");
+        };
+    });
+
+
+</script>*@
+
 <script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")" type="text/javascript"></script>
 
@@ -176,7 +194,15 @@
                 <input type="hidden" id="submitAction" name="submitButton" />
                 <button class="btn pull-left" data-dismiss="modal">Close</button>
                 @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
-            </div>
+            
+                </div>
+        
+            @*<div class="modal-footer">
+                <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
+                <button class="btn pull-left" data-dismiss="modal">Close</button>
+                @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+            </div>*@
         </div>
+
     </div>
 }
