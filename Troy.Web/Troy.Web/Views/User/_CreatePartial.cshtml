@@ -28,106 +28,109 @@
                         <div class="tab-pane fade in active" id="default">
 
                             <br />
+                            <div class="row">
+                                @Html.HiddenFor(m => m.Id)
 
-                            @Html.HiddenFor(m => m.Id)
+                                <div class="col-md-6">
+                                    <div class="form-horizontal">
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                User Name
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.UserName)
+                                            </div>
 
-                            <div class="col-md-6">
+                                        </div>
 
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        User Name
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.UserName)
-                                    </div>
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                Password
 
-                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.PasswordFor(model => model.Password, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.Password)
+                                            </div>
+                                        </div>
 
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        Password
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                Confirm Password
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                                            </div>
+                                        </div>
 
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.PasswordFor(model => model.Password, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.Password)
-                                    </div>
-                                </div>
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                User Email
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.Email)
+                                            </div>
+                                        </div>
 
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        Confirm Password
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.ConfirmPassword)
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        User Email
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.Email)
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        ExpiryDate:
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.PasswordExpiryDate, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.PasswordExpiryDate)
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        Employee Name:
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.DropDownListFor(m => m.Employee_Id, new SelectList(Model.employeelist.AsEnumerable(), "Emp_Id", "First_Name"), "", new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.Employee_Id)
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                ExpiryDate:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.PasswordExpiryDate, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.PasswordExpiryDate)
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        Role Description:
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.DropDownListFor(m => m.Role_Id, new SelectList(Model.rolelist.AsEnumerable(), "Id", "Name"), "", new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.Role_Id)
-                                        @*@Html.TextBoxFor(model => model.Branch_Id, new { @class = "form-control control-text" })
+                                <div class="col-md-6">
+                                    <div class="form-horizontal">
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                Employee Name:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.Employee_Id, new SelectList(Model.employeelist.AsEnumerable(), "Emp_Id", "First_Name"), "", new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.Employee_Id)
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                Role Description:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.Role_Id, new SelectList(Model.rolelist.AsEnumerable(), "Id", "Name"), "", new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.Role_Id)
+                                                @*@Html.TextBoxFor(model => model.Branch_Id, new { @class = "form-control control-text" })
                 @Html.ValidationMessageFor(model => model.Branch_Id)*@
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                BranchName:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.Branch_Id)
+                                                @*@Html.TextBoxFor(model => model.Branch_Id, new { @class = "form-control control-text" })
+                @Html.ValidationMessageFor(model => model.Branch_Id)*@
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                DefaultBranch:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.Branch_Id)
+                                                @*@Html.TextBoxFor(model => model.Branch_Id, new { @class = "form-control control-text" })
+                @Html.ValidationMessageFor(model => model.Branch_Id)*@
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        BranchName:
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.Branch_Id)
-                                        @*@Html.TextBoxFor(model => model.Branch_Id, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.Branch_Id)*@
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        DefaultBranch:
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.Branch_Id)
-                                        @*@Html.TextBoxFor(model => model.Branch_Id, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.Branch_Id)*@
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -141,4 +144,5 @@
             @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
         </div>
     </div>
+</div>
 </div>

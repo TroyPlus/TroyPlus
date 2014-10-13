@@ -277,7 +277,7 @@ namespace Troy.Data.Repository
         {
 
 
-            return (from p in configurationContext.Country
+            return (from p in branchContext.Country
                     where p.Country_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
@@ -435,7 +435,7 @@ namespace Troy.Data.Repository
         //GetAddresscountryList
         public List<CountryList> GetAddresscountryList()
         {
-            var item = (from a in configurationContext.Country
+            var item = (from a in branchContext.Country
                         select new CountryList
                         {
                             ID = a.ID,
@@ -449,7 +449,7 @@ namespace Troy.Data.Repository
         //GetAddressstateList
         public List<StateList> GetAddressstateList()
         {
-            var item = (from a in configurationContext.State
+            var item = (from a in branchContext.State
                         select new StateList
                         {
                             ID = a.ID,
@@ -463,7 +463,7 @@ namespace Troy.Data.Repository
         //GetAddresscityList
         public List<CityList> GetAddresscityList()
         {
-            var item = (from a in configurationContext.City
+            var item = (from a in branchContext.City
                         select new CityList
                         {
                             ID = a.ID,
