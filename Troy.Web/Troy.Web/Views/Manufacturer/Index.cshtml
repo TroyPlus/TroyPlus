@@ -5,20 +5,6 @@
     ViewBag.BodyCss = "Manufacturer";
 }
 
-
-<style>
-    .pagediv {
-        width: 75% !important;
-        text-align: right !important;
-    }
-
-    .btn-warning {
-        background-image: -webkit-linear-gradient(#1684c2,#1990d5 60%,#1990d5) !important;
-        border-color: #1684c2 !important;
-    }
-</style>
-
-
 <script type="text/javascript">
 
 
@@ -65,18 +51,7 @@
                 $('#SearchColumn').val(Id);
                 $('#SearchBySpan').text(Id);
             }
-        });
-
-        //$("#SearchString").autocomplete({
-        //    source: "/Manufacturer/CheckForDuplication",
-        //    minLength: 1,
-        //    select: function (event, ui) {
-        //        if (ui.item) {
-        //            $("#SearchString").val(ui.item.value);
-        //            $("form").submit();
-        //        }
-        //    }
-        //});
+        });       
     });
 
     function EditManufacturer(id) {
@@ -148,17 +123,6 @@
     }
 
     $.validator.unobtrusive.parse('#myModal form');
-
-
-    //function GetValue() {
-    //    var Contain = "";
-    //    $("#Container1 :text").each(function () {
-    //        Contain += $(this).val() + "$";
-    //    });
-    //}
-
-
-
 </script>
 
 <div><span>&nbsp;</span></div>
@@ -169,211 +133,179 @@
     @Html.ValidationSummary(true)
 
     @Html.HiddenFor(m => m.SearchColumn)
+    
+    
+    <div id="content">
+        <div class="content-wrapper">
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                
+                <ul id="crumb" class="breadcrumb"></ul>
+                <div class="form-group">
+                    <label class="col-md-2 col-md-2 col-sm-12 h4 control-label pull-left">
+                        @ViewBag.Title
+                    </label>
 
-    <div class="panel panel-default">
 
-        <div class="panel-head">
+                    <div class="col-lg-10 col-md-10">
+                        <div class="row">
+                            <div class="pull-right group-button btn-toolbar">
+                                <button type="button" title="New Manufacturer" class="btn btn-primary" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false">
+                                    <i class="en-add-to-list strong"></i>
+                                    <span> New</span>
+                                </button>
 
-            <div class="linkBar1">
-                <div class="col-md-8 text-left">
-                    <h4>Manufacturer List.</h4>
-                </div>
-                <div class="text-right">
-                    <a href="#" class="top-right" data-toggle="modal" data-target="#uploadModal" data-backdrop="static" data-keyboard="false">
-                        <img src="@Url.Content("../Content/images/upload-icon.png")" />
-                    </a>
-                    &nbsp;
-                    @* <button type="button" class="btn-link">*@
+                                <button type="button" title="Bulk Addition" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal" data-backdrop="static" data-keyboard="false">
+                                    <i class="st-file-add strong"></i>
+                                    <span> Bulk</span>
+                                </button>
 
-                    <a href=@Url.Action("_ExporttoExcel", "Manufacturer")>
-                        <img src="@Url.Content("../Content/images/table-icon.png")" style="height:32px;width:32px" />
-                    </a>
-                    @*</button>*@
-                    &nbsp;
-
-                    @*<a href="@Url.Action("_createpartialview" , "Suppliers" )" data-modal="true" class="top-right">*@
-                    <a href="#" class="top-right" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false">
-                        <img src="@Url.Content("../Content/images/Add-icon.png")" />
-                    </a>&nbsp;
-                    @*<button type="button" class="btn-link panel-toggle" data-toggle="collapse" data-target="#search"><img src="@Url.Content("../Content/images/zoom-icon.png")" style="width:32px;height:32px" /></button>*@
-                </div>
-            </div>
-        </div>
-
-        <div class="panel-body ">
-
-            <div class="searchBar">
-                <div class="searchCont form-inline">
-                    <div class="form-group">
-                        <div class="dropdown text-left">
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="SearchBy" data-toggle="dropdown">
-                                <span id="SearchBySpan">Search By</span><span class="caret"></span>
-                            </button>
-                            <ul id="searchUL" class="dropdown-menu" role="menu" aria-labelledby="SearchBy">
-                                <li id="Name" role="presentation">
-                                    <a onclick="" role="menuitem" tabindex="-1"
-                                       href="#">Name</a>
-                                </li>
-                                @*<li role="presentation">
-                                        <a role="menuitem" tabindex="-1"
-                                           href="#">Level</a>
-                                    </li>*@
-                                <li id="Level" role="presentation"><a role="menuitem" tabindex="-1" href="#">Level</a></li>
-                                <li id="IsActive" role="presentation"><a role="menuitem" tabindex="-1" href="#">IsActive</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="form-group w230">
-                        <div class="input-group">
-                            @Html.TextBoxFor(m => m.SearchQuery, new { @class = "form-control", @id = "li" })
-                            <span class="input-group-btn">
-                                <input type="submit" id="Submit1" name="submitButton" value="Search" class="btn btn-primary icnSearch" />
-                            </span>
+                                <button type="button" title="Excel Export" class="btn btn-primary">
+                                    <i class="im-file-excel strong"></i>
+                                    <span> Export</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- End .page-header -->
             </div>
-
-            <div class="table-responsive">
-                <table id="grdManufacturer" class="table table-striped table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th style="display: none">
-                                <div class="lBor">
-                                    Manufacturer Id
-                                </div>
-                            </th>
-                            <th>
-                                <div class="lBor">
-                                    Manufacturer Name
-                                </div>
-                            </th>
-                            <th>
-                                <div class="lBor">
-                                    Manufacturer Level
-                                </div>
-                            </th>
-                            <th>
-                                <div class="lBor">
-                                    Is Active
-                                </div>
-                            </th>
-                            <th>
-                                <div class="lBor">
-                                </div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (Troy.Model.Manufacturer.Manufacture item in Model.ManufacturerList)
-                        {
-                            <tr class="odd">
-                                <td style="display: none">
-                                    @item.Manufacturer_Id
-                                </td>
-                                <td>
-                                    @item.Manufacturer_Name
-                                </td>
-                                <td>
-                                    @item.Level
-                                </td>
-                                <td>
-                                    @item.IsActive
-                                </td>
-                                <td>
-                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewManufacturer(@item.Manufacturer_Id);">
-                                        <img src="@Url.Content("../Content/images/application_view_detail.png")" />
-                                    </a>
-                                    <span class="text-muted">|</span>
-                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditManufacturer(@item.Manufacturer_Id);">
-                                        <img src="@Url.Content("../Content/images/pencil.png")" />
-                                    </a>
-                                    <span class="text-muted">|</span>
-
-                                    <a href="@Url.Action("_DeletePartialView", "Manufacturer", new { id = item.Manufacturer_Id })" data-modal="true">
-                                        <img src="@Url.Content("../Content/images/cross_script.png")" />
-                                    </a>
-
-                                    @* @Html.ActionLink("Delete", "DeActivateExclusion", new { ruleId = item.Purchase_Quote_Id }, new { /*onclick = "return Deleteclick(" + item.Purchase_Quote_Id + ");" */ })*@
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-
-        <div class="modal fade bs-example-modal-lg" id="createModal" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            @Html.Partial("_CreatePartial", Model)
-        </div>
-
-        <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
-            <div id="editmodelcontainer">
-            </div>
-        </div>
-
-        <div class="modal fade bs-example-modal-lg" id="viewModal" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPartial")'>
-            <div id="viewmodelcontainer">
-            </div>
-        </div>
-
-        <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">File Upload</h4>
-                    </div>
-
-                    <div class="modal-body">
-
-                        <div class="form-horizontal">
-                            <div id="myTabContent" class="tab-content">
-                                <div class="tab-pane fade in active" id="default">
-                                    <br />
-
-                                    <div id="FileUploadDiv">
-                                        <iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <input type="file" id="FileUpload" name="FileUpload" />
-                                            </div>
-                                        </div>
-                                        @*<div class="row">
-                                                <div class="col-md-12 text-right">
-                                                    <input type="button" id="btnUpload" name="FileUploadButton" value="Upload" class="btn btn-success"
-                                                           onclick="return IFrameSubmit();" />
-                                                </div>
-                                            </div>*@
-                                        <a href=@Url.Action("_TemplateExcelDownload", "Manufacturer")>
-                                            Click here to Download template
-                                        </a>
-                                    </div>
+            <div class="row">&nbsp;</div>
+            <div class="outlet">
+                <!-- Start .outlet -->
+                <!-- Page start here ( usual with .row ) -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- col-lg-12 start here -->
+                        <div class="panel panel-default plain">
+                            <!-- Start .panel -->
+                            <div class="panel-heading">
+                                <div class="row">
 
                                 </div>
                             </div>
+                            <div class="panel-body">
+
+                                <table class="table display" id="datatable">
+                                    <thead>
+
+                                        <tr>
+                                            <th>Manufacturer Id</th>
+                                            <th>Manufacturer Name</th>
+                                            <th>Manufacturer Level</th>
+                                            <th>Is Active</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (Troy.Model.Manufacturer.Manufacture item in Model.ManufacturerList)
+                                        {
+                                            <tr class="odd gradeX">
+                                                <td style="text-align:center;">@item.Manufacturer_Id</td>
+                                                <td style="text-align:center;">@item.Manufacturer_Name</td>
+                                                <td style="text-align:center;">@item.Level</td>
+                                                <td>@item.IsActive</td>
+                                                <td>
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewManufacturer(@item.Manufacturer_Id);">
+                                                        <i class="im-eye2"></i>
+
+                                                    </a>
+                                                    <span class="text-muted">|</span>
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditManufacturer(@item.Manufacturer_Id);">
+                                                        <i class="im-pencil2"></i>
+                                                    </a>
+                                                    <span class="text-muted">|</span>
+
+                                                    <a href="@Url.Action("_DeletePartialView", "Manufacturer", new { id = item.Manufacturer_Id })" data-modal="true">
+                                                        <i class="im-remove2"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
                         </div>
-
+                        <!-- End .panel -->
                     </div>
-
-                    <div class="modal-footer">
-                        @*<input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />*@
-                        <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="IFrameManuSubmit();" />
-                        <button class="btn pull-left" data-dismiss="modal">Close</button>
-                        @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
-                    </div>
-
+                    <!-- col-lg-12 end here -->
                 </div>
+                <!-- Page End here -->
             </div>
         </div>
-
+    </div>
+    
+     <div class="clearfix"></div>
+    <div class="modal fade bs-example-modal-lg" id="createModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        @Html.Partial("_CreatePartial", Model)
     </div>
 
+    <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
+        <div id="editmodelcontainer">
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="viewModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPartial")'>
+        <div id="viewmodelcontainer">
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">File Upload</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="tabs">
+                                <ul id="myTab" class="nav nav-tabs tabdrop">
+                                    <li class="active">
+                                        <a href="#default" data-toggle="tab">Bulk Addition</a>
+                                    </li>
+                                </ul>
+
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade in active" id="default">
+                                        <br />
+
+                                        <div id="FileUploadDiv">
+                                            <iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <input type="file" id="FileUpload" name="FileUpload" />
+                                                </div>
+                                            </div>
+                                            <a href=@Url.Action("_TemplateExcelDownload", "Manufacturer")>
+                                                Click here to Download template
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
+                    <button class="btn pull-left" data-dismiss="modal">Close</button>
+                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+                </div>
+
+            </div>
+        </div>
+    </div>    
 }
 
