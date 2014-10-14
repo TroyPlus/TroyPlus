@@ -120,6 +120,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BranchControllerTest.cs" />
     <Compile Include="Controllers\BusinessPartnerControllerTest.cs" />
+    <Compile Include="Controllers\ConfigurationControllerTest.cs" />
     <Compile Include="Controllers\EmployeeControllerTest.cs" />
     <Compile Include="Controllers\ManufacturerControllerTest.cs" />
     <Compile Include="Controllers\ProductGroupControllerTest.cs" />
