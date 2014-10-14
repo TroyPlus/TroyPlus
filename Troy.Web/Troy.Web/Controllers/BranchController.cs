@@ -107,7 +107,7 @@ namespace Troy.Web.Controllers
 
         //INDEX (SAVE and UPDATE)
         [HttpPost]
-        public ActionResult Index(string submitButton, BranchViewModels model, HttpPostedFileBase file = null)
+        public ActionResult Index(string submitButton, BranchViewModels model, HttpPostedFileBase file=null)
         {
             try
             {
