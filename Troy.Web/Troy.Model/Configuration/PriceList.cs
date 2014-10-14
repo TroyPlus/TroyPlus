@@ -16,7 +16,8 @@ namespace Troy.Model.Configuration
     {
         [Key]
         public int PriceList_Id { get; set; }
-
+        [ForeignKey("PriceList_Id")]
+        public virtual PriceList pricelist { get; set; }
 
 
         [Index(IsUnique = true)]

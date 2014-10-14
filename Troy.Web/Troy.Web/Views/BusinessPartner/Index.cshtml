@@ -6,18 +6,6 @@
 }
 
 
-<style>
-    .pagediv {
-        width: 75% !important;
-        text-align: right !important;
-    }
-
-    .btn-warning {
-        background-image: -webkit-linear-gradient(#1684c2,#1990d5 60%,#1990d5) !important;
-        border-color: #1684c2 !important;
-    }
-</style>
-
 <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script type="text/javascript">
 
@@ -67,16 +55,6 @@
             }
         });
 
-        //$("#SearchString").autocomplete({
-        //    source: "/BusinessPartner/CheckForDuplication",
-        //    minLength: 1,
-        //    select: function (event, ui) {
-        //        if (ui.item) {
-        //            $("#SearchString").val(ui.item.value);
-        //            $("form").submit();
-        //        }
-        //    }
-        //});
     });
 
     function EditBusinessPartner(id) {
@@ -100,7 +78,7 @@
 
             $('#viewModal').modal('show');
         });
-    }    
+    }
 
     function IFrameManuSubmit() {
         //debugger;
@@ -147,18 +125,17 @@
         $("#Container1 :text").each(function () {
             Contain += $(this).val() + "$";
         });
-    }  
+    }
 
-    function check()
-    {
+    function check() {
         debugger;
-        var isChecked = document.getElementById("chkCopy").checked;       
-        if (isChecked.toString() == "true") {            
-           
+        var isChecked = document.getElementById("chkCopy").checked;
+        if (isChecked.toString() == "true") {
+
             $('#BillingAddress1').val($('#ShippingAddress1').val());
             $('#BillingAddress2').val($('#ShippingAddress2').val());
             $('#BillingAddress3').val($('#ShippingAddress3').val());
-            $('#BillingCity').val($('#ShippingCity').val());            
+            $('#BillingCity').val($('#ShippingCity').val());
             $('#BillingState').val($('#ShippingState').val());
             $('#BillingCountry').val($('#ShippingCountry').val());
             $('#BillingPinCode').val($('#ShippingPinCode').val());
@@ -224,6 +201,210 @@
     @Html.ValidationSummary(true)
 
     @Html.HiddenFor(m => m.SearchColumn)
+
+    <div id="content">
+        <div class="content-wrapper">
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <ul id="crumb" class="breadcrumb"></ul>
+                <div class="form-group">
+                    <label class="col-md-2 col-md-2 col-sm-12 h4 control-label pull-left">
+                        @ViewBag.Title
+                    </label>
+                    <div class="col-lg-10 col-md-10">
+                        <div class="row">
+                            <div class="pull-right group-button btn-toolbar">
+                                <button type="button" title="New Manufacturer" class="btn btn-primary" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false">
+                                    <i class="en-add-to-list strong"></i>
+                                    <span> New</span>
+                                </button>
+
+                                <button type="button" title="Bulk Addition" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal" data-backdrop="static" data-keyboard="false">
+                                    <i class="st-file-add strong"></i>
+                                    <span> Bulk</span>
+                                </button>
+
+                                <button type="button" title="Excel Export" class="btn btn-primary">
+                                    <i class="im-file-excel strong"></i>
+                                    <span> Export</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">&nbsp;</div>
+            <div class="outlet">
+                <!-- Start .outlet -->
+                <!-- Page start here ( usual with .row ) -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- col-lg-12 start here -->
+                        <div class="panel panel-default plain">
+                            <!-- Start .panel -->
+                            <div class="panel-heading">
+                                <div class="row">
+
+                                </div>
+                            </div>
+                            <div class="panel-body">
+
+                                <table class="table display" id="datatable">
+                                    <thead>
+
+                                        <tr>
+                                            <th>BusinessPartner Id</th>
+                                            <th>BusinessPartner Name</th>
+                                            <th>Group Type</th>
+                                            <th>Group Name</th>
+                                            <th>Phone1</th>
+                                            <th>Mobile</th>
+                                            <th>IsActive</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (Troy.Model.BusinessPartner.ViewBusinessPartner item in Model.BusinessPartnerList)
+                                        {
+                                            <tr class="odd gradeX">
+                                                <td style="text-align:center;">@item.BP_Id</td>
+                                                <td style="text-align:center;">@item.BP_Name</td>
+                                                <td style="text-align:center;">@item.Group_Type</td>
+                                                <td style="text-align:center;">@item.Group_Name</td>
+                                                <td style="text-align:center;">@item.Phone1</td>
+                                                <td style="text-align:center;">@item.Mobile</td>
+                                                <td>@item.IsActive</td>
+                                                <td>
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewBusinessPartner(@item.BP_Id);">
+                                                        <i class="im-eye2"></i>
+
+                                                    </a>
+                                                    <span class="text-muted">|</span>
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditBusinessPartner(@item.BP_Id);">
+                                                        <i class="im-pencil2"></i>
+                                                    </a>
+                                                    <span class="text-muted">|</span>
+
+                                                    <a href="@Url.Action("_DeletePartialView", "Manufacturer", new { id = item.BP_Id })" data-modal="true">
+                                                        <i class="im-remove2"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <!-- End .panel -->
+                    </div>
+                    <!-- col-lg-12 end here -->
+                </div>
+                <!-- Page End here -->
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    
+     <div class="modal fade bs-example-modal-lg" id="createModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        @Html.Partial("_CreatePartial", Model)
+    </div>
+    
+    <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
+        <div id="editmodelcontainer">
+        </div>
+    </div>
+    
+     <div class="modal fade bs-example-modal-lg" id="viewModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPartial")'>
+        <div id="viewmodelcontainer">
+        </div>
+    </div>
+    
+     <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">File Upload</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="tabs">
+                                <ul id="myTab" class="nav nav-tabs tabdrop">
+                                    <li class="active">
+                                        <a href="#default" data-toggle="tab">Bulk Addition</a>
+                                    </li>
+                                </ul>
+
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade in active" id="default">
+                                        <br />
+
+                                        <div id="FileUploadDiv">
+                                            <iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <input type="file" id="FileUpload" name="FileUpload" />
+                                                </div>
+                                            </div>
+                                            <a href=@Url.Action("_TemplateExcelDownload", "Manufacturer")>
+                                                Click here to Download template
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameManuSubmit();" />
+                    <button class="btn pull-left" data-dismiss="modal">Close</button>
+                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+                </div>
+
+            </div>
+        </div>
+    </div>   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <div class="panel panel-default">
 
@@ -311,7 +492,7 @@
                             </th>
                             <th>
                                 <div class="lBor">
-                                   Mobile
+                                    Mobile
                                 </div>
                             </th>
                             <th>
@@ -326,47 +507,47 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (Troy.Model.BusinessPartner.ViewBusinessPartner item in Model.BusinessPartnerList)                            
+                        @foreach (Troy.Model.BusinessPartner.ViewBusinessPartner item in Model.BusinessPartnerList)
                         {
-                        <tr class="odd">
-                            <td style="display: none">
-                                @item.BP_Id
-                            </td>
-                            <td>
-                                @item.BP_Name
-                            </td>
-                            <td>
-                                @item.Group_Type
-                            </td>
-                            <td>
-                                @item.Group_Name
-                            </td>
-                            <td>
-                                @item.Phone1
-                            </td>
-                            <td>
-                                @item.Mobile
-                            </td>
-                            <td>
-                                @item.IsActive
-                            </td>
-                            <td>
-                                <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewBusinessPartner(@item.BP_Id);">
-                                    <img src="@Url.Content("../Content/images/application_view_detail.png")" />
-                                </a>
-                                <span class="text-muted">|</span>
-                                <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditBusinessPartner(@item.BP_Id);">
-                                    <img src="@Url.Content("../Content/images/pencil.png")" />
-                                </a>
-                                <span class="text-muted">|</span>
+                            <tr class="odd">
+                                <td style="display: none">
+                                    @item.BP_Id
+                                </td>
+                                <td>
+                                    @item.BP_Name
+                                </td>
+                                <td>
+                                    @item.Group_Type
+                                </td>
+                                <td>
+                                    @item.Group_Name
+                                </td>
+                                <td>
+                                    @item.Phone1
+                                </td>
+                                <td>
+                                    @item.Mobile
+                                </td>
+                                <td>
+                                    @item.IsActive
+                                </td>
+                                <td>
+                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewBusinessPartner(@item.BP_Id);">
+                                        <img src="@Url.Content("../Content/images/application_view_detail.png")" />
+                                    </a>
+                                    <span class="text-muted">|</span>
+                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditBusinessPartner(@item.BP_Id);">
+                                        <img src="@Url.Content("../Content/images/pencil.png")" />
+                                    </a>
+                                    <span class="text-muted">|</span>
 
-                                <a href="@Url.Action("_DeletePartialView", "Manufacture", new { id = item.BP_Id })" data-modal="true">
-                                    <img src="@Url.Content("../Content/images/cross_script.png")" />
-                                </a>
+                                    <a href="@Url.Action("_DeletePartialView", "Manufacture", new { id = item.BP_Id })" data-modal="true">
+                                        <img src="@Url.Content("../Content/images/cross_script.png")" />
+                                    </a>
 
-                                @* @Html.ActionLink("Delete", "DeActivateExclusion", new { ruleId = item.Purchase_Quote_Id }, new { /*onclick = "return Deleteclick(" + item.Purchase_Quote_Id + ");" */ })*@
-                            </td>
-                        </tr>
+                                    @* @Html.ActionLink("Delete", "DeActivateExclusion", new { ruleId = item.Purchase_Quote_Id }, new { /*onclick = "return Deleteclick(" + item.Purchase_Quote_Id + ");" */ })*@
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>

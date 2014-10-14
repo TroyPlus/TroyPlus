@@ -5,13 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Model.Employees;
-using Troy.Model.Designations;
-using Troy.Model.Departments;
+//using Troy.Model.Designations;
+//using Troy.Model.Departments;
+using Troy.Model.Configuration;
 using Troy.Model.Initials;
 using Troy.Model.MaritalStatus;
 using Troy.Model.Genders;
 using Troy.Model.LeftReasons;
 using Troy.Model.Branches;
+using Troy.Model.Configuration;
 
 namespace Troy.Data.DataContext
 {

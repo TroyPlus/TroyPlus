@@ -76,7 +76,9 @@
     <Compile Include="Configuration\Country.cs" />
     <Compile Include="Configuration\CountryList.cs" />
     <Compile Include="Configuration\Department.cs" />
+    <Compile Include="Configuration\DepartmentList.cs" />
     <Compile Include="Configuration\Designation.cs" />
+    <Compile Include="Configuration\DesignationList.cs" />
     <Compile Include="Configuration\PriceList.cs" />
     <Compile Include="Configuration\State.cs" />
     <Compile Include="Configuration\StateList.cs" />
@@ -101,7 +103,8 @@
     <Compile Include="LeftReasons\LeftReason.cs" />
     <Compile Include="LeftReasons\LeftReasonList.cs" />
     <Compile Include="Manufacturer\Manufacture.cs" />
-    <Compile Include="MaritalStatuses\MaritalStatus.cs" />
+    <Compile Include="MaritalStatus\MaritalStatus.cs" />
+    <Compile Include="MaritalStatus\MaritalStatusList.cs" />
     <Compile Include="MasterData\FinancialYear.cs" />
     <Compile Include="PriceLists\PriceList.cs" />
     <Compile Include="PriceLists\PricelistLists.cs" />

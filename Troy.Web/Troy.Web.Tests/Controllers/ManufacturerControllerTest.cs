@@ -149,7 +149,7 @@ namespace Troy.Web.Tests.Controllers
 
             // Now invoke the Index action.
             //var actionResult = manufacturercontroller.Index(submit, manufacturerlist) as ViewResult;
-            var actionResult = manufacturercontroller.Index(submit, manufacturerlist);
+            var actionResult = manufacturercontroller.Index(submit, manufacturerlist,null);
 
             // Validate the expected result.
             ViewResult expectedResult = new ViewResult();
@@ -181,7 +181,7 @@ namespace Troy.Web.Tests.Controllers
             manufacturerlist.Manufacturer = manufacturer;
 
             // Now invoke the Index action.
-            var actionResult = manufacturercontroller.Index(submit, manufacturerlist);
+            var actionResult = manufacturercontroller.Index(submit, manufacturerlist,null);
 
             // Validate the expected result.
             ViewResult expectedResult = new ViewResult();

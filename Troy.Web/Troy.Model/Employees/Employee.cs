@@ -7,9 +7,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
 using System.ComponentModel;
+using Troy.Model.Configuration;
 using Troy.Model.Initials;
-using Troy.Model.Designations;
-using Troy.Model.Departments;
+//using Troy.Model.Designations;
+//using Troy.Model.Departments;
 using Troy.Model.Branches;
 using Troy.Model.Genders;
 

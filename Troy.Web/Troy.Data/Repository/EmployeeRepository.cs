@@ -15,8 +15,9 @@ using Troy.Utilities.CrossCutting;
 using System.Xml;
 using System.Xml.Serialization;
 using Troy.Model.SAP_OUT;
-using Troy.Model.Designations;
-using Troy.Model.Departments;
+//using Troy.Model.Designations;
+//using Troy.Model.Departments;
+using Troy.Model.Configuration;
 using Troy.Model.Branches;
 using Troy.Model.LeftReasons;
 using Troy.Model.MaritalStatus;
@@ -286,6 +287,17 @@ namespace Troy.Data.Repository
                             Designation_Name = a.Designation_Name
                         }).ToList();
 
+            return item;
+        }
+
+        public List<MaritalStatusList> GetMaritalStatusList()
+        {
+            var item = (from a in employeecontext.MaritalStatus
+                        select new MaritalStatusList
+                        {
+                            Id = a.Id,
+                            Troyvalues = a.Troy_values
+                        }).ToList();
             return item;
         }
 

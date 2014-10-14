@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Model.Employees;
-using Troy.Model.Designations;
-using Troy.Model.Departments;
+//using Troy.Model.Designations;
+//using Troy.Model.Departments;
+using Troy.Model.Configuration;
 using Troy.Model.Branches;
 using Troy.Model.Genders;
 using Troy.Model.MaritalStatus;
@@ -40,7 +41,7 @@ namespace Troy.Data.Repository
 
         List<GenderList> GetGenderList();
 
-        //List<MaritalStatus> GetMaritalStatusList();
+        List<MaritalStatusList> GetMaritalStatusList();
 
         List<LeftReasonList> GetLeftReasonList();
 

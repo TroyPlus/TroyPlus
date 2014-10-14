@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Troy.Model.Employees;
-using Troy.Model.Departments;
-using Troy.Model.Designations;
+//using Troy.Model.Departments;
+//using Troy.Model.Designations;
+using Troy.Model.Configuration;
 using Troy.Model.Branches;
 using Troy.Model.LeftReasons;
 using Troy.Model.MaritalStatus;
@@ -29,7 +30,7 @@ namespace Troy.Web.Models
 
         public List<BranchList> BranchList { get; set; }
 
-        public List<MaritalStatus> MaritalList { get; set; }
+        public List<MaritalStatusList> MaritalStatusList { get; set; }
 
         public List<GenderList> GenderList { get; set; }
 

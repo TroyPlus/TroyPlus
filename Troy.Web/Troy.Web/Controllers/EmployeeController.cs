@@ -60,8 +60,8 @@ namespace Troy.Web.Controllers
                 model.BranchList = BranchList;
 
                 //Bind MaritalStatus
-                //var MaritalStatusList = employeeDb.GetMaritalStatusList().ToList();
-                //model.MaritalList = MaritalStatusList;
+                var MaritalStatusList = employeeRepository.GetMaritalStatusList().ToList();
+                model.MaritalStatusList = MaritalStatusList;
 
                 //Bind Gender
                 var GenderList = employeeRepository.GetGenderList().ToList();
@@ -1171,9 +1171,9 @@ namespace Troy.Web.Controllers
                 var BranchList = employeeRepository.GetBranchList().ToList();
                 model.BranchList = BranchList;
 
-                //Bind Marital status
-                //var MaritalStatusList = employeeDb.GetMaritalStatusList().ToList();
-                //model.MaritalList = MaritalStatusList;
+                //Bind MaritalStatus
+                var MaritalStatusList = employeeRepository.GetMaritalStatusList().ToList();
+                model.MaritalStatusList = MaritalStatusList;
 
                 //Bind Genderlist
                 var GenderList = employeeRepository.GetGenderList().ToList();
@@ -1212,9 +1212,9 @@ namespace Troy.Web.Controllers
                 var BranchList = employeeRepository.GetBranchList().ToList();
                 model.BranchList = BranchList;
 
-                //Bind Maritalstatus
-                //var MaritalStatusList = employeeDb.GetMaritalStatusList().ToList();
-                //model.MaritalList = MaritalStatusList;
+                //Bind MaritalStatus
+                var MaritalStatusList = employeeRepository.GetMaritalStatusList().ToList();
+                model.MaritalStatusList = MaritalStatusList;
 
                 //Bind Gender
                 var GenderList = employeeRepository.GetGenderList().ToList();

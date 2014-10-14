@@ -146,7 +146,6 @@
                         @ViewBag.Title
                     </label>
 
-
                     <div class="col-lg-10 col-md-10">
                         <div class="row">
                             <div class="pull-right group-button btn-toolbar">
@@ -236,7 +235,7 @@
         </div>
     </div>
     
-     <div class="clearfix"></div>
+    <div class="clearfix"></div>
     <div class="modal fade bs-example-modal-lg" id="createModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true">
         @Html.Partial("_CreatePartial", Model)
@@ -299,7 +298,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
+                    <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameManuSubmit();" />
                     <button class="btn pull-left" data-dismiss="modal">Close</button>
                     @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
                 </div>
