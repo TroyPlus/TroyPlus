@@ -32,11 +32,16 @@ namespace Troy.Data.Repository
 
         bool EditUser(ApplicationUser ApplicationUsers);
 
+        ICollection<ApplicationUserRole> GetUserApplicationRoles(int userId);
+
         List<ViewUsers> GetApplicationIdforName();
 
         List<EmployeeList> GetAddressEmployeeList();
 
-        List<BranchList> GetAddressBranchList();
+        List<BranchList> GetAllBranches();
+
+        List<int> GetBranchesByUserId(int userId);
+
         List<ApplicationRole> GetAddressRoleList();
 
         bool SaveUserBranches(UserBranches userBranches, ref string errorMessage);

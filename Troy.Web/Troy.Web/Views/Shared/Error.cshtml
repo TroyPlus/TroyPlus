@@ -3,8 +3,16 @@
 @{
     ViewBag.Title = "Error";
 }
-
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request. Please contact your administrator.</h2>
-<h3 class="text-danger">@ViewBag.AppErrorMessage</h3>
+<div id="content">
+    <!-- Start .content-wrapper -->
+    <div class="content-wrapper">
+        <div class="row">&nbsp;</div>
+        <!-- Start .row -->
+        <div class="row">
+            <h1 class="text-danger">Error</h1>
+            <h2 class="text-danger">An error occurred while processing your request. Please contact your administrator.</h2>
+            <h6 class="text-danger">@ViewBag.AppErrorMessage</h6>
+        </div>
+    </div>
+</div>
 

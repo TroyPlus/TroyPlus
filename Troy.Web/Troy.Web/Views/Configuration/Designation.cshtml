@@ -29,6 +29,12 @@
             $('#viewDesignation').modal('show');
         });
     }
+    
+    function EditSubmit(button) {
+        var text = button.value;
+        $('#submitAction').val(button.value)
+        return true;
+    }
 
     $.validator.unobtrusive.parse('#myModal form');
 

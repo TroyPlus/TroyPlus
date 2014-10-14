@@ -80,23 +80,27 @@ namespace Troy.Data.Repository
 
 
 
-        public List<BranchList> GetAddressBranchList()
+        public List<BranchList> GetAllBranches()
         {
 
-            //List<UserBranches> item = new List<UserBranches>();
+            var item = (from a in UserContext.branch
+                        select new BranchList
 
-         var  item = (from a in UserContext.branch
-                         select new BranchList
-                     
-                        {
-                            Branch_Id = a.Branch_Id,
-                            Branch_Name= a.Branch_Name
-
-                        }).ToList();
+                       {
+                           Branch_Id = a.Branch_Id,
+                           Branch_Name = a.Branch_Name,
+                           IsSelected = false
+                       }).ToList();
             return item;
         }
 
-
+        public List<int> GetBranchesByUserId(int userId)
+        {
+            var result = (from ub in UserContext.userbranches
+                          where ub.User_Id == userId
+                          select ub.Branch_Id).ToList();
+            return result;
+        }
      
 
          public List<ViewUsers> GetApplicationIdforName()
@@ -341,8 +345,7 @@ namespace Troy.Data.Repository
                         Id = p.Id,
                         UserName = p.UserName,
                         Email = p.Email,
-                        Branch_Id = urb.Branch_Id ,
-                        //!= null ? urb.Branch_Id:0,
+                        Branch_Id = urb.Branch_Id != null ? urb.Branch_Id:0,
                         Employee_Id = p.Employee_Id,
                         PasswordExpiryDate = p.PasswordExpiryDate,
                         Role_Id = p.Roles.FirstOrDefault().RoleId,
@@ -352,7 +355,14 @@ namespace Troy.Data.Repository
                     }).FirstOrDefault();
         }
 
-        
+        public ICollection<ApplicationUserRole> GetUserApplicationRoles(int userId)
+        {
+            var result= (from p in UserContext.Users
+                    where p.Id == userId
+                    select p.Roles).FirstOrDefault();
+
+            return result;
+        }
 
         public ApplicationUser CheckDuplicateName(string uname)
         {

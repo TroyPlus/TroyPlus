@@ -16,7 +16,7 @@ namespace Troy.Model.AppMembership
 
         public int Role_Id { get; set; }
 
-        public string IsActive { get; set; }
+        public bool IsActive { get; set; }
 
 
         public int Employee_Id { get; set; }

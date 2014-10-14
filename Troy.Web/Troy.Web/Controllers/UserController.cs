@@ -67,72 +67,33 @@ namespace Troy.Web.Controllers
         }
 
         #region Register
-        public async Task<ActionResult> Register( UserViewModels model)
+        public async Task<ActionResult> RegisterUser( UserViewModels model)
         {
             if (ModelState.IsValid)
             {
-
-                var userlist = userDb.GetApplicationIdforName().ToList();
-                model.UserList = userlist;
-                              
-
-
                 int PasswordExpiryDate =int.Parse(ConfigurationHandler.GetAppSettingsValue("PasswordExpiryDateRange"));
-                
-                DateTime expiryDate = DateTime.Now.AddDays(PasswordExpiryDate);
-                model.PasswordExpiryDate = expiryDate;
-                
-                //if (DateTime.Now > expiryDate)
-                //{
-                //    return RedirectToAction("Index", "User");  
-                //}
-                //else
-                //{
-                //    ModelState.AddModelError("", "User not saved");
-                //}
-                
-                //model.ApplicationUsers.PasswordExpiryDate=DateTime.Now ;
-                //model.registerusers.UserName = model.ApplicationUsers.UserName;
-                //model.registerusers.Password = model.ApplicationUsers.PasswordHash;
-                //model1.Password = model.ApplicationUsers.PasswordHash;
-                //model1.Password=currentUser.UserName;
-                //model1.ConfirmPassword="";
-                //model.ApplicationUsers.IsActive = "Y";
-                //model.ApplicationUsers.Created_Branch_Id = 1;
-                //model.ApplicationUsers.Created_Date = DateTime.Now;
-                //model.ApplicationUsers.Created_User_Id = 1;  //GetUserId()
-                //model.ApplicationUsers.Modified_User_Id = 1;
-                //model.ApplicationUsers.Modified_Date = DateTime.Now;
-                //model.ApplicationUsers.Modified_Branch_Id = 1;
+                model.PasswordExpiryDate = DateTime.Now.AddDays(PasswordExpiryDate);
 
-                //model.UserBranches.Id = model.ApplicationUsers.Id;
-                //model.UserBranches.Branch_Id = model.ApplicationUsers.Branch_Id;
 
-                var user = new ApplicationUser { UserName = model.UserName,
+                var user = new ApplicationUser
+                {
+                    UserName = model.UserName,
                     Email = model.Email,
-                    Employee_Id=model.Employee_Id, 
-                    //Role_Id=model.Role_Id,
-                    //Branch_Id=model.Branch_Id,
-                    PasswordExpiryDate=model.PasswordExpiryDate,
-                   IsActive="Y",
-                   Created_User_Id=1,
-                   Created_Branch_Id=1,
-                   Created_Date=DateTime.Now,
-                   Modified_User_Id=2,
-                   Modified_Branch_Id=2,
-                   Modified_Date=DateTime.Now,
-                   //Id=model.Id     
-                   };
+                    Employee_Id = model.Employee_Id,
+                    PasswordExpiryDate = model.PasswordExpiryDate,
+                    IsActive = model.IsActive,
+                    Created_User_Id = CurrentUser.Id,
+                    Created_Branch_Id = 1,
+                    Created_Date = DateTime.Now,
+                    Modified_User_Id = CurrentUser.Id,
+                    Modified_Branch_Id = 2,
+                    Modified_Date = DateTime.Now
+                };
                    
                   
-                                                   // EmailConfirmed=model.ApplicationUsers.EmailConfirmed,PasswordHash=model.ApplicationUsers.PasswordHash,
-                                                    //PhoneNumber=model.ApplicationUsers.PhoneNumber,PhoneNumberConfirmed=model.ApplicationUsers.PhoneNumberConfirmed
-                                                      //,AccessFailedCount=model.ApplicationUsers.AccessFailedCount,
+                                                  
                 ApplicationUserRole userrole = new ApplicationUserRole();
-                userrole.RoleId =model.Role_Id;
-                //userrole.RoleId = Convert.ToString(model.Name);
-                //userrole.RoleId = model.Name;
-
+                userrole.RoleId =model.Role_Id;               
                 user.Roles.Add(userrole);
 
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -143,15 +104,15 @@ namespace Troy.Web.Controllers
                     {
                         Branch_Id = model.Branch_Id,
                         User_Id = userId,
-                        Created_User_Id = 1,
+                        Created_User_Id = CurrentUser.Id,
                         Created_Branch_Id = 1,
                         Created_Date = DateTime.Now,
-                        Modified_User_Id = 2,
-                        Modified_Branch_Id = 2,
+                        Modified_User_Id = CurrentUser.Id,
+                        Modified_Branch_Id = 1,
                         Modified_Date = DateTime.Now
                     };
                     string errorMsg = string.Empty;
-                    if (userDb.SaveUserBranches(userbranch,ref errorMsg))
+                    if (userDb.SaveUserBranches(userbranch, ref errorMsg))
                     {
                         return RedirectToAction("Index", "User");
                     }
@@ -161,7 +122,10 @@ namespace Troy.Web.Controllers
                         return View("Error");
                     }
                 }
-                AddErrors(result);
+                else
+                {
+                    AddErrors(result);
+                }
             }
 
             // If we got this far, something failed, redisplay form
@@ -169,66 +133,48 @@ namespace Troy.Web.Controllers
         }
         #endregion
 
-
-
-
-
         #region Register
         public async Task<ActionResult> EditUser(EditUserViewModel model)
         {
             if (ModelState.IsValid)
             {
 
-                var userlist = userDb.GetApplicationIdforName().ToList();
-                model.UserList = userlist;
-             
-                var user = new ApplicationUser
-                {
-                    UserName = model.UserName,
-                    Email = model.UserName,
-                    Employee_Id = model.Employee_Id,
-                    //Role_Id=model.Role_Id,
-                    //Branch_Id=model.Branch_Id,
-                    //PasswordExpiryDate = model.PasswordExpiryDate,
-                    //IsActive = "Y",
-                    IsActive=model.IsActive,
-                    Created_User_Id = 1,
-                    Created_Branch_Id = 1,
-                    Created_Date = DateTime.Now,
-                    Modified_User_Id = 2,
-                    Modified_Branch_Id = 2,
-                    Modified_Date = DateTime.Now,
-                    Id = model.Id
-                    
-                };
+                var user = _userManager.FindById(model.Id);
 
 
 
+                user.UserName = model.UserName;
+                user.Email = model.Email;
+                user.Employee_Id = model.Employee_Id;
+                user.IsActive = model.IsActive;
+                user.Modified_User_Id = CurrentUser.Id;
+                user.Modified_Branch_Id = 1;
+                user.Modified_Date = DateTime.Now;
 
-                //user.Roles.FirstOrDefault().RoleId = model.Role_Id;
-                //var result = (uaer)
-                //IdentityResult result;
+
                 try
                 {
-                    //result = _userManager.Update(user);
-                    ApplicationUserRole userrole = new ApplicationUserRole();
-                    userrole.RoleId = model.Role_Id;
-                    int userId = user.Id;
-                  var  result =await _userManager.UpdateAsync(user);
-                  //int userId = user.Id;
+
+
+                    user.Roles.FirstOrDefault().RoleId = model.Role_Id;
+                    user.Roles.FirstOrDefault().Modified_User_Id = CurrentUser.Id;
+                    user.Roles.FirstOrDefault().Modified_Branch_Id = 1;
+                    user.Roles.FirstOrDefault().Modified_Date = DateTime.Now;
+
+
+                    var result = await _userManager.UpdateAsync(user);
+
                     if (result.Succeeded)
                     {
                         UserBranches userbranch = new UserBranches()
                         {
                             Branch_Id = model.Branch_Id,
                             User_Id = model.Id,
-                            //Created_User_Id = 1,
-                            //Created_Branch_Id = 1,
-                            //Created_Date = DateTime.Now,
-                            //Modified_User_Id = 2,
-                            //Modified_Branch_Id = 2,
-                            //Modified_Date = DateTime.Now
+                            Modified_User_Id = CurrentUser.Id,
+                            Modified_Branch_Id = 1,
+                            Modified_Date = DateTime.Now
                         };
+
                         string errorMsg = string.Empty;
                         if (userDb.SaveUserBranches(userbranch, ref errorMsg))
                         {
@@ -237,9 +183,15 @@ namespace Troy.Web.Controllers
                         else
                         {
                             ViewBag.AppErrorMessage = errorMsg;
+                            AddErrors(result);
                             return View("Error");
                         }
+                    }
+                    else
+                    {
+                        ViewBag.AppErrorMessage = result.Errors.DefaultIfEmpty();
                         AddErrors(result);
+                        return View("Error");
                     }
                 }
                 catch (Exception ex)
@@ -248,8 +200,8 @@ namespace Troy.Web.Controllers
                     ViewBag.AppErrorMessage = ex.Message;
                     return View("Error");
                 }
-               
-                
+
+
             }
 
             // If we got this far, something failed, redisplay form
@@ -264,38 +216,21 @@ namespace Troy.Web.Controllers
         {
             try
             {
-                LogHandler.WriteLog("User Index page requested by #UserId");
-                       
+                LogHandler.WriteLog("User Index page requested by #UserId");                      
 
                 UserViewModels model = new UserViewModels();
-                //model.ApplicationUserList = uList;
+                model.UserList = userDb.GetAllUser().ToList();
+                model.IsActive = true;
 
-                var EmployeeList = userDb.GetAddressEmployeeList().ToList();
+                var EmployeeList = userDb.GetAddressEmployeeList();
                 model.employeelist = EmployeeList;
 
-                var RoleList = userDb.GetAddressRoleList().ToList();
+                var RoleList = userDb.GetAddressRoleList();
                 model.rolelist = RoleList;
 
-                var BranchList = userDb.GetAddressBranchList().ToList();
+                var BranchList = userDb.GetAllBranches();
                 model.branchlist = BranchList;
-                //var UserBranches = userDb.
-                //var BranchList = userDb.GetAddressBranchList().ToList();
-                //model.branchlist = BranchList;
-                //var UserBranches = userDb.GetAddressUserBranchList().ToList();
-                //model.userbranches = UserBranches;
 
-
-                //model. = uList;
-                //UserViewModels model1 = userDb.GetAllUser().ToList();
-                //UserViewModels model1 = new UserViewModels();
-                var userlist = userDb.GetAllUser().ToList();
-                model.UserList = userlist;
-              
-              
-                //var Allbranches = branchDb.GetAllBranches().ToList();
-
-
-                //model.CountryList = countrylist;
                 return View(model);
             }
             catch (Exception ex)
@@ -310,25 +245,14 @@ namespace Troy.Web.Controllers
 
 
         [HttpPost]
-        public ActionResult Index(string submitButton, UserViewModels model, HttpPostedFileBase file)
+        public async Task<ActionResult> Index(string submitButton, UserViewModels model, HttpPostedFileBase file)
         {
             try
             {
-                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+               // ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
                 if (submitButton == "Save")
-                {
-
-                   
-                    Register(model);
-
-                    //if (userDb.AddNewUser(model.ApplicationUsers))
-                    //{
-                    //    return RedirectToAction("Index", "User");
-                    //}
-                    //else
-                    //{
-                    //    ModelState.AddModelError("", "User Not Saved");
-                    //}
+                {  
+                    await RegisterUser(model);
                 }     
 
                 return RedirectToAction("Index", "User");
@@ -343,7 +267,7 @@ namespace Troy.Web.Controllers
 
 
         [HttpPost]
-        public ActionResult Update(string submitButton, EditUserViewModel model, HttpPostedFileBase file)
+        public async Task<ActionResult> Update(string submitButton, EditUserViewModel model, HttpPostedFileBase file)
         {
             try
             {
@@ -352,13 +276,7 @@ namespace Troy.Web.Controllers
                  if (submitButton == "Update")
                 {
 
-                    EditUser(model);
-                    //model.Created_Branch_Id = 1;
-                    //model.Created_Date = DateTime.Now;
-                    //model.Created_User_Id = 1;  //GetUserId()
-                    //model.Modified_User_Id = 1;
-                    //model.ApplicationUsers.Modified_Date = DateTime.Now;
-                    //model.ApplicationUsers.Modified_Branch_Id = 1;
+                    await EditUser(model);
 
 
                     //if (userDb.EditUser(model.ApplicationUsers))
@@ -536,46 +454,46 @@ namespace Troy.Web.Controllers
         public PartialViewResult _EditPartial(int id)
         {
             try
-            {
-                EditUserViewModel model = new EditUserViewModel();
-                //model.ApplicationUserList = userDb.FindOneUserById(id);
-
-                var CurrentUser = userDb.FindOneUserById(id);
-                model.UserName = CurrentUser.UserName;
-                model.Id = CurrentUser.Id;
-                model.Email = CurrentUser.Email;
-                model.Role_Id = CurrentUser.Role_Id;
-                model.IsActive = CurrentUser.IsActive;
-                model.Employee_Id = CurrentUser.Employee_Id;
-                model.Branch_Id = CurrentUser.Branch_Id;
-                model.Roles = CurrentUser.Roles;
-                //model.BranchName =Convert.ToString(CurrentUser.Branch_Id);
-                //model.ApplicationUserList = userDb.FindOneUserById(id);
-                //model.ApplicationUsers = userDb.FindOneUserById(id);
-
-                //var userlist = userDb.FindOneUserById().ToList();
-                //model.UserList = userlist;
-
-                var EmployeeList = userDb.GetAddressEmployeeList().ToList();
-                model.employeelist = EmployeeList;
-
-                var RoleList = userDb.GetAddressRoleList().ToList();
-                model.rolelist = RoleList;
-
-                var BranchList = userDb.GetAddressBranchList().ToList();
-                //model.branchlist.FirstOrDefault().Branch_Id = CurrentUser.Branch_Id;
-                model.branchlist = BranchList;
-               
-
-                   
-
-                //var BranchList = userDb.GetAddressBranchList().ToList();
-                //model.branchlist = BranchList;
-                //var UserBranches = userDb.GetAddressBranchList().ToList();
-                //model.userbranches = UserBranches;
+            {                               
+                var CurrentEditingUser = userDb.FindOneUserById(id);
+                if (CurrentEditingUser != null)
+                {
+                    UserViewModels model = new UserViewModels();
+                    model.UserName = CurrentEditingUser.UserName;
+                    model.Id = CurrentEditingUser.Id;
+                    model.Email = CurrentEditingUser.Email;
+                    model.Role_Id = CurrentEditingUser.Role_Id;
+                    model.IsActive = CurrentEditingUser.IsActive;
+                    model.Employee_Id = CurrentEditingUser.Employee_Id;
+                    model.Branch_Id = CurrentEditingUser.Branch_Id;
+                    model.Roles = CurrentEditingUser.Roles;
 
 
-                return PartialView(model);
+                    var EmployeeList = userDb.GetAddressEmployeeList();
+                    model.employeelist = EmployeeList;
+
+                    var RoleList = userDb.GetAddressRoleList();
+                    model.rolelist = RoleList;
+
+                    var BranchList = userDb.GetAllBranches();
+                    var userBranches = userDb.GetBranchesByUserId(model.Id);
+                    foreach (var b in BranchList)
+                    {
+                        if(userBranches.Contains(b.Branch_Id))
+                        {
+                            b.IsSelected = true;
+                        }
+                    }
+
+                    model.branchlist = BranchList;
+
+                    return PartialView(model);
+                }
+                else
+                {
+                    ViewBag.AppErrorMessage = "Unable to fetch the user details to edit.";
+                    return PartialView("Error");
+                }
             }
             catch (Exception ex)
             {
@@ -602,7 +520,7 @@ namespace Troy.Web.Controllers
                 var RoleList = userDb.GetAddressRoleList().ToList();
                 model.rolelist = RoleList;
 
-                var BranchList = userDb.GetAddressBranchList().ToList();
+                var BranchList = userDb.GetAllBranches().ToList();
                 model.branchlist = BranchList;
 
                 return PartialView(model);
