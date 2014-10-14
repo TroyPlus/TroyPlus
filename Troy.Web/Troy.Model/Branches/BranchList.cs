@@ -10,11 +10,9 @@ namespace Troy.Model.Branches
 {
     public class BranchList
     {
-        [Key]
-        [ForeignKey("Branch_Id")]
-        public int Branch_Id { get; set; }
-        public virtual Branch branch { get; set; }
-
+        
+        public int Branch_Id { get; set; }       
         public string Branch_Name { get; set; }
+        public bool? IsSelected { get; set; }
     }
 }

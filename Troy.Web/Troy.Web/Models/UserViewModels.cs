@@ -12,19 +12,17 @@ namespace Troy.Web.Models
 {
     public class UserViewModels
     {
-        //public ApplicationUser ApplicationUsers { get; set; }
-
-        //public List<Branch> userbranches { get; set; }
-
-        public RegisterViewModel registerusers { get; set; }
-
         public ViewUsers ApplicationUserList { get; set; }
-
-
-
         public ViewUsers ApplicationUsers { get; set; }
         public List<ViewUsers> UserList { get; set; }
+        
+        
+        public int Id { get; set; }
 
+        [Required]
+        [StringLength(100,MinimumLength=6)]
+        [Display(Name = "User name")]
+        public string UserName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
@@ -32,59 +30,41 @@ namespace Troy.Web.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
-
-
-
-        //[Key]
-        //[ForeignKey("Id")]
-        public int Id { get; set; }
-        //public virtual ApplicationUser user { get; set; }
-
-
-        public string UserName { get; set; }
-
-        public int Role_Id { get; set; }
-
-        public string RoleName { get; set; }
-
-        public string BranchName { get; set; }
+        public string ConfirmPassword { get; set; }            
+        
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
-
-        //public string Role_Id { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime PasswordExpiryDate { get; set; }
 
-        public string IsActive { get; set; }
+        [Required]
+        [Display(Name = "Active")]
+        public bool IsActive { get; set; }
 
+        [Required]
+        [Display(Name="Role")]
+        public int Role_Id { get; set; }
+        [Display(Name = "Employee")]
         public int Employee_Id { get; set; }
-
+        [Display(Name = "Branch")]
         public int Branch_Id { get; set; }
 
-        //public List<ViewBranches> BranchList { get; set; }
-
-        //public List<ViewBranches> AllBranches { get; set; }
         public List<EmployeeList> employeelist { get; set; }
-
-        //public List<EditUserViewModel> Currentlist { get; set; }
-
-
         public List<BranchList> branchlist { get; set; }
         public List<ApplicationRole> rolelist { get; set; }
 
-        //public List<BranchList> branchlist { get; set; }
-
-
-
-        //public List<UserBranches> userbranches { get; set; }
-
-        public string code { get; set; }
-
-        public string SearchQuery { get; set; }
-
-        public string SearchColumn { get; set; }
+        
+        public List<UserBranches> UserBranches { get; set; }
+        public List<ApplicationUserRole> Roles { get; set; }
     }
-
+    public class UserBranchItem
+    {
+        public int Branch_id { get; set; }
+        public string Branch_Name { get; set; }
+        public bool IsSelected { get; set; }
+    }
 }

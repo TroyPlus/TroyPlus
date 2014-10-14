@@ -93,7 +93,7 @@ namespace Troy.Web.Tests.Controllers
             var branchlist = new List<BranchList>();
             branchlist.Add(new BranchList { Branch_Id=2,Branch_Name="Slai" });
 
-            mockUserRepository.Setup(m => m.GetAddressBranchList()).Returns(branchlist);
+            mockUserRepository.Setup(m => m.GetAllBranches()).Returns(branchlist);
 
             //var country=new List<coun>
             // Mock up the GetAddressList() repository method with expected return value.
@@ -143,7 +143,7 @@ namespace Troy.Web.Tests.Controllers
             var branchlist = new List<BranchList>();
             branchlist.Add(new BranchList { Branch_Id = 2, Branch_Name = "Slai" });
 
-            mockUserRepository.Setup(m => m.GetAddressBranchList()).Returns(branchlist);
+            mockUserRepository.Setup(m => m.GetAllBranches()).Returns(branchlist);
 
             //var branchList = new List<BranchList>();
             //branchList.Add(new BranchList { BranchId = 1, BranchName = "MADURAI MAIN" });

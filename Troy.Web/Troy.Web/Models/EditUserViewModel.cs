@@ -35,7 +35,7 @@ namespace Troy.Web.Models
         public string BranchName { get; set; }
         public string Email { get; set; }
 
-        public string IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         public int Employee_Id { get; set; }
 
