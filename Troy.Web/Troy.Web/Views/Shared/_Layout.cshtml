@@ -32,7 +32,23 @@
     @Styles.Render("~/Content/themes/mainStyles")
     @Styles.Render("~/Content/themes/custom")
 
+    
+
+    @*<script>
+        window.jQuery || document.write('<script src="../Content/themes/TroyPlus/js/libs/jquery-2.1.1.min.js">\x3C/script>')
+    </script>
+
+    <script>
+        window.jQuery || document.write('<script src="../Content/themes/TroyPlus/js/libs/jquery-ui-1.10.4.min.js">\x3C/script>')
+    </script>*@
+
+
     <!-- Load Scripts -->
+
+    
+    @Scripts.Render("~/bundles/script/jquery")
+    @Scripts.Render("~/bundles/script/jqueryUI")
+
     @Scripts.Render("~/bundles/script/jPace")
     @Scripts.Render("~/bundles/script/jLibs")
     @Scripts.Render("~/bundles/script/bootstrap")
@@ -147,21 +163,16 @@
                 <!-- Start #sideNav -->
                 <ul id="sideNav" class="nav nav-pills nav-stacked">
                     <li class="top-search">
-                        <form class="form-horizontal" role="form">
+                        @*<form class="form-horizontal" role="form">
                             <div class="form-group">
                                 <div class="row">
                                     <div class="">
                                         <input class="form-control right-icon" type="text" placeholder="Search ..." />
-                                        <i class="ec-search s16 right-input-icon"></i>
-
-
-                                        @*<button type="button" class="form-control">
-                                                <i class="ec-search s20"></i>
-                                            </button>*@
+                                        <i class="ec-search s16 right-input-icon"></i>                                      
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        </form>*@
                     </li>
                     @{
         var menuList = Troy.Web.ApplicationUserManager.GetUserApplicationMenuItems(User.Identity.Name);
@@ -210,16 +221,10 @@
             <p>Copyrights &copy; TroyPlus  @DateTime.Now.Year. All Rights Reserved </p>
         </div>
     </div>
+   
     <!-- Inline Javascripts -->
     @RenderSection("scripts", required: false)
-    <script>
-        window.jQuery || document.write('<script src="~/~/Content/themes/TroyPlus/js/libs/jquery-2.1.1.min.js">\x3C/script>')
-    </script>
-
-    <script>
-        window.jQuery || document.write('<script src="~/~/Content/themes/TroyPlus/js/libs/jquery-ui-1.10.4.min.js">\x3C/script>')
-    </script>
-
+   
 
 </body>
 

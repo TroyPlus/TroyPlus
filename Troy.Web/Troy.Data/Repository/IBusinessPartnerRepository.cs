@@ -33,7 +33,7 @@ namespace Troy.Data.Repository
 
         List<GroupList> GetGroupList();
 
-        List<PriceList> GetPriceList();
+        List<PriceListlists> GetPriceList();
 
         List<BranchList> GetBranchList();
 
@@ -47,21 +47,21 @@ namespace Troy.Data.Repository
 
         List<CityList> GetAddresscityList();
 
-        Country CheckCountry(string bname);
+        Country CheckCountry(string cnname);
 
-        State CheckState(string bname);
+        State CheckState(string sname);
 
-        City CheckCity(string bname);
+        City CheckCity(string ctname);
 
-        Group CheckGroup(string bname);
+        Group CheckGroup(string grname);
 
-        PriceList CheckPriceList(string bname);
+        PriceList CheckPriceList(string plname);
 
-        Employee CheckEmployee(string bname);
+        Employee CheckEmployee(string empname);
 
         Branch CheckBranch(string bname);
 
-        Ledger CheckControlAccountID(string bname);
+        Ledger CheckControlAccountID(string coname);
 
         string FindSAPCodeForCountryId(int country_id);
 

@@ -56,8 +56,5 @@ namespace Troy.Data.DataContext
         public DbSet<Gender> Gender { get; set; }
 
         public DbSet<LeftReason> LeftReason { get; set; }
-
-        public DbSet<VAT> VAT { get; set; }
-
     }
 }

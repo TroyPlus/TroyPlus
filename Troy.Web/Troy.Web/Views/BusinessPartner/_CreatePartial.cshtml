@@ -37,7 +37,7 @@
                                     </div>
                                     <div class="col-md-8" id="container1">
                                         @*@Html.TextBox("SearchString")*@
-                                        @Html.TextBoxFor(model => model.BusinessPartner.BP_Name, new { @class = "form-control control-text info", id = "textbox1" })
+                                        @Html.TextBoxFor(model => model.BusinessPartner.BP_Name, new { @class = "form-control control-text info" })
                                         @Html.ValidationMessageFor(model => model.BusinessPartner.BP_Name)
                                     </div>
                                 </div>
@@ -64,7 +64,7 @@
                                         Pricelist:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.DropDownListFor(m => m.BusinessPartner.Pricelist, new SelectList(Model.PricelistLists.AsEnumerable(), "Id", "Price_List_Desc"), "", new { @class = "form-control control-text" })
+                                        @Html.DropDownListFor(m => m.BusinessPartner.Pricelist, new SelectList(Model.PricelistLists.AsEnumerable(), "PriceList_Id", "Price_List_Desc"), "", new { @class = "form-control control-text" })
                                         @Html.ValidationMessageFor(model => model.BusinessPartner.Pricelist)
                                     </div>
                                 </div>
@@ -120,7 +120,7 @@
                                         Due date:
                                     </div>
                                     <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.BusinessPartner.Due_date, new { @class = "form-control control-text" })
+                                        @Html.TextBoxFor(model => model.BusinessPartner.Due_date, new { @class = "form-control control-text datePicker" })
                                         @Html.ValidationMessageFor(model => model.BusinessPartner.Due_date)
                                     </div>
                                 </div>
@@ -341,7 +341,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+                <input class="btn btn-primary pull-left" type="submit" id="btnSubmit1" name="submitButton" value="Save" />
                 <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                 @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
             </div>

@@ -359,7 +359,7 @@ namespace Troy.Web.Controllers
         {
             try
             {
-                //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
                 if (submitButton == "Save")
                 {
@@ -1276,13 +1276,13 @@ namespace Troy.Web.Controllers
                     dr_final1["Ship State"] = e.State_Name;
                     dr_final1["Ship Country"] = e.Country_Name;
                     dr_final1["Ship Pincode"] = e.Ship_pincode;
-                    dr_final1["Bill Address1"] = e.Ship_Address1;
-                    dr_final1["Bill Address2"] = e.Ship_address2;
-                    dr_final1["Bill Address3"] = e.Ship_address3;
+                    dr_final1["Bill Address1"] = e.Bill_Address1;
+                    dr_final1["Bill Address2"] = e.Bill_address2;
+                    dr_final1["Bill Address3"] = e.Bill_address3;
                     dr_final1["Bill City"] = e.billCity_Name;
                     dr_final1["Bill State"] = e.billState_Name;
                     dr_final1["Bill Country"] = e.billCountry_Name;
-                    dr_final1["Bill Pincode"] = e.Ship_pincode;
+                    dr_final1["Bill Pincode"] = e.Bill_pincode;
                     dr_final1["Is Active"] = e.IsActive;
                     dr_final1["PriceList"] = e.Price_List_Desc;
                     dr_final1["Employee"] = e.Employee_Name;
@@ -1295,7 +1295,7 @@ namespace Troy.Web.Controllers
                     dr_final1["Contact Person"] = e.Contact_person;
                     dr_final1["Remarks"] = e.Remarks;
                     dr_final1["Ship Method"] = e.Ship_method;
-                    dr_final1["Control Account Id"] = e.Group_Name;
+                    //dr_final1["Control Account Id"] = e.Group_Name;
                     dr_final1["Opening Balance"] = e.Opening_Balance;
                     dr_final1["Due Date"] = e.Due_date;
 

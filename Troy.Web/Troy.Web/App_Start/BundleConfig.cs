@@ -50,6 +50,9 @@ namespace Troy.Web
 
             #region Javascripts
 
+            bundles.Add(new ScriptBundle("~/bundles/script/jquery").Include("~/Content/themes/TroyPlus/js/libs/jquery-2.1.1.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/script/jqueryUI").Include("~/Content/themes/TroyPlus/js/libs/jquery-ui-1.10.4.min.js"));
+
             // Load pace first -->
             bundles.Add(new ScriptBundle("~/bundles/script/jPace").Include("~/Content/themes/TroyPlus/plugins/core/pace/pace.min.js"));
             // Important javascript libs(put in all pages) -->
