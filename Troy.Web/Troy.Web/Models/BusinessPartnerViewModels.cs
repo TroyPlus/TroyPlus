@@ -31,7 +31,7 @@ namespace Troy.Web.Models
 
         public List<GroupList> GroupList { get; set; }
 
-        public List<PriceList> PricelistLists { get; set; }
+        public List<PriceListlists> PricelistLists { get; set; }
 
         public List<BranchList> BranchList { get; set; }
 
@@ -44,7 +44,7 @@ namespace Troy.Web.Models
         public string SearchColumn { get; set; }
     }
 
- 
+
 
 
     [XmlRoot("AddBp")]

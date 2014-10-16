@@ -80,6 +80,7 @@
     <Compile Include="Configuration\Designation.cs" />
     <Compile Include="Configuration\DesignationList.cs" />
     <Compile Include="Configuration\PriceList.cs" />
+    <Compile Include="Configuration\PriceListlists.cs" />
     <Compile Include="Configuration\State.cs" />
     <Compile Include="Configuration\StateList.cs" />
     <Compile Include="Configuration\VAT.cs" />

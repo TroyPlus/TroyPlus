@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Manufacturer";
-    ViewBag.BodyCss = "Manufacturer";
 }
 
 <script type="text/javascript">
@@ -12,6 +11,7 @@
 
         $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
         //var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+        $.validator.unobtrusive.parse('#myModal form');
 
         $('#grdManufacturer').dataTable({
             "bFilter": false, "sPaginationType": "full_numbers",
@@ -122,7 +122,7 @@
         return true;
     }
 
-    $.validator.unobtrusive.parse('#myModal form');
+    
 </script>
 
 <div><span>&nbsp;</span></div>
@@ -298,7 +298,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameManuSubmit();" />
+                    <input class="btn btn-primary pull-left" type="button" id="btnUpload1" name="FileUploadButton" value="Upload" onclick="return IFrameManuSubmit();" />
                     <button class="btn pull-left" data-dismiss="modal">Close</button>
                     @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
                 </div>

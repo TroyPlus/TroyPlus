@@ -18,7 +18,7 @@ using Troy.Model.Branches;
 using Troy.Model.Ledgers;
 using Troy.Model.Employees;
 using Troy.Model.SAP_OUT;
-using Troy.Model.PriceLists;
+//using Troy.Model.PriceLists;
 using System.Xml;
 using System.Xml.Serialization;
 #endregion
@@ -203,16 +203,16 @@ namespace Troy.Data.Repository
         //    return item;
         //}
 
-        public List<PriceList> GetPriceList()
+        public List<PriceListlists> GetPriceList()
         {
             var item = (from a in businesspartnercontext.PriceList
-                        select new PriceList
+                        select new PriceListlists
                         {
                             PriceList_Id = a.PriceList_Id,
                             Price_List_Desc = a.Price_List_Desc
                         }).ToList();
 
-            return item;
+            return item;            
         }
 
         public List<BranchList> GetBranchList()
@@ -314,45 +314,45 @@ namespace Troy.Data.Repository
             }
         }
 
-        public Country CheckCountry(string bname)
+        public Country CheckCountry(string cnname)
         {
             return (from p in businesspartnercontext.Country
-                    where p.Country_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    where p.Country_Name.Equals(cnname, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
 
-        public State CheckState(string bname)
+        public State CheckState(string sname)
         {
             return (from p in businesspartnercontext.State
-                    where p.State_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    where p.State_Name.Equals(sname, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
 
-        public City CheckCity(string bname)
+        public City CheckCity(string ctname)
         {
             return (from p in businesspartnercontext.City
-                    where p.City_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    where p.City_Name.Equals(ctname, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
 
-        public Group CheckGroup(string bname)
+        public Group CheckGroup(string grname)
         {
             return (from p in businesspartnercontext.Group
-                    where p.Group_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    where p.Group_Name.Equals(grname, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
 
-        public PriceList CheckPriceList(string bname)
+        public PriceList CheckPriceList(string plname)
         {
             return (from p in businesspartnercontext.PriceList
-                    where p.Price_List_Desc.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    where p.Price_List_Desc.Equals(plname, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
 
-        public Employee CheckEmployee(string bname)
+        public Employee CheckEmployee(string empname)
         {
             return (from p in businesspartnercontext.Employee
-                    where p.First_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    where p.First_Name.Equals(empname, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
 
@@ -363,10 +363,10 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
-        public Ledger CheckControlAccountID(string bname)
+        public Ledger CheckControlAccountID(string coname)
         {
             return (from p in businesspartnercontext.Ledger
-                    where p.Ledger_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                    where p.Ledger_Name.Equals(coname, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
 

@@ -156,11 +156,11 @@ namespace Troy.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string submitButton, ManufacturerViewModels model, HttpPostedFileBase file=null)
+        public ActionResult Index(string submitButton, ManufacturerViewModels model, HttpPostedFileBase file)
         {
             try
             {
-                //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
                 if (submitButton == "Save")
                 {

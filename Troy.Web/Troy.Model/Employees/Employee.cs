@@ -96,7 +96,7 @@ namespace Troy.Model.Employees
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
         //----------
-
+        [Column(TypeName = "date")]
         [Required(ErrorMessage = "Start Date is required.")]
         public DateTime Start_Dte { get; set; }
         //-------
