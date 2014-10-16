@@ -83,9 +83,11 @@ namespace Troy.Web.Controllers
                     PasswordExpiryDate = model.PasswordExpiryDate,
                     IsActive = model.IsActive,
                     Created_User_Id = CurrentUser.Id,
+                    //Created_User_Id = 1,
                     Created_Branch_Id = 1,
                     Created_Date = DateTime.Now,
                     Modified_User_Id = CurrentUser.Id,
+                    //Modified_User_Id = 2,
                     Modified_Branch_Id = 2,
                     Modified_Date = DateTime.Now
                 };
@@ -105,9 +107,11 @@ namespace Troy.Web.Controllers
                         Branch_Id = model.Branch_Id,
                         User_Id = userId,
                         Created_User_Id = CurrentUser.Id,
+                        //Created_User_Id = 1,
                         Created_Branch_Id = 1,
                         Created_Date = DateTime.Now,
                         Modified_User_Id = CurrentUser.Id,
+                        //Modified_User_Id = 2,
                         Modified_Branch_Id = 1,
                         Modified_Date = DateTime.Now
                     };
@@ -147,7 +151,8 @@ namespace Troy.Web.Controllers
                 user.Email = model.Email;
                 user.Employee_Id = model.Employee_Id;
                 user.IsActive = model.IsActive;
-                user.Modified_User_Id = CurrentUser.Id;
+               user.Modified_User_Id = CurrentUser.Id;
+                //user.Modified_User_Id = 1;
                 user.Modified_Branch_Id = 1;
                 user.Modified_Date = DateTime.Now;
 
@@ -157,7 +162,8 @@ namespace Troy.Web.Controllers
 
 
                     user.Roles.FirstOrDefault().RoleId = model.Role_Id;
-                    user.Roles.FirstOrDefault().Modified_User_Id = CurrentUser.Id;
+                   user.Roles.FirstOrDefault().Modified_User_Id = CurrentUser.Id;
+                    //user.Roles.FirstOrDefault().Modified_User_Id = 1;
                     user.Roles.FirstOrDefault().Modified_Branch_Id = 1;
                     user.Roles.FirstOrDefault().Modified_Date = DateTime.Now;
 
@@ -170,7 +176,8 @@ namespace Troy.Web.Controllers
                         {
                             Branch_Id = model.Branch_Id,
                             User_Id = model.Id,
-                            Modified_User_Id = CurrentUser.Id,
+                           Modified_User_Id = CurrentUser.Id,
+                           // Modified_User_Id = 1,
                             Modified_Branch_Id = 1,
                             Modified_Date = DateTime.Now
                         };
