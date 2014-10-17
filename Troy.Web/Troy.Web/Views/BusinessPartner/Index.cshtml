@@ -6,14 +6,14 @@
 }
 
 
-@*<script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>*@
+<script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script type="text/javascript">
 
 
     $(document).ready(function () {
 
         $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
-        //var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+        var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
         //$('#grdBusinessPartner').dataTable({
         //    "bFilter": false, "sPaginationType": "full_numbers",
@@ -305,25 +305,25 @@
         </div>
     </div>
     <div class="clearfix"></div>
-    
-     <div class="modal fade bs-example-modal-lg" id="createModal" tabindex="-1" role="dialog"
+
+    <div class="modal fade bs-example-modal-lg" id="createModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true">
         @Html.Partial("_CreatePartial", Model)
     </div>
-    
+
     <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
         <div id="editmodelcontainer">
         </div>
     </div>
-    
-     <div class="modal fade bs-example-modal-lg" id="viewModal" tabindex="-1" role="dialog"
+
+    <div class="modal fade bs-example-modal-lg" id="viewModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPartial")'>
         <div id="viewmodelcontainer">
         </div>
     </div>
-    
-     <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
+
+    <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

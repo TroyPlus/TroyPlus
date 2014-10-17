@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
 using System.ComponentModel;
 
-namespace Troy.Model.MaritalStatus
+namespace Troy.Model.MaritalStatuses
 {
     [Table("tblMaritalStatus")]
     public class MaritalStatus

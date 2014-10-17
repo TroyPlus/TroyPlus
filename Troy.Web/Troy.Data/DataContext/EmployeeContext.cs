@@ -9,7 +9,7 @@ using Troy.Model.Employees;
 //using Troy.Model.Departments;
 using Troy.Model.Configuration;
 using Troy.Model.Initials;
-using Troy.Model.MaritalStatus;
+using Troy.Model.MaritalStatuses;
 using Troy.Model.Genders;
 using Troy.Model.LeftReasons;
 using Troy.Model.Branches;

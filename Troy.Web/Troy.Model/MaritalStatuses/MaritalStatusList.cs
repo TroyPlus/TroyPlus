@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Troy.Model.MaritalStatus
+namespace Troy.Model.MaritalStatuses
 {
     public class MaritalStatusList
     {

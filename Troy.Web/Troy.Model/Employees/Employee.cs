@@ -13,6 +13,7 @@ using Troy.Model.Initials;
 //using Troy.Model.Departments;
 using Troy.Model.Branches;
 using Troy.Model.Genders;
+using Troy.Model.MaritalStatuses;
 
 namespace Troy.Model.Employees
 {
@@ -114,7 +115,9 @@ namespace Troy.Model.Employees
         //---------
 
         [Required]
-        public int Marital_Status { get; set; }        
+        [ForeignKey("maritalstatus")]
+        public int Marital_Status { get; set; }
+        public virtual MaritalStatus maritalstatus { get; set; }
         //--------
 
         [Required]

@@ -104,8 +104,8 @@
     <Compile Include="LeftReasons\LeftReason.cs" />
     <Compile Include="LeftReasons\LeftReasonList.cs" />
     <Compile Include="Manufacturer\Manufacture.cs" />
-    <Compile Include="MaritalStatus\MaritalStatus.cs" />
-    <Compile Include="MaritalStatus\MaritalStatusList.cs" />
+    <Compile Include="MaritalStatuses\MaritalStatus.cs" />
+    <Compile Include="MaritalStatuses\MaritalStatusList.cs" />
     <Compile Include="MasterData\FinancialYear.cs" />
     <Compile Include="PriceLists\PriceList.cs" />
     <Compile Include="PriceLists\PricelistLists.cs" />

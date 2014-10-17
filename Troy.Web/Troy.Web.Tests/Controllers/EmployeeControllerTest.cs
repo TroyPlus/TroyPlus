@@ -19,7 +19,7 @@ using Troy.Model.Initials;
 using Troy.Model.Configuration;
 using Troy.Model.Branches;
 using Troy.Model.LeftReasons;
-using Troy.Model.MaritalStatus;
+using Troy.Model.MaritalStatuses;
 using Troy.Model.Genders;
 #endregion
 
