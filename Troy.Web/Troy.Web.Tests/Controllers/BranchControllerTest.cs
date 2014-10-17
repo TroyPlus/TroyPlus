@@ -156,6 +156,7 @@ namespace Troy.Web.Tests.Controllers
         {
 
             string submit = "Save";
+            HttpPostedFileBase file = null;
             //BranchViewModels model= ;
 
             /*  
@@ -213,7 +214,7 @@ namespace Troy.Web.Tests.Controllers
             #endregion
 
             // Now invoke the Index action.
-            var actionResult = branchController.Index(submit, branchlist);
+            var actionResult = branchController.Index(submit, branchlist,file);
 
             // Validate the expected result.
             ViewResult expectedResult = new ViewResult();
@@ -234,6 +235,7 @@ namespace Troy.Web.Tests.Controllers
         {
 
             string submit = "Save";
+            HttpPostedFileBase file = null;
             {
                 Branch branch = new Branch();
                 {
@@ -268,7 +270,7 @@ namespace Troy.Web.Tests.Controllers
 
                 mockBranchRepository.Setup(m => m.FindCodeForStateId(stateId)).Returns("TN");
 
-                var actionResult = branchController.Index(submit, branchlist);
+                var actionResult = branchController.Index(submit, branchlist, file);
 
                 // Validate the expected result.
                 ViewResult expectedResult = new ViewResult();
@@ -285,6 +287,7 @@ namespace Troy.Web.Tests.Controllers
         public void Editbranch()
         {
             string submit = "Update";
+            HttpPostedFileBase file = null;
 
 
             Branch branch = new Branch();
@@ -329,7 +332,7 @@ namespace Troy.Web.Tests.Controllers
 
 
             // Now invoke the Index action.
-            var actionResult = branchController.Index(submit, branchlist) ;
+            var actionResult = branchController.Index(submit, branchlist,file) ;
 
             // Validate the expected result.
             ViewResult expectedResult = new ViewResult();
@@ -344,6 +347,7 @@ namespace Troy.Web.Tests.Controllers
         {
 
             string submit = "Update";
+            HttpPostedFileBase file = null;
             {
                 Branch branch = new Branch();
                 {
@@ -377,7 +381,7 @@ namespace Troy.Web.Tests.Controllers
 
                 mockBranchRepository.Setup(m => m.FindCodeForStateId(stateId)).Returns("TN");
 
-                var actionResult = branchController.Index(submit, branchlist);
+                var actionResult = branchController.Index(submit, branchlist,file);
 
                 // Validate the expected result.
                 ViewResult expectedResult = new ViewResult();
