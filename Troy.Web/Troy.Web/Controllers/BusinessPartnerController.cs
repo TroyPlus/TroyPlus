@@ -119,239 +119,270 @@ namespace Troy.Web.Controllers
 
         private void XMLGenerate_SAPInsert(BusinessPartnerViewModels model)
         {
-            Guid GuidRandomNo = Guid.NewGuid();
-            string mUniqueID = GuidRandomNo.ToString();
+            try
+            {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
-            #region ViewModel-XML-Fill
+                Guid GuidRandomNo = Guid.NewGuid();
+                string mUniqueID = GuidRandomNo.ToString();
 
-            //addbp class
-            var addbp = new AddBp();
-            addbp.UniqueID = mUniqueID;
+                #region ViewModel-XML-Fill
 
-            //header class
-            addbp.Header.BPCode = Convert.ToString(model.BusinessPartner.BP_Id);
-            addbp.Header.BPName = model.BusinessPartner.BP_Name;
-            addbp.Header.BPType = model.BusinessPartner.Group_Type;
+                //addbp class
+                var addbp = new AddBp();
+                addbp.UniqueID = mUniqueID;
 
-            int group_ID = Convert.ToInt32(model.BusinessPartner.Group_id);
-            string group_Name = businesspartnerRepository.FindGroupNameForGroupId(group_ID);
-            addbp.Header.GroupCode = group_Name;
+                //header class
+                addbp.Header.BPCode = Convert.ToString(model.BusinessPartner.BP_Id);
+                addbp.Header.BPName = model.BusinessPartner.BP_Name;
+                addbp.Header.BPType = model.BusinessPartner.Group_Type;
 
-            //Save Pricelist Desc
-            //int pricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
-            //string pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(pricelist_ID);
-            //addbp.Header.PriceList = pricelist_desc;
+                int group_ID = Convert.ToInt32(model.BusinessPartner.Group_id);
+                string group_Name = businesspartnerRepository.FindGroupNameForGroupId(group_ID);
+                addbp.Header.GroupCode = group_Name;
 
-            addbp.Header.PriceList = Convert.ToString(model.BusinessPartner.Pricelist);
+                //Save Pricelist Desc
+                //int pricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+                //string pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(pricelist_ID);
+                //addbp.Header.PriceList = pricelist_desc;
 
-            //Save EmployeeName
-            //int emp_ID = Convert.ToInt32(model.BusinessPartner.Emp_Id);
-            //string emp_first_Name = BusinesspartnerDb.FindEmpNameForEmpId(emp_ID);
-            //addbp.Header.EmpNo = emp_first_Name;
+                addbp.Header.PriceList = Convert.ToString(model.BusinessPartner.Pricelist);
 
-            addbp.Header.EmpNo = Convert.ToString(model.BusinessPartner.Emp_Id);
+                //Save EmployeeName
+                //int emp_ID = Convert.ToInt32(model.BusinessPartner.Emp_Id);
+                //string emp_first_Name = BusinesspartnerDb.FindEmpNameForEmpId(emp_ID);
+                //addbp.Header.EmpNo = emp_first_Name;
 
-
-            //general class
-
-            int branch_ID = Convert.ToInt32(model.BusinessPartner.Branch_id);
-            string branch_Name = businesspartnerRepository.FindBranchNameForBranchId(branch_ID);
-            addbp.general.Branch = branch_Name;
-
-            addbp.general.Phone1 = model.BusinessPartner.Phone1;
-            addbp.general.Phone2 = model.BusinessPartner.Phone2;
-            addbp.general.Mobile = model.BusinessPartner.Mobile;
-            addbp.general.Fax = model.BusinessPartner.Fax;//"testfax";
-            addbp.general.Email = model.BusinessPartner.Email_Address;
-            addbp.general.Website = model.BusinessPartner.Website;
-            addbp.general.ShipType = model.BusinessPartner.Ship_method;
-            addbp.general.ContactPerson = model.BusinessPartner.Contact_person;
-            addbp.general.Remarks = model.BusinessPartner.Remarks;
-            addbp.general.ContactEmployee = Convert.ToString(model.BusinessPartner.Control_account_id);
-            addbp.general.Active = Convert.ToString(model.BusinessPartner.IsActive);
-
-            //accounts class                       
-            addbp.accounts.ControlAccount = Convert.ToString(model.BusinessPartner.Control_account_id);
-
-            //Save PriceList Desc
-            //int accpricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
-            //string acc_pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(accpricelist_ID);
-            //addbp.accounts.AccountPriceList = acc_pricelist_desc; 
-
-            addbp.accounts.AccountPriceList = Convert.ToString(model.BusinessPartner.Pricelist);
-
-            //ShipTo class        
-            ShipTo shipto = new ShipTo();
-            shipto.ShipAddress1 = model.BusinessPartner.Ship_Address1;
-            shipto.ShipAddress2 = model.BusinessPartner.Ship_address2;
-            shipto.ShipAddress3 = model.BusinessPartner.Ship_address3;
-
-            int shipcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
-            string SAP_City_Code = businesspartnerRepository.FindSAPCodeForCityId(shipcity_ID);
-            shipto.ShipCity = SAP_City_Code;
-
-            int shipcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
-            string SAP_Country_Code = businesspartnerRepository.FindSAPCodeForCountryId(shipcountry_ID);
-            shipto.ShipCountry = SAP_Country_Code;
-
-            int shipstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
-            string SAP_State_Code = businesspartnerRepository.FindSAPCodeForStateId(shipstate_ID);
-            shipto.ShipState = SAP_Country_Code;
-
-            shipto.ShipPincode = model.BusinessPartner.Ship_pincode;
-
-            //BillTo class 
-            BillTo billto = new BillTo();
-            billto.BillAddress1 = model.BusinessPartner.Bill_Address1;
-            billto.BillAddress2 = model.BusinessPartner.Bill_address2;
-            billto.BillAddress3 = model.BusinessPartner.Bill_address3;
-            billto.BillCity = Convert.ToString(model.BusinessPartner.Bill_City);
-            billto.BillCountry = Convert.ToString(model.BusinessPartner.Bill_Country);
-            billto.BillState = Convert.ToString(model.BusinessPartner.Bill_State);
-
-            int billcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
-            string SAP_billCity_Code = businesspartnerRepository.FindSAPCodeForCityId(billcity_ID);
-            billto.BillCity = SAP_billCity_Code;
-
-            int billcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
-            string SAP_billCountry_Code = businesspartnerRepository.FindSAPCodeForCountryId(billcountry_ID);
-            billto.BillCountry = SAP_billCountry_Code;
-
-            int billstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
-            string SAP_billState_Code = businesspartnerRepository.FindSAPCodeForStateId(billstate_ID);
-            billto.BillState = SAP_billState_Code;
+                addbp.Header.EmpNo = Convert.ToString(model.BusinessPartner.Emp_Id);
 
 
-            billto.BillPincode = Convert.ToString(model.BusinessPartner.Bill_pincode);
+                //general class
 
-            addbp.address.ShipTo = shipto;
-            addbp.address.BillTo = billto;
+                int branch_ID = Convert.ToInt32(model.BusinessPartner.Branch_id);
+                string branch_Name = businesspartnerRepository.FindBranchNameForBranchId(branch_ID);
+                addbp.general.Branch = branch_Name;
+
+                addbp.general.Phone1 = model.BusinessPartner.Phone1;
+                addbp.general.Phone2 = model.BusinessPartner.Phone2;
+                addbp.general.Mobile = model.BusinessPartner.Mobile;
+                addbp.general.Fax = model.BusinessPartner.Fax;//"testfax";
+                addbp.general.Email = model.BusinessPartner.Email_Address;
+                addbp.general.Website = model.BusinessPartner.Website;
+                addbp.general.ShipType = model.BusinessPartner.Ship_method;
+                addbp.general.ContactPerson = model.BusinessPartner.Contact_person;
+                addbp.general.Remarks = model.BusinessPartner.Remarks;
+                addbp.general.ContactEmployee = Convert.ToString(model.BusinessPartner.Control_account_id);
+                addbp.general.Active = Convert.ToString(model.BusinessPartner.IsActive);
+
+                //accounts class                       
+                addbp.accounts.ControlAccount = Convert.ToString(model.BusinessPartner.Control_account_id);
+
+                //Save PriceList Desc
+                //int accpricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+                //string acc_pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(accpricelist_ID);
+                //addbp.accounts.AccountPriceList = acc_pricelist_desc; 
+
+                addbp.accounts.AccountPriceList = Convert.ToString(model.BusinessPartner.Pricelist);
+
+                //ShipTo class        
+                ShipTo shipto = new ShipTo();
+                shipto.ShipAddress1 = model.BusinessPartner.Ship_Address1;
+                shipto.ShipAddress2 = model.BusinessPartner.Ship_address2;
+                shipto.ShipAddress3 = model.BusinessPartner.Ship_address3;
+
+                int shipcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
+                string SAP_City_Code = businesspartnerRepository.FindSAPCodeForCityId(shipcity_ID);
+                shipto.ShipCity = SAP_City_Code;
+
+                int shipcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
+                string SAP_Country_Code = businesspartnerRepository.FindSAPCodeForCountryId(shipcountry_ID);
+                shipto.ShipCountry = SAP_Country_Code;
+
+                int shipstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
+                string SAP_State_Code = businesspartnerRepository.FindSAPCodeForStateId(shipstate_ID);
+                shipto.ShipState = SAP_Country_Code;
+
+                shipto.ShipPincode = model.BusinessPartner.Ship_pincode;
+
+                //BillTo class 
+                BillTo billto = new BillTo();
+                billto.BillAddress1 = model.BusinessPartner.Bill_Address1;
+                billto.BillAddress2 = model.BusinessPartner.Bill_address2;
+                billto.BillAddress3 = model.BusinessPartner.Bill_address3;
+                billto.BillCity = Convert.ToString(model.BusinessPartner.Bill_City);
+                billto.BillCountry = Convert.ToString(model.BusinessPartner.Bill_Country);
+                billto.BillState = Convert.ToString(model.BusinessPartner.Bill_State);
+
+                int billcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
+                string SAP_billCity_Code = businesspartnerRepository.FindSAPCodeForCityId(billcity_ID);
+                billto.BillCity = SAP_billCity_Code;
+
+                int billcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
+                string SAP_billCountry_Code = businesspartnerRepository.FindSAPCodeForCountryId(billcountry_ID);
+                billto.BillCountry = SAP_billCountry_Code;
+
+                int billstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
+                string SAP_billState_Code = businesspartnerRepository.FindSAPCodeForStateId(billstate_ID);
+                billto.BillState = SAP_billState_Code;
 
 
-            //xmlAddManufacture.CreatedUser = "1";
-            //xmlAddManufacture.CreatedBranch = "1";
-            //xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
-            //xmlAddManufacture.LastModifyUser = "2";
-            //xmlAddManufacture.LastModifyBranch = "2";
-            //xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString(); 
-            #endregion
+                billto.BillPincode = Convert.ToString(model.BusinessPartner.Bill_pincode);
 
-            businesspartnerRepository.GenerateXML(addbp);
+                addbp.address.ShipTo = shipto;
+                addbp.address.BillTo = billto;
+                addbp.CreatedUser = currentUser.Created_User_Id.ToString();
+                addbp.CreatedBranch = currentUser.Created_Branch_Id.ToString();
+                addbp.CreatedDateTime = DateTime.Now.ToString();
+                addbp.LastModifyUser = currentUser.Modified_User_Id.ToString();
+                addbp.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
+                addbp.LastModifyDateTime = DateTime.Now.ToString();
+
+                //xmlAddManufacture.CreatedUser = "1";
+                //xmlAddManufacture.CreatedBranch = "1";
+                //xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
+                //xmlAddManufacture.LastModifyUser = "2";
+                //xmlAddManufacture.LastModifyBranch = "2";
+                //xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString(); 
+                #endregion
+
+                businesspartnerRepository.GenerateXML(addbp);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+            }
         }
 
         private void XMLGenerate_SAPUpdate(BusinessPartnerViewModels model)
         {
-            Guid GuidRandomNo = Guid.NewGuid();
-            string mUniqueID = GuidRandomNo.ToString();
+            try
+            {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
-            #region ViewModel-XML-Fill
+                Guid GuidRandomNo = Guid.NewGuid();
+                string mUniqueID = GuidRandomNo.ToString();
 
-            //addbp class
-            var modifybp = new ModifyBP();
-            modifybp.UniqueID = mUniqueID;
+                #region ViewModel-XML-Fill
 
-            //header class
-            modifybp.Header.BPCode = Convert.ToString(model.BusinessPartner.BP_Id);
-            modifybp.Header.BPName = model.BusinessPartner.BP_Name;
-            modifybp.Header.BPType = model.BusinessPartner.Group_Type;
+                //addbp class
+                var modifybp = new ModifyBP();
+                modifybp.UniqueID = mUniqueID;
 
-            int group_ID = Convert.ToInt32(model.BusinessPartner.Group_id);
-            string group_Name = businesspartnerRepository.FindGroupNameForGroupId(group_ID);
-            modifybp.Header.GroupCode = group_Name;
+                //header class
+                modifybp.Header.BPCode = Convert.ToString(model.BusinessPartner.BP_Id);
+                modifybp.Header.BPName = model.BusinessPartner.BP_Name;
+                modifybp.Header.BPType = model.BusinessPartner.Group_Type;
 
-            //int pricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
-            //string pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(pricelist_ID);
-            //modifybp.Header.PriceList = pricelist_desc;
-            modifybp.Header.PriceList = Convert.ToString(model.BusinessPartner.Pricelist);
+                int group_ID = Convert.ToInt32(model.BusinessPartner.Group_id);
+                string group_Name = businesspartnerRepository.FindGroupNameForGroupId(group_ID);
+                modifybp.Header.GroupCode = group_Name;
 
-            //int emp_ID = Convert.ToInt32(model.BusinessPartner.Emp_Id);
-            //string emp_first_Name = BusinesspartnerDb.FindEmpNameForEmpId(emp_ID);
-            //modifybp.Header.EmpNo = emp_first_Name;
-            modifybp.Header.EmpNo = Convert.ToString(model.BusinessPartner.Emp_Id);
+                //int pricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+                //string pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(pricelist_ID);
+                //modifybp.Header.PriceList = pricelist_desc;
+                modifybp.Header.PriceList = Convert.ToString(model.BusinessPartner.Pricelist);
 
-            //general class
+                //int emp_ID = Convert.ToInt32(model.BusinessPartner.Emp_Id);
+                //string emp_first_Name = BusinesspartnerDb.FindEmpNameForEmpId(emp_ID);
+                //modifybp.Header.EmpNo = emp_first_Name;
+                modifybp.Header.EmpNo = Convert.ToString(model.BusinessPartner.Emp_Id);
 
-            int branch_ID = Convert.ToInt32(model.BusinessPartner.Branch_id);
-            string branch_Name = businesspartnerRepository.FindBranchNameForBranchId(branch_ID);
-            modifybp.general.Branch = branch_Name;
+                //general class
 
-            modifybp.general.Phone1 = model.BusinessPartner.Phone1;
-            modifybp.general.Phone2 = model.BusinessPartner.Phone2;
-            modifybp.general.Mobile = model.BusinessPartner.Mobile;
-            modifybp.general.Fax = model.BusinessPartner.Fax;// "testfax";
-            modifybp.general.Email = model.BusinessPartner.Email_Address;
-            modifybp.general.Website = model.BusinessPartner.Website;
-            modifybp.general.ShipType = model.BusinessPartner.Ship_method;
-            modifybp.general.ContactPerson = model.BusinessPartner.Contact_person;
-            modifybp.general.Remarks = model.BusinessPartner.Remarks;
-            modifybp.general.ContactEmployee = Convert.ToString(model.BusinessPartner.Control_account_id);
-            modifybp.general.Active = Convert.ToString(model.BusinessPartner.IsActive);
+                int branch_ID = Convert.ToInt32(model.BusinessPartner.Branch_id);
+                string branch_Name = businesspartnerRepository.FindBranchNameForBranchId(branch_ID);
+                modifybp.general.Branch = branch_Name;
 
-            //accounts class                       
-            modifybp.accounts.ControlAccount = Convert.ToString(model.BusinessPartner.Control_account_id);
+                modifybp.general.Phone1 = model.BusinessPartner.Phone1;
+                modifybp.general.Phone2 = model.BusinessPartner.Phone2;
+                modifybp.general.Mobile = model.BusinessPartner.Mobile;
+                modifybp.general.Fax = model.BusinessPartner.Fax;// "testfax";
+                modifybp.general.Email = model.BusinessPartner.Email_Address;
+                modifybp.general.Website = model.BusinessPartner.Website;
+                modifybp.general.ShipType = model.BusinessPartner.Ship_method;
+                modifybp.general.ContactPerson = model.BusinessPartner.Contact_person;
+                modifybp.general.Remarks = model.BusinessPartner.Remarks;
+                modifybp.general.ContactEmployee = Convert.ToString(model.BusinessPartner.Control_account_id);
+                modifybp.general.Active = Convert.ToString(model.BusinessPartner.IsActive);
 
-            //int accpricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
-            //string acc_pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(accpricelist_ID);
-            //modifybp.accounts.AccountPriceList = acc_pricelist_desc;
-            modifybp.accounts.AccountPriceList = Convert.ToString(model.BusinessPartner.Pricelist);
+                //accounts class                       
+                modifybp.accounts.ControlAccount = Convert.ToString(model.BusinessPartner.Control_account_id);
 
-
-            //ShipTo class        
-            ShipTo shipto = new ShipTo();
-            shipto.ShipAddress1 = model.BusinessPartner.Ship_Address1;
-            shipto.ShipAddress2 = model.BusinessPartner.Ship_address2;
-            shipto.ShipAddress3 = model.BusinessPartner.Ship_address3;
-
-            int shipcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
-            string SAP_City_Code = businesspartnerRepository.FindSAPCodeForCityId(shipcity_ID);
-            shipto.ShipCity = SAP_City_Code;
-
-            int shipcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
-            string SAP_Country_Code = businesspartnerRepository.FindSAPCodeForCountryId(shipcountry_ID);
-            shipto.ShipCountry = SAP_Country_Code;
-
-            int shipstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
-            string SAP_State_Code = businesspartnerRepository.FindSAPCodeForStateId(shipstate_ID);
-            shipto.ShipState = SAP_Country_Code;
-
-            shipto.ShipPincode = model.BusinessPartner.Ship_pincode;
-
-            //BillTo class 
-            BillTo billto = new BillTo();
-            billto.BillAddress1 = model.BusinessPartner.Bill_Address1;
-            billto.BillAddress2 = model.BusinessPartner.Bill_address2;
-            billto.BillAddress3 = model.BusinessPartner.Bill_address3;
-            billto.BillCity = Convert.ToString(model.BusinessPartner.Bill_City);
-            billto.BillCountry = Convert.ToString(model.BusinessPartner.Bill_Country);
-            billto.BillState = Convert.ToString(model.BusinessPartner.Bill_State);
-
-            int billcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
-            string SAP_billCity_Code = businesspartnerRepository.FindSAPCodeForCityId(billcity_ID);
-            billto.BillCity = SAP_billCity_Code;
-
-            int billcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
-            string SAP_billCountry_Code = businesspartnerRepository.FindSAPCodeForCountryId(billcountry_ID);
-            billto.BillCountry = SAP_billCountry_Code;
-
-            int billstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
-            string SAP_billState_Code = businesspartnerRepository.FindSAPCodeForStateId(billstate_ID);
-            billto.BillState = SAP_billState_Code;
+                //int accpricelist_ID = Convert.ToInt32(model.BusinessPartner.Pricelist);
+                //string acc_pricelist_desc = BusinesspartnerDb.FindPriceListDescForPricelist(accpricelist_ID);
+                //modifybp.accounts.AccountPriceList = acc_pricelist_desc;
+                modifybp.accounts.AccountPriceList = Convert.ToString(model.BusinessPartner.Pricelist);
 
 
-            billto.BillPincode = Convert.ToString(model.BusinessPartner.Bill_pincode);
+                //ShipTo class        
+                ShipTo shipto = new ShipTo();
+                shipto.ShipAddress1 = model.BusinessPartner.Ship_Address1;
+                shipto.ShipAddress2 = model.BusinessPartner.Ship_address2;
+                shipto.ShipAddress3 = model.BusinessPartner.Ship_address3;
 
-            modifybp.address.ShipTo = shipto;
-            modifybp.address.BillTo = billto;
+                int shipcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
+                string SAP_City_Code = businesspartnerRepository.FindSAPCodeForCityId(shipcity_ID);
+                shipto.ShipCity = SAP_City_Code;
 
-            //xmlAddManufacture.CreatedUser = "1";
-            //xmlAddManufacture.CreatedBranch = "1";
-            //xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
-            //xmlAddManufacture.LastModifyUser = "2";
-            //xmlAddManufacture.LastModifyBranch = "2";
-            //xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString();    
-            #endregion
+                int shipcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
+                string SAP_Country_Code = businesspartnerRepository.FindSAPCodeForCountryId(shipcountry_ID);
+                shipto.ShipCountry = SAP_Country_Code;
 
-            businesspartnerRepository.GenerateXML(modifybp);
+                int shipstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
+                string SAP_State_Code = businesspartnerRepository.FindSAPCodeForStateId(shipstate_ID);
+                shipto.ShipState = SAP_Country_Code;
+
+                shipto.ShipPincode = model.BusinessPartner.Ship_pincode;
+
+                //BillTo class 
+                BillTo billto = new BillTo();
+                billto.BillAddress1 = model.BusinessPartner.Bill_Address1;
+                billto.BillAddress2 = model.BusinessPartner.Bill_address2;
+                billto.BillAddress3 = model.BusinessPartner.Bill_address3;
+                billto.BillCity = Convert.ToString(model.BusinessPartner.Bill_City);
+                billto.BillCountry = Convert.ToString(model.BusinessPartner.Bill_Country);
+                billto.BillState = Convert.ToString(model.BusinessPartner.Bill_State);
+
+                int billcity_ID = Convert.ToInt32(model.BusinessPartner.Ship_City);
+                string SAP_billCity_Code = businesspartnerRepository.FindSAPCodeForCityId(billcity_ID);
+                billto.BillCity = SAP_billCity_Code;
+
+                int billcountry_ID = Convert.ToInt32(model.BusinessPartner.Ship_Country);
+                string SAP_billCountry_Code = businesspartnerRepository.FindSAPCodeForCountryId(billcountry_ID);
+                billto.BillCountry = SAP_billCountry_Code;
+
+                int billstate_ID = Convert.ToInt32(model.BusinessPartner.Ship_State);
+                string SAP_billState_Code = businesspartnerRepository.FindSAPCodeForStateId(billstate_ID);
+                billto.BillState = SAP_billState_Code;
+
+
+                billto.BillPincode = Convert.ToString(model.BusinessPartner.Bill_pincode);
+
+                modifybp.address.ShipTo = shipto;
+                modifybp.address.BillTo = billto;
+                modifybp.CreatedUser = currentUser.Created_User_Id.ToString();
+                modifybp.CreatedBranch = currentUser.Created_Branch_Id.ToString();
+                modifybp.CreatedDateTime = DateTime.Now.ToString();
+                modifybp.LastModifyUser = currentUser.Modified_User_Id.ToString();
+                modifybp.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
+                modifybp.LastModifyDateTime = DateTime.Now.ToString();
+
+                //xmlAddManufacture.CreatedUser = "1";
+                //xmlAddManufacture.CreatedBranch = "1";
+                //xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
+                //xmlAddManufacture.LastModifyUser = "2";
+                //xmlAddManufacture.LastModifyBranch = "2";
+                //xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString();    
+                #endregion
+
+                businesspartnerRepository.GenerateXML(modifybp);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+            }
         }
 
         [HttpPost]
@@ -364,12 +395,12 @@ namespace Troy.Web.Controllers
                 if (submitButton == "Save")
                 {
                     model.BusinessPartner.IsActive = true;
-                    model.BusinessPartner.Created_Branc_Id = 1;//GetBranchId();
+                    model.BusinessPartner.Created_Branc_Id = currentUser.Created_Branch_Id; // 1;//GetBranchId();
                     model.BusinessPartner.Created_Dte = DateTime.Now;
-                    model.BusinessPartner.Created_User_Id = 1;  //GetUserId();
-                    model.BusinessPartner.Modified_User_Id = 1; //GetUserId();
+                    model.BusinessPartner.Created_User_Id = currentUser.Created_User_Id; // 1;  //GetUserId();
+                    model.BusinessPartner.Modified_User_Id = currentUser.Modified_User_Id;// 1; //GetUserId();
                     model.BusinessPartner.Modified_Dte = DateTime.Now;
-                    model.BusinessPartner.Modified_Branch_Id = 1;//GetBranchId();
+                    model.BusinessPartner.Modified_Branch_Id = currentUser.Modified_Branch_Id; // 1;//GetBranchId();
 
                     if (businesspartnerRepository.AddNewBusinessPartner(model.BusinessPartner))
                     {
@@ -384,12 +415,12 @@ namespace Troy.Web.Controllers
                 else if (submitButton == "Update")
                 {
                     var Temp_manufacture = TempData["oldManufacter_Name"];
-                    model.BusinessPartner.Created_Branc_Id = 1;//GetBranchId();
+                    model.BusinessPartner.Created_Branc_Id = currentUser.Created_Branch_Id; // 1;//GetBranchId();
                     model.BusinessPartner.Created_Dte = DateTime.Now;
-                    model.BusinessPartner.Created_User_Id = 1;  //GetUserId();
-                    model.BusinessPartner.Modified_User_Id = 1; //GetUserId();
+                    model.BusinessPartner.Created_User_Id = currentUser.Created_User_Id; // 1;  //GetUserId();
+                    model.BusinessPartner.Modified_User_Id = currentUser.Modified_User_Id; // 1; //GetUserId();
                     model.BusinessPartner.Modified_Dte = DateTime.Now;
-                    model.BusinessPartner.Modified_Branch_Id = 1;//GetBranchId();
+                    model.BusinessPartner.Modified_Branch_Id = currentUser.Modified_Branch_Id; // 1;//GetBranchId();
 
                     if (businesspartnerRepository.EditExistingBusinessPartner(model.BusinessPartner))
                     {
@@ -1103,11 +1134,11 @@ namespace Troy.Web.Controllers
                                         #endregion
 
                                         mItem.IsActive = true;
-                                        mItem.Created_User_Id = 1; //GetUserId();
-                                        mItem.Created_Branc_Id = 2; //GetBranchId();
+                                        mItem.Created_User_Id = currentUser.Created_User_Id; // 1; //GetUserId();
+                                        mItem.Created_Branc_Id = currentUser.Created_Branch_Id; // 2; //GetBranchId();
                                         mItem.Created_Dte = DateTime.Now;
-                                        mItem.Modified_User_Id = 2; //GetUserId();
-                                        mItem.Modified_Branch_Id = 2; //GetBranchId();
+                                        mItem.Modified_User_Id = currentUser.Modified_User_Id; // 2; //GetUserId();
+                                        mItem.Modified_Branch_Id = currentUser.Modified_Branch_Id; // 2; //GetBranchId();
                                         mItem.Modified_Dte = DateTime.Now;
 
                                         mlist.Add(mItem);
@@ -1169,6 +1200,14 @@ namespace Troy.Web.Controllers
 
                                         addbp.address.ShipTo = shipto;
                                         addbp.address.BillTo = billto;
+
+                                        addbp.CreatedBranch = currentUser.Created_Branch_Id.ToString();
+                                        addbp.CreatedUser = currentUser.Created_User_Id.ToString();
+                                        addbp.CreatedDateTime = DateTime.Now.ToString();
+                                        addbp.LastModifyUser = currentUser.Modified_User_Id.ToString();
+                                        addbp.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
+                                        addbp.LastModifyDateTime = DateTime.Now.ToString();
+
 
                                         //xmlAddManufacture.CreatedUser = "1";
                                         //xmlAddManufacture.CreatedBranch = "1";

@@ -100,6 +100,8 @@ namespace Troy.Web.Controllers
         {
             try
             {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
                 //unique id generation
                 Guid GuidRandomNo = Guid.NewGuid();
                 string UniqueID = GuidRandomNo.ToString();
@@ -108,11 +110,11 @@ namespace Troy.Web.Controllers
                 Viewmodel_AddManufacturer xmlAddManufacture = new Viewmodel_AddManufacturer();
                 xmlAddManufacture.UniqueID = UniqueID.ToString();
                 xmlAddManufacture.manufacturer_Name = model.Manufacturer.Manufacturer_Name;
-                xmlAddManufacture.CreatedUser = "1";  //GetUserId()
-                xmlAddManufacture.CreatedBranch = "1";//GetBranchId();
+                xmlAddManufacture.CreatedUser = currentUser.Created_User_Id.ToString(); // "1";  //GetUserId()
+                xmlAddManufacture.CreatedBranch = currentUser.Created_Branch_Id.ToString(); // "1";//GetBranchId();
                 xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
-                xmlAddManufacture.LastModifyUser = "2";   //GetUserId()
-                xmlAddManufacture.LastModifyBranch = "2"; //GetBranchId();
+                xmlAddManufacture.LastModifyUser = currentUser.Modified_User_Id.ToString(); // "2";   //GetUserId()
+                xmlAddManufacture.LastModifyBranch = currentUser.Modified_Branch_Id.ToString(); // "2"; //GetBranchId();
                 xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString();
 
                 //generate xml
@@ -129,6 +131,8 @@ namespace Troy.Web.Controllers
         {
             try
             {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
                 //unique id generation
                 Guid GuidRandomNo = Guid.NewGuid();
                 string UniqueID = GuidRandomNo.ToString();
@@ -138,11 +142,11 @@ namespace Troy.Web.Controllers
                 xmlEditManufacture.UniqueID = UniqueID.ToString();
                 xmlEditManufacture.old_manufacturer_Name = Temp_manufacture.ToString().Trim();
                 xmlEditManufacture.New_manufacturer_Name = model.Manufacturer.Manufacturer_Name;
-                xmlEditManufacture.CreatedUser = "1";   //GetUserId()
-                xmlEditManufacture.CreatedBranch = "1"; //GetBranchId();
+                xmlEditManufacture.CreatedUser = currentUser.Created_Branch_Id.ToString(); // "1";   //GetUserId()
+                xmlEditManufacture.CreatedBranch = currentUser.Created_Branch_Id.ToString(); // "1"; //GetBranchId();
                 xmlEditManufacture.CreatedDateTime = DateTime.Now.ToString();
-                xmlEditManufacture.LastModifyUser = "2";   //GetUserId()
-                xmlEditManufacture.LastModifyBranch = "2"; //GetBranchId();
+                xmlEditManufacture.LastModifyUser = currentUser.Modified_User_Id.ToString(); // "2";   //GetUserId()
+                xmlEditManufacture.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();// "2"; //GetBranchId();
                 xmlEditManufacture.LastModifyDateTime = DateTime.Now.ToString();
 
                 //generate xml
@@ -165,12 +169,12 @@ namespace Troy.Web.Controllers
                 if (submitButton == "Save")
                 {
                     model.Manufacturer.IsActive = "Y";
-                    model.Manufacturer.Created_Branc_Id = 1; //GetBranchId();
+                    model.Manufacturer.Created_Branc_Id = currentUser.Created_Branch_Id;// 1; //GetBranchId();
                     model.Manufacturer.Created_Dte = DateTime.Now;
-                    model.Manufacturer.Created_User_Id = 1;  //GetUserId()
-                    model.Manufacturer.Modified_User_Id = 1; //GetUserId()
+                    model.Manufacturer.Created_User_Id = currentUser.Created_User_Id;// 1;  //GetUserId()
+                    model.Manufacturer.Modified_User_Id = currentUser.Modified_User_Id;// 1; //GetUserId()
                     model.Manufacturer.Modified_Dte = DateTime.Now;
-                    model.Manufacturer.Modified_Branch_Id = 1; //GetBranchId();
+                    model.Manufacturer.Modified_Branch_Id = currentUser.Modified_Branch_Id; //1; //GetBranchId();
 
                     if (manufacturerRepository.AddNewManufacturer(model.Manufacturer)) //insert into manufacturer table
                     {
@@ -187,12 +191,12 @@ namespace Troy.Web.Controllers
                     //store manufacturer name in temporary variable
                     Temp_manufacture = Convert.ToString(TempData["oldManufacter_Name"]);
 
-                    model.Manufacturer.Created_Branc_Id = 1; //GetBranchId();
+                    model.Manufacturer.Created_Branc_Id = currentUser.Created_Branch_Id;// 1; //GetBranchId();
                     model.Manufacturer.Created_Dte = DateTime.Now;
-                    model.Manufacturer.Created_User_Id = 1;  //GetUserId()
-                    model.Manufacturer.Modified_User_Id = 1; //GetUserId()
+                    model.Manufacturer.Created_User_Id = currentUser.Created_User_Id;// 1;  //GetUserId()
+                    model.Manufacturer.Modified_User_Id = currentUser.Modified_User_Id;// 1; //GetUserId()
                     model.Manufacturer.Modified_Dte = DateTime.Now;
-                    model.Manufacturer.Modified_Branch_Id = 1; //GetBranchId();
+                    model.Manufacturer.Modified_Branch_Id = currentUser.Modified_Branch_Id;// 1; //GetBranchId();
 
                     if (manufacturerRepository.EditExistingManufacturer(model.Manufacturer))//update into manufacturer table
                     {
@@ -369,11 +373,11 @@ namespace Troy.Web.Controllers
                                             mItem.Level = Convert.ToInt32(ds.Tables[0].Rows[j]["Level"]);
                                         }
                                         mItem.IsActive = "Y";
-                                        mItem.Created_User_Id = 1; //GetUserId();
-                                        mItem.Created_Branc_Id = 2; //GetBranchId();
+                                        mItem.Created_User_Id = currentUser.Created_User_Id;// 1; //GetUserId();
+                                        mItem.Created_Branc_Id = currentUser.Created_Branch_Id;// 2; //GetBranchId();
                                         mItem.Created_Dte = DateTime.Now;
-                                        mItem.Modified_User_Id = 2; //GetUserId();
-                                        mItem.Modified_Branch_Id = 2; //GetBranchId();
+                                        mItem.Modified_User_Id = currentUser.Modified_User_Id;// 2; //GetUserId();
+                                        mItem.Modified_Branch_Id = currentUser.Modified_Branch_Id;// 2; //GetBranchId();
                                         mItem.Modified_Dte = DateTime.Now;
 
                                         mlist.Add(mItem);
@@ -386,11 +390,11 @@ namespace Troy.Web.Controllers
                                         Viewmodel_AddManufacturer xmlAddManufacture = new Viewmodel_AddManufacturer();
                                         xmlAddManufacture.UniqueID = UniqueID.ToString();
                                         xmlAddManufacture.manufacturer_Name = ds.Tables[0].Rows[j]["Manufacturer Name"].ToString();
-                                        xmlAddManufacture.CreatedUser = "1";
-                                        xmlAddManufacture.CreatedBranch = "1";
+                                        xmlAddManufacture.CreatedUser = currentUser.Created_User_Id.ToString(); // "1";
+                                        xmlAddManufacture.CreatedBranch = currentUser.Created_Branch_Id.ToString(); // "1";
                                         xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
-                                        xmlAddManufacture.LastModifyUser = "2";
-                                        xmlAddManufacture.LastModifyBranch = "2";
+                                        xmlAddManufacture.LastModifyUser = currentUser.Modified_User_Id.ToString();// "2";
+                                        xmlAddManufacture.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();// "2";
                                         xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString();
 
                                         //generate xml

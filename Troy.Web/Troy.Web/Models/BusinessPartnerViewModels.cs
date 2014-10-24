@@ -64,6 +64,24 @@ namespace Troy.Web.Models
 
         [XmlElement("Address")]
         public Address address = new Address();
+
+        [XmlElement("CreatedUser")]
+        public string CreatedUser { get; set; }
+
+        [XmlElement("CreatedBranch")]
+        public string CreatedBranch { get; set; }
+
+        [XmlElement("CreatedDateTime")]
+        public string CreatedDateTime { get; set; }
+
+        [XmlElement("LastModifyUser")]
+        public string LastModifyUser { get; set; }
+
+        [XmlElement("LastModifyBranch")]
+        public string LastModifyBranch { get; set; }
+
+        [XmlElement("LastModifyDateTime")]
+        public string LastModifyDateTime { get; set; }
     }
 
     [XmlRoot("ModifyBp")]
@@ -83,6 +101,24 @@ namespace Troy.Web.Models
 
         [XmlElement("Address")]
         public Address address = new Address();
+
+        [XmlElement("CreatedUser")]
+        public string CreatedUser { get; set; }
+
+        [XmlElement("CreatedBranch")]
+        public string CreatedBranch { get; set; }
+
+        [XmlElement("CreatedDateTime")]
+        public string CreatedDateTime { get; set; }
+
+        [XmlElement("LastModifyUser")]
+        public string LastModifyUser { get; set; }
+
+        [XmlElement("LastModifyBranch")]
+        public string LastModifyBranch { get; set; }
+
+        [XmlElement("LastModifyDateTime")]
+        public string LastModifyDateTime { get; set; }
     }
 
     public class Header

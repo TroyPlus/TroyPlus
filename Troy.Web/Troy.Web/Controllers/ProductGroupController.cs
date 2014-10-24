@@ -100,52 +100,85 @@ namespace Troy.Web.Controllers
 
         private void XMLGenerate_SAPInsert(ProductGroupViewModels model)
         {
-            //unique id generation
-            Guid GuidRandomNo = Guid.NewGuid();
-            string UniqueID = GuidRandomNo.ToString();
+            try
+            {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
-            //fill view model
-            Viewmodel_AddProductGroup xmlAddProductGroup = new Viewmodel_AddProductGroup();
-            xmlAddProductGroup.UniqueID = UniqueID.ToString();
-            xmlAddProductGroup.Productgroup_Name = model.ProductGroup.Product_Group_Name;
+                //unique id generation
+                Guid GuidRandomNo = Guid.NewGuid();
+                string UniqueID = GuidRandomNo.ToString();
 
-            //generate xml
-            productgroupRepository.GenerateXML(xmlAddProductGroup);
+                //fill view model
+                Viewmodel_AddProductGroup xmlAddProductGroup = new Viewmodel_AddProductGroup();
+                xmlAddProductGroup.UniqueID = UniqueID.ToString();
+                xmlAddProductGroup.Productgroup_Name = model.ProductGroup.Product_Group_Name;
+                xmlAddProductGroup.CreatedUser = currentUser.Created_User_Id.ToString();
+                xmlAddProductGroup.CreatedBranch = currentUser.Created_Branch_Id.ToString();
+                xmlAddProductGroup.CreatedDateTime = DateTime.Now.ToString();
+                xmlAddProductGroup.LastModifyUser = currentUser.Modified_User_Id.ToString();
+                xmlAddProductGroup.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
+                xmlAddProductGroup.LastModifyDateTime = DateTime.Now.ToString();
+
+                //generate xml
+                productgroupRepository.GenerateXML(xmlAddProductGroup);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+            }
 
         }
 
         private void XMLGenerate_SAPUpdate(ProductGroupViewModels model)
         {
-            //unique id generation
-            Guid GuidRandomNo = Guid.NewGuid();
-            string UniqueID = GuidRandomNo.ToString();
+            try
+            {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
-            //fill view model
-            Viewmodel_ModifyProductGroup xmlEditProductGroup = new Viewmodel_ModifyProductGroup();
-            xmlEditProductGroup.UniqueID = UniqueID.ToString();
-            xmlEditProductGroup.old_Productgroup_Name = Temp_productgroup.ToString().Trim();
-            xmlEditProductGroup.New_Productgroup_Name = model.ProductGroup.Product_Group_Name;
 
-            //generate xml
-            productgroupRepository.GenerateXML(xmlEditProductGroup);
+                //unique id generation
+                Guid GuidRandomNo = Guid.NewGuid();
+                string UniqueID = GuidRandomNo.ToString();
+
+                //fill view model
+                Viewmodel_ModifyProductGroup xmlEditProductGroup = new Viewmodel_ModifyProductGroup();
+                xmlEditProductGroup.UniqueID = UniqueID.ToString();
+                xmlEditProductGroup.old_Productgroup_Name = Temp_productgroup.ToString().Trim();
+                xmlEditProductGroup.New_Productgroup_Name = model.ProductGroup.Product_Group_Name;
+                xmlEditProductGroup.CreatedUser = currentUser.Created_User_Id.ToString();
+                xmlEditProductGroup.CreatedBranch = currentUser.Created_Branch_Id.ToString();
+                xmlEditProductGroup.CreatedDateTime = DateTime.Now.ToString();
+                xmlEditProductGroup.LastModifyUser = currentUser.Modified_User_Id.ToString();
+                xmlEditProductGroup.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
+                xmlEditProductGroup.LastModifyDateTime = DateTime.Now.ToString();
+
+                //generate xml
+                productgroupRepository.GenerateXML(xmlEditProductGroup);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+            }
         }
 
         [HttpPost]
-        public ActionResult Index(string submitButton, ProductGroupViewModels model, HttpPostedFileBase file=null)
+        public ActionResult Index(string submitButton, ProductGroupViewModels model, HttpPostedFileBase file = null)
         {
             try
             {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
                 if (submitButton == "Save")
                 {
-                    //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
-
                     model.ProductGroup.IsActive = "Y";
-                    model.ProductGroup.Created_Branc_Id = 1;//GetBranchId();
+                    model.ProductGroup.Created_Branc_Id = currentUser.Created_Branch_Id;// 1;//GetBranchId();
                     model.ProductGroup.Created_Dte = DateTime.Now;
-                    model.ProductGroup.Created_User_Id = 1;  //GetUserId();
-                    model.ProductGroup.Modified_User_Id = 1;//GetUserId();
+                    model.ProductGroup.Created_User_Id = currentUser.Created_User_Id;// 1;  //GetUserId();
+                    model.ProductGroup.Modified_User_Id = currentUser.Modified_User_Id;// 1;//GetUserId();
                     model.ProductGroup.Modified_Dte = DateTime.Now;
-                    model.ProductGroup.Modified_Branch_Id = 1;//GetBranchId();
+                    model.ProductGroup.Modified_Branch_Id = currentUser.Modified_Branch_Id;// 1;//GetBranchId();
 
                     if (productgroupRepository.AddNewProductGroup(model.ProductGroup))//insert into productgroup table
                     {
@@ -162,12 +195,12 @@ namespace Troy.Web.Controllers
                     //store productgroup name in temporary variable
                     Temp_productgroup = Convert.ToString(TempData["OldName"]);
 
-                    model.ProductGroup.Created_Branc_Id = 1; //GetBranchId();
+                    model.ProductGroup.Created_Branc_Id = currentUser.Created_Branch_Id;// 1; //GetBranchId();
                     model.ProductGroup.Created_Dte = DateTime.Now;
-                    model.ProductGroup.Created_User_Id = 1;  //GetUserId();
-                    model.ProductGroup.Modified_User_Id = 1; //GetUserId();
+                    model.ProductGroup.Created_User_Id = currentUser.Created_User_Id;// 1;  //GetUserId();
+                    model.ProductGroup.Modified_User_Id = currentUser.Modified_User_Id;// 1; //GetUserId();
                     model.ProductGroup.Modified_Dte = DateTime.Now;
-                    model.ProductGroup.Modified_Branch_Id = 1; //GetBranchId();
+                    model.ProductGroup.Modified_Branch_Id = currentUser.Modified_Branch_Id;// 1; //GetBranchId();
 
                     if (productgroupRepository.EditExistingProductGroup(model.ProductGroup))//update into productgroup table
                     {
@@ -343,11 +376,11 @@ namespace Troy.Web.Controllers
                                             mItem.Level = Convert.ToInt32(ds.Tables[0].Rows[j]["Level"]);
                                         }
                                         mItem.IsActive = "Y";
-                                        mItem.Created_User_Id = 1; //GetUserId();
-                                        mItem.Created_Branc_Id = 2; //GetBranchId();
+                                        mItem.Created_User_Id = currentUser.Created_User_Id;// 1; //GetUserId();
+                                        mItem.Created_Branc_Id = currentUser.Created_Branch_Id;// 2; //GetBranchId();
                                         mItem.Created_Dte = DateTime.Now;
-                                        mItem.Modified_User_Id = 2; //GetUserId();
-                                        mItem.Modified_Branch_Id = 2; //GetBranchId();
+                                        mItem.Modified_User_Id = currentUser.Modified_User_Id;// 2; //GetUserId();
+                                        mItem.Modified_Branch_Id = currentUser.Modified_Branch_Id;// 2; //GetBranchId();
                                         mItem.Modified_Dte = DateTime.Now;
                                         mlist.Add(mItem);
 
@@ -359,6 +392,12 @@ namespace Troy.Web.Controllers
                                         Viewmodel_AddProductGroup xmlAddProductGroup = new Viewmodel_AddProductGroup();
                                         xmlAddProductGroup.UniqueID = UniqueID.ToString();
                                         xmlAddProductGroup.Productgroup_Name = ds.Tables[0].Rows[j]["Product Group Name"].ToString();
+                                        xmlAddProductGroup.CreatedUser = currentUser.Created_User_Id.ToString();
+                                        xmlAddProductGroup.CreatedBranch = currentUser.Created_Branch_Id.ToString();
+                                        xmlAddProductGroup.CreatedDateTime = DateTime.Now.ToString();
+                                        xmlAddProductGroup.LastModifyUser = currentUser.Modified_User_Id.ToString();
+                                        xmlAddProductGroup.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
+                                        xmlAddProductGroup.LastModifyDateTime = DateTime.Now.ToString();
 
                                         //generate xml
                                         productgroupRepository.GenerateXML(xmlAddProductGroup);

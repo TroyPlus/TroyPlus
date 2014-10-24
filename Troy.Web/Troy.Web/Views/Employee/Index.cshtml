@@ -9,7 +9,7 @@
 
 
     $(document).ready(function () {
-
+              
         $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
         //var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
@@ -115,6 +115,66 @@
             }
         });
     }
+
+    $(function () {
+        $("#btnPersonalTab").click(function (e) {
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#default");
+
+            var validator = $("#default").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            _form.find("select").each(function () {
+
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError) {
+                return false;
+            }
+            else {                
+                $('#createtabs a[href = #additional]').tab('show');
+            }// exit if any error found  
+        });
+
+        $("#btnFinanceTab").click(function (e) {
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#default");
+
+            var validator = $("#default").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            _form.find("select").each(function () {
+
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                $('#createtabs a[href = #additional1]').tab('show');
+            }// exit if any error found  
+        });
+    });
 
     $.validator.unobtrusive.parse('#myModal form');
 </script>
