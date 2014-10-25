@@ -153,7 +153,7 @@
                                                 Start Date:
                                             </div>
                                             <div class="col-md-8" id="container1">
-                                                @Html.TextBoxFor(model => model.Employee.Start_Dte, new { @class = "form-control control-text info datePicker" })
+                                                @Html.TextBoxFor(model => model.Employee.Start_Dte, new { @class = "form-control control-text info datePicker",@id="Personaltab" })
                                                 @Html.ValidationMessageFor(model => model.Employee.Start_Dte)
                                             </div>
                                         </div>
@@ -274,7 +274,7 @@
                                                 Start Date:
                                             </div>
                                             <div class="col-md-8" id="container1">
-                                                @Html.TextBoxFor(model => model.Employee.Start_Dte, new { @class = "form-control control-text info datePicker" })
+                                                @Html.TextBoxFor(model => model.Employee.Start_Dte, new { @class = "form-control control-text info datePicker", @id = "Financtab" })
                                                 @Html.ValidationMessageFor(model => model.Employee.Start_Dte)
                                             </div>
                                         </div>

@@ -12,10 +12,10 @@
 
     $(document).ready(function () {
 
-        $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' });
-        var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' });
+        //$('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' });
+        //var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' });
 
-        //$('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+        $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
         //var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
         $('#grdBusinessPartner').dataTable({
@@ -330,11 +330,11 @@
                                                     <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditBusinessPartner(@item.BP_Id);">
                                                         <i class="im-pencil2"></i>
                                                     </a>
-                                                    <span class="text-muted">|</span>
+                                                    @*<span class="text-muted">|</span>
 
                                                     <a href="@Url.Action("_DeletePartialView", "Manufacturer", new { id = item.BP_Id })" data-modal="true">
                                                         <i class="im-remove2"></i>
-                                                    </a>
+                                                    </a>*@
                                                 </td>
                                             </tr>
                                         }

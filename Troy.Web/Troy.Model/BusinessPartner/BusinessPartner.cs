@@ -189,7 +189,7 @@ namespace Troy.Model.BusinessPartner
         //------------
 
         [Column(TypeName = "date")]
-        public DateTime? Due_date { get; set; }
+        public DateTime Due_date { get; set; }
         //------------
 
         [Required]
