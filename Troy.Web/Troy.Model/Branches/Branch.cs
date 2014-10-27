@@ -36,7 +36,7 @@ namespace Troy.Model.Branches
         public string Branch_Name { get; set; }
 
         [Required(ErrorMessage = "Branch Address is required.")]
-        [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters (@/)(=][|\!`’%$#^”&*) are not allowed in the name.")]
+       // [RegularExpression(@"^[a-zA-Z0-9'' '\ / ,]+$", ErrorMessage = @"Special characters (@/)(=][|\!`’%$#^”&*) are not allowed in the name.")]
         [StringLength(50)]
         public string Address1 { get; set; }
 

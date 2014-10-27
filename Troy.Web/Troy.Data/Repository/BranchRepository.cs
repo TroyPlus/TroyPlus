@@ -87,6 +87,42 @@ namespace Troy.Data.Repository
             return qList;
         }
 
+
+
+        //public State StateList(int Id)
+        //{
+        //    var state = (from s in branchContext.State
+        //                 where s.ID == Id                 
+        //                 select s.State_Name);
+
+        //    return state;
+        //}
+
+        //public List<City> Citylist(int id)
+        //{
+        //    var city = from c in branchContext.City
+        //               where c.ID == id
+        //               select c;
+        //    return city;
+           
+        //}
+        //public IList<State> Getstate(int CountryId)
+        //{
+        //    return branchContext.State.Where(m => m.ID == CountryId).ToList();
+        //}
+
+
+        //public IList<State> LoadClassesByCountryId(string CountryName)
+        //{
+        //    var stateList = this.Getstate(Convert.ToInt32(CountryName));
+        //    var stateData = stateList.Select(m => new SelectListItem()
+        //    {
+        //        Text = m.StateName,
+        //        Value = m.CountryId.ToString(),
+        //    });
+        //    return Json(stateData, JsonRequestBehavior.AllowGet);
+        //}
+
         //public List<ViewBranches> GetAllBranches()
         //{
         //    List<ViewBranches> qList = new List<ViewBranches>();

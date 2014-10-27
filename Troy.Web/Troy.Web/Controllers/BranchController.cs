@@ -109,6 +109,8 @@ namespace Troy.Web.Controllers
         [HttpPost]
         public ActionResult Index(string submitButton, BranchViewModels model, HttpPostedFileBase file)
         {
+
+
             try
             {
                 //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
@@ -658,6 +660,10 @@ namespace Troy.Web.Controllers
                 return View("Error");
             }
         }
+
+
+
+
 
         //Check for dupilicate Branch Code
         #region Check for duplicate code
