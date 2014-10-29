@@ -33,6 +33,8 @@ namespace Troy.Model.Purchase
         public DateTime Quoted_date { get; set; }
 
         [Display(Name = "Discount%")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:P2}")]
+        [Range(1, 100)]
         public decimal Discount_percent { get; set; }
 
         [Required]
@@ -40,6 +42,8 @@ namespace Troy.Model.Purchase
         public int Vat_Code { get; set; }
 
         public decimal Unit_price { get; set; }
+
+        public int Amount { get; set; }
 
         public int Created_User_Id { get; set; }
 

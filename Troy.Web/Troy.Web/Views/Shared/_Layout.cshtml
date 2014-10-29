@@ -31,18 +31,31 @@
     @Styles.Render("~/Content/themes/plugins")
     @Styles.Render("~/Content/themes/mainStyles")
     @Styles.Render("~/Content/themes/custom")
+    @Styles.Render("~/Content/themes/jAutocheckCSS")
+
+    @*<script>
+        window.jQuery || document.write('<script src="../../Content/themes/TroyPlus/js/libs/jquery-2.1.1.min.js">\x3C/script>')
+    </script>
+
+    <script>
+        window.jQuery || document.write('<script src="../../Content/themes/TroyPlus/js/libs/jquery-ui-1.10.4.min.js">\x3C/script>')
+    </script>*@
 
     <!-- Load Scripts -->
+    @Scripts.Render("~/bundles/script/jquery")
+    @Scripts.Render("~/bundles/script/jqueryUI")
     @Scripts.Render("~/bundles/script/jPace")
     @Scripts.Render("~/bundles/script/jLibs")
     @Scripts.Render("~/bundles/script/bootstrap")
+    @Scripts.Render("~/bundles/script/jqueryval")
     @Scripts.Render("~/bundles/script/jRespond")
     @Scripts.Render("~/bundles/script/jSlimScrollBar")
     @Scripts.Render("~/bundles/script/jAutoSize")
     @Scripts.Render("~/bundles/script/jSearch")
     @Scripts.Render("~/bundles/script/jBootbox")
     @Scripts.Render("~/bundles/script/commonScripts")
-    @Scripts.Render("~/bundles/script/jqueryval")
+    @Scripts.Render("~/bundles/script/jAutochecklist")
+
 </head>
 
 <body>
@@ -149,16 +162,16 @@
                     <li class="top-search">
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
-                            <div class="row">
-                                <div class="">
-                                    <input class="form-control right-icon" type="text" placeholder="Search ..." />
-                                    <i class="ec-search s16 right-input-icon"></i>
+                                <div class="row">
+                                    <div class="">
+                                        <input class="form-control right-icon" type="text" placeholder="Search ..." />
+                                        <i class="ec-search s16 right-input-icon"></i>
 
 
-                                    @*<button type="button" class="form-control">
-                <i class="ec-search s20"></i>
-            </button>*@
-                                </div>
+                                        @*<button type="button" class="form-control">
+                                                <i class="ec-search s20"></i>
+                                            </button>*@
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -212,13 +225,6 @@
     </div>
     <!-- Inline Javascripts -->
     @RenderSection("scripts", required: false)
-    <script>
-        window.jQuery || document.write('<script src="~/~/Content/themes/TroyPlus/js/libs/jquery-2.1.1.min.js">\x3C/script>')
-    </script>
-
-    <script>
-        window.jQuery || document.write('<script src="~/~/Content/themes/TroyPlus/js/libs/jquery-ui-1.10.4.min.js">\x3C/script>')
-    </script>
 
 
 </body>
@@ -226,7 +232,5 @@
 
 
 </html>
-
-
 
 

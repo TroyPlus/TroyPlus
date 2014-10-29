@@ -32,6 +32,7 @@ namespace Troy.Data.DataContext
        public DbSet<Designation> Designation { get; set; }
 
        public DbSet<PriceList> PriceList { get; set; }
+
        public DbSet<VAT> VAT { get; set; }
 
 

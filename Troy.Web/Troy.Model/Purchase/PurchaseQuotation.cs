@@ -18,7 +18,7 @@ namespace Troy.Model.Purchase
 
         [Required]   
         [Display(Name = "Vendor")]
-        public int Vendor { get; set; }
+        public string Vendor { get; set; }
          
         [Required] 
         [Display(Name = "Ref. No")]

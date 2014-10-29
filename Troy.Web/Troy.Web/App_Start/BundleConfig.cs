@@ -44,11 +44,18 @@ namespace Troy.Web
                             "~/Content/themes/TroyPlus/css/main.css"));
             // Custom stylesheets ( Put your own changes here ) 
             bundles.Add(new StyleBundle("~/Content/themes/custom").Include(
-                            "~/Content/themes/TroyPlus/css/custom.css"));          
+                            "~/Content/themes/TroyPlus/css/custom.css"));         
+ 
+            // Typeahead CSS
+            bundles.Add(new StyleBundle("~/Content/themes/jAutocheckCSS").Include(
+                           "~/Content/themes/TroyPlus/css/jAutochecklist.css")); 
 
             #endregion
 
             #region Javascripts
+
+            bundles.Add(new ScriptBundle("~/bundles/script/jquery").Include("~/Content/themes/TroyPlus/js/libs/jquery-2.1.1.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/script/jqueryUI").Include("~/Content/themes/TroyPlus/js/libs/jquery-ui-1.10.4.min.js"));
 
             // Load pace first -->
             bundles.Add(new ScriptBundle("~/bundles/script/jPace").Include("~/Content/themes/TroyPlus/plugins/core/pace/pace.min.js"));
@@ -77,6 +84,8 @@ namespace Troy.Web
             // Bootbox confirm dialog for reset postion on panels -->
             bundles.Add(new ScriptBundle("~/bundles/script/jBootbox").Include("~/Content/themes/TroyPlus/plugins/ui/bootbox/bootbox.js"));
 
+            // Typeahead dropdown plugin
+            bundles.Add(new ScriptBundle("~/bundles/script/jAutochecklist").Include("~/Content/themes/TroyPlus/js/jAutochecklist.js"));
 
             // Common scripts for master data pages.
             bundles.Add(new ScriptBundle("~/bundles/script/commonScripts").Include(
