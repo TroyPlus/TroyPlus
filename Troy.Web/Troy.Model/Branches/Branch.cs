@@ -48,6 +48,7 @@ namespace Troy.Model.Branches
 
         [Required]
         [ForeignKey("country")]
+        //[Remote("StateList", "Branch", AdditionalFields="Id")]
         public int Country_ID { get; set; }
         public virtual Country country { get; set; }
 
@@ -87,13 +88,13 @@ namespace Troy.Model.Branches
         [Column(TypeName = "date")]
         public DateTime Created_Dte { get; set; }
 
-        [Required]
+        
         public int Modified_User_Id { get; set; }
 
-        [Required]
+        
         public int Modified_Branch_Id { get; set; }
 
-        [Required]
+        
         [Column(TypeName = "date")]
         public DateTime Modified_Dte { get; set; }
 

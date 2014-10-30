@@ -93,9 +93,9 @@
                                             Country:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.Branch.Country_ID, new { @readonly = "readonly", @class = "form-control control-text" })
+                                            @Html.TextBoxFor(model => model.Branch.country.Country_Name, new { @readonly = "readonly", @class = "form-control control-text" })
                                             @*@Html.DropDownListFor(m => m.Branch.Country_ID, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text" })*@
-                                            @Html.ValidationMessageFor(model => model.Branch.Country_ID)
+                                            @Html.ValidationMessageFor(model => model.Branch.country.Country_Name)
                                         </div>
                                     </div>
 
@@ -104,9 +104,9 @@
                                             State:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.Branch.State_ID, new { @readonly = "readonly", @class = "form-control control-text" })
-                                            @*@Html.DropDownListFor(m => m.Branch.State_ID, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "ui-widget" })*@
-                                            @Html.ValidationMessageFor(model => model.Branch.State_ID)
+                                            @Html.TextBoxFor(model => model.Branch.state.State_Name, new { disabled = "disabled", @class = "form-control control-text" })
+                                            @*@Html.DropDownListFor(m => m.Branch.State_ID, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", disabled = "disabled" })*@
+                                            @Html.ValidationMessageFor(model => model.Branch.state.State_Name)
                                         </div>
                                     </div>
 
@@ -115,9 +115,9 @@
                                             City:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.Branch.City_ID, new { @readonly = "readonly", @class = "form-control control-text" })
+                                            @Html.TextBoxFor(model => model.Branch.city.City_Name, new { disabled = "disabled", @class = "form-control control-text" })
                                             @*@Html.DropDownListFor(m => m.Branch.City_ID, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text" })*@
-                                            @Html.ValidationMessageFor(model => model.Branch.City_ID)
+                                            @Html.ValidationMessageFor(model => model.Branch.city.City_Name)
                                         </div>
                                     </div>
 
