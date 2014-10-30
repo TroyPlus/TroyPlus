@@ -92,7 +92,7 @@ namespace Troy.Data.Repository
         //public State StateList(int Id)
         //{
         //    var state = (from s in branchContext.State
-        //                 where s.ID == Id                 
+        //                 where s.ID == Id
         //                 select s.State_Name);
 
         //    return state;
@@ -288,7 +288,14 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
-
+        //public Branch StateList(int Id)
+        //{
+        //    Branch qlist = new Branch();
+        //    var state = from s in branchContext.State
+        //                where s.ID == Id
+        //                select s;
+        //    return qlist;
+        //}
 
         //CheckDuplicateBranch
         public Branch CheckDuplicateBranch(string bname, string CheckingType)

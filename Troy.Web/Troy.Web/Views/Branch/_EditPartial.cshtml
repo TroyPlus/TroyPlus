@@ -39,6 +39,14 @@
                                 <br />
 
                                 @Html.HiddenFor(model => model.Branch.Branch_Id)
+
+                                @Html.HiddenFor(model =>model.Branch.Created_User_Id)
+                                @Html.HiddenFor(model => model.Branch.Created_Branc_Id)
+                                @Html.HiddenFor(model => model.Branch.Created_Dte)
+                                
+
+                                @*<input type="hidden" value="@ViewBag.Created_Branc_Id" />*@
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-horizontal">

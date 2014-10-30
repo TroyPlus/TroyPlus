@@ -14,6 +14,8 @@ using Troy.Model.Branches;
 using Troy.Model.AppMembership;
 using System.IO;
 using System.Web.UI;
+using Troy.Data.DataContext;
+using Troy.Model.Configuration;
 
 #endregion
 
@@ -24,6 +26,8 @@ namespace Troy.Web.Controllers
         #region Fields
         private readonly IBranchRepository branchRepository;
         private readonly IConfigurationRepository configurationRepository;
+
+        private BranchContext branchContext = new BranchContext();
         #endregion
 
         #region Constructor
@@ -78,14 +82,16 @@ namespace Troy.Web.Controllers
         
         
         {
+           
             try
             {
+                
                 LogHandler.WriteLog("Branch Index page requested by #UserId");
-
+               
                 BranchViewModels model = new BranchViewModels();
 
 
-
+             
                 model.BranchList = branchRepository.GetAllUserBranch().ToList();
 
                 model.CountryList = branchRepository.GetAddresscountryList().ToList();
@@ -94,20 +100,31 @@ namespace Troy.Web.Controllers
 
                 model.CityList = branchRepository.GetAddresscityList().ToList();
 
+              //ViewBag.CountryId = new SelectList(branchdb.Country, "ID", "Country_Name");
+
                 return View(model);
             }
+
+
+
             catch (Exception ex)
             {
                 ExceptionHandler.LogException(ex);
                 ViewBag.AppErrorMessage = ex.Message;
                 return View("Error");
             }
-        }
+        
+            }
+
+
+      
+
+
 
 
         //INDEX (SAVE and UPDATE)
         [HttpPost]
-        public ActionResult Index(string submitButton, BranchViewModels model, HttpPostedFileBase file)
+        public ActionResult Index(string submitButton, BranchViewModels model, HttpPostedFileBase file,BranchContext branchdb)
         {
 
 
@@ -120,9 +137,13 @@ namespace Troy.Web.Controllers
                     model.Branch.Created_Branc_Id = 1;
                     model.Branch.Created_Dte = DateTime.Now;
                     model.Branch.Created_User_Id = 1;  //GetUserId()
-                    model.Branch.Modified_User_Id = 1;
-                    model.Branch.Modified_Dte = DateTime.Now;
-                    model.Branch.Modified_Branch_Id = 1;
+                    //model.Branch.Modified_User_Id = 1;
+                    //model.Branch.Modified_Dte = DateTime.Now;
+                    //model.Branch.Modified_Branch_Id = 1;
+
+                    ViewBag.ID = new SelectList(branchdb.Country, "ID", "Country_Name");
+                 
+                    //StateList(model.country.ID);
                     //model.country.Country_Name = "INDIA";
                     //{
                     //    return this.View(model);
@@ -163,13 +184,14 @@ namespace Troy.Web.Controllers
                         xmlAddBranch.CreatedUser = model.Branch.Created_User_Id.ToString();
                         xmlAddBranch.CreatedBranch = model.Branch.Created_Branc_Id.ToString();
                         xmlAddBranch.CreatedDateTime = model.Branch.Created_Dte.ToString();
-                        xmlAddBranch.ModifiedUser = model.Branch.Modified_User_Id.ToString();
-                        xmlAddBranch.ModifiedBranch = model.Branch.Modified_Branch_Id.ToString();
-                        xmlAddBranch.ModifiedDateTime = model.Branch.Modified_Dte.ToString();
+                        //xmlAddBranch.ModifiedUser = model.Branch.Modified_User_Id.ToString();
+                        //xmlAddBranch.ModifiedBranch = model.Branch.Modified_Branch_Id.ToString();
+                        //xmlAddBranch.ModifiedDateTime = model.Branch.Modified_Dte.ToString();
                   
 
                         if (branchRepository.GenerateXML(xmlAddBranch))
                         {
+
                             return RedirectToAction("Index", "Branch");
                         }
                     }
@@ -181,9 +203,10 @@ namespace Troy.Web.Controllers
 
                 else if (submitButton == "Update")
                 {
-                    model.Branch.Created_Branc_Id = 1;
-                    model.Branch.Created_Dte = DateTime.Now;
-                    model.Branch.Created_User_Id = 1;  //GetUserId()
+                   // ViewBag.Created_Branc_Id=Session["Created_Branc_Id"];
+                   // model.Branch.Created_Branc_Id =model.Branch.Created_Branc_Id;
+                  //  model.Branch.Created_Dte = DateTime.Now;
+                   // model.Branch.Created_User_Id = model.Branch.Created_User_Id;  //GetUserId()
                     model.Branch.Modified_User_Id = 1;
                     model.Branch.Modified_Dte = DateTime.Now;
                     model.Branch.Modified_Branch_Id = 1;
@@ -221,9 +244,9 @@ namespace Troy.Web.Controllers
                         xmlEditBranch.Pin_Code = model.Branch.Pin_Code;
                         xmlEditBranch.Order_Num = model.Branch.Order_Num.ToString();
                         xmlEditBranch.IsActive = model.Branch.IsActive;
-                        xmlEditBranch.CreatedUser = model.Branch.Created_User_Id.ToString();
-                        xmlEditBranch.CreatedBranch = model.Branch.Created_Branc_Id.ToString();
-                        xmlEditBranch.CreatedDateTime = model.Branch.Created_Dte.ToString();
+                        //xmlEditBranch.CreatedUser = model.Branch.Created_User_Id.ToString();
+                        //xmlEditBranch.CreatedBranch = model.Branch.Created_Branc_Id.ToString();
+                        //xmlEditBranch.CreatedDateTime = model.Branch.Created_Dte.ToString();
                         xmlEditBranch.ModifiedUser = model.Branch.Modified_User_Id.ToString();
                         xmlEditBranch.ModifiedBranch = model.Branch.Modified_Branch_Id.ToString();
                         xmlEditBranch.ModifiedDateTime = model.Branch.Modified_Dte.ToString();
@@ -347,9 +370,7 @@ namespace Troy.Web.Controllers
                                         
 
                                 }
-                                #endregion
-
-                                
+                                #endregion                            
 
                                 #region Check Branch Name
                                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -370,7 +391,6 @@ namespace Troy.Web.Controllers
                                     }
                                 }
                                 #endregion
-
 
                                 #region Check Country Name
                                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -653,6 +673,8 @@ namespace Troy.Web.Controllers
 
                 return RedirectToAction("Index", "Branch");
             }
+
+
             catch (Exception ex)
             {
                 ExceptionHandler.LogException(ex);
@@ -662,10 +684,45 @@ namespace Troy.Web.Controllers
         }
 
 
+       // Automated populate country ,state,city:
+        public JsonResult StateList(int Id)
+        {
+            var state = from s in branchContext.State
+                        where s.ID == Id
+                        select s;
+            return Json(new SelectList(state.ToArray(), "StateId", "StateName"), JsonRequestBehavior.AllowGet);
+
+            //return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult Citylist(int id)
+        {
+            var city = from c in branchContext.City
+                       where c.ID == id
+                       select c;
+            return Json(new SelectList(city.ToArray(), "ID", "City_Name"), JsonRequestBehavior.AllowGet);
+        }
+        public IList<State> Getstate(int CountryId)
+        {
+            return branchContext.State.Where(m => m.ID == CountryId).ToList();
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult LoadClassesByCountryId(string CountryName)
+        {
+            var stateList = this.Getstate(Convert.ToInt32(CountryName));
+            var stateData = stateList.Select(m => new SelectListItem()
+            {
+                Text = m.State_Name,
+                Value = m.ID.ToString(),
+            });
+            return Json(stateData, JsonRequestBehavior.AllowGet);
+        }
 
 
 
-        //Check for dupilicate Branch Code
+
+       // Check for dupilicate Branch Code 
         #region Check for duplicate code
         public JsonResult CheckForDuplication([Bind(Prefix = "Branch.Branch_Code")]string Branch_Code, [Bind(Prefix = "Branch.Branch_Id")]int? Branch_Id)
         {
@@ -690,6 +747,7 @@ namespace Troy.Web.Controllers
             }
         }
         #endregion
+
 
 
         //Check duplicate Branch name

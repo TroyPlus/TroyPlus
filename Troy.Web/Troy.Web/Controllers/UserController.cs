@@ -252,7 +252,7 @@ namespace Troy.Web.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Index(string submitButton, UserViewModels model, HttpPostedFileBase file)
+        public async Task<ActionResult> Index(string submitButton, UserViewModels model)
         {
             try
             {
@@ -274,7 +274,7 @@ namespace Troy.Web.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Update(string submitButton, EditUserViewModel model, HttpPostedFileBase file)
+        public async Task<ActionResult> Update(string submitButton, EditUserViewModel model)
         {
             try
             {
@@ -284,7 +284,6 @@ namespace Troy.Web.Controllers
                 {
 
                     await EditUser(model);
-
 
                     //if (userDb.EditUser(model.ApplicationUsers))
                     //{
