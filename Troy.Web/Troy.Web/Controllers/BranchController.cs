@@ -82,6 +82,7 @@ namespace Troy.Web.Controllers
         
         
         
+        
         {
            
             try
@@ -192,9 +193,9 @@ namespace Troy.Web.Controllers
                         //xmlAddBranch.ModifiedUser = model.Branch.Modified_User_Id.ToString();
                         //xmlAddBranch.ModifiedBranch = model.Branch.Modified_Branch_Id.ToString();
                         //xmlAddBranch.ModifiedDateTime = model.Branch.Modified_Dte.ToString();
-                  
 
-                        if (branchRepository.GenerateXML(xmlAddBranch))
+
+                        if (branchRepository.GenerateXML(xmlAddBranch, UniqueID))
                         {
 
                             return RedirectToAction("Index", "Branch");
@@ -256,7 +257,7 @@ namespace Troy.Web.Controllers
                         xmlEditBranch.ModifiedBranch = model.Branch.Modified_Branch_Id.ToString();
                         xmlEditBranch.ModifiedDateTime = model.Branch.Modified_Dte.ToString();
 
-                        if (branchRepository.GenerateXML(xmlEditBranch))
+                        if (branchRepository.GenerateXML(xmlEditBranch, UniqueID))
                         {
                             return RedirectToAction("Index", "Branch");
                         }
@@ -643,7 +644,7 @@ namespace Troy.Web.Controllers
                                         xmlAddBranch.ModifiedBranch = model.Branch.Modified_Branch_Id.ToString();
                                         xmlAddBranch.ModifiedDateTime = model.Branch.Modified_Dte.ToString();
 
-                                        if (branchRepository.GenerateXML(xmlAddBranch))
+                                        if (branchRepository.GenerateXML(xmlAddBranch, UniqueID))
                                         {
                                             //return RedirectToAction("Index", "Branch");
                                         }

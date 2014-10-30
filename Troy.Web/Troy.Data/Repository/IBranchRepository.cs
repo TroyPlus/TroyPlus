@@ -60,6 +60,6 @@ namespace Troy.Data.Repository
 
         //string StateList(int Id);
 
-        bool GenerateXML(Object obj);
+        bool GenerateXML(Object obj, string uniqueId);
     }
 }

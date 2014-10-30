@@ -119,20 +119,20 @@
                                 <div class="col-md-6">
                                     <div class="form-horizontal">
 
-                                        <div class="row form-group">
+                                        @*<div class="row form-group">
                                             <div class="col-md-4">
                                                 Country:
-                                            </div>
+                                            </div>*@
                                             @*@Html.DropDownListFor(model => model.country.ID, null, new { id = "Country" })*@
                                            
-                                            @Html.DropDownList("Country", ViewBag.ID as SelectList, "Select a Country", new { id = "Country" })<br />
+                                            @*@Html.DropDownList("Country", ViewBag.ID as SelectList, "Select a Country", new { id = "Country" })<br />
                                           
                                             <select id="State" name="state"></select><br />
                                             <select id="city" name="City"></select><br />
-                                            </div>
+                                            </div>*@
 
 
-                                            @*<div class="row form-group">
+                                            <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Country:
                                                     </div>
@@ -160,7 +160,7 @@
                                                         @Html.DropDownListFor(m => m.Branch.City_ID, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name", 1), "Select City", new { @class = "form-control control-text", id="City" })
                                                         @Html.ValidationMessageFor(model => model.Branch.City_ID)
                                                     </div>
-                                                </div>*@
+                                                </div>
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
