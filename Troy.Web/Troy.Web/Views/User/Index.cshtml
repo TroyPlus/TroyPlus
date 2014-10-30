@@ -130,205 +130,184 @@
 
     @Html.ValidationSummary(true)
 
-    @Html.HiddenFor(m => m.SearchColumn)
+    <div id="content">
+        <!-- Start .content-wrapper -->
+        <div class="content-wrapper">
+            <div class="row">&nbsp;</div>
+            <!-- Start .row -->
+            <div class="row">
+                <!-- Start .bredcrumb -->
+                <ul id="crumb" class="breadcrumb"></ul>
+                <!-- End .breadcrumb -->
+                <!-- Start .page-header -->
+                <div class="form-group">
+                    <label class="col-md-2 col-md-2 col-sm-12 h4 control-label pull-left">
+                        @ViewBag.Title
+                    </label>
 
-    <div class="panel panel-default">
+                    <!-- Start .option-buttons -->
+                    <!-- Removed -->
+                    <!-- End .option-buttons -->
 
-        <div class="panel-head">
+                    <div class="col-lg-10 col-md-10">
+                        <div class="row">
+                            <div class="pull-right group-button btn-toolbar">
+                                <button type="button" title="New Purchase" class="btn btn-primary" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false">
+                                    <i class="en-add-to-list strong"></i>
+                                    <span> New</span>
+                                </button>
 
-            <div class="linkBar1">
-                <div class="col-md-8 text-left">
-                    <h4>User List</h4>
-                </div>
-                <div class="text-right">
-                    <a href="#" class="top-right" data-toggle="modal" data-target="#uploadModal" data-backdrop="static" data-keyboard="false">
-                        <img src="@Url.Content("../Content/images/upload-icon.png")" />
-                    </a>
-                    &nbsp;
-                    <a href=@Url.Action("_ExporttoExcel", "User")>
-                        <img src="@Url.Content("../Content/images/table-icon.png")" style="height:32px;width:32px" />
-                    </a>
-                    &nbsp;
+                                <button type="button" title="Bulk Addition" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal" data-backdrop="static" data-keyboard="false">
+                                    <i class="st-file-add strong"></i>
+                                    <span> Bulk</span>
+                                </button>
 
-                    @*<a href="@Url.Action("_createpartialview" , "Suppliers" )" data-modal="true" class="top-right">*@
-                    <a href="#" class="top-right" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false">
-                        <img src="@Url.Content("../Content/images/Add-icon.png")" />
-                    </a>&nbsp;
-                    @*<button type="button" class="btn-link panel-toggle" data-toggle="collapse" data-target="#search"><img src="@Url.Content("../Content/images/zoom-icon.png")" style="width:32px;height:32px" /></button>*@
-                </div>
-            </div>
-        </div>
-
-        <div class="panel-body ">
-
-            <div class="searchBar">
-                <div class="searchCont form-inline">
-                    <div class="form-group">
-                        <div class="dropdown text-left">
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="SearchBy" data-toggle="dropdown">
-                                <span id="SearchBySpan">Search By</span><span class="caret"></span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="form-group w230">
-                        <div class="input-group">
-                            @Html.TextBoxFor(m => m.SearchQuery, new { @class = "form-control", @id = "li" })
-                            <span class="input-group-btn">
-                                <input type="submit" id="Submit1" name="submitButton" value="Search" class="btn btn-primary icnSearch" />
-                            </span>
+                                <button type="button" title="Excel Export" class="btn btn-primary">
+                                    <i class="im-file-excel strong"></i>
+                                    <span> Export</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- End .page-header -->
             </div>
-
-            <div class="table-responsive">
-                <table id="grdUser" class="table table-striped table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>
-                                <div class="lBor">
-                                    User Id
-                                </div>
-                            </th>
-                            <th>
-                                <div class="lBor">
-                                    User Name
-                                </div>
-                            </th>
-                            <th>
-                                <div class="lBor">
-                                    Email
-                                </div>
-                            </th>
-                            <th>
-                                <div class="lBor">
-                                    Role
-                                </div>
-                            </th>
-                            <th>
-                                <div class="lBor" style="width: 122px;">
-                                    IsActive
-                                </div>
-                            </th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (Troy.Model.AppMembership.ViewUsers item in Model.UserList)
-                        {
-                            <tr class="odd">
-                                <td>
-                                    @item.Id
-
-                                </td>
-
-                                <td>
-                                    @item.UserName
-                                </td>
-                                <td>
-                                    @item.Email
-                                </td>
-                                <td>
-                                    @item.Name
-                                </td>
-                                <td>
-                                    @item.IsActive
-                                </td>
-
-
-                                <td>
-                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewApplicationUser(@item.Id);">
-                                        <img src="@Url.Content("../Content/images/application_view_detail.png")" />
-                                    </a>
-                                    <span class="text-muted">|</span>
-                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditApplicationUser(@item.Id);">
-                                        <img src="@Url.Content("../Content/images/pencil.png")" />
-                                    </a>
-                                    <span class="text-muted">|</span>
-
-                                    @*<a href="@Url.Action("_DeletePartialView", "Branch", new { id = item.Id })" data-modal="true">
-                                            <img src="@Url.Content("../Content/images/cross_script.png")" />
-                                        </a>*@
-
-                                    @* @Html.ActionLink("Delete", "DeActivateExclusion", new { ruleId = item.Purchase_Quote_Id }, new { /*onclick = "return Deleteclick(" + item.Purchase_Quote_Id + ");" */ })*@
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-
-        <div class="modal fade bs-example-modal-lg" id="createModal" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            @Html.Partial("_CreatePartial", Model)
-        </div>
-
-        <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
-            <div id="editmodelcontainer">
-            </div>
-        </div>
-
-        <div class="modal fade bs-example-modal-lg" id="viewModal" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPartial")'>
-            <div id="viewmodelcontainer">
-            </div>
-        </div>
-
-        <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">File Upload</h4>
-                    </div>
-
-                    <div class="modal-body">
-
-                        <div class="form-horizontal">
-                            <div id="myTabContent" class="tab-content">
-                                <div class="tab-pane fade in active" id="default">
-                                    <br />
-
-                                    <div id="FileUploadDiv">
-                                        <iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <input type="file" id="FileUpload" name="FileUpload" />
-                                            </div>
-                                        </div>
-                                        @*<div class="row">
-                                                <div class="col-md-12 text-right">
-                                                    <input type="button" id="btnUpload" name="FileUploadButton" value="Upload" class="btn btn-success"
-                                                           onclick="return IFrameSubmit();" />
-                                                </div>
-                                            </div>*@
-                                        @*<a href=@Url.Action("_TemplateExcelDownload", "Branch")>
-                                                Click here to Download template
-                                            </a>*@
-                                    </div>
+            <!-- End .row -->
+            <div class="row">&nbsp;</div>
+            <div class="outlet">
+                <!-- Start .outlet -->
+                <!-- Page start here ( usual with .row ) -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- col-lg-12 start here -->
+                        <div class="panel panel-default plain">
+                            <!-- Start .panel -->
+                            <div class="panel-heading">
+                                <div class="row">
 
                                 </div>
                             </div>
+                            <div class="panel-body">
+                                <table class="table display" id="datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>User Id</th>
+                                            <th>User Name</th>
+                                            <th>Email</th>
+                                            <th>Role</th>
+                                            <th>IsActive</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (Troy.Model.AppMembership.ViewUsers item in Model.UserList)
+                                        {
+                                            <tr class="odd gradeX">
+                                                <td>
+                                                    @item.Id
+
+                                                </td>
+
+                                                <td>
+                                                    @item.UserName
+                                                </td>
+                                                <td>
+                                                    @item.Email
+                                                </td>
+                                                <td>
+                                                    @item.Name
+                                                </td>
+                                                <td>
+                                                    @item.IsActive
+                                                </td>
+
+                                                <td>
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewApplicationUser(@item.Id);">
+                                                        <i class="im-eye2"></i>
+                                                    </a>
+                                                    <span class="text-muted">|</span>
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditApplicationUser(@item.Id);">
+                                                        <i class="im-pencil2"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-
+                        <!-- End .panel -->
                     </div>
+                    <!-- col-lg-12 end here -->
+                </div>
+                <!-- Page End here -->
+            </div>
+            <!-- End .outlet -->
+        </div>
+        <!-- End .content-wrapper -->
+    </div>
+    <div class="clearfix"></div>
 
-                    <div class="modal-footer">
-                        <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
-                        <button class="btn pull-left" data-dismiss="modal">Close</button>
-                        @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+    <div class="modal fade bs-example-modal-lg" id="createModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        @Html.Partial("_CreatePartial", Model)
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
+        <div id="editmodelcontainer">
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="viewModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPartial")'>
+        <div id="viewmodelcontainer">
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">File Upload</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-horizontal">
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade in active" id="default">
+                                <br />
+
+                                <div id="FileUploadDiv">
+                                    <iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <input type="file" id="FileUpload" name="FileUpload" />
+                                        </div>
+                                    </div>                               
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
 
                 </div>
+
+                <div class="modal-footer">
+                    <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
+                    <button class="btn pull-left" data-dismiss="modal">Close</button>
+                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+                </div>
+
             </div>
         </div>
-
     </div>
+
+
 
 }
 

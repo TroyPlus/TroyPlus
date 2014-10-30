@@ -18,6 +18,8 @@ namespace Troy.Model.Configuration
         [ForeignKey("ID")]
       public virtual Country country { get; set; }
 
+      public virtual ICollection<State> State { get; set; }
+
 
 
         [Index(IsUnique = true)]

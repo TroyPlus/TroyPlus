@@ -71,7 +71,7 @@
                                             Pricelist:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Pricelist, new SelectList(Model.PricelistLists.AsEnumerable(), "Id", "Price_List_Desc"), "", new { @class = "form-control control-text" })
+                                            @Html.DropDownListFor(m => m.BusinessPartner.Pricelist, new SelectList(Model.PricelistLists.AsEnumerable(), "PriceList_Id", "Price_List_Desc"), "", new { @class = "form-control control-text" })
                                             @Html.ValidationMessageFor(model => model.BusinessPartner.Pricelist)
                                         </div>
                                     </div>

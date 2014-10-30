@@ -10,6 +10,7 @@ using Troy.Model.Branches;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Troy.Web.Models;
 
 namespace Troy.Web.Tests.Controllers
 {
@@ -93,7 +94,7 @@ namespace Troy.Web.Tests.Controllers
             var branchlist = new List<BranchList>();
             branchlist.Add(new BranchList { Branch_Id=2,Branch_Name="Slai" });
 
-            mockUserRepository.Setup(m => m.GetAddressBranchList()).Returns(branchlist);
+            mockUserRepository.Setup(m => m.GetAllBranches()).Returns(branchlist);
 
             //var country=new List<coun>
             // Mock up the GetAddressList() repository method with expected return value.
@@ -101,7 +102,7 @@ namespace Troy.Web.Tests.Controllers
             #endregion
 
             // Now invoke the Index action.
-            var actionResult = usercontroller.Index(   )  as ViewResult;
+            var actionResult = usercontroller.Index()  as ViewResult;
 
             // Validate the expected result.
             ViewResult expectedResult = new ViewResult();
@@ -143,7 +144,7 @@ namespace Troy.Web.Tests.Controllers
             var branchlist = new List<BranchList>();
             branchlist.Add(new BranchList { Branch_Id = 2, Branch_Name = "Slai" });
 
-            mockUserRepository.Setup(m => m.GetAddressBranchList()).Returns(branchlist);
+            mockUserRepository.Setup(m => m.GetAllBranches()).Returns(branchlist);
 
             //var branchList = new List<BranchList>();
             //branchList.Add(new BranchList { BranchId = 1, BranchName = "MADURAI MAIN" });
@@ -163,7 +164,63 @@ namespace Troy.Web.Tests.Controllers
 
         }
 
+        [TestMethod]
+        public void saveUser()
+        {
 
+            string submit = "Save";
+          
+            //BranchViewModels model= ;
+
+            /*  
+             *  First identify the repository methods which are invoked form Index action. Then Setup the mock 
+             *  for all the identified methods.
+             *  
+             *  Then invoke the Controller's Index action with necessary input parameters and ensure that you have 
+             *  invoked the Index action for all the different cases (code blocks) available in that, which should 
+             *  cover all the blocks/statements in the Index action.
+             *  
+             */
+            #region Arrange
+            // Prepare the return data for AddNewBranch() method
+            ApplicationUser user = new ApplicationUser();
+            {
+                user.UserName = "admin1";
+                user.Email = "jo@gmail.com";
+                user.PasswordExpiryDate = Convert.ToDateTime(2014-10-27);
+            }
+
+
+            // Mock up the AddNewBranch() repository method with expected return values.
+
+            mockUserRepository.Setup(m => m.AddNewUser(user)).Returns(true);
+            //mockCountryRespository.Setup(m => m.GetAddresscountryList()).Returns(branchList);
+            var userlist = new UserViewModels();
+            {
+               user.UserName = "admin1";
+            //   // user.PasswordExpiryDate = DateTime.Now;
+              
+            }
+            ViewUsers users = new ViewUsers();
+            userlist.ApplicationUsers =users;
+            //mockBranchRepository.Setup(m => m.AddNewBranch(branchlist.Branch=)).Returns(model);
+            // Prepare the return data for the GetAddressList() method.
+            //var countrylist = new List<CountryList>();
+            //countrylist.Add(new CountryList { ID = 1, Country_Name = "India" });
+            #endregion
+
+            // Now invoke the Index action.
+            var actionResult = usercontroller.Index(submit,userlist);
+            // Validate the expected result.
+            ViewResult expectedResult = new ViewResult();
+
+            Assert.IsNotNull(actionResult);
+            //(branchList, (actionResult.Model as BranchViewModels).BranchList);
+            //Assert.AreEqual(countrylist, (actionResult.Model as BranchViewModels).CountryList);
+            //Assert.AreEqual(statelist, (actionResult.Model as BranchViewModels).StateList);
+            //Assert.AreEqual(citylist, (actionResult.Model as BranchViewModels).CityList);
+            //Assert.AreEqual(branchList, (actionResult.Model as PurchaseViewModels).BranchList);
+        }
 
         //public void Index()
 

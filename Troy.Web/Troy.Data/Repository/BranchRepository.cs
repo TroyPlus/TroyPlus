@@ -87,6 +87,42 @@ namespace Troy.Data.Repository
             return qList;
         }
 
+
+
+        //public State StateList(int Id)
+        //{
+        //    var state = (from s in branchContext.State
+        //                 where s.ID == Id
+        //                 select s.State_Name);
+
+        //    return state;
+        //}
+
+        //public List<City> Citylist(int id)
+        //{
+        //    var city = from c in branchContext.City
+        //               where c.ID == id
+        //               select c;
+        //    return city;
+           
+        //}
+        //public IList<State> Getstate(int CountryId)
+        //{
+        //    return branchContext.State.Where(m => m.ID == CountryId).ToList();
+        //}
+
+
+        //public IList<State> LoadClassesByCountryId(string CountryName)
+        //{
+        //    var stateList = this.Getstate(Convert.ToInt32(CountryName));
+        //    var stateData = stateList.Select(m => new SelectListItem()
+        //    {
+        //        Text = m.StateName,
+        //        Value = m.CountryId.ToString(),
+        //    });
+        //    return Json(stateData, JsonRequestBehavior.AllowGet);
+        //}
+
         //public List<ViewBranches> GetAllBranches()
         //{
         //    List<ViewBranches> qList = new List<ViewBranches>();
@@ -252,7 +288,14 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
-
+        //public Branch StateList(int Id)
+        //{
+        //    Branch qlist = new Branch();
+        //    var state = from s in branchContext.State
+        //                where s.ID == Id
+        //                select s;
+        //    return qlist;
+        //}
 
         //CheckDuplicateBranch
         public Branch CheckDuplicateBranch(string bname, string CheckingType)
@@ -277,7 +320,7 @@ namespace Troy.Data.Repository
         {
 
 
-            return (from p in configurationContext.Country
+            return (from p in branchContext.Country
                     where p.Country_Name.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
                     select p).FirstOrDefault();
         }
@@ -402,7 +445,7 @@ namespace Troy.Data.Repository
         }
 
         //GenerateXML
-        public bool GenerateXML(Object obj)
+        public bool GenerateXML(Object obj, string uniqueId)
         {
             try
             {
@@ -412,6 +455,7 @@ namespace Troy.Data.Repository
                 doc.LoadXml(data);
 
                 SAPOUT mSAP = new SAPOUT();
+                mSAP.Unique_Id = uniqueId;
                 mSAP.Object_typ = "Branch";
                 mSAP.Branch_Cde = "1";
                 mSAP.Troy_Created_Dte = Convert.ToDateTime(DateTime.Now.ToString());
@@ -435,7 +479,7 @@ namespace Troy.Data.Repository
         //GetAddresscountryList
         public List<CountryList> GetAddresscountryList()
         {
-            var item = (from a in configurationContext.Country
+            var item = (from a in branchContext.Country
                         select new CountryList
                         {
                             ID = a.ID,
@@ -449,7 +493,7 @@ namespace Troy.Data.Repository
         //GetAddressstateList
         public List<StateList> GetAddressstateList()
         {
-            var item = (from a in configurationContext.State
+            var item = (from a in branchContext.State
                         select new StateList
                         {
                             ID = a.ID,
@@ -463,7 +507,7 @@ namespace Troy.Data.Repository
         //GetAddresscityList
         public List<CityList> GetAddresscityList()
         {
-            var item = (from a in configurationContext.City
+            var item = (from a in branchContext.City
                         select new CityList
                         {
                             ID = a.ID,

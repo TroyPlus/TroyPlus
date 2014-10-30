@@ -14,11 +14,12 @@ using System.Web.Mvc;
 using Troy.Web.Models;
 using System.Web;
 using Troy.Model.Initials;
-using Troy.Model.Designations;
-using Troy.Model.Departments;
+//using Troy.Model.Designations;
+//using Troy.Model.Departments;
+using Troy.Model.Configuration;
 using Troy.Model.Branches;
 using Troy.Model.LeftReasons;
-using Troy.Model.MaritalStatus;
+using Troy.Model.MaritalStatuses;
 using Troy.Model.Genders;
 #endregion
 

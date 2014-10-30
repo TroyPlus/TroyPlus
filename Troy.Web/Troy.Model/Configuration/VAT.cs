@@ -36,7 +36,7 @@ namespace Troy.Model.Configuration
 
         [Required]
         [StringLength(10)]
-
+        [RegularExpression("SALES|PURCHASE|sales|purchase|Sales|Purchase", ErrorMessage = @"The VAT_Type field is allowed only SALES or PURCHASE ")]
 
         public string VAT_Type { get; set; }
 

@@ -21,25 +21,25 @@ namespace Troy.Model.BusinessPartner
         public int BP_Id { get; set; }
         //------------
         [Index(IsUnique = true)]
-        [Required(ErrorMessage = "Business Partner is required.")]
+        //[Required(ErrorMessage = "Business Partner is required.")]
         [StringLength(30)]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string BP_Name { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Group Type is required.")]
+        //[Required(ErrorMessage = "Group Type is required.")]
         [StringLength(10)]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string Group_Type { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Group is required.")]
+        //[Required(ErrorMessage = "Group is required.")]
         [ForeignKey("group")]
         public int Group_id { get; set; }
         public virtual Group group { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Ship Address is required.")]
+        //[Required(ErrorMessage = "Ship Address is required.")]
         [StringLength(50)]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string Ship_Address1 { get; set; }
@@ -55,31 +55,31 @@ namespace Troy.Model.BusinessPartner
         public string Ship_address3 { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Ship City is required.")]
+        //[Required(ErrorMessage = "Ship City is required.")]
         //[ForeignKey("Shipcity")]
         public int Ship_City { get; set; }
         //public virtual City Shipcity { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Ship State is required.")]
+        //[Required(ErrorMessage = "Ship State is required.")]
         //[ForeignKey("Shipstate")]
         public int Ship_State { get; set; }
         //public virtual State Shipstate { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Ship Country is required.")]
+        //[Required(ErrorMessage = "Ship Country is required.")]
         //[ForeignKey("Shipcountry")]
         public int Ship_Country { get; set; }
         //public virtual Country Shipcountry { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Ship Pincode is required.")]
+        //[Required(ErrorMessage = "Ship Pincode is required.")]
         [StringLength(10)]
         [RegularExpression(@"^[0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string Ship_pincode { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Bill Address is required.")]
+        //[Required(ErrorMessage = "Bill Address is required.")]
         [StringLength(50)]
         [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string Bill_Address1 { get; set; }
@@ -95,25 +95,25 @@ namespace Troy.Model.BusinessPartner
         public string Bill_address3 { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Bill City is required.")]
+        //[Required(ErrorMessage = "Bill City is required.")]
         [ForeignKey("city")]
         public int Bill_City { get; set; }
         public virtual City city { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Bill State is required.")]
+        //[Required(ErrorMessage = "Bill State is required.")]
         [ForeignKey("state")]
         public int Bill_State { get; set; }
         public virtual State state { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Bill Country is required.")]
+        //[Required(ErrorMessage = "Bill Country is required.")]
         [ForeignKey("country")]
         public int Bill_Country { get; set; }
         public virtual Country country { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Bill Pincode is required.")]
+        //[Required(ErrorMessage = "Bill Pincode is required.")]
         [StringLength(10)]
         [RegularExpression(@"^[0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
         public string Bill_pincode { get; set; }
@@ -123,10 +123,10 @@ namespace Troy.Model.BusinessPartner
         public bool IsActive { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Price list is required.")]
-        [ForeignKey("PList")]
+        //[Required(ErrorMessage = "Price list is required.")]
+        [ForeignKey("pricelist")]
         public int Pricelist { get; set; }
-        public virtual PriceList PList { get; set; }
+        public virtual PriceList pricelist { get; set; }
         //------------
 
         [ForeignKey("employee")]
@@ -147,12 +147,12 @@ namespace Troy.Model.BusinessPartner
         public string Phone2 { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Mobile is required.")]
+        //[Required(ErrorMessage = "Mobile is required.")]
         [StringLength(10)]
         public string Mobile { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Fax is required.")]
+        //[Required(ErrorMessage = "Fax is required.")]
         [StringLength(10)]
         public string Fax { get; set; }
         //------------
@@ -178,18 +178,18 @@ namespace Troy.Model.BusinessPartner
         public string Ship_method { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Account id is required.")]
+        //[Required(ErrorMessage = "Account id is required.")]
         //[ForeignKey("grpControlId")]
         public int Control_account_id { get; set; }
         //public virtual Group grpControlId { get; set; }
         //------------
 
-        [Required(ErrorMessage = "Opening Balance is required.")]
+        //[Required(ErrorMessage = "Opening Balance is required.")]
         public int Opening_Balance { get; set; }
         //------------
 
         [Column(TypeName = "date")]
-        public DateTime? Due_date { get; set; }
+        public DateTime Due_date { get; set; }
         //------------
 
         [Required]

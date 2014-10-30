@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Model.Employees;
-using Troy.Model.Designations;
-using Troy.Model.Departments;
+//using Troy.Model.Designations;
+//using Troy.Model.Departments;
+using Troy.Model.Configuration;
 using Troy.Model.Branches;
 using Troy.Model.Genders;
-using Troy.Model.MaritalStatus;
+using Troy.Model.MaritalStatuses;
 using Troy.Model.LeftReasons;
 using Troy.Model.Initials;
 #endregion
@@ -18,7 +19,7 @@ namespace Troy.Data.Repository
 {
     public interface IEmployeeRepository
     {
-        List<ViewEmployee> GetAllEmployee();      
+        List<ViewEmployee> GetAllEmployee();
 
         Employee GetEmployeeById(int qId);
 
@@ -30,7 +31,7 @@ namespace Troy.Data.Repository
 
         bool EditExistingEmployee(Employee employee);
 
-        bool GenerateXML(Object obj1);
+        bool GenerateXML(Object obj1, string uniqueId);
 
         List<DesignationList> GetDesignationList();
 
@@ -40,13 +41,13 @@ namespace Troy.Data.Repository
 
         List<GenderList> GetGenderList();
 
-        //List<MaritalStatus> GetMaritalStatusList();
+        List<MaritalStatusList> GetMaritalStatusList();
 
         List<LeftReasonList> GetLeftReasonList();
 
         List<InitialList> GetInitialList();
 
-        Branch CheckBranchName(string bname);       
+        Branch CheckBranchName(string bname);
 
         Designation CheckDesignationName(string dname);
 

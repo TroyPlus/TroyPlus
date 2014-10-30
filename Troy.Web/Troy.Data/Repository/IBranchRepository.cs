@@ -13,6 +13,9 @@ namespace Troy.Data.Repository
         List<ViewBranches> GetAllUserBranch();
         List<ViewBranches> GetFilterBranch(string searchColumn, string searchString, Guid userId);
 
+        //List<State> StateList(int Id);
+       // Branch StateList(int Id);
+
         List<Branch> GetAllBranch();
         Branch FindOneBranchById(int qId);
 
@@ -54,6 +57,9 @@ namespace Troy.Data.Repository
         String FindCodeForStateId(int name);
 
         string FindNameForCityId(int city_id);
-        bool GenerateXML(Object obj);
+
+        //string StateList(int Id);
+
+        bool GenerateXML(Object obj, string uniqueId);
     }
 }

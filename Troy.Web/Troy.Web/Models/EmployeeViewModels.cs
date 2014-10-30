@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Troy.Model.Employees;
-using Troy.Model.Departments;
-using Troy.Model.Designations;
+//using Troy.Model.Departments;
+//using Troy.Model.Designations;
+using Troy.Model.Configuration;
 using Troy.Model.Branches;
 using Troy.Model.LeftReasons;
-using Troy.Model.MaritalStatus;
+using Troy.Model.MaritalStatuses;
 using Troy.Model.Genders;
 using Troy.Model.Initials;
 using System.Xml;
@@ -29,7 +30,7 @@ namespace Troy.Web.Models
 
         public List<BranchList> BranchList { get; set; }
 
-        public List<MaritalStatus> MaritalList { get; set; }
+        public List<MaritalStatusList> MaritalStatusList { get; set; }
 
         public List<GenderList> GenderList { get; set; }
 
@@ -63,6 +64,24 @@ namespace Troy.Web.Models
         [XmlElement("Remarks")]
         public string Remarks;
 
+        [XmlElement("CreatedUser")]
+        public string CreatedUser { get; set; }
+
+        [XmlElement("CreatedBranch")]
+        public string CreatedBranch { get; set; }
+
+        [XmlElement("CreatedDateTime")]
+        public string CreatedDateTime { get; set; }
+
+        [XmlElement("LastModifyUser")]
+        public string LastModifyUser { get; set; }
+
+        [XmlElement("LastModifyBranch")]
+        public string LastModifyBranch { get; set; }
+
+        [XmlElement("LastModifyDateTime")]
+        public string LastModifyDateTime { get; set; }
+
     }
 
     [XmlRoot("ModifyEmployee")]
@@ -85,6 +104,24 @@ namespace Troy.Web.Models
 
         [XmlElement("Remarks")]
         public string Remarks;
+
+        [XmlElement("CreatedUser")]
+        public string CreatedUser { get; set; }
+
+        [XmlElement("CreatedBranch")]
+        public string CreatedBranch { get; set; }
+
+        [XmlElement("CreatedDateTime")]
+        public string CreatedDateTime { get; set; }
+
+        [XmlElement("LastModifyUser")]
+        public string LastModifyUser { get; set; }
+
+        [XmlElement("LastModifyBranch")]
+        public string LastModifyBranch { get; set; }
+
+        [XmlElement("LastModifyDateTime")]
+        public string LastModifyDateTime { get; set; }
 
     }
 

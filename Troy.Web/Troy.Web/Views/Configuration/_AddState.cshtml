@@ -1,12 +1,5 @@
 ﻿@model Troy.Web.Models.ConfigurationViewModels
 
-
-
-
-
-
-
-
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -35,7 +28,7 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            @Html.LabelFor(m => m.State.State_Name):
+                                            State Name:
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.State.State_Name, new { @class = "form-control control-text" })

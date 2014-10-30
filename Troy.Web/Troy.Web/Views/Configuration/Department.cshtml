@@ -29,11 +29,19 @@
             $('#viewDepartment').modal('show');
         });
     }
+
+    function EditSubmit(button) {
+        var text = button.value;
+        $('#submitAction').val(button.value)
+        return true;
+    }
+
     $.validator.unobtrusive.parse('#myModal form');
 
 </script>
 
 <div><span>&nbsp;</span></div>
+
 @using (Html.BeginForm())
 {
 
@@ -46,6 +54,7 @@
             <div class="row">&nbsp;</div>
             <!-- Start .row -->
             <div class="row">
+                <ul id="crumb" class="breadcrumb"></ul>
                 <!-- Start .page-header -->
                 <div class="form-group">
                     <label class="col-md-2 col-md-2 col-sm-12 h4 control-label pull-left">
@@ -148,17 +157,17 @@
 
 
                                                         <td>
-                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#viewDepartment" data-backdrop="static" data-keyboard="false" onclick="ViewDepartment(@item.Department_Id);">
+                                                            <a href="#" title="View Department" class="top-right" data-toggle="modal" data-target="#viewDepartment" data-backdrop="static" data-keyboard="false" onclick="ViewDepartment(@item.Department_Id);">
                                                                 <i class="im-eye2"></i>
 
                                                             </a>
                                                             <span class="text-muted">|</span>
-                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#editDepartment" data-backdrop="static" data-keyboard="false" onclick="EditDepartment(@item.Department_Id);">
+                                                            <a href="#" title="Edit Department" class="top-right" data-toggle="modal" data-target="#editDepartment" data-backdrop="static" data-keyboard="false" onclick="EditDepartment(@item.Department_Id);">
                                                                 <i class="im-pencil2"></i>
                                                             </a>
                                                             <span class="text-muted">|</span>
 
-                                                            <a href="@Url.Action(" _deletepartialview", "Suppliers" , new { id=item.Department_Id })" data-modal="true">
+                                                            <a href="@Url.Action(" _deletepartialview", "Suppliers" , new { id=item.Department_Id })" title="Delete Department" data-modal="true">
                                                                 <i class="im-remove2"></i>
                                                             </a>
                                                         </td>

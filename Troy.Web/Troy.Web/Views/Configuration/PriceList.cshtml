@@ -30,6 +30,12 @@
         });
     }
 
+    function EditSubmit(button) {
+        var text = button.value;
+        $('#submitAction').val(button.value)
+        return true;
+    }
+
     $.validator.unobtrusive.parse('#myModal form');
 
 </script>
@@ -49,6 +55,7 @@
             <div class="row">&nbsp;</div>
             <!-- Start .row -->
             <div class="row">
+                <ul id="crumb" class="breadcrumb"></ul>
                 <!-- Start .page-header -->
                 <div class="form-group">
                     <label class="col-md-2 col-md-2 col-sm-12 h4 control-label pull-left">
@@ -134,7 +141,7 @@
                                         <table class="table display" id="datatable">
                                             <thead>
                                                 <tr>
-                                                    <th>Price_List_Desc</th>
+                                                    <th>PriceList Desc</th>
 
                                                     <th>Mandatory</th>
 
@@ -152,17 +159,17 @@
 
 
                                                         <td>
-                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#viewPriceList" data-backdrop="static" data-keyboard="false" onclick="ViewPriceList(@item.PriceList_Id);">
+                                                            <a href="#" title="View PriceList" class="top-right" data-toggle="modal" data-target="#viewPriceList" data-backdrop="static" data-keyboard="false" onclick="ViewPriceList(@item.PriceList_Id);">
                                                                 <i class="im-eye2"></i>
 
                                                             </a>
                                                             <span class="text-muted">|</span>
-                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#editPriceList" data-backdrop="static" data-keyboard="false" onclick="EditPriceList(@item.PriceList_Id);">
+                                                            <a href="#" title="Edit PriceList" class="top-right" data-toggle="modal" data-target="#editPriceList" data-backdrop="static" data-keyboard="false" onclick="EditPriceList(@item.PriceList_Id);">
                                                                 <i class="im-pencil2"></i>
                                                             </a>
                                                             <span class="text-muted">|</span>
 
-                                                            <a href="@Url.Action(" _deletepartialview", "Suppliers", new { id = item.PriceList_Id })" data-modal="true">
+                                                            <a href="@Url.Action(" _deletepartialview", "Suppliers", new { id = item.PriceList_Id })" title="Delete PriceList" data-modal="true">
                                                                 <i class="im-remove2"></i>
                                                             </a>
                                                         </td>

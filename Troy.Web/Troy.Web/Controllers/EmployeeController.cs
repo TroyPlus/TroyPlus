@@ -60,8 +60,8 @@ namespace Troy.Web.Controllers
                 model.BranchList = BranchList;
 
                 //Bind MaritalStatus
-                //var MaritalStatusList = employeeDb.GetMaritalStatusList().ToList();
-                //model.MaritalList = MaritalStatusList;
+                var MaritalStatusList = employeeRepository.GetMaritalStatusList().ToList();
+                model.MaritalStatusList = MaritalStatusList;
 
                 //Bind Gender
                 var GenderList = employeeRepository.GetGenderList().ToList();
@@ -112,6 +112,8 @@ namespace Troy.Web.Controllers
         {
             try
             {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
                 //unique id generation
                 Guid GuidRandomNo = Guid.NewGuid();
                 string mUniqueID = GuidRandomNo.ToString();
@@ -158,8 +160,11 @@ namespace Troy.Web.Controllers
 
                 //addEmp class for remarks tag
                 addEmp.Remarks = model.Employee.Remarks;
+                addEmp.CreatedUser = currentUser.Created_User_Id.ToString();
+                addEmp.CreatedBranch = currentUser.Created_Branch_Id.ToString();
+                addEmp.CreatedDateTime = DateTime.Now.ToString();
 
-                employeeRepository.GenerateXML(addEmp);
+                employeeRepository.GenerateXML(addEmp, mUniqueID);
 
                 #endregion
             }
@@ -174,6 +179,8 @@ namespace Troy.Web.Controllers
         {
             try
             {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
                 //unique id generation
                 Guid GuidRandomNo = Guid.NewGuid();
                 string mUniqueID = GuidRandomNo.ToString();
@@ -219,9 +226,12 @@ namespace Troy.Web.Controllers
                 modifyEmp.finance.BankAccount = Convert.ToString(model.Employee.Bank_Acc_No);
 
                 //addEmp class for remarks tag
-                modifyEmp.Remarks = model.Employee.Remarks;
+                modifyEmp.Remarks = model.Employee.Remarks;               
+                modifyEmp.LastModifyUser = currentUser.Modified_User_Id.ToString();
+                modifyEmp.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
+                modifyEmp.LastModifyDateTime = DateTime.Now.ToString();
 
-                employeeRepository.GenerateXML(modifyEmp);
+                employeeRepository.GenerateXML(modifyEmp, mUniqueID);
 
                 #endregion
             }
@@ -238,17 +248,17 @@ namespace Troy.Web.Controllers
         {
             try
             {
-                //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
                 if (submitButton == "Save")
                 {
                     model.Employee.IsActive = "Y";
-                    model.Employee.Created_Branc_Id = 1;//GetBranchId();
+                    model.Employee.Created_Branc_Id = currentUser.Created_Branch_Id;// 1;//GetBranchId();
                     model.Employee.Created_Dte = DateTime.Now;
-                    model.Employee.Created_User_Id = 1;  //GetUserId();
-                    model.Employee.Modified_User_Id = 1;//GetUserId();
+                    model.Employee.Created_User_Id = currentUser.Created_User_Id;// 1;  //GetUserId();
+                    model.Employee.Modified_User_Id = currentUser.Modified_User_Id;// 1;//GetUserId();
                     model.Employee.Modified_Dte = DateTime.Now;
-                    model.Employee.Modified_Branch_Id = 1;//GetBranchId();
+                    model.Employee.Modified_Branch_Id = currentUser.Modified_Branch_Id;// 1;//GetBranchId();
 
                     if (employeeRepository.AddNewEmployee(model.Employee))
                     {
@@ -262,12 +272,12 @@ namespace Troy.Web.Controllers
                 }
                 else if (submitButton == "Update")
                 {
-                    model.Employee.Created_Branc_Id = 1;//GetBranchId();
+                    model.Employee.Created_Branc_Id = currentUser.Created_Branch_Id;// 1;//GetBranchId();
                     model.Employee.Created_Dte = DateTime.Now;
-                    model.Employee.Created_User_Id = 1;  //GetUserId();
-                    model.Employee.Modified_User_Id = 1;//GetUserId();
+                    model.Employee.Created_User_Id = currentUser.Created_User_Id;// 1;  //GetUserId();
+                    model.Employee.Modified_User_Id = currentUser.Modified_User_Id;// 1;//GetUserId();
                     model.Employee.Modified_Dte = DateTime.Now;
-                    model.Employee.Modified_Branch_Id = 1;//GetBranchId();
+                    model.Employee.Modified_Branch_Id = currentUser.Modified_Branch_Id;// 1;//GetBranchId();
 
                     if (employeeRepository.EditExistingEmployee(model.Employee))
                     {
@@ -875,11 +885,11 @@ namespace Troy.Web.Controllers
                                         #endregion
 
                                         mItem.IsActive = "Y";
-                                        mItem.Created_User_Id = 1; //GetUserId();
-                                        mItem.Created_Branc_Id = 2; //GetBranchId();
+                                        mItem.Created_User_Id = currentUser.Created_User_Id;// 1; //GetUserId();
+                                        mItem.Created_Branc_Id = currentUser.Created_Branch_Id;// 2; //GetBranchId();
                                         mItem.Created_Dte = DateTime.Now;
-                                        mItem.Modified_User_Id = 2; //GetUserId();
-                                        mItem.Modified_Branch_Id = 2; //GetBranchId();
+                                        mItem.Modified_User_Id = currentUser.Modified_User_Id;// 2; //GetUserId();
+                                        mItem.Modified_Branch_Id = currentUser.Modified_Branch_Id;// 2; //GetBranchId();
                                         mItem.Modified_Dte = DateTime.Now;
 
                                         mlist.Add(mItem);
@@ -929,10 +939,13 @@ namespace Troy.Web.Controllers
 
                                         //addEmp class for remarks tag
                                         addEmp.Remarks = ds.Tables[0].Rows[j]["Remarks"].ToString();
+                                        addEmp.CreatedUser = currentUser.Created_User_Id.ToString();
+                                        addEmp.CreatedBranch = currentUser.Created_Branch_Id.ToString();
+                                        addEmp.CreatedDateTime = DateTime.Now.ToString();
 
                                         #endregion
 
-                                        if (employeeRepository.GenerateXML(addEmp))
+                                        if (employeeRepository.GenerateXML(addEmp, mUniqueID))
                                         {
 
                                         }
@@ -1071,7 +1084,7 @@ namespace Troy.Web.Controllers
                 Response.End();
 
                 return RedirectToAction("Index", "Employee");
-            }
+            } 
             catch (Exception ex)
             {
                 ExceptionHandler.LogException(ex);
@@ -1171,9 +1184,9 @@ namespace Troy.Web.Controllers
                 var BranchList = employeeRepository.GetBranchList().ToList();
                 model.BranchList = BranchList;
 
-                //Bind Marital status
-                //var MaritalStatusList = employeeDb.GetMaritalStatusList().ToList();
-                //model.MaritalList = MaritalStatusList;
+                //Bind MaritalStatus
+                var MaritalStatusList = employeeRepository.GetMaritalStatusList().ToList();
+                model.MaritalStatusList = MaritalStatusList;
 
                 //Bind Genderlist
                 var GenderList = employeeRepository.GetGenderList().ToList();
@@ -1212,9 +1225,9 @@ namespace Troy.Web.Controllers
                 var BranchList = employeeRepository.GetBranchList().ToList();
                 model.BranchList = BranchList;
 
-                //Bind Maritalstatus
-                //var MaritalStatusList = employeeDb.GetMaritalStatusList().ToList();
-                //model.MaritalList = MaritalStatusList;
+                //Bind MaritalStatus
+                var MaritalStatusList = employeeRepository.GetMaritalStatusList().ToList();
+                model.MaritalStatusList = MaritalStatusList;
 
                 //Bind Gender
                 var GenderList = employeeRepository.GetGenderList().ToList();

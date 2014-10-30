@@ -7,11 +7,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
 using System.ComponentModel;
+using Troy.Model.Configuration;
 using Troy.Model.Initials;
-using Troy.Model.Designations;
-using Troy.Model.Departments;
+//using Troy.Model.Designations;
+//using Troy.Model.Departments;
 using Troy.Model.Branches;
 using Troy.Model.Genders;
+using Troy.Model.MaritalStatuses;
 
 namespace Troy.Model.Employees
 {
@@ -95,7 +97,7 @@ namespace Troy.Model.Employees
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
         //----------
-
+        [Column(TypeName = "date")]
         [Required(ErrorMessage = "Start Date is required.")]
         public DateTime Start_Dte { get; set; }
         //-------
@@ -113,7 +115,9 @@ namespace Troy.Model.Employees
         //---------
 
         [Required]
-        public int Marital_Status { get; set; }        
+        [ForeignKey("maritalstatus")]
+        public int Marital_Status { get; set; }
+        public virtual MaritalStatus maritalstatus { get; set; }
         //--------
 
         [Required]

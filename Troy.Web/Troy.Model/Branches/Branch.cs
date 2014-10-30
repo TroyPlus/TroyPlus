@@ -36,7 +36,7 @@ namespace Troy.Model.Branches
         public string Branch_Name { get; set; }
 
         [Required(ErrorMessage = "Branch Address is required.")]
-        [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( / - ) are not allowed in the name.")]
+       // [RegularExpression(@"^[a-zA-Z0-9'' '\ / ,]+$", ErrorMessage = @"Special characters (@/)(=][|\!`’%$#^”&*) are not allowed in the name.")]
         [StringLength(50)]
         public string Address1 { get; set; }
 
@@ -48,6 +48,7 @@ namespace Troy.Model.Branches
 
         [Required]
         [ForeignKey("country")]
+        //[Remote("StateList", "Branch", AdditionalFields="Id")]
         public int Country_ID { get; set; }
         public virtual Country country { get; set; }
 
@@ -62,8 +63,8 @@ namespace Troy.Model.Branches
         public int City_ID { get; set; }
         public virtual City city { get; set; }
 
-       // [Required(ErrorMessage = "PinCode is required.")]
-        [RegularExpression(@"^[0-9 + /'' ']+$", ErrorMessage = @"Special characters ( / - ) are allowed in the code.")]
+        [Required(ErrorMessage = "PinCode is required.")]
+        [RegularExpression(@"^[0-9 + /'' ']+$", ErrorMessage = @"Alphabets and Special characters ^[a-zA-Z'' ']+$ , ( / - ) are not allowed in the code.")]
 
         [StringLength(10)]
         public string Pin_Code { get; set; }
@@ -87,13 +88,13 @@ namespace Troy.Model.Branches
         [Column(TypeName = "date")]
         public DateTime Created_Dte { get; set; }
 
-        [Required]
+        
         public int Modified_User_Id { get; set; }
 
-        [Required]
+        
         public int Modified_Branch_Id { get; set; }
 
-        [Required]
+        
         [Column(TypeName = "date")]
         public DateTime Modified_Dte { get; set; }
 
