@@ -21,18 +21,18 @@ namespace Troy.Data.DataContext
 
         public DbSet<Branch> Branch { get; set; }
 
-       public DbSet<Country> Country { get; set; }
+        public DbSet<Country> Country { get; set; }
 
-       public DbSet<State> State { get; set; }
+        public DbSet<State> State { get; set; }
 
-       public DbSet<City> City { get; set; }
+        public DbSet<City> City { get; set; }
 
-       public DbSet<Department> Department { get; set; }
+        public DbSet<Department> Department { get; set; }
 
-       public DbSet<Designation> Designation { get; set; }
+        public DbSet<Designation> Designation { get; set; }
 
-       public DbSet<PriceList> PriceList { get; set; }
-       public DbSet<VAT> VAT { get; set; }
+        public DbSet<PriceList> PriceList { get; set; }
+        public DbSet<VAT> VAT { get; set; }
 
 
     }

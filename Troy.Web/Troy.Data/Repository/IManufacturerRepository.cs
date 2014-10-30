@@ -25,7 +25,7 @@ namespace Troy.Data.Repository
 
         bool EditExistingManufacturer(Manufacture manufacturer);
 
-        bool GenerateXML(Object obj);
+        bool GenerateXML(Object obj,string uniqueId);
 
     }
 }

@@ -23,8 +23,8 @@ namespace Troy.Data.Repository
 
         bool AddNewProductGroup(ProductGroup ProductGroup);
 
-        bool EditExistingProductGroup(ProductGroup ProductGroup);       
+        bool EditExistingProductGroup(ProductGroup ProductGroup);
 
-        bool GenerateXML(Object obj);
+        bool GenerateXML(Object obj, string uniqueId);
     }
 }

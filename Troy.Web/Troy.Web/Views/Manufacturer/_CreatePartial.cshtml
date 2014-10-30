@@ -10,12 +10,10 @@
         </div>
 
         <div class="modal-body">
-
             <div class="form-horizontal">
-
                 <div class="row">
 
-                    <ul id="tabs" class="nav nav-pills nav-pills-justified">
+                    <ul id="tabs" class="nav nav-tabs tabdrop">
                         <li class="active">
                             <a href="#default" data-toggle="tab">General </a>
                         </li>
@@ -24,7 +22,6 @@
                     <div id="myTabContent" class="tab-content">
 
                         <div class="tab-pane fade in active" id="default">
-
                             <br />
                             @Html.HiddenFor(model => model.Manufacturer.Manufacturer_Id)
                             <div class="col-md-6">
@@ -47,9 +44,10 @@
                                         @Html.ValidationMessageFor(model => model.Manufacturer.Level)
                                     </div>
                                 </div>
-                            </div>
+                            </div>                          
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

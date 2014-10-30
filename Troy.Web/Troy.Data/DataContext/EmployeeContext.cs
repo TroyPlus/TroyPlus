@@ -13,7 +13,6 @@ using Troy.Model.MaritalStatuses;
 using Troy.Model.Genders;
 using Troy.Model.LeftReasons;
 using Troy.Model.Branches;
-using Troy.Model.Configuration;
 
 namespace Troy.Data.DataContext
 {
