@@ -241,6 +241,7 @@
     <Content Include="Content\themes\TroyPlus\css\custom-landing.css" />
     <Content Include="Content\themes\TroyPlus\css\custom.css" />
     <Content Include="Content\themes\TroyPlus\css\icons.css" />
+    <Content Include="Content\themes\TroyPlus\css\jAutochecklist.css" />
     <Content Include="Content\themes\TroyPlus\css\landing.css" />
     <Content Include="Content\themes\TroyPlus\css\main.css" />
     <Content Include="Content\themes\TroyPlus\css\plugins.css" />
@@ -361,6 +362,8 @@
     <Content Include="Content\themes\TroyPlus\js\bootstrap\bootstrap.js" />
     <Content Include="Content\themes\TroyPlus\js\bootstrap\bootstrap.min.js" />
     <Content Include="Content\themes\TroyPlus\js\html5shiv.js" />
+    <Content Include="Content\themes\TroyPlus\js\jAutochecklist.js" />
+    <Content Include="Content\themes\TroyPlus\js\jAutochecklist.min.js" />
     <Content Include="Content\themes\TroyPlus\js\jquery.sprFlat.js" />
     <Content Include="Content\themes\TroyPlus\js\jRespond.min.js" />
     <Content Include="Content\themes\TroyPlus\js\libs\excanvas.min.js" />

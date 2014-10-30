@@ -68,6 +68,7 @@
     <Compile Include="Branches\UserBranches.cs" />
     <Compile Include="Branches\ViewBranches.cs" />
     <Compile Include="BusinessPartner\BusinessPartner.cs" />
+    <Compile Include="BusinessPartner\BussinessList.cs" />
     <Compile Include="BusinessPartner\ViewBusinessPartner.cs" />
     <Compile Include="Cities\City.cs" />
     <Compile Include="Cities\CityList.cs" />
