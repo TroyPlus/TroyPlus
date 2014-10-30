@@ -142,17 +142,13 @@ namespace Troy.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var user = _userManager.FindById(model.Id);
-
-
-
+                
                 user.UserName = model.UserName;
                 user.Email = model.Email;
                 user.Employee_Id = model.Employee_Id;
                 user.IsActive = model.IsActive;
-               user.Modified_User_Id = CurrentUser.Id;
-                //user.Modified_User_Id = 1;
+               user.Modified_User_Id = CurrentUser.Id;                
                 user.Modified_Branch_Id = 1;
                 user.Modified_Date = DateTime.Now;
 
@@ -482,16 +478,10 @@ namespace Troy.Web.Controllers
                     model.rolelist = RoleList;
 
                     var BranchList = userDb.GetAllBranches();
-                    var userBranches = userDb.GetBranchesByUserId(model.Id);
-                    foreach (var b in BranchList)
-                    {
-                        if(userBranches.Contains(b.Branch_Id))
-                        {
-                            b.IsSelected = true;
-                        }
-                    }
-
                     model.branchlist = BranchList;
+
+                    var userBranches = userDb.GetBranchesByUserId(model.Id);                   
+                    model.DefaultSelectedBranches = userBranches;
 
                     return PartialView(model);
                 }

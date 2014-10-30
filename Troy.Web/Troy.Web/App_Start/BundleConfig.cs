@@ -15,8 +15,8 @@ namespace Troy.Web
             bundles.Add(new StyleBundle("~/Content/themes/icons").Include(
                         "~/Content/themes/TroyPlus/css/icons.css"));
             // jQueryUI 
-            //bundles.Add(new StyleBundle("~/Content/themes/jqueryUI").Include(
-            //                "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.all.css"));
+            bundles.Add(new StyleBundle("~/Content/themes/jqueryUI").Include(
+                            "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.all.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/jqueryUI").Include(
                        "~/Content/themes/TroyPlus/css/sprflat-theme/jquery.ui.core.css",
@@ -45,7 +45,8 @@ namespace Troy.Web
             // Custom stylesheets ( Put your own changes here ) 
             bundles.Add(new StyleBundle("~/Content/themes/custom").Include(
                             "~/Content/themes/TroyPlus/css/custom.css"));          
-
+            // Multiselect drop down list
+            bundles.Add(new StyleBundle("~/Content/themes/plugins/multiselect").Include("~/Content/themes/TroyPlus/plugins/forms/multiselect/jquery.multiselect.css"));
             #endregion
 
             #region Javascripts
@@ -100,6 +101,9 @@ namespace Troy.Web
                 "~/Content/themes/TroyPlus/js/pages/data-tables.js",
                 "~/Content/themes/TroyPlus/js/libs/jQuery-placeholder.js"
                 ));
+
+            // Multiselect Dropdown List
+            bundles.Add(new ScriptBundle("~/bundles/script/multiselect").Include("~/Content/themes/TroyPlus/plugins/forms/multiselect/jquery.multiselect.js"));
 
             #endregion
             // Set EnableOptimizations to false for debugging. For more information,
