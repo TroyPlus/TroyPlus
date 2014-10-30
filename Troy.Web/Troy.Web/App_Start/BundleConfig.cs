@@ -47,6 +47,11 @@ namespace Troy.Web
                             "~/Content/themes/TroyPlus/css/custom.css"));          
             // Multiselect drop down list
             bundles.Add(new StyleBundle("~/Content/themes/plugins/multiselect").Include("~/Content/themes/TroyPlus/plugins/forms/multiselect/jquery.multiselect.css"));
+
+            // Typeahead CSS
+            bundles.Add(new StyleBundle("~/Content/themes/jAutocheckCSS").Include(
+                           "~/Content/themes/TroyPlus/css/jAutochecklist.css"));
+
             #endregion
 
             #region Javascripts
@@ -81,6 +86,8 @@ namespace Troy.Web
             // Bootbox confirm dialog for reset postion on panels -->
             bundles.Add(new ScriptBundle("~/bundles/script/jBootbox").Include("~/Content/themes/TroyPlus/plugins/ui/bootbox/bootbox.js"));
 
+            // Typeahead dropdown plugin
+            bundles.Add(new ScriptBundle("~/bundles/script/jAutochecklist").Include("~/Content/themes/TroyPlus/js/jAutochecklist.js"));
 
             // Common scripts for master data pages.
             bundles.Add(new ScriptBundle("~/bundles/script/commonScripts").Include(
