@@ -30,7 +30,7 @@
             $('#viewVAT').modal('show');
         });
     }
-    
+
     function EditSubmit(button) {
         var text = button.value;
         $('#submitAction').val(button.value)
@@ -54,6 +54,7 @@
             <div class="row">&nbsp;</div>
             <!-- Start .row -->
             <div class="row">
+                <ul id="crumb" class="breadcrumb"></ul>
                 <!-- Start .page-header -->
                 <div class="form-group">
                     <label class="col-md-2 col-md-2 col-sm-12 h4 control-label pull-left">
@@ -138,8 +139,8 @@
                                         <table class="table display" id="datatable">
                                             <thead>
                                                 <tr>
-                                                    <th>VAT_Desc</th>
-                                                    <th>VAT_percentage</th>
+                                                    <th>VAT Desc</th>
+                                                    <th>VAT Percentage</th>
 
                                                     <th>IsActive</th>
 
@@ -158,17 +159,17 @@
 
 
                                                         <td>
-                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#viewVAT" data-backdrop="static" data-keyboard="false" onclick="ViewVAT(@item.VAT_Id);">
+                                                            <a href="#" title="View VAT" class="top-right" data-toggle="modal" data-target="#viewVAT" data-backdrop="static" data-keyboard="false" onclick="ViewVAT(@item.VAT_Id);">
                                                                 <i class="im-eye2"></i>
 
                                                             </a>
                                                             <span class="text-muted">|</span>
-                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#editVAT" data-backdrop="static" data-keyboard="false" onclick="EditVAT(@item.VAT_Id);">
+                                                            <a href="#" class="top-right" title="Edit VAT" data-toggle="modal" data-target="#editVAT" data-backdrop="static" data-keyboard="false" onclick="EditVAT(@item.VAT_Id);">
                                                                 <i class="im-pencil2"></i>
                                                             </a>
                                                             <span class="text-muted">|</span>
 
-                                                            <a href="@Url.Action("_DeletePartialView", "Suppliers", new { id = item.VAT_Id })" data-modal="true">
+                                                            <a href="@Url.Action("_DeletePartialView", "Suppliers", new { id = item.VAT_Id })" title="Delete VAT" data-modal="true">
                                                                 <i class="im-remove2"></i>
                                                             </a>
                                                         </td>
