@@ -14,6 +14,7 @@ namespace Troy.Data.Repository
         List<ViewBranches> GetFilterBranch(string searchColumn, string searchString, Guid userId);
 
         //List<State> StateList(int Id);
+       // Branch StateList(int Id);
 
         List<Branch> GetAllBranch();
         Branch FindOneBranchById(int qId);

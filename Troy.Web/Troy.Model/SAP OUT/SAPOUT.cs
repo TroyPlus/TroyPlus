@@ -19,6 +19,10 @@ namespace Troy.Model.SAP_OUT
         public int XML_Id { get; set; }
 
         [Required]
+        [StringLength(50)]        
+        public string Unique_Id { get; set; }
+
+        [Required]
         [StringLength(30)]
         [Column(TypeName = "char")]
         public string Object_typ { get; set; }

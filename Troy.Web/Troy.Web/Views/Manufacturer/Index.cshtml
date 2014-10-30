@@ -127,7 +127,7 @@
 
 <div><span>&nbsp;</span></div>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Upload", "Manufacturer", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
     @Html.ValidationSummary(true)
@@ -283,7 +283,9 @@
                                             <iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <input type="file" id="FileUpload" name="FileUpload" />
+                                                    @*<input type="file" id="FileUpload" name="FileUpload" />*@
+                                                    <input type="file" name="file" />
+                                                    <input type="submit" name="Submit" id="Submit" value="Upload" />
                                                 </div>
                                             </div>
                                             <a href=@Url.Action("_TemplateExcelDownload", "Manufacturer")>
@@ -301,7 +303,6 @@
                 <div class="modal-footer">
                     <input class="btn btn-primary pull-left" type="button" id="btnUpload1" name="FileUploadButton" value="Upload" onclick="return IFrameManuSubmit();" />
                     <button class="btn pull-left" data-dismiss="modal">Close</button>
-                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
                 </div>
 
             </div>

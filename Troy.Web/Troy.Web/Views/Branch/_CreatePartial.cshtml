@@ -1,6 +1,34 @@
 ﻿@model Troy.Web.Models.BranchViewModels
 
 
+
+<script type="text/jscript">
+    $(function () {
+        $('#Country').change(function () {
+            $.getJSON('/Cascading/StateList/' + $('#Country').val(), function (data) {
+                var items = '<option>Select a State</option>';
+                $.each(data, function (i, state) {
+                    items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                });
+                $('#State').html(items);
+            });
+        });
+
+        $('#State').change(function () {
+            $.getJSON('/Cascading/CityList/' + $('#State').val(), function (data) {
+                var items = '<option>Select a City</option>';
+                $.each(data, function (i, city) {
+                    items += "<option value='" + city.Value + "'>" + city.Text + "</option>";
+                });
+                $('#City').html(items);
+            });
+        });
+    });
+</script>
+
+
+
+
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -46,7 +74,8 @@
 
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                @Html.LabelFor(model => model.Branch.Branch_Name)
+                                                @*@Html.LabelFor(model => model.Branch.Branch_Name)*@
+                                                Branch Name
 
                                             </div>
                                             <div class="col-md-8">
@@ -86,42 +115,57 @@
                                         </div>
                                     </div>
                                 </div>
-                        
-                                    <div class="col-md-6">
-                                        <div class="form-horizontal">
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    Country:
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.DropDownListFor(m => m.Branch.Country_ID, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name", 1), "Select Country", new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.Branch.Country_ID)
-                                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-horizontal">
+
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                Country:
                                             </div>
+                                            @*@Html.DropDownListFor(model => model.country.ID, null, new { id = "Country" })*@
+                                           
+                                            @Html.DropDownList("Country", ViewBag.ID as SelectList, "Select a Country", new { id = "Country" })<br />
+                                          
+                                            <select id="State" name="state"></select><br />
+                                            <select id="city" name="City"></select><br />
+                                            </div>
+
+
+                                            @*<div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        Country:
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownListFor(m => m.Branch.Country_ID, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name", 1), "Select Country", new { @class = "form-control control-text", id = "Country" })
+                                                        @Html.ValidationMessageFor(model => model.Branch.Country_ID)
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        State:
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownListFor(m => m.Branch.State_ID, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name", 1), "Select State", new { @class = "form-control control-text", id="State" })
+                                                        @Html.ValidationMessageFor(model => model.Branch.State_ID)
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        City:
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownListFor(m => m.Branch.City_ID, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name", 1), "Select City", new { @class = "form-control control-text", id="City" })
+                                                        @Html.ValidationMessageFor(model => model.Branch.City_ID)
+                                                    </div>
+                                                </div>*@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    State:
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.DropDownListFor(m => m.Branch.State_ID, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name", 1), "Select State", new { @class = "form-control control-text", @id = "ui-widget" })
-                                                    @Html.ValidationMessageFor(model => model.Branch.State_ID)
-                                                </div>
-                                            </div>
-
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    City:
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.DropDownListFor(m => m.Branch.City_ID, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name", 1), "Select City", new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.Branch.City_ID)
-                                                </div>
-                                            </div>
-
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    @Html.LabelFor(model => model.Branch.Pin_Code)
+                                                    @*@Html.LabelFor(model => model.Branch.Pin_Code)*@
+                                                    PinCode
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.TextBoxFor(model => model.Branch.Pin_Code, new { @class = "form-control control-text" })
@@ -140,19 +184,19 @@
                                             </div>
 
                                         </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="modal-footer">
-            <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
-            <button class="btn pull-left" data-dismiss="modal">Close</button>
-            @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+            <div class="modal-footer">
+                <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+                <button class="btn pull-left" data-dismiss="modal">Close</button>
+                @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+            </div>
         </div>
     </div>
-</div>
 

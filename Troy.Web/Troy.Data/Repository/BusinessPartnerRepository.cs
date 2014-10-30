@@ -288,7 +288,7 @@ namespace Troy.Data.Repository
             return item;
         }
 
-        public bool GenerateXML(Object obj1)
+        public bool GenerateXML(Object obj1, string uniqueId)
         {
             try
             {

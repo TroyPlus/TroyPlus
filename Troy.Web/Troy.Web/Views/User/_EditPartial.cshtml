@@ -20,97 +20,128 @@
             </div>
 
             <div class="modal-body">
-
                 <div class="form-horizontal">
-
                     <div class="row">
+                        <div class="tabs">
+                            <ul id="tabs" class="nav nav-tabs tabdrop">
+                                <li class="active">
+                                    <a href="#editdefault" data-toggle="tab">General </a>
+                                </li>
+                            </ul>
 
-                        <ul id="tabs" class="nav nav-tabs tabdrop">
-                            <li class="active">
-                                <a href="#editdefault" data-toggle="tab">General </a>
-                            </li>
-                        </ul>
+                            <div id="editTabContent" class="tab-content">
+                                <div class="tab-pane fade active in" id="editdefault">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.UserName, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                                    </div>
 
-                        <div id="editTabContent" class="tab-content">
-                            <div class="tab-pane fade active in" id="editdefault">
-                                <div class="row">
+                                                </div>
 
-                                    <div class="col-md-6">
-                                        <div class="form-horizontal">
-                                            @Html.HiddenFor(m => m.Id)                                            
-                                            
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.UserName, new { @class = "control-label normal" })
+                                                @*<div class="row form-group">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(m => m.Password, new { @class = "control-label normal" })
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.PasswordFor(model => model.Password, new { @class = "form-control control-text" })
+                                                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>*@
+
+                                                @*<div class="row form-group">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label normal" })
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control control-text  pull-left" })
+                                                            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>*@
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.Email, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.Role_Id, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownListFor(m => m.Role_Id, new SelectList(Model.rolelist.AsEnumerable(), "Id", "Name"), "", new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.Role_Id, "", new { @class = "text-danger" })
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.Email, new { @class = "control-label normal" })
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.Role_Id, new { @class = "control-label normal" })
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.DropDownListFor(m => m.Role_Id, new SelectList(Model.rolelist.AsEnumerable(), "Id", "Name"), "", new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.Role_Id, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.IsActive, new { @class = "control-label normal" })
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.CheckBoxFor(model => model.IsActive, new { Name = "IsActive", @class = "" })
-                                                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.IsActive, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.CheckBoxFor(model => model.IsActive, new { name = "IsActive", @checked = "checked", @class = "" })
+                                                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="row form-group">
-                                            <div class="col-md-4">
-                                                @Html.LabelFor(m => m.Employee_Id, new { @class = "control-label normal" })
+                                        <div class="col-md-6">
+                                            @*<div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.Role_Id, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownListFor(m => m.Role_Id, new SelectList(Model.rolelist.AsEnumerable(), "Id", "Name"), "", new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.Role_Id, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>*@
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(m => m.Employee_Id, new { @class = "control-label normal" })
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownListFor(m => m.Employee_Id, new SelectList(Model.employeelist.AsEnumerable(), "Emp_Id", "First_Name"), "", new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.Employee_Id, "", new { @class = "text-danger" })
+                                                </div>
                                             </div>
-                                            <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.Employee_Id, new SelectList(Model.employeelist.AsEnumerable(), "Emp_Id", "First_Name"), "", new { @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.Employee_Id, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="row form-group">
-                                            <div class="col-md-4">
-                                                @Html.LabelFor(m => m.Branch_Id, new { @class = "control-label normal" })
-                                            </div>
-                                            <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.Branch_Id, new System.Web.Mvc.SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name", "IsSelected"), "", new
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(m => m.Branch_Id, new { @class = "control-label normal" })
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownListFor(m => m.Branch_Id, new System.Web.Mvc.SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name", "IsSelected"), "", new
                                            {
                                                @class = "multiselect",
                                                multiple = "multiple",
-                         })
+                                           })
 
-                                    
-                                                
 
-                                                @Html.ValidationMessageFor(model => model.Branch_Id, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="row form-group">
-                                            <div class="col-md-4">
-                                                @Html.Label("Default branch", new { @class = "control-label normal pull-left" })
-                                            </div>
-                                            <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.Branch_Id, "", new { @class = "text-danger" })
+
+
+                                                    @Html.ValidationMessageFor(model => model.Branch_Id, "", new { @class = "text-danger" })
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+
+                                                        @Html.Label("Default branch", new { @class = "control-label normal  pull-left" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.Branch_Id, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

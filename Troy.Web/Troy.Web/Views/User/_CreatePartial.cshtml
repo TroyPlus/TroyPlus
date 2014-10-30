@@ -45,10 +45,11 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label normal" })
+                                                    @*@Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label normal" })*@
+                                                    ConfirmPassword
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control control-text  pull-left" })
+                                                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
