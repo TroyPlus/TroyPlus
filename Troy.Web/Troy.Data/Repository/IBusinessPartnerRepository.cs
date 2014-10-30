@@ -29,7 +29,7 @@ namespace Troy.Data.Repository
         bool EditExistingBusinessPartner(BusinessPartner businesspartner);
 
 
-        bool GenerateXML(Object obj1);
+        bool GenerateXML(Object obj1, string uniqueId);
 
         List<GroupList> GetGroupList();
 

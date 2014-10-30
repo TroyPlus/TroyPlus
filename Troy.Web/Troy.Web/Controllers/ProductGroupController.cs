@@ -114,13 +114,10 @@ namespace Troy.Web.Controllers
                 xmlAddProductGroup.Productgroup_Name = model.ProductGroup.Product_Group_Name;
                 xmlAddProductGroup.CreatedUser = currentUser.Created_User_Id.ToString();
                 xmlAddProductGroup.CreatedBranch = currentUser.Created_Branch_Id.ToString();
-                xmlAddProductGroup.CreatedDateTime = DateTime.Now.ToString();
-                xmlAddProductGroup.LastModifyUser = currentUser.Modified_User_Id.ToString();
-                xmlAddProductGroup.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
-                xmlAddProductGroup.LastModifyDateTime = DateTime.Now.ToString();
+                xmlAddProductGroup.CreatedDateTime = DateTime.Now.ToString();               
 
                 //generate xml
-                productgroupRepository.GenerateXML(xmlAddProductGroup);
+                productgroupRepository.GenerateXML(xmlAddProductGroup, UniqueID);
             }
             catch (Exception ex)
             {
@@ -145,16 +142,13 @@ namespace Troy.Web.Controllers
                 Viewmodel_ModifyProductGroup xmlEditProductGroup = new Viewmodel_ModifyProductGroup();
                 xmlEditProductGroup.UniqueID = UniqueID.ToString();
                 xmlEditProductGroup.old_Productgroup_Name = Temp_productgroup.ToString().Trim();
-                xmlEditProductGroup.New_Productgroup_Name = model.ProductGroup.Product_Group_Name;
-                xmlEditProductGroup.CreatedUser = currentUser.Created_User_Id.ToString();
-                xmlEditProductGroup.CreatedBranch = currentUser.Created_Branch_Id.ToString();
-                xmlEditProductGroup.CreatedDateTime = DateTime.Now.ToString();
+                xmlEditProductGroup.New_Productgroup_Name = model.ProductGroup.Product_Group_Name;               
                 xmlEditProductGroup.LastModifyUser = currentUser.Modified_User_Id.ToString();
                 xmlEditProductGroup.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
                 xmlEditProductGroup.LastModifyDateTime = DateTime.Now.ToString();
 
                 //generate xml
-                productgroupRepository.GenerateXML(xmlEditProductGroup);
+                productgroupRepository.GenerateXML(xmlEditProductGroup, UniqueID);
             }
             catch (Exception ex)
             {
@@ -394,13 +388,10 @@ namespace Troy.Web.Controllers
                                         xmlAddProductGroup.Productgroup_Name = ds.Tables[0].Rows[j]["Product Group Name"].ToString();
                                         xmlAddProductGroup.CreatedUser = currentUser.Created_User_Id.ToString();
                                         xmlAddProductGroup.CreatedBranch = currentUser.Created_Branch_Id.ToString();
-                                        xmlAddProductGroup.CreatedDateTime = DateTime.Now.ToString();
-                                        xmlAddProductGroup.LastModifyUser = currentUser.Modified_User_Id.ToString();
-                                        xmlAddProductGroup.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
-                                        xmlAddProductGroup.LastModifyDateTime = DateTime.Now.ToString();
+                                        xmlAddProductGroup.CreatedDateTime = DateTime.Now.ToString();                                       
 
                                         //generate xml
-                                        productgroupRepository.GenerateXML(xmlAddProductGroup);
+                                        productgroupRepository.GenerateXML(xmlAddProductGroup, UniqueID);
 
                                     }
 

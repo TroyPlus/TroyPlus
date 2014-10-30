@@ -19,7 +19,7 @@ namespace Troy.Data.Repository
 {
     public interface IEmployeeRepository
     {
-        List<ViewEmployee> GetAllEmployee();      
+        List<ViewEmployee> GetAllEmployee();
 
         Employee GetEmployeeById(int qId);
 
@@ -31,7 +31,7 @@ namespace Troy.Data.Repository
 
         bool EditExistingEmployee(Employee employee);
 
-        bool GenerateXML(Object obj1);
+        bool GenerateXML(Object obj1, string uniqueId);
 
         List<DesignationList> GetDesignationList();
 
@@ -47,7 +47,7 @@ namespace Troy.Data.Repository
 
         List<InitialList> GetInitialList();
 
-        Branch CheckBranchName(string bname);       
+        Branch CheckBranchName(string bname);
 
         Designation CheckDesignationName(string dname);
 

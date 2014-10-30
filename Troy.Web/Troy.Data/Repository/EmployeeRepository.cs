@@ -251,7 +251,7 @@ namespace Troy.Data.Repository
             }
         }
 
-        public bool GenerateXML(Object obj1)
+        public bool GenerateXML(Object obj1, string uniqueId)
         {
             try
             {
@@ -262,6 +262,7 @@ namespace Troy.Data.Repository
 
 
                 SAPOUT mSAP = new SAPOUT();
+                mSAP.Unique_Id = uniqueId;
                 mSAP.Object_typ = "Employee";
                 mSAP.Branch_Cde = "1";
                 mSAP.Troy_Created_Dte = Convert.ToDateTime(DateTime.Now.ToString());

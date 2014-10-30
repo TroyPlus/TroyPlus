@@ -233,19 +233,10 @@ namespace Troy.Web.Controllers
                 addbp.CreatedUser = currentUser.Created_User_Id.ToString();
                 addbp.CreatedBranch = currentUser.Created_Branch_Id.ToString();
                 addbp.CreatedDateTime = DateTime.Now.ToString();
-                addbp.LastModifyUser = currentUser.Modified_User_Id.ToString();
-                addbp.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
-                addbp.LastModifyDateTime = DateTime.Now.ToString();
 
-                //xmlAddManufacture.CreatedUser = "1";
-                //xmlAddManufacture.CreatedBranch = "1";
-                //xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
-                //xmlAddManufacture.LastModifyUser = "2";
-                //xmlAddManufacture.LastModifyBranch = "2";
-                //xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString(); 
                 #endregion
 
-                businesspartnerRepository.GenerateXML(addbp);
+                businesspartnerRepository.GenerateXML(addbp, mUniqueID);
             }
             catch (Exception ex)
             {
@@ -361,22 +352,12 @@ namespace Troy.Web.Controllers
 
                 modifybp.address.ShipTo = shipto;
                 modifybp.address.BillTo = billto;
-                modifybp.CreatedUser = currentUser.Created_User_Id.ToString();
-                modifybp.CreatedBranch = currentUser.Created_Branch_Id.ToString();
-                modifybp.CreatedDateTime = DateTime.Now.ToString();
                 modifybp.LastModifyUser = currentUser.Modified_User_Id.ToString();
                 modifybp.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
-                modifybp.LastModifyDateTime = DateTime.Now.ToString();
-
-                //xmlAddManufacture.CreatedUser = "1";
-                //xmlAddManufacture.CreatedBranch = "1";
-                //xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
-                //xmlAddManufacture.LastModifyUser = "2";
-                //xmlAddManufacture.LastModifyBranch = "2";
-                //xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString();    
+                modifybp.LastModifyDateTime = DateTime.Now.ToString();    
                 #endregion
 
-                businesspartnerRepository.GenerateXML(modifybp);
+                businesspartnerRepository.GenerateXML(modifybp, mUniqueID);
             }
             catch (Exception ex)
             {
@@ -1203,22 +1184,11 @@ namespace Troy.Web.Controllers
 
                                         addbp.CreatedBranch = currentUser.Created_Branch_Id.ToString();
                                         addbp.CreatedUser = currentUser.Created_User_Id.ToString();
-                                        addbp.CreatedDateTime = DateTime.Now.ToString();
-                                        addbp.LastModifyUser = currentUser.Modified_User_Id.ToString();
-                                        addbp.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
-                                        addbp.LastModifyDateTime = DateTime.Now.ToString();
-
-
-                                        //xmlAddManufacture.CreatedUser = "1";
-                                        //xmlAddManufacture.CreatedBranch = "1";
-                                        //xmlAddManufacture.CreatedDateTime = DateTime.Now.ToString();
-                                        //xmlAddManufacture.LastModifyUser = "2";
-                                        //xmlAddManufacture.LastModifyBranch = "2";
-                                        //xmlAddManufacture.LastModifyDateTime = DateTime.Now.ToString();     
+                                        addbp.CreatedDateTime = DateTime.Now.ToString(); 
 
                                         #endregion
 
-                                        businesspartnerRepository.GenerateXML(addbp);
+                                        businesspartnerRepository.GenerateXML(addbp, mUniqueID);
                                     }
 
                                     if (businesspartnerRepository.InsertFileUploadDetails(mlist))

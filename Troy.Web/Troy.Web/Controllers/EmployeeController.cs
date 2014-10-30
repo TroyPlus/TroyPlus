@@ -163,11 +163,8 @@ namespace Troy.Web.Controllers
                 addEmp.CreatedUser = currentUser.Created_User_Id.ToString();
                 addEmp.CreatedBranch = currentUser.Created_Branch_Id.ToString();
                 addEmp.CreatedDateTime = DateTime.Now.ToString();
-                addEmp.LastModifyUser = currentUser.Modified_User_Id.ToString();
-                addEmp.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
-                addEmp.LastModifyDateTime = DateTime.Now.ToString();
 
-                employeeRepository.GenerateXML(addEmp);
+                employeeRepository.GenerateXML(addEmp, mUniqueID);
 
                 #endregion
             }
@@ -229,15 +226,12 @@ namespace Troy.Web.Controllers
                 modifyEmp.finance.BankAccount = Convert.ToString(model.Employee.Bank_Acc_No);
 
                 //addEmp class for remarks tag
-                modifyEmp.Remarks = model.Employee.Remarks;
-                modifyEmp.CreatedUser = currentUser.Created_User_Id.ToString();
-                modifyEmp.CreatedBranch = currentUser.Created_Branch_Id.ToString();
-                modifyEmp.CreatedDateTime = DateTime.Now.ToString();
+                modifyEmp.Remarks = model.Employee.Remarks;               
                 modifyEmp.LastModifyUser = currentUser.Modified_User_Id.ToString();
                 modifyEmp.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
                 modifyEmp.LastModifyDateTime = DateTime.Now.ToString();
 
-                employeeRepository.GenerateXML(modifyEmp);
+                employeeRepository.GenerateXML(modifyEmp, mUniqueID);
 
                 #endregion
             }
@@ -948,13 +942,10 @@ namespace Troy.Web.Controllers
                                         addEmp.CreatedUser = currentUser.Created_User_Id.ToString();
                                         addEmp.CreatedBranch = currentUser.Created_Branch_Id.ToString();
                                         addEmp.CreatedDateTime = DateTime.Now.ToString();
-                                        addEmp.LastModifyUser = currentUser.Modified_User_Id.ToString();
-                                        addEmp.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
-                                        addEmp.LastModifyDateTime = DateTime.Now.ToString();
 
                                         #endregion
 
-                                        if (employeeRepository.GenerateXML(addEmp))
+                                        if (employeeRepository.GenerateXML(addEmp, mUniqueID))
                                         {
 
                                         }
@@ -1093,7 +1084,7 @@ namespace Troy.Web.Controllers
                 Response.End();
 
                 return RedirectToAction("Index", "Employee");
-            }
+            } 
             catch (Exception ex)
             {
                 ExceptionHandler.LogException(ex);
