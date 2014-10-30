@@ -11,7 +11,6 @@
 
         $('.datePicker').datepicker();
         //{ dateFormat: 'dd-mm-yy' }
-        $("#typeahead").jAutochecklist();
 
         var i = 1;
 
@@ -25,11 +24,10 @@
             var html = '<tr>' +
                         '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="PurchaseQuotationItemList_' + i + '__IsDummy" name="PurchaseQuotationItemList[' + i + '].IsDummy" type="text" value="">  </td>' +
                         '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseQuotationItemList_' + i + '__Product_id" name="PurchaseQuotationItemList[' + i + '].Product_id" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Product_id" data-valmsg-replace="true"></span>  </td>' +
-                        '<td> <input class="form-control control-text datePicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_' + i + '__Required_date" name="PurchaseQuotationItemList[' + i + '].Required_date" type="text" value="' + strDate + '"> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_date" data-valmsg-replace="true"></span>  </td>' +
+                        '<td> <input class="form-control control-text datePicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_' + i + '__Required_date" name="PurchaseQuotationItemList[' + i + '].Required_date" type="text" value="'+ strDate +'"> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_date" data-valmsg-replace="true"></span>  </td>' +
                         '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="PurchaseQuotationItemList_' + i + '__Required_qty" name="PurchaseQuotationItemList[' + i + '].Required_qty" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_qty" data-valmsg-replace="true"></span>  </td>' +
                         '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseQuotationItemList_' + i + '__Unit_price" name="PurchaseQuotationItemList[' + i + '].Unit_price" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Unit_price" data-valmsg-replace="true"></span> </td>' +
                         '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-required="The Discount_percent field is required." id="PurchaseQuotationItemList_' + i + '__Discount_percent" name="PurchaseQuotationItemList[' + i + '].Discount_percent" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Discount_percent" data-valmsg-replace="true"></span> </td>' +
-                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseQuotationItemList_' + i + '__Amount" name="PurchaseQuotationItemList[' + i + '].Amount" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Amount" data-valmsg-replace="true"></span> </td>' +
                         '<td> <input class="form-control control-text" data-val="true" data-val-number="The field VAT Code must be a number." data-val-required="The VAT Code field is required." id="PurchaseQuotationItemList_' + i + '__Vat_Code" name="PurchaseQuotationItemList[' + i + '].Vat_Code" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Vat_Code" data-valmsg-replace="true"></span> </td>' +
                         '<td><input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" /></td>' +
 
@@ -40,6 +38,7 @@
 
             $(html).appendTo($("#createItemTable"))
 
+            //$("#PurchaseQuotationItemList_1__Required_date").datepicker("refresh");
             i++;
 
             $("form").removeData("validator");
@@ -50,6 +49,8 @@
                 $(this).datepicker();
             });
         };
+
+        //$(".BtnPlus").click(addRow);
 
         $("#createItemTable").on("click", ".BtnPlus", addRow);
 
@@ -69,7 +70,6 @@
             //$(id).val(1);
             par.hide();
         };
-
         $("#createItemTable").on("click", ".BtnMinus", deleteRow);
 
     });
@@ -136,6 +136,12 @@
         });
     }
 
+    function TabChange() {
+        //if ($("#btnSubmit").val == "Next") {
+        $('#createtabs a[href = #addQuotationlist]').tab('show');
+        //    $("#btnSubmit").val("Save");
+        //}
+    }
 
     $(function () {
         $("#btnNextTab").click(function (e) {
@@ -146,15 +152,14 @@
             var validator = $("#default").validate(); // obtain validator
             var anyError = false;
             _form.find("input").each(function () {
-                debugger;
-                if (this.parentNode.parentNode.className != "jAutochecklist_list") {
-                    if (!validator.element(this)) { // validate every input element inside this step
-                        anyError = true;
-                    }
+
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
                 }
-            }); 
+            });
 
             _form.find("select").each(function () {
+
                 if (!validator.element(this)) { // validate every input element inside this step
                     anyError = true;
                 }
@@ -213,7 +218,7 @@
 
                     <div class="col-lg-10 col-md-10">
                         <div class="row">
-                            <div class="pull-right group-button btn-toolbar">
+                            <div class="pull-right group-button btn-toolbar" >
                                 <button type="button" title="New Purchase" class="btn btn-primary" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false">
                                     <i class="en-add-to-list strong"></i>
                                     <span> New</span>
@@ -250,10 +255,10 @@
                                 </div>
                             </div>
                             <div class="panel-body">
-
-                                <table class="table display" id="datatable">
-                                    <thead>
-
+                                
+                                <table class="table display" id="datatable">                                    
+                                    <thead>                     
+                                                         
                                         <tr>
                                             <th>Quotation ID</th>
                                             <th>Vendor</th>
@@ -293,7 +298,7 @@
                                         }
                                     </tbody>
                                 </table>
-
+                                
                             </div>
                         </div>
                         <!-- End .panel -->
@@ -373,13 +378,12 @@
 
                 <div class="modal-footer">
                     <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
-                    <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                    <button class="btn pull-left" data-dismiss="modal">Close</button>
                     @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
                 </div>
 
             </div>
         </div>
     </div>
-
 }
 

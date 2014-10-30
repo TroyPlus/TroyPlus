@@ -115,7 +115,6 @@
     });
 
 </script>
-
 @using (Html.BeginForm("Index", "Purchase"))
 {
     @Html.ValidationSummary(true)
@@ -226,7 +225,7 @@
                                                         @Html.LabelFor(m => m.PurchaseQuotation.Posting_Date, new { @class = "control-label normal" })
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = Model.PurchaseQuotation.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
                                                     </div>
                                                 </div>                                               
