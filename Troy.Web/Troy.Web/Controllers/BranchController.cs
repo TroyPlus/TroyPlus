@@ -78,7 +78,8 @@ namespace Troy.Web.Controllers
 
 
 
-        public ActionResult Index()
+        public ActionResult Index(BranchContext branchdb)
+        
         
         
         {
@@ -100,7 +101,7 @@ namespace Troy.Web.Controllers
 
                 model.CityList = branchRepository.GetAddresscityList().ToList();
 
-              //ViewBag.CountryId = new SelectList(branchdb.Country, "ID", "Country_Name");
+              ViewBag.ID = new SelectList(branchdb.Country, "ID", "Country_Name");
 
                 return View(model);
             }
@@ -117,14 +118,18 @@ namespace Troy.Web.Controllers
             }
 
 
-      
+        //public ActionResult Index(BranchContext branchdb)
+        //{
+        //    ViewBag.ID = new SelectList(branchdb.Country, "ID", "Country_Name");
+        //    return View();
+        //}
 
 
 
 
         //INDEX (SAVE and UPDATE)
         [HttpPost]
-        public ActionResult Index(string submitButton, BranchViewModels model, HttpPostedFileBase file,BranchContext branchdb)
+        public ActionResult Index(string submitButton, BranchViewModels model, HttpPostedFileBase file)
         {
 
 
@@ -141,7 +146,7 @@ namespace Troy.Web.Controllers
                     //model.Branch.Modified_Dte = DateTime.Now;
                     //model.Branch.Modified_Branch_Id = 1;
 
-                    ViewBag.ID = new SelectList(branchdb.Country, "ID", "Country_Name");
+                    //ViewBag.ID = new SelectList(branchdb.Country, "ID", "Country_Name");
                  
                     //StateList(model.country.ID);
                     //model.country.Country_Name = "INDIA";
@@ -690,12 +695,12 @@ namespace Troy.Web.Controllers
             var state = from s in branchContext.State
                         where s.ID == Id
                         select s;
-            return Json(new SelectList(state.ToArray(), "StateId", "StateName"), JsonRequestBehavior.AllowGet);
+            return Json(new SelectList(state.ToArray(), "ID", "State_Name"), JsonRequestBehavior.AllowGet);
 
             //return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Citylist(int id)
+        public JsonResult CityList(int id)
         {
             var city = from c in branchContext.City
                        where c.ID == id
