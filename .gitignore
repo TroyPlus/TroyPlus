@@ -214,3 +214,11 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 *.csproj
+/Troy.Web/packages/System.Web.Mvc.Extensions.1.1.0.6/System.Web.Mvc.Extensions.1.1.0.6.nupkg
+/Troy.Web/packages/System.Web.Mvc.Extensions.1.1.0.6/lib/net45/System.Web.Mvc.Extensions.xml
+/Troy.Web/packages/System.Web.Mvc.Extensions.1.1.0.6/lib/net45/System.Web.Mvc.Extensions.dll
+/Troy.Web/packages/System.Web.Mvc.Extensions.1.1.0.6/lib/net40/System.Web.Mvc.Extensions.xml
+/Troy.Web/packages/System.Web.Mvc.Extensions.1.1.0.6/lib/net40/System.Web.Mvc.Extensions.dll
+/Troy.Web/packages/Microsoft.AspNet.WebPages.3.2.2/Microsoft.AspNet.WebPages.3.2.2.nupkg
+/Troy.Web/packages/Microsoft.AspNet.Razor.3.2.2/Microsoft.AspNet.Razor.3.2.2.nupkg
+/Troy.Web/packages/Microsoft.AspNet.Mvc.5.2.2/Microsoft.AspNet.Mvc.5.2.2.nupkg
