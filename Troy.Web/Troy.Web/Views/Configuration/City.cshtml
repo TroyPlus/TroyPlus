@@ -29,7 +29,7 @@
             $('#viewCity').modal('show');
         });
     }
-    
+
     function EditSubmit(button) {
         var text = button.value;
         $('#submitAction').val(button.value)
@@ -53,6 +53,7 @@
             <div class="row">&nbsp;</div>
             <!-- Start .row -->
             <div class="row">
+                <ul id="crumb" class="breadcrumb"></ul>
                 <!-- Start .page-header -->
                 <div class="form-group">
                     <label class="col-md-2 col-md-2 col-sm-12 h4 control-label pull-left">
@@ -155,17 +156,17 @@
 
 
                                                         <td>
-                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#viewCity" data-backdrop="static" data-keyboard="false" onclick="ViewCity(@item.ID);">
+                                                            <a href="#" title="View City" class="top-right" data-toggle="modal" data-target="#viewCity" data-backdrop="static" data-keyboard="false" onclick="ViewCity(@item.ID);">
                                                                 <i class="im-eye2"></i>
 
                                                             </a>
                                                             <span class="text-muted">|</span>
-                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#editCity" data-backdrop="static" data-keyboard="false" onclick="EditCity(@item.ID);">
+                                                            <a href="#" title="Edit City" class="top-right" data-toggle="modal" data-target="#editCity" data-backdrop="static" data-keyboard="false" onclick="EditCity(@item.ID);">
                                                                 <i class="im-pencil2"></i>
                                                             </a>
                                                             <span class="text-muted">|</span>
 
-                                                            <a href="@Url.Action(" _deletepartialview", "Suppliers", new { id = item.ID })" data-modal="true">
+                                                            <a href="@Url.Action(" _deletepartialview", "Suppliers", new { id = item.ID })" title="Delete City" data-modal="true">
                                                                 <i class="im-remove2"></i>
                                                             </a>
                                                         </td>

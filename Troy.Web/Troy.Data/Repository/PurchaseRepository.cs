@@ -8,9 +8,11 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using Troy.Data.DataContext;
 using Troy.Model.Branches;
 using Troy.Model.Purchase;
+using Troy.Model.SAP_OUT;
 using Troy.Utilities.CrossCutting;
 
 
@@ -46,7 +48,7 @@ namespace Troy.Data.Repository
             var cmd = purchaseContext.Database.Connection.CreateCommand();
             cmd.CommandText = "[dbo].[USP_GetPurchaseQuotation]";
             cmd.CommandType = CommandType.StoredProcedure;
-           
+
             cmd.Parameters.Add(new SqlParameter("@SearchColumn", searchColumn));
             cmd.Parameters.Add(new SqlParameter("@SearchString", searchString));
 
@@ -130,6 +132,18 @@ namespace Troy.Data.Repository
             return item;
         }
 
+        public List<BranchList> GetVendorList()
+        {
+            var item = (from a in branchContext.Branch
+                        select new BranchList
+                        {
+                            Branch_Name = a.Branch_Name,
+                            Branch_Id = a.Branch_Id
+                        }).ToList();
+
+            return item;
+        }
+
         public bool AddNewQuotation(PurchaseQuotation Quotation, IList<PurchaseQuotationItem> QuotationItemList, ref string ErrorMessage)
         {
             ErrorMessage = string.Empty;
@@ -201,5 +215,30 @@ namespace Troy.Data.Repository
             }
         }
 
+        public bool GenerateXML(Object obj)
+        {
+            try
+            {
+                string data = ModeltoSAPXmlConvertor.ConvertModelToXMLString(obj);
+
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(data);
+
+
+                SAPOUT mSAP = new SAPOUT();
+                mSAP.Object_typ = "Purchase";
+                mSAP.Branch_Cde = "1";
+                mSAP.Troy_Created_Dte = Convert.ToDateTime(DateTime.Now.ToString());
+                mSAP.Troy_XML = doc.InnerXml;
+                SAPOUTRepository saprepo = new SAPOUTRepository();
+                saprepo.AddNew(mSAP);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                return false;
+            }
+        }
     }
 }

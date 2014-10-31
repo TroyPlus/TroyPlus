@@ -40,7 +40,7 @@ namespace Troy.Data.Repository
 
         List<BranchList> GetAllBranches();
 
-        List<int> GetBranchesByUserId(int userId);
+        List<BranchList> GetBranchesByUserId(int userId);
 
         List<ApplicationRole> GetAddressRoleList();
 

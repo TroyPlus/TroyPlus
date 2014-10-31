@@ -94,11 +94,20 @@ namespace Troy.Data.Repository
             return item;
         }
 
-        public List<int> GetBranchesByUserId(int userId)
+        public List<BranchList> GetBranchesByUserId(int userId)
         {
             var result = (from ub in UserContext.userbranches
                           where ub.User_Id == userId
-                          select ub.Branch_Id).ToList();
+                          join b in UserContext.branch
+                                     on ub.Branch_Id equals b.Branch_Id
+                                     into ub_b
+                          from ubs in ub_b.DefaultIfEmpty()                          
+                          select new BranchList
+                          {
+                              Branch_Id = ubs.Branch_Id,
+                              Branch_Name = ubs.Branch_Name,
+                              IsSelected = false
+                          }).ToList();
             return result;
         }
      

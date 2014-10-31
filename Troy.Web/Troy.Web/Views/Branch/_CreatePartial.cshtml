@@ -15,12 +15,12 @@
         });
 
         $('#State').change(function () {
-            $.getJSON('/Cascading/Citylist/' + $('#State').val(), function (data) {
+            $.getJSON('/Cascading/CityList/' + $('#State').val(), function (data) {
                 var items = '<option>Select a City</option>';
                 $.each(data, function (i, city) {
                     items += "<option value='" + city.Value + "'>" + city.Text + "</option>";
                 });
-                $('#city').html(items);
+                $('#City').html(items);
             });
         });
     });
@@ -74,7 +74,8 @@
 
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                @Html.LabelFor(model => model.Branch.Branch_Name)
+                                                @*@Html.LabelFor(model => model.Branch.Branch_Name)*@
+                                                Branch Name
 
                                             </div>
                                             <div class="col-md-8">
@@ -121,9 +122,11 @@
                                         @*<div class="row form-group">
                                             <div class="col-md-4">
                                                 Country:
-                                            </div>
-                                            @Html.DropDownListFor(model => model.country.ID, null, new { id = "Country" })*@
+                                            </div>*@
+                                            @*@Html.DropDownListFor(model => model.country.ID, null, new { id = "Country" })*@
+                                           
                                             @*@Html.DropDownList("Country", ViewBag.ID as SelectList, "Select a Country", new { id = "Country" })<br />
+                                          
                                             <select id="State" name="state"></select><br />
                                             <select id="city" name="City"></select><br />
                                             </div>*@
@@ -161,7 +164,8 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(model => model.Branch.Pin_Code)
+                                                    @*@Html.LabelFor(model => model.Branch.Pin_Code)*@
+                                                    PinCode
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.TextBoxFor(model => model.Branch.Pin_Code, new { @class = "form-control control-text" })

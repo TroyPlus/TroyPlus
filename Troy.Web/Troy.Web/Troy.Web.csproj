@@ -237,10 +237,24 @@
     <Content Include="Content\images\Troy Plus Logo - Rectangle.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\themes\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\themes\TroyPlus\css\bootstrap.css" />
     <Content Include="Content\themes\TroyPlus\css\custom-landing.css" />
     <Content Include="Content\themes\TroyPlus\css\custom.css" />
     <Content Include="Content\themes\TroyPlus\css\icons.css" />
+    <Content Include="Content\themes\TroyPlus\css\jAutochecklist.css" />
     <Content Include="Content\themes\TroyPlus\css\landing.css" />
     <Content Include="Content\themes\TroyPlus\css\main.css" />
     <Content Include="Content\themes\TroyPlus\css\plugins.css" />
@@ -361,6 +375,8 @@
     <Content Include="Content\themes\TroyPlus\js\bootstrap\bootstrap.js" />
     <Content Include="Content\themes\TroyPlus\js\bootstrap\bootstrap.min.js" />
     <Content Include="Content\themes\TroyPlus\js\html5shiv.js" />
+    <Content Include="Content\themes\TroyPlus\js\jAutochecklist.js" />
+    <Content Include="Content\themes\TroyPlus\js\jAutochecklist.min.js" />
     <Content Include="Content\themes\TroyPlus\js\jquery.sprFlat.js" />
     <Content Include="Content\themes\TroyPlus\js\jRespond.min.js" />
     <Content Include="Content\themes\TroyPlus\js\libs\excanvas.min.js" />
@@ -902,6 +918,12 @@
     <Content Include="Content\themes\TroyPlus\plugins\forms\maskedinput\jquery.maskedinput.min.js" />
     <Content Include="Content\themes\TroyPlus\plugins\forms\maxlength\bootstrap-maxlength.js" />
     <Content Include="Content\themes\TroyPlus\plugins\forms\maxlength\bootstrap-maxlength.min.js" />
+    <Content Include="Content\themes\TroyPlus\plugins\forms\multiselect\jquery.multiselect.css" />
+    <Content Include="Content\themes\TroyPlus\plugins\forms\multiselect\jquery.multiselect.filter.css" />
+    <Content Include="Content\themes\TroyPlus\plugins\forms\multiselect\jquery.multiselect.filter.js" />
+    <Content Include="Content\themes\TroyPlus\plugins\forms\multiselect\jquery.multiselect.filter.min.js" />
+    <Content Include="Content\themes\TroyPlus\plugins\forms\multiselect\jquery.multiselect.js" />
+    <Content Include="Content\themes\TroyPlus\plugins\forms\multiselect\jquery.multiselect.min.js" />
     <Content Include="Content\themes\TroyPlus\plugins\forms\password\jquery-passy.js" />
     <Content Include="Content\themes\TroyPlus\plugins\forms\select2\select2.js" />
     <Content Include="Content\themes\TroyPlus\plugins\forms\select2\select2.min.js" />
