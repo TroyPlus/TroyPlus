@@ -18,7 +18,7 @@ namespace Troy.Model.Configuration
         [ForeignKey("ID")]
         public virtual State state { get; set; }
 
-        public virtual Country country { get; set; }
+       // public virtual Country country { get; set; }
 
         public virtual ICollection<City> City { get; set; }
 

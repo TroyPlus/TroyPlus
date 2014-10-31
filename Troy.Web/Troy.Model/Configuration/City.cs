@@ -19,7 +19,7 @@ namespace Troy.Model.Configuration
 
         public virtual City city { get; set; }
 
-        public virtual State state { get; set; }
+       // public virtual State state { get; set; }
 
         [Required]
         [StringLength(3)]
