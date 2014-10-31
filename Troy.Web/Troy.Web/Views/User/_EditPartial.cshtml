@@ -2,9 +2,11 @@
 
 <script type="text/javascript">
     $(function () {
-        $(".multiselect").multiselect();
+        $(".multiselect").multiselect({ selectedList: 4,noneSelectedText: 'Select branches',header: false });
     });
 </script>
+
+
 
 @using (Html.BeginForm("Update", "User"))
 {
@@ -121,20 +123,19 @@
                                                     @Html.LabelFor(m => m.Branch_Id, new { @class = "control-label normal" })
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.DropDownListFor(m => m.Branch_Id, new System.Web.Mvc.SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name", "IsSelected"), "", new
-                                           {
-                                               @class = "multiselect",
-                                               multiple = "multiple",
-                                           })
+                                                    @Html.DropDownListFor(m => m.SubmittedBranches, new System.Web.Mvc.MultiSelectList(Model.branchlist.AsEnumerable(),
+                                                            "Branch_Id", "Branch_Name", Model.DefaultSelectedBranches.AsEnumerable().Select(m=>m.Branch_Id)), new { multiple = "multiple", @class = "multiselect form-control control-text" })
+
+                                                    @*@Html.DropDownList("SubmittedMovies", "Select branches", new System.Web.Mvc.MultiSelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name", Model.DefaultSelectedBranches.Select(m => m.Branch_Id)),
+                                                                        new { multiple = "multiple", @class = "form-control control-text multiselect" })*@
+                                                    
 
 
-
-
-                                                    @Html.ValidationMessageFor(model => model.Branch_Id, "", new { @class = "text-danger" })
+                                                    @Html.ValidationMessageFor(model => model.SubmittedBranches, "", new { @class = "text-danger" })
                                                 </div>
+                                            </div>
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-
                                                         @Html.Label("Default branch", new { @class = "control-label normal  pull-left" })
                                                     </div>
                                                     <div class="col-md-8">
@@ -142,7 +143,7 @@
                                                         @Html.ValidationMessageFor(model => model.Branch_Id, "", new { @class = "text-danger" })
                                                     </div>
                                                 </div>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>

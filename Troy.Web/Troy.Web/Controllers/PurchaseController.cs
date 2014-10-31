@@ -22,7 +22,7 @@ namespace Troy.Web.Controllers
         private readonly IPurchaseRepository purchaseDb;
 
         private readonly IManufacturerRepository manufactureDb;
-
+        public string Temp_Purchase;
         private string ErrorMessage = string.Empty;
         #endregion
 
@@ -39,18 +39,18 @@ namespace Troy.Web.Controllers
         // GET: Purchase
         //[Authorize]
         public ActionResult Index()
-        { 
-            try 
+        {
+            try
             {
                 LogHandler.WriteLog("Purchase Index page requested by #UserId");
-                var qList = purchaseDb.GetAllQuotation();
 
                 PurchaseViewModels model = new PurchaseViewModels();
-                model.PurchaseQuotationList = qList;
+                //model.PurchaseQuotation.Quotation_Status = "Open";
+                model.PurchaseQuotationList = purchaseDb.GetAllQuotation();
+                model.BranchList = purchaseDb.GetAddressList().ToList();
 
-                var branchlist = purchaseDb.GetAddressList().ToList(); 
-
-                model.BranchList = branchlist;
+                //model.BussinessList = purchaseDb.GetAllBussinessList();
+                //model.ProductList = GetAllProductList();
 
                 //model.PurchaseQuotation.Valid_Date = DateTime.Now;
                 //model.PurchaseQuotation.Required_Date = DateTime.Now;
@@ -74,6 +74,7 @@ namespace Troy.Web.Controllers
             {
                 if (submitButton == "Save")
                 {
+                    model.PurchaseQuotation.Quotation_Status = "Open";
                     model.PurchaseQuotation.Created_Branc_Id = 1;
                     model.PurchaseQuotation.Created_Date = DateTime.Now;
                     model.PurchaseQuotation.Created_User_Id = 1;  //GetUserId()
@@ -100,6 +101,7 @@ namespace Troy.Web.Controllers
 
                     if (purchaseDb.AddNewQuotation(model.PurchaseQuotation, model.PurchaseQuotationItemList, ref ErrorMessage))
                     {
+                        XMLGenerate_SAPInsert(model);
                         return RedirectToAction("Index", "Purchase");
                     }
                     else
@@ -110,6 +112,7 @@ namespace Troy.Web.Controllers
                 }
                 else if (submitButton == "Update")
                 {
+                    Temp_Purchase = Convert.ToString(TempData["oldPurchaseQuotation_Name"]);
                     model.PurchaseQuotation.Created_Branc_Id = 1;
                     model.PurchaseQuotation.Created_Date = DateTime.Now;
                     model.PurchaseQuotation.Created_User_Id = 1;  //GetUserId()
@@ -135,6 +138,7 @@ namespace Troy.Web.Controllers
 
                     if (purchaseDb.UpdateQuotation(model.PurchaseQuotation, model.PurchaseQuotationItemList, ref ErrorMessage))
                     {
+                        XMLGenerate_SAPUpdate(model);
                         return RedirectToAction("Index", "Purchase");
                     }
                     else
@@ -142,7 +146,7 @@ namespace Troy.Web.Controllers
                         ViewBag.AppErrorMessage = ErrorMessage;
                         return View("Error");
                     }
-                }                
+                }
 
                 if (Convert.ToString(Request.Files["FileUpload"]).Length > 0)
                 {
@@ -180,6 +184,21 @@ namespace Troy.Web.Controllers
             }
         }
 
+        public JsonResult GetVendor(string term)
+        {
+            PurchaseViewModels model = new PurchaseViewModels();
+            model.BranchList = purchaseDb.GetAddressList().ToList();
+
+            //return Json(model.BranchList, JsonRequestBehavior.AllowGet);
+
+            var items = new[] { "Apple", "Pear", "Banana", "Pineapple", "Peach" };
+
+            var filteredItems = items.Where(
+                item => item.IndexOf(term, StringComparison.InvariantCultureIgnoreCase) >= 0
+                );
+            return Json(filteredItems, JsonRequestBehavior.AllowGet);
+
+        }
         #endregion
 
         #region Partial Views
@@ -195,9 +214,8 @@ namespace Troy.Web.Controllers
                 PurchaseViewModels model = new PurchaseViewModels();
                 model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
                 model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
-
                 model.BranchList = purchaseDb.GetAddressList().ToList();
-
+                TempData["oldPurchaseQuotation_Name"] = model.PurchaseQuotation.Vendor;
                 return PartialView(model);
             }
             catch (Exception ex)
@@ -230,6 +248,65 @@ namespace Troy.Web.Controllers
         #endregion
 
         #region Methods
+
+        private void XMLGenerate_SAPInsert(PurchaseViewModels model)
+        {
+            try
+            {
+                //unique id generation
+                Guid GuidRandomNo = Guid.NewGuid();
+                string UniqueID = GuidRandomNo.ToString();
+
+                //fill view model
+                Viewmodel_AddPurchaseQuotation xmlAddPurchaseQuotation = new Viewmodel_AddPurchaseQuotation();
+                xmlAddPurchaseQuotation.UniqueID = UniqueID.ToString();
+                xmlAddPurchaseQuotation.PurchaseQuotation_Name = model.PurchaseQuotation.Vendor;
+                xmlAddPurchaseQuotation.CreatedUser = "1";  //GetUserId()
+                xmlAddPurchaseQuotation.CreatedBranch = "1";//GetBranchId();
+                xmlAddPurchaseQuotation.CreatedDateTime = DateTime.Now.ToString();
+                xmlAddPurchaseQuotation.LastModifyUser = "2";   //GetUserId()
+                xmlAddPurchaseQuotation.LastModifyBranch = "2"; //GetBranchId();
+                xmlAddPurchaseQuotation.LastModifyDateTime = DateTime.Now.ToString();
+
+                //generate xml
+                purchaseDb.GenerateXML(xmlAddPurchaseQuotation);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+            }
+        }
+
+        private void XMLGenerate_SAPUpdate(PurchaseViewModels model)
+        {
+            try
+            {
+                //unique id generation
+                Guid GuidRandomNo = Guid.NewGuid();
+                string UniqueID = GuidRandomNo.ToString();
+
+                //fill viewmodel
+                Viewmodel_ModifyPurchaseQuotation xmlEditPurchaseQuotation = new Viewmodel_ModifyPurchaseQuotation();
+                xmlEditPurchaseQuotation.UniqueID = UniqueID.ToString();
+                xmlEditPurchaseQuotation.Old_PurchaseQuotation_Name = Temp_Purchase.ToString().Trim();
+                xmlEditPurchaseQuotation.New_PurchaseQuotation_Name = model.PurchaseQuotation.Vendor;
+                xmlEditPurchaseQuotation.CreatedUser = "1";   //GetUserId()
+                xmlEditPurchaseQuotation.CreatedBranch = "1"; //GetBranchId();
+                xmlEditPurchaseQuotation.CreatedDateTime = DateTime.Now.ToString();
+                xmlEditPurchaseQuotation.LastModifyUser = "2";   //GetUserId()
+                xmlEditPurchaseQuotation.LastModifyBranch = "2"; //GetBranchId();
+                xmlEditPurchaseQuotation.LastModifyDateTime = DateTime.Now.ToString();
+
+                //generate xml
+                purchaseDb.GenerateXML(xmlEditPurchaseQuotation);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+            }
+        }
 
         public bool UploadExcelData(string fileExtension, string fileName, ref string returnMessage)
         {
@@ -310,8 +387,8 @@ namespace Troy.Web.Controllers
 
                                     if (ds.Tables[0].Rows[i]["Vendor"] != null)
                                     {
-                                        pItem.Vendor = Convert.ToInt32(ds.Tables[0].Rows[i]["Vendor"]);
-                                        vendorId = pItem.Vendor;
+                                        pItem.Vendor = ds.Tables[0].Rows[i]["Vendor"].ToString();
+                                        //vendorId = pItem.Vendor;
 
                                         pqItem = GetExcelQuotationItem(ds, i, ref returnMessage);
 

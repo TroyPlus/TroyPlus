@@ -16,11 +16,11 @@ namespace Troy.Model.Purchase
         [Display(Name = "PurchaseId")]
         public int Purchase_Quote_Id { get; set; }
 
-        [Required]   
+        [Required]
         [Display(Name = "Vendor")]
-        public int Vendor { get; set; }
-         
-        [Required] 
+        public string Vendor { get; set; }
+
+        [Required]
         [Display(Name = "Ref. No")]
         public string Reference_Number { get; set; }
 
