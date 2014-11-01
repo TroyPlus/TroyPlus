@@ -84,9 +84,10 @@ namespace Troy.Web.Controllers
         [Authorize]
         public ActionResult PostLogin(PostLoginViewModel model,string returnUrl)
         {          
-            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.ReturnUrl = returnUrl;            
             return View(model);
         }
+
 
         //
         // POST: /Account/PostLogin
@@ -97,9 +98,10 @@ namespace Troy.Web.Controllers
             {
                 model.BranchList = _branchRepository.GetAllBranch();
                 model.YearList = _yearRepository.GetAllFinancialYears();
-                return View(model);
+                return View("PostLogin", model);
             }
-
+            Session["CurrentBranch"] = model.Branch_Id;
+            Session["FinancialYear"] = model.FinancialYear.Year;
             return RedirectToLocal(returnUrl);           
         }
         //
@@ -454,7 +456,15 @@ namespace Troy.Web.Controllers
             model.UserName = loginViewModel.UserName;
             model.Password = loginViewModel.Password;
             model.BranchList = _branchRepository.GetAllBranch();
+            if (model.BranchList != null && model.BranchList.Count > 0)
+            {
+                ViewBag.DefaultBranchId = model.BranchList.FirstOrDefault().Branch_Id;
+            }
             model.YearList = _yearRepository.GetAllFinancialYears();
+            if (model.YearList != null && model.YearList.Count > 0)
+            {
+                ViewBag.DefaultYear = model.YearList.LastOrDefault().Year;
+            }
             return View("PostLogin",model);
         }
 
