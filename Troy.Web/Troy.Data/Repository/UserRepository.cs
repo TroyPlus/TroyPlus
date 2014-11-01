@@ -94,11 +94,20 @@ namespace Troy.Data.Repository
             return item;
         }
 
-        public List<int> GetBranchesByUserId(int userId)
+        public List<BranchList> GetBranchesByUserId(int userId)
         {
             var result = (from ub in UserContext.userbranches
                           where ub.User_Id == userId
-                          select ub.Branch_Id).ToList();
+                          join b in UserContext.branch
+                                     on ub.Branch_Id equals b.Branch_Id
+                                     into ub_b
+                          from ubs in ub_b.DefaultIfEmpty()                          
+                          select new BranchList
+                          {
+                              Branch_Id = ubs.Branch_Id,
+                              Branch_Name = ubs.Branch_Name,
+                              IsSelected = false
+                          }).ToList();
             return result;
         }
      
@@ -150,11 +159,25 @@ namespace Troy.Data.Repository
              return qList;
         }
 
-         public bool SaveUserBranches(UserBranches userBranches,ref string errorMessage)
+         public bool SaveUserBranches(List<UserBranches> userBranches,int Id, ref string errorMessage)
          {
              try
              {
-                 UserContext.userbranches.Add(userBranches);
+                 if (UserContext.userbranches.Count() > 0)
+                 {
+                     List<UserBranches> tempUserBranches = new List<UserBranches>();
+                     // filter input user's branches.
+
+                     tempUserBranches = (from u in UserContext.userbranches
+                                         where u.User_Id == Id
+                                         select u).ToList();
+                    
+
+                     UserContext.userbranches.RemoveRange(tempUserBranches);
+                     UserContext.SaveChanges();
+                 }
+
+                 UserContext.userbranches.AddRange(userBranches);
                  UserContext.SaveChanges();
                  return true;
              }

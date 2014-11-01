@@ -7,6 +7,8 @@
 
 <script type="text/javascript">
 
+    
+
     $(document).ready(function () {
 
         $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
@@ -139,12 +141,8 @@
                                     <i class="st-file-add strong"></i>
                                     <span> Bulk</span>
                                 </button>
-
-                                <button type="button" title="Excel Export" class="btn btn-primary" onclick="@Url.Action("_ExporttoExcel", "Branch")">
-                                    @*<a href=@Url.Action("_ExporttoExcel", "Branch")></a>*@
-                                    <i class="im-file-excel strong"></i>
-                                    <span> Export</span>
-                                </button>
+                                 
+                                <input class="btn btn-primary" type="submit" name="submitButton" id="btnExport" value="Export" />
                             </div>
                         </div>
                     </div>
@@ -202,11 +200,11 @@
                                                     City
                                                 </div>
                                             </th>
-                                            <th>
+                                            @*<th>
                                                 <div class="lBor">
                                                     Order Number
                                                 </div>
-                                            </th>
+                                            </th>*@
                                             <th>
                                                 <div class="lBor">
                                                     PinCode
@@ -247,9 +245,9 @@
                                                 <td>
                                                     @item.City_Name
                                                 </td>
-                                                <td>
+                                                @*<td>
                                                     @item.Order_Num
-                                                </td>
+                                                </td>*@
                                                 <td>
                                                     @item.Pin_Code
                                                 </td>

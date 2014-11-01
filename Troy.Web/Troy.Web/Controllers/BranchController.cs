@@ -78,10 +78,7 @@ namespace Troy.Web.Controllers
 
 
 
-        public ActionResult Index(BranchContext branchdb)
-        
-        
-        
+        public ActionResult Index(BranchContext branchdb)   
         
         {
            
@@ -102,7 +99,7 @@ namespace Troy.Web.Controllers
 
                 model.CityList = branchRepository.GetAddresscityList().ToList();
 
-              ViewBag.ID = new SelectList(branchdb.Country, "ID", "Country_Name");
+                ViewBag.ID = new SelectList(branchdb.Country, "ID", "Country_Name");
 
                 return View(model);
             }
@@ -268,7 +265,10 @@ namespace Troy.Web.Controllers
                     }
 
                 }
-
+                else if (submitButton == "Export")
+                {
+                    _ExporttoExcel();
+                }
 
                 else if (submitButton == "Search")
                 {
@@ -694,7 +694,11 @@ namespace Troy.Web.Controllers
         public JsonResult StateList(int Id)
         {
             var state = from s in branchContext.State
-                        where s.ID == Id
+                        join c in branchContext.Country
+                            on s.CountryID equals c.ID.ToString() into c_s
+                        from cs in c_s.DefaultIfEmpty()
+                        where cs.ID == Id
+                        orderby s.ID ascending
                         select s;
             return Json(new SelectList(state.ToArray(), "ID", "State_Name"), JsonRequestBehavior.AllowGet);
 
@@ -703,9 +707,22 @@ namespace Troy.Web.Controllers
 
         public JsonResult CityList(int id)
         {
-            var city = from c in branchContext.City
-                       where c.ID == id
-                       select c;
+            var city = from s in branchContext.City
+                       join c in branchContext.State
+                           on s.StateID equals c.ID.ToString() into c_s
+                       from cs in c_s.DefaultIfEmpty()
+                       where cs.ID == id
+                       orderby s.ID ascending
+                       select s;
+
+            
+
+            //var city = from c in branchContext.City
+            //           join s in branchContext.State
+            //            on c.City_Code equals s.ID.ToString() into s_c
+            //            from sc in s_c.DefaultIfEmpty()
+            //           where sc.ID == id
+            //           select c;
             return Json(new SelectList(city.ToArray(), "ID", "City_Name"), JsonRequestBehavior.AllowGet);
         }
         public IList<State> Getstate(int CountryId)
@@ -914,15 +931,37 @@ namespace Troy.Web.Controllers
                 BranchViewModels model = new BranchViewModels();
                 model.Branch = branchRepository.FindOneBranchById(id);
 
-                var countrylist = branchRepository.GetAddresscountryList().ToList();
+                var countrylist = branchRepository.GetAddresscountryList();
                 model.CountryList = countrylist;
 
-
-                var statelist = branchRepository.GetAddressstateList().ToList();
+                var statelist = branchRepository.GetAddressstateList(model.Branch.country.ID);               
                 model.StateList = statelist;
 
-                var citylist = branchRepository.GetAddresscityList().ToList();
+                var citylist = branchRepository.GetAddresscityList(model.Branch.state.ID);
                 model.CityList = citylist;
+
+                ViewBag.CountryOnChangeScript = @" ;
+
+                                $.getJSON('/Branch/StateList/' + $('#Country_Edit').val(), function (data) {
+                    var items = '<option>Select a State</option>';
+                    $.each(data, function (i, state) {
+                        items += ""<option value='"" + state.Value + ""'>"" + state.Text + ""</option>""
+                    });
+                    $('#State_Edit').html(items);
+                   
+                });";
+
+
+                ViewBag.StateOnChangeScript = @";
+
+                                $.getJSON('/Branch/CityList/' + $('#State_Edit').val(), function (data) {
+                    var items = '<option>Select a City</option>';
+                    $.each(data, function (i, city) {
+                        items += ""<option value='"" + city.Value + ""'>"" + city.Text + ""</option>""
+                    });
+                    $('#City_Edit').html(items);
+                   
+                });";
 
                 return PartialView(model);
             }

@@ -81,7 +81,7 @@ namespace Troy.Model.Employees
         [ForeignKey("branch")]
         public int Branch_Id { get; set; }
         public virtual Branch branch { get; set; }
-        //-------------
+        ////-------------
 
         [StringLength(30)]
         public string ID_Number { get; set; }

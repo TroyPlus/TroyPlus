@@ -32,14 +32,15 @@
     @Styles.Render("~/Content/themes/mainStyles")
     @Styles.Render("~/Content/themes/custom")
     @Styles.Render("~/Content/themes/jAutocheckCSS")
+    @Styles.Render("~/Content/themes/plugins/multiselect")
 
     @*<script>
             window.jQuery || document.write('<script src="../../Content/themes/TroyPlus/js/libs/jquery-2.1.1.min.js">\x3C/script>')
-        </script>
+    </script>
 
-        <script>
+    <script>
             window.jQuery || document.write('<script src="../../Content/themes/TroyPlus/js/libs/jquery-ui-1.10.4.min.js">\x3C/script>')
-        </script>*@
+    </script>*@
 
     <!-- Load Scripts -->
     @Scripts.Render("~/bundles/script/jquery")
@@ -54,6 +55,8 @@
     @Scripts.Render("~/bundles/script/jSearch")
     @Scripts.Render("~/bundles/script/jBootbox")
     @Scripts.Render("~/bundles/script/commonScripts")
+    @Scripts.Render("~/bundles/script/jqueryval")
+    @Scripts.Render("~/bundles/script/multiselect")
     @Scripts.Render("~/bundles/script/jAutochecklist")
 
 </head>
@@ -165,7 +168,7 @@
                                 <div class="row">
                                     <div class="">
                                         <input class="form-control right-icon" type="text" placeholder="Search ..." />
-                                        <i class="ec-search s16 right-input-icon"></i>
+                                        <i class="ec-search s16 right-input-icon"></i>                                      
 
 
                                         @*<button type="button" class="form-control">
@@ -225,7 +228,7 @@
     </div>
     <!-- Inline Javascripts -->
     @RenderSection("scripts", required: false)
-
+   
 
 </body>
 

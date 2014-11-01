@@ -57,6 +57,11 @@ namespace Troy.Web.Models
         public List<BranchList> branchlist { get; set; }
         public List<ApplicationRole> rolelist { get; set; }
 
+        // Multi select branch list.
+        public List<BranchList> DefaultSelectedBranches { get; set; }
+        [Required]
+        [Display(Name = "Branches")]
+        public List<string> SubmittedBranches { get; set; }
         
         public List<UserBranches> UserBranches { get; set; }
         public List<ApplicationUserRole> Roles { get; set; }

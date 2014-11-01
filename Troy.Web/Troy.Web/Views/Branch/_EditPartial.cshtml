@@ -1,15 +1,64 @@
 ﻿@model Troy.Web.Models.BranchViewModels
 
-@Scripts.Render("~/bundles/jqueryval")
+
+@Scripts.Render("~/bundles/script/jqueryval")
 
 
-<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")" type="text/javascript"></script>
+
+    
 
 
 
 @using (Html.BeginForm("Index", "Branch"))
 {
+    <script type="text/jscript">
+
+
+
+        $(document).ready(function () {
+            //$("#country").val("India");
+            //$('#Country').val(1);
+            //$('#State').val(1);
+            //$('#City').val(1);
+
+            $('#Country_Edit').change(function () {
+
+                //  $('#Country').val(1)
+                alert('text');
+
+                //$('#Country').val(1).change();
+
+                // $('#Country').val("India");
+                
+
+                $.getJSON('/Branch/StateList/' + $('#Country_Edit').val(), function (data) {
+                    var items = '<option>Select a State</option>';
+                    $.each(data, function (i, state) {
+                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                    });
+                    $('#State_Edit').html(items);
+                    //$('#Country').val(1);
+                    //$('#State').val(1);
+                    //$('#City').val(1);
+                    // $('#State').val("TamilNadu");
+                });
+
+            });
+            $('#State_Edit').change(function () {
+
+                $.getJSON('/Branch/CityList/' + $('#State_Edit').val(), function (data) {
+                    var items = '<option>Select a City</option>';
+                    $.each(data, function (i, city) {
+                        items += "<option value='" + city.Value + "'>" + city.Text + "</option>";
+
+                    });
+                    $('#City_Edit').html(items);
+                    // $('#SCity').val("Madurai");
+                });
+            });
+        });
+    </script>
+    
     @Html.ValidationSummary(true)
 
     <div class="modal-dialog modal-lg">
@@ -40,7 +89,7 @@
 
                                 @Html.HiddenFor(model => model.Branch.Branch_Id)
 
-                                @Html.HiddenFor(model =>model.Branch.Created_User_Id)
+                                @Html.HiddenFor(model => model.Branch.Created_User_Id)
                                 @Html.HiddenFor(model => model.Branch.Created_Branc_Id)
                                 @Html.HiddenFor(model => model.Branch.Created_Dte)
                                 
@@ -111,7 +160,7 @@
                                                     Country:
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.DropDownListFor(m => m.Branch.Country_ID, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text" })
+                                                    @Html.DropDownListFor(m => m.Branch.Country_ID, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "Select Country", new { @class = "form-control control-text", id = "Country_Edit", @onchange = @ViewBag.CountryOnChangeScript })
                                                     @Html.ValidationMessageFor(model => model.Branch.Country_ID)
                                                 </div>
                                             </div>
@@ -121,7 +170,7 @@
                                                     State:
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.DropDownListFor(m => m.Branch.State_ID, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "ui-widget" })
+                                                    @Html.DropDownListFor(m => m.Branch.State_ID, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "Select State", new { @class = "form-control control-text", id = "State_Edit", @onchange = @ViewBag.StateOnChangeScript })
                                                     @Html.ValidationMessageFor(model => model.Branch.State_ID)
                                                 </div>
                                             </div>
@@ -131,7 +180,7 @@
                                                     City:
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.DropDownListFor(m => m.Branch.City_ID, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text" })
+                                                    @Html.DropDownListFor(m => m.Branch.City_ID, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "Select City", new { @class = "form-control control-text", id = "City_Edit" })
                                                     @Html.ValidationMessageFor(model => model.Branch.City_ID)
                                                 </div>
                                             </div>
@@ -192,12 +241,7 @@
                 @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
             
                 </div>
-        
-            @*<div class="modal-footer">
-                <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
-                <button class="btn pull-left" data-dismiss="modal">Close</button>
-                @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
-            </div>*@
+       
         </div>
 
     </div>
