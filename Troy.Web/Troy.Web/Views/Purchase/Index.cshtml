@@ -11,27 +11,60 @@
 
         $('.datePicker').datepicker();
         //{ dateFormat: 'dd-mm-yy' }
-        $("#typeahead").jAutochecklist();
+        $("#typeahead").jAutochecklist({
+            width: 221
+        });
+        $("#productTypeahead").jAutochecklist({
+            width: 135,
+            listMaxHeight: 50
+            });
 
         var i = 1;
 
         //Dynamically add quotation row
         function addRow() {
-            debugger;
-
             var date = new Date();
             var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 
+            var selectHtml = CreateSelect(i);
+
+            selectHtml += '</select>';
+
+            //debugger;
+
             var html = '<tr>' +
                         '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="PurchaseQuotationItemList_' + i + '__IsDummy" name="PurchaseQuotationItemList[' + i + '].IsDummy" type="text" value="">  </td>' +
-                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseQuotationItemList_' + i + '__Product_id" name="PurchaseQuotationItemList[' + i + '].Product_id" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Product_id" data-valmsg-replace="true"></span>  </td>' +
-                        '<td> <input class="form-control control-text datePicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_' + i + '__Required_date" name="PurchaseQuotationItemList[' + i + '].Required_date" type="text" value="' + strDate + '"> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_date" data-valmsg-replace="true"></span>  </td>' +
-                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="PurchaseQuotationItemList_' + i + '__Required_qty" name="PurchaseQuotationItemList[' + i + '].Required_qty" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_qty" data-valmsg-replace="true"></span>  </td>' +
-                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseQuotationItemList_' + i + '__Unit_price" name="PurchaseQuotationItemList[' + i + '].Unit_price" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Unit_price" data-valmsg-replace="true"></span> </td>' +
-                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-required="The Discount_percent field is required." id="PurchaseQuotationItemList_' + i + '__Discount_percent" name="PurchaseQuotationItemList[' + i + '].Discount_percent" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Discount_percent" data-valmsg-replace="true"></span> </td>' +
-                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseQuotationItemList_' + i + '__Amount" name="PurchaseQuotationItemList[' + i + '].Amount" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Amount" data-valmsg-replace="true"></span> </td>' +
-                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field VAT Code must be a number." data-val-required="The VAT Code field is required." id="PurchaseQuotationItemList_' + i + '__Vat_Code" name="PurchaseQuotationItemList[' + i + '].Vat_Code" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Vat_Code" data-valmsg-replace="true"></span> </td>' +
-                        '<td><input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" /></td>' +
+                        '<td width="20%"> ' +
+                            selectHtml +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Product_id" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td width="15%">' +
+                            '<input class="form-control control-text datePicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_' + i + '__Required_date" name="PurchaseQuotationItemList[' + i + '].Required_date" type="text" value="' + strDate + '">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_date" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="PurchaseQuotationItemList_' + i + '__Required_qty" name="PurchaseQuotationItemList[' + i + '].Required_qty" onkeyup="OnChangeQuantity(this, ' + i + ');" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_qty" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseQuotationItemList_' + i + '__Unit_price" name="PurchaseQuotationItemList[' + i + '].Unit_price" readonly="True" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-required="The Discount_percent field is required." id="PurchaseQuotationItemList_' + i + '__Discount_percent" name="PurchaseQuotationItemList[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseQuotationItemList_'+ i +'__Amount" name="PurchaseQuotationItemList['+ i +'].Amount" type="text" value="">'+
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Amount" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>'+
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field VAT Code must be a number." data-val-required="The VAT Code field is required." id="PurchaseQuotationItemList_' + i + '__Vat_Code" name="PurchaseQuotationItemList[' + i + '].Vat_Code" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
+                        '</td>' +
 
                         @*'<td>@Html.TextBoxFor(model => model.PurchaseQuotationItemList[2].Required_date, new { @class = "form-control control-text datePicker" })</td>' +
                         '<td> <input class="form-control control-text datePicker hasDatepicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_0__Required_date" name="PurchaseQuotationItemList[0].Required_date" type="text" value=""> </td>' +*@
@@ -42,7 +75,7 @@
 
             i++;
 
-            $("form").removeData("validator");
+            //$("form").removeData("validator");
             $("form").removeData("unobtrusiveValidation");
             $.validator.unobtrusive.parse("form");
 
@@ -50,6 +83,36 @@
                 $(this).datepicker();
             });
         };
+
+        function CreateSelect(rowID) {
+            
+            //debugger;
+
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseQuotationItemList_' + rowID + '__Product_id" name="PurchaseQuotationItemList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            selectHtml += '<option value=""></option>';
+
+            var dataUrl = "/Purchase/GetProductList";
+
+            $.ajax({
+                type: 'GET',
+                url: dataUrl,
+                async: false,
+                cache: false,
+                crossDomain: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                error: function (xhr, err) {
+                },
+                success: function (result, status) {
+                    //debugger;
+                    for (var count = 0; count < result.length; count++) {
+                        selectHtml += '<option value="' + result[count].BP_Id + '"selected>' + result[count].BP_Name + '</option>';
+                    }
+                }
+            });
+           
+            return selectHtml;
+        }
 
         $("#createItemTable").on("click", ".BtnPlus", addRow);
 
@@ -146,7 +209,7 @@
             var validator = $("#default").validate(); // obtain validator
             var anyError = false;
             _form.find("input").each(function () {
-                debugger;
+                //debugger;
                 if (this.parentNode.parentNode.className != "jAutochecklist_list") {
                     if (!validator.element(this)) { // validate every input element inside this step
                         anyError = true;
@@ -155,6 +218,7 @@
             });
 
             _form.find("select").each(function () {
+                //debugger;
                 if (!validator.element(this)) { // validate every input element inside this step
                     anyError = true;
                 }
@@ -181,7 +245,91 @@
 
         });
 
-    });
+        $("#btnSuddbmit").click(function (e) {
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#addQuotationlist");
+
+            var validator = $("#addQuotationlist").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+                debugger;
+                if (this.parentNode.parentNode.className != "jAutochecklist_list" || this.type != "hidden") {
+                    if (!validator.element(this)) { // validate every input element inside this step
+                        anyError = true;
+                    }
+                }
+            });
+
+            _form.find("select").each(function () {
+                debugger;
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                return true; //$('#createtabs a[href = #addQuotationlist]').tab('show');
+            }// exit if any error found           
+        });
+
+    });   
+
+    function OnChangeProduct(value, rowId) {
+
+        //debugger;
+
+        var pID = this.value;
+
+        var dataUrl = "/Purchase/GetPrice";
+
+        $.ajax({
+            type: 'GET',
+            url: dataUrl,
+            data: pID,
+            async: true,
+            cache: false,
+            crossDomain: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            error: function (xhr, err) {
+            },
+            success: function (result, status) {
+                //debugger;
+                var id = "#PurchaseQuotationItemList_" + rowId + "__Unit_price";
+                $(id).val(result);
+            }
+        });
+
+    }
+
+    function OnChangeQuantity(currentQty, rowId) {
+        //debugger;
+
+        var qty = currentQty.value;
+        var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
+
+        var totAmount = price * qty;
+
+        var id = "#PurchaseQuotationItemList_" + rowId + "__Amount";
+        $(id).val(totAmount);
+    }
+
+    function OnChangeDiscount(currentDis, rowId) {
+        //debugger;
+
+        var dis = currentDis.value; 
+        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Required_qty").val();
+        var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
+
+        var totAmount = (price * qty) - (price*dis/100)
+
+        var id = "#PurchaseQuotationItemList_" + rowId + "__Amount";
+        $(id).val(totAmount);
+    }
 
 </script>
 
@@ -267,29 +415,29 @@
                                     <tbody>
                                         @foreach (Troy.Model.Purchase.PurchaseQuotation item in Model.PurchaseQuotationList)
                                         {
-                                            <tr class="odd gradeX">
-                                                <td style="text-align:center;">@item.Purchase_Quote_Id</td>
-                                                <td style="text-align:center;">@item.Vendor</td>
-                                                <td style="text-align:center;">@item.Reference_Number</td>
-                                                <td>@item.Quotation_Status</td>
-                                                <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
-                                                <td>@item.Valid_Date.ToString("MM/dd/yyyy")</td>
-                                                <td>
-                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Purchase_Quote_Id);">
-                                                        <i class="im-eye2"></i>
+                                        <tr class="odd gradeX">
+                                            <td style="text-align:center;">@item.Purchase_Quote_Id</td>
+                                            <td style="text-align:center;">@item.Vendor_Code</td>
+                                            <td style="text-align:center;">@item.Reference_Number</td>
+                                            <td>@item.Quotation_Status</td>
+                                            <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
+                                            <td>@item.Valid_Date.ToString("MM/dd/yyyy")</td>
+                                            <td>
+                                                <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Purchase_Quote_Id);">
+                                                    <i class="im-eye2"></i>
 
-                                                    </a>
-                                                    <span class="text-muted">|</span>
-                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Purchase_Quote_Id);">
-                                                        <i class="im-pencil2"></i>
-                                                    </a>
-                                                    <span class="text-muted">|</span>
+                                                </a>
+                                                <span class="text-muted">|</span>
+                                                <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Purchase_Quote_Id);">
+                                                    <i class="im-pencil2"></i>
+                                                </a>
+                                                <span class="text-muted">|</span>
 
-                                                    <a href="@Url.Action("_DeletePartialView", "Suppliers", new { id = item.Purchase_Quote_Id })" data-modal="true">
-                                                        <i class="im-remove2"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                                <a href="@Url.Action("_DeletePartialView", "Suppliers", new { id = item.Purchase_Quote_Id })" data-modal="true">
+                                                    <i class="im-remove2"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>

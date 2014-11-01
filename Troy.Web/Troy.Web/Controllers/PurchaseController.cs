@@ -49,7 +49,7 @@ namespace Troy.Web.Controllers
                 model.PurchaseQuotationList = purchaseDb.GetAllQuotation();
                 model.BranchList = purchaseDb.GetAddressList().ToList();
 
-                //model.BussinessList = purchaseDb.GetAllBussinessList();
+                model.BussinessList = purchaseDb.GetVendorList();
                 //model.ProductList = GetAllProductList();
 
                 //model.PurchaseQuotation.Valid_Date = DateTime.Now;
@@ -72,8 +72,11 @@ namespace Troy.Web.Controllers
         {
             try
             {
+                string vendor;
                 if (submitButton == "Save")
                 {
+                    vendor = Request.Form["PurchaseQuotation.Vendor_Code"].ToString();
+                    model.PurchaseQuotation.Vendor_Code = Convert.ToInt32(vendor.Remove(0,1));
                     model.PurchaseQuotation.Quotation_Status = "Open";
                     model.PurchaseQuotation.Created_Branc_Id = 1;
                     model.PurchaseQuotation.Created_Date = DateTime.Now;
@@ -112,6 +115,8 @@ namespace Troy.Web.Controllers
                 }
                 else if (submitButton == "Update")
                 {
+                    vendor = Request.Form["PurchaseQuotation.Vendor_Code"].ToString();
+                    model.PurchaseQuotation.Vendor_Code = Convert.ToInt32(vendor.Remove(0, 1));
                     Temp_Purchase = Convert.ToString(TempData["oldPurchaseQuotation_Name"]);
                     model.PurchaseQuotation.Created_Branc_Id = 1;
                     model.PurchaseQuotation.Created_Date = DateTime.Now;
@@ -215,7 +220,8 @@ namespace Troy.Web.Controllers
                 model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
                 model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
                 model.BranchList = purchaseDb.GetAddressList().ToList();
-                TempData["oldPurchaseQuotation_Name"] = model.PurchaseQuotation.Vendor;
+                model.BussinessList = purchaseDb.GetVendorList();
+                TempData["oldPurchaseQuotation_Name"] = model.PurchaseQuotation.Vendor_Code;
                 return PartialView(model);
             }
             catch (Exception ex)
@@ -235,6 +241,7 @@ namespace Troy.Web.Controllers
                 model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
 
                 model.BranchList = purchaseDb.GetAddressList().ToList();
+                model.BussinessList = purchaseDb.GetVendorList();
 
                 return PartialView(model);
             }
@@ -260,7 +267,7 @@ namespace Troy.Web.Controllers
                 //fill view model
                 Viewmodel_AddPurchaseQuotation xmlAddPurchaseQuotation = new Viewmodel_AddPurchaseQuotation();
                 xmlAddPurchaseQuotation.UniqueID = UniqueID.ToString();
-                xmlAddPurchaseQuotation.PurchaseQuotation_Name = model.PurchaseQuotation.Vendor;
+                xmlAddPurchaseQuotation.PurchaseQuotation_Name = model.PurchaseQuotation.Vendor_Code.ToString();
                 xmlAddPurchaseQuotation.CreatedUser = "1";  //GetUserId()
                 xmlAddPurchaseQuotation.CreatedBranch = "1";//GetBranchId();
                 xmlAddPurchaseQuotation.CreatedDateTime = DateTime.Now.ToString();
@@ -290,7 +297,7 @@ namespace Troy.Web.Controllers
                 Viewmodel_ModifyPurchaseQuotation xmlEditPurchaseQuotation = new Viewmodel_ModifyPurchaseQuotation();
                 xmlEditPurchaseQuotation.UniqueID = UniqueID.ToString();
                 xmlEditPurchaseQuotation.Old_PurchaseQuotation_Name = Temp_Purchase.ToString().Trim();
-                xmlEditPurchaseQuotation.New_PurchaseQuotation_Name = model.PurchaseQuotation.Vendor;
+                xmlEditPurchaseQuotation.New_PurchaseQuotation_Name = model.PurchaseQuotation.Vendor_Code.ToString();
                 xmlEditPurchaseQuotation.CreatedUser = "1";   //GetUserId()
                 xmlEditPurchaseQuotation.CreatedBranch = "1"; //GetBranchId();
                 xmlEditPurchaseQuotation.CreatedDateTime = DateTime.Now.ToString();
@@ -387,7 +394,7 @@ namespace Troy.Web.Controllers
 
                                     if (ds.Tables[0].Rows[i]["Vendor"] != null)
                                     {
-                                        pItem.Vendor = ds.Tables[0].Rows[i]["Vendor"].ToString();
+                                        pItem.Vendor_Code = Convert.ToInt32(ds.Tables[0].Rows[i]["Vendor"]);
                                         //vendorId = pItem.Vendor;
 
                                         pqItem = GetExcelQuotationItem(ds, i, ref returnMessage);
@@ -903,6 +910,23 @@ namespace Troy.Web.Controllers
             }
 
             return response;
+        }
+
+        public JsonResult GetPrice(int? pId)
+        {
+            //int price = purchaseDb.GetProductPrice(pId);
+
+            int price = 50;
+
+            return Json(price, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetProductList()
+        {
+            var productList = purchaseDb.GetVendorList();
+
+            return Json(productList, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
