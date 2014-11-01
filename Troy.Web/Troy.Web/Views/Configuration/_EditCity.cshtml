@@ -40,6 +40,11 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             @Html.HiddenFor(model => model.City.ID)
+
+                                            @Html.HiddenFor(model => model.City.Created_User_Id)
+                                            @Html.HiddenFor(model => model.City.Created_Branc_Id)
+                                            @Html.HiddenFor(model => model.City.Created_Dte)
+
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     City Name:
@@ -66,8 +71,8 @@
                                                     State Code:
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.DropDownListFor(m => m.City.State_Code, new SelectList(Model.StateList1.AsEnumerable(), "ID", "State_Code"), "", new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.City.State_Code)
+                                                    @Html.DropDownListFor(m => m.City.StateID, new SelectList(Model.StateList1.AsEnumerable(), "ID", "State_Code"), "", new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.City.StateID)
                                                 </div>
                                             </div>
                                             <br>
@@ -76,10 +81,11 @@
                                                     Country Code:
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.DropDownListFor(m => m.City.Country_Code, new SelectList(Model.CountryListDp.AsEnumerable(), "ID", "Country_Code"), "", new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.City.Country_Code)
+                                                    @Html.DropDownListFor(m => m.City.CountryID, new SelectList(Model.CountryListDp.AsEnumerable(), "ID", "Country_Code"), "", new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.City.CountryID)
                                                 </div>
                                             </div>
+
 
 
                                             <br>

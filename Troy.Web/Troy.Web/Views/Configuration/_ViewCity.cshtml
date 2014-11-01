@@ -53,8 +53,8 @@
                                             State Code:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.City.State_Code, new SelectList(Model.StateList1.AsEnumerable(), "ID", "State_Code"), "", new { @class = "form-control control-text", disabled = "disabled" })
-                                            @Html.ValidationMessageFor(model => model.City.State_Code)
+                                            @Html.DropDownListFor(m => m.City.StateID, new SelectList(Model.StateList1.AsEnumerable(), "ID", "State_Code"), "", new { @class = "form-control control-text", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.City.StateID)
                                         </div>
                                     </div>
                                     <br>
@@ -63,8 +63,8 @@
                                             Country Code:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.City.Country_Code, new SelectList(Model.CountryListDp.AsEnumerable(), "ID", "Country_Code"), "", new { @class = "form-control control-text", disabled = "disabled" })
-                                            @Html.ValidationMessageFor(model => model.City.Country_Code)
+                                            @Html.DropDownListFor(m => m.City.CountryID, new SelectList(Model.CountryListDp.AsEnumerable(), "ID", "Country_Code"), "", new { @class = "form-control control-text", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.City.CountryID)
                                         </div>
                                     </div>
 

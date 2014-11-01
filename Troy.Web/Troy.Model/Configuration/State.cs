@@ -46,7 +46,7 @@ namespace Troy.Model.Configuration
         [Required]
 
 
-        public string Country_Code { get; set; }
+        public string CountryID { get; set; }
 
 
         [Required]
