@@ -695,7 +695,7 @@ namespace Troy.Web.Controllers
         {
             var state = from s in branchContext.State
                         join c in branchContext.Country
-                            on s.Country_Code equals c.ID.ToString() into c_s
+                            on s.CountryID equals c.ID.ToString() into c_s
                         from cs in c_s.DefaultIfEmpty()
                         where cs.ID == Id
                         orderby s.ID ascending
@@ -709,7 +709,7 @@ namespace Troy.Web.Controllers
         {
             var city = from s in branchContext.City
                        join c in branchContext.State
-                           on s.State_Code equals c.ID.ToString() into c_s
+                           on s.StateID equals c.ID.ToString() into c_s
                        from cs in c_s.DefaultIfEmpty()
                        where cs.ID == id
                        orderby s.ID ascending
@@ -940,7 +940,7 @@ namespace Troy.Web.Controllers
                 var citylist = branchRepository.GetAddresscityList(model.Branch.state.ID);
                 model.CityList = citylist;
 
-                ViewBag.CountryOnChangeScript = @" alert('text');
+                ViewBag.CountryOnChangeScript = @" ;
 
                                 $.getJSON('/Branch/StateList/' + $('#Country_Edit').val(), function (data) {
                     var items = '<option>Select a State</option>';
@@ -952,7 +952,7 @@ namespace Troy.Web.Controllers
                 });";
 
 
-                ViewBag.StateOnChangeScript = @" alert('text');
+                ViewBag.StateOnChangeScript = @";
 
                                 $.getJSON('/Branch/CityList/' + $('#State_Edit').val(), function (data) {
                     var items = '<option>Select a City</option>';

@@ -497,7 +497,7 @@ namespace Troy.Data.Repository
             if (CountryId > 0)
             {
                 var item = (from a in branchContext.State
-                            where a.Country_Code.Equals(CountryId.ToString())
+                            where a.CountryID.Equals(CountryId.ToString())
                             select new StateList
                             {
                                 ID = a.ID,
@@ -526,7 +526,7 @@ namespace Troy.Data.Repository
             if (StateId > 0)
             {
                 var item = (from a in branchContext.City
-                            where a.State_Code.Equals(StateId.ToString())
+                            where a.StateID.Equals(StateId.ToString())
                             select new CityList
                             {
                                 ID = a.ID,
