@@ -59,6 +59,8 @@ namespace Troy.Web.Models
 
         // Multi select branch list.
         public List<BranchList> DefaultSelectedBranches { get; set; }
+        [Required]
+        [Display(Name = "Branches")]
         public List<string> SubmittedBranches { get; set; }
         
         public List<UserBranches> UserBranches { get; set; }

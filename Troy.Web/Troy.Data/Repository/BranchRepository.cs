@@ -48,6 +48,7 @@ namespace Troy.Data.Repository
 
         //GetAllUserBranch(ADD)
         public List<ViewBranches> GetAllUserBranch()
+        
         {
             List<ViewBranches> qList = new List<ViewBranches>();
 
@@ -491,30 +492,60 @@ namespace Troy.Data.Repository
 
 
         //GetAddressstateList
-        public List<StateList> GetAddressstateList()
+        public List<StateList> GetAddressstateList(int CountryId=0)
         {
-            var item = (from a in branchContext.State
-                        select new StateList
-                        {
-                            ID = a.ID,
-                            State_Name = a.State_Name
-                        }).ToList();
+            if (CountryId > 0)
+            {
+                var item = (from a in branchContext.State
+                            where a.Country_Code.Equals(CountryId.ToString())
+                            select new StateList
+                            {
+                                ID = a.ID,
+                                State_Name = a.State_Name
+                            }).ToList();
 
-            return item;
+                return item;
+            }
+            else
+            {
+                var item = (from a in branchContext.State                            
+                            select new StateList
+                            {
+                                ID = a.ID,
+                                State_Name = a.State_Name
+                            }).ToList();
+
+                return item;
+            }
         }
 
 
         //GetAddresscityList
-        public List<CityList> GetAddresscityList()
+        public List<CityList> GetAddresscityList(int StateId=0)
         {
-            var item = (from a in branchContext.City
-                        select new CityList
-                        {
-                            ID = a.ID,
-                            City_Name = a.City_Name
-                        }).ToList();
+            if (StateId > 0)
+            {
+                var item = (from a in branchContext.City
+                            where a.State_Code.Equals(StateId.ToString())
+                            select new CityList
+                            {
+                                ID = a.ID,
+                                City_Name = a.City_Name
+                            }).ToList();
 
-            return item;
+                return item;
+            }
+            else
+            {
+                var item = (from a in branchContext.City
+                            select new CityList
+                            {
+                                ID = a.ID,
+                                City_Name = a.City_Name
+                            }).ToList();
+
+                return item;
+            }
         }
 
 

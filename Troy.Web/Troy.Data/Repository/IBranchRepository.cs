@@ -35,9 +35,9 @@ namespace Troy.Data.Repository
 
         List<CountryList> GetAddresscountryList();
 
-        List<StateList> GetAddressstateList();
+        List<StateList> GetAddressstateList(int CountryId=0);
 
-        List<CityList> GetAddresscityList();
+        List<CityList> GetAddresscityList(int StateId=0);
 
         bool InsertFileUploadDetails(List<Branch> branch);
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using Troy.Model.AppMembership;
@@ -45,10 +46,14 @@ namespace Troy.Web.Models
 
         //public List<ViewBranches> AllBranches { get; set; }
         public List<EmployeeList> employeelist { get; set; }
-
-
         public List<BranchList> branchlist { get; set; }
         public List<ApplicationRole> rolelist { get; set; }
+
+        // Multi select branch list.
+        public List<BranchList> DefaultSelectedBranches { get; set; }
+        [Required]
+        [Display(Name = "Branches")]
+        public List<string> SubmittedBranches { get; set; }
 
     }
 }

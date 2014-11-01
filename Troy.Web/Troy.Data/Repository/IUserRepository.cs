@@ -44,7 +44,7 @@ namespace Troy.Data.Repository
 
         List<ApplicationRole> GetAddressRoleList();
 
-        bool SaveUserBranches(UserBranches userBranches, ref string errorMessage);
+        bool SaveUserBranches(List<UserBranches> userBranches, int Id, ref string errorMessage);
 
         //List<Branch> GetAddressBranchList();
 
