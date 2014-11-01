@@ -40,9 +40,7 @@ namespace Troy.Model.Configuration
 
         public string VAT_Type { get; set; }
 
-        [StringLength(1)]
-
-        public string VAT_Default { get; set; }
+      
 
         [Required]
         [StringLength(1)]

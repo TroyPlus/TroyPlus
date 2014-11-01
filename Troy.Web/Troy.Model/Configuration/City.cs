@@ -19,7 +19,7 @@ namespace Troy.Model.Configuration
 
         public virtual City city { get; set; }
 
-       // public virtual State state { get; set; }
+        //public virtual State state { get; set; }
 
         [Required]
         [StringLength(3)]
@@ -39,13 +39,13 @@ namespace Troy.Model.Configuration
         [Required]
         [StringLength(3)]
 
-        public string State_Code { get; set; }
+        public string StateID { get; set; }
 
 
         [Required]
         [StringLength(3)]
 
-        public string Country_Code { get; set; }
+        public string CountryID { get; set; }
 
 
         [Required]
@@ -56,6 +56,8 @@ namespace Troy.Model.Configuration
         [Column(TypeName = "char")]
         [DefaultValue("Y")]
         public string IsActive { get; set; }
+
+        [Required]
         public int Created_User_Id { get; set; }
 
         [Required]
@@ -65,11 +67,14 @@ namespace Troy.Model.Configuration
         [Column(TypeName = "date")]
         public DateTime Created_Dte { get; set; }
 
+
         [Required]
         public int Modified_User_Id { get; set; }
 
+
         [Required]
         public int Modified_Branch_Id { get; set; }
+
 
         [Required]
         [Column(TypeName = "date")]
