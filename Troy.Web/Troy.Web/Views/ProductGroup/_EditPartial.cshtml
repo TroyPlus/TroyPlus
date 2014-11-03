@@ -33,52 +33,51 @@
                         <div id="editTabContent" class="tab-content">
 
                             <div class="tab-pane fade in active" id="editdefault">
-
-                                <br />
-                                <div class="col-md-6">
+                                <div class="row">
                                     @Html.HiddenFor(model => model.ProductGroup.Product_Group_Id, new { @class = "form-control control-text" })
-                                    
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            ProductGroup Name:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.ProductGroup.Product_Group_Name, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.ProductGroup.Product_Group_Name)
+                                    <div class="col-md-6">
+                                        <div class="form-horizontal">
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    ProductGroup Name:
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.ProductGroup.Product_Group_Name, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.ProductGroup.Product_Group_Name)
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    ProductGroup Level:
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.ProductGroup.Level, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.ProductGroup.Level)
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Is Active:
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.RadioButtonFor(model => model.ProductGroup.IsActive, "Y", new { id = "Y" }) YES
+                                                    @Html.RadioButtonFor(model => model.ProductGroup.IsActive, "N", new { id = "N" }) NO
+                                                    @Html.ValidationMessageFor(model => model.ProductGroup.IsActive)
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            ProductGroup Level:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.ProductGroup.Level, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.ProductGroup.Level)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Is Active:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.RadioButtonFor(model => model.ProductGroup.IsActive, "Y", new { id = "Y" }) YES
-                                            @Html.RadioButtonFor(model => model.ProductGroup.IsActive, "N", new { id = "N" }) NO
-                                            @Html.ValidationMessageFor(model => model.ProductGroup.IsActive)
-                                        </div>
-                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" onclick="return EditSubmit(this);" />
+                                    <input type="hidden" id="submitAction" name="submitButton" />
+                                    <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="modal-footer">
-                <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" onclick="return EditSubmit(this);" />
-                <input type="hidden" id="submitAction" name="submitButton" />
-                <button class="btn pull-left" data-dismiss="modal">Close</button>
-                @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
-            </div>
+            </div>           
         </div>
     </div>
 }

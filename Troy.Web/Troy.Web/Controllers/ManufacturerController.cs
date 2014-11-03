@@ -346,7 +346,8 @@ namespace Troy.Web.Controllers
 
                                 if (manufacturerRepository.InsertFileUploadDetails(mlist))
                                 {
-                                    return Json(new { success = true, Message = mlist.Count + " Records Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
+                                    //return Json(new { success = true, Message = mlist.Count + " Records Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
+                                    return RedirectToAction("Index", "Manufacturer");
                                 }
                             }
                             else
@@ -418,6 +419,10 @@ namespace Troy.Web.Controllers
                     {
                         ModelState.AddModelError("", "Manufacturer Not Updated");
                     }
+                }
+                else if (submitButton == "Export")
+                {
+                    _ExporttoExcel();
                 }
                 else if (submitButton == "Search")
                 {
@@ -644,6 +649,7 @@ namespace Troy.Web.Controllers
             }
         }
 
+        [HttpPost]
         public ActionResult _ExporttoExcel()
         {
             try

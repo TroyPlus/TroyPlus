@@ -51,7 +51,7 @@ namespace Troy.Data.Repository
                      join bst in businesspartnercontext.State
                        on item.Bill_State equals bst.ID
                      join pl in businesspartnercontext.PriceList
-                       on item.Pricelist equals pl.PriceList_Id
+                       on item.Pricelist_ID equals pl.PriceList_Id
                      join em in businesspartnercontext.Employee
                        on item.Emp_Id equals em.Emp_Id
                      join br in businesspartnercontext.Branch
@@ -85,7 +85,7 @@ namespace Troy.Data.Repository
                          billCountry_Name = scu.Country_Name,
                          Bill_pincode = item.Bill_pincode,
                          IsActive = item.IsActive,
-                         Pricelist = item.Pricelist,
+                         Pricelist = item.Pricelist_ID,
                          Price_List_Desc = pl.Price_List_Desc,
                          Emp_Id = item.Emp_Id,
                          Employee_Name = em.First_Name,
@@ -299,6 +299,7 @@ namespace Troy.Data.Repository
 
 
                 SAPOUT mSAP = new SAPOUT();
+                mSAP.Unique_Id = uniqueId;
                 mSAP.Object_typ = "BUSINESS PARTNER";
                 mSAP.Branch_Cde = "1";
                 mSAP.Troy_Created_Dte = Convert.ToDateTime(DateTime.Now.ToString());

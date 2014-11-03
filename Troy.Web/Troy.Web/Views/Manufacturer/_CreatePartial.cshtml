@@ -1,61 +1,62 @@
 ﻿@model Troy.Web.Models.ManufacturerViewModels
 
+@using (Html.BeginForm("Index", "Manufacturer"))
+{
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
 
-<div class="modal-dialog modal-lg">
-    <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Add Manufacturer</h4>
+            </div>
 
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Add Manufacturer</h4>
-        </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row">
 
-        <div class="modal-body">
-            <div class="form-horizontal">
-                <div class="row">
+                        <ul id="tabs" class="nav nav-pills nav-pills-justified">
+                            <li class="active">
+                                <a href="#default" data-toggle="tab">General </a>
+                            </li>
+                        </ul>
 
-                    <ul id="tabs" class="nav nav-tabs tabdrop">
-                        <li class="active">
-                            <a href="#default" data-toggle="tab">General </a>
-                        </li>
-                    </ul>
+                        <div id="myTabContent" class="tab-content">
 
-                    <div id="myTabContent" class="tab-content">
-
-                        <div class="tab-pane fade in active" id="default">
-                            <br />
-                            @Html.HiddenFor(model => model.Manufacturer.Manufacturer_Id)
-                            <div class="col-md-6">
+                            <div class="tab-pane fade in active" id="default">
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        Manufacturer Name:
-                                    </div>
-                                    <div class="col-md-8" id="container1">
-                                        @*@Html.TextBox("SearchString")*@
-                                        @Html.TextBoxFor(model => model.Manufacturer.Manufacturer_Name, new { @class = "form-control control-text info", id = "textbox1" })
-                                        @Html.ValidationMessageFor(model => model.Manufacturer.Manufacturer_Name)
+                                    @Html.HiddenFor(model => model.Manufacturer.Manufacturer_Id)
+                                    <div class="col-md-6">
+                                        <div class="form-horizontal">
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Manufacturer Name:
+                                                </div>
+                                                <div class="col-md-8" id="container1">                                                   
+                                                    @Html.TextBoxFor(model => model.Manufacturer.Manufacturer_Name, new { @class = "form-control control-text info", id = "textbox1" })
+                                                    @Html.ValidationMessageFor(model => model.Manufacturer.Manufacturer_Name)
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Manufacturer Level:
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.Manufacturer.Level, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.Manufacturer.Level)
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        Manufacturer Level:
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.Manufacturer.Level, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.Manufacturer.Level)
-                                    </div>
+                                <div class="modal-footer">
+                                    <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+                                    <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                                 </div>
-                            </div>                          
+                            </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-
-        <div class="modal-footer">
-            <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
-            <button class="btn pull-left" data-dismiss="modal">Cancel</button>
-            @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
-        </div>
     </div>
-</div>
+}

@@ -9,7 +9,7 @@
 
 
     $(document).ready(function () {
-              
+
         $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
         //var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
@@ -141,9 +141,9 @@
             if (anyError) {
                 return false;
             }
-            else {                
+            else {
                 $('#createtabs a[href = #additional]').tab('show');
-            }// exit if any error found  
+            }// exit if any error found
         });
 
         $("#btnFinanceTab").click(function (e) {
@@ -172,14 +172,14 @@
             }
             else {
                 $('#createtabs a[href = #additional1]').tab('show');
-            }// exit if any error found  
-        });
+            }// exit if any error found
+        });       
     });
 
     $.validator.unobtrusive.parse('#myModal form');
 </script>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Index", "Employee", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
     @Html.ValidationSummary(true)
@@ -216,12 +216,8 @@
                                     <i class="st-file-add strong"></i>
                                     <span> Bulk</span>
                                 </button>
-
-                                <button type="button" title="Excel Export" class="btn btn-primary">
-                                    @*<a href=@Url.Action("_ExporttoExcel", "Branch")></a>*@
-                                    <i class="im-file-excel strong"></i>
-                                    <span> Export</span>
-                                </button>
+                                
+                                <input class="btn btn-primary" type="submit" name="submitButton" id="btnExport" value="Export" />
                             </div>
                         </div>
                     </div>
@@ -373,7 +369,10 @@
         <div id="viewmodelcontainer">
         </div>
     </div>
+}
 
+@using (Html.BeginForm("Upload", "Employee", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
     <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -403,17 +402,13 @@
                                             <iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <input type="file" id="FileUpload" name="FileUpload" />
+                                                    @*<input type="file" id="FileUpload" name="FileUpload" />*@
+                                                    <input type="file" name="file" />
                                                 </div>
-
                                             </div>
-
-                                            @*<div class="row">
-                                                    <div class="col-md-12 text-right">
-                                                        <input type="button" id="btnUpload" name="FileUploadButton" value="Upload" class="btn btn-success"
-                                                               onclick="return IFrameSubmit();" />
-                                                    </div>
-                                                </div>*@
+                                            <a href=@Url.Action("_TemplateExcelDownload", "Employee")>
+                                                Click here to Download template
+                                            </a>
                                         </div>
 
                                     </div>
@@ -424,7 +419,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
+                    <input class="btn btn-primary pull-left" type="submit" name="Submit" id="Submit" value="Upload" />
+                    @*<input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />*@
                     <button class="btn pull-left" data-dismiss="modal">Close</button>
                 </div>
 

@@ -47,7 +47,7 @@ namespace Troy.Data.Repository
                      join ms in employeecontext.MaritalStatus
                         on item.Marital_Status equals ms.Id
                      join gd in employeecontext.Gender
-                        on item.Gender equals gd.Id
+                        on item.Gender_ID equals gd.Id
                      join lr in employeecontext.LeftReason
                         on item.Left_Reason equals lr.Id
 
@@ -77,7 +77,7 @@ namespace Troy.Data.Repository
                          Left_Reason_TroyValues = lr.Troyvalues,
                          DOB = item.DOB,
                          Marital_Status = item.Marital_Status,
-                         Gender = item.Gender,
+                         Gender = item.Gender_ID,
                          Gender_TroyValues=gd.Troyvalues,
                          Noof_Children = item.Noof_Children,
                          Passport_no = item.Passport_no,
@@ -200,6 +200,30 @@ namespace Troy.Data.Repository
             return (from p in employeecontext.Employee
                     where p.Emp_No == mEmployee_No
                     select p).FirstOrDefault();
+        }
+
+        public bool CheckDuplicateNameWithId(int id, int no)
+        {
+            var currentValue = employeecontext.Employee.Find(id);
+
+            if (currentValue.Emp_No == no)
+            {
+                return true;
+            }
+            else
+            {
+                var response = (from p in employeecontext.Employee
+                                where p.Emp_No == no
+                                select p).FirstOrDefault();
+                if (response != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
         }
 
         public bool InsertFileUploadDetails(List<Employee> employee)
@@ -458,6 +482,6 @@ namespace Troy.Data.Repository
                                  where p.Troyvalues == lftReasonName
                                  select p.Id).FirstOrDefault();
             return Leftreason_id;
-        }
+        }        
     }
 }

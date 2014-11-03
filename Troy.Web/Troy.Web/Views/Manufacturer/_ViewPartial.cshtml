@@ -25,50 +25,50 @@
 
                         <div class="tab-pane fade in active" id="viewdefault">
 
-                            <br />
-
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        Manufacturer Name:
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.Manufacturer.Manufacturer_Name, new { @class = "form-control control-text", disabled = "disabled" })
-                                        @Html.ValidationMessageFor(model => model.Manufacturer.Manufacturer_Name)
+                            <div class="row">
+                                @Html.HiddenFor(model => model.Manufacturer.Manufacturer_Id)
+                                <div class="col-md-6">
+                                    <div class="form-horizontal">
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                Manufacturer Name:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.Manufacturer.Manufacturer_Name, new { @class = "form-control control-text", disabled = "disabled" })
+                                                @Html.ValidationMessageFor(model => model.Manufacturer.Manufacturer_Name)
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                Manufacturer Level:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.Manufacturer.Level, new { @class = "form-control control-text", disabled = "disabled" })
+                                                @Html.ValidationMessageFor(model => model.Manufacturer.Level)
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                Is Active:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.RadioButtonFor(model => model.Manufacturer.IsActive, "Y", new { id = "Y", disabled = "disabled" }) YES
+                                                @Html.RadioButtonFor(model => model.Manufacturer.IsActive, "N", new { id = "N", disabled = "disabled" }) NO
+                                                @Html.ValidationMessageFor(model => model.Manufacturer.IsActive)
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        Manufacturer Level:
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.Manufacturer.Level, new { @class = "form-control control-text", disabled = "disabled" })
-                                        @Html.ValidationMessageFor(model => model.Manufacturer.Level)
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        Is Active:
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.RadioButtonFor(model => model.Manufacturer.IsActive, "Y", new { id = "Y", disabled = "disabled" }) YES
-                                        @Html.RadioButtonFor(model => model.Manufacturer.IsActive, "N", new { id = "N", disabled = "disabled" }) NO
-                                        @Html.ValidationMessageFor(model => model.Manufacturer.IsActive)
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                @*<input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />*@
+                                <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="modal-footer">
-            @*<input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />*@
-            <button class="btn pull-left" data-dismiss="modal">Cancel</button>
-            @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
-        </div>
-
     </div>
 </div>
 
