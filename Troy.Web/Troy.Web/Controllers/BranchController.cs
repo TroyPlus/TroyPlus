@@ -593,9 +593,9 @@ namespace Troy.Web.Controllers
                                             bItem.Order_Num = Convert.ToInt32(ds.Tables[0].Rows[j]["Order Number"]);
                                         }
 
-                                        if (ds.Tables[0].Rows[j]["Pin Code"] != null)
+                                        if (ds.Tables[0].Rows[j]["PinCode"] != null)
                                         {
-                                            bItem.Pin_Code = ds.Tables[0].Rows[j]["Pin Code"].ToString();
+                                            bItem.Pin_Code = ds.Tables[0].Rows[j]["PinCode"].ToString();
                                         }
 
                                         bItem.IsActive = "Y";
