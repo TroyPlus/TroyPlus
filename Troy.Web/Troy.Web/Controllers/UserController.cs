@@ -275,7 +275,11 @@ namespace Troy.Web.Controllers
                 if (submitButton == "Save")
                 {  
                     await RegisterUser(model);
-                }     
+                }
+                else if (submitButton == "Export")
+                {
+                    _ExporttoExcel();
+                }
 
                 return RedirectToAction("Index", "User");
             }
@@ -299,15 +303,6 @@ namespace Troy.Web.Controllers
                 {
 
                     await EditUser(model);
-
-                    //if (userDb.EditUser(model.ApplicationUsers))
-                    //{
-                    //    return RedirectToAction("Index", "User");
-                    //}
-                    //else
-                    //{
-                    //    ModelState.AddModelError("", "User Not Updated");
-                    //}
                 }
 
                 return RedirectToAction("Index", "User");
@@ -381,32 +376,7 @@ namespace Troy.Web.Controllers
         //}
 
 
-        //public ActionResult _ExporttoExcel(ViewUsers User)
-        //{
-        //    var data = userDb._ExporttoExcel();
-        //    var user = from e in userDb._ExporttoExcel.AsEnumerable()
-        //               select new
-        //               {
-
-        //               };
-
-        //    System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
-        //    gridvw.DataSource = ViewUsers.ToList().Take(100); //bind the datatable to the gridview
-        //    gridvw.DataBind();
-        //    Response.ClearContent();
-        //    Response.Buffer = true;
-        //    Response.AddHeader("content-disposition", "attachment; filename=BranchList.xls");//Microsoft Office Excel Worksheet (.xlsx)
-        //    Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        //    Response.Charset = "";
-        //    StringWriter sw = new StringWriter();
-        //    HtmlTextWriter htw = new HtmlTextWriter(sw);
-        //    gridvw.RenderControl(htw);
-        //    Response.Output.Write(sw.ToString());
-        //    Response.Flush();
-        //    Response.End();
-        //    return RedirectToAction("Index");
-        //}
-
+      
 
 
 
