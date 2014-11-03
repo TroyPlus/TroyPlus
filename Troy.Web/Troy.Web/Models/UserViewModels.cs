@@ -22,6 +22,7 @@ namespace Troy.Web.Models
         [Required]
         [StringLength(100,MinimumLength=6)]
         [Display(Name = "User name")]
+        
         public string UserName { get; set; }
 
         [Required]
@@ -48,8 +49,11 @@ namespace Troy.Web.Models
         [Required]
         [Display(Name="Role")]
         public int Role_Id { get; set; }
+
         [Display(Name = "Employee")]
         public int Employee_Id { get; set; }
+
+        [Required]
         [Display(Name = "Branch")]
         public int Branch_Id { get; set; }
 
