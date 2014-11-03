@@ -5,7 +5,44 @@
 <script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")" type="text/javascript"></script>
 
+<script>
 
+    $(document).ready(function () {
+
+        $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+    });
+
+    $(function () {
+        $("#btneditContactTab").click(function (e) {
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#editdefault");
+
+            var validator = $("#editdefault").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            _form.find("select").each(function () {
+
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                $('#edittabs a[href = #editadditional]').tab('show');
+            }// exit if any error found
+        });      
+    });
+</script>
 
 @using (Html.BeginForm("Index", "BusinessPartner"))
 {
@@ -34,335 +71,343 @@
                         <div id="editTabContent" class="tab-content">
 
                             <div class="tab-pane fade in active" id="editdefault">
+                                <div class="row">
+                                    <br />
+                                    @Html.HiddenFor(model => model.BusinessPartner.BP_Id)
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Business Partner Name:
+                                            </div>
+                                            <div class="col-md-8" id="container1">
+                                                @*@Html.TextBox("SearchString")*@
+                                                @Html.TextBoxFor(model => model.BusinessPartner.BP_Name, new { @class = "form-control control-text info", id = "textbox1" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.BP_Name)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Group Type:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Group_Type, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Group_Type)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Group Id:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Group_id, new SelectList(Model.GroupList.AsEnumerable(), "Group_Id", "Group_Name"), "", new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Group_id)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Pricelist:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Pricelist_ID, new SelectList(Model.PricelistLists.AsEnumerable(), "PriceList_Id", "Price_List_Desc"), "", new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Pricelist_ID)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Employee:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Emp_Id, new SelectList(Model.EmployeeList.AsEnumerable(), "Emp_Id", "First_Name"), "", new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Emp_Id)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Branch:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Branch_id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Branch_id)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Remarks:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Remarks, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Remarks)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Control account id:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Control_account_id, new SelectList(Model.GroupList.AsEnumerable(), "Control_Account_Id", "Group_Name"), "", new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Control_account_id)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Opening Balance:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Opening_Balance, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Opening_Balance)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Due date:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Due_date, new { @class = "form-control control-text datePicker",@id="editduedate" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Due_date)
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                <br />
-                                @Html.HiddenFor(model => model.BusinessPartner.BP_Id)
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Business Partner Name:
-                                        </div>
-                                        <div class="col-md-8" id="container1">
-                                            @*@Html.TextBox("SearchString")*@
-                                            @Html.TextBoxFor(model => model.BusinessPartner.BP_Name, new { @class = "form-control control-text info", id = "textbox1" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.BP_Name)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Group Type:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Group_Type, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Group_Type)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Group Id:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Group_id, new SelectList(Model.GroupList.AsEnumerable(), "Group_Id", "Group_Name"), "", new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Group_id)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Pricelist:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Pricelist, new SelectList(Model.PricelistLists.AsEnumerable(), "PriceList_Id", "Price_List_Desc"), "", new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Pricelist)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Employee:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Emp_Id, new SelectList(Model.EmployeeList.AsEnumerable(), "Emp_Id", "First_Name"), "", new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Emp_Id)
-                                        </div>
+                                </div>
+                                <div class="row">
+                                    <div class="modal-footer">
+                                        <input class="btn btn-primary pull-left" type="button" id="btneditContactTab" name="nextButton" value="Next" />
+                                        <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Branch:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Branch_id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Branch_id)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Remarks:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Remarks, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Remarks)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Control account id:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Control_account_id, new SelectList(Model.GroupList.AsEnumerable(), "Control_Account_Id", "Group_Name"), "", new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Control_account_id)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Opening Balance:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Opening_Balance, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Opening_Balance)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Due date:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Due_date, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Due_date)
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
+
                             <div class="tab-pane fade" id="editadditional">
-                                <br />
-                                <div class="col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Ship Address1:
+                                <div class="row">
+                                    <br />
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Ship Address1:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Ship_Address1, new { @class = "form-control control-text", @id = "eShippingAddress1" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_Address1)
+                                            </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Ship_Address1, new { @class = "form-control control-text", @id = "eShippingAddress1" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_Address1)
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Ship Address2:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Ship_address2, new { @class = "form-control control-text", @id = "eShippingAddress2" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_address2)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Ship Address3:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Ship_address3, new { @class = "form-control control-text", @id = "eShippingAddress3" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_address3)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Ship City:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Ship_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text", @id = "eShippingCity" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_City)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Ship State:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Ship_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "eShippingState" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_State)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Ship Country:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Ship_Country, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text", @id = "eShippingCountry" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_Country)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Ship PinCode:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Ship_pincode, new { @class = "form-control control-text", @id = "eShippingPinCode" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_pincode)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <input type="checkbox" id="chkeditCopy" onclick="Editcheck();" /> Billing address same as Shipping address
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Ship Address2:
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Bill Address1:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Bill_Address1, new { @class = "form-control control-text", @id = "eBillingAddress1" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_Address1)
+                                            </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Ship_address2, new { @class = "form-control control-text", @id = "eShippingAddress2" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_address2)
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Bill Address2:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Bill_address2, new { @class = "form-control control-text", @id = "eBillingAddress2" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_address2)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Bill Address3:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Bill_address3, new { @class = "form-control control-text", @id = "eBillingAddress3" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_address3)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Bill City:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Bill_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text", @id = "eBillingCity" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_City)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Bill State:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Bill_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "eBillingState" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_State)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Bill Country:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Bill_Country, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text", @id = "eBillingCountry" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_Country)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Bill pincode:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Bill_pincode, new { @class = "form-control control-text", @id = "eBillingPinCode" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_pincode)
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Ship Address3:
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Phone1:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Phone1, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Phone1)
+                                            </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Ship_address3, new { @class = "form-control control-text", @id = "eShippingAddress3" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_address3)
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Phone2:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Phone2, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Phone2)
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Ship City:
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Mobile:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Mobile, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Mobile)
+                                            </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Ship_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text", @id = "eShippingCity" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_City)
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Fax:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Fax, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Fax)
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Ship State:
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Email Address:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Email_Address, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Email_Address)
+                                            </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Ship_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "eShippingState" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_State)
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Website:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Website, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Website)
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Ship Country:
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Contact person:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Contact_person, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Contact_person)
+                                            </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Ship_Country, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text", @id = "eShippingCountry" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_Country)
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Ship method:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.BusinessPartner.Ship_method, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_method)
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Ship PinCode:
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                Is Active:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.RadioButtonFor(model => model.BusinessPartner.IsActive, "True", new { id = "Y" }) True
+                                                @Html.RadioButtonFor(model => model.BusinessPartner.IsActive, "False", new { id = "N" }) False
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.IsActive)
+                                            </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Ship_pincode, new { @class = "form-control control-text", @id = "eShippingPinCode" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_pincode)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <input type="checkbox" id="chkeditCopy" onclick="Editcheck();" /> Billing address same as Shipping address
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Bill Address1:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Bill_Address1, new { @class = "form-control control-text", @id = "eBillingAddress1" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_Address1)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Bill Address2:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Bill_address2, new { @class = "form-control control-text", @id = "eBillingAddress2" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_address2)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Bill Address3:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Bill_address3, new { @class = "form-control control-text", @id = "eBillingAddress3" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_address3)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Bill City:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Bill_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text", @id = "eBillingCity" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_City)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Bill State:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Bill_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "eBillingState" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_State)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Bill Country:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Bill_Country, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text", @id = "eBillingCountry" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_Country)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Bill pincode:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Bill_pincode, new { @class = "form-control control-text", @id = "eBillingPinCode" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_pincode)
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Phone1:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Phone1, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Phone1)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Phone2:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Phone2, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Phone2)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Mobile:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Mobile, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Mobile)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Fax:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Fax, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Fax)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Email Address:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Email_Address, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Email_Address)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Website:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Website, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Website)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Contact person:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Contact_person, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Contact_person)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Ship method:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(model => model.BusinessPartner.Ship_method, new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_method)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Is Active:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.RadioButtonFor(model => model.BusinessPartner.IsActive, "True", new { id = "Y" }) True
-                                            @Html.RadioButtonFor(model => model.BusinessPartner.IsActive, "False", new { id = "N" }) False
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.IsActive)
-                                        </div>
-                                    </div>
+                                <div class="modal-footer">
+                                    <input class="btn btn-primary pull-left" type="submit" id="btnEditSubmit" name="submitButton" value="Update" onclick="return EditSubmit(this);" />
+                                    <input type="hidden" id="submitAction" name="submitButton" />
+                                    <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="modal-footer">
-                    <input class="btn btn-primary pull-left" type="submit" id="btnEditSubmit" name="submitButton" value="Update" onclick="return EditSubmit(this);" />
-                    <input type="hidden" id="submitAction" name="submitButton" />
-                    <button class="btn pull-left" data-dismiss="modal">Cancel</button>
-                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
                 </div>
             </div>
         </div>

@@ -129,7 +129,7 @@
 
 <div><span>&nbsp;</span></div>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Index", "ProductGroup", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
     @Html.ValidationSummary(true)
@@ -157,11 +157,7 @@
                                     <i class="st-file-add strong"></i>
                                     <span> Bulk</span>
                                 </button>
-
-                                <button type="button" title="Excel Export" class="btn btn-primary">
-                                    <i class="im-file-excel strong"></i>
-                                    <span> Export</span>
-                                </button>
+                                <input class="btn btn-primary" type="submit" name="submitButton" id="btnExport" value="Export" />
                             </div>
                         </div>
                     </div>
@@ -212,9 +208,9 @@
                                                         <i class="im-pencil2"></i>
                                                     </a>
                                                     @*<span class="text-muted">|</span>
-                                                    <a href="@Url.Action("_DeletePartialView", "ProductGroup", new { id = item.Product_Group_Id }) data-modal=" true">
-                                                        <i class="im-remove2"></i>
-                                                    </a>*@
+                                                        <a href="@Url.Action("_DeletePartialView", "ProductGroup", new { id = item.Product_Group_Id }) data-modal=" true">
+                                                            <i class="im-remove2"></i>
+                                                        </a>*@
                                                 </td>
                                             </tr>
                                         }
@@ -249,7 +245,10 @@
         <div id="viewmodelcontainer">
         </div>
     </div>
+}
 
+@using (Html.BeginForm("Upload", "ProductGroup", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
     <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -279,11 +278,12 @@
                                             <iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <input type="file" id="FileUpload" name="FileUpload" />
+                                                    @*<input type="file" id="FileUpload" name="FileUpload" />*@
+                                                    <input type="file" name="file" />
                                                 </div>
                                             </div>
                                             <a href=@Url.Action("_TemplateExcelDownload", "ProductGroup")>
-                                            Click here to Download template
+                                                Click here to Download template
                                             </a>
                                         </div>
 
@@ -295,8 +295,9 @@
                 </div>
 
                 <div class="modal-footer">
-                    <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
-                    <button class="btn pull-left" data-dismiss="modal">Close</button>
+                    <input class="btn btn-primary pull-left" type="submit" name="Submit" id="Submit" value="Upload" />
+                    @*<input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />*@
+                    <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                 </div>
 
             </div>
