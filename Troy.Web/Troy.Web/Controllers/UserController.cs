@@ -324,10 +324,10 @@ namespace Troy.Web.Controllers
 
 
         //#region Check for duplicate name
-        //public JsonResult CheckForDuplicationName([Bind(Prefix = "ApplicationUser.UserName")]string UserName, [Bind(Prefix = "ApplicationUser.Id")]int? Id)
+        //public JsonResult CheckForDuplicationName([Bind(Prefix = "ApplicationUser.UserName")]string UserName, [Bind(Prefix = "ApplicationUser.Email")]string Email)
         //{
 
-        //    if (Id != null)
+        //    if (Email != null)
         //    {
         //        return Json(true, JsonRequestBehavior.AllowGet);
         //    }

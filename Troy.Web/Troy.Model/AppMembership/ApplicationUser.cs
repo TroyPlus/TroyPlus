@@ -5,6 +5,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Troy.Model.AppMembership
 {
@@ -27,7 +29,7 @@ namespace Troy.Model.AppMembership
         //[Index(IsUnique = true)]
         //[Required(ErrorMessage = "Branch Code is required.")]
         //[Display(Name = "User Name")]
-        //[Remote("CheckForDuplication", "User", AdditionalFields = "Id")]
+        //[Remote("CheckForDuplication", "User", AdditionalFields = "Email")]
         //public string UserName { get; set; }
 
         public int Employee_Id { get; set; }

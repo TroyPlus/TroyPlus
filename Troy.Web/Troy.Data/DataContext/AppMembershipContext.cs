@@ -11,6 +11,7 @@ using Troy.Model.AppMembership;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using Troy.Model.Employees;
 using Troy.Model.Branches;
+using Troy.Model.LeftReasons;
 
 namespace Troy.Data.DataContext
 {
@@ -31,8 +32,6 @@ namespace Troy.Data.DataContext
         public DbSet<MenuItem> AppSubMenu { get; set; }
 
         public DbSet<Employee> employee { get; set; }
-
-
 
         public DbSet<Branch> branch { get; set; }
 
