@@ -1312,7 +1312,6 @@
     <Content Include="Content\themes\TroyPlus\server\php\files\.htaccess" />
     <Content Include="Content\themes\TroyPlus\server\php\index.php" />
     <Content Include="Content\themes\TroyPlus\server\php\UploadHandler.php" />
-    <None Include="Properties\PublishProfiles\TroyERP1510.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrapValidator.js" />
     <Content Include="Scripts\bootstrapValidator.min.js" />
@@ -1443,6 +1442,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
