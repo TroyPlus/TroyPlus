@@ -62,8 +62,8 @@
                                             Country Code:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.State.Country_Code, new SelectList(Model.CountryListDp.AsEnumerable(), "ID", "Country_Code"), "", new { @class = "form-control control-text", disabled = "disabled" })
-                                            @Html.ValidationMessageFor(model => model.State.Country_Code)
+                                            @Html.DropDownListFor(m => m.State.CountryID, new SelectList(Model.CountryListDp.AsEnumerable(), "ID", "Country_Code"), "", new { @class = "form-control control-text", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.State.CountryID)
                                         </div>
                                     </div>
                                     <br>
