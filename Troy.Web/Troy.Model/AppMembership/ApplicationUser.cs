@@ -20,7 +20,7 @@ namespace Troy.Model.AppMembership
             // Add custom user claims here
             return userIdentity;
         }
-
+       
 
         //[Key]
         //[ForeignKey("Id")]
@@ -31,7 +31,7 @@ namespace Troy.Model.AppMembership
         //[Display(Name = "User Name")]
         //[Remote("CheckForDuplication", "User", AdditionalFields = "Email")]
         //public string UserName { get; set; }
-
+     
         public int Employee_Id { get; set; }
 
         //public int Branch_Id { get; set; }
