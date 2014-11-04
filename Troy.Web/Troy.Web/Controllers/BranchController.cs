@@ -545,7 +545,7 @@ namespace Troy.Web.Controllers
                     model.Branch.IsActive = "Y";
                     model.Branch.Created_Branc_Id = 1;
                     model.Branch.Created_Dte = DateTime.Now;
-                    model.Branch.Created_User_Id = 1;  //GetUserId()
+                    model.Branch.Created_User_Id = CurrentUser.Id;  //GetUserId()
                     //model.Branch.Modified_User_Id = 1;
                     //model.Branch.Modified_Dte = DateTime.Now;
                     //model.Branch.Modified_Branch_Id = 1;
@@ -616,7 +616,7 @@ namespace Troy.Web.Controllers
                    // model.Branch.Created_Branc_Id =model.Branch.Created_Branc_Id;
                   //  model.Branch.Created_Dte = DateTime.Now;
                    // model.Branch.Created_User_Id = model.Branch.Created_User_Id;  //GetUserId()
-                    model.Branch.Modified_User_Id = 1;
+                    model.Branch.Modified_User_Id = CurrentUser.Id;
                     model.Branch.Modified_Dte = DateTime.Now;
                     model.Branch.Modified_Branch_Id = 1;
 

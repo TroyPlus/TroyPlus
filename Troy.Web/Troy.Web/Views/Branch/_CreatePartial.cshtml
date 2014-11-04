@@ -15,7 +15,7 @@
             // $('#Country').val("India");
             debugger;
            
-            $.getJSON('troyerp/Branch/StateList/' + $('#Country').val(), function (data) {
+            $.getJSON('/Branch/StateList/' + $('#Country').val(), function (data) {
                 var items = '';
                 $.each(data, function (i, state) {
                     //var selectionOption = '';
@@ -36,7 +36,7 @@
         $('#State').change(function () {
             
            
-            $.getJSON('troyerp/Branch/CityList/' + $('#State').val(), function (data) {
+                $.getJSON('/Branch/CityList/' + $('#State').val(), function (data) {
                     var items = '';
                     $.each(data, function (i, city) {
                         //var selectionOption = '';
@@ -247,7 +247,7 @@
 
         <div class="modal-footer">
             <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
-            <button class="btn pull-left" data-dismiss="modal">Close</button>
+            <button class="btn pull-left" data-dismiss="modal">Cancel</button>
             @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
         </div>
     </div>

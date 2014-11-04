@@ -86,10 +86,10 @@ namespace Troy.Web.Controllers
                     //Created_User_Id = 1,
                     Created_Branch_Id = 1,
                     Created_Date = DateTime.Now,
-                    Modified_User_Id = CurrentUser.Id,
+                   // Modified_User_Id = CurrentUser.Id,
                     //Modified_User_Id = 2,
-                    Modified_Branch_Id = 2,
-                    Modified_Date = DateTime.Now
+                  //  Modified_Branch_Id = 2,
+                   // Modified_Date = DateTime.Now
                 };
                    
                   
@@ -115,9 +115,9 @@ namespace Troy.Web.Controllers
                                 Created_User_Id = CurrentUser.Id,
                                 Created_Branch_Id = CurrentBranchId,
                                 Created_Date = DateTime.Now,
-                                Modified_User_Id = CurrentUser.Id,
-                                Modified_Branch_Id = CurrentBranchId,
-                                Modified_Date = DateTime.Now
+                               // Modified_User_Id = CurrentUser.Id,
+                               // Modified_Branch_Id = CurrentBranchId,
+                               // Modified_Date = DateTime.Now
                             };
                             userBranches.Add(userbranch);
                         }
@@ -144,6 +144,9 @@ namespace Troy.Web.Controllers
             return View(model);
         }
         #endregion
+
+
+      
 
         #region Register
         public async Task<ActionResult> EditUser(UserViewModels model)
@@ -186,9 +189,9 @@ namespace Troy.Web.Controllers
                                 {
                                     Branch_Id = branchId,
                                     User_Id = user.Id,
-                                    Created_User_Id = CurrentUser.Id,
-                                    Created_Branch_Id = CurrentBranchId,
-                                    Created_Date = DateTime.Now,
+                                   // Created_User_Id = CurrentUser.Id,
+                                   // Created_Branch_Id = CurrentBranchId,
+                                   // Created_Date = DateTime.Now,
                                     Modified_User_Id = CurrentUser.Id,
                                     Modified_Branch_Id = CurrentBranchId,
                                     Modified_Date = DateTime.Now
@@ -318,30 +321,30 @@ namespace Troy.Web.Controllers
 
 
 
-        //#region Check for duplicate name
-        //public JsonResult CheckForDuplicationName([Bind(Prefix = "ApplicationUser.UserName")]string UserName, [Bind(Prefix = "ApplicationUser.Email")]string Email)
-        //{
+        #region Check for duplicate name
+        public JsonResult CheckForDuplicationName([Bind(Prefix = "UserName")]string UserName, [Bind(Prefix = "Id")]int? Id)
+        {
 
-        //    if (Email != null)
-        //    {
-        //        return Json(true, JsonRequestBehavior.AllowGet);
-        //    }
-        //    else
-        //    {
+            if (Id != null)
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
 
-        //        var data = userDb.CheckDuplicateUserName(UserName);
-        //        if (data != null)
-        //        {
-        //            return Json("Sorry, User Name already exists", JsonRequestBehavior.AllowGet);
-        //        }
-        //        else
-        //        {
-        //            return Json(true, JsonRequestBehavior.AllowGet);
-        //        }
+                var data = userDb.CheckDuplicateUserName(UserName);
+                if (data != null)
+                {
+                    return Json("Sorry, User Name already exists", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
 
-        //    }
-        //}
-        //#endregion
+            }
+        }
+        #endregion
 
 
 
