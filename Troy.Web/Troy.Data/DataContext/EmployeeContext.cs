@@ -22,7 +22,7 @@ namespace Troy.Data.DataContext
             : base("DefaultConnection")
         { }
 
-        public DbSet<Employee> Employee { get; set; }
+        
 
         public DbSet<Designation> Designation { get; set; }
 
@@ -37,5 +37,7 @@ namespace Troy.Data.DataContext
         public DbSet<Gender> Gender { get; set; }
 
         public DbSet<LeftReason> LeftReason { get; set; }
+
+        public DbSet<Employee> Employee { get; set; }
     }
 }

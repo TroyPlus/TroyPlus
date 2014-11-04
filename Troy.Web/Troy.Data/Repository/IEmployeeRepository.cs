@@ -70,5 +70,7 @@ namespace Troy.Data.Repository
         int FindIdForBranchName(string branchname);
 
         int FindIdForLeftReason(string lftReasonName);
+
+        bool CheckDuplicateNameWithId(int id, int no);
     }
 }

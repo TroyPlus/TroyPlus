@@ -1,6 +1,5 @@
 ﻿@model Troy.Web.Models.BusinessPartnerViewModels
 
-
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -23,9 +22,6 @@
                     </ul>
 
                     <div id="myTabContent" class="tab-content">
-
-                        @*@ViewBag.AppErrorMessage*@
-
                         <div class="tab-pane fade in active" id="default">
                             <div class="row">
                                 <br />
@@ -36,7 +32,6 @@
                                             Business Partner Name:
                                         </div>
                                         <div class="col-md-8" id="container1">
-                                            @*@Html.TextBox("SearchString")*@
                                             @Html.TextBoxFor(model => model.BusinessPartner.BP_Name, new { @class = "form-control control-text info" })
                                             @Html.ValidationMessageFor(model => model.BusinessPartner.BP_Name)
                                         </div>
@@ -64,8 +59,8 @@
                                             Pricelist:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Pricelist, new SelectList(Model.PricelistLists.AsEnumerable(), "PriceList_Id", "Price_List_Desc"), "", new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Pricelist)
+                                            @Html.DropDownListFor(m => m.BusinessPartner.Pricelist_ID, new SelectList(Model.PricelistLists.AsEnumerable(), "PriceList_Id", "Price_List_Desc"), "", new { @class = "form-control control-text" })
+                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Pricelist_ID)
                                         </div>
                                     </div>
                                     <div class="row">
@@ -124,7 +119,7 @@
                                             @Html.ValidationMessageFor(model => model.BusinessPartner.Due_date)
                                         </div>
                                     </div>
-                                </div>                               
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="modal-footer">
@@ -343,12 +338,11 @@
                                             @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_method)
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <input class="btn btn-primary pull-left" type="submit" id="AddbtnSubmit" name="submitButton" value="Save" />
                                 <button class="btn pull-left" data-dismiss="modal">Cancel</button>
-                                @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
                             </div>
                         </div>
                     </div>

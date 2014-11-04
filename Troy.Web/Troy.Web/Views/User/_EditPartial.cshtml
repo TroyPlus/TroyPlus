@@ -35,8 +35,9 @@
                             @Html.HiddenFor(model => model.Password)
                             @Html.HiddenFor(model => model.ConfirmPassword)
                             @Html.HiddenFor(model => model.Role_Id)
-                            @Html.HiddenFor(model=>model.PasswordExpiryDate)
-
+                            @Html.HiddenFor(model=>model.ApplicationUsers.Created_User_Id)
+                            @Html.HiddenFor(model => model.ApplicationUsers.Created_Branch_Id)
+                            @Html.HiddenFor(model => model.ApplicationUsers.Created_Date)
                             <div id="editTabContent" class="tab-content">
                                 <div class="tab-pane fade active in" id="editdefault">
                                     <div class="row">
@@ -47,7 +48,7 @@
                                                         @Html.LabelFor(m => m.UserName, new { @class = "control-label normal" })
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.UserName, new { @readonly = "readonly", @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                                                     </div>
 
@@ -170,7 +171,7 @@
             </div>
             <div class="modal-footer">
                 <input class="btn btn-primary" type="submit" id="btnSubmit" name="submitButton" value="Update" />
-                <button class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+                <button class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
 
             </div>
 

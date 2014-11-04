@@ -34,9 +34,9 @@ namespace Troy.Model.Employees
         public int Emp_No { get; set; }
         //----------
 
-        [ForeignKey("initial")]
+        [ForeignKey("initials")]
         public int? Initial { get; set; }
-        public virtual Initial initial { get; set; }
+        public virtual Initial initials { get; set; }
         //------------
 
         [Required(ErrorMessage = "First Name is required.")]
@@ -81,7 +81,7 @@ namespace Troy.Model.Employees
         [ForeignKey("branch")]
         public int Branch_Id { get; set; }
         public virtual Branch branch { get; set; }
-        ////-------------
+        //-------------
 
         [StringLength(30)]
         public string ID_Number { get; set; }
@@ -122,7 +122,7 @@ namespace Troy.Model.Employees
 
         [Required]
         [ForeignKey("gender")]
-        public int Gender { get; set; }
+        public int Gender_ID { get; set; }
         public virtual Gender gender { get; set; }
         //----------
 

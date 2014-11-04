@@ -32,20 +32,20 @@ namespace Troy.Model.Configuration
         public string IsActive { get; set; }
         public int Created_User_Id { get; set; }
 
-        [Required]
+        //[Required]
         public int Created_Branc_Id { get; set; }
 
-        [Required]
+        //[Required]
         [Column(TypeName = "date")]
         public DateTime Created_Dte { get; set; }
 
-        [Required]
+        //[Required]
         public int Modified_User_Id { get; set; }
 
-        [Required]
+        //[Required]
         public int Modified_Branch_Id { get; set; }
 
-        [Required]
+        //[Required]
         [Column(TypeName = "date")]
         public DateTime Modified_Dte { get; set; }
 

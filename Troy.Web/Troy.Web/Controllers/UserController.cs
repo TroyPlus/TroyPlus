@@ -86,10 +86,10 @@ namespace Troy.Web.Controllers
                     //Created_User_Id = 1,
                     Created_Branch_Id = 1,
                     Created_Date = DateTime.Now,
-                    Modified_User_Id = CurrentUser.Id,
+                   // Modified_User_Id = CurrentUser.Id,
                     //Modified_User_Id = 2,
-                    Modified_Branch_Id = 2,
-                    Modified_Date = DateTime.Now
+                  //  Modified_Branch_Id = 2,
+                   // Modified_Date = DateTime.Now
                 };
                    
                   
@@ -115,9 +115,9 @@ namespace Troy.Web.Controllers
                                 Created_User_Id = CurrentUser.Id,
                                 Created_Branch_Id = CurrentBranchId,
                                 Created_Date = DateTime.Now,
-                                Modified_User_Id = CurrentUser.Id,
-                                Modified_Branch_Id = CurrentBranchId,
-                                Modified_Date = DateTime.Now
+                               // Modified_User_Id = CurrentUser.Id,
+                               // Modified_Branch_Id = CurrentBranchId,
+                               // Modified_Date = DateTime.Now
                             };
                             userBranches.Add(userbranch);
                         }
@@ -144,6 +144,9 @@ namespace Troy.Web.Controllers
             return View(model);
         }
         #endregion
+
+
+      
 
         #region Register
         public async Task<ActionResult> EditUser(UserViewModels model)
@@ -186,9 +189,9 @@ namespace Troy.Web.Controllers
                                 {
                                     Branch_Id = branchId,
                                     User_Id = user.Id,
-                                    Created_User_Id = CurrentUser.Id,
-                                    Created_Branch_Id = CurrentBranchId,
-                                    Created_Date = DateTime.Now,
+                                   // Created_User_Id = CurrentUser.Id,
+                                   // Created_Branch_Id = CurrentBranchId,
+                                   // Created_Date = DateTime.Now,
                                     Modified_User_Id = CurrentUser.Id,
                                     Modified_Branch_Id = CurrentBranchId,
                                     Modified_Date = DateTime.Now
@@ -275,7 +278,11 @@ namespace Troy.Web.Controllers
                 if (submitButton == "Save")
                 {  
                     await RegisterUser(model);
-                }     
+                }
+                else if (submitButton == "Export")
+                {
+                    _ExporttoExcel();
+                }
 
                 return RedirectToAction("Index", "User");
             }
@@ -299,15 +306,6 @@ namespace Troy.Web.Controllers
                 {
 
                     await EditUser(model);
-
-                    //if (userDb.EditUser(model.ApplicationUsers))
-                    //{
-                    //    return RedirectToAction("Index", "User");
-                    //}
-                    //else
-                    //{
-                    //    ModelState.AddModelError("", "User Not Updated");
-                    //}
                 }
 
                 return RedirectToAction("Index", "User");
@@ -323,30 +321,30 @@ namespace Troy.Web.Controllers
 
 
 
-        //#region Check for duplicate name
-        //public JsonResult CheckForDuplicationName([Bind(Prefix = "ApplicationUser.UserName")]string UserName, [Bind(Prefix = "ApplicationUser.Id")]int? Id)
-        //{
+        #region Check for duplicate name
+        public JsonResult CheckForDuplicationName([Bind(Prefix = "UserName")]string UserName, [Bind(Prefix = "Id")]int? Id)
+        {
 
-        //    if (Id != null)
-        //    {
-        //        return Json(true, JsonRequestBehavior.AllowGet);
-        //    }
-        //    else
-        //    {
+            if (Id != null)
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
 
-        //        var data = userDb.CheckDuplicateUserName(UserName);
-        //        if (data != null)
-        //        {
-        //            return Json("Sorry, User Name already exists", JsonRequestBehavior.AllowGet);
-        //        }
-        //        else
-        //        {
-        //            return Json(true, JsonRequestBehavior.AllowGet);
-        //        }
+                var data = userDb.CheckDuplicateUserName(UserName);
+                if (data != null)
+                {
+                    return Json("Sorry, User Name already exists", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
 
-        //    }
-        //}
-        //#endregion
+            }
+        }
+        #endregion
 
 
 
@@ -381,32 +379,7 @@ namespace Troy.Web.Controllers
         //}
 
 
-        //public ActionResult _ExporttoExcel(ViewUsers User)
-        //{
-        //    var data = userDb._ExporttoExcel();
-        //    var user = from e in userDb._ExporttoExcel.AsEnumerable()
-        //               select new
-        //               {
-
-        //               };
-
-        //    System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
-        //    gridvw.DataSource = ViewUsers.ToList().Take(100); //bind the datatable to the gridview
-        //    gridvw.DataBind();
-        //    Response.ClearContent();
-        //    Response.Buffer = true;
-        //    Response.AddHeader("content-disposition", "attachment; filename=BranchList.xls");//Microsoft Office Excel Worksheet (.xlsx)
-        //    Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        //    Response.Charset = "";
-        //    StringWriter sw = new StringWriter();
-        //    HtmlTextWriter htw = new HtmlTextWriter(sw);
-        //    gridvw.RenderControl(htw);
-        //    Response.Output.Write(sw.ToString());
-        //    Response.Flush();
-        //    Response.End();
-        //    return RedirectToAction("Index");
-        //}
-
+      
 
 
 

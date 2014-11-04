@@ -125,7 +125,7 @@ namespace Troy.Model.BusinessPartner
 
         //[Required(ErrorMessage = "Price list is required.")]
         [ForeignKey("pricelist")]
-        public int Pricelist { get; set; }
+        public int Pricelist_ID { get; set; }
         public virtual PriceList pricelist { get; set; }
         //------------
 
