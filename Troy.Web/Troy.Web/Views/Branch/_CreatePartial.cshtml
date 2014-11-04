@@ -15,7 +15,7 @@
             // $('#Country').val("India");
             debugger;
            
-            $.getJSON('/Branch/StateList/' + $('#Country').val(), function (data) {
+            $.getJSON('../Branch/StateList/' + $('#Country').val(), function (data) {
                 var items = '';
                 $.each(data, function (i, state) {
                     //var selectionOption = '';
@@ -36,7 +36,7 @@
         $('#State').change(function () {
             
            
-                $.getJSON('/Branch/CityList/' + $('#State').val(), function (data) {
+                $.getJSON('../Branch/CityList/' + $('#State').val(), function (data) {
                     var items = '';
                     $.each(data, function (i, city) {
                         //var selectionOption = '';
