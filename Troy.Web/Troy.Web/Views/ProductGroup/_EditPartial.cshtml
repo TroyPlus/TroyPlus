@@ -35,6 +35,9 @@
                             <div class="tab-pane fade in active" id="editdefault">
                                 <div class="row">
                                     @Html.HiddenFor(model => model.ProductGroup.Product_Group_Id, new { @class = "form-control control-text" })
+                                    @Html.HiddenFor(model => model.ProductGroup.Created_User_Id)
+                                    @Html.HiddenFor(model => model.ProductGroup.Created_Branc_Id)
+                                    @Html.HiddenFor(model => model.ProductGroup.Created_Dte)
                                     <div class="col-md-6">
                                         <div class="form-horizontal">
                                             <div class="row form-group">
