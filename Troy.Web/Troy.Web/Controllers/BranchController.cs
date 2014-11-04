@@ -1348,7 +1348,7 @@ namespace Troy.Web.Controllers
 
                 ViewBag.CountryOnChangeScript = @" ;
 
-                                $.getJSON('/Branch/StateList/' + $('#Country_Edit').val(), function (data) {
+                                $.getJSON('../Branch/StateList/' + $('#Country_Edit').val(), function (data) {
                     var items = '<option>Select a State</option>';
                     $.each(data, function (i, state) {
                         items += ""<option value='"" + state.Value + ""'>"" + state.Text + ""</option>""
@@ -1360,7 +1360,7 @@ namespace Troy.Web.Controllers
 
                 ViewBag.StateOnChangeScript = @";
 
-                                $.getJSON('/Branch/CityList/' + $('#State_Edit').val(), function (data) {
+                                $.getJSON('../Branch/CityList/' + $('#State_Edit').val(), function (data) {
                     var items = '<option>Select a City</option>';
                     $.each(data, function (i, city) {
                         items += ""<option value='"" + city.Value + ""'>"" + city.Text + ""</option>""
