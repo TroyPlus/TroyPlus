@@ -1,7 +1,7 @@
 ﻿@model Troy.Web.Models.PurchaseViewModels
 
 @{
-    ViewBag.Title = "Purchases";
+    ViewBag.Title = "Purchase Quotation";
 }
 
 
@@ -417,7 +417,7 @@
                                         {
                                         <tr class="odd gradeX">
                                             <td style="text-align:center;">@item.Purchase_Quote_Id</td>
-                                            <td style="text-align:center;">@item.Vendor_Code</td>
+                                            <td>@item.Vendor_Name</td>
                                             <td style="text-align:center;">@item.Reference_Number</td>
                                             <td>@item.Quotation_Status</td>
                                             <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
@@ -431,11 +431,10 @@
                                                 <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Purchase_Quote_Id);">
                                                     <i class="im-pencil2"></i>
                                                 </a>
-                                                <span class="text-muted">|</span>
-
+                                                @*<span class="text-muted">|</span>
                                                 <a href="@Url.Action("_DeletePartialView", "Suppliers", new { id = item.Purchase_Quote_Id })" data-modal="true">
                                                     <i class="im-remove2"></i>
-                                                </a>
+                                                </a>*@
                                             </td>
                                         </tr>
                                         }
