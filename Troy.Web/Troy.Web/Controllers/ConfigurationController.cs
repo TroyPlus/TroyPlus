@@ -100,19 +100,20 @@ namespace Troy.Web.Controllers
 
         [HttpPost]
         public ActionResult Country(string submitButton, ConfigurationViewModels model)
-        {
-
+        {            
             try
             {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
                 if (submitButton == "Save")
                 {
                     model.Country.IsActive = "Y";
-                    model.Country.Created_Branc_Id = 1;
+                    model.Country.Created_Branc_Id = currentUser.Created_Branch_Id;
                     model.Country.Created_Dte = DateTime.Now;
-                    model.Country.Created_User_Id = 1;  //GetUserId()
-                    model.Country.Modified_User_Id = 1;
-                    model.Country.Modified_Dte = DateTime.Now;
-                    model.Country.Modified_Branch_Id = 1;
+                    model.Country.Created_User_Id = currentUser.Id; //1;  //GetUserId()
+                    //model.Country.Modified_User_Id = 1;
+                    //model.Country.Modified_Dte = DateTime.Now;
+                    //model.Country.Modified_Branch_Id = 1;
 
 
 
@@ -126,15 +127,14 @@ namespace Troy.Web.Controllers
                     }
                 }
                 else if (submitButton == "Update")
-                {
+                {                                      
 
-
-                    model.Country.Created_Branc_Id = 1;
-                    model.Country.Created_Dte = DateTime.Now;
-                    model.Country.Created_User_Id = 1;  //GetUserId()
-                    model.Country.Modified_User_Id = 1;
+                    //model.Country.Created_Branc_Id = 1;
+                    //model.Country.Created_Dte = DateTime.Now;
+                    //model.Country.Created_User_Id = 1;  //GetUserId()
+                    model.Country.Modified_User_Id = currentUser.Id;
                     model.Country.Modified_Dte = DateTime.Now;
-                    model.Country.Modified_Branch_Id = 1;
+                    model.Country.Modified_Branch_Id = currentUser.Modified_Branch_Id;
 
 
                     if (ConfigurationDb.EditExistingCountry(model.Country))
@@ -224,16 +224,18 @@ namespace Troy.Web.Controllers
 
             try
             {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
                 if (submitButton == "Save")
                 {
 
                     model.State.IsActive = "Y";
-                    model.State.Created_Branc_Id = 1;
+                    model.State.Created_Branc_Id = currentUser.Created_Branch_Id;
                     model.State.Created_Dte = DateTime.Now;
-                    model.State.Created_User_Id = 1;  //GetUserId()
-                    model.State.Modified_Branch_Id = 1;
-                    model.State.Modified_Dte = DateTime.Now;
-                    model.State.Modified_User_Id = 1;
+                    model.State.Created_User_Id = currentUser.Id; //1;  //GetUserId()
+                    //model.State.Modified_Branch_Id = 1;
+                    //model.State.Modified_Dte = DateTime.Now;
+                    //model.State.Modified_User_Id = 1;
 
 
 
@@ -251,12 +253,12 @@ namespace Troy.Web.Controllers
                 {
 
 
-                    model.State.Created_Branc_Id = 1;
-                    model.State.Created_Dte = DateTime.Now;
-                    model.State.Created_User_Id = 1;  //GetUserId()
-                    model.State.Modified_User_Id = 1;
+                    //model.State.Created_Branc_Id = 1;
+                    //model.State.Created_Dte = DateTime.Now;
+                    //model.State.Created_User_Id = 1;  //GetUserId()
+                    model.State.Modified_User_Id = currentUser.Id;
                     model.State.Modified_Dte = DateTime.Now;
-                    model.State.Modified_Branch_Id = 1;
+                    model.State.Modified_Branch_Id = currentUser.Modified_Branch_Id;
 
 
                     if (ConfigurationDb.EditExistingState(model.State))
@@ -349,18 +351,17 @@ namespace Troy.Web.Controllers
 
             try
             {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
                 if (submitButton == "Save")
                 {
-
-
-
                     model.City.IsActive = "Y";
-                    model.City.Created_Branc_Id = 1;
+                    model.City.Created_Branc_Id = currentUser.Created_Branch_Id;
                     model.City.Created_Dte = DateTime.Now;
-                    model.City.Created_User_Id = 1;  //GetUserId()
-                    model.City.Modified_Branch_Id = 1;
-                    model.City.Modified_Dte = DateTime.Now;
-                    model.City.Modified_User_Id = 1;
+                    model.City.Created_User_Id = currentUser.Id;  //GetUserId()
+                    //model.City.Modified_Branch_Id = 1;
+                    //model.City.Modified_Dte = DateTime.Now;
+                    //model.City.Modified_User_Id = 1;
 
 
                     if (ConfigurationDb.AddNewCity(model.City))
@@ -381,12 +382,12 @@ namespace Troy.Web.Controllers
                 {
                     var Temp_City = TempData["oldCity_Name"];
 
-                    model.City.Created_Branc_Id = 1;
-                    model.City.Created_Dte = DateTime.Now;
-                    model.City.Created_User_Id = 1;  //GetUserId()
-                    model.City.Modified_User_Id = 1;
+                    //model.City.Created_Branc_Id = 1;
+                    //model.City.Created_Dte = DateTime.Now;
+                    //model.City.Created_User_Id = 1;  //GetUserId()
+                    model.City.Modified_User_Id = currentUser.Id; 
                     model.City.Modified_Dte = DateTime.Now;
-                    model.City.Modified_Branch_Id = 1;
+                    model.City.Modified_Branch_Id = currentUser.Created_Branch_Id;
 
 
                     if (ConfigurationDb.EditExistingCity(model.City))
@@ -477,16 +478,18 @@ namespace Troy.Web.Controllers
             //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
             try
             {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
                 if (submitButton == "Save")
                 {
 
                     model.Department.IsActive = "Y";
-                    model.Department.Created_Branc_Id = 1;
+                    model.Department.Created_Branc_Id = currentUser.Created_Branch_Id;
                     model.Department.Created_Dte = DateTime.Now;
-                    model.Department.Created_User_Id = 1;  //GetUserId()
-                    model.Department.Modified_Branch_Id = 1;
-                    model.Department.Modified_Dte = DateTime.Now;
-                    model.Department.Modified_User_Id = 1;
+                    model.Department.Created_User_Id = currentUser.Id; //1;  //GetUserId()
+                    //model.Department.Modified_Branch_Id = 1;
+                    //model.Department.Modified_Dte = DateTime.Now;
+                    //model.Department.Modified_User_Id = 1;
 
 
                     if (ConfigurationDb.AddNewDepartment(model.Department))
@@ -502,12 +505,12 @@ namespace Troy.Web.Controllers
                 {
 
 
-                    model.Department.Created_Branc_Id = 1;
-                    model.Department.Created_Dte = DateTime.Now;
-                    model.Department.Created_User_Id = 1;  //GetUserId()
-                    model.Department.Modified_User_Id = 1;
+                    //model.Department.Created_Branc_Id = 1;
+                    //model.Department.Created_Dte = DateTime.Now;
+                    //model.Department.Created_User_Id = 1;  //GetUserId()
+                    model.Department.Modified_User_Id = currentUser.Id;
                     model.Department.Modified_Dte = DateTime.Now;
-                    model.Department.Modified_Branch_Id = 1;
+                    model.Department.Modified_Branch_Id = currentUser.Modified_Branch_Id;
 
 
                     if (ConfigurationDb.EditExistingDepartment(model.Department))
@@ -596,18 +599,17 @@ namespace Troy.Web.Controllers
             //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
             try
             {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
                 if (submitButton == "Save")
                 {
-
-
-
                     model.Designation.IsActive = "Y";
-                    model.Designation.Created_Branc_Id = 1;
+                    model.Designation.Created_Branc_Id = currentUser.Created_Branch_Id;
                     model.Designation.Created_Dte = DateTime.Now;
-                    model.Designation.Created_User_Id = 1;  //GetUserId()
-                    model.Designation.Modified_Branch_Id = 1;
-                    model.Designation.Modified_Dte = DateTime.Now;
-                    model.Designation.Modified_User_Id = 1;
+                    model.Designation.Created_User_Id = currentUser.Id; //1;  //GetUserId()
+                    //model.Designation.Modified_Branch_Id = 1;
+                    //model.Designation.Modified_Dte = DateTime.Now;
+                    //model.Designation.Modified_User_Id = 1;
 
 
                     if (ConfigurationDb.AddNewDesignation(model.Designation))
@@ -623,12 +625,12 @@ namespace Troy.Web.Controllers
                 {
 
 
-                    model.Designation.Created_Branc_Id = 1;
-                    model.Designation.Created_Dte = DateTime.Now;
-                    model.Designation.Created_User_Id = 1;  //GetUserId()
-                    model.Designation.Modified_User_Id = 1;
+                    //model.Designation.Created_Branc_Id = 1;
+                    //model.Designation.Created_Dte = DateTime.Now;
+                    //model.Designation.Created_User_Id = 1;  //GetUserId()
+                    model.Designation.Modified_User_Id = currentUser.Id;
                     model.Designation.Modified_Dte = DateTime.Now;
-                    model.Designation.Modified_Branch_Id = 1;
+                    model.Designation.Modified_Branch_Id = currentUser.Modified_Branch_Id;
 
 
                     if (ConfigurationDb.EditExistingDesignation(model.Designation))
@@ -717,18 +719,17 @@ namespace Troy.Web.Controllers
             //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
             try
             {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
                 if (submitButton == "Save")
                 {
-
-
-
                     model.PriceList.Mandatory = "Y";
-                    model.PriceList.Created_Branc_Id = 1;
+                    model.PriceList.Created_Branc_Id = currentUser.Created_Branch_Id;
                     model.PriceList.Created_Dte = DateTime.Now;
-                    model.PriceList.Created_User_Id = 1;  //GetUserId()
-                    model.PriceList.Modified_Branch_Id = 1;
-                    model.PriceList.Modified_Dte = DateTime.Now;
-                    model.PriceList.Modified_User_Id = 1;
+                    model.PriceList.Created_User_Id = currentUser.Id; //1;  //GetUserId()
+                    //model.PriceList.Modified_Branch_Id = 1;
+                    //model.PriceList.Modified_Dte = DateTime.Now;
+                    //model.PriceList.Modified_User_Id = 1;
 
 
                     if (ConfigurationDb.AddNewPriceList(model.PriceList))
@@ -744,12 +745,12 @@ namespace Troy.Web.Controllers
                 {
 
 
-                    model.PriceList.Created_Branc_Id = 1;
-                    model.PriceList.Created_Dte = DateTime.Now;
-                    model.PriceList.Created_User_Id = 1;  //GetUserId()
-                    model.PriceList.Modified_User_Id = 1;
+                    //model.PriceList.Created_Branc_Id = 1;
+                    //model.PriceList.Created_Dte = DateTime.Now;
+                    //model.PriceList.Created_User_Id = 1;  //GetUserId()
+                    model.PriceList.Modified_User_Id = currentUser.Id;
                     model.PriceList.Modified_Dte = DateTime.Now;
-                    model.PriceList.Modified_Branch_Id = 1;
+                    model.PriceList.Modified_Branch_Id = currentUser.Modified_Branch_Id;
 
 
                     if (ConfigurationDb.EditExistingPriceList(model.PriceList))
@@ -837,18 +838,17 @@ namespace Troy.Web.Controllers
             //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
             try
             {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
                 if (submitButton == "Save")
                 {
-
-
-
                     model.VAT.IsActive = "Y";
-                    model.VAT.Created_Branc_Id = 1;
+                    model.VAT.Created_Branc_Id = currentUser.Created_Branch_Id;
                     model.VAT.Created_Dte = DateTime.Now;
-                    model.VAT.Created_User_Id = 1;  //GetUserId()
-                    model.VAT.Modified_Branch_Id = 1;
-                    model.VAT.Modified_Dte = DateTime.Now;
-                    model.VAT.Modified_User_Id = 1;
+                    model.VAT.Created_User_Id = currentUser.Id; //1;  //GetUserId()
+                    //model.VAT.Modified_Branch_Id = 1;
+                    //model.VAT.Modified_Dte = DateTime.Now;
+                    //model.VAT.Modified_User_Id = 1;
 
 
                     if (ConfigurationDb.AddNewVAT(model.VAT))
@@ -864,12 +864,12 @@ namespace Troy.Web.Controllers
                 {
 
 
-                    model.VAT.Created_Branc_Id = 1;
-                    model.VAT.Created_Dte = DateTime.Now;
-                    model.VAT.Created_User_Id = 1;  //GetUserId()
-                    model.VAT.Modified_User_Id = 1;
+                    //model.VAT.Created_Branc_Id = 1;
+                    //model.VAT.Created_Dte = DateTime.Now;
+                    //model.VAT.Created_User_Id = 1;  //GetUserId()
+                    model.VAT.Modified_User_Id = currentUser.Id;
                     model.VAT.Modified_Dte = DateTime.Now;
-                    model.VAT.Modified_Branch_Id = 1;
+                    model.VAT.Modified_Branch_Id = currentUser.Modified_Branch_Id;
 
 
                     if (ConfigurationDb.EditExistingVAT(model.VAT))

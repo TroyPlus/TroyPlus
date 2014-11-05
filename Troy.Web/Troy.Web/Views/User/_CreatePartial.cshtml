@@ -1,5 +1,11 @@
 ﻿@model Troy.Web.Models.UserViewModels
 
+<script type="text/javascript">
+    $(function () {
+        $(".multiselect").multiselect({ selectedList: 4,noneSelectedText: 'Select branches',header: false });
+    });
+</script>
+
 
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -64,15 +70,15 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row form-group">
+                                            @*<div class="row form-group">
                                                 <div class="col-md-4">
                                                     @Html.LabelFor(m => m.IsActive, new { @class = "control-label normal" })
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.CheckBoxFor(model => model.IsActive, new {  name = "IsActive",@checked="checked", @class = "" })
+                                                    @Html.CheckBoxFor(model => model.IsActive, new { name = "IsActive", @checked = "checked", @class = "" })
                                                     @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                                                 </div>
-                                            </div>
+                                            </div>*@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -100,8 +106,11 @@
                                                 @Html.LabelFor(m => m.Branch_Id, new { @class = "control-label normal" })
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.Branch_Id, "", new { @class = "text-danger" })
+                                                @Html.DropDownListFor(m => m.SubmittedBranches, new MultiSelectList(Model.branchlist.AsEnumerable(),
+                                                            "Branch_Id", "Branch_Name"), new { multiple = "multiple", @class = "form-control control-text" })
+                                                @*@Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { multiple = "multiple", @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.Branch_Id, "", new { @class = "text-danger" })*@
+                                                @Html.ValidationMessageFor(model => model.SubmittedBranches, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="row form-group">
@@ -125,7 +134,7 @@
 
         <div class="modal-footer">
             <input class="btn btn-primary" type="submit" id="btnSubmit" name="submitButton" value="Save" />
-            <button class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+            <button class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
         </div>
     </div>
 </div>

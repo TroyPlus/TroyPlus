@@ -61,8 +61,8 @@
                                             Country Code:
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.State.Country_Code, new SelectList(Model.CountryListDp.AsEnumerable(), "ID", "Country_Code", 1), "Select Country", new { @class = "form-control control-text" })
-                                            @Html.ValidationMessageFor(model => model.State.Country_Code)
+                                            @Html.DropDownListFor(m => m.State.CountryID, new SelectList(Model.CountryListDp.AsEnumerable(), "ID", "Country_Code", 1), "Select Country", new { @class = "form-control control-text" })
+                                            @Html.ValidationMessageFor(model => model.State.CountryID)
                                         </div>
                                     </div>
                                 </div>
@@ -80,8 +80,7 @@
 
         <div class="modal-footer">
             <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
-            <button class="btn pull-left" data-dismiss="modal">Close</button>
-            @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+            <button class="btn pull-left" data-dismiss="modal">Close</button> @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
 
 
         </div>

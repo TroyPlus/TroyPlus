@@ -5,7 +5,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.datePicker').datepicker();
-
+        $("#editTypeahead").jAutochecklist();
         var i;
 
         i = $("#ItemCount").val();
@@ -16,15 +16,43 @@
             var date = new Date();
             var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 
+            var selectHtml = CreateSelect(i);
+
+            selectHtml += '</select>';
+
             var html = '<tr>' +
                         '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="PurchaseQuotationItemList_' + i + '__IsDummy" name="PurchaseQuotationItemList[' + i + '].IsDummy" type="text" value="">  </td>' +
-                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseQuotationItemList_' + i + '__Product_id" name="PurchaseQuotationItemList[' + i + '].Product_id" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Product_id" data-valmsg-replace="true"></span>  </td>' +
-                        '<td> <input class="form-control control-text datePicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_' + i + '__Required_date" name="PurchaseQuotationItemList[' + i + '].Required_date" type="text" value="' + strDate + '"> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_date" data-valmsg-replace="true"></span>  </td>' +
-                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="PurchaseQuotationItemList_' + i + '__Required_qty" name="PurchaseQuotationItemList[' + i + '].Required_qty" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_qty" data-valmsg-replace="true"></span>  </td>' +
-                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseQuotationItemList_' + i + '__Unit_price" name="PurchaseQuotationItemList[' + i + '].Unit_price" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Unit_price" data-valmsg-replace="true"></span> </td>' +
-                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-required="The Discount_percent field is required." id="PurchaseQuotationItemList_' + i + '__Discount_percent" name="PurchaseQuotationItemList[' + i + '].Discount_percent" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Discount_percent" data-valmsg-replace="true"></span> </td>' +
-                        '<td> <input class="form-control control-text" data-val="true" data-val-number="The field VAT Code must be a number." data-val-required="The VAT Code field is required." id="PurchaseQuotationItemList_' + i + '__Vat_Code" name="PurchaseQuotationItemList[' + i + '].Vat_Code" type="text" value=""> <span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Vat_Code" data-valmsg-replace="true"></span> </td>' +
-                        '<td><input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" /></td>' +
+                        '<td width="20%"> ' +
+                            selectHtml +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Product_id" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td width="15%">' +
+                            '<input class="form-control control-text datePicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_' + i + '__Required_date" name="PurchaseQuotationItemList[' + i + '].Required_date" type="text" value="' + strDate + '">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_date" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="PurchaseQuotationItemList_' + i + '__Required_qty" name="PurchaseQuotationItemList[' + i + '].Required_qty" onkeyup="OnChangeQuantity(this, ' + i + ');" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_qty" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseQuotationItemList_' + i + '__Unit_price" name="PurchaseQuotationItemList[' + i + '].Unit_price" readonly="True" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-required="The Discount_percent field is required." id="PurchaseQuotationItemList_' + i + '__Discount_percent" name="PurchaseQuotationItemList[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseQuotationItemList_' + i + '__Amount" name="PurchaseQuotationItemList[' + i + '].Amount" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Amount" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field VAT Code must be a number." data-val-required="The VAT Code field is required." id="PurchaseQuotationItemList_' + i + '__Vat_Code" name="PurchaseQuotationItemList[' + i + '].Vat_Code" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
+                        '</td>' +
 
                         @*'<td>@Html.TextBoxFor(model => model.PurchaseQuotationItemList[2].Required_date, new { @class = "form-control control-text datePicker" })</td>' +
                         '<td> <input class="form-control control-text datePicker hasDatepicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_0__Required_date" name="PurchaseQuotationItemList[0].Required_date" type="text" value=""> </td>' +*@
@@ -36,7 +64,7 @@
             //$("#PurchaseQuotationItemList_1__Required_date").datepicker("refresh");
             i++;
 
-            $("form").removeData("validator");
+            //$("form").removeData("validator");
             $("form").removeData("unobtrusiveValidation");
             $.validator.unobtrusive.parse("form");
 
@@ -45,7 +73,34 @@
             });
         };
 
-        //$(".BtnPlus").click(addRow);
+        function CreateSelect(rowID) {
+            //debugger;
+
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseQuotationItemList_' + rowID + '__Product_id" name="PurchaseQuotationItemList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            selectHtml += '<option value=""></option>';
+
+            var dataUrl = "/Purchase/GetProductList";
+
+            $.ajax({
+                type: 'GET',
+                url: dataUrl,
+                async: false,
+                cache: false,
+                crossDomain: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                error: function (xhr, err) {
+                },
+                success: function (result, status) {
+                    //debugger;
+                    for (var count = 0; count < result.length; count++) {
+                        selectHtml += '<option value="' + result[count].BP_Id + '"selected>' + result[count].BP_Name + '</option>';
+                    }
+                }
+            });
+
+            return selectHtml;
+        }
 
         $("#EditTable").on("click", ".BtnPlus", addRow);
 
@@ -88,10 +143,11 @@
             var validator = $("#editdefault").validate(); // obtain validator
             var anyError = false;
             _form.find("input").each(function () {
-                debugger;
-
-                if (!validator.element(this)) { // validate every input element inside this step
-                    anyError = true;
+                //debugger;
+                if (this.parentNode.parentNode.className != "jAutochecklist_list") {
+                    if (!validator.element(this)) { // validate every input element inside this step
+                        anyError = true;
+                    }
                 }
             });
 
@@ -113,6 +169,57 @@
         });
 
     });
+
+    function OnChangeProduct(value, rowId) {
+
+        //debugger;
+
+        var pID = this.value;
+        var dataUrl = "/Purchase/GetPrice";
+
+        $.ajax({
+            type: 'GET',
+            url: dataUrl,
+            data: pID,
+            async: true,
+            cache: false,
+            crossDomain: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            error: function (xhr, err) {
+            },
+            success: function (result, status) {
+                //debugger;
+                var id = "#PurchaseQuotationItemList_" + rowId + "__Unit_price";
+                $(id).val(result);
+            }
+        });
+    }
+
+    function OnChangeQuantity(currentQty, rowId) {
+        //debugger;
+
+        var qty = currentQty.value;
+        var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
+
+        var totAmount = price * qty;
+
+        var id = "#PurchaseQuotationItemList_" + rowId + "__Amount";
+        $(id).val(totAmount);
+    }
+
+    function OnChangeDiscount(currentDis, rowId) {
+        //debugger;
+
+        var dis = currentDis.value;
+        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Required_qty").val();
+        var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
+
+        var totAmount = (price * qty) - (price * dis / 100)
+
+        var id = "#PurchaseQuotationItemList_" + rowId + "__Amount";
+        $(id).val(totAmount);
+    }
 
 </script>
 
@@ -152,11 +259,12 @@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        @Html.LabelFor(m => m.PurchaseQuotation.Vendor, new { @class = "control-label normal" })
+                                                        @Html.LabelFor(m => m.PurchaseQuotation.Vendor_Code, new { @class = "control-label normal" })
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Vendor, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Vendor)
+                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotation.Vendor, new { @class = "form-control control-text" })*@
+                                                        @Html.DropDownListFor(m => m.PurchaseQuotation.Vendor_Code, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), new { @id = "editTypeahead", @size = 12 })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Vendor_Code)
                                                     </div>
                                                 </div>
 
@@ -296,8 +404,9 @@
                                                     <th>Item Code</th>
                                                     <th>Required Date</th>
                                                     <th>Required Quantity</th>
-                                                    <th>Unit Price ($)</th>
-                                                    <th>Discount Percentage</th>
+                                                    <th>Unit Price</th>
+                                                    <th>Discount %</th>
+                                                    <th> Amount </th>
                                                     <th>VAT Code</th>
                                                     <th></th>
                                                 </tr>
@@ -310,25 +419,39 @@
 
                                                 <tr>
                                                     <td style="display:none;">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].IsDummy, new { @class = "form-control control-text" })
+                                                        @Html.HiddenFor(model => model.PurchaseQuotationItemList[i].IsDummy, 0)
+
+                                                    </td>
+                                                    <td width="20%">
+                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })*@
+
+                                                        @Html.DropDownListFor(m => m.PurchaseQuotationItemList[i].Product_id, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name", Model.PurchaseQuotationItemList[i].Product_id), new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
+
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Product_id)
+                                                    </td>
+                                                    <td width="15%">
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
                                                     </td>
                                                     <td>
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_qty, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_qty)
                                                     </td>
                                                     <td>
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = Model.PurchaseQuotationItemList[i].Required_date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Unit_price, new { @class = "form-control control-text", @readonly = true })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Unit_price)
                                                     </td>
                                                     <td>
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_qty, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Discount_percent)
                                                     </td>
                                                     <td>
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Unit_price, new { @class = "form-control control-text" })
-                                                    </td>
-                                                    <td>
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Amount, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Amount)
                                                     </td>
                                                     <td>
                                                         @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Vat_Code, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Vat_Code)
                                                     </td>
                                                     <td style="width: 90px;">
                                                         <input class="BtnPlus btn pull-left" type="button" value="+" />

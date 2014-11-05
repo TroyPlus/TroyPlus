@@ -34,16 +34,18 @@ namespace Troy.Model.Purchase
 
         [Display(Name = "Discount%")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:P2}")]
-        [Range(1, 100)]
+        [Range(0, 100)]
         public decimal Discount_percent { get; set; }
 
         [Required]
         [Display(Name = "VAT")]
         public int Vat_Code { get; set; }
 
+        [DefaultValue(0)]
         public decimal Unit_price { get; set; }
 
-        public int Amount { get; set; }
+        [DefaultValue(0)]
+        public decimal Amount { get; set; }
 
         public int Created_User_Id { get; set; }
 

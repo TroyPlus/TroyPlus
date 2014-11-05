@@ -19,7 +19,7 @@ namespace Troy.Data.Repository
 
         //ApplicationUser CheckDuplicateName(string uname);
 
-        //ApplicationUser CheckDuplicateUserName(string bname);
+        ApplicationUser CheckDuplicateUserName(string bname);
 
         //ViewUsers _ExporttoExcel();
         IEnumerable<ApplicationUser> _ExporttoExcel();
@@ -44,7 +44,7 @@ namespace Troy.Data.Repository
 
         List<ApplicationRole> GetAddressRoleList();
 
-        bool SaveUserBranches(UserBranches userBranches, ref string errorMessage);
+        bool SaveUserBranches(List<UserBranches> userBranches, int Id, ref string errorMessage);
 
         //List<Branch> GetAddressBranchList();
 

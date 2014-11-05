@@ -7,6 +7,8 @@ using System.Web;
 using Troy.Model.AppMembership;
 using Troy.Model.Branches;
 using Troy.Model.Employees;
+using System.Web.Mvc;
+
 
 namespace Troy.Web.Models
 {
@@ -22,6 +24,7 @@ namespace Troy.Web.Models
         [Required]
         [StringLength(100,MinimumLength=6)]
         [Display(Name = "User name")]
+        [Remote("CheckForDuplicationName", "user", AdditionalFields = "Id")]
         public string UserName { get; set; }
 
         [Required]
@@ -31,7 +34,7 @@ namespace Troy.Web.Models
         public string Password { get; set; }
 
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.Web.Mvc.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }            
         
         [Required]
@@ -48,8 +51,11 @@ namespace Troy.Web.Models
         [Required]
         [Display(Name="Role")]
         public int Role_Id { get; set; }
+
         [Display(Name = "Employee")]
         public int Employee_Id { get; set; }
+
+        [Required]
         [Display(Name = "Branch")]
         public int Branch_Id { get; set; }
 
@@ -59,6 +65,8 @@ namespace Troy.Web.Models
 
         // Multi select branch list.
         public List<BranchList> DefaultSelectedBranches { get; set; }
+        [Required]
+        [Display(Name = "Branches")]
         public List<string> SubmittedBranches { get; set; }
         
         public List<UserBranches> UserBranches { get; set; }

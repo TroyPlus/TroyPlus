@@ -40,9 +40,7 @@ namespace Troy.Model.Configuration
 
         public string VAT_Type { get; set; }
 
-        [StringLength(1)]
-
-        public string VAT_Default { get; set; }
+      
 
         [Required]
         [StringLength(1)]
@@ -50,23 +48,23 @@ namespace Troy.Model.Configuration
         [DefaultValue("Y")]
         public string IsActive { get; set; }
 
-        [Required]
+        //[Required]
         public int Created_User_Id { get; set; }
 
-        [Required]
+        //[Required]
         public int Created_Branc_Id { get; set; }
 
-        [Required]
+        //[Required]
         [Column(TypeName = "date")]
         public DateTime Created_Dte { get; set; }
 
-        [Required]
+        //[Required]
         public int Modified_User_Id { get; set; }
 
-        [Required]
+        //[Required]
         public int Modified_Branch_Id { get; set; }
 
-        [Required]
+        //[Required]
         [Column(TypeName = "date")]
         public DateTime Modified_Dte { get; set; }
     }

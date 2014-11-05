@@ -18,7 +18,7 @@ namespace Troy.Model.Purchase
 
         [Required]
         [Display(Name = "Vendor")]
-        public string Vendor { get; set; }
+        public int Vendor_Code { get; set; }
 
         [Required]
         [Display(Name = "Ref. No")]
@@ -74,6 +74,9 @@ namespace Troy.Model.Purchase
         public int Modified_Branch_Id { get; set; }
 
         public DateTime Modified_Date { get; set; }
+
+        [NotMapped]
+        public string Vendor_Name { get; set; }
 
     }
 }

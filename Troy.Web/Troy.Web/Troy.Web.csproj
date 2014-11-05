@@ -1312,7 +1312,7 @@
     <Content Include="Content\themes\TroyPlus\server\php\files\.htaccess" />
     <Content Include="Content\themes\TroyPlus\server\php\index.php" />
     <Content Include="Content\themes\TroyPlus\server\php\UploadHandler.php" />
-    <None Include="Properties\PublishProfiles\TroyERP1510.pubxml" />
+    <None Include="Properties\PublishProfiles\troyerp.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrapValidator.js" />
     <Content Include="Scripts\bootstrapValidator.min.js" />
@@ -1438,6 +1438,8 @@
     <Content Include="Views\Manage\ManageLogins.cshtml" />
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Employee\_EditPartial.cshtml" />
+    <Content Include="Views\Employee\_ViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />

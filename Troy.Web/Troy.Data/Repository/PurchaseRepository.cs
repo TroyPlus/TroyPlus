@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Troy.Data.DataContext;
 using Troy.Model.Branches;
+using Troy.Model.BusinessPartner;
 using Troy.Model.Purchase;
 using Troy.Model.SAP_OUT;
 using Troy.Utilities.CrossCutting;
@@ -21,14 +22,28 @@ namespace Troy.Data.Repository
     public class PurchaseRepository : BaseRepository, IPurchaseRepository
     {
         private PurchaseContext purchaseContext = new PurchaseContext();
-        BranchContext branchContext = new BranchContext();
+        private BranchContext branchContext = new BranchContext();
+        private BusinessPartnerContext businessContext = new BusinessPartnerContext();
 
         public List<PurchaseQuotation> GetAllQuotation()
         {
             List<PurchaseQuotation> qList = new List<PurchaseQuotation>();
 
-            qList = (from p in purchaseContext.PurchaseQuotation
-                     select p).ToList();
+            var purchase = (from p in purchaseContext.PurchaseQuotation
+                            select p).ToList();
+
+            qList = (from p in purchase
+                     join b in businessContext.BusinessPartner on p.Vendor_Code equals b.BP_Id
+                     select new PurchaseQuotation()
+                     {
+                         Vendor_Name = b.BP_Name,
+                         Vendor_Code = p.Vendor_Code,
+                         Purchase_Quote_Id = p.Purchase_Quote_Id,
+                         Reference_Number = p.Reference_Number,
+                         Quotation_Status = p.Quotation_Status,
+                         Posting_Date = p.Posting_Date,
+                         Valid_Date = p.Valid_Date
+                     }).ToList();
 
             return qList;
         }
@@ -85,7 +100,7 @@ namespace Troy.Data.Repository
                         Required_Date = item.Required_Date,
                         Ship_To = item.Ship_To,
                         Valid_Date = item.Valid_Date,
-                        Vendor = item.Vendor
+                        Vendor_Code = item.Vendor_Code
                     };
 
                     qList.Add(model);
@@ -132,13 +147,13 @@ namespace Troy.Data.Repository
             return item;
         }
 
-        public List<BranchList> GetVendorList()
+        public List<BussinessList> GetVendorList()
         {
-            var item = (from a in branchContext.Branch
-                        select new BranchList
+            var item = (from a in businessContext.BusinessPartner
+                        select new BussinessList
                         {
-                            Branch_Name = a.Branch_Name,
-                            Branch_Id = a.Branch_Id
+                            BP_Name = a.BP_Name,
+                            BP_Id = a.BP_Id
                         }).ToList();
 
             return item;
@@ -215,7 +230,7 @@ namespace Troy.Data.Repository
             }
         }
 
-        public bool GenerateXML(Object obj)
+        public bool GenerateXML(Object obj, string uniqueId, string objType)
         {
             try
             {
@@ -226,7 +241,8 @@ namespace Troy.Data.Repository
 
 
                 SAPOUT mSAP = new SAPOUT();
-                mSAP.Object_typ = "Purchase";
+                mSAP.Unique_Id = uniqueId;
+                mSAP.Object_typ = objType;
                 mSAP.Branch_Cde = "1";
                 mSAP.Troy_Created_Dte = Convert.ToDateTime(DateTime.Now.ToString());
                 mSAP.Troy_XML = doc.InnerXml;

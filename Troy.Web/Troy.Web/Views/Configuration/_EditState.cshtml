@@ -37,6 +37,11 @@
                                 <div class="tab-pane fade active in" id="editState">
                                     <br />
                                     @Html.HiddenFor(model => model.State.ID)
+
+                                    @Html.HiddenFor(model => model.State.Created_User_Id)
+                                    @Html.HiddenFor(model => model.State.Created_Branc_Id)
+                                    @Html.HiddenFor(model => model.State.Created_Dte)
+
                                     <div class="row">
                                         <div class="col-md-6">
 
@@ -75,8 +80,8 @@
                                                     Country Code:
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.DropDownListFor(m => m.State.Country_Code, new SelectList(Model.CountryListDp.AsEnumerable(), "ID", "Country_Code"), "", new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.State.Country_Code)
+                                                    @Html.DropDownListFor(m => m.State.CountryID, new SelectList(Model.CountryListDp.AsEnumerable(), "ID", "Country_Code"), "", new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.State.CountryID)
                                                 </div>
                                             </div>
                                             <br>
@@ -109,7 +114,7 @@
                 <input class="btn btn-primary pull-left" type="submit" id="btnEditSubmit" name="submitButton" value="Update" onclick="return EditSubmit(this);" />
                 <input type="hidden" id="submitAction" name="submitButton" />
                 <button class="btn pull-left" data-dismiss="modal">Cancel</button>
-                @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+               
             </div>
 
         </div>

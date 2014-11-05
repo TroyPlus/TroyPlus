@@ -112,9 +112,9 @@ namespace Troy.Web.Controllers
                 Viewmodel_AddProductGroup xmlAddProductGroup = new Viewmodel_AddProductGroup();
                 xmlAddProductGroup.UniqueID = UniqueID.ToString();
                 xmlAddProductGroup.Productgroup_Name = model.ProductGroup.Product_Group_Name;
-                xmlAddProductGroup.CreatedUser = currentUser.Created_User_Id.ToString();
+                xmlAddProductGroup.CreatedUser = currentUser.Id.ToString();
                 xmlAddProductGroup.CreatedBranch = currentUser.Created_Branch_Id.ToString();
-                xmlAddProductGroup.CreatedDateTime = DateTime.Now.ToString();               
+                xmlAddProductGroup.CreatedDateTime = DateTime.Now.ToString();
 
                 //generate xml
                 productgroupRepository.GenerateXML(xmlAddProductGroup, UniqueID);
@@ -142,8 +142,8 @@ namespace Troy.Web.Controllers
                 Viewmodel_ModifyProductGroup xmlEditProductGroup = new Viewmodel_ModifyProductGroup();
                 xmlEditProductGroup.UniqueID = UniqueID.ToString();
                 xmlEditProductGroup.old_Productgroup_Name = Temp_productgroup.ToString().Trim();
-                xmlEditProductGroup.New_Productgroup_Name = model.ProductGroup.Product_Group_Name;               
-                xmlEditProductGroup.LastModifyUser = currentUser.Modified_User_Id.ToString();
+                xmlEditProductGroup.New_Productgroup_Name = model.ProductGroup.Product_Group_Name;
+                xmlEditProductGroup.LastModifyUser = currentUser.Id.ToString();
                 xmlEditProductGroup.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
                 xmlEditProductGroup.LastModifyDateTime = DateTime.Now.ToString();
 
@@ -158,6 +158,217 @@ namespace Troy.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase file)
+        {
+            if (file != null && file.ContentLength > 0)
+            {
+                try
+                {
+                    ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
+                    string fileExtension = System.IO.Path.GetExtension(Request.Files["file"].FileName);
+
+                    string fileName = System.IO.Path.GetFileName(Request.Files["file"].FileName.ToString());
+
+                    if (fileExtension == ".xls" || fileExtension == ".xlsx")
+                    {
+                        string fileLocation = string.Format("{0}/{1}", Server.MapPath("~/App_Data/ExcelFiles"), fileName);
+
+                        if (System.IO.File.Exists(fileLocation))
+                        {
+                            System.IO.File.Delete(fileLocation);
+                        }
+                        Request.Files["file"].SaveAs(fileLocation);
+                        string excelConnectionString = string.Empty;
+                        excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
+                        fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+                        //connection String for xls file format.
+                        if (fileExtension == ".xls")
+                        {
+                            excelConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
+                            fileLocation + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
+                        }
+                        //connection String for xlsx file format.
+                        else if (fileExtension == ".xlsx")
+                        {
+                            excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
+                            fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+                        }
+
+                        //Create Connection to Excel work book and add oledb namespace
+                        OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
+                        excelConnection.Open();
+                        DataTable dt = new DataTable();
+                        string exquery;
+                        dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                        if (dt == null)
+                        {
+                            return null;
+                        }
+
+                        String[] excelSheets = new String[dt.Rows.Count];
+                        int t = 0;
+                        //excel data saves in temp file here.
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            excelSheets[t] = row["TABLE_NAME"].ToString();
+                            t++;
+                        }
+
+                        DataSet ds = new DataSet();
+
+                        OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
+
+                        exquery = string.Format("Select * from [{0}]", excelSheets[0]);
+                        using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(exquery, excelConnection1))
+                        {
+                            dataAdapter.Fill(ds); //fill dataset
+                        }
+
+                        if (ds != null)
+                        {
+                            #region Check Product Group Name
+                            foreach (DataRow dr in ds.Tables[0].Rows)
+                            {
+                                string mExcelPrGrp_Name = Convert.ToString(dr["Product Group Name"]);
+                                if (mExcelPrGrp_Name != null && mExcelPrGrp_Name != "")
+                                {
+                                    var data = productgroupRepository.CheckDuplicateName(mExcelPrGrp_Name);
+                                    if (data != null)
+                                    {
+                                        return Json(new { success = true, Message = "Product Group Name: " + mExcelPrGrp_Name + " - already exists in the master." }, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                                else
+                                {
+                                    return Json(new { success = false, Error = "Product Group name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                }
+                            }
+                            #endregion
+
+                            #region Check Level
+                            foreach (DataRow dr in ds.Tables[0].Rows)
+                            {
+                                if (dr["Level"].ToString() != null && dr["Level"].ToString() != "")
+                                {
+                                    int mExcelProdGrp_Level = Convert.ToInt32(dr["Level"]);
+                                    if (mExcelProdGrp_Level >= 0 && mExcelProdGrp_Level <= 100)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        return Json(new { success = true, Message = "Allowed range for Level is 0 to 100" }, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                                else
+                                {
+                                    return Json(new { success = false, Error = "Level cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                }
+                            }
+                            #endregion
+
+                            # region Already exists in sheet
+                            int i = 1;
+                            int ii = 1;
+                            string itemc = string.Empty;
+                            foreach (DataRow dr in ds.Tables[0].Rows)
+                            {
+                                itemc = Convert.ToString(dr["Product Group Name"]);
+
+                                if ((itemc == null) || (itemc == ""))
+                                {
+                                }
+                                else
+                                {
+                                    foreach (DataRow drd in ds.Tables[0].Rows)
+                                    {
+                                        if (ii == i)
+                                        {
+                                        }
+                                        else
+                                        {
+                                            if (itemc == Convert.ToString(drd["Product Group Name"]))
+                                            {
+                                                return Json(new { success = true, Message = "Product Group Name: " + itemc + " - already exists in the excel." }, JsonRequestBehavior.AllowGet);
+                                            }
+                                        }
+                                        ii = ii + 1;
+                                    }
+                                }
+                                i = i + 1;
+                                ii = 1;
+                            }
+                            #endregion
+
+                            #region BulkInsert
+                            if (ds.Tables[0].Rows.Count > 0)
+                            {
+                                List<ProductGroup> mlist = new List<ProductGroup>();
+
+                                for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
+                                {
+                                    ProductGroup mItem = new ProductGroup();
+                                    if (ds.Tables[0].Rows[j]["Product Group Name"] != null)
+                                    {
+                                        mItem.Product_Group_Name = ds.Tables[0].Rows[j]["Product Group Name"].ToString();
+                                    }
+
+                                    if (ds.Tables[0].Rows[j]["Level"] != null)
+                                    {
+                                        mItem.Level = Convert.ToInt32(ds.Tables[0].Rows[j]["Level"]);
+                                    }
+                                    mItem.IsActive = "Y";
+                                    mItem.Created_User_Id = currentUser.Id;// 1; //GetUserId();
+                                    mItem.Created_Branc_Id = currentUser.Created_Branch_Id;// 2; //GetBranchId();
+                                    mItem.Created_Dte = DateTime.Now;
+                                    mlist.Add(mItem);
+
+                                    //unique id generation
+                                    Guid GuidRandomNo = Guid.NewGuid();
+                                    string UniqueID = GuidRandomNo.ToString();
+
+                                    //fill viewmodel
+                                    Viewmodel_AddProductGroup xmlAddProductGroup = new Viewmodel_AddProductGroup();
+                                    xmlAddProductGroup.UniqueID = UniqueID.ToString();
+                                    xmlAddProductGroup.Productgroup_Name = ds.Tables[0].Rows[j]["Product Group Name"].ToString();
+                                    xmlAddProductGroup.CreatedUser = currentUser.Id.ToString();
+                                    xmlAddProductGroup.CreatedBranch = currentUser.Created_Branch_Id.ToString();
+                                    xmlAddProductGroup.CreatedDateTime = DateTime.Now.ToString();
+
+                                    //generate xml
+                                    productgroupRepository.GenerateXML(xmlAddProductGroup, UniqueID);
+
+                                }
+
+                                if (productgroupRepository.InsertFileUploadDetails(mlist))
+                                {
+                                    //return Json(new { success = true, Message = mlist.Count + " Records Uploaded Successfully" }, JsonRequestBehavior.AllowGet);
+                                    return RedirectToAction("Index", "ProductGroup");
+                                }
+                            }
+                            else
+                            {
+                                return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
+                            }
+                            #endregion
+
+                        }
+                        else
+                        {
+                            return Json(new { success = false, Error = "Excel file is empty" }, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, Error = "File Upload failed :" + ex.Message }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return RedirectToAction("Index", "ProductGroup");
+        }
+
+        [HttpPost]
         public ActionResult Index(string submitButton, ProductGroupViewModels model, HttpPostedFileBase file = null)
         {
             try
@@ -167,12 +378,10 @@ namespace Troy.Web.Controllers
                 if (submitButton == "Save")
                 {
                     model.ProductGroup.IsActive = "Y";
-                    model.ProductGroup.Created_Branc_Id = currentUser.Created_Branch_Id;// 1;//GetBranchId();
+                    model.ProductGroup.Created_User_Id = currentUser.Id;// 1;//GetBranchId();
                     model.ProductGroup.Created_Dte = DateTime.Now;
-                    model.ProductGroup.Created_User_Id = currentUser.Created_User_Id;// 1;  //GetUserId();
-                    model.ProductGroup.Modified_User_Id = currentUser.Modified_User_Id;// 1;//GetUserId();
-                    model.ProductGroup.Modified_Dte = DateTime.Now;
-                    model.ProductGroup.Modified_Branch_Id = currentUser.Modified_Branch_Id;// 1;//GetBranchId();
+                    model.ProductGroup.Created_Branc_Id = currentUser.Created_User_Id;// 1;  //GetUserId();
+                    
 
                     if (productgroupRepository.AddNewProductGroup(model.ProductGroup))//insert into productgroup table
                     {
@@ -189,10 +398,8 @@ namespace Troy.Web.Controllers
                     //store productgroup name in temporary variable
                     Temp_productgroup = Convert.ToString(TempData["OldName"]);
 
-                    model.ProductGroup.Created_Branc_Id = currentUser.Created_Branch_Id;// 1; //GetBranchId();
-                    model.ProductGroup.Created_Dte = DateTime.Now;
-                    model.ProductGroup.Created_User_Id = currentUser.Created_User_Id;// 1;  //GetUserId();
-                    model.ProductGroup.Modified_User_Id = currentUser.Modified_User_Id;// 1; //GetUserId();
+                   
+                    model.ProductGroup.Modified_User_Id = currentUser.Id;// 1; //GetUserId();
                     model.ProductGroup.Modified_Dte = DateTime.Now;
                     model.ProductGroup.Modified_Branch_Id = currentUser.Modified_Branch_Id;// 1; //GetBranchId();
 
@@ -205,6 +412,10 @@ namespace Troy.Web.Controllers
                     {
                         ModelState.AddModelError("", "Product Group Not Updated");
                     }
+                }
+                else if (submitButton == "Export")
+                {
+                    _ExporttoExcel();
                 }
                 else if (submitButton == "Search")
                 {
@@ -370,12 +581,10 @@ namespace Troy.Web.Controllers
                                             mItem.Level = Convert.ToInt32(ds.Tables[0].Rows[j]["Level"]);
                                         }
                                         mItem.IsActive = "Y";
-                                        mItem.Created_User_Id = currentUser.Created_User_Id;// 1; //GetUserId();
+                                        mItem.Created_User_Id = currentUser.Id;// 1; //GetUserId();
                                         mItem.Created_Branc_Id = currentUser.Created_Branch_Id;// 2; //GetBranchId();
                                         mItem.Created_Dte = DateTime.Now;
-                                        mItem.Modified_User_Id = currentUser.Modified_User_Id;// 2; //GetUserId();
-                                        mItem.Modified_Branch_Id = currentUser.Modified_Branch_Id;// 2; //GetBranchId();
-                                        mItem.Modified_Dte = DateTime.Now;
+                                        
                                         mlist.Add(mItem);
 
                                         //unique id generation
@@ -386,9 +595,9 @@ namespace Troy.Web.Controllers
                                         Viewmodel_AddProductGroup xmlAddProductGroup = new Viewmodel_AddProductGroup();
                                         xmlAddProductGroup.UniqueID = UniqueID.ToString();
                                         xmlAddProductGroup.Productgroup_Name = ds.Tables[0].Rows[j]["Product Group Name"].ToString();
-                                        xmlAddProductGroup.CreatedUser = currentUser.Created_User_Id.ToString();
+                                        xmlAddProductGroup.CreatedUser = currentUser.Id.ToString();
                                         xmlAddProductGroup.CreatedBranch = currentUser.Created_Branch_Id.ToString();
-                                        xmlAddProductGroup.CreatedDateTime = DateTime.Now.ToString();                                       
+                                        xmlAddProductGroup.CreatedDateTime = DateTime.Now.ToString();
 
                                         //generate xml
                                         productgroupRepository.GenerateXML(xmlAddProductGroup, UniqueID);

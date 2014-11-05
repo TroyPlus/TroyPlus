@@ -18,7 +18,7 @@ namespace Troy.Model.Configuration
         [ForeignKey("ID")]
         public virtual State state { get; set; }
 
-        public virtual Country country { get; set; }
+       // public virtual Country country { get; set; }
 
         public virtual ICollection<City> City { get; set; }
 
@@ -46,7 +46,7 @@ namespace Troy.Model.Configuration
         [Required]
 
 
-        public string Country_Code { get; set; }
+        public string CountryID { get; set; }
 
 
         [Required]
@@ -55,23 +55,23 @@ namespace Troy.Model.Configuration
         [DefaultValue("Y")]
         public string IsActive { get; set; }
 
-        [Required]
+        //[Required]
         public int Created_User_Id { get; set; }
 
-        [Required]
+        //[Required]
         public int Created_Branc_Id { get; set; }
 
-        [Required]
+        //[Required]
         [Column(TypeName = "date")]
         public DateTime Created_Dte { get; set; }
 
-        [Required]
+        //[Required]
         public int Modified_User_Id { get; set; }
 
-        [Required]
+        //[Required]
         public int Modified_Branch_Id { get; set; }
 
-        [Required]
+        //[Required]
         [Column(TypeName = "date")]
         public DateTime Modified_Dte { get; set; }
     }

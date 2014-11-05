@@ -159,11 +159,25 @@ namespace Troy.Data.Repository
              return qList;
         }
 
-         public bool SaveUserBranches(UserBranches userBranches,ref string errorMessage)
+         public bool SaveUserBranches(List<UserBranches> userBranches,int Id, ref string errorMessage)
          {
              try
              {
-                 UserContext.userbranches.Add(userBranches);
+                 if (UserContext.userbranches.Count() > 0)
+                 {
+                     List<UserBranches> tempUserBranches = new List<UserBranches>();
+                     // filter input user's branches.
+
+                     tempUserBranches = (from u in UserContext.userbranches
+                                         where u.User_Id == Id
+                                         select u).ToList();
+                    
+
+                     UserContext.userbranches.RemoveRange(tempUserBranches);
+                     UserContext.SaveChanges();
+                 }
+
+                 UserContext.userbranches.AddRange(userBranches);
                  UserContext.SaveChanges();
                  return true;
              }
@@ -179,12 +193,12 @@ namespace Troy.Data.Repository
 
 
 
-         //public ApplicationUser CheckDuplicateUserName(string bname)
-         //{
-         //    return (from p in UserContext.Users
-         //            where p.UserName.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
-         //            select p).FirstOrDefault();
-         //}
+         public ApplicationUser CheckDuplicateUserName(string bname)
+         {
+             return (from p in UserContext.Users
+                     where p.UserName.Equals(bname, StringComparison.CurrentCultureIgnoreCase)
+                     select p).FirstOrDefault();
+         }
 
 
 

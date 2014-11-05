@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Model.Branches;
+using Troy.Model.BusinessPartner;
 using Troy.Model.Purchase;
 
 namespace Troy.Data.Repository
@@ -20,10 +21,12 @@ namespace Troy.Data.Repository
 
         List<BranchList> GetAddressList();
 
+        List<BussinessList> GetVendorList();
+
         bool AddNewQuotation(PurchaseQuotation Quotation, IList<PurchaseQuotationItem> QuotationItemList, ref string ErrorMessage);
 
         bool UpdateQuotation(PurchaseQuotation Quotation, IList<PurchaseQuotationItem> QuotationItemList, ref string ErrorMessage);
 
-        bool GenerateXML(Object obj);
+        bool GenerateXML(Object obj, string uniqueId, string objType);
     }
 }

@@ -4,26 +4,62 @@
 
 <script type="text/jscript">
     $(function () {
+        //$("#country").val("India");
+      
         $('#Country').change(function () {
-            $.getJSON('/Cascading/StateList/' + $('#Country').val(), function (data) {
-                var items = '<option>Select a State</option>';
+          //  $('#Country').val(1)
+          //  alert('test country change');
+         
+             //$('#Country').val(1).change();
+           
+            // $('#Country').val("India");
+            debugger;
+           
+            $.getJSON('../Branch/StateList/' + $('#Country').val(), function (data) {
+                var items = '';
                 $.each(data, function (i, state) {
+                    //var selectionOption = '';
+                    //if (state.Value = '1') {
+                    //    selectionOption = "selected='selected'";
+                    //}
                     items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
                 });
                 $('#State').html(items);
+                //$('#Country').val(1);
+                //$('#State').val(1);
+                //$('#City').val(1);
+               // $('#State').val("TamilNadu");
             });
+           
         });
 
         $('#State').change(function () {
-            $.getJSON('/Cascading/CityList/' + $('#State').val(), function (data) {
-                var items = '<option>Select a City</option>';
-                $.each(data, function (i, city) {
-                    items += "<option value='" + city.Value + "'>" + city.Text + "</option>";
+            
+           
+                $.getJSON('../Branch/CityList/' + $('#State').val(), function (data) {
+                    var items = '';
+                    $.each(data, function (i, city) {
+                        //var selectionOption = '';
+                        //if (city.Value = '1') {
+                        //    selectionOption = "selected='selected'";
+                        //}
+                      //  alert('state generate');
+                        items += "<option  value='" + city.Value + "'>" + city.Text + "</option>";
+                    });
+                    $('#City').html(items);
+                   // $('#SCity').val("Madurai");
                 });
-                $('#City').html(items);
-            });
         });
-    });
+
+        $('#Country').val(1);
+
+        $('#Country').change();
+
+       $('#State').val(1);
+        $('#State').change();
+
+
+        });
 </script>
 
 
@@ -123,67 +159,83 @@
                                             <div class="col-md-4">
                                                 Country:
                                             </div>*@
-                                            @*@Html.DropDownListFor(model => model.country.ID, null, new { id = "Country" })*@
-                                           
-                                            @*@Html.DropDownList("Country", ViewBag.ID as SelectList, "Select a Country", new { id = "Country" })<br />
-                                          
-                                            <select id="State" name="state"></select><br />
-                                            <select id="city" name="City"></select><br />
+                                        @*@Html.DropDownListFor(model => model.country.ID, null, new { id = "Country" })*@
+                                        @*<div class="col-md-8">
+                                            @Html.DropDownList("Country", ViewBag.ID as SelectList, "Select a Country", new { id = "Country" })<br />
+                                            </div>*@
+                                        @*<select id="State" name="state"></select><br />
+                                            <select id="City" name="city"></select><br />*@
+                                        @*</div>*@
+
+                                        @*<div class="row form-group">
+                                                <div class="col-md-4">
+                                                    State:
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <select id="State" title="Select a Country" name="state"></select><br />
+                                                    </div>
+                                                </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    City:
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <select id="City" title="Select a Country" name="city"></select><br />
+                                                </div>
                                             </div>*@
 
-
-                                            <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Country:
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.DropDownListFor(m => m.Branch.Country_ID, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name", 1), "Select Country", new { @class = "form-control control-text", id = "Country" })
-                                                        @Html.ValidationMessageFor(model => model.Branch.Country_ID)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        State:
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.DropDownListFor(m => m.Branch.State_ID, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name", 1), "Select State", new { @class = "form-control control-text", id="State" })
-                                                        @Html.ValidationMessageFor(model => model.Branch.State_ID)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        City:
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.DropDownListFor(m => m.Branch.City_ID, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name", 1), "Select City", new { @class = "form-control control-text", id="City" })
-                                                        @Html.ValidationMessageFor(model => model.Branch.City_ID)
-                                                    </div>
-                                                </div>
-
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    @*@Html.LabelFor(model => model.Branch.Pin_Code)*@
-                                                    PinCode
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.Branch.Pin_Code, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.Branch.Pin_Code)
-                                                </div>
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                Country:
                                             </div>
-
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    @Html.LabelFor(model => model.Branch.Order_Num)
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.Branch.Order_Num, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.Branch.Order_Num)
-                                                </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.Branch.Country_ID, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name",1), "Select Country", new { @class = "form-control control-text", id = "Country" })
+                                                @Html.ValidationMessageFor(model => model.Branch.Country_ID)
                                             </div>
-
                                         </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                State:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.Branch.State_ID, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name",2), "Select State", new { @class = "form-control control-text", id = "State" })
+                                                @Html.ValidationMessageFor(model => model.Branch.State_ID)
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                City:
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.Branch.City_ID, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name",1), "Select City", new { @class = "form-control control-text", id = "City" })
+                                                @Html.ValidationMessageFor(model => model.Branch.City_ID)
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                @*@Html.LabelFor(model => model.Branch.Pin_Code)*@
+                                                PinCode
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.Branch.Pin_Code, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.Branch.Pin_Code)
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                @Html.LabelFor(model => model.Branch.Order_Num)
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(model => model.Branch.Order_Num, new { @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.Branch.Order_Num)
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -191,12 +243,12 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="modal-footer">
-                <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
-                <button class="btn pull-left" data-dismiss="modal">Close</button>
-                @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
-            </div>
+        <div class="modal-footer">
+            <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+            <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+            @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
         </div>
     </div>
-
+</div>

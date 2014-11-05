@@ -36,6 +36,13 @@
                                 <div class="tab-pane fade active in" id="editDesignation">
                                     <br />
                                     @Html.HiddenFor(model => model.Designation.Designation_Id)
+
+                                    @Html.HiddenFor(model => model.Designation.Created_User_Id)
+                                    @Html.HiddenFor(model => model.Designation.Created_Branc_Id)
+                                    @Html.HiddenFor(model => model.Designation.Created_Dte)
+
+
+
                                     <div class="row">
                                         <div class="col-md-6">
 
@@ -80,7 +87,7 @@
                 <input class="btn btn-primary pull-left" type="submit" id="btnEditSubmit" name="submitButton" value="Update" onclick="return EditSubmit(this);" />
                 <input type="hidden" id="submitAction" name="submitButton" />
                 <button class="btn pull-left" data-dismiss="modal">Cancel</button>
-                @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+               
             </div>
 
         </div>

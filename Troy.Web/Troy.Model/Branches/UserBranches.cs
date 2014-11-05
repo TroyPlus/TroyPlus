@@ -13,8 +13,9 @@ namespace Troy.Model.Branches
 {
     public class UserBranches
     {
-
-       [Key]
+        [Key]
+        public int Id { get; set; }
+       
        [ForeignKey("user")]
         [Required]
         public int User_Id { get; set; }

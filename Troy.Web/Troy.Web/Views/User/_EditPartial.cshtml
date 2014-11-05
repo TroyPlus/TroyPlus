@@ -31,6 +31,13 @@
                                 </li>
                             </ul>
 
+                            @Html.HiddenFor(model => model.Id)
+                            @Html.HiddenFor(model => model.Password)
+                            @Html.HiddenFor(model => model.ConfirmPassword)
+                            @Html.HiddenFor(model => model.Role_Id)
+                            @Html.HiddenFor(model=>model.ApplicationUsers.Created_User_Id)
+                            @Html.HiddenFor(model => model.ApplicationUsers.Created_Branch_Id)
+                            @Html.HiddenFor(model => model.ApplicationUsers.Created_Date)
                             <div id="editTabContent" class="tab-content">
                                 <div class="tab-pane fade active in" id="editdefault">
                                     <div class="row">
@@ -41,7 +48,7 @@
                                                         @Html.LabelFor(m => m.UserName, new { @class = "control-label normal" })
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.UserName, new { @readonly = "readonly", @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                                                     </div>
 
@@ -77,7 +84,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row form-group">
+                                                @*<div class="row form-group">
                                                     <div class="col-md-4">
                                                         @Html.LabelFor(m => m.Role_Id, new { @class = "control-label normal" })
                                                     </div>
@@ -85,9 +92,19 @@
                                                         @Html.DropDownListFor(m => m.Role_Id, new SelectList(Model.rolelist.AsEnumerable(), "Id", "Name"), "", new { @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.Role_Id, "", new { @class = "text-danger" })
                                                     </div>
-                                                </div>
+                                                </div>*@
 
                                                 <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        Is Active:
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.RadioButtonFor(model => model.IsActive, "True", new { id = "Y" }) True
+                                                        @Html.RadioButtonFor(model => model.IsActive, "False", new { id = "N" }) False
+                                                        @Html.ValidationMessageFor(model => model.IsActive)
+                                                    </div>
+                                                </div>
+                                                @*<div class="row form-group">
                                                     <div class="col-md-4">
                                                         @Html.LabelFor(m => m.IsActive, new { @class = "control-label normal" })
                                                     </div>
@@ -95,7 +112,7 @@
                                                         @Html.CheckBoxFor(model => model.IsActive, new { name = "IsActive", @checked = "checked", @class = "" })
                                                         @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                                                     </div>
-                                                </div>
+                                                </div>*@
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -124,7 +141,7 @@
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.DropDownListFor(m => m.SubmittedBranches, new System.Web.Mvc.MultiSelectList(Model.branchlist.AsEnumerable(),
-                                                            "Branch_Id", "Branch_Name", Model.DefaultSelectedBranches.AsEnumerable().Select(m=>m.Branch_Id)), new { multiple = "multiple", @class = "multiselect form-control control-text" })
+                                                            "Branch_Id", "Branch_Name", Model.DefaultSelectedBranches.AsEnumerable().Select(m=>m.Branch_Id)), new { multiple = "multiple", @class = "form-control control-text" })
 
                                                     @*@Html.DropDownList("SubmittedMovies", "Select branches", new System.Web.Mvc.MultiSelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name", Model.DefaultSelectedBranches.Select(m => m.Branch_Id)),
                                                                         new { multiple = "multiple", @class = "form-control control-text multiselect" })*@
@@ -154,7 +171,7 @@
             </div>
             <div class="modal-footer">
                 <input class="btn btn-primary" type="submit" id="btnSubmit" name="submitButton" value="Update" />
-                <button class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+                <button class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
 
             </div>
 
