@@ -29,7 +29,8 @@ namespace Troy.Model.BusinessPartner
 
         //[Required(ErrorMessage = "Group Type is required.")]
         [StringLength(10)]
-        [RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
+        //[RegularExpression(@"^[a-zA-Z0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
+        [RegularExpression("VENDOR|CUSTOMER|PROSPECT|vendor|customer|prospect|Vendor|Customer|Prospect|", ErrorMessage = @"Group Type allowed only Vendor or Customer or Prospect")]
         public string Group_Type { get; set; }
         //------------
 
@@ -175,6 +176,7 @@ namespace Troy.Model.BusinessPartner
         //------------
 
         [StringLength(20)]
+        [RegularExpression("COLLECTION|COURIER|HOMEDELIVERY|collection|courier|homedelivery|Collection|Courier|Homedelivery|HomeDelivery|", ErrorMessage = @"Ship Method allowed only Collection or Courier or Homedelivery")]
         public string Ship_method { get; set; }
         //------------
 

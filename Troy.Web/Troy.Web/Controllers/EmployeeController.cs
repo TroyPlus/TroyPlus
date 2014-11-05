@@ -951,9 +951,9 @@ namespace Troy.Web.Controllers
                 if (submitButton == "Save")
                 {
                     model.Employee.IsActive = "Y";
-                    model.Employee.Created_Branc_Id = currentUser.Id;// 1;//GetBranchId();
+                    model.Employee.Created_Branc_Id = currentUser.Created_Branch_Id;// 1;//GetBranchId();
                     model.Employee.Created_Dte = DateTime.Now;
-                    model.Employee.Created_User_Id = currentUser.Created_User_Id;// 1;  //GetUserId();
+                    model.Employee.Created_User_Id = currentUser.Id;// 1;  //GetUserId();
                    
 
                     if (employeeRepository.AddNewEmployee(model.Employee))

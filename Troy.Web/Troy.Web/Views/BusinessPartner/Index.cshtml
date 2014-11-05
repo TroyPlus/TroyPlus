@@ -228,6 +228,7 @@
     $.validator.unobtrusive.parse('#myModal form');
 </script>
 
+
 <div><span>&nbsp;</span></div>
 
 @using (Html.BeginForm("Index", "BusinessPartner", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -390,7 +391,7 @@
                                                     <input type="file" name="file" />
                                                 </div>
                                             </div>
-                                            <a href=@Url.Action("_TemplateExcelDownload", "Manufacturer")>
+                                            <a href=@Url.Action("_TemplateExcelDownload", "BusinessPartner")>
                                                 Click here to Download template
                                             </a>
                                         </div>

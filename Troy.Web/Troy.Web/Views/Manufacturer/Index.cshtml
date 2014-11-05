@@ -78,8 +78,8 @@
     }
 
     function IFrameManuSubmit() {
-        //debugger;
-        var fileSelected = $('#FileUpload').val();
+        debugger;
+        var fileSelected = $('#file').val();
         if (fileSelected == '') {
             alert('Please choose the Excel to Upload');
             return false;
@@ -303,7 +303,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <input class="btn btn-primary pull-left" type="submit" name="Submit" id="Submit" value="Upload" />
+                    <input class="btn btn-primary pull-left" type="submit" name="Submit" id="Submit" value="Upload"  />
 
                     @*<input class="btn btn-primary pull-left" type="button" id="btnUpload1" name="FileUploadButton" value="Upload" onclick="return IFrameManuSubmit();" />*@
                     <button class="btn pull-left" data-dismiss="modal">Close</button>

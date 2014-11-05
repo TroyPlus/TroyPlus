@@ -235,12 +235,16 @@ namespace Troy.Web.Controllers
                                     var data = manufacturerRepository.CheckDuplicateName(mExcelManu_Name);
                                     if (data != null)
                                     {
-                                        return Json(new { success = true, Message = "Manufacturer Name: " + mExcelManu_Name + " - already exists in the master." }, JsonRequestBehavior.AllowGet);
+                                       // return Json(new { success = true, Message = "Manufacturer Name: " + mExcelManu_Name + " - already exists in the master." }, JsonRequestBehavior.AllowGet);
+                                        ViewBag.AppErrorMessage = "Manufacturer Name: " + mExcelManu_Name + " - already exists in the master.";
+                                        return View("Error");
                                     }
                                 }
                                 else
                                 {
-                                    return Json(new { success = false, Error = "Manufacture name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                    //return Json(new { success = false, Error = "Manufacture name cannot be null it the excel sheet" }, JsonRequestBehavior.AllowGet);
+                                    ViewBag.AppErrorMessage = "Manufacture name cannot be null it the excel sheet";
+                                    return View("Error");
                                 }
                             }
                             #endregion
