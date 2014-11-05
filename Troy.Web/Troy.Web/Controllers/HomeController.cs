@@ -11,6 +11,7 @@ namespace Troy.Web.Controllers
 {
     public class HomeController : Controller
     {
+        [Authorize]
         public ActionResult Index()
         {
             if (User.Identity.IsAuthenticated)

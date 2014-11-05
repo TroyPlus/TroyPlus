@@ -84,7 +84,7 @@ namespace Troy.Web.Models
 
         [Required]
         [Display(Name = "Year")]
-        public FinancialYear FinancialYear { get; set; }
+        public string FinancialYear { get; set; }
 
         public IList<FinancialYear> YearList { get; set; }
 

@@ -101,7 +101,7 @@ namespace Troy.Web.Controllers
                 return View("PostLogin", model);
             }
             Session["CurrentBranch"] = model.Branch_Id;
-            Session["FinancialYear"] = model.FinancialYear.Year;
+            Session["FinancialYear"] = model.FinancialYear;
             return RedirectToLocal(returnUrl);           
         }
         //
@@ -410,7 +410,7 @@ namespace Troy.Web.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //
