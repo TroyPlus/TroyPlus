@@ -23,14 +23,27 @@ namespace Troy.Data.Repository
     {
         private PurchaseContext purchaseContext = new PurchaseContext();
         private BranchContext branchContext = new BranchContext();
-        private BusinessPartnerContext businessContext = new BusinessPartnerContext(); 
+        private BusinessPartnerContext businessContext = new BusinessPartnerContext();
 
         public List<PurchaseQuotation> GetAllQuotation()
         {
             List<PurchaseQuotation> qList = new List<PurchaseQuotation>();
 
-            qList = (from p in purchaseContext.PurchaseQuotation
-                     select p).ToList();
+            var purchase = (from p in purchaseContext.PurchaseQuotation
+                            select p).ToList();
+
+            qList = (from p in purchase
+                     join b in businessContext.BusinessPartner on p.Vendor_Code equals b.BP_Id
+                     select new PurchaseQuotation()
+                     {
+                         Vendor_Name = b.BP_Name,
+                         Vendor_Code = p.Vendor_Code,
+                         Purchase_Quote_Id = p.Purchase_Quote_Id,
+                         Reference_Number = p.Reference_Number,
+                         Quotation_Status = p.Quotation_Status,
+                         Posting_Date = p.Posting_Date,
+                         Valid_Date = p.Valid_Date
+                     }).ToList();
 
             return qList;
         }
@@ -217,7 +230,7 @@ namespace Troy.Data.Repository
             }
         }
 
-        public bool GenerateXML(Object obj)
+        public bool GenerateXML(Object obj, string uniqueId, string objType)
         {
             try
             {
@@ -228,7 +241,8 @@ namespace Troy.Data.Repository
 
 
                 SAPOUT mSAP = new SAPOUT();
-                mSAP.Object_typ = "Purchase";
+                mSAP.Unique_Id = uniqueId;
+                mSAP.Object_typ = objType;
                 mSAP.Branch_Cde = "1";
                 mSAP.Troy_Created_Dte = Convert.ToDateTime(DateTime.Now.ToString());
                 mSAP.Troy_XML = doc.InnerXml;

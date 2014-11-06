@@ -76,15 +76,15 @@ namespace Troy.Web.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        //[Required]
-        //[Display(Name = "Branch")]
-        //public Branch Branch { get; set; }
+        [Required]
+        [Display(Name = "Branch")]
+        public int Branch_Id { get; set; }
 
         public IList<Branch> BranchList { get; set; }
 
         [Required]
         [Display(Name = "Year")]
-        public FinancialYear FinancialYear { get; set; }
+        public string FinancialYear { get; set; }
 
         public IList<FinancialYear> YearList { get; set; }
 

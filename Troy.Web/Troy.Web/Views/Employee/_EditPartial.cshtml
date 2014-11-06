@@ -100,6 +100,9 @@
                                 <br />
                                 <div class="row">
                                     @Html.HiddenFor(model => model.Employee.Emp_Id)
+                                    @Html.HiddenFor(model => model.Employee.Created_User_Id)
+                                    @Html.HiddenFor(model => model.Employee.Created_Branc_Id)
+                                    @Html.HiddenFor(model => model.Employee.Created_Dte)
                                     <div class="col-md-6">
                                         <div class="form-horizontal">
                                             <div class="row form-group">

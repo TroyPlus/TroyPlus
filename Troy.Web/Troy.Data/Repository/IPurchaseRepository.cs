@@ -27,6 +27,6 @@ namespace Troy.Data.Repository
 
         bool UpdateQuotation(PurchaseQuotation Quotation, IList<PurchaseQuotationItem> QuotationItemList, ref string ErrorMessage);
 
-        bool GenerateXML(Object obj);
+        bool GenerateXML(Object obj, string uniqueId, string objType);
     }
 }

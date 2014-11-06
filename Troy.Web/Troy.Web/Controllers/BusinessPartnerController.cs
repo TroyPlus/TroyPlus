@@ -230,7 +230,7 @@ namespace Troy.Web.Controllers
 
                 addbp.address.ShipTo = shipto;
                 addbp.address.BillTo = billto;
-                addbp.CreatedUser = currentUser.Created_User_Id.ToString();
+                addbp.CreatedUser = currentUser.Id.ToString();
                 addbp.CreatedBranch = currentUser.Created_Branch_Id.ToString();
                 addbp.CreatedDateTime = DateTime.Now.ToString();
 
@@ -352,7 +352,7 @@ namespace Troy.Web.Controllers
 
                 modifybp.address.ShipTo = shipto;
                 modifybp.address.BillTo = billto;
-                modifybp.LastModifyUser = currentUser.Modified_User_Id.ToString();
+                modifybp.LastModifyUser = currentUser.Id.ToString();
                 modifybp.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
                 modifybp.LastModifyDateTime = DateTime.Now.ToString();
                 #endregion
@@ -1068,12 +1068,9 @@ namespace Troy.Web.Controllers
                                     #endregion
 
                                     mItem.IsActive = true;
-                                    mItem.Created_User_Id = currentUser.Created_User_Id; // 1; //GetUserId();
+                                    mItem.Created_User_Id = currentUser.Id; // 1; //GetUserId();
                                     mItem.Created_Branc_Id = currentUser.Created_Branch_Id; // 2; //GetBranchId();
                                     mItem.Created_Dte = DateTime.Now;
-                                    mItem.Modified_User_Id = currentUser.Modified_User_Id; // 2; //GetUserId();
-                                    mItem.Modified_Branch_Id = currentUser.Modified_Branch_Id; // 2; //GetBranchId();
-                                    mItem.Modified_Dte = DateTime.Now;
 
                                     mlist.Add(mItem);
 
@@ -1136,7 +1133,7 @@ namespace Troy.Web.Controllers
                                     addbp.address.BillTo = billto;
 
                                     addbp.CreatedBranch = currentUser.Created_Branch_Id.ToString();
-                                    addbp.CreatedUser = currentUser.Created_User_Id.ToString();
+                                    addbp.CreatedUser = currentUser.Id.ToString();
                                     addbp.CreatedDateTime = DateTime.Now.ToString();
 
                                     #endregion
@@ -1168,7 +1165,7 @@ namespace Troy.Web.Controllers
                     return Json(new { success = false, Error = "File Upload failed :" + ex.Message }, JsonRequestBehavior.AllowGet);
                 }
             }
-            return RedirectToAction("Index", "Manufacturer");
+            return RedirectToAction("Index", "BusinessPartner");
         }
 
         [HttpPost]
@@ -1207,10 +1204,7 @@ namespace Troy.Web.Controllers
                     model.BusinessPartner.IsActive = true;
                     model.BusinessPartner.Created_Branc_Id = currentUser.Created_Branch_Id; // 1;//GetBranchId();
                     model.BusinessPartner.Created_Dte = DateTime.Now;
-                    model.BusinessPartner.Created_User_Id = currentUser.Created_User_Id; // 1;  //GetUserId();
-                    model.BusinessPartner.Modified_User_Id = currentUser.Modified_User_Id;// 1; //GetUserId();
-                    model.BusinessPartner.Modified_Dte = DateTime.Now;
-                    model.BusinessPartner.Modified_Branch_Id = currentUser.Modified_Branch_Id; // 1;//GetBranchId();
+                    model.BusinessPartner.Created_User_Id = currentUser.Id; // 1;  //GetUserId();
 
                     if (businesspartnerRepository.AddNewBusinessPartner(model.BusinessPartner))
                     {
@@ -1247,11 +1241,8 @@ namespace Troy.Web.Controllers
                             return Json(new { success = true, Message = "Select Control AccountID" }, JsonRequestBehavior.AllowGet);
                         }
                     }
-                   
-                    model.BusinessPartner.Created_Branc_Id = currentUser.Created_Branch_Id; // 1;//GetBranchId();
-                    model.BusinessPartner.Created_Dte = DateTime.Now;
-                    model.BusinessPartner.Created_User_Id = currentUser.Created_User_Id; // 1;  //GetUserId();
-                    model.BusinessPartner.Modified_User_Id = currentUser.Modified_User_Id; // 1; //GetUserId();
+                                       
+                    model.BusinessPartner.Modified_User_Id = currentUser.Id; // 1; //GetUserId();
                     model.BusinessPartner.Modified_Dte = DateTime.Now;
                     model.BusinessPartner.Modified_Branch_Id = currentUser.Modified_Branch_Id; // 1;//GetBranchId();
 
@@ -1971,12 +1962,9 @@ namespace Troy.Web.Controllers
                                         #endregion
 
                                         mItem.IsActive = true;
-                                        mItem.Created_User_Id = currentUser.Created_User_Id; // 1; //GetUserId();
+                                        mItem.Created_User_Id = currentUser.Id; // 1; //GetUserId();
                                         mItem.Created_Branc_Id = currentUser.Created_Branch_Id; // 2; //GetBranchId();
                                         mItem.Created_Dte = DateTime.Now;
-                                        mItem.Modified_User_Id = currentUser.Modified_User_Id; // 2; //GetUserId();
-                                        mItem.Modified_Branch_Id = currentUser.Modified_Branch_Id; // 2; //GetBranchId();
-                                        mItem.Modified_Dte = DateTime.Now;
 
                                         mlist.Add(mItem);
 
@@ -2039,7 +2027,7 @@ namespace Troy.Web.Controllers
                                         addbp.address.BillTo = billto;
 
                                         addbp.CreatedBranch = currentUser.Created_Branch_Id.ToString();
-                                        addbp.CreatedUser = currentUser.Created_User_Id.ToString();
+                                        addbp.CreatedUser = currentUser.Id.ToString();
                                         addbp.CreatedDateTime = DateTime.Now.ToString();
 
                                         #endregion

@@ -75,5 +75,8 @@ namespace Troy.Model.Purchase
 
         public DateTime Modified_Date { get; set; }
 
+        [NotMapped]
+        public string Vendor_Name { get; set; }
+
     }
 }

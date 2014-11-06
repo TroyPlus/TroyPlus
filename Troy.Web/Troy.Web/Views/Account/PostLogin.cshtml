@@ -46,11 +46,17 @@
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.FinancialYear, new { @class = "col-md-3 control-label" })
                                     <div class="col-md-9">
-                                        @Html.DropDownListFor(m => m.FinancialYear.Year, new SelectList(Model.YearList.AsEnumerable(), "Year", "Year"), "Select Year", new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(m => m.FinancialYear.Year, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(m => m.FinancialYear, new SelectList(Model.YearList.AsEnumerable(), "Year", "Year"), "Select financial year", new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(m => m.FinancialYear, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Branch_Id, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "Select branch", new { @class = "form-control control-text" })
+                                        @Html.ValidationMessageFor(m => m.Branch_Id, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <div class="col-md-offset-8 col-md-4">
                                         <input type="submit" value="Log in" class="btn btn-primary pull-right" />

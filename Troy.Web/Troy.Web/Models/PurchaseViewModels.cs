@@ -94,4 +94,64 @@ namespace Troy.Web.Models
         [XmlElement("LastModifyDateTime")]
         public string LastModifyDateTime { get; set; }
     }
+
+    [XmlRoot("AddPurchaseQuotationItem")]
+    public class Viewmodel_AddPurchaseQuotationItem
+    {
+        [XmlElement("UID")]
+        public string UniqueID { get; set; }
+
+        [XmlElement("Name")]
+        public string PurchaseQuotation_Item_Name { get; set; }
+
+        [XmlElement("CreatedUser")]
+        public string CreatedUser { get; set; }
+
+        [XmlElement("CreatedBranch")]
+        public string CreatedBranch { get; set; }
+
+        [XmlElement("CreatedDateTime")]
+        public string CreatedDateTime { get; set; }
+
+        [XmlElement("LastModifyUser")]
+        public string LastModifyUser { get; set; }
+
+        [XmlElement("LastModifyBranch")]
+        public string LastModifyBranch { get; set; }
+
+        [XmlElement("LastModifyDateTime")]
+        public string LastModifyDateTime { get; set; }
+    }
+
+    [XmlRoot("ModifyPurchaseQuotationItem")]
+    public class Viewmodel_ModifyPurchaseQuotationItem
+    {
+        [XmlElement("UID")]
+        public string UniqueID { get; set; }
+
+        [XmlElement("OldName")]
+        public string Old_PurchaseQuotation_Item_Name { get; set; }
+
+        [XmlElement("NewName")]
+        public string New_PurchaseQuotation_Item_Name { get; set; }
+
+        [XmlElement("CreatedUser")]
+        public string CreatedUser { get; set; }
+
+        [XmlElement("CreatedBranch")]
+        public string CreatedBranch { get; set; }
+
+        [XmlElement("CreatedDateTime")]
+        public string CreatedDateTime { get; set; }
+
+        [XmlElement("LastModifyUser")]
+        public string LastModifyUser { get; set; }
+
+        [XmlElement("LastModifyBranch")]
+        public string LastModifyBranch { get; set; }
+
+        [XmlElement("LastModifyDateTime")]
+        public string LastModifyDateTime { get; set; }
+    }
+
 }
