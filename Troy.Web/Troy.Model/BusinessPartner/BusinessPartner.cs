@@ -164,6 +164,8 @@ namespace Troy.Model.BusinessPartner
         //------------
 
         [StringLength(20)]
+        //[RegularExpression(@"http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?", ErrorMessage = "Invalid Website URL")]
+        [RegularExpression(@"([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?", ErrorMessage = "Invalid Website URL")]
         public string Website { get; set; }
         //------------
 
@@ -194,30 +196,30 @@ namespace Troy.Model.BusinessPartner
         public DateTime Due_date { get; set; }
         //------------
 
-        [Required]
+        //[Required]
         public int Created_User_Id { get; set; }
         //------------
 
-        [Required]
+        //[Required]
         public int Created_Branc_Id { get; set; }
         //------------
 
-        [Required]
+        //[Required]
         [Column(TypeName = "date")]
-        public DateTime Created_Dte { get; set; }
+        public DateTime? Created_Dte { get; set; }
         //------------
 
-        [Required]
+        //[Required]
         public int Modified_User_Id { get; set; }
         //------------
 
-        [Required]
+        //[Required]
         public int Modified_Branch_Id { get; set; }
         //------------
 
-        [Required]
+        //[Required]
         [Column(TypeName = "date")]
-        public DateTime Modified_Dte { get; set; }
+        public DateTime? Modified_Dte { get; set; }
         //------------
     }
 }

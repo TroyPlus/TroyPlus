@@ -38,6 +38,8 @@ namespace Troy.Web.Models
 
         public List<InitialList> InitialList { get; set; }
 
+        public List<EmployeeList> GetManagerNameList { get; set; }
+
         public string SearchQuery { get; set; }
 
         public string SearchColumn { get; set; }

@@ -88,7 +88,7 @@
                                     <div class="form-horizontal">
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Employee No:
+                                                Employee No
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.Emp_No, new { @class = "form-control control-text info", id = "textbox1", disabled = "disabled" })
@@ -97,7 +97,7 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Initial:
+                                                Initial
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.DropDownListFor(m => m.Employee.Initial, new SelectList(Model.InitialList.AsEnumerable(), "Id", "Troyvalues"), "", new { @class = "form-control control-text", disabled = "disabled" })
@@ -106,7 +106,7 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                First Name:
+                                                First Name
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.First_Name, new { @class = "form-control control-text", disabled = "disabled" })
@@ -115,7 +115,7 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Middle Name:
+                                                Middle Name
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.Middle_Name, new { @class = "form-control control-text", disabled = "disabled" })
@@ -124,7 +124,7 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Last Name:
+                                                Last Name
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.Last_Name, new { @class = "form-control control-text", disabled = "disabled" })
@@ -133,7 +133,7 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Father Name:
+                                                Father Name
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.Father_Name, new { @class = "form-control control-text", disabled = "disabled" })
@@ -142,7 +142,7 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Job Title:
+                                                Job Title
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.DropDownListFor(m => m.Employee.Designation_Id, new SelectList(Model.DesignationList.AsEnumerable(), "Designation_Id", "Designation_Name"), "", new { @class = "form-control control-text", disabled = "disabled" })
@@ -154,7 +154,7 @@
                                 <div class="col-md-6">
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            Department:
+                                            Department
                                         </div>
                                         <div class="col-md-8">
                                             @Html.DropDownListFor(m => m.Employee.Department_Id, new SelectList(Model.DepartmentList.AsEnumerable(), "Department_Id", "Department_Name"), "", new { @class = "form-control control-text", disabled = "disabled" })
@@ -163,7 +163,7 @@
                                     </div>
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            Branch:
+                                            Branch
                                         </div>
                                         <div class="col-md-8">
                                             @Html.DropDownListFor(m => m.Employee.Branch_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text", disabled = "disabled" })
@@ -172,16 +172,16 @@
                                     </div>
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            Manager:
+                                            Manager
                                         </div>
                                         <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.Employee.Manager_empid, new SelectList(Model.EmployeeList.AsEnumerable(), "Emp_Id", "First_Name"), "", new { @class = "form-control control-text", disabled = "disabled" })
+                                            @Html.DropDownListFor(m => m.Employee.Manager_empid, new SelectList(Model.GetManagerNameList.AsEnumerable(), "Emp_Id", "First_Name"), "", new { @class = "form-control control-text", disabled = "disabled" })
                                             @Html.ValidationMessageFor(model => model.Employee.Manager_empid)
                                         </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            Mobile No:
+                                            Mobile No
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.Employee.Mobile_number, new { @class = "form-control control-text", disabled = "disabled" })
@@ -190,11 +190,30 @@
                                     </div>
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            EMail Address:
+                                            EMail Address
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.Employee.Email, new { @class = "form-control control-text", disabled = "disabled" })
                                             @Html.ValidationMessageFor(model => model.Employee.Email)
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-4">
+                                            Remarks
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(model => model.Employee.Remarks, new { @class = "form-control control-text info", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.Employee.Remarks)
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-4">
+                                            Is Active
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.RadioButtonFor(model => model.Employee.IsActive, "Y", new { id = "Y" }) YES
+                                            @Html.RadioButtonFor(model => model.Employee.IsActive, "N", new { id = "N" }) NO
+                                            @Html.ValidationMessageFor(model => model.Employee.IsActive)
                                         </div>
                                     </div>
                                 </div>
@@ -212,7 +231,7 @@
                                     <div class="form-horizontal">
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Start Date:
+                                                Start Date
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.Start_Dte, new { @class = "form-control control-text info datePicker", @id = "editPersonaltab", disabled = "disabled" })
@@ -221,7 +240,7 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Left Date:
+                                                Left Date
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.Left_Dte, new { @class = "form-control control-text info datePicker", disabled = "disabled" })
@@ -230,7 +249,7 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Left Reason:
+                                                Left Reason
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.DropDownListFor(m => m.Employee.Left_Reason, new SelectList(Model.LeftReasonList.AsEnumerable(), "Id", "Troyvalues"), "", new { @class = "form-control control-text", disabled = "disabled" })
@@ -239,7 +258,7 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Date of Birth:
+                                                Date of Birth
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.DOB, new { @class = "form-control control-text info datePicker", disabled = "disabled" })
@@ -248,23 +267,14 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Marital Status:
+                                                Marital Status
                                             </div>
                                             <div class="col-md-8">
                                                 @*@Html.TextBoxFor(model => model.Employee.Marital_Status, new { @class = "form-control control-text info" })
-                                    @Html.ValidationMessageFor(model => model.Employee.Marital_Status)*@
+                                                    @Html.ValidationMessageFor(model => model.Employee.Marital_Status)*@
 
                                                 @Html.DropDownListFor(m => m.Employee.Marital_Status, new SelectList(Model.MaritalStatusList.AsEnumerable(), "Id", "Troyvalues"), "", new { @class = "form-control control-text", disabled = "disabled" })
                                                 @Html.ValidationMessageFor(model => model.Employee.Marital_Status)
-                                            </div>
-                                        </div>
-                                        <div class="row form-group">
-                                            <div class="col-md-4">
-                                                Gender:
-                                            </div>
-                                            <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.Employee.Gender_ID, new SelectList(Model.GenderList.AsEnumerable(), "Id", "Troyvalues"), "", new { @class = "form-control control-text", disabled = "disabled" })
-                                                @Html.ValidationMessageFor(model => model.Employee.Gender_ID)
                                             </div>
                                         </div>
                                     </div>
@@ -274,7 +284,16 @@
                                     <div class="form-horizontal">
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                No of Child:
+                                                Gender
+                                            </div>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.Employee.Gender_ID, new SelectList(Model.GenderList.AsEnumerable(), "Id", "Troyvalues"), "", new { @class = "form-control control-text", disabled = "disabled" })
+                                                @Html.ValidationMessageFor(model => model.Employee.Gender_ID)
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                No of Child
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.Noof_Children, new { @class = "form-control control-text info", disabled = "disabled" })
@@ -283,7 +302,7 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                ID Number:
+                                                ID Number
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.ID_Number, new { @class = "form-control control-text info", disabled = "disabled" })
@@ -292,7 +311,7 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Passport Number:
+                                                Passport Number
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.Passport_no, new { @class = "form-control control-text info", disabled = "disabled" })
@@ -301,7 +320,7 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Expiry Date:
+                                                Passport Expiry Date
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.Passport_Expiry_Dte, new { @class = "form-control control-text info datePicker", disabled = "disabled" })
@@ -309,14 +328,14 @@
                                             </div>
                                         </div>
                                         @*<div class="row form-group">
-                                <div class="col-md-4">
-                                    Photo:
-                                </div>
-                                <div class="col-md-8" >
-                                    @Html.TextBoxFor(model => model.Employee.Photo, new { @class = "form-control control-text info" })
-                                    @Html.ValidationMessageFor(model => model.Employee.Photo)
-                                </div>
-                            </div>*@
+                                                <div class="col-md-4">
+                                                    Photo:
+                                                </div>
+                                                <div class="col-md-8" >
+                                                    @Html.TextBoxFor(model => model.Employee.Photo, new { @class = "form-control control-text info" })
+                                                    @Html.ValidationMessageFor(model => model.Employee.Photo)
+                                                </div>
+                                            </div>*@
                                     </div>
                                 </div>
                             </div>
@@ -333,7 +352,7 @@
                                     <div class="col-md-6">
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Start Date:
+                                                Start Date
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.Start_Dte, new { @class = "form-control control-text info datePicker", @id = "editFinanctab", disabled = "disabled" })
@@ -342,7 +361,7 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Salary:
+                                                Salary
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.Salary, new { @class = "form-control control-text info", disabled = "disabled" })
@@ -351,16 +370,20 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                ETC:
+                                                ETC
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.ETC, new { @class = "form-control control-text info", disabled = "disabled" })
                                                 @Html.ValidationMessageFor(model => model.Employee.ETC)
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-horizontal">
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Bank Code:
+                                                Bank Code
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.Bank_Cde, new { @class = "form-control control-text info", disabled = "disabled" })
@@ -369,7 +392,7 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Bank Account Number:
+                                                Bank Account Number
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.Bank_Acc_No, new { @class = "form-control control-text info", disabled = "disabled" })
@@ -378,39 +401,11 @@
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Bank Branch Name:
+                                                Bank Branch Name
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.TextBoxFor(model => model.Employee.Bank_Branch_Name, new { @class = "form-control control-text info", disabled = "disabled" })
                                                 @Html.ValidationMessageFor(model => model.Employee.Bank_Branch_Name)
-                                            </div>
-                                        </div>
-                                        <div class="row form-group">
-                                            <div class="col-md-4">
-                                                Bank Remarks:
-                                            </div>
-                                            <div class="col-md-8">
-                                                @Html.TextBoxFor(model => model.Employee.Remarks, new { @class = "form-control control-text info", disabled = "disabled" })
-                                                @Html.ValidationMessageFor(model => model.Employee.Remarks)
-                                            </div>
-                                        </div>
-                                        <div class="row form-group">
-                                            <div class="col-md-4">
-                                                Remarks:
-                                            </div>
-                                            <div class="col-md-8">
-                                                @Html.TextBoxFor(model => model.Employee.Remarks, new { @class = "form-control control-text info", disabled = "disabled" })
-                                                @Html.ValidationMessageFor(model => model.Employee.Remarks)
-                                            </div>
-                                        </div>
-                                        <div class="row form-group">
-                                            <div class="col-md-4">
-                                                Is Active:
-                                            </div>
-                                            <div class="col-md-8">
-                                                @Html.RadioButtonFor(model => model.Employee.IsActive, "Y", new { id = "Y" }) YES
-                                                @Html.RadioButtonFor(model => model.Employee.IsActive, "N", new { id = "N" }) NO
-                                                @Html.ValidationMessageFor(model => model.Employee.IsActive)
                                             </div>
                                         </div>
                                     </div>

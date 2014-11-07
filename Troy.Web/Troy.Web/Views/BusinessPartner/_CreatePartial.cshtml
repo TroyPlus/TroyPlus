@@ -6,7 +6,7 @@
 
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Add BusinessPartner</h4>
+            <h4 class="modal-title" id="myModalLabel">Add Business Partner</h4>
         </div>
 
         <div class="modal-body">
@@ -30,7 +30,7 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Business Partner Name:
+                                            Business Partner Name
                                         </div>
                                         <div class="col-md-8" id="container1">
                                             @Html.TextBoxFor(model => model.BusinessPartner.BP_Name, new { @class = "form-control control-text info" })
@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Group Type:
+                                            Group Type
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Group_Type, new { @class = "form-control control-text" })
@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Group Id:
+                                            Group Id
                                         </div>
                                         <div class="col-md-8">
                                             @Html.DropDownListFor(m => m.BusinessPartner.Group_id, new SelectList(Model.GroupList.AsEnumerable(), "Group_Id", "Group_Name"), "", new { @class = "form-control control-text" })
@@ -57,7 +57,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Pricelist:
+                                            Pricelist
                                         </div>
                                         <div class="col-md-8">
                                             @Html.DropDownListFor(m => m.BusinessPartner.Pricelist_ID, new SelectList(Model.PricelistLists.AsEnumerable(), "PriceList_Id", "Price_List_Desc"), "", new { @class = "form-control control-text" })
@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Employee:
+                                            Employee
                                         </div>
                                         <div class="col-md-8">
                                             @Html.DropDownListFor(m => m.BusinessPartner.Emp_Id, new SelectList(Model.EmployeeList.AsEnumerable(), "Emp_Id", "First_Name"), "", new { @class = "form-control control-text" })
@@ -77,7 +77,7 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Branch:
+                                            Branch
                                         </div>
                                         <div class="col-md-8">
                                             @Html.DropDownListFor(m => m.BusinessPartner.Branch_id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
@@ -86,7 +86,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Remarks:
+                                            Remarks
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Remarks, new { @class = "form-control control-text" })
@@ -95,7 +95,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Control account id:
+                                            Control account id
                                         </div>
                                         <div class="col-md-8">
                                             @Html.DropDownListFor(m => m.BusinessPartner.Control_account_id, new SelectList(Model.GroupList.AsEnumerable(), "Control_Account_Id", "Group_Name"), "", new { @class = "form-control control-text" })
@@ -104,7 +104,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Opening Balance:
+                                            Opening Balance
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Opening_Balance, new { @class = "form-control control-text" })
@@ -113,7 +113,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Due date:
+                                            Due date
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Due_date, new { @class = "form-control control-text datePicker" })
@@ -136,7 +136,7 @@
                                 <div class="col-md-4">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Ship Address1:
+                                            Ship Address1
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Ship_Address1, new { @class = "form-control control-text", @id = "ShippingAddress1" })
@@ -145,7 +145,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Ship Address2:
+                                            Ship Address2
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Ship_address2, new { @class = "form-control control-text", @id = "ShippingAddress2" })
@@ -154,7 +154,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Ship Address3:
+                                            Ship Address3
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Ship_address3, new { @class = "form-control control-text", @id = "ShippingAddress3" })
@@ -163,25 +163,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Ship City:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Ship_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text", @id = "ShippingCity" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_City)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Ship State:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Ship_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "ShippingState" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_State)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Ship Country:
+                                            Ship Country
                                         </div>
                                         <div class="col-md-8">
                                             @Html.DropDownListFor(m => m.BusinessPartner.Ship_Country, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text", @id = "ShippingCountry" })
@@ -190,7 +172,25 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Ship PinCode:
+                                            Ship State
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(m => m.BusinessPartner.Ship_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "ShippingState" })
+                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_State)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            Ship City
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(m => m.BusinessPartner.Ship_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text", @id = "ShippingCity" })
+                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_City)
+                                        </div>
+                                    </div> 
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            Ship PinCode
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Ship_pincode, new { @class = "form-control control-text", @id = "ShippingPinCode" })
@@ -204,7 +204,7 @@
                                 <div class="col-md-4">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Bill Address1:
+                                            Bill Address1
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Bill_Address1, new { @class = "form-control control-text", @id = "BillingAddress1" })
@@ -213,7 +213,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Bill Address2:
+                                            Bill Address2
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Bill_address2, new { @class = "form-control control-text", @id = "BillingAddress2" })
@@ -222,7 +222,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Bill Address3:
+                                            Bill Address3
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Bill_address3, new { @class = "form-control control-text", @id = "BillingAddress3" })
@@ -231,25 +231,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Bill City:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Bill_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text", @id = "BillingCity" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_City)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Bill State:
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Bill_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "BillingState" })
-                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_State)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            Bill Country:
+                                            Bill Country
                                         </div>
                                         <div class="col-md-8">
                                             @Html.DropDownListFor(m => m.BusinessPartner.Bill_Country, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text", @id = "BillingCountry" })
@@ -258,7 +240,25 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Bill pincode:
+                                            Bill State
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(m => m.BusinessPartner.Bill_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "BillingState" })
+                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_State)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            Bill City
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(m => m.BusinessPartner.Bill_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text", @id = "BillingCity" })
+                                            @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_City)
+                                        </div>
+                                    </div>  
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            Bill pincode
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Bill_pincode, new { @class = "form-control control-text", @id = "BillingPinCode" })
@@ -269,7 +269,7 @@
                                 <div class="col-md-4">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Phone1:
+                                            Phone1
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Phone1, new { @class = "form-control control-text" })
@@ -278,7 +278,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Phone2:
+                                            Phone2
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Phone2, new { @class = "form-control control-text" })
@@ -287,7 +287,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Mobile:
+                                            Mobile
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Mobile, new { @class = "form-control control-text" })
@@ -296,7 +296,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Fax:
+                                            Fax
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Fax, new { @class = "form-control control-text" })
@@ -305,7 +305,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Email Address:
+                                            Email Address
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Email_Address, new { @class = "form-control control-text" })
@@ -314,7 +314,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Website:
+                                            Website
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Website, new { @class = "form-control control-text" })
@@ -323,7 +323,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Contact person:
+                                            Contact person
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Contact_person, new { @class = "form-control control-text" })
@@ -332,7 +332,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            Ship method:
+                                            Ship method
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.BusinessPartner.Ship_method, new { @class = "form-control control-text" })

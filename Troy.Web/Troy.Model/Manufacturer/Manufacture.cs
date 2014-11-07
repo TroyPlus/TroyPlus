@@ -43,7 +43,7 @@ namespace Troy.Model.Manufacturer
 
         //[Required]
         [Column(TypeName = "date")]
-        public DateTime Created_Dte { get; set; }
+        public DateTime? Created_Dte { get; set; }
 
         //[Required]
         public int Modified_User_Id { get; set; }
@@ -53,6 +53,6 @@ namespace Troy.Model.Manufacturer
 
         //[Required]
         [Column(TypeName = "date")]
-        public DateTime Modified_Dte { get; set; }
+        public DateTime? Modified_Dte { get; set; }
     }
 }
