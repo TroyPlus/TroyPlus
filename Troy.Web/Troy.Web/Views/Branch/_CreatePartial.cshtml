@@ -17,6 +17,7 @@
            
             $.getJSON('../Branch/StateList/' + $('#Country').val(), function (data) {
                 var items = '';
+                var item1 = '';
                 $.each(data, function (i, state) {
                     //var selectionOption = '';
                     //if (state.Value = '1') {
@@ -25,6 +26,7 @@
                     items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
                 });
                 $('#State').html(items);
+               $('#City').html(item1);
                 //$('#Country').val(1);
                 //$('#State').val(1);
                 //$('#City').val(1);
@@ -190,7 +192,7 @@
                                                 Country:
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.Branch.Country_ID, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name",1), "Select Country", new { @class = "form-control control-text", id = "Country" })
+                                                @Html.DropDownListFor(m => m.Branch.Country_ID, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "Select Country", new { @class = "form-control control-text", id = "Country" })
                                                 @Html.ValidationMessageFor(model => model.Branch.Country_ID)
                                             </div>
                                         </div>
@@ -200,7 +202,7 @@
                                                 State:
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.Branch.State_ID, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name",2), "Select State", new { @class = "form-control control-text", id = "State" })
+                                                @Html.DropDownListFor(m => m.Branch.State_ID, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "Select State", new { @class = "form-control control-text", id = "State" })
                                                 @Html.ValidationMessageFor(model => model.Branch.State_ID)
                                             </div>
                                         </div>
@@ -210,7 +212,7 @@
                                                 City:
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.Branch.City_ID, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name",1), "Select City", new { @class = "form-control control-text", id = "City" })
+                                                @Html.DropDownListFor(m => m.Branch.City_ID, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "Select City", new { @class = "form-control control-text", id = "City" })
                                                 @Html.ValidationMessageFor(model => model.Branch.City_ID)
                                             </div>
                                         </div>

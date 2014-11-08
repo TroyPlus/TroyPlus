@@ -23,7 +23,7 @@ namespace Troy.Model.AppMembership
 
         public int Branch_Id { get; set; }
 
-
+        public int Defaultbranch_Id { get; set; }
         //public int Branch_Id { get; set; }
         //public int Role_Id { get; set; }
 

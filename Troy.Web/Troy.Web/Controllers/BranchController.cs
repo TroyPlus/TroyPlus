@@ -543,7 +543,7 @@ namespace Troy.Web.Controllers
                 if (submitButton == "Save")
                 {
                     model.Branch.IsActive = "Y";
-                    model.Branch.Created_Branc_Id = 1;
+                    model.Branch.Created_Branc_Id = CurrentBranchId;
                     model.Branch.Created_Dte = DateTime.Now;
                     model.Branch.Created_User_Id = CurrentUser.Id;  //GetUserId()
                     //model.Branch.Modified_User_Id = 1;
@@ -692,7 +692,7 @@ namespace Troy.Web.Controllers
 
                         if (fileExtension == ".xls" || fileExtension == ".xlsx")
                         {
-                            string fileLocation = string.Format("{0}/{1}", Server.MapPath("~/App_Data/ExcelFiles"), fileName);
+                            string fileLocation = string.Format("{0}/{1}", Server.MapPath("~/Excel_File"), fileName);
 
                             if (System.IO.File.Exists(fileLocation))
                             {

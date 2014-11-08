@@ -38,6 +38,10 @@ namespace Troy.Web.Controllers
 
         private readonly ApplicationSignInManager SignInManager;
 
+        private ApplicationDbContext UserContext = new ApplicationDbContext();
+
+        private BranchContext BranchContext = new BranchContext();
+
         #endregion
 
         #region Constructor
@@ -81,10 +85,11 @@ namespace Troy.Web.Controllers
                     Email = model.Email,
                     Employee_Id = model.Employee_Id,
                     PasswordExpiryDate = model.PasswordExpiryDate,
+                    Defaultbranch_Id=model.Defaultbranch_Id,
                     IsActive = true,
                     Created_User_Id = CurrentUser.Id,
                     //Created_User_Id = 1,
-                    Created_Branch_Id = 1,
+                    Created_Branch_Id = CurrentBranchId,
                     Created_Date = DateTime.Now,
                    // Modified_User_Id = CurrentUser.Id,
                     //Modified_User_Id = 2,
@@ -95,7 +100,10 @@ namespace Troy.Web.Controllers
                   
                                                   
                 ApplicationUserRole userrole = new ApplicationUserRole();
-                userrole.RoleId =model.Role_Id;               
+                userrole.RoleId =model.Role_Id;
+                userrole.Created_User_Id=CurrentUser.Id;
+                userrole.Created_Branch_Id = CurrentBranchId;
+                userrole.Created_Date = DateTime.Now;
                 user.Roles.Add(userrole);
 
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -160,9 +168,10 @@ namespace Troy.Web.Controllers
                 user.UserName = model.UserName;
                 user.Email = model.Email;
                 user.Employee_Id = model.Employee_Id;
+                user.Defaultbranch_Id = model.Defaultbranch_Id;
                 user.IsActive = model.IsActive;
                 user.Modified_User_Id = CurrentUser.Id;                
-                user.Modified_Branch_Id = 1;
+                user.Modified_Branch_Id = CurrentBranchId;
                 user.Modified_Date = DateTime.Now;
             
 
@@ -170,9 +179,9 @@ namespace Troy.Web.Controllers
                 {
                     //user.Roles.FirstOrDefault().RoleId = model.Role_Id;
                     //user.Roles.FirstOrDefault().Modified_User_Id = CurrentUser.Id;
-                    ////user.Roles.FirstOrDefault().Modified_User_Id = 1;
-                    //user.Roles.FirstOrDefault().Modified_Branch_Id = 1;
-                    //user.Roles.FirstOrDefault().Modified_Date = DateTime.Now;
+                    user.Roles.FirstOrDefault().Modified_User_Id = CurrentUser.Id;
+                    user.Roles.FirstOrDefault().Modified_Branch_Id = CurrentBranchId;
+                    user.Roles.FirstOrDefault().Modified_Date = DateTime.Now;
                     
 
                     var result = await _userManager.UpdateAsync(user);
@@ -192,7 +201,7 @@ namespace Troy.Web.Controllers
                                    // Created_User_Id = CurrentUser.Id,
                                    // Created_Branch_Id = CurrentBranchId,
                                    // Created_Date = DateTime.Now,
-                                    Modified_User_Id = CurrentUser.Id,
+                                   Modified_User_Id = CurrentUser.Id,
                                     Modified_Branch_Id = CurrentBranchId,
                                     Modified_Date = DateTime.Now
                                 };
@@ -349,34 +358,24 @@ namespace Troy.Web.Controllers
 
 
 
+        public JsonResult submittedbranches(string branches)
+        {
+            // List<UserViewModels> qlist = new List<UserViewModels>();
+            var qlist = (from u in UserContext.Users
+                         join b in UserContext.userbranches
+                               on u.Defaultbranch_Id equals b.Branch_Id into u_b
+                         from ub in u_b.DefaultIfEmpty()
+                         where ub.Branch_Id.ToString() ==branches
+                         select u);
+            //var qlist = (from u in UserContext.Users
+            //           join b in UserContext.userbranches
+            //               on u.Defaultbranch_Id equals b.Branch_Id into u_b
+            //             from ub in u_b.DefaultIfEmpty()
+            //             where ub== branches
+            //             select u);
+            return Json(new SelectList(qlist.ToArray(), "Branch_Id", "Branch_Name"), JsonRequestBehavior.AllowGet);
+        }
 
-
-
-
-
-        //Check for dupilicate
-        //public JsonResult CheckForDuplication(ApplicationUser ApplicationUsers, [Bind(Prefix = "ApplicationUser.UserName")]string UserName, [Bind(Prefix = "ApplicationUsers.Email")]string Email)
-        //{
-
-        //    if (Email != null)
-        //    {
-        //        return Json(true, JsonRequestBehavior.AllowGet);
-        //    }
-        //    else
-        //    {
-
-        //        var data = userDb.CheckDuplicateName(UserName);
-        //        if (data != null)
-        //        {
-        //            return Json("Sorry, UserName already exists", JsonRequestBehavior.AllowGet);
-        //        }
-        //        else
-        //        {
-        //            return Json(true, JsonRequestBehavior.AllowGet);
-        //        }
-
-        //    }
-        //}
 
 
       
@@ -455,6 +454,7 @@ namespace Troy.Web.Controllers
                     UserViewModels model = new UserViewModels();
                     model.UserName = CurrentEditingUser.UserName;
                     model.Id = CurrentEditingUser.Id;
+                    model.Defaultbranch_Id = CurrentEditingUser.Defaultbranch_Id;
                     model.Email = CurrentEditingUser.Email;
                     model.Role_Id = CurrentEditingUser.Role_Id;
                     model.IsActive = CurrentEditingUser.IsActive;

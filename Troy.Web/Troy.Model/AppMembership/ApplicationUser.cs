@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Troy.Model.Branches;
 
 namespace Troy.Model.AppMembership
 {
@@ -34,6 +35,10 @@ namespace Troy.Model.AppMembership
      
         public int Employee_Id { get; set; }
 
+
+        public int Defaultbranch_Id { get; set; }
+
+       // public virtual ICollection<UserBranches> branch_Id { get; set; }
         //public int Branch_Id { get; set; }
 
         //public int Role_Id { get; set; }
