@@ -28,13 +28,13 @@ namespace Troy.Model.Branches
         public int Created_Branc_Id { get; set; }
 
        
-        public DateTime Created_Dte { get; set; }
+        public DateTime? Created_Dte { get; set; }
 
         public int Modified_User_Id { get; set; }
        
         public int Modified_Branch_Id { get; set; }
     
-        public DateTime Modified_Dte { get; set; }
+        public DateTime? Modified_Dte { get; set; }
 
         public string Country_Name { get; set; }
         public string State_Name { get; set; }

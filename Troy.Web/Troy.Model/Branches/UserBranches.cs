@@ -28,6 +28,8 @@ namespace Troy.Model.Branches
         public int Branch_Id { get; set; }
 
         public virtual Branch branch { get; set; }
+
+    //    public virtual ICollection<UserBranches> defaultbranches { get; set; }
         //------------
 
 

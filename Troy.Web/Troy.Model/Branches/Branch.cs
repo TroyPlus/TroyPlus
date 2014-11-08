@@ -87,7 +87,7 @@ namespace Troy.Model.Branches
 
         [Required]
         [Column(TypeName = "date")]
-        public DateTime Created_Dte { get; set; }
+        public DateTime? Created_Dte { get; set; }
 
         
         public int Modified_User_Id { get; set; }
@@ -97,7 +97,7 @@ namespace Troy.Model.Branches
 
         
         [Column(TypeName = "date")]
-        public DateTime Modified_Dte { get; set; }
+        public DateTime? Modified_Dte { get; set; }
 
 
         //public  ICollection<UserBranches> branches

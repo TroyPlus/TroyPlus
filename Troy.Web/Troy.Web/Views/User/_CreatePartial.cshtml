@@ -3,8 +3,29 @@
 <script type="text/javascript">
     $(function () {
         $(".multiselect").multiselect({ selectedList: 4,noneSelectedText: 'Select branches',header: false });
+  
+    
+    $('#Branches').change(function () {
+        alert($('#Branches').val());
+        // alert('Test');
+        $.getJSON('../User/submittedbranches/' + $('#Branches').val(), function (data) {
+               //alert($('#Branches').val());
+            // alert('test sucess');
+            // var items = "$('#Branches')";
+            var items = '<option>Select a Branch</option>';
+            $.each(data, function (i, qlist) {
+                items += "<option  value='" + qlist.Value + "'>" + qlist.Text + "</option>";
+            });
+            $('#Defaultbranch').html(items);
+        });
     });
+
+
+    });
+
+
 </script>
+
 
 
 <div class="modal-dialog modal-lg">
@@ -107,7 +128,7 @@
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.DropDownListFor(m => m.SubmittedBranches, new MultiSelectList(Model.branchlist.AsEnumerable(),
-                                                            "Branch_Id", "Branch_Name"), new { multiple = "multiple", @class = "form-control control-text" })
+                                                                     "Branch_Id", "Branch_Name"), new { multiple = "multiple", @class = "form-control control-text", @id = "Branches" })
                                                 @*@Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { multiple = "multiple", @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.Branch_Id, "", new { @class = "text-danger" })*@
                                                 @Html.ValidationMessageFor(model => model.SubmittedBranches, "", new { @class = "text-danger" })
@@ -119,8 +140,8 @@
                                                 @Html.Label("Default branch", new { @class = "control-label normal  pull-left" })
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.Branch_Id, "", new { @class = "text-danger" })
+                                                @Html.DropDownListFor(m => m.Defaultbranch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text", @id = "Defaultbranch" })
+                                                @Html.ValidationMessageFor(model => model.Defaultbranch_Id, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>

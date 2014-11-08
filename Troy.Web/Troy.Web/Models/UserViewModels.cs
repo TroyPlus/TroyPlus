@@ -59,6 +59,10 @@ namespace Troy.Web.Models
         [Display(Name = "Branch")]
         public int Branch_Id { get; set; }
 
+
+        [Display(Name = "DefaultBranch")]
+        public int Defaultbranch_Id { get; set; }
+
         public List<EmployeeList> employeelist { get; set; }
         public List<BranchList> branchlist { get; set; }
         public List<ApplicationRole> rolelist { get; set; }
