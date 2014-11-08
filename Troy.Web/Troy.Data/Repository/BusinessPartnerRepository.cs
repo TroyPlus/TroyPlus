@@ -104,10 +104,10 @@ namespace Troy.Data.Repository
                          Opening_Balance = item.Opening_Balance,
                          Due_date = item.Due_date,
                          Created_Branc_Id = item.Created_Branc_Id,
-                         Created_Dte = item.Created_Dte,
+                         //Created_Dte = item.Created_Dte,
                          Created_User_Id = item.Created_User_Id,
                          Modified_Branch_Id = item.Modified_Branch_Id,
-                         Modified_Dte = item.Modified_Dte,
+                         //Modified_Dte = item.Modified_Dte,
                          Modified_User_Id = item.Modified_User_Id
                      }).ToList();
 

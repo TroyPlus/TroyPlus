@@ -92,10 +92,10 @@ namespace Troy.Data.Repository
                          IsActive = item.IsActive,
                          Created_User_Id = item.Created_User_Id,
                          Created_Branc_Id = item.Created_Branc_Id,
-                         Created_Dte = item.Created_Dte,
+                         //Created_Dte = item.Created_Dte,
                          Modified_User_Id = item.Modified_User_Id,
                          Modified_Branch_Id = item.Modified_Branch_Id,
-                         Modified_Dte = item.Modified_Dte,
+                         //Modified_Dte = item.Modified_Dte,
                          Image_Url = item.Image_Url
                      }).ToList();
 
@@ -252,6 +252,7 @@ namespace Troy.Data.Repository
 
                 return true;
             }
+
             catch (Exception ex)
             {
                 ExceptionHandler.LogException(ex);
@@ -379,6 +380,20 @@ namespace Troy.Data.Repository
                             Troyvalues = a.Troyvalues
                         }).ToList();
             return item;
+        }
+
+        public List<EmployeeList> GetManagerName()
+        {
+            var item = (from a in employeecontext.Employee
+                        join de in employeecontext.Designation
+                        on a.Designation_Id equals de.Designation_Id                        
+                        where de.Designation_Name == "Manager"
+                        select new EmployeeList
+                        {
+                            Emp_Id = a.Emp_Id,
+                            First_Name = a.First_Name
+                        }).ToList();
+            return item;            
         }
 
         public List<InitialList> GetInitialList()

@@ -47,6 +47,8 @@ namespace Troy.Data.Repository
 
         List<InitialList> GetInitialList();
 
+        List<EmployeeList> GetManagerName();
+
         Branch CheckBranchName(string bname);
 
         Designation CheckDesignationName(string dname);

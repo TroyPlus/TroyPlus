@@ -89,7 +89,7 @@ namespace Troy.Model.Employees
 
         [Required]
         [StringLength(15)]
-        [RegularExpression(@"^[0-9'' ']+$", ErrorMessage = @"Special characters ( ,@/)(=][|\!`’%$#^”&* ) are not allowed in the name.")]
+        [RegularExpression(@"^[0-9'' ']+$", ErrorMessage = @"Special characters and letters are not allowed in the Mobile No.")]
         public string Mobile_number { get; set; }
         //----------
 
@@ -172,30 +172,30 @@ namespace Troy.Model.Employees
         public string IsActive { get; set; }
         //------
 
-        [Required]
+        //[Required]
         public int Created_User_Id { get; set; }
         //------
 
-        [Required]
+        //[Required]
         public int Created_Branc_Id { get; set; }
         //------
 
-        [Required]
+        //[Required]
         [Column(TypeName = "date")]
-        public DateTime Created_Dte { get; set; }
+        public DateTime? Created_Dte { get; set; }
         //------
 
-        [Required]
+        //[Required]
         public int Modified_User_Id { get; set; }
         //------
 
-        [Required]
+        //[Required]
         public int Modified_Branch_Id { get; set; }
         //------
 
-        [Required]
+        //[Required]
         [Column(TypeName = "date")]
-        public DateTime Modified_Dte { get; set; }
+        public DateTime? Modified_Dte { get; set; }
         //------
 
         [StringLength(100)]

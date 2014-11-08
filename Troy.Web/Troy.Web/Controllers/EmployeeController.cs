@@ -75,6 +75,10 @@ namespace Troy.Web.Controllers
                 var InitialList = employeeRepository.GetInitialList().ToList();
                 model.InitialList = InitialList;
 
+                //Bind Manager
+                var ManagernameList = employeeRepository.GetManagerName().ToList();
+                model.GetManagerNameList = ManagernameList;
+
                 return View(model);
             }
             catch (Exception ex)
@@ -1898,6 +1902,9 @@ namespace Troy.Web.Controllers
                 var InitialList = employeeRepository.GetInitialList().ToList();
                 model.InitialList = InitialList;
 
+                //Bind Manager
+                var ManagernameList = employeeRepository.GetManagerName().ToList();
+                model.GetManagerNameList = ManagernameList;
 
                 return PartialView(model);
             }
@@ -1947,6 +1954,10 @@ namespace Troy.Web.Controllers
                 //Bind Initial
                 var InitialList = employeeRepository.GetInitialList().ToList();
                 model.InitialList = InitialList;
+
+                //Bind Manager
+                var ManagernameList = employeeRepository.GetManagerName().ToList();
+                model.GetManagerNameList = ManagernameList;
 
                 return PartialView(model);
             }
