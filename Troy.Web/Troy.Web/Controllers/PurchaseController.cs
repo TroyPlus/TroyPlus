@@ -75,20 +75,20 @@ namespace Troy.Web.Controllers
             {
                 string vendor;
 
-                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+                //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
                 if (submitButton == "Save")
                 {
-                    vendor = Request.Form["PurchaseQuotation.Vendor_Code"].ToString();
-                    model.PurchaseQuotation.Vendor_Code = Convert.ToInt32(vendor.Remove(0,1));
+                    //vendor = Request.Form["PurchaseQuotation.Vendor_Code"].ToString();
+                    //model.PurchaseQuotation.Vendor_Code = Convert.ToInt32(vendor.Remove(0,1));
                     model.PurchaseQuotation.Quotation_Status = "Open";
-                    model.PurchaseQuotation.Created_Branc_Id = currentUser.Created_Branch_Id; 
+                    model.PurchaseQuotation.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
                     model.PurchaseQuotation.Created_Date = DateTime.Now;
-                    model.PurchaseQuotation.Created_User_Id = currentUser.Created_User_Id;  //GetUserId()
-                    model.PurchaseQuotation.Creating_Branch = currentUser.Created_Branch_Id; ;  //GetBranch 
-                    model.PurchaseQuotation.Modified_User_Id = currentUser.Modified_User_Id;
+                    model.PurchaseQuotation.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
+                    model.PurchaseQuotation.Creating_Branch = 1;//currentUser.Created_Branch_Id; ;  //GetBranch 
+                    model.PurchaseQuotation.Modified_User_Id = 1;//currentUser.Modified_User_Id;
                     model.PurchaseQuotation.Modified_Date = DateTime.Now;
-                    model.PurchaseQuotation.Modified_Branch_Id = currentUser.Modified_Branch_Id; 
+                    model.PurchaseQuotation.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
                     //model.PurchaseQuotation.Posting_Date = DateTime.Now;
 
                     var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
@@ -96,23 +96,23 @@ namespace Troy.Web.Controllers
 
                     for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
                     {
-                        model.PurchaseQuotationItemList[i].Created_Branc_Id = currentUser.Created_Branch_Id;
+                        model.PurchaseQuotationItemList[i].Created_Branc_Id = 1;//currentUser.Created_Branch_Id;
                         model.PurchaseQuotationItemList[i].Created_Date = DateTime.Now;
-                        model.PurchaseQuotationItemList[i].Created_User_Id = currentUser.Created_User_Id;  //GetUserId()
-                        model.PurchaseQuotationItemList[i].Modified_Branch_Id = currentUser.Modified_Branch_Id;
+                        model.PurchaseQuotationItemList[i].Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
+                        model.PurchaseQuotationItemList[i].Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id;
                         model.PurchaseQuotationItemList[i].Modified_Date = DateTime.Now;
-                        model.PurchaseQuotationItemList[i].Modified_User_Id = currentUser.Modified_User_Id;
+                        model.PurchaseQuotationItemList[i].Modified_User_Id = 1;//currentUser.Modified_User_Id;
                         model.PurchaseQuotationItemList[i].Quoted_qty = 10; //GetQuantity()
                         model.PurchaseQuotationItemList[i].Quoted_date = DateTime.Now;
                     }
 
                     if (purchaseDb.AddNewQuotation(model.PurchaseQuotation, model.PurchaseQuotationItemList, ref ErrorMessage))
                     {
-                        XMLGenerate_SAPInsert(model.PurchaseQuotation);
-                        for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
-                        {
-                            XMLGenerate_Quotation_SAPInsert(model.PurchaseQuotationItemList[i]);
-                        }
+                        XMLGenerate_SAPInsert(model);
+                        //for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
+                        //{
+                        //    XMLGenerate_Quotation_SAPInsert(model.PurchaseQuotationItemList[i]);
+                        //}
                         return RedirectToAction("Index", "Purchase");
                     }
                     else
@@ -123,35 +123,35 @@ namespace Troy.Web.Controllers
                 }
                 else if (submitButton == "Update")
                 {
-                    vendor = Request.Form["PurchaseQuotation.Vendor_Code"].ToString();
-                    model.PurchaseQuotation.Vendor_Code = Convert.ToInt32(vendor.Remove(0, 1));
+                    //vendor = Request.Form["PurchaseQuotation.Vendor_Code"].ToString();
+                    //model.PurchaseQuotation.Vendor_Code = Convert.ToInt32(vendor.Remove(0, 1));
                     Temp_Purchase = Convert.ToString(TempData["oldPurchaseQuotation_Name"]);
-                    model.PurchaseQuotation.Created_Branc_Id = currentUser.Created_Branch_Id; 
+                    model.PurchaseQuotation.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
                     model.PurchaseQuotation.Created_Date = DateTime.Now;
-                    model.PurchaseQuotation.Created_User_Id = currentUser.Created_User_Id;  //GetUserId()
-                    model.PurchaseQuotation.Creating_Branch = currentUser.Created_Branch_Id;  //GetBranch 
-                    model.PurchaseQuotation.Modified_User_Id = currentUser.Modified_User_Id;
+                    model.PurchaseQuotation.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
+                    model.PurchaseQuotation.Creating_Branch = 1;//currentUser.Created_Branch_Id;  //GetBranch 
+                    model.PurchaseQuotation.Modified_User_Id = 1;//currentUser.Modified_User_Id;
                     model.PurchaseQuotation.Modified_Date = DateTime.Now;
-                    model.PurchaseQuotation.Modified_Branch_Id = currentUser.Modified_Branch_Id; 
+                    model.PurchaseQuotation.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
 
                     //var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
                     //model.PurchaseQuotationItemList = QuotationList.ToList();
 
                     for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
                     {
-                        model.PurchaseQuotationItemList[i].Created_Branc_Id = currentUser.Created_Branch_Id; 
+                        model.PurchaseQuotationItemList[i].Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
                         model.PurchaseQuotationItemList[i].Created_Date = DateTime.Now;
-                        model.PurchaseQuotationItemList[i].Created_User_Id = currentUser.Created_User_Id;  //GetUserId()
-                        model.PurchaseQuotationItemList[i].Modified_Branch_Id = currentUser.Modified_Branch_Id;
+                        model.PurchaseQuotationItemList[i].Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
+                        model.PurchaseQuotationItemList[i].Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id;
                         model.PurchaseQuotationItemList[i].Modified_Date = DateTime.Now;
-                        model.PurchaseQuotationItemList[i].Modified_User_Id = currentUser.Modified_User_Id;
+                        model.PurchaseQuotationItemList[i].Modified_User_Id = 1;//currentUser.Modified_User_Id;
                         model.PurchaseQuotationItemList[i].Quoted_qty = 10; //GetQuantity()
                         model.PurchaseQuotationItemList[i].Quoted_date = DateTime.Now;
                     }
 
                     if (purchaseDb.UpdateQuotation(model.PurchaseQuotation, model.PurchaseQuotationItemList, ref ErrorMessage))
                     {
-                        XMLGenerate_SAPUpdate(model.PurchaseQuotation);                       
+                        XMLGenerate_SAPUpdate(model);                       
 
                         return RedirectToAction("Index", "Purchase");
                     }
@@ -216,6 +216,7 @@ namespace Troy.Web.Controllers
         #endregion
 
         #region Partial Views
+
         public PartialViewResult _CreatePartial()
         {
             return PartialView();
@@ -261,33 +262,28 @@ namespace Troy.Web.Controllers
                 return PartialView("Error");
             }
         }
+
         #endregion
 
         #region Methods
 
-        private void XMLGenerate_SAPInsert(PurchaseQuotation model)
+        private void XMLGenerate_SAPInsert(PurchaseViewModels model)
         {
             try
             {
-                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+                //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
                 //unique id generation
                 Guid GuidRandomNo = Guid.NewGuid();
                 string UniqueID = GuidRandomNo.ToString();
 
                 //fill view model
-                Viewmodel_AddPurchaseQuotation xmlAddPurchaseQuotation = new Viewmodel_AddPurchaseQuotation();
-                xmlAddPurchaseQuotation.UniqueID = UniqueID.ToString();
-                xmlAddPurchaseQuotation.PurchaseQuotation_Name = model.Vendor_Code.ToString();
-                xmlAddPurchaseQuotation.CreatedUser = currentUser.Created_User_Id.ToString();
-                xmlAddPurchaseQuotation.CreatedBranch = currentUser.Created_Branch_Id.ToString();
-                xmlAddPurchaseQuotation.CreatedDateTime = DateTime.Now.ToString();
-                xmlAddPurchaseQuotation.LastModifyUser = currentUser.Modified_User_Id.ToString();
-                xmlAddPurchaseQuotation.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
-                xmlAddPurchaseQuotation.LastModifyDateTime = DateTime.Now.ToString();
+                AddPurchaseQtn_XML xmlAddPurchaseQtn = new AddPurchaseQtn_XML();
 
+                xmlAddPurchaseQtn.Viewmodel_AddPurchaseQuotation = GetXmlPurchaseQtn(model.PurchaseQuotation);
+                xmlAddPurchaseQtn.Viewmodel_AddPurchaseQuotationItemList = GetXmlPurchaseQtnItem(model.PurchaseQuotationItemList);
                 //generate xml
-                purchaseDb.GenerateXML(xmlAddPurchaseQuotation, UniqueID.ToString(), "Purchase");
+                purchaseDb.GenerateXML(xmlAddPurchaseQtn, UniqueID.ToString(), "Purchase");
             }
             catch (Exception ex)
             {
@@ -296,27 +292,30 @@ namespace Troy.Web.Controllers
             }
         }
 
-        private void XMLGenerate_SAPUpdate(PurchaseQuotation model)
+        private void XMLGenerate_SAPUpdate(PurchaseViewModels model)
         {
             try
             {
-                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+                //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
                 //unique id generation
                 Guid GuidRandomNo = Guid.NewGuid();
                 string UniqueID = GuidRandomNo.ToString();
 
                 //fill viewmodel
-                Viewmodel_ModifyPurchaseQuotation xmlEditPurchaseQuotation = new Viewmodel_ModifyPurchaseQuotation();
-                xmlEditPurchaseQuotation.UniqueID = UniqueID.ToString();
-                xmlEditPurchaseQuotation.Old_PurchaseQuotation_Name = Temp_Purchase.ToString().Trim();
-                xmlEditPurchaseQuotation.New_PurchaseQuotation_Name = model.Vendor_Code.ToString();
-                xmlEditPurchaseQuotation.CreatedUser = currentUser.Created_User_Id.ToString();
-                xmlEditPurchaseQuotation.CreatedBranch = currentUser.Created_Branch_Id.ToString();
-                xmlEditPurchaseQuotation.CreatedDateTime = DateTime.Now.ToString();
-                xmlEditPurchaseQuotation.LastModifyUser = currentUser.Modified_User_Id.ToString();
-                xmlEditPurchaseQuotation.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
-                xmlEditPurchaseQuotation.LastModifyDateTime = DateTime.Now.ToString();
+                ModifyPurchaseQtn_XML xmlEditPurchaseQuotation = new ModifyPurchaseQtn_XML();
+                //xmlEditPurchaseQuotation.UniqueID = UniqueID.ToString();
+                //xmlEditPurchaseQuotation.Old_PurchaseQuotation_Name = Temp_Purchase.ToString().Trim();
+                //xmlEditPurchaseQuotation.New_PurchaseQuotation_Name = model.Vendor_Code.ToString();
+                //xmlEditPurchaseQuotation.CreatedUser = "";//currentUser.Created_User_Id.ToString();
+                //xmlEditPurchaseQuotation.CreatedBranch = "";//currentUser.Created_Branch_Id.ToString();
+                //xmlEditPurchaseQuotation.CreatedDateTime = DateTime.Now.ToString();
+                //xmlEditPurchaseQuotation.LastModifyUser = "";//currentUser.Modified_User_Id.ToString();
+                //xmlEditPurchaseQuotation.LastModifyBranch = "";//currentUser.Modified_Branch_Id.ToString();
+                //xmlEditPurchaseQuotation.LastModifyDateTime = DateTime.Now.ToString();
+
+                xmlEditPurchaseQuotation.Viewmodel_ModifyPurchaseQuotation = GetXmlPurchaseQtn(model.PurchaseQuotation);
+                xmlEditPurchaseQuotation.Viewmodel_ModifyPurchaseQuotationItemList = GetXmlPurchaseQtnItem(model.PurchaseQuotationItemList);
 
                 //generate xml
                 purchaseDb.GenerateXML(xmlEditPurchaseQuotation, UniqueID.ToString(), "Purchase");
@@ -332,7 +331,7 @@ namespace Troy.Web.Controllers
         {
             try
             {
-                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+                //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
                 //unique id generation
                 Guid GuidRandomNo = Guid.NewGuid();
@@ -340,14 +339,14 @@ namespace Troy.Web.Controllers
 
                 //fill view model
                 Viewmodel_AddPurchaseQuotationItem xmlAddPurchaseQuotationItem = new Viewmodel_AddPurchaseQuotationItem();
-                xmlAddPurchaseQuotationItem.UniqueID = UniqueID.ToString();
-                xmlAddPurchaseQuotationItem.PurchaseQuotation_Item_Name = model.Product_id.ToString();
-                xmlAddPurchaseQuotationItem.CreatedUser = currentUser.Created_User_Id.ToString();
-                xmlAddPurchaseQuotationItem.CreatedBranch = currentUser.Created_Branch_Id.ToString();
-                xmlAddPurchaseQuotationItem.CreatedDateTime = DateTime.Now.ToString();
-                xmlAddPurchaseQuotationItem.LastModifyUser = currentUser.Modified_User_Id.ToString();
-                xmlAddPurchaseQuotationItem.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
-                xmlAddPurchaseQuotationItem.LastModifyDateTime = DateTime.Now.ToString();
+                //xmlAddPurchaseQuotationItem.UniqueID = UniqueID.ToString();
+                //xmlAddPurchaseQuotationItem.PurchaseQuotation_Item_Name = model.Product_id.ToString();
+                //xmlAddPurchaseQuotationItem.CreatedUser = "";//currentUser.Created_User_Id.ToString();
+                //xmlAddPurchaseQuotationItem.CreatedBranch = "";//currentUser.Created_Branch_Id.ToString();
+                //xmlAddPurchaseQuotationItem.CreatedDateTime = DateTime.Now.ToString();
+                //xmlAddPurchaseQuotationItem.LastModifyUser = "";//currentUser.Modified_User_Id.ToString();
+                //xmlAddPurchaseQuotationItem.LastModifyBranch = "";//currentUser.Modified_Branch_Id.ToString();
+                //xmlAddPurchaseQuotationItem.LastModifyDateTime = DateTime.Now.ToString();
 
                 //generate xml
                 purchaseDb.GenerateXML(xmlAddPurchaseQuotationItem, UniqueID.ToString(), "PurchaseQuotation");
@@ -363,7 +362,7 @@ namespace Troy.Web.Controllers
         {
             try
             {
-                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+                //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
                 //unique id generation
                 Guid GuidRandomNo = Guid.NewGuid();
@@ -371,15 +370,15 @@ namespace Troy.Web.Controllers
 
                 //fill viewmodel
                 Viewmodel_ModifyPurchaseQuotationItem xmlEditPurchaseQuotationItem = new Viewmodel_ModifyPurchaseQuotationItem();
-                xmlEditPurchaseQuotationItem.UniqueID = UniqueID.ToString();
-                xmlEditPurchaseQuotationItem.Old_PurchaseQuotation_Item_Name = model.Product_id.ToString();
-                xmlEditPurchaseQuotationItem.New_PurchaseQuotation_Item_Name = model.Product_id.ToString();
-                xmlEditPurchaseQuotationItem.CreatedUser = currentUser.Created_User_Id.ToString();
-                xmlEditPurchaseQuotationItem.CreatedBranch = currentUser.Created_Branch_Id.ToString();
-                xmlEditPurchaseQuotationItem.CreatedDateTime = DateTime.Now.ToString();
-                xmlEditPurchaseQuotationItem.LastModifyUser = currentUser.Modified_User_Id.ToString();
-                xmlEditPurchaseQuotationItem.LastModifyBranch = currentUser.Modified_Branch_Id.ToString();
-                xmlEditPurchaseQuotationItem.LastModifyDateTime = DateTime.Now.ToString();
+                //xmlEditPurchaseQuotationItem.UniqueID = UniqueID.ToString();
+                //xmlEditPurchaseQuotationItem.Old_PurchaseQuotation_Item_Name = model.Product_id.ToString();
+                //xmlEditPurchaseQuotationItem.New_PurchaseQuotation_Item_Name = model.Product_id.ToString();
+                //xmlEditPurchaseQuotationItem.CreatedUser = "";//currentUser.Created_User_Id.ToString();
+                //xmlEditPurchaseQuotationItem.CreatedBranch = "";// currentUser.Created_Branch_Id.ToString();
+                //xmlEditPurchaseQuotationItem.CreatedDateTime = DateTime.Now.ToString();
+                //xmlEditPurchaseQuotationItem.LastModifyUser = "";//currentUser.Modified_User_Id.ToString();
+                //xmlEditPurchaseQuotationItem.LastModifyBranch = "";//currentUser.Modified_Branch_Id.ToString();
+                //xmlEditPurchaseQuotationItem.LastModifyDateTime = DateTime.Now.ToString();
 
                 //generate xml
                 purchaseDb.GenerateXML(xmlEditPurchaseQuotationItem, UniqueID.ToString(), "PurchaseQuotation");
@@ -391,6 +390,55 @@ namespace Troy.Web.Controllers
             }
         }
 
+        private Viewmodel_AddPurchaseQuotation GetXmlPurchaseQtn(PurchaseQuotation model)
+        {
+            Viewmodel_AddPurchaseQuotation Xmlqtn = new Viewmodel_AddPurchaseQuotation();
+            Xmlqtn.TroyPQtnId = model.Purchase_Quote_Id.ToString();
+            Xmlqtn.BPCode = model.Vendor_Code.ToString();
+            Xmlqtn.RefNo = model.Reference_Number;
+            Xmlqtn.TroyPQtnStatus = model.Quotation_Status;
+            Xmlqtn.PostingDate = model.Posting_Date.ToString();
+            Xmlqtn.ValidDate = model.Valid_Date.ToString();
+            Xmlqtn.RequiredDate = model.Required_Date.ToString();
+            Xmlqtn.BranchCode = model.Ship_To.ToString();
+            Xmlqtn.Freight = model.Fright.ToString();
+            Xmlqtn.Loading = model.Loading.ToString();
+            Xmlqtn.TotalBefDocDisc = "";
+            Xmlqtn.DocDiscAmt = "";
+            Xmlqtn.TaxAmt = "";
+            Xmlqtn.TotalQtnAmt = "";
+            Xmlqtn.Remarks = model.Remarks;
+            Xmlqtn.CreatedUser = "";
+            Xmlqtn.CreatedBranch = "";
+            Xmlqtn.CreatedDate = "";
+            Xmlqtn.ModifiedBranch = "";
+            Xmlqtn.ModifiedDate = "";
+
+            return Xmlqtn;
+        }
+
+        private List<Viewmodel_AddPurchaseQuotationItem> GetXmlPurchaseQtnItem(IList<PurchaseQuotationItem> model)
+        {
+            List<Viewmodel_AddPurchaseQuotationItem> XmlQtnList = new List<Viewmodel_AddPurchaseQuotationItem>();
+
+            for (int i = 0; i < model.Count; i++)
+            {
+                Viewmodel_AddPurchaseQuotationItem item = new Viewmodel_AddPurchaseQuotationItem();
+                item.ProductCode = model[i].Product_id.ToString();
+                item.RequiredDate = model[i].Required_date.ToString();
+                item.RequiredQty = model[i].Required_qty.ToString();
+                item.QuotedDate = "";
+                item.QuotedQty = "";
+                item.DiscountPercent = model[i].Discount_percent.ToString();
+                item.TaxCode = "";
+                item.UnitPrice = model[i].Unit_price.ToString();
+                item.LineTotal = model[i].Amount.ToString();
+                XmlQtnList.Add(item);
+            }
+
+            return XmlQtnList;
+        }
+        
         public bool UploadExcelData(string fileExtension, string fileName, ref string returnMessage)
         {
             try

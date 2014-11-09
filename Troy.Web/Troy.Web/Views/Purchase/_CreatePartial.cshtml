@@ -33,9 +33,9 @@
                                                     @Html.LabelFor(m => m.PurchaseQuotation.Vendor_Code, new { @class = "control-label normal" })
                                                 </div>
                                                 <div class="col-md-8">
-
-                                                    @Html.DropDownListFor(m => m.PurchaseQuotation.Vendor_Code, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), new { @id = "typeahead", @size = 12 })
-
+                                                    @*, new { @id = "typeahead", @size = 12 }*@
+                                                    @Html.DropDownListFor(m => m.PurchaseQuotation.Vendor_Code, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text" } )
+                                                    
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Vendor_Code)
                                                 </div>
                                             </div>
@@ -213,7 +213,7 @@
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Discount_percent)
                                                 </td>
                                                 <td>
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Amount, new { @class = "form-control control-text" })
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Amount, new { @class = "form-control control-text", @readonly = true})
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Amount)
                                                 </td>
                                                 <td>
@@ -221,24 +221,27 @@
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Vat_Code)
                                                 </td>
                                                 <td style="width: 90px;">
-                                                    <input class="BtnPlus btn pull-left" type="button" value="+" />
-                                                    @*<input class="BtnMinus btn pull-left" type="button" value="-" />*@
+                                                    <input class="BtnPlus btn pull-left" type="button" value="+" />                                                    
+                                                    @*<input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />*@
                                                 </td>
                                             </tr>
+                                                
                                             }
                                         </tbody>
                                     </table>
 
                                 </div>
 
-                                <div class="row" style="float:right;">
-                                    Total :<span> 100.00</span>
-                                </div>
+                                
 
                                 <div class="modal-footer">                                    
                                     <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
                                     <button class="btn pull-left" data-dismiss="modal">Close</button>
                                     @*@Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })*@
+
+                                    <div class="row" style="float:right;">
+                                    Total : <span id="totalPurchase">0</span>
+                                </div>
 
                                 </div>
 
