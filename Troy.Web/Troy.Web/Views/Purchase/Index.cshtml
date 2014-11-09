@@ -6,7 +6,6 @@
 
 
 <script type="text/javascript">
-    var i = 0;
 
     $(document).ready(function () {
 
@@ -18,9 +17,9 @@
         $("#productTypeahead").jAutochecklist({
             width: 135,
             listMaxHeight: 50
-        });
+            });
 
-        i = 1;
+        var i = 1;
 
         //Dynamically add quotation row
         function addRow() {
@@ -52,14 +51,14 @@
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
                         '</td>' +
                         '<td>' +
-                            '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="PurchaseQuotationItemList_' + i + '__Discount_percent" name="PurchaseQuotationItemList[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-required="The Discount_percent field is required." id="PurchaseQuotationItemList_' + i + '__Discount_percent" name="PurchaseQuotationItemList[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
                         '</td>' +
                         '<td>' +
-                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseQuotationItemList_' + i + '__Amount" name="PurchaseQuotationItemList[' + i + '].Amount" readonly="True" type="text" value="">' +
+                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseQuotationItemList_'+ i +'__Amount" name="PurchaseQuotationItemList['+ i +'].Amount" type="text" value="">'+
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Amount" data-valmsg-replace="true"></span>' +
                         '</td>' +
-                        '<td>' +
+                        '<td>'+
                             '<input class="form-control control-text" data-val="true" data-val-number="The field VAT Code must be a number." data-val-required="The VAT Code field is required." id="PurchaseQuotationItemList_' + i + '__Vat_Code" name="PurchaseQuotationItemList[' + i + '].Vat_Code" type="text" value="">' +
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
                         '</td>' +
@@ -77,21 +76,16 @@
             i++;
 
             //$("form").removeData("validator");
-            //$("form").removeData("unobtrusiveValidation");
-            //$.validator.unobtrusive.parse("form");
-
-            $("form").removeData("validator");
             $("form").removeData("unobtrusiveValidation");
             $.validator.unobtrusive.parse("form");
 
             $("#createItemTable").delegate(".datePicker", "focusin", function () {
                 $(this).datepicker();
             });
-
-        }
+        };
 
         function CreateSelect(rowID) {
-
+            
             //debugger;
 
             var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseQuotationItemList_' + rowID + '__Product_id" name="PurchaseQuotationItemList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
@@ -112,42 +106,31 @@
                 success: function (result, status) {
                     //debugger;
                     for (var count = 0; count < result.length; count++) {
-                        selectHtml += '<option value="' + result[count].BP_Id + '">' + result[count].BP_Name + '</option>';
+                        selectHtml += '<option value="' + result[count].BP_Id + '"selected>' + result[count].BP_Name + '</option>';
                     }
                 }
             });
-
+           
             return selectHtml;
         }
 
         $("#createItemTable").on("click", ".BtnPlus", addRow);
 
         function deleteRow() {
-
             //debugger;
+            var par = $(this).parent().parent();
+            //par.remove();
+            //$('#idEstablishmentRow td.ms-formbody span input').attr('id');
+            var id = par[0].childNodes[0].childNodes[1].id;
 
-            if (i == 1) {
-                alert("Atleast one item for each product");
-            }
-            else {
+            id = '#' + id;
 
-                var par = $(this).parent().parent();
-                //par.remove();
-                //$('#idEstablishmentRow td.ms-formbody span input').attr('id');
+            $(id).val("1");
 
-                var id = par[0].childNodes[0].childNodes[1].id;
+            //par[0].childNodes[0].childNodes[1].value = 1;
 
-                id = '#' + id;
-
-                $(id).val("1");
-
-                //par[0].childNodes[0].childNodes[1].value = 1;
-
-                //$(id).val(1);
-                par.remove();
-                i--;
-                CalculateTotal();
-            }
+            //$(id).val(1);
+            par.hide();
         };
 
         $("#createItemTable").on("click", ".BtnMinus", deleteRow);
@@ -216,6 +199,7 @@
         });
     }
 
+
     $(function () {
         $("#btnNextTab").click(function (e) {
             e.preventDefault();
@@ -225,7 +209,7 @@
             var validator = $("#default").validate(); // obtain validator
             var anyError = false;
             _form.find("input").each(function () {
-                debugger;
+                //debugger;
                 if (this.parentNode.parentNode.className != "jAutochecklist_list") {
                     if (!validator.element(this)) { // validate every input element inside this step
                         anyError = true;
@@ -289,10 +273,10 @@
             }
             else {
                 return true; //$('#createtabs a[href = #addQuotationlist]').tab('show');
-            }// exit if any error found
+            }// exit if any error found           
         });
 
-    });
+    });   
 
     function OnChangeProduct(value, rowId) {
 
@@ -317,9 +301,9 @@
                 //debugger;
                 var id = "#PurchaseQuotationItemList_" + rowId + "__Unit_price";
                 $(id).val(result);
-                CalculateTotal();
             }
         });
+
     }
 
     function OnChangeQuantity(currentQty, rowId) {
@@ -332,39 +316,19 @@
 
         var id = "#PurchaseQuotationItemList_" + rowId + "__Amount";
         $(id).val(totAmount);
-        CalculateTotal();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
         //debugger;
 
-        var dis = currentDis.value;
+        var dis = currentDis.value; 
         var qty = $("#PurchaseQuotationItemList_" + rowId + "__Required_qty").val();
         var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
 
-        var totAmount = (price * qty) - dis
+        var totAmount = (price * qty) - (price*dis/100)
 
         var id = "#PurchaseQuotationItemList_" + rowId + "__Amount";
         $(id).val(totAmount);
-
-        CalculateTotal();
-    }
-
-    function CalculateTotal() {
-        //debugger;
-        var tot = 0;
-        //if (i == 0) {
-        //    tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + i + "__Amount").val());
-        //}
-        //else {
-        for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Amount").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Amount").val());
-            }
-        }
-        //}
-
-        $("#totalPurchase").text(tot);
     }
 
 </script>
@@ -451,28 +415,28 @@
                                     <tbody>
                                         @foreach (Troy.Model.Purchase.PurchaseQuotation item in Model.PurchaseQuotationList)
                                         {
-                                            <tr class="odd gradeX">
-                                                <td style="text-align:center;">@item.Purchase_Quote_Id</td>
-                                                <td>@item.Vendor_Name</td>
-                                                <td style="text-align:center;">@item.Reference_Number</td>
-                                                <td>@item.Quotation_Status</td>
-                                                <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
-                                                <td>@item.Valid_Date.ToString("MM/dd/yyyy")</td>
-                                                <td>
-                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Purchase_Quote_Id);">
-                                                        <i class="im-eye2"></i>
+                                        <tr class="odd gradeX">
+                                            <td style="text-align:center;">@item.Purchase_Quote_Id</td>
+                                            <td>@item.Vendor_Name</td>
+                                            <td style="text-align:center;">@item.Reference_Number</td>
+                                            <td>@item.Quotation_Status</td>
+                                            <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
+                                            <td>@item.Valid_Date.ToString("MM/dd/yyyy")</td>
+                                            <td>
+                                                <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Purchase_Quote_Id);">
+                                                    <i class="im-eye2"></i>
 
-                                                    </a>
-                                                    <span class="text-muted">|</span>
-                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Purchase_Quote_Id);">
-                                                        <i class="im-pencil2"></i>
-                                                    </a>
-                                                    @*<span class="text-muted">|</span>
-                                                        <a href="@Url.Action("_DeletePartialView", "Suppliers", new { id = item.Purchase_Quote_Id })" data-modal="true">
-                                                            <i class="im-remove2"></i>
-                                                        </a>*@
-                                                </td>
-                                            </tr>
+                                                </a>
+                                                <span class="text-muted">|</span>
+                                                <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Purchase_Quote_Id);">
+                                                    <i class="im-pencil2"></i>
+                                                </a>
+                                                @*<span class="text-muted">|</span>
+                                                <a href="@Url.Action("_DeletePartialView", "Suppliers", new { id = item.Purchase_Quote_Id })" data-modal="true">
+                                                    <i class="im-remove2"></i>
+                                                </a>*@
+                                            </td>
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>

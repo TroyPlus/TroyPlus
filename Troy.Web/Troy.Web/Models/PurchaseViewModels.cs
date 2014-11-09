@@ -36,172 +36,45 @@ namespace Troy.Web.Models
 
     }
 
-    [XmlRoot("AddPurchaseQtn")]
-    public class AddPurchaseQtn_XML 
-    {
-        [XmlElement("Header")]
-        public Viewmodel_AddPurchaseQuotation Viewmodel_AddPurchaseQuotation { get; set; }
-
-        [XmlElement("Details")]
-        public List<Viewmodel_AddPurchaseQuotationItem> Viewmodel_AddPurchaseQuotationItemList { get; set; }
-    }
-
-    [XmlRoot("ModifyPurchaseQtn")]
-    public class ModifyPurchaseQtn_XML
-    {
-        [XmlElement("Header")]
-        public Viewmodel_ModifyPurchaseQuotation Viewmodel_ModifyPurchaseQuotation { get; set; }
-
-        [XmlElement("Details")]
-        public List<Viewmodel_ModifyPurchaseQuotationItem> Viewmodel_ModifyPurchaseQuotationItemList { get; set; }
-    }
-
-    [XmlRoot("Header")]
+    [XmlRoot("AddPurchaseQuotation")]
     public class Viewmodel_AddPurchaseQuotation
     {
-        [XmlElement("TroyPQtnId")]
-        public string TroyPQtnId { get; set; }
+        [XmlElement("UID")]
+        public string UniqueID { get; set; }
 
-        [XmlElement("BPCode")]
-        public string BPCode { get; set; }
-
-        [XmlElement("RefNo")]
-        public string RefNo { get; set; }
-
-        [XmlElement("TroyPQtnStatus")]
-        public string TroyPQtnStatus { get; set; }
-
-        [XmlElement("PostingDate")]
-        public string PostingDate { get; set; }
-
-        [XmlElement("ValidDate")]
-        public string ValidDate { get; set; }
-
-        [XmlElement("RequiredDate")]
-        public string RequiredDate { get; set; }
-
-        [XmlElement("BranchCode")]
-        public string BranchCode { get; set; }
-
-        [XmlElement("Freight")]
-        public string Freight { get; set; }
-
-        [XmlElement("Loading")]
-        public string Loading { get; set; }
-
-        [XmlElement("TotalBefDocDisc")]
-        public string TotalBefDocDisc { get; set; }
-
-        [XmlElement("DocDiscAmt")]
-        public string DocDiscAmt { get; set; }
-
-        [XmlElement("TaxAmt")]
-        public string TaxAmt { get; set; }
-
-        [XmlElement("TotalQtnAmt")]
-        public string TotalQtnAmt { get; set; }
-        
-        [XmlElement("Remarks")]
-        public string Remarks { get; set; }
+        [XmlElement("Name")]
+        public string PurchaseQuotation_Name { get; set; }
 
         [XmlElement("CreatedUser")]
         public string CreatedUser { get; set; }
-       
+
         [XmlElement("CreatedBranch")]
         public string CreatedBranch { get; set; }
 
-        [XmlElement("CreatedDate")]
-        public string CreatedDate { get; set; }
+        [XmlElement("CreatedDateTime")]
+        public string CreatedDateTime { get; set; }
 
-        [XmlElement("ModifiedUser")]
-        public string ModifiedUser { get; set; }
+        [XmlElement("LastModifyUser")]
+        public string LastModifyUser { get; set; }
 
-        [XmlElement("ModifiedBranch")]
-        public string ModifiedBranch { get; set; }
+        [XmlElement("LastModifyBranch")]
+        public string LastModifyBranch { get; set; }
 
-        [XmlElement("ModifiedDate")]
-        public string ModifiedDate { get; set; }
+        [XmlElement("LastModifyDateTime")]
+        public string LastModifyDateTime { get; set; }
     }
 
-    [XmlRoot("row")]
-    public class Viewmodel_AddPurchaseQuotationItem
-    {
-        [XmlElement("ProductCode")]
-        public string ProductCode { get; set; }
-
-        [XmlElement("RequiredDate")]
-        public string RequiredDate { get; set; }
-
-        [XmlElement("RequiredQty")]
-        public string RequiredQty { get; set; }
-
-        [XmlElement("QuotedDate")]
-        public string QuotedDate { get; set; }
-
-        [XmlElement("QuotedQty")]
-        public string QuotedQty { get; set; }
-
-        [XmlElement("DiscountPercent")]
-        public string DiscountPercent { get; set; }
-
-        [XmlElement("TaxCode")]
-        public string TaxCode { get; set; }
-
-        [XmlElement("UnitPrice")]
-        public string UnitPrice { get; set; }
-
-        [XmlElement("LineTotal")]
-        public string LineTotal { get; set; }
-        
-    }
-
-    [XmlRoot("Header")]
+    [XmlRoot("ModifyPurchaseQuotation")]
     public class Viewmodel_ModifyPurchaseQuotation
     {
-        [XmlElement("TroyPQtnId")]
-        public string TroyPQtnId { get; set; }
+        [XmlElement("UID")]
+        public string UniqueID { get; set; }
 
-        [XmlElement("BPCode")]
-        public string BPCode { get; set; }
+        [XmlElement("OldName")]
+        public string Old_PurchaseQuotation_Name { get; set; }
 
-        [XmlElement("RefNo")]
-        public string RefNo { get; set; }
-
-        [XmlElement("TroyPQtnStatus")]
-        public string TroyPQtnStatus { get; set; }
-
-        [XmlElement("PostingDate")]
-        public string PostingDate { get; set; }
-
-        [XmlElement("ValidDate")]
-        public string ValidDate { get; set; }
-
-        [XmlElement("RequiredDate")]
-        public string RequiredDate { get; set; }
-
-        [XmlElement("BranchCode")]
-        public string BranchCode { get; set; }
-
-        [XmlElement("Freight")]
-        public string Freight { get; set; }
-
-        [XmlElement("Loading")]
-        public string Loading { get; set; }
-
-        [XmlElement("TotalBefDocDisc")]
-        public string TotalBefDocDisc { get; set; }
-
-        [XmlElement("DocDiscAmt")]
-        public string DocDiscAmt { get; set; }
-
-        [XmlElement("TaxAmt")]
-        public string TaxAmt { get; set; }
-
-        [XmlElement("TotalQtnAmt")]
-        public string TotalQtnAmt { get; set; }
-       
-        [XmlElement("Remarks")]
-        public string Remarks { get; set; }
+        [XmlElement("NewName")]
+        public string New_PurchaseQuotation_Name { get; set; }
 
         [XmlElement("CreatedUser")]
         public string CreatedUser { get; set; }
@@ -209,48 +82,76 @@ namespace Troy.Web.Models
         [XmlElement("CreatedBranch")]
         public string CreatedBranch { get; set; }
 
-        [XmlElement("CreatedDate")]
-        public string CreatedDate { get; set; }
+        [XmlElement("CreatedDateTime")]
+        public string CreatedDateTime { get; set; }
 
-        [XmlElement("ModifiedUser")]
-        public string ModifiedUser { get; set; }
+        [XmlElement("LastModifyUser")]
+        public string LastModifyUser { get; set; }
 
-        [XmlElement("ModifiedBranch")]
-        public string ModifiedBranch { get; set; }
+        [XmlElement("LastModifyBranch")]
+        public string LastModifyBranch { get; set; }
 
-        [XmlElement("ModifiedDate")]
-        public string ModifiedDate { get; set; }
+        [XmlElement("LastModifyDateTime")]
+        public string LastModifyDateTime { get; set; }
     }
 
-    [XmlRoot("row")]
+    [XmlRoot("AddPurchaseQuotationItem")]
+    public class Viewmodel_AddPurchaseQuotationItem
+    {
+        [XmlElement("UID")]
+        public string UniqueID { get; set; }
+
+        [XmlElement("Name")]
+        public string PurchaseQuotation_Item_Name { get; set; }
+
+        [XmlElement("CreatedUser")]
+        public string CreatedUser { get; set; }
+
+        [XmlElement("CreatedBranch")]
+        public string CreatedBranch { get; set; }
+
+        [XmlElement("CreatedDateTime")]
+        public string CreatedDateTime { get; set; }
+
+        [XmlElement("LastModifyUser")]
+        public string LastModifyUser { get; set; }
+
+        [XmlElement("LastModifyBranch")]
+        public string LastModifyBranch { get; set; }
+
+        [XmlElement("LastModifyDateTime")]
+        public string LastModifyDateTime { get; set; }
+    }
+
+    [XmlRoot("ModifyPurchaseQuotationItem")]
     public class Viewmodel_ModifyPurchaseQuotationItem
     {
-        [XmlElement("ProductCode")]
-        public string ProductCode { get; set; }
+        [XmlElement("UID")]
+        public string UniqueID { get; set; }
 
-        [XmlElement("RequiredDate")]
-        public string RequiredDate { get; set; }
+        [XmlElement("OldName")]
+        public string Old_PurchaseQuotation_Item_Name { get; set; }
 
-        [XmlElement("RequiredQty")]
-        public string RequiredQty { get; set; }
+        [XmlElement("NewName")]
+        public string New_PurchaseQuotation_Item_Name { get; set; }
 
-        [XmlElement("QuotedDate")]
-        public string QuotedDate { get; set; }
+        [XmlElement("CreatedUser")]
+        public string CreatedUser { get; set; }
 
-        [XmlElement("QuotedQty")]
-        public string QuotedQty { get; set; }
+        [XmlElement("CreatedBranch")]
+        public string CreatedBranch { get; set; }
 
-        [XmlElement("DiscountPercent")]
-        public string DiscountPercent { get; set; }
+        [XmlElement("CreatedDateTime")]
+        public string CreatedDateTime { get; set; }
 
-        [XmlElement("TaxCode")]
-        public string TaxCode { get; set; }
+        [XmlElement("LastModifyUser")]
+        public string LastModifyUser { get; set; }
 
-        [XmlElement("UnitPrice")]
-        public string UnitPrice { get; set; }
+        [XmlElement("LastModifyBranch")]
+        public string LastModifyBranch { get; set; }
 
-        [XmlElement("LineTotal")]
-        public string LineTotal { get; set; }
+        [XmlElement("LastModifyDateTime")]
+        public string LastModifyDateTime { get; set; }
     }
 
 }

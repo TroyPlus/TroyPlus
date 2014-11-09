@@ -57,8 +57,6 @@ namespace Troy.Model.Purchase
 
         [Required]
         [Display(Name = "Discount %")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:P2}")]
-        [Range(0, 100)]
         public int? Discount { get; set; }
 
         public string Remarks { get; set; }

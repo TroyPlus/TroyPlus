@@ -238,7 +238,7 @@ namespace Troy.Data.Repository
 
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(data);
-                
+
 
                 SAPOUT mSAP = new SAPOUT();
                 mSAP.Unique_Id = uniqueId;
