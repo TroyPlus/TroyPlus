@@ -108,7 +108,7 @@
         $('#BillCountry').change();
 
         $('#BillState').val(1);
-        $('#BillState').change();
+        $('#BillState').change();        
 
     });
 </script>
@@ -164,7 +164,7 @@
                                             Group Id
                                         </div>
                                         <div class="col-md-6">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Group_id, new SelectList(Model.GroupList.AsEnumerable(), "Group_Id", "Group_Name"), "", new { @class = "form-control control-text" })
+                                            @Html.DropDownListFor(m => m.BusinessPartner.Group_id, new SelectList(Model.GroupList.AsEnumerable(), "Group_Id", "Group_Name"), "", new { @class = "form-control control-text", id = "GroupID", onchange = "FiterGroup();" })
                                             @Html.ValidationMessageFor(model => model.BusinessPartner.Group_id)
                                         </div>
                                     </div>
@@ -182,7 +182,7 @@
                                             Employee
                                         </div>
                                         <div class="col-md-6">
-                                            @Html.DropDownListFor(m => m.BusinessPartner.Emp_Id, new SelectList(Model.EmployeeList.AsEnumerable(), "Emp_Id", "First_Name"), "", new { @class = "form-control control-text" })
+                                            @Html.DropDownListFor(m => m.BusinessPartner.Emp_Id, new SelectList(Model.EmployeeList.AsEnumerable(), "Emp_Id", "First_Name"), "", new { @class = "form-control control-text", id = "EmpName" })
                                             @Html.ValidationMessageFor(model => model.BusinessPartner.Emp_Id)
                                         </div>
                                     </div>

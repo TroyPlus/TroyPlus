@@ -193,6 +193,34 @@
         }
     }
 
+    function FiterGroup() {
+        //alert($("#GroupID option:selected").text());
+        $("#GroupID").change(function () {            
+            if ($("#GroupID option:selected").text() == 'Employee') {               
+                $("#EmpName").prop("disabled", true);
+            }
+            else if ($("#GroupID option:selected").text() == 'EMPLOYEE') {
+                $("#EmpName").prop("disabled", true);
+            }
+            else
+                $("#EmpName").prop("disabled", false);
+        });
+    };
+
+    function EditFiterGroup() {
+        //alert($("#GroupID option:selected").text());
+        $("#editGroupID").change(function () {
+            if ($("#editGroupID option:selected").text() == 'Employee') {
+                $("#editEmpName").prop("disabled", true);
+            }
+            else if ($("#editGroupID option:selected").text() == 'EMPLOYEE') {
+                $("#editEmpName").prop("disabled", true);
+            }
+            else
+                $("#editEmpName").prop("disabled", false);
+        });
+    };
+
     $(function () {
         $("#btnContactTab").click(function (e) {
             e.preventDefault();
