@@ -13,7 +13,7 @@ using System.IO;
 using System.Web.UI.WebControls;
 using System.Web.UI;
 using Troy.Data.Repository;
-using Troy.Model.ProductGroup;
+using Troy.Model.ProductGroups;
 using Troy.Web.Models;
 using Troy.Utilities.CrossCutting;
 using Troy.Model.AppMembership;

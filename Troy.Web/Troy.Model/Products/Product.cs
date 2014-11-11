@@ -5,8 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Troy.Model.Configuration;
+using Troy.Model.Manufacturer;
+using Troy.Model.ProductGroups;
 
-namespace Troy.Model.Product
+namespace Troy.Model.Products
 {
     [Table("tblProduct")]
     public class Product
@@ -14,10 +17,13 @@ namespace Troy.Model.Product
         [Key]
         [Required]
         public int Product_Id { get; set; }
+        [ForeignKey("Product_Id")]
+        public virtual Product product { get; set; }
         //-----------       
 
         [Required]
         [StringLength(30)]
+        [Index(IsUnique = true)]
         public string Product_Code { get; set; }
         //-----------
 
@@ -43,10 +49,14 @@ namespace Troy.Model.Product
 
         [Required]
         public int Product_Group { get; set; }
+        [ForeignKey("Product_Group")]
+        public virtual ProductGroup productgroup { get; set; }
         //-----------  
 
         [Required]
         public int Manufacturer { get; set; }
+        [ForeignKey("Manufacturer")]
+        public virtual Manufacture manufacture { get; set; }
         //-----------  
 
         [Required]
@@ -55,6 +65,8 @@ namespace Troy.Model.Product
 
         [Required]
         public int Purchase_VAT { get; set; }
+        [ForeignKey("Purchase_VAT")]
+        public virtual VAT vat { get; set; }
         //----------- 
 
         [Required]

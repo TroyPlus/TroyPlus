@@ -15,7 +15,9 @@ namespace Troy.Model.Manufacturer
     public class Manufacture
     {
         [Key]
+        [ForeignKey("manufacture")]
         public int Manufacturer_Id { get; set; }
+        public virtual Manufacture manufacture { get; set; }
 
         [Index(IsUnique = true)]
         [Required(ErrorMessage = "Manufacture Name is required.")]

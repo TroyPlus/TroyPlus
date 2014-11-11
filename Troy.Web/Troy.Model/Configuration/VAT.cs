@@ -14,8 +14,9 @@ namespace Troy.Model.Configuration
     public class VAT
     {
         [Key]
-        public int VAT_Id { get; set; }
-
+        [ForeignKey("vat")]
+        public int VAT_Id { get; set; }        
+        public virtual VAT vat { get; set; }
 
 
 

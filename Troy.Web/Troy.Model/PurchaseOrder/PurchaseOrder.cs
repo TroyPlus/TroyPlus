@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Troy.Model.Purchase;
 
 namespace Troy.Model.PurchaseOrder
 {
@@ -13,7 +14,9 @@ namespace Troy.Model.PurchaseOrder
     {
         [Key]
         [Required]
+        [ForeignKey("purchaseQrderItems")]
         public int Purchase_Order_Id { get; set; }
+        public virtual PurchaseOrderItems purchaseQrderItems { get; set; }
         //-----------
 
         [Required]
@@ -24,8 +27,9 @@ namespace Troy.Model.PurchaseOrder
         public int TargetDocId { get; set; }
         //------------
 
-
+        [ForeignKey("purchaseQuotation")]
         public int Purchase_Quote_Id { get; set; }
+        public virtual PurchaseQuotation purchaseQuotation { get; set; }
         //-----
 
         [Required]
@@ -57,7 +61,7 @@ namespace Troy.Model.PurchaseOrder
         [Required]
         public int Ship_To { get; set; }
         //------
-
+               
         public decimal Freight { get; set; }
         //------
 

@@ -1,0 +1,165 @@
+﻿@model IEnumerable<Troy.Model.PurchaseOrder.PurchaseOrder>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BaseDocId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TargetDocId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Purchase_Quote_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vendor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reference_Number)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Order_Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Posting_Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Delivery_Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Document_Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ship_To)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Freight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Loading)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalBefDocDisc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DocDiscAmt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaxAmt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalOrdAmt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Created_User_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Created_Branc_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Created_Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Modified_User_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Modified_Branch_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Modified_Date)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BaseDocId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TargetDocId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Purchase_Quote_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vendor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Reference_Number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Order_Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Posting_Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Delivery_Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Document_Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ship_To)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Freight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Loading)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalBefDocDisc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DocDiscAmt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaxAmt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalOrdAmt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Created_User_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Created_Branc_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Created_Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Modified_User_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Modified_Branch_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Modified_Date)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Purchase_Order_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Purchase_Order_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Purchase_Order_Id })
+        </td>
+    </tr>
+}
+
+</table>
