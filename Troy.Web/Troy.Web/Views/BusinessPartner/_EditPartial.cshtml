@@ -10,6 +10,78 @@
     $(document).ready(function () {
 
         $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+
+        $('#ShipCountry_Edit').change(function () {
+
+            //  $('#Country').val(1)
+            //alert('text');
+
+            //$('#Country').val(1).change();
+
+            // $('#Country').val("India");
+
+
+            $.getJSON('/BusinessPartner/StateList/' + $('#ShipCountry_Edit').val(), function (data) {
+                var items = '<option>Select a State</option>';
+                $.each(data, function (i, state) {
+                    items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                });
+                $('#ShipState_Edit').html(items);
+                //$('#Country').val(1);
+                //$('#State').val(1);
+                //$('#City').val(1);
+                // $('#State').val("TamilNadu");
+            });
+
+        });
+        $('#ShipState_Edit').change(function () {
+
+            $.getJSON('/BusinessPartner/CityList/' + $('#ShipState_Edit').val(), function (data) {
+                var items = '<option>Select a City</option>';
+                $.each(data, function (i, city) {
+                    items += "<option value='" + city.Value + "'>" + city.Text + "</option>";
+
+                });
+                $('#ShipCity_Edit').html(items);
+                // $('#SCity').val("Madurai");
+            });
+        });
+
+        $('#BillCountry_Edit').change(function () {
+
+            //  $('#Country').val(1)
+            //alert('text');
+
+            //$('#Country').val(1).change();
+
+            // $('#Country').val("India");
+
+
+            $.getJSON('/BusinessPartner/StateList/' + $('#BillCountry_Edit').val(), function (data) {
+                var items = '<option>Select a State</option>';
+                $.each(data, function (i, state) {
+                    items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                });
+                $('#BillState_Edit').html(items);
+                //$('#Country').val(1);
+                //$('#State').val(1);
+                //$('#City').val(1);
+                // $('#State').val("TamilNadu");
+            });
+
+        });
+        $('#BillState_Edit').change(function () {
+
+            $.getJSON('/BusinessPartner/CityList/' + $('#BillState_Edit').val(), function (data) {
+                var items = '<option>Select a City</option>';
+                $.each(data, function (i, city) {
+                    items += "<option value='" + city.Value + "'>" + city.Text + "</option>";
+
+                });
+                $('#BillCity_Edit').html(items);
+                // $('#SCity').val("Madurai");
+            });
+        });
     });
 
     $(function () {
@@ -78,7 +150,7 @@
                                     @Html.HiddenFor(model => model.BusinessPartner.Created_Branc_Id)
                                     @Html.HiddenFor(model => model.BusinessPartner.Created_Dte)
                                     <div class="col-md-6">
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Business Partner Name
                                             </div>
@@ -88,7 +160,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.BP_Name)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Group Type
                                             </div>
@@ -97,16 +169,16 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Group_Type)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Group Id
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.BusinessPartner.Group_id, new SelectList(Model.GroupList.AsEnumerable(), "Group_Id", "Group_Name"), "", new { @class = "form-control control-text" })
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Group_id, new SelectList(Model.GroupList.AsEnumerable(), "Group_Id", "Group_Name"), "", new { @class = "form-control control-text" ,id = "editGroupID", onchange = "EditFiterGroup();" })
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Group_id)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Pricelist
                                             </div>
@@ -115,18 +187,18 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Pricelist_ID)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Employee
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.BusinessPartner.Emp_Id, new SelectList(Model.EmployeeList.AsEnumerable(), "Emp_Id", "First_Name"), "", new { @class = "form-control control-text" })
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Emp_Id, new SelectList(Model.EmployeeList.AsEnumerable(), "Emp_Id", "First_Name"), "", new { @class = "form-control control-text",id = "editEmpName"  })
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Emp_Id)
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Branch
                                             </div>
@@ -135,7 +207,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Branch_id)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Remarks
                                             </div>
@@ -144,7 +216,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Remarks)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Control account id
                                             </div>
@@ -153,7 +225,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Control_account_id)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Opening Balance
                                             </div>
@@ -162,7 +234,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Opening_Balance)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Due date
                                             </div>
@@ -186,7 +258,7 @@
                                 <div class="row">
                                     <br />
                                     <div class="col-md-4">
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Ship Address1
                                             </div>
@@ -195,7 +267,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_Address1)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Ship Address2
                                             </div>
@@ -204,7 +276,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_address2)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Ship Address3
                                             </div>
@@ -213,34 +285,40 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_address3)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Ship Country
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.BusinessPartner.Ship_Country, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text", @id = "eShippingCountry" })
+                                                @*@Html.DropDownListFor(m => m.BusinessPartner.Ship_Country, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text", @id = "eShippingCountry" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_Country)*@
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Ship_Country, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "Select Country", new { @class = "form-control control-text", id = "ShipCountry_Edit", @onchange = @ViewBag.ShipCountryOnChangeScript })
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_Country)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Ship State
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.BusinessPartner.Ship_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "eShippingState" })
+                                                @*@Html.DropDownListFor(m => m.BusinessPartner.Ship_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "eShippingState" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_State)*@
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Ship_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "Select State", new { @class = "form-control control-text", id = "ShipState_Edit", @onchange = @ViewBag.ShipStateOnChangeScript })
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_State)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Ship City
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.BusinessPartner.Ship_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text", @id = "eShippingCity" })
+                                                @*@Html.DropDownListFor(m => m.BusinessPartner.Ship_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text", @id = "eShippingCity" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_City)*@
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Ship_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "Select City", new { @class = "form-control control-text", id = "ShipCity_Edit" })
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_City)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Ship PinCode
                                             </div>
@@ -249,12 +327,12 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_pincode)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <input type="checkbox" id="chkeditCopy" onclick="Editcheck();" /> Billing address same as Shipping address
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Bill Address1
                                             </div>
@@ -263,7 +341,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_Address1)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Bill Address2
                                             </div>
@@ -272,7 +350,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_address2)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Bill Address3
                                             </div>
@@ -281,34 +359,40 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_address3)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Bill Country
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.BusinessPartner.Bill_Country, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text", @id = "eBillingCountry" })
+                                                @*@Html.DropDownListFor(m => m.BusinessPartner.Bill_Country, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "", new { @class = "form-control control-text", @id = "eBillingCountry" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_Country)*@
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Bill_Country, new SelectList(Model.CountryList.AsEnumerable(), "ID", "Country_Name"), "Select Country", new { @class = "form-control control-text", id = "BillCountry_Edit", @onchange = @ViewBag.BillCountryOnChangeScript })
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_Country)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Bill State
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.BusinessPartner.Bill_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "eBillingState" })
+                                                @*@Html.DropDownListFor(m => m.BusinessPartner.Bill_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "", new { @class = "form-control control-text", @id = "eBillingState" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_State)*@
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Bill_State, new SelectList(Model.StateList.AsEnumerable(), "ID", "State_Name"), "Select State", new { @class = "form-control control-text", id = "BillState_Edit", @onchange = @ViewBag.BillStateOnChangeScript })
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_State)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Bill City
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.BusinessPartner.Bill_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text", @id = "eBillingCity" })
+                                                @*@Html.DropDownListFor(m => m.BusinessPartner.Bill_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "", new { @class = "form-control control-text", @id = "eBillingCity" })
+                                                @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_City)*@
+                                                @Html.DropDownListFor(m => m.BusinessPartner.Bill_City, new SelectList(Model.CityList.AsEnumerable(), "ID", "City_Name"), "Select City", new { @class = "form-control control-text", id = "BillCity_Edit" })
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Bill_City)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Bill pincode
                                             </div>
@@ -319,7 +403,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Phone1
                                             </div>
@@ -328,7 +412,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Phone1)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Phone2
                                             </div>
@@ -337,7 +421,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Phone2)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Mobile
                                             </div>
@@ -346,7 +430,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Mobile)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Fax
                                             </div>
@@ -355,7 +439,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Fax)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Email Address
                                             </div>
@@ -364,7 +448,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Email_Address)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Website
                                             </div>
@@ -373,7 +457,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Website)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Contact person
                                             </div>
@@ -382,7 +466,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Contact_person)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Ship method
                                             </div>
@@ -391,7 +475,7 @@
                                                 @Html.ValidationMessageFor(model => model.BusinessPartner.Ship_method)
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row form-group">
                                             <div class="col-md-4">
                                                 Is Active
                                             </div>

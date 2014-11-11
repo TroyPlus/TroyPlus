@@ -60,6 +60,7 @@
 
     });
 
+
     function EditBusinessPartner(id) {
 
         var url = $('#editModal').data('url') + '/' + id;
@@ -119,7 +120,7 @@
                 alert(request.responseText);
             }
         });
-    }    
+    }
 
     function GetValue() {
         var Contain = "";
@@ -136,26 +137,26 @@
             $('#BillingAddress1').val($('#ShippingAddress1').val());
             $('#BillingAddress2').val($('#ShippingAddress2').val());
             $('#BillingAddress3').val($('#ShippingAddress3').val());
-            $('#BillingCity').val($('#ShippingCity').val());
-            $('#BillingState').val($('#ShippingState').val());
-            $('#BillingCountry').val($('#ShippingCountry').val());
+            $('#BillCity').val($('#City').val());
+            $('#BillState').val($('#State').val());
+            $('#BillCountry').val($('#Country').val());
             $('#BillingPinCode').val($('#ShippingPinCode').val());
 
             $('#BillingAddress1').attr('readonly', true);
             $('#BillingAddress2').attr('readonly', true);
             $('#BillingAddress3').attr('readonly', true);
-            $('#BillingCity').attr('readonly', true);
-            $('#BillingState').attr('readonly', true);
-            $('#BillingCountry').attr('readonly', true);
+            $('#BillCity').attr('readonly', true);
+            $('#BillState').attr('readonly', true);
+            $('#BillCountry').attr('readonly', true);
             $('#BillingPinCode').attr('readonly', true);
         }
         else {
             $('#BillingAddress1').attr('readonly', false);
             $('#BillingAddress2').attr('readonly', false);
             $('#BillingAddress3').attr('readonly', false);
-            $('#BillingCity').attr('readonly', false);
-            $('#BillingState').attr('readonly', false);
-            $('#BillingCountry').attr('readonly', false);
+            $('#BillCity').attr('readonly', false);
+            $('#BillState').attr('readonly', false);
+            $('#BillCountry').attr('readonly', false);
             $('#BillingPinCode').attr('readonly', false);
         }
     }
@@ -168,29 +169,57 @@
             $('#eBillingAddress1').val($('#eShippingAddress1').val());
             $('#eBillingAddress2').val($('#eShippingAddress2').val());
             $('#eBillingAddress3').val($('#eShippingAddress3').val());
-            $('#eBillingCity').val($('#eShippingCity').val());
-            $('#eBillingState').val($('#eShippingState').val());
-            $('#eBillingCountry').val($('#eShippingCountry').val());
+            $('#BillCity_Edit').val($('#ShipCity_Edit').val());
+            $('#BillState_Edit').val($('#ShipState_Edit').val());
+            $('#BillCountry_Edit').val($('#ShipCountry_Edit').val());
             $('#eBillingPinCode').val($('#eShippingPinCode').val());
 
             $('#eBillingAddress1').attr('readonly', true);
             $('#eBillingAddress2').attr('readonly', true);
             $('#eBillingAddress3').attr('readonly', true);
-            $('#eBillingCity').attr('readonly', true);
-            $('#eBillingState').attr('readonly', true);
-            $('#eBillingCountry').attr('readonly', true);
+            $('#BillCity_Edit').attr('readonly', true);
+            $('#BillState_Edit').attr('readonly', true);
+            $('#BillCountry_Edit').attr('readonly', true);
             $('#eBillingPinCode').attr('readonly', true);
         }
         else {
             $('#eBillingAddress1').attr('readonly', false);
             $('#eBillingAddress2').attr('readonly', false);
             $('#eBillingAddress3').attr('readonly', false);
-            $('#eBillingCity').attr('readonly', false);
-            $('#eBillingState').attr('readonly', false);
-            $('#eBillingCountry').attr('readonly', false);
+            $('#BillCity_Edit').attr('readonly', false);
+            $('#BillState_Edit').attr('readonly', false);
+            $('#BillCountry_Edit').attr('readonly', false);
             $('#eBillingPinCode').attr('readonly', false);
         }
     }
+
+    function FiterGroup() {
+        //alert($("#GroupID option:selected").text());
+        $("#GroupID").change(function () {            
+            if ($("#GroupID option:selected").text() == 'Employee') {               
+                $("#EmpName").prop("disabled", true);
+            }
+            else if ($("#GroupID option:selected").text() == 'EMPLOYEE') {
+                $("#EmpName").prop("disabled", true);
+            }
+            else
+                $("#EmpName").prop("disabled", false);
+        });
+    };
+
+    function EditFiterGroup() {
+        //alert($("#GroupID option:selected").text());
+        $("#editGroupID").change(function () {
+            if ($("#editGroupID option:selected").text() == 'Employee') {
+                $("#editEmpName").prop("disabled", true);
+            }
+            else if ($("#editGroupID option:selected").text() == 'EMPLOYEE') {
+                $("#editEmpName").prop("disabled", true);
+            }
+            else
+                $("#editEmpName").prop("disabled", false);
+        });
+    };
 
     $(function () {
         $("#btnContactTab").click(function (e) {
@@ -318,9 +347,9 @@
                                                     </a>
                                                     @*<span class="text-muted">|</span>
 
-                                                    <a href="@Url.Action("_DeletePartialView", "Manufacturer", new { id = item.BP_Id })" data-modal="true">
-                                                        <i class="im-remove2"></i>
-                                                    </a>*@
+                                                        <a href="@Url.Action("_DeletePartialView", "Manufacturer", new { id = item.BP_Id })" data-modal="true">
+                                                            <i class="im-remove2"></i>
+                                                        </a>*@
                                                 </td>
                                             </tr>
                                         }

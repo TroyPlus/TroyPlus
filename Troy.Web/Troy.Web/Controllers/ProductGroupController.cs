@@ -46,7 +46,7 @@ namespace Troy.Web.Controllers
             {
                 LogHandler.WriteLog("Purchase Index page requested by #UserId");
 
-                var qList = productgroupRepository.GetFilterProductGroup(searchColumn, searchQuery, Guid.Empty);   //GetUserId();        
+                var qList = productgroupRepository.GetAllProductGroup();   //GetUserId();        
 
                 ProductGroupViewModels model = new ProductGroupViewModels();
                 model.ProductGroupList = qList;

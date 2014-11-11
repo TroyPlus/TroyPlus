@@ -13,6 +13,7 @@ using System.IO;
 using System.Web.UI.WebControls;
 using System.Web.UI;
 using Troy.Data.Repository;
+using Troy.Data.DataContext;
 using Troy.Model.BusinessPartner;
 using Troy.Web.Models;
 using Troy.Web;
@@ -29,6 +30,8 @@ namespace Troy.Web.Controllers
     {
         #region Fields
         private readonly IBusinessPartnerRepository businesspartnerRepository;
+
+        private BusinessPartnerContext businesspartnercontext = new BusinessPartnerContext();
         #endregion
 
         #region Constructor
@@ -2068,6 +2071,42 @@ namespace Troy.Web.Controllers
                 return View("Error");
             }
         }
+        
+
+        public JsonResult StateList(int Id)
+        {
+            var state = from s in businesspartnercontext.State
+                        join c in businesspartnercontext.Country
+                            on s.CountryID equals c.ID.ToString() into c_s
+                        from cs in c_s.DefaultIfEmpty()
+                        where cs.ID == Id
+                        orderby s.ID ascending
+                        select s;
+            return Json(new SelectList(state.ToArray(), "ID", "State_Name"), JsonRequestBehavior.AllowGet);
+
+            //return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CityList(int id)
+        {
+            var city = from s in businesspartnercontext.City
+                       join c in businesspartnercontext.State
+                           on s.StateID equals c.ID.ToString() into c_s
+                       from cs in c_s.DefaultIfEmpty()
+                       where cs.ID == id
+                       orderby s.ID ascending
+                       select s;
+
+
+
+            //var city = from c in branchContext.City
+            //           join s in branchContext.State
+            //            on c.City_Code equals s.ID.ToString() into s_c
+            //            from sc in s_c.DefaultIfEmpty()
+            //           where sc.ID == id
+            //           select c;
+            return Json(new SelectList(city.ToArray(), "ID", "City_Name"), JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult _ExporttoExcel()
         {
@@ -2295,6 +2334,51 @@ namespace Troy.Web.Controllers
                 var citylist = businesspartnerRepository.GetAddresscityList().ToList();
                 model.CityList = citylist;
 
+                ViewBag.ShipCountryOnChangeScript = @" ;
+
+                                $.getJSON('../BusinessPartner/StateList/' + $('#ShipCountry_Edit').val(), function (data) {
+                    var items = '<option>Select a State</option>';
+                    $.each(data, function (i, state) {
+                        items += ""<option value='"" + state.Value + ""'>"" + state.Text + ""</option>""
+                    });
+                    $('#ShipState_Edit').html(items);
+                   
+                });";
+
+
+                ViewBag.ShipStateOnChangeScript = @";
+
+                                $.getJSON('../BusinessPartner/CityList/' + $('#ShipState_Edit').val(), function (data) {
+                    var items = '<option>Select a City</option>';
+                    $.each(data, function (i, city) {
+                        items += ""<option value='"" + city.Value + ""'>"" + city.Text + ""</option>""
+                    });
+                    $('#ShipCity_Edit').html(items);
+                   
+                });";
+
+                ViewBag.BillCountryOnChangeScript = @" ;
+
+                                $.getJSON('../BusinessPartner/StateList/' + $('#BillCountry_Edit').val(), function (data) {
+                    var items = '<option>Select a State</option>';
+                    $.each(data, function (i, state) {
+                        items += ""<option value='"" + state.Value + ""'>"" + state.Text + ""</option>""
+                    });
+                    $('#BillState_Edit').html(items);
+                   
+                });";
+
+
+                ViewBag.BillStateOnChangeScript = @";
+
+                                $.getJSON('../BusinessPartner/CityList/' + $('#BillState_Edit').val(), function (data) {
+                    var items = '<option>Select a City</option>';
+                    $.each(data, function (i, city) {
+                        items += ""<option value='"" + city.Value + ""'>"" + city.Text + ""</option>""
+                    });
+                    $('#BillCity_Edit').html(items);
+                   
+                });";
 
                 return PartialView(model);
             }
