@@ -61,6 +61,7 @@
     <Compile Include="DataContext\ConfigurationContext.cs" />
     <Compile Include="DataContext\CountryContext.cs" />
     <Compile Include="DataContext\EmployeeContext.cs" />
+    <Compile Include="DataContext\GoodsReceiptContext.cs" />
     <Compile Include="DataContext\ManufactureContext.cs" />
     <Compile Include="DataContext\MasterDataContext.cs" />
     <Compile Include="DataContext\ProductGroupContext.cs" />

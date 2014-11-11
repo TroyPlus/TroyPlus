@@ -8,6 +8,7 @@
     $('#Branches').change(function () {
         alert($('#Branches').val());
         // alert('Test');
+      
         $.getJSON('../User/submittedbranches/' + $('#Branches').val(), function (data) {
                //alert($('#Branches').val());
             // alert('test sucess');

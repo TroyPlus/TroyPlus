@@ -123,6 +123,8 @@
     <Compile Include="Employees\ViewEmployee.cs" />
     <Compile Include="Genders\Gender.cs" />
     <Compile Include="Genders\GenderList.cs" />
+    <Compile Include="Goods Receipt Product Order%28GPRO%29\GoodsReceipt.cs" />
+    <Compile Include="Goods Receipt Product Order%28GPRO%29\GoodsReceiptItems.cs" />
     <Compile Include="Groups\Group.cs" />
     <Compile Include="Groups\GroupList.cs" />
     <Compile Include="Initials\Initial.cs" />
