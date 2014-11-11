@@ -360,13 +360,17 @@ namespace Troy.Web.Controllers
 
         public JsonResult submittedbranches(string branches)
         {
+            
+            var qlist = from b in BranchContext.Branch
+                        where b.Branch_Id.ToString()== branches
+                        select ((StringSplitOptions.RemoveEmptyEntries));
             // List<UserViewModels> qlist = new List<UserViewModels>();
-            var qlist = (from u in UserContext.Users
-                         join b in UserContext.userbranches
-                               on u.Defaultbranch_Id equals b.Branch_Id into u_b
-                         from ub in u_b.DefaultIfEmpty()
-                         where ub.Branch_Id.ToString() ==branches
-                         select u);
+            //var qlist = (from u in UserContext.Users
+            //             join b in UserContext.userbranches
+            //                   on u.Defaultbranch_Id equals b.Branch_Id into u_b
+            //             from ub in u_b.DefaultIfEmpty()
+            //             where ub.Branch_Id.ToString() ==branches
+            //             select u);
             //var qlist = (from u in UserContext.Users
             //           join b in UserContext.userbranches
             //               on u.Defaultbranch_Id equals b.Branch_Id into u_b
