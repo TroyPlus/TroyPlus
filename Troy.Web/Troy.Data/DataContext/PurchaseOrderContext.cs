@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Troy.Model.PurchaseOrder;
 using Troy.Model.Products;
+using Troy.Model.Branches;
+using Troy.Model.BusinessPartner;
+using Troy.Model.Configuration;
 
 namespace Troy.Data.DataContext
 {
@@ -22,5 +25,11 @@ namespace Troy.Data.DataContext
         public DbSet<Product> product { get; set; }
 
         public DbSet<ProductPrice> productprice { get; set; }
+
+        public DbSet<BusinessPartner> Businesspartner { get; set; }
+
+        public DbSet<Branch> Branch { get; set; }
+
+        public DbSet<VAT> VAT { get; set; }
     }
 }

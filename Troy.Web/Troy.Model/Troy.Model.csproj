@@ -112,6 +112,7 @@
     <Compile Include="Configuration\State.cs" />
     <Compile Include="Configuration\StateList.cs" />
     <Compile Include="Configuration\VAT.cs" />
+    <Compile Include="Configuration\VATList.cs" />
     <Compile Include="Countries\Country.cs" />
     <Compile Include="Countries\CountryList.cs" />
     <Compile Include="Departments\Department.cs" />
@@ -141,10 +142,12 @@
     <Compile Include="PriceLists\PricelistLists.cs" />
     <Compile Include="ProductGroups\ProductGroup.cs" />
     <Compile Include="Products\Product.cs" />
+    <Compile Include="Products\ProductList.cs" />
     <Compile Include="Products\ProductPrice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseOrder\PurchaseOrder.cs" />
     <Compile Include="PurchaseOrder\PurchaseOrderItems.cs" />
+    <Compile Include="PurchaseOrder\ViewPurchaseOrder.cs" />
     <Compile Include="Purchase\PurchaseQuotation.cs" />
     <Compile Include="Purchase\PurchaseQuotationItem.cs" />
     <Compile Include="SAP OUT\SAPOUT.cs" />

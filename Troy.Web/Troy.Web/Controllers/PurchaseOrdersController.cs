@@ -8,121 +8,66 @@ using System.Web;
 using System.Web.Mvc;
 using Troy.Data.DataContext;
 using Troy.Model.PurchaseOrder;
+using Troy.Data.Repository;
+using Troy.Utilities.CrossCutting;
+using Troy.Web.Models;
 
 namespace Troy.Web.Controllers
 {
-    public class PurchaseOrdersController : Controller
+    public class PurchaseOrdersController : BaseController
     {
-        private PurchaseOrderContext db = new PurchaseOrderContext();
+        #region Fields
+        private readonly IPurchaseOrderRepository purchaseorderRepository;       
+        public string Temp_Purchase;
+        private string ErrorMessage = string.Empty;
+        #endregion
 
+        #region Constructor
+        //inject dependency
+        public PurchaseOrdersController(IPurchaseOrderRepository prepository)
+        {
+            this.purchaseorderRepository = prepository;
+        }
+        #endregion
+
+        #region Controller Actions
         // GET: PurchaseOrders
         public ActionResult Index()
         {
-            return View(db.purchaseorder.ToList());
-        }
-
-        // GET: PurchaseOrders/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PurchaseOrder purchaseOrder = db.purchaseorder.Find(id);
-            if (purchaseOrder == null)
-            {
-                return HttpNotFound();
-            }
-            return View(purchaseOrder);
-        }
+                LogHandler.WriteLog("Purchase Index page requested by #UserId");
+                var qList = purchaseorderRepository.GetAllPurchaseOrders().ToList();
 
-        // GET: PurchaseOrders/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+                PurchaseOrderViewModels model = new PurchaseOrderViewModels();
+                //model.PurchaseQuotation.Quotation_Status = "Open";
+                model.PurchaseOrderList = qList;
 
-        // POST: PurchaseOrders/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Purchase_Order_Id,BaseDocId,TargetDocId,Purchase_Quote_Id,Vendor,Reference_Number,Order_Status,Posting_Date,Delivery_Date,Document_Date,Ship_To,Freight,Loading,TotalBefDocDisc,DocDiscAmt,TaxAmt,TotalOrdAmt,Remarks,Created_User_Id,Created_Branc_Id,Created_Date,Modified_User_Id,Modified_Branch_Id,Modified_Date")] PurchaseOrder purchaseOrder)
-        {
-            if (ModelState.IsValid)
-            {
-                db.purchaseorder.Add(purchaseOrder);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                //Bind Branch
+                var BranchList = purchaseorderRepository.GetBranchList().ToList();
+                model.BranchList = BranchList;
 
-            return View(purchaseOrder);
-        }
+                //Bind Branch
+                var VATList = purchaseorderRepository.GetVAT().ToList();
+                model.VATList = VATList;
 
-        // GET: PurchaseOrders/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PurchaseOrder purchaseOrder = db.purchaseorder.Find(id);
-            if (purchaseOrder == null)
-            {
-                return HttpNotFound();
-            }
-            return View(purchaseOrder);
-        }
+                //Bind Product
+                var ProductList = purchaseorderRepository.GetProductList().ToList();
+                model.ProductList = ProductList;
 
-        // POST: PurchaseOrders/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Purchase_Order_Id,BaseDocId,TargetDocId,Purchase_Quote_Id,Vendor,Reference_Number,Order_Status,Posting_Date,Delivery_Date,Document_Date,Ship_To,Freight,Loading,TotalBefDocDisc,DocDiscAmt,TaxAmt,TotalOrdAmt,Remarks,Created_User_Id,Created_Branc_Id,Created_Date,Modified_User_Id,Modified_Branch_Id,Modified_Date")] PurchaseOrder purchaseOrder)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(purchaseOrder).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(purchaseOrder);
-        }
+                //Bind Businesspartner
+                var BusinessParterList = purchaseorderRepository.GetBusinessPartnerList().ToList();
+                model.BusinessPartnerList = BusinessParterList;
 
-        // GET: PurchaseOrders/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View(model);
             }
-            PurchaseOrder purchaseOrder = db.purchaseorder.Find(id);
-            if (purchaseOrder == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return View("Error");
             }
-            return View(purchaseOrder);
         }
-
-        // POST: PurchaseOrders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            PurchaseOrder purchaseOrder = db.purchaseorder.Find(id);
-            db.purchaseorder.Remove(purchaseOrder);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        #endregion
     }
 }

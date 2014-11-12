@@ -43,8 +43,8 @@ namespace Troy.Model.PurchaseOrder
 
         [Required]        
         public int Vat_Code { get; set; }
-        [ForeignKey("Vat_Code")]
-        public virtual VAT vat { get; set; }
+        //[ForeignKey("Vat_Code")]
+        //public virtual VAT vat { get; set; }
         //-----------
 
         [Required]
@@ -56,5 +56,8 @@ namespace Troy.Model.PurchaseOrder
         [Column(TypeName = "char")]
         public string BaseDocLink { get; set; }
         //------
+
+        [NotMapped]
+        public int IsDummy { get; set; }
     }
 }
