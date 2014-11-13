@@ -46,6 +46,7 @@ namespace Troy.Web.Controllers
                 LogHandler.WriteLog("Purchase Index page requested by #UserId");
 
                 PurchaseViewModels model = new PurchaseViewModels();
+                model.PurchaseQuotation = new PurchaseQuotation();
                 //model.PurchaseQuotation.Quotation_Status = "Open";
                 model.PurchaseQuotationList = purchaseDb.GetAllQuotation();
                 model.BranchList = purchaseDb.GetAddressList().ToList();
@@ -94,17 +95,11 @@ namespace Troy.Web.Controllers
                     var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
                     model.PurchaseQuotationItemList = QuotationList.ToList();
 
-                    for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
-                    {
-                        model.PurchaseQuotationItemList[i].Created_Branc_Id = 1;//currentUser.Created_Branch_Id;
-                        model.PurchaseQuotationItemList[i].Created_Date = DateTime.Now;
-                        model.PurchaseQuotationItemList[i].Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
-                        model.PurchaseQuotationItemList[i].Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id;
-                        model.PurchaseQuotationItemList[i].Modified_Date = DateTime.Now;
-                        model.PurchaseQuotationItemList[i].Modified_User_Id = 1;//currentUser.Modified_User_Id;
-                        model.PurchaseQuotationItemList[i].Quoted_qty = 10; //GetQuantity()
-                        model.PurchaseQuotationItemList[i].Quoted_date = DateTime.Now;
-                    }
+                    //for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
+                    //{                        
+                    //    model.PurchaseQuotationItemList[i].Quoted_qty = 10; //GetQuantity()
+                    //    model.PurchaseQuotationItemList[i].Quoted_date = DateTime.Now;
+                    //}
 
                     if (purchaseDb.AddNewQuotation(model.PurchaseQuotation, model.PurchaseQuotationItemList, ref ErrorMessage))
                     {
@@ -138,13 +133,7 @@ namespace Troy.Web.Controllers
                     //model.PurchaseQuotationItemList = QuotationList.ToList();
 
                     for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
-                    {
-                        model.PurchaseQuotationItemList[i].Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
-                        model.PurchaseQuotationItemList[i].Created_Date = DateTime.Now;
-                        model.PurchaseQuotationItemList[i].Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
-                        model.PurchaseQuotationItemList[i].Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id;
-                        model.PurchaseQuotationItemList[i].Modified_Date = DateTime.Now;
-                        model.PurchaseQuotationItemList[i].Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                    {                      
                         model.PurchaseQuotationItemList[i].Quoted_qty = 10; //GetQuantity()
                         model.PurchaseQuotationItemList[i].Quoted_date = DateTime.Now;
                     }
@@ -401,7 +390,7 @@ namespace Troy.Web.Controllers
             Xmlqtn.ValidDate = model.Valid_Date.ToString();
             Xmlqtn.RequiredDate = model.Required_Date.ToString();
             Xmlqtn.BranchCode = model.Ship_To.ToString();
-            Xmlqtn.Freight = model.Fright.ToString();
+            Xmlqtn.Freight = model.Freight.ToString();
             Xmlqtn.Loading = model.Loading.ToString();
             Xmlqtn.TotalBefDocDisc = "";
             Xmlqtn.DocDiscAmt = "";
@@ -432,7 +421,7 @@ namespace Troy.Web.Controllers
                 item.DiscountPercent = model[i].Discount_percent.ToString();
                 item.TaxCode = "";
                 item.UnitPrice = model[i].Unit_price.ToString();
-                item.LineTotal = model[i].Amount.ToString();
+                item.LineTotal = model[i].LineTotal.ToString();
                 XmlQtnList.Add(item);
             }
 
@@ -566,12 +555,12 @@ namespace Troy.Web.Controllers
                                     pItem.Reference_Number = ds.Tables[0].Rows[i]["Reference Number"].ToString();
                                     pItem.Quotation_Status = ds.Tables[0].Rows[i]["Status"].ToString();
                                     pItem.Ship_To = Convert.ToInt32(ds.Tables[0].Rows[i]["Ship To"]);
-                                    pItem.Fright = Convert.ToInt32(ds.Tables[0].Rows[i]["Fright"]);
+                                    pItem.Freight = Convert.ToInt32(ds.Tables[0].Rows[i]["Freight"]);
                                     pItem.Loading = Convert.ToInt32(ds.Tables[0].Rows[i]["Loading"]);
                                     pItem.Posting_Date = Convert.ToDateTime(ds.Tables[0].Rows[i]["Posting Date"]);
                                     pItem.Valid_Date = Convert.ToDateTime(ds.Tables[0].Rows[i]["Valid Date"]);
                                     pItem.Required_Date = Convert.ToDateTime(ds.Tables[0].Rows[i]["Required Date"]);
-                                    pItem.Discount = Convert.ToInt32(ds.Tables[0].Rows[i]["Discount"]);
+                                    pItem.DocDiscAmt = Convert.ToInt32(ds.Tables[0].Rows[i]["DocDiscAmt"]);
                                     pItem.Remarks = ds.Tables[0].Rows[i]["Remarks"].ToString();
 
                                     pItem.Created_User_Id = 1; //GetUserId();
@@ -688,13 +677,7 @@ namespace Troy.Web.Controllers
                     //returnMessage = "VAT Code cannot be empty it the excel sheet";
                     return null;
                 }
-
-                pqItem.Created_Branc_Id = 1;
-                pqItem.Created_Date = DateTime.Now;
-                pqItem.Created_User_Id = 1;  //GetUserId()
-                pqItem.Modified_Branch_Id = 1;
-                pqItem.Modified_Date = DateTime.Now;
-                pqItem.Modified_User_Id = 1;
+               
                 pqItem.Quoted_qty = 10; //GetQuantity()
                 pqItem.Quoted_date = DateTime.Now.AddDays(2);
 

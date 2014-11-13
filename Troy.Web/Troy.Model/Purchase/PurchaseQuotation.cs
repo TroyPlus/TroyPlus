@@ -16,6 +16,8 @@ namespace Troy.Model.Purchase
         [Display(Name = "PurchaseId")]
         public int Purchase_Quote_Id { get; set; }
 
+        public int TargetDocId { get; set; }
+
         [Required]
         [Display(Name = "Vendor")]
         public int Vendor_Code { get; set; }
@@ -50,16 +52,26 @@ namespace Troy.Model.Purchase
 
         [Required]
         [Display(Name = "Freight")]
-        public int? Fright { get; set; }
+        public int? Freight { get; set; }       
 
         [Required]
         public int? Loading { get; set; }
 
-        [Required]
-        [Display(Name = "Discount %")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:P2}")]
-        [Range(0, 100)]
-        public int? Discount { get; set; }
+        [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Invalid price")]
+        public decimal TotalBefDocDisc { get; set; }
+
+        [RegularExpression(@"^\d+.\d{0,2}$",ErrorMessage = "Price must can't have more than 2 decimal places")]
+        public decimal DocDiscAmt { get; set; }
+
+        public decimal TaxAmt { get; set; }
+
+        public decimal TotalQtnAmt { get; set; }
+
+        //[Required]
+        //[Display(Name = "Discount %")]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:P2}")]
+        //[Range(0, 100)]
+        //public int? Discount { get; set; }
 
         public string Remarks { get; set; }
 

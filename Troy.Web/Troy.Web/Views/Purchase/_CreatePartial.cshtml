@@ -58,7 +58,8 @@
                                                     @Html.DropDownListFor(model => model.PurchaseQuotation.Quotation_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
-                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
+                                                            new SelectListItem{ Text="Closed", Value = "Closed" },
+                                                            new SelectListItem{ Text="Cancel", Value = "Cancel" }
                                                          }, "Open", new { @class = "form-control", @disabled = true })
 
                                                     @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
@@ -77,11 +78,11 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.PurchaseQuotation.Fright, new { @class = "control-label normal" })
+                                                    @Html.LabelFor(m => m.PurchaseQuotation.Freight, new { @class = "control-label normal" })
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Fright, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Fright)
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Freight, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Freight)
                                                 </div>
                                             </div>
 
@@ -130,7 +131,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row  form-group">
+                                            @*<div class="row  form-group">
                                                 <div class="col-md-4">
                                                     @Html.LabelFor(m => m.PurchaseQuotation.Discount, new { @class = "control-label normal" })
                                                 </div>
@@ -138,7 +139,7 @@
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Discount, new { @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Discount)
                                                 </div>
-                                            </div>
+                                            </div>*@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
@@ -175,8 +176,8 @@
                                                 <th>Required Quantity</th>
                                                 <th>Unit Price</th>
                                                 <th>Discount %</th>
-                                                <th> Amount</th>
                                                 <th>VAT Code</th>
+                                                <th> Amount</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -211,14 +212,14 @@
                                                     <td>
                                                         @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Discount_percent)
-                                                    </td>
-                                                    <td>
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Amount, new { @class = "form-control control-text", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Amount)
-                                                    </td>
+                                                    </td>                                                    
                                                     <td>
                                                         @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Vat_Code, new { @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Vat_Code)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].LineTotal, new { @class = "form-control control-text", @readonly = true })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].LineTotal)
                                                     </td>
                                                     <td style="width: 90px;">
                                                         <input class="BtnPlus btn pull-left" type="button" value="+" />
@@ -240,7 +241,11 @@
                                     @*@Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })*@
 
                                     <div class="row" style="float:right;">
-                                        Total : <span id="totalPurchase">0</span>
+                                        Total : <span id="totalPurchase">@Model.PurchaseQuotation.TotalBefDocDisc</span> <br />
+                                        Discount Amount : <span id="totalDiscount">@Model.PurchaseQuotation.DocDiscAmt</span> <br />
+                                        Tax Amount : <span id="totalTax">@Model.PurchaseQuotation.TaxAmt</span> <br />
+                                        Total Quotation Amount : <span id="totalQuotationAmt">@Model.PurchaseQuotation.TotalQtnAmt</span> <br />
+
                                     </div>
 
                                 </div>

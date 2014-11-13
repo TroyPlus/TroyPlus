@@ -28,9 +28,11 @@ namespace Troy.Model.Purchase
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime Required_date { get; set; }
 
-        public int Quoted_qty { get; set; }
+        public int? Quoted_qty { get; set; }
 
-        public DateTime Quoted_date { get; set; }
+        public DateTime? Quoted_date { get; set; }
+
+        public int Used_qty { get; set; }
 
         [Display(Name = "Discount%")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:P2}")]
@@ -45,19 +47,19 @@ namespace Troy.Model.Purchase
         public decimal Unit_price { get; set; }
 
         [DefaultValue(0)]
-        public decimal Amount { get; set; }
+        public decimal LineTotal { get; set; }
 
-        public int Created_User_Id { get; set; }
+        //public int Created_User_Id { get; set; }
 
-        public int Created_Branc_Id { get; set; }
+        //public int Created_Branc_Id { get; set; }
 
-        public DateTime Created_Date { get; set; }
+        //public DateTime Created_Date { get; set; }
 
-        public int Modified_User_Id { get; set; }
+        //public int Modified_User_Id { get; set; }
 
-        public int Modified_Branch_Id { get; set; }
+        //public int Modified_Branch_Id { get; set; }
 
-        public DateTime Modified_Date { get; set; }
+        //public DateTime Modified_Date { get; set; }
 
         [NotMapped]
         public int IsDummy { get; set; }
