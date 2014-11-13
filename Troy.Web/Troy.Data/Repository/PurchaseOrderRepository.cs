@@ -15,6 +15,7 @@ using Troy.Utilities.CrossCutting;
 using Troy.Model.Branches;
 using Troy.Model.Configuration;
 using Troy.Model.Products;
+using Troy.Model.Purchase;
 
 namespace Troy.Data.Repository
 {
@@ -48,22 +49,29 @@ namespace Troy.Data.Repository
                          TaxAmt = p.TaxAmt,
                          TotalOrdAmt = p.TotalOrdAmt,
                          Remarks = p.Remarks
-                     }).ToList();
-
-            //qList = (from p in purchase
-            //         join b in businessContext.BusinessPartner on p.Vendor equals b.BP_Id
-            //         select new PurchaseOrder()
-            //         {
-            //             Vendor=b.BP_Id,
-            //             Purchase_Order_Id = p.Purchase_Order_Id,
-            //             Reference_Number = p.Reference_Number,
-            //             Order_Status = p.Order_Status,
-            //             Posting_Date = p.Posting_Date,
-            //             Delivery_Date = p.Delivery_Date
-            //         }).ToList();
+                     }).ToList();          
 
             return qList;
         }
+
+        public List<ViewPurchaseQuotation> GetPurchaseQuotation()            
+        {
+            List<ViewPurchaseQuotation> qlist = new List<ViewPurchaseQuotation>();
+            qlist = (from pq in purchaseordercontext.purchasequotation
+                     join b in purchaseordercontext.Businesspartner
+                       on pq.Vendor_Code equals b.BP_Id
+                     where pq.Quotation_Status == "Open"
+                     select new ViewPurchaseQuotation()
+                     {
+                         Purchase_Quote_Id = pq.Purchase_Quote_Id,
+                         Valid_Date = pq.Valid_Date,
+                         Vendor_Name = b.BP_Name,
+                         Quotation_Status = pq.Quotation_Status
+                     }).ToList();
+            return qlist;
+                   
+        }
+        
 
         public List<BranchList> GetBranchList()
         {
@@ -107,6 +115,20 @@ namespace Troy.Data.Repository
                             BP_Name = a.BP_Name
                         }).ToList();
             return item;
+        }
+
+        public PurchaseQuotation FindOneQuotationById(int qId)
+        {
+            return (from p in purchaseordercontext.purchasequotation
+                    where p.Purchase_Quote_Id == qId
+                    select p).FirstOrDefault();
+        }
+
+        public IList<PurchaseQuotationItem> FindOneQuotationItemById(int qId)
+        {
+            return (from p in purchaseordercontext.purchasequotationitem
+                    where p.Purchase_Quote_Id == qId
+                    select p).ToList();
         }
     }
 }

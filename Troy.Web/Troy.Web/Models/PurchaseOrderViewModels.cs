@@ -7,6 +7,7 @@ using Troy.Model.BusinessPartner;
 using Troy.Model.Branches;
 using Troy.Model.Configuration;
 using Troy.Model.Products;
+using Troy.Model.Purchase;
 
 namespace Troy.Web.Models
 {
@@ -27,6 +28,14 @@ namespace Troy.Web.Models
         public List<ProductList> ProductList { get; set; }
 
         public List<BussinessList> BusinessPartnerList { get; set; }
+
+        public List<ViewPurchaseQuotation> PurchaseQuotationList { get; set; }
+
+        public PurchaseQuotation PurchaseQuotation { get; set; }
+
+        public PurchaseQuotationItem PurchaseQuotationItem { get; set; }
+
+        public IList<PurchaseQuotationItem> PurchaseQuotationItemList { get; set; }
 
         public string SearchQuery { get; set; }
 

@@ -17,7 +17,7 @@ namespace Troy.Web.Controllers
     public class PurchaseOrdersController : BaseController
     {
         #region Fields
-        private readonly IPurchaseOrderRepository purchaseorderRepository;       
+        private readonly IPurchaseOrderRepository purchaseorderRepository;
         public string Temp_Purchase;
         private string ErrorMessage = string.Empty;
         #endregion
@@ -47,7 +47,7 @@ namespace Troy.Web.Controllers
                 var BranchList = purchaseorderRepository.GetBranchList().ToList();
                 model.BranchList = BranchList;
 
-                //Bind Branch
+                //Bind VAT
                 var VATList = purchaseorderRepository.GetVAT().ToList();
                 model.VATList = VATList;
 
@@ -59,6 +59,10 @@ namespace Troy.Web.Controllers
                 var BusinessParterList = purchaseorderRepository.GetBusinessPartnerList().ToList();
                 model.BusinessPartnerList = BusinessParterList;
 
+                //Bind PurchaseQuotation
+                var qList1 = purchaseorderRepository.GetPurchaseQuotation().ToList();
+                model.PurchaseQuotationList = qList1;
+
                 return View(model);
             }
             catch (Exception ex)
@@ -68,6 +72,42 @@ namespace Troy.Web.Controllers
                 return View("Error");
             }
         }
+
+        public PartialViewResult _CreatePartial(int id)
+        {
+            try
+            {
+                PurchaseOrderViewModels model = new PurchaseOrderViewModels();
+
+                //Bind Branch
+                var BranchList = purchaseorderRepository.GetBranchList().ToList();
+                model.BranchList = BranchList;
+
+                //Bind VAT
+                var VATList = purchaseorderRepository.GetVAT().ToList();
+                model.VATList = VATList;
+
+                //Bind Product
+                var ProductList = purchaseorderRepository.GetProductList().ToList();
+                model.ProductList = ProductList;
+
+                //Bind Businesspartner
+                var BusinessParterList = purchaseorderRepository.GetBusinessPartnerList().ToList();
+                model.BusinessPartnerList = BusinessParterList;
+
+                model.PurchaseQuotation = purchaseorderRepository.FindOneQuotationById(id);
+                model.PurchaseQuotationItemList = purchaseorderRepository.FindOneQuotationItemById(id);
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+        }
+
         #endregion
     }
 }

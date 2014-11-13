@@ -8,6 +8,7 @@ using Troy.Model.BusinessPartner;
 using Troy.Model.Branches;
 using Troy.Model.Configuration;
 using Troy.Model.Products;
+using Troy.Model.Purchase;
 
 namespace Troy.Data.Repository
 {
@@ -22,5 +23,11 @@ namespace Troy.Data.Repository
         List<ProductList> GetProductList();
 
         List<BussinessList> GetBusinessPartnerList();
+
+        List<ViewPurchaseQuotation> GetPurchaseQuotation();
+
+        PurchaseQuotation FindOneQuotationById(int qId);
+
+        IList<PurchaseQuotationItem> FindOneQuotationItemById(int qId);
     }
 }

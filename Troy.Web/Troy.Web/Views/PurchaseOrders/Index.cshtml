@@ -5,11 +5,11 @@
 }
 
 <script type="text/javascript">
-   
+
 
     $(document).ready(function () {
 
-        $('.datePicker').datepicker();      
+        $('.datePicker').datepicker();
     });
 
     function EditPurchase(id) {
@@ -32,6 +32,17 @@
             $('#viewmodelcontainer').html(data);
 
             $('#viewModal').modal('show');
+        });
+    }
+
+    function ViewPurchaseQuotation(id) {
+
+        var url =  $('#viewPurQuoModal').data('url') + '/' + id;
+        
+        $.get(url, function (data) {
+            $('#viewPurQuomodelcontainer').html(data);
+
+            $('#viewPurQuoModal').modal('show');
         });
     }
 
@@ -73,12 +84,9 @@
             }
         });
     }
-
-  
-
 </script>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Index", "PurchaseOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(true)
     @Html.HiddenFor(m => m.SearchColumn)
@@ -105,7 +113,11 @@
                     <div class="col-lg-10 col-md-10">
                         <div class="row">
                             <div class="pull-right group-button btn-toolbar">
-                                <button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false">
+                                @*<button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false">
+                                        <i class="en-add-to-list strong"></i>
+                                        <span> New</span>
+                                    </button>*@
+                                <button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#confirmationModal" data-backdrop="static" data-keyboard="false">
                                     <i class="en-add-to-list strong"></i>
                                     <span> New</span>
                                 </button>
@@ -203,6 +215,14 @@
         @Html.Partial("_CreatePartial", Model)
     </div>
 
+    <div class="modal fade bs-example-modal-lg" id="viewPurQuoModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_CreatePartial")'>
+        @*@Html.Partial("_CreatePartial", Model)*@
+        <div id="viewPurQuomodelcontainer">
+
+        </div>
+    </div>
+
     <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
         <div id="editmodelcontainer">
@@ -214,7 +234,10 @@
         <div id="viewmodelcontainer">
         </div>
     </div>
+}
 
+@using (Html.BeginForm("Upload", "PurchaseOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
     <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -271,4 +294,144 @@
         </div>
     </div>
 }
+
+@using (Html.BeginForm("Confirmation", "PurchaseOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal fade bs-example-modal-lg" id="confirmationModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Select Way of Entry</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="tabs">
+                                <ul id="myTab" class="nav nav-tabs tabdrop">
+                                    <li class="active">
+                                        <a href="#default" data-toggle="tab">Select way of entry</a>
+                                    </li>
+                                </ul>
+
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade in active" id="default">
+                                        <br />
+
+                                        <div id="FileUploadDiv">
+                                            @*<iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>*@
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    @*<input type="file" id="Select" name="FileUpload" />*@
+                                                    @*@Html.RadioButton("select", "Create from Purchase Quotation", false)Create from Purchase Quotation
+                                                        @Html.RadioButton("select", "Create Directly", false) Create Directly*@
+                                                    <button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#RetrivePurQuoModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal">
+                                                        <i class="en-add-to-list strong"></i>
+                                                        <span> Create from Purchase Quotation</span>
+                                                    </button>
+                                                    <button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal">
+                                                        <i class="en-add-to-list strong"></i>
+                                                        <span> Create Directly</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input class="btn btn-primary pull-left" type="button" id="btnOK" name="FileUploadButton" value="OK" />
+                    <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("RetrivePurQuo", "PurchaseOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal fade bs-example-modal-lg" id="RetrivePurQuoModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Purchase Quotations</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="tabs">
+                                <ul id="myTab" class="nav nav-tabs tabdrop">
+                                    <li class="active">
+                                        <a href="#default" data-toggle="tab">Purchase Quotations</a>
+                                    </li>
+                                </ul>
+
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade in active" id="default">
+                                        <br />
+                                        <div id="FileUploadDiv">
+                                            @*<iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>*@
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="panel-body">
+
+                                                        <table class="table display" id="datatable">
+                                                            <thead>
+
+                                                                <tr>
+                                                                    <th>Purchase Quotation ID</th>
+                                                                    <th>Valid Date</th>
+                                                                    <th>Vendor</th>
+                                                                    <th>Quotation Status</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (Troy.Model.Purchase.ViewPurchaseQuotation item in Model.PurchaseQuotationList)
+                                                                {
+                                                                <tr class="odd gradeX">
+                                                                    <td style="text-align:center;">@item.Purchase_Quote_Id</td>
+                                                                    <td>@item.Valid_Date</td>
+                                                                    <td style="text-align:center;">@item.Vendor_Name</td>
+                                                                    <td>@item.Quotation_Status</td>
+                                                                    <td>
+                                                                        <a href="#" class="top-right" data-toggle="modal" data-target="#viewPurQuoModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseQuotation(@item.Purchase_Quote_Id);">
+                                                                            <i class="im-eye2"></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
 

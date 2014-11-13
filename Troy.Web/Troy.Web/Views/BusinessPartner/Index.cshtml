@@ -64,7 +64,7 @@
     function EditBusinessPartner(id) {
 
         var url = $('#editModal').data('url') + '/' + id;
-
+       
         $.get(url, function (data) {
 
             $('#editmodelcontainer').html(data);

@@ -9,6 +9,7 @@ using Troy.Model.Products;
 using Troy.Model.Branches;
 using Troy.Model.BusinessPartner;
 using Troy.Model.Configuration;
+using Troy.Model.Purchase;
 
 namespace Troy.Data.DataContext
 {
@@ -25,6 +26,10 @@ namespace Troy.Data.DataContext
         public DbSet<Product> product { get; set; }
 
         public DbSet<ProductPrice> productprice { get; set; }
+
+        public DbSet<PurchaseQuotation> purchasequotation { get; set; }
+
+        public DbSet<PurchaseQuotationItem> purchasequotationitem { get; set; }
 
         public DbSet<BusinessPartner> Businesspartner { get; set; }
 
