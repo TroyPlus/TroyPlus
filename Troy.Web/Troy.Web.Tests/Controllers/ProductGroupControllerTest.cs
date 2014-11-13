@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Troy.Model.ProductGroup;
+using Troy.Model.ProductGroups;
 using Troy.Data.Repository;
 using Moq;
 using Troy.Web.Controllers;

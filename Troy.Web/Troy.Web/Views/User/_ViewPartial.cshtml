@@ -1,5 +1,11 @@
 ﻿@model Troy.Web.Models.UserViewModels
 
+
+<script type="text/javascript">
+    $(function () {
+        $(".multiselect").multiselect({ selectedList: 4,noneSelectedText: 'Select branches',header: false });
+    });
+</script>
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -81,7 +87,7 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    Employee Name:
+                                                    Employee
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.DropDownListFor(m => m.ApplicationUserList.Employee_Id, new SelectList(Model.employeelist.AsEnumerable(), "Emp_Id", "First_Name"), "", new { disabled = "disabled", @class = "form-control control-text" })
@@ -104,7 +110,7 @@
                                        
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                Role Description:
+                                                Role
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.DropDownListFor(m => m.ApplicationUserList.Role_Id, new SelectList(Model.rolelist.AsEnumerable(), "Id", "Name"), "", new { disabled = "disabled", @class = "form-control control-text" })
@@ -113,25 +119,44 @@
                 @Html.ValidationMessageFor(model => model.Branch_Id)*@
                                             </div>
                                         </div>
+
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                BranchName:
+                                                @Html.LabelFor(m => m.Branch_Id, new { @class = "control-label normal" })
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.ApplicationUserList.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { disabled = "disabled", @class = "form-control control-text" })
-                                                @Html.ValidationMessageFor(model => model.ApplicationUserList.Branch_Id)
-                                                @*@Html.TextBoxFor(model => model.Branch_Id, new { @class = "form-control control-text" })
-                @Html.ValidationMessageFor(model => model.Branch_Id)*@
+                                                @Html.DropDownListFor(m => m.SubmittedBranches, new System.Web.Mvc.MultiSelectList(Model.branchlist.AsEnumerable(),
+                                                            "Branch_Id", "Branch_Name",Model.DefaultSelectedBranches), new { disabled="disabled", multiple = "multiple", @class = "form-control control-text" })
+
+                                                @*@Html.DropDownList("SubmittedMovies", "Select branches", new System.Web.Mvc.MultiSelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name", Model.DefaultSelectedBranches.Select(m => m.Branch_Id)),
+                new { multiple = "multiple", @class = "form-control control-text multiselect" })*@
+
+
+
+                                                @*@Html.ValidationMessageFor(model => model.SubmittedBranches, "", new { @class = "text-danger" })*@
                                             </div>
                                         </div>
+
+
+                                        @*<div class="row form-group">
+                                            <div class="col-md-4">
+                                                Branch Name
+                                            </div>
+                                            <div class="col-md-8">*@
+                                                @*@Html.DropDownListFor(m => m.ApplicationUserList.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { disabled = "disabled", @class = "form-control control-text" })
+                                                @Html.ValidationMessageFor(model => model.ApplicationUserList.Branch_Id)*@
+                                                @*@Html.TextBoxFor(model => model.Branch_Id, new { @class = "form-control control-text" })
+                @Html.ValidationMessageFor(model => model.Branch_Id)*@
+                                            @*</div>
+                                        </div>*@
                                         <div class="row form-group">
                                             <div class="col-md-4">
-                                                DefaultBranch:
+                                                DefaultBranch
                                             </div>
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(m => m.ApplicationUserList.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { disabled = "disabled", @class = "form-control control-text" })
+                                                @Html.DropDownListFor(m => m.ApplicationUserList.Defaultbranch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { disabled = "disabled", @class = "form-control control-text" })
                                                 @*@Html.TextBoxFor(model => model.ApplicationUserList.Branch_Id, new { @class = "form-control control-text" })*@
-                                                @Html.ValidationMessageFor(model => model.ApplicationUserList.Branch_Id)
+                                                @Html.ValidationMessageFor(model => model.ApplicationUserList.Defaultbranch_Id)
                                             </div>
                                         </div>
                                     </div>
@@ -145,7 +170,7 @@
                 <div class="modal-footer">
                     @*<input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />*@
                     <button class="btn pull-left" data-dismiss="modal">Cancel</button>
-                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+                    @Ajax.ActionLink(" ", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
                 </div>
             </div>
         </div>

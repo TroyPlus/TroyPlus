@@ -15,6 +15,8 @@ namespace Troy.Model.Purchase
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "PurchaseId")]
         public int Purchase_Quote_Id { get; set; }
+        [ForeignKey("Purchase_Quote_Id")]
+        public virtual PurchaseQuotation purchaseQuotation { get; set; }
 
         public int TargetDocId { get; set; }
 

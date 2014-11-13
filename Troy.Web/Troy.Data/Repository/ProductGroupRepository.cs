@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Data.DataContext;
-using Troy.Model.ProductGroup;
+using Troy.Model.ProductGroups;
 using Troy.Model.SAP_OUT;
 using Troy.Utilities.CrossCutting;
 

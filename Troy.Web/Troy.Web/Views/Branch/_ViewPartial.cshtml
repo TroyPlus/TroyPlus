@@ -34,7 +34,7 @@
                                 <div class="form-horizontal">
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            @Html.LabelFor(m => m.Branch.Branch_Code)
+                                            Branch Code
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.Branch.Branch_Code, new { @readonly = "readonly", @class = "form-control control-text" })
@@ -45,8 +45,7 @@
 
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Branch.Branch_Name)
-
+                                            Branch Name
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.Branch.Branch_Name, new { @readonly = "readonly", @class = "form-control control-text" })
@@ -56,7 +55,7 @@
 
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Branch.Address1)
+                                            Address1
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.Branch.Address1, new { @readonly = "readonly", @class = "form-control control-text" })
@@ -66,7 +65,7 @@
 
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Branch.Address2)
+                                            Address2
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.Branch.Address2, new { @readonly = "readonly", @class = "form-control control-text" })
@@ -76,7 +75,7 @@
 
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Branch.Address3)
+                                            Address3
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.Branch.Address3, new { @readonly = "readonly", @class = "form-control control-text" })
@@ -90,7 +89,7 @@
                                 <div class="form-horizontal">
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            Country:
+                                            Country
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.Branch.country.Country_Name, new { @readonly = "readonly", @class = "form-control control-text" })
@@ -101,7 +100,7 @@
 
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            State:
+                                            State
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.Branch.state.State_Name, new { disabled = "disabled", @class = "form-control control-text" })
@@ -112,7 +111,7 @@
 
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            City:
+                                            City
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.Branch.city.City_Name, new { disabled = "disabled", @class = "form-control control-text" })
@@ -123,7 +122,7 @@
 
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Branch.Pin_Code)
+                                          pincode
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.Branch.Pin_Code, new { @readonly = "readonly", @class = "form-control control-text" })
@@ -133,7 +132,7 @@
 
                                     <div class="row form-group">
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Branch.Order_Num)
+                                            Order Number
                                         </div>
                                         <div class="col-md-8">
                                             @Html.TextBoxFor(model => model.Branch.Order_Num, new { @readonly = "readonly", @class = "form-control control-text" })
@@ -153,7 +152,7 @@
         <div class="modal-footer">
             @*<input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />*@
             <button class="btn pull-left" data-dismiss="modal">Cancel</button>
-            @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+            @Ajax.ActionLink(" ", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
         </div>
     </div>
 </div>

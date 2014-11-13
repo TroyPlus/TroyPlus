@@ -112,6 +112,7 @@
     <Compile Include="Configuration\State.cs" />
     <Compile Include="Configuration\StateList.cs" />
     <Compile Include="Configuration\VAT.cs" />
+    <Compile Include="Configuration\VATList.cs" />
     <Compile Include="Countries\Country.cs" />
     <Compile Include="Countries\CountryList.cs" />
     <Compile Include="Departments\Department.cs" />
@@ -123,6 +124,8 @@
     <Compile Include="Employees\ViewEmployee.cs" />
     <Compile Include="Genders\Gender.cs" />
     <Compile Include="Genders\GenderList.cs" />
+    <Compile Include="Goods Receipt Product Order%28GPRO%29\GoodsReceipt.cs" />
+    <Compile Include="Goods Receipt Product Order%28GPRO%29\GoodsReceiptItems.cs" />
     <Compile Include="Groups\Group.cs" />
     <Compile Include="Groups\GroupList.cs" />
     <Compile Include="Initials\Initial.cs" />
@@ -137,10 +140,17 @@
     <Compile Include="MasterData\FinancialYear.cs" />
     <Compile Include="PriceLists\PriceList.cs" />
     <Compile Include="PriceLists\PricelistLists.cs" />
-    <Compile Include="ProductGroup\ProductGroup.cs" />
+    <Compile Include="ProductGroups\ProductGroup.cs" />
+    <Compile Include="Products\Product.cs" />
+    <Compile Include="Products\ProductList.cs" />
+    <Compile Include="Products\ProductPrice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseOrder\PurchaseOrder.cs" />
+    <Compile Include="PurchaseOrder\PurchaseOrderItems.cs" />
+    <Compile Include="PurchaseOrder\ViewPurchaseOrder.cs" />
     <Compile Include="Purchase\PurchaseQuotation.cs" />
     <Compile Include="Purchase\PurchaseQuotationItem.cs" />
+    <Compile Include="Purchase\ViewPurchaseQuotation.cs" />
     <Compile Include="SAP OUT\SAPOUT.cs" />
     <Compile Include="States\State.cs" />
     <Compile Include="States\StateList.cs" />
