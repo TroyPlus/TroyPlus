@@ -56,7 +56,7 @@ namespace Troy.Data.Repository
 
         public List<ViewPurchaseQuotation> GetPurchaseQuotation()            
         {
-            List<ViewPurchaseQuotation> qlist = new List<ViewPurchaseQuotation>();
+            List<ViewPurchaseQuotation> qlist = new List<ViewPurchaseQuotation>();           
             qlist = (from pq in purchaseordercontext.purchasequotation
                      join b in purchaseordercontext.Businesspartner
                        on pq.Vendor_Code equals b.BP_Id
@@ -68,8 +68,7 @@ namespace Troy.Data.Repository
                          Vendor_Name = b.BP_Name,
                          Quotation_Status = pq.Quotation_Status
                      }).ToList();
-            return qlist;
-                   
+            return qlist;                   
         }
         
 

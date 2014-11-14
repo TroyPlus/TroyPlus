@@ -1479,6 +1479,7 @@
     <Content Include="Views\PurchaseOrders\_ViewPartial.cshtml" />
     <Content Include="Views\PurchaseOrders\_EditPartial.cshtml" />
     <Content Include="Views\PurchaseOrders\Index.cshtml" />
+    <Content Include="Views\PurchaseOrders\_ViewPurchaseQuotation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />
