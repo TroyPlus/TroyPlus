@@ -40,5 +40,6 @@ namespace Troy.Web.Models
         public string SearchQuery { get; set; }
 
         public string SearchColumn { get; set; }
+       
     }
 }

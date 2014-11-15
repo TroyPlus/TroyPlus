@@ -73,11 +73,13 @@ namespace Troy.Web.Controllers
             }
         }
 
-        public PartialViewResult _CreatePartial(int id)
+        public PartialViewResult _ViewPurchaseQuotation(int id)
         {
             try
             {
                 PurchaseOrderViewModels model = new PurchaseOrderViewModels();
+                model.PurchaseQuotation = purchaseorderRepository.FindOneQuotationById(id);
+                model.PurchaseQuotationItemList = purchaseorderRepository.FindOneQuotationItemById(id);
 
                 //Bind Branch
                 var BranchList = purchaseorderRepository.GetBranchList().ToList();
@@ -95,8 +97,6 @@ namespace Troy.Web.Controllers
                 var BusinessParterList = purchaseorderRepository.GetBusinessPartnerList().ToList();
                 model.BusinessPartnerList = BusinessParterList;
 
-                model.PurchaseQuotation = purchaseorderRepository.FindOneQuotationById(id);
-                model.PurchaseQuotationItemList = purchaseorderRepository.FindOneQuotationItemById(id);
 
                 return PartialView(model);
             }
