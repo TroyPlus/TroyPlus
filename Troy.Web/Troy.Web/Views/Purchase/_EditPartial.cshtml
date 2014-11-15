@@ -6,7 +6,6 @@
     $(document).ready(function () {
         $('.datePicker').datepicker();
 
-        debugger;
         var startDate = $("#editPostingDate").val();
 
         $('#editRequiredDate').datepicker({
@@ -30,9 +29,9 @@
             var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 
 
-            var productSelectHtml = CreateProductSelect(i);
+            //var productSelectHtml = CreateProductSelect(i);
 
-            productSelectHtml += '</select>';
+            //productSelectHtml += '</select>';
 
             var vatSelectHtml = CreateVATSelect(i);
 
@@ -41,7 +40,7 @@
             var html = '<tr>' +
                         '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="PurchaseQuotationItemList_' + i + '__IsDummy" name="PurchaseQuotationItemList[' + i + '].IsDummy" type="text" value="">  </td>' +
                         '<td width="20%"> ' +
-                            productSelectHtml +
+                            //productSelectHtml +
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Product_id" data-valmsg-replace="true"></span>' +
                         '</td>' +
                         '<td width="15%">' +
@@ -91,35 +90,35 @@
             });
         };
 
-        function CreateProductSelect(rowID) {
+        //function CreateProductSelect(rowID) {
 
-            //debugger;
+        //    //debugger;
 
-            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseQuotationItemList_' + rowID + '__Product_id" name="PurchaseQuotationItemList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
-            selectHtml += '<option value=""></option>';
+        //    var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseQuotationItemList_' + rowID + '__Product_id" name="PurchaseQuotationItemList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+        //    selectHtml += '<option value=""></option>';
 
-            var dataUrl = "/Purchase/GetProductList";
+        //    var dataUrl = "/Purchase/GetProductList";
 
-            $.ajax({
-                type: 'GET',
-                url: dataUrl,
-                async: false,
-                cache: false,
-                crossDomain: true,
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                error: function (xhr, err) {
-                },
-                success: function (result, status) {
-                    //debugger;
-                    for (var count = 0; count < result.length; count++) {
-                        selectHtml += '<option value="' + result[count].Product_Id + '">' + result[count].Product_Name + '</option>';
-                    }
-                }
-            });
+        //    $.ajax({
+        //        type: 'GET',
+        //        url: dataUrl,
+        //        async: false,
+        //        cache: false,
+        //        crossDomain: true,
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: 'json',
+        //        error: function (xhr, err) {
+        //        },
+        //        success: function (result, status) {
+        //            //debugger;
+        //            for (var count = 0; count < result.length; count++) {
+        //                selectHtml += '<option value="' + result[count].Product_Id + '">' + result[count].Product_Name + '</option>';
+        //            }
+        //        }
+        //    });
 
-            return selectHtml;
-        }
+        //    return selectHtml;
+        //}
 
         function CreateVATSelect(rowID) {
 
@@ -211,17 +210,15 @@
 
     });
 
-    function OnChangeProduct(val, rowId) {
-
-        var pID = parseInt(val.value);
+    function GetPrice(pID) {
 
         var dataUrl = "/Purchase/GetPrice?pID=" + pID;
-
+        var price;
         $.ajax({
             type: 'GET',
             url: dataUrl,
             //data: pID,
-            async: true,
+            async: false,
             cache: false,
             crossDomain: true,
             contentType: "application/json; charset=utf-8",
@@ -229,24 +226,22 @@
             error: function (xhr, err) {
             },
             success: function (result, status) {
-                //debugger;
-                var id = "#PurchaseQuotationItemList_" + rowId + "__Unit_price";
-                $(id).val(result);
-                CalculateTotal();
-                CalculateTotalAmount();
+                price = result;
             }
         });
+
+        return price;
     }
 
-    function OnChangeQuantity(currentQty, rowId) {
-        debugger;
+    function OnChangeQuantity(currentQty, pID, rowId) {
+        
+        var qty = currentQty.value;             
 
-        var qty = currentQty.value;
-        var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
+        var price = GetPrice(pID);         
 
         var totAmount = price * qty;
-
-        var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
+        
+        var id = "#EditPurchaseQuotationItemList_" + rowId + "__LineTotal";
         $(id).val(totAmount);
         CalculateTotal();
         CalculateTotalAmount();
@@ -256,8 +251,8 @@
         //debugger;
 
         var dis = currentDis.value;
-        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Required_qty").val();
-        var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
+        var qty = $("#EditPurchaseQuotationItemList_" + rowId + "__Required_qty").val();
+        var price = $("#EditPurchaseQuotationItemList_" + rowId + "__Unit_price").val();
 
         //var totAmount = (price * qty) - dis
         //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
@@ -272,6 +267,16 @@
         CalculateTotalAmount();
     }
 
+    function OnChangeDiscountSummary(currentDis) {
+
+        var totdis = currentDis.value;
+        var totdoc = $("#editTotalPurchase").val();
+        var tottax = $("#editTotalTax").val();
+        tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+
+        $("#editTotalQuotationAmt").val(tot);
+    }
+
     function CalculateTotal() {
         //debugger;
         var tot = 0;
@@ -280,37 +285,37 @@
         //}
         //else {
         for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val());
+            if (!isNaN(parseFloat($("#EditPurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#EditPurchaseQuotationItemList_" + j + "__LineTotal").val());
             }
         }
         //}
 
-        $("#totalPurchase").val(tot);
+        $("#editTotalPurchase").val(tot);
     }
 
     function CalculateDiscount() {
         var tot = 0;
 
         for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val());
+            if (!isNaN(parseFloat($("#EditPurchaseQuotationItemList_" + j + "__Discount_percent").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#EditPurchaseQuotationItemList_" + j + "__Discount_percent").val());
             }
         }
 
-        $("#totalDiscount").val(tot);
+        $("#editTotalDiscount").val(tot);
     }
 
     function CalculateTax() {
         var tot = 0;
 
         for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
+            if (!isNaN(parseFloat($("#EditPurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#EditPurchaseQuotationItemList_" + j + "__Vat_Code").val());
             }
         }
 
-        $("#totalTax").val(tot);
+        $("#editTotalTax").val(tot);
     }
 
     function CalculateTotalAmount() {
@@ -319,26 +324,26 @@
         var tottax = 0;
         var tot = 0;
         for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
-                totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val());
+            if (!isNaN(parseFloat($("#EditPurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#EditPurchaseQuotationItemList_" + j + "__LineTotal").val());
             }
         }
 
         for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val()))) {
-                totdis = parseFloat(totdis) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val());
+            if (!isNaN(parseFloat($("#EditPurchaseQuotationItemList_" + j + "__Discount_percent").val()))) {
+                totdis = parseFloat(totdis) + parseFloat($("#EditPurchaseQuotationItemList_" + j + "__Discount_percent").val());
             }
         }
 
         for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
-                tottax = parseFloat(tottax) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
+            if (!isNaN(parseFloat($("#EditPurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
+                tottax = parseFloat(tottax) + parseFloat($("#EditPurchaseQuotationItemList_" + j + "__Vat_Code").val());
             }
         }
 
         tot = (totdoc - totdis) + tottax;
 
-        $("#totalQuotationAmt").val(tot);
+        $("#editTotalQuotationAmt").val(tot);
     }
 
 </script>
@@ -529,11 +534,12 @@
                                             {
                                                 @Html.HiddenFor(model => model.PurchaseQuotationItemList[i].Quote_Item_Id)
                                                 @Html.HiddenFor(model => model.PurchaseQuotationItemList[i].Purchase_Quote_Id)
+                                                @Html.HiddenFor(model => model.PurchaseQuotationItemList[i].Product_id)
 
                                                 <tr>
                                                     <td style="display:none;">
                                                         @Html.HiddenFor(model => model.PurchaseQuotationItemList[i].IsDummy, 0)
-
+                                                        
                                                     </td>
                                                     <td width="20%">
 
@@ -555,23 +561,23 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Quoted_date)
                                                     </td>
                                                     <td>
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Quoted_qty, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Quoted_qty, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + Model.PurchaseQuotationItemList[i].Product_id + ", " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Quoted_qty)
                                                     </td>
                                                     <td>
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Unit_price, new { @class = "form-control control-text", @readonly = true })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Unit_price, new { id = "EditPurchaseQuotationItemList_" + i + "__Unit_price", @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Unit_price)
                                                     </td>
                                                     <td>
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { id = "EditPurchaseQuotationItemList_" + i + "__Discount_percent", @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Discount_percent)
                                                     </td>
                                                     <td width="10%">
-                                                        @Html.DropDownListFor(m => m.PurchaseQuotationItemList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage"), new { @class = "form-control control-text", @readonly = true })
+                                                        @Html.DropDownListFor(m => m.PurchaseQuotationItemList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage"), new { id = "EditPurchaseQuotationItemList_" + i + "__Vat_Code", @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Vat_Code)
                                                     </td>
                                                     <td>
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].LineTotal, new { @class = "form-control control-text", @readonly = true  })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].LineTotal, new { id = "EditPurchaseQuotationItemList_" + i + "__LineTotal", @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].LineTotal)
                                                     </td>
                                                     @*<td style="width: 90px;">
@@ -593,10 +599,10 @@
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
 
                                         <div class="row" style="float:right;">
-                                            Total : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalQtnAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalBefDocDisc, new { id = "editTotalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.DocDiscAmt, new { id = "editTotalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.PurchaseQuotation.DocDiscAmt)</span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TaxAmt, new { id = "editTotalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalQtnAmt, new { id = "editTotalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                         </div>
 
                                     </div>

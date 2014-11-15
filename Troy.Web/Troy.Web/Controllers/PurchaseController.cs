@@ -133,11 +133,11 @@ namespace Troy.Web.Controllers
                     //var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
                     //model.PurchaseQuotationItemList = QuotationList.ToList();
 
-                    for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
-                    {                      
-                        model.PurchaseQuotationItemList[i].Quoted_qty = 10; //GetQuantity()
-                        model.PurchaseQuotationItemList[i].Quoted_date = DateTime.Now;
-                    }
+                    //for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
+                    //{                      
+                    //    model.PurchaseQuotationItemList[i].Quoted_qty = 10; //GetQuantity()
+                    //    model.PurchaseQuotationItemList[i].Quoted_date = DateTime.Now;
+                    //}
 
                     if (purchaseDb.UpdateQuotation(model.PurchaseQuotation, model.PurchaseQuotationItemList, ref ErrorMessage))
                     {
@@ -221,7 +221,7 @@ namespace Troy.Web.Controllers
                 model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
                 model.BranchList = purchaseDb.GetAddressList().ToList();
                 model.BussinessList = purchaseDb.GetVendorList();
-                model.ProductList = purchaseDb.GetProductList();
+                //model.ProductList = purchaseDb.GetProductList();
                 model.VATList = purchaseDb.GetVATList();
                 TempData["oldPurchaseQuotation_Name"] = model.PurchaseQuotation.Vendor_Code;
                 return PartialView(model);
@@ -240,7 +240,7 @@ namespace Troy.Web.Controllers
             {
                 PurchaseViewModels model = new PurchaseViewModels();
                 model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
-                model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
+                model.PurchaseQuotationItemList = purchaseDb.ViewOneQuotationItemById(id);
 
                 model.BranchList = purchaseDb.GetAddressList().ToList();
                 model.BussinessList = purchaseDb.GetVendorList();

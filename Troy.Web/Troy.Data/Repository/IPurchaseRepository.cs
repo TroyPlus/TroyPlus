@@ -21,6 +21,8 @@ namespace Troy.Data.Repository
 
         IList<PurchaseQuotationItem> FindOneQuotationItemById(int qId);
 
+        IList<PurchaseQuotationItem> ViewOneQuotationItemById(int qId);
+
         List<BranchList> GetAddressList();
 
         List<BussinessList> GetVendorList();

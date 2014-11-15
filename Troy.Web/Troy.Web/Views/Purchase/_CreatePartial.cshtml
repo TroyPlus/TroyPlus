@@ -238,7 +238,7 @@
 
                                     <div class="row" style="float:right;">
                                         Total : <span >@Html.TextBoxFor(m => m.PurchaseQuotation.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;"})</span> <br />
-                                        Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.DocDiscAmt, new { id = "totalDiscount", @class = "input-small" }) @Html.ValidationMessageFor(model => model.PurchaseQuotation.DocDiscAmt) </span> <br />
+                                        Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.PurchaseQuotation.DocDiscAmt) </span> <br />
                                         Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                         Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalQtnAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                     </div>

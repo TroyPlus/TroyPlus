@@ -366,7 +366,6 @@
     }
 
     function OnChangeQuantity(currentQty, rowId) {
-        //debugger;
 
         var qty = currentQty.value;
         var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
@@ -398,6 +397,16 @@
     {
         CalculateTax();
         CalculateTotalAmount();
+    }
+
+    function OnChangeDiscountSummary(currentDis)
+    {
+        var totdis = currentDis.value;
+        var totdoc = $("#totalPurchase").val();
+        var tottax = $("#totalTax").val();
+        tot = (parseFloat(totdoc) - parseFloat(totdis)) +  parseFloat(tottax);
+
+        $("#totalQuotationAmt").val(tot);
     }
 
     function CalculateTotal() {
@@ -442,7 +451,6 @@
     }
 
     function CalculateTotalAmount() {
-        debugger;
         var totdoc = 0;
         var totdis = 0;
         var tottax = 0;

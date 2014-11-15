@@ -30,6 +30,8 @@ namespace Troy.Model.Purchase
 
         public int? Quoted_qty { get; set; }
 
+        [Display(Name = "Required Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? Quoted_date { get; set; }
 
         public int Used_qty { get; set; }
