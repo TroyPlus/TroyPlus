@@ -15,6 +15,7 @@ namespace Troy.Model.Purchase
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "PurchaseId")]
         public int Purchase_Quote_Id { get; set; }
+
         [ForeignKey("Purchase_Quote_Id")]
         public virtual PurchaseQuotation purchaseQuotation { get; set; }
 
@@ -62,7 +63,7 @@ namespace Troy.Model.Purchase
         [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Invalid price")]
         public decimal TotalBefDocDisc { get; set; }
 
-        [RegularExpression(@"^\d+.\d{0,2}$",ErrorMessage = "Price must can't have more than 2 decimal places")]
+        [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Invalid price")]
         public decimal DocDiscAmt { get; set; }
 
         public decimal TaxAmt { get; set; }

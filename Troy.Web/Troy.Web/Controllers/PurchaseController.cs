@@ -52,7 +52,8 @@ namespace Troy.Web.Controllers
                 model.BranchList = purchaseDb.GetAddressList().ToList();
 
                 model.BussinessList = purchaseDb.GetVendorList();
-                //model.ProductList = GetAllProductList();
+                model.ProductList = purchaseDb.GetProductList();
+                model.VATList = purchaseDb.GetVATList();
 
                 //model.PurchaseQuotation.Valid_Date = DateTime.Now;
                 //model.PurchaseQuotation.Required_Date = DateTime.Now;
@@ -74,12 +75,12 @@ namespace Troy.Web.Controllers
         {
             try
             {
-                string vendor;
+                string vendor;               
 
                 //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
                 if (submitButton == "Save")
-                {
+                {                   
                     //vendor = Request.Form["PurchaseQuotation.Vendor_Code"].ToString();
                     //model.PurchaseQuotation.Vendor_Code = Convert.ToInt32(vendor.Remove(0,1));
                     model.PurchaseQuotation.Quotation_Status = "Open";
@@ -190,7 +191,7 @@ namespace Troy.Web.Controllers
         public JsonResult GetVendor(string term)
         {
             PurchaseViewModels model = new PurchaseViewModels();
-            model.BranchList = purchaseDb.GetAddressList().ToList();
+            model.ProductList = purchaseDb.GetProductList();
 
             //return Json(model.BranchList, JsonRequestBehavior.AllowGet);
 
@@ -220,6 +221,8 @@ namespace Troy.Web.Controllers
                 model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
                 model.BranchList = purchaseDb.GetAddressList().ToList();
                 model.BussinessList = purchaseDb.GetVendorList();
+                model.ProductList = purchaseDb.GetProductList();
+                model.VATList = purchaseDb.GetVATList();
                 TempData["oldPurchaseQuotation_Name"] = model.PurchaseQuotation.Vendor_Code;
                 return PartialView(model);
             }
@@ -392,16 +395,16 @@ namespace Troy.Web.Controllers
             Xmlqtn.BranchCode = model.Ship_To.ToString();
             Xmlqtn.Freight = model.Freight.ToString();
             Xmlqtn.Loading = model.Loading.ToString();
-            Xmlqtn.TotalBefDocDisc = "";
-            Xmlqtn.DocDiscAmt = "";
-            Xmlqtn.TaxAmt = "";
-            Xmlqtn.TotalQtnAmt = "";
+            Xmlqtn.TotalBefDocDisc = model.TotalBefDocDisc.ToString();
+            Xmlqtn.DocDiscAmt = model.DocDiscAmt.ToString();
+            Xmlqtn.TaxAmt = model.TaxAmt.ToString();
+            Xmlqtn.TotalQtnAmt = model.TotalQtnAmt.ToString();
             Xmlqtn.Remarks = model.Remarks;
-            Xmlqtn.CreatedUser = "";
-            Xmlqtn.CreatedBranch = "";
-            Xmlqtn.CreatedDate = "";
-            Xmlqtn.ModifiedBranch = "";
-            Xmlqtn.ModifiedDate = "";
+            Xmlqtn.CreatedUser = model.Created_User_Id.ToString();
+            Xmlqtn.CreatedBranch = model.Creating_Branch.ToString();
+            Xmlqtn.CreatedDate = model.Created_Date.ToString();
+            Xmlqtn.ModifiedBranch = model.Modified_Branch_Id.ToString();
+            Xmlqtn.ModifiedDate = model.Modified_Date.ToString();
 
             return Xmlqtn;
         }
@@ -416,10 +419,10 @@ namespace Troy.Web.Controllers
                 item.ProductCode = model[i].Product_id.ToString();
                 item.RequiredDate = model[i].Required_date.ToString();
                 item.RequiredQty = model[i].Required_qty.ToString();
-                item.QuotedDate = "";
-                item.QuotedQty = "";
+                item.QuotedDate = model[i].Quoted_date.ToString();
+                item.QuotedQty = model[i].Quoted_qty.ToString();
                 item.DiscountPercent = model[i].Discount_percent.ToString();
-                item.TaxCode = "";
+                item.TaxCode = model[i].Vat_Code.ToString();
                 item.UnitPrice = model[i].Unit_price.ToString();
                 item.LineTotal = model[i].LineTotal.ToString();
                 XmlQtnList.Add(item);
@@ -1019,21 +1022,25 @@ namespace Troy.Web.Controllers
             return response;
         }
 
-        public JsonResult GetPrice(int? pId)
+        public JsonResult GetPrice(int? pID)
         {
-            //int price = purchaseDb.GetProductPrice(pId);
-
-            int price = 50;
+            int price = purchaseDb.GetProductPrice(pID);
 
             return Json(price, JsonRequestBehavior.AllowGet);
-
         }
 
         public JsonResult GetProductList()
         {
-            var productList = purchaseDb.GetVendorList();
+            var productList = purchaseDb.GetProductList();
 
             return Json(productList, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetVATList()
+        {
+            var vatList = purchaseDb.GetVATList();
+
+            return Json(vatList, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

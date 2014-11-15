@@ -64,5 +64,8 @@ namespace Troy.Model.Purchase
         [NotMapped]
         public int IsDummy { get; set; }
 
+        [NotMapped]
+        public string ProductName { get; set; }
+
     }
 }

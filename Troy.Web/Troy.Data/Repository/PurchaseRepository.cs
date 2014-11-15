@@ -12,6 +12,8 @@ using System.Xml;
 using Troy.Data.DataContext;
 using Troy.Model.Branches;
 using Troy.Model.BusinessPartner;
+using Troy.Model.Configuration;
+using Troy.Model.Products;
 using Troy.Model.Purchase;
 using Troy.Model.SAP_OUT;
 using Troy.Utilities.CrossCutting;
@@ -24,6 +26,8 @@ namespace Troy.Data.Repository
         private PurchaseContext purchaseContext = new PurchaseContext();
         private BranchContext branchContext = new BranchContext();
         private BusinessPartnerContext businessContext = new BusinessPartnerContext();
+        private ProductContext productContext = new ProductContext();
+        private ConfigurationContext configContext = new ConfigurationContext();
 
         public List<PurchaseQuotation> GetAllQuotation()
         {
@@ -129,10 +133,31 @@ namespace Troy.Data.Repository
         }
 
         public IList<PurchaseQuotationItem> FindOneQuotationItemById(int qId)
-        {
-            return (from p in purchaseContext.PurchaseQuotationItem
+        {        
+            var qtn = (from p in purchaseContext.PurchaseQuotationItem
                     where p.Purchase_Quote_Id == qId
                     select p).ToList();
+
+            var purchase = (from q in qtn
+                            join pi in productContext.Product on q.Product_id equals pi.Product_Id
+                            select new PurchaseQuotationItem
+                            {
+                                Discount_percent = q.Discount_percent,
+                                LineTotal = q.LineTotal,
+                                Product_id = q.Product_id,
+                                ProductName = pi.Product_Name,
+                                Purchase_Quote_Id = q.Purchase_Quote_Id,
+                                Quote_Item_Id = q.Quote_Item_Id,
+                                Quoted_date = q.Quoted_date,
+                                Quoted_qty = q.Quoted_qty,
+                                Required_date = q.Required_date,
+                                Required_qty = q.Required_qty,
+                                Unit_price = q.Unit_price,
+                                Used_qty = q.Used_qty,
+                                Vat_Code = q.Vat_Code
+                            }).ToList();
+
+            return purchase;
         }
 
         public List<BranchList> GetAddressList()
@@ -159,6 +184,39 @@ namespace Troy.Data.Repository
             return item;
         }
 
+        public List<ProductList> GetProductList()
+        {
+            var item = (from a in productContext.Product
+                        select new ProductList
+                        {
+                            Product_Name = a.Product_Name,
+                            Product_Id = a.Product_Id
+                        }).ToList();
+
+            return item;
+        }
+
+        public List<VATList> GetVATList()
+        {
+            var item = (from a in configContext.VAT
+                        select new VATList
+                        {
+                            VAT_Id = a.VAT_Id,
+                            VAT_percentage = a.VAT_percentage
+                        }).ToList();
+
+            return item;
+        }
+
+        public int GetProductPrice(int? productId)
+        {
+            int price = (from p in productContext.ProductPrice
+                         where p.Product_Id == productId
+                         select p.Price).FirstOrDefault();
+
+            return price;
+        }
+
         public bool AddNewQuotation(PurchaseQuotation Quotation, IList<PurchaseQuotationItem> QuotationItemList, ref string ErrorMessage)
         {
             ErrorMessage = string.Empty;
@@ -181,12 +239,33 @@ namespace Troy.Data.Repository
 
                 return true;
             }
+           
+
+            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+            {
+                Exception raise = dbEx;
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        string message = string.Format("{0}:{1}",
+                            validationErrors.Entry.Entity.ToString(),
+                            validationError.ErrorMessage);
+                        // raise a new exception nesting  
+                        // the current instance as InnerException  
+                        raise = new InvalidOperationException(message, raise);
+                    }
+                }
+                throw raise;
+            }
+
             catch (Exception ex)
             {
                 ExceptionHandler.LogException(ex);
                 ErrorMessage = ex.Message;
                 return false;
             }
+
         }
 
         public bool UpdateQuotation(PurchaseQuotation Quotation, IList<PurchaseQuotationItem> QuotationItemList, ref string ErrorMessage)
