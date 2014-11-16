@@ -15,6 +15,8 @@ namespace Troy.Data.Repository
     {
         List<PurchaseQuotation> GetAllQuotation();
 
+        List<PurchaseQuotationItem> GetAllQuotationItem();
+
         List<PurchaseQuotation> GetFilterQuotation(string searchColumn, string searchString, Guid userId);
 
         PurchaseQuotation FindOneQuotationById(int qId);

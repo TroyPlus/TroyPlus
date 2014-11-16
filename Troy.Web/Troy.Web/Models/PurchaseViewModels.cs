@@ -47,17 +47,30 @@ namespace Troy.Web.Models
         public Viewmodel_AddPurchaseQuotation Viewmodel_AddPurchaseQuotation { get; set; }
 
         [XmlElement("Details")]
+        public AddPurchaseQtnItem_XML AddPurchaseQtnItem_XML { get; set; }
+    }
+
+    public class AddPurchaseQtnItem_XML
+    {
+        [XmlElement("row")]
         public List<Viewmodel_AddPurchaseQuotationItem> Viewmodel_AddPurchaseQuotationItemList { get; set; }
     }
+
 
     [XmlRoot("ModifyPurchaseQtn")]
     public class ModifyPurchaseQtn_XML
     {
         [XmlElement("Header")]
-        public Viewmodel_ModifyPurchaseQuotation Viewmodel_ModifyPurchaseQuotation { get; set; }
+        public Viewmodel_AddPurchaseQuotation Viewmodel_ModifyPurchaseQuotation { get; set; }
 
         [XmlElement("Details")]
-        public List<Viewmodel_ModifyPurchaseQuotationItem> Viewmodel_ModifyPurchaseQuotationItemList { get; set; }
+        public AddPurchaseQtnItem_XML ModifyPurchaseQtnItem_XML { get; set; }
+    }
+
+    public class ModifyPurchaseQtnItem_XML
+    {
+        [XmlElement("row")]
+        public List<Viewmodel_ModifyPurchaseQuotationItem> Viewmodel_ModifyPurchaseQuotationItem { get; set; }
     }
 
     [XmlRoot("Header")]

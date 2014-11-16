@@ -45,11 +45,43 @@ namespace Troy.Data.Repository
                          Purchase_Quote_Id = p.Purchase_Quote_Id,
                          Reference_Number = p.Reference_Number,
                          Quotation_Status = p.Quotation_Status,
+                         Required_Date = p.Required_Date,
                          Posting_Date = p.Posting_Date,
-                         Valid_Date = p.Valid_Date
+                         Valid_Date = p.Valid_Date,
+                         TaxAmt = p.TaxAmt,
+                         TotalBefDocDisc = p.TotalBefDocDisc,
+                         TotalQtnAmt = p.TotalQtnAmt,
+                         Remarks = p.Remarks
                      }).ToList();
 
             return qList;
+        }
+
+        public List<PurchaseQuotationItem> GetAllQuotationItem()
+        {
+            var qtn = (from p in purchaseContext.PurchaseQuotationItem                       
+                       select p).ToList();
+
+            var item = (from q in qtn
+                            join pi in productContext.Product on q.Product_id equals pi.Product_Id
+                            select new PurchaseQuotationItem
+                            {
+                                Discount_percent = q.Discount_percent,
+                                LineTotal = q.LineTotal,
+                                Product_id = q.Product_id,
+                                ProductName = pi.Product_Name,
+                                Purchase_Quote_Id = q.Purchase_Quote_Id,
+                                Quote_Item_Id = q.Quote_Item_Id,
+                                Quoted_date = q.Quoted_date,
+                                Quoted_qty = q.Quoted_qty,
+                                Required_date = q.Required_date,
+                                Required_qty = q.Required_qty,
+                                Unit_price = q.Unit_price,
+                                Used_qty = q.Used_qty,
+                                Vat_Code = q.Vat_Code
+                            }).ToList();
+
+            return item;
         }
 
         public List<PurchaseQuotation> GetFilterQuotation(string searchColumn, string searchString, Guid userId)
