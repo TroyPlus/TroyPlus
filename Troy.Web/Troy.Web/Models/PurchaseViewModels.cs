@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using System.Xml.Serialization;
 using Troy.Model.Branches;
 using Troy.Model.BusinessPartner;
+using Troy.Model.Configuration;
+using Troy.Model.Products;
 using Troy.Model.Purchase;
 
 namespace Troy.Web.Models
@@ -28,7 +30,9 @@ namespace Troy.Web.Models
 
         public List<BussinessList> BussinessList { get; set; }
 
-        //public List<ProductList> ProductList { get; set; }
+        public List<ProductList> ProductList { get; set; }
+
+        public List<VATList> VATList { get; set; }
 
         public string SearchQuery { get; set; }
 
@@ -43,17 +47,30 @@ namespace Troy.Web.Models
         public Viewmodel_AddPurchaseQuotation Viewmodel_AddPurchaseQuotation { get; set; }
 
         [XmlElement("Details")]
+        public AddPurchaseQtnItem_XML AddPurchaseQtnItem_XML { get; set; }
+    }
+
+    public class AddPurchaseQtnItem_XML
+    {
+        [XmlElement("row")]
         public List<Viewmodel_AddPurchaseQuotationItem> Viewmodel_AddPurchaseQuotationItemList { get; set; }
     }
+
 
     [XmlRoot("ModifyPurchaseQtn")]
     public class ModifyPurchaseQtn_XML
     {
         [XmlElement("Header")]
-        public Viewmodel_ModifyPurchaseQuotation Viewmodel_ModifyPurchaseQuotation { get; set; }
+        public Viewmodel_AddPurchaseQuotation Viewmodel_ModifyPurchaseQuotation { get; set; }
 
         [XmlElement("Details")]
-        public List<Viewmodel_ModifyPurchaseQuotationItem> Viewmodel_ModifyPurchaseQuotationItemList { get; set; }
+        public AddPurchaseQtnItem_XML ModifyPurchaseQtnItem_XML { get; set; }
+    }
+
+    public class ModifyPurchaseQtnItem_XML
+    {
+        [XmlElement("row")]
+        public List<Viewmodel_ModifyPurchaseQuotationItem> Viewmodel_ModifyPurchaseQuotationItem { get; set; }
     }
 
     [XmlRoot("Header")]

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Troy.Model.Branches;
 using Troy.Model.BusinessPartner;
+using Troy.Model.Configuration;
+using Troy.Model.Products;
 using Troy.Model.Purchase;
 
 namespace Troy.Data.Repository
@@ -13,15 +15,25 @@ namespace Troy.Data.Repository
     {
         List<PurchaseQuotation> GetAllQuotation();
 
+        List<PurchaseQuotationItem> GetAllQuotationItem();
+
         List<PurchaseQuotation> GetFilterQuotation(string searchColumn, string searchString, Guid userId);
 
         PurchaseQuotation FindOneQuotationById(int qId);
 
         IList<PurchaseQuotationItem> FindOneQuotationItemById(int qId);
 
+        IList<PurchaseQuotationItem> ViewOneQuotationItemById(int qId);
+
         List<BranchList> GetAddressList();
 
         List<BussinessList> GetVendorList();
+
+        List<ProductList> GetProductList();
+
+        List<VATList> GetVATList();
+
+        int GetProductPrice(int? productId);
 
         bool AddNewQuotation(PurchaseQuotation Quotation, IList<PurchaseQuotationItem> QuotationItemList, ref string ErrorMessage);
 

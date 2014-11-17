@@ -13,6 +13,8 @@ using Troy.Utilities.CrossCutting;
 using Troy.Model.Manufacturer;
 using Troy.Model.Purchase;
 using Troy.Model.AppMembership;
+using System.IO;
+using System.Web.UI;
 #endregion
 
 namespace Troy.Web.Controllers
@@ -52,7 +54,8 @@ namespace Troy.Web.Controllers
                 model.BranchList = purchaseDb.GetAddressList().ToList();
 
                 model.BussinessList = purchaseDb.GetVendorList();
-                //model.ProductList = GetAllProductList();
+                model.ProductList = purchaseDb.GetProductList();
+                model.VATList = purchaseDb.GetVATList();
 
                 //model.PurchaseQuotation.Valid_Date = DateTime.Now;
                 //model.PurchaseQuotation.Required_Date = DateTime.Now;
@@ -68,28 +71,25 @@ namespace Troy.Web.Controllers
             }
         }
 
-
         [HttpPost]
         public ActionResult Index(string submitButton, PurchaseViewModels model, HttpPostedFileBase file)
         {
             try
             {
-                string vendor;
-
-                //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
                 if (submitButton == "Save")
                 {
                     //vendor = Request.Form["PurchaseQuotation.Vendor_Code"].ToString();
                     //model.PurchaseQuotation.Vendor_Code = Convert.ToInt32(vendor.Remove(0,1));
                     model.PurchaseQuotation.Quotation_Status = "Open";
-                    model.PurchaseQuotation.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
+                    model.PurchaseQuotation.Created_Branc_Id = currentUser.Created_Branch_Id;
                     model.PurchaseQuotation.Created_Date = DateTime.Now;
-                    model.PurchaseQuotation.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
-                    model.PurchaseQuotation.Creating_Branch = 1;//currentUser.Created_Branch_Id; ;  //GetBranch 
-                    model.PurchaseQuotation.Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                    model.PurchaseQuotation.Created_User_Id = currentUser.Created_User_Id;  //GetUserId()
+                    model.PurchaseQuotation.Creating_Branch = currentUser.Created_Branch_Id; ;  //GetBranch 
+                    model.PurchaseQuotation.Modified_User_Id = currentUser.Modified_User_Id;
                     model.PurchaseQuotation.Modified_Date = DateTime.Now;
-                    model.PurchaseQuotation.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
+                    model.PurchaseQuotation.Modified_Branch_Id = currentUser.Modified_Branch_Id;
                     //model.PurchaseQuotation.Posting_Date = DateTime.Now;
 
                     var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
@@ -121,22 +121,22 @@ namespace Troy.Web.Controllers
                     //vendor = Request.Form["PurchaseQuotation.Vendor_Code"].ToString();
                     //model.PurchaseQuotation.Vendor_Code = Convert.ToInt32(vendor.Remove(0, 1));
                     Temp_Purchase = Convert.ToString(TempData["oldPurchaseQuotation_Name"]);
-                    model.PurchaseQuotation.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
+                    model.PurchaseQuotation.Created_Branc_Id = currentUser.Created_Branch_Id;
                     model.PurchaseQuotation.Created_Date = DateTime.Now;
-                    model.PurchaseQuotation.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
-                    model.PurchaseQuotation.Creating_Branch = 1;//currentUser.Created_Branch_Id;  //GetBranch 
-                    model.PurchaseQuotation.Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                    model.PurchaseQuotation.Created_User_Id = currentUser.Created_User_Id;  //GetUserId()
+                    model.PurchaseQuotation.Creating_Branch = currentUser.Created_Branch_Id;  //GetBranch 
+                    model.PurchaseQuotation.Modified_User_Id = currentUser.Modified_User_Id;
                     model.PurchaseQuotation.Modified_Date = DateTime.Now;
-                    model.PurchaseQuotation.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
+                    model.PurchaseQuotation.Modified_Branch_Id = currentUser.Modified_Branch_Id;
 
                     //var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
                     //model.PurchaseQuotationItemList = QuotationList.ToList();
 
-                    for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
-                    {                      
-                        model.PurchaseQuotationItemList[i].Quoted_qty = 10; //GetQuantity()
-                        model.PurchaseQuotationItemList[i].Quoted_date = DateTime.Now;
-                    }
+                    //for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
+                    //{                      
+                    //    model.PurchaseQuotationItemList[i].Quoted_qty = 10; //GetQuantity()
+                    //    model.PurchaseQuotationItemList[i].Quoted_date = DateTime.Now;
+                    //}
 
                     if (purchaseDb.UpdateQuotation(model.PurchaseQuotation, model.PurchaseQuotationItemList, ref ErrorMessage))
                     {
@@ -149,6 +149,10 @@ namespace Troy.Web.Controllers
                         ViewBag.AppErrorMessage = ErrorMessage;
                         return View("Error");
                     }
+                }
+                else if (submitButton == "Export")
+                {
+                    _ExporttoExcel();
                 }
 
                 if (Convert.ToString(Request.Files["FileUpload"]).Length > 0)
@@ -187,10 +191,121 @@ namespace Troy.Web.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult _ExporttoExcel()
+        {
+            try
+            {
+                PurchaseViewModels model = new PurchaseViewModels();
+                //get all manufacturer
+                var purchase = purchaseDb.GetAllQuotation().ToList();
+                var purchaseItem = purchaseDb.GetAllQuotationItem().ToList();
+
+                //create datatable and add columns
+                DataTable dt = new DataTable();
+                dt.Columns.Add(new DataColumn("Vendor"));
+                dt.Columns.Add(new DataColumn("Reference Number"));
+                dt.Columns.Add(new DataColumn("Quotation Status"));
+                dt.Columns.Add(new DataColumn("Ship To"));
+                dt.Columns.Add(new DataColumn("Freight"));
+                dt.Columns.Add(new DataColumn("Loading"));
+                dt.Columns.Add(new DataColumn("Posting Date"));
+                dt.Columns.Add(new DataColumn("Required Date"));
+                dt.Columns.Add(new DataColumn("Valid Up To"));
+                dt.Columns.Add(new DataColumn("Tax Amount"));
+                dt.Columns.Add(new DataColumn("Total Bef DocDisc"));
+                dt.Columns.Add(new DataColumn("Total Quotation Amount"));
+                dt.Columns.Add(new DataColumn("Remarks"));
+                dt.Columns.Add(new DataColumn("Item Code"));
+                dt.Columns.Add(new DataColumn("Item Required Date"));
+                dt.Columns.Add(new DataColumn("Required Quantity"));
+                dt.Columns.Add(new DataColumn("Unit Price"));
+                dt.Columns.Add(new DataColumn("Discount"));
+                dt.Columns.Add(new DataColumn("VAT Code"));
+                dt.Columns.Add(new DataColumn("Amount"));
+
+                //fill data table
+                foreach (var e in purchase)
+                {
+                    int repeat = 0;
+                    DataRow dr_final = dt.NewRow();
+                    dr_final["Vendor"] = e.Vendor_Name;
+                    dr_final["Reference Number"] = e.Reference_Number;
+                    dr_final["Quotation Status"] = e.Quotation_Status;
+                    dr_final["Ship To"] = e.Ship_To;
+                    dr_final["Freight"] = e.Freight;
+                    dr_final["Loading"] = e.Loading;
+                    dr_final["Posting Date"] = e.Posting_Date;
+                    dr_final["Required Date"] = e.Required_Date;
+                    dr_final["Valid Up To"] = e.Valid_Date;
+                    dr_final["Tax Amount"] = e.TaxAmt;
+                    dr_final["Total Bef DocDisc"] = e.TotalBefDocDisc;
+                    dr_final["Total Quotation Amount"] = e.TotalQtnAmt;
+                    dr_final["Remarks"] = e.Remarks;
+
+                    foreach (var i in purchaseItem)
+                    {                        
+                        if (e.Purchase_Quote_Id == i.Purchase_Quote_Id)
+                        {
+                            if (repeat == 0)
+                            {
+                                dr_final["Item Code"] = i.ProductName;
+                                dr_final["Item Required Date"] = i.Required_date;
+                                dr_final["Required Quantity"] = i.Required_qty;
+                                dr_final["Unit Price"] = i.Unit_price;
+                                dr_final["Discount"] = i.Discount_percent;
+                                dr_final["VAT Code"] = i.Vat_Code;
+                                dr_final["Amount"] = i.LineTotal;
+                                dt.Rows.Add(dr_final);
+                                repeat++;
+                            }
+                            {
+                                DataRow dr_Item = dt.NewRow();
+                                dr_Item["Item Code"] = i.ProductName;
+                                dr_Item["Item Required Date"] = i.Required_date;
+                                dr_Item["Required Quantity"] = i.Required_qty;
+                                dr_Item["Unit Price"] = i.Unit_price;
+                                dr_Item["Discount"] = i.Discount_percent;
+                                dr_Item["VAT Code"] = i.Vat_Code;
+                                dr_Item["Amount"] = i.LineTotal;
+                                dt.Rows.Add(dr_Item);
+                            }
+                        }
+                    }
+                    repeat = 0;
+
+                    //dt.Rows.Add(dr_final);
+                }
+
+                System.Web.UI.WebControls.GridView gridvw = new System.Web.UI.WebControls.GridView();
+                gridvw.DataSource = dt; //bind the datatable to the gridview
+                gridvw.DataBind();
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=PurchaseQuotation.xls");//Microsoft Office Excel Worksheet (.xlsx)
+                Response.ContentType = "application/ms-excel";//"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.Charset = "";
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gridvw.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+
+                return RedirectToAction("Index", "Purchase");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
+
         public JsonResult GetVendor(string term)
         {
             PurchaseViewModels model = new PurchaseViewModels();
-            model.BranchList = purchaseDb.GetAddressList().ToList();
+            model.ProductList = purchaseDb.GetProductList();
 
             //return Json(model.BranchList, JsonRequestBehavior.AllowGet);
 
@@ -202,6 +317,7 @@ namespace Troy.Web.Controllers
             return Json(filteredItems, JsonRequestBehavior.AllowGet);
 
         }
+
         #endregion
 
         #region Partial Views
@@ -220,6 +336,8 @@ namespace Troy.Web.Controllers
                 model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
                 model.BranchList = purchaseDb.GetAddressList().ToList();
                 model.BussinessList = purchaseDb.GetVendorList();
+                //model.ProductList = purchaseDb.GetProductList();
+                model.VATList = purchaseDb.GetVATList();
                 TempData["oldPurchaseQuotation_Name"] = model.PurchaseQuotation.Vendor_Code;
                 return PartialView(model);
             }
@@ -237,7 +355,7 @@ namespace Troy.Web.Controllers
             {
                 PurchaseViewModels model = new PurchaseViewModels();
                 model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
-                model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
+                model.PurchaseQuotationItemList = purchaseDb.ViewOneQuotationItemById(id);
 
                 model.BranchList = purchaseDb.GetAddressList().ToList();
                 model.BussinessList = purchaseDb.GetVendorList();
@@ -268,9 +386,11 @@ namespace Troy.Web.Controllers
 
                 //fill view model
                 AddPurchaseQtn_XML xmlAddPurchaseQtn = new AddPurchaseQtn_XML();
+                xmlAddPurchaseQtn.AddPurchaseQtnItem_XML = new AddPurchaseQtnItem_XML();
+                xmlAddPurchaseQtn.AddPurchaseQtnItem_XML.Viewmodel_AddPurchaseQuotationItemList = new List<Viewmodel_AddPurchaseQuotationItem>();
 
                 xmlAddPurchaseQtn.Viewmodel_AddPurchaseQuotation = GetXmlPurchaseQtn(model.PurchaseQuotation);
-                xmlAddPurchaseQtn.Viewmodel_AddPurchaseQuotationItemList = GetXmlPurchaseQtnItem(model.PurchaseQuotationItemList);
+                xmlAddPurchaseQtn.AddPurchaseQtnItem_XML.Viewmodel_AddPurchaseQuotationItemList = GetXmlPurchaseQtnItem(model.PurchaseQuotationItemList);
                 //generate xml
                 purchaseDb.GenerateXML(xmlAddPurchaseQtn, UniqueID.ToString(), "Purchase");
             }
@@ -293,84 +413,14 @@ namespace Troy.Web.Controllers
 
                 //fill viewmodel
                 ModifyPurchaseQtn_XML xmlEditPurchaseQuotation = new ModifyPurchaseQtn_XML();
-                //xmlEditPurchaseQuotation.UniqueID = UniqueID.ToString();
-                //xmlEditPurchaseQuotation.Old_PurchaseQuotation_Name = Temp_Purchase.ToString().Trim();
-                //xmlEditPurchaseQuotation.New_PurchaseQuotation_Name = model.Vendor_Code.ToString();
-                //xmlEditPurchaseQuotation.CreatedUser = "";//currentUser.Created_User_Id.ToString();
-                //xmlEditPurchaseQuotation.CreatedBranch = "";//currentUser.Created_Branch_Id.ToString();
-                //xmlEditPurchaseQuotation.CreatedDateTime = DateTime.Now.ToString();
-                //xmlEditPurchaseQuotation.LastModifyUser = "";//currentUser.Modified_User_Id.ToString();
-                //xmlEditPurchaseQuotation.LastModifyBranch = "";//currentUser.Modified_Branch_Id.ToString();
-                //xmlEditPurchaseQuotation.LastModifyDateTime = DateTime.Now.ToString();
+                xmlEditPurchaseQuotation.ModifyPurchaseQtnItem_XML = new AddPurchaseQtnItem_XML();
+                xmlEditPurchaseQuotation.ModifyPurchaseQtnItem_XML.Viewmodel_AddPurchaseQuotationItemList = new List<Viewmodel_AddPurchaseQuotationItem>();
 
-                //xmlEditPurchaseQuotation.Viewmodel_ModifyPurchaseQuotation = GetXmlPurchaseQtn(model.PurchaseQuotation);
-                //xmlEditPurchaseQuotation.Viewmodel_ModifyPurchaseQuotationItemList = GetXmlPurchaseQtnItem(model.PurchaseQuotationItemList);
+                xmlEditPurchaseQuotation.Viewmodel_ModifyPurchaseQuotation = GetXmlPurchaseQtn(model.PurchaseQuotation);
+                xmlEditPurchaseQuotation.ModifyPurchaseQtnItem_XML.Viewmodel_AddPurchaseQuotationItemList = GetXmlPurchaseQtnItem(model.PurchaseQuotationItemList);
 
                 //generate xml
                 purchaseDb.GenerateXML(xmlEditPurchaseQuotation, UniqueID.ToString(), "Purchase");
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler.LogException(ex);
-                ViewBag.AppErrorMessage = ex.Message;
-            }
-        }
-
-        private void XMLGenerate_Quotation_SAPInsert(PurchaseQuotationItem model)
-        {
-            try
-            {
-                //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
-
-                //unique id generation
-                Guid GuidRandomNo = Guid.NewGuid();
-                string UniqueID = GuidRandomNo.ToString();
-
-                //fill view model
-                Viewmodel_AddPurchaseQuotationItem xmlAddPurchaseQuotationItem = new Viewmodel_AddPurchaseQuotationItem();
-                //xmlAddPurchaseQuotationItem.UniqueID = UniqueID.ToString();
-                //xmlAddPurchaseQuotationItem.PurchaseQuotation_Item_Name = model.Product_id.ToString();
-                //xmlAddPurchaseQuotationItem.CreatedUser = "";//currentUser.Created_User_Id.ToString();
-                //xmlAddPurchaseQuotationItem.CreatedBranch = "";//currentUser.Created_Branch_Id.ToString();
-                //xmlAddPurchaseQuotationItem.CreatedDateTime = DateTime.Now.ToString();
-                //xmlAddPurchaseQuotationItem.LastModifyUser = "";//currentUser.Modified_User_Id.ToString();
-                //xmlAddPurchaseQuotationItem.LastModifyBranch = "";//currentUser.Modified_Branch_Id.ToString();
-                //xmlAddPurchaseQuotationItem.LastModifyDateTime = DateTime.Now.ToString();
-
-                //generate xml
-                purchaseDb.GenerateXML(xmlAddPurchaseQuotationItem, UniqueID.ToString(), "PurchaseQuotation");
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler.LogException(ex);
-                ViewBag.AppErrorMessage = ex.Message;
-            }
-        }
-
-        private void XMLGenerate_Quotation_SAPUpdate(PurchaseQuotationItem model)
-        {
-            try
-            {
-                //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
-
-                //unique id generation
-                Guid GuidRandomNo = Guid.NewGuid();
-                string UniqueID = GuidRandomNo.ToString();
-
-                //fill viewmodel
-                Viewmodel_ModifyPurchaseQuotationItem xmlEditPurchaseQuotationItem = new Viewmodel_ModifyPurchaseQuotationItem();
-                //xmlEditPurchaseQuotationItem.UniqueID = UniqueID.ToString();
-                //xmlEditPurchaseQuotationItem.Old_PurchaseQuotation_Item_Name = model.Product_id.ToString();
-                //xmlEditPurchaseQuotationItem.New_PurchaseQuotation_Item_Name = model.Product_id.ToString();
-                //xmlEditPurchaseQuotationItem.CreatedUser = "";//currentUser.Created_User_Id.ToString();
-                //xmlEditPurchaseQuotationItem.CreatedBranch = "";// currentUser.Created_Branch_Id.ToString();
-                //xmlEditPurchaseQuotationItem.CreatedDateTime = DateTime.Now.ToString();
-                //xmlEditPurchaseQuotationItem.LastModifyUser = "";//currentUser.Modified_User_Id.ToString();
-                //xmlEditPurchaseQuotationItem.LastModifyBranch = "";//currentUser.Modified_Branch_Id.ToString();
-                //xmlEditPurchaseQuotationItem.LastModifyDateTime = DateTime.Now.ToString();
-
-                //generate xml
-                purchaseDb.GenerateXML(xmlEditPurchaseQuotationItem, UniqueID.ToString(), "PurchaseQuotation");
             }
             catch (Exception ex)
             {
@@ -392,16 +442,16 @@ namespace Troy.Web.Controllers
             Xmlqtn.BranchCode = model.Ship_To.ToString();
             Xmlqtn.Freight = model.Freight.ToString();
             Xmlqtn.Loading = model.Loading.ToString();
-            Xmlqtn.TotalBefDocDisc = "";
-            Xmlqtn.DocDiscAmt = "";
-            Xmlqtn.TaxAmt = "";
-            Xmlqtn.TotalQtnAmt = "";
+            Xmlqtn.TotalBefDocDisc = model.TotalBefDocDisc.ToString();
+            Xmlqtn.DocDiscAmt = model.DocDiscAmt.ToString();
+            Xmlqtn.TaxAmt = model.TaxAmt.ToString();
+            Xmlqtn.TotalQtnAmt = model.TotalQtnAmt.ToString();
             Xmlqtn.Remarks = model.Remarks;
-            Xmlqtn.CreatedUser = "";
-            Xmlqtn.CreatedBranch = "";
-            Xmlqtn.CreatedDate = "";
-            Xmlqtn.ModifiedBranch = "";
-            Xmlqtn.ModifiedDate = "";
+            Xmlqtn.CreatedUser = model.Created_User_Id.ToString();
+            Xmlqtn.CreatedBranch = model.Creating_Branch.ToString();
+            Xmlqtn.CreatedDate = model.Created_Date.ToString();
+            Xmlqtn.ModifiedBranch = model.Modified_Branch_Id.ToString();
+            Xmlqtn.ModifiedDate = model.Modified_Date.ToString();
 
             return Xmlqtn;
         }
@@ -416,10 +466,10 @@ namespace Troy.Web.Controllers
                 item.ProductCode = model[i].Product_id.ToString();
                 item.RequiredDate = model[i].Required_date.ToString();
                 item.RequiredQty = model[i].Required_qty.ToString();
-                item.QuotedDate = "";
-                item.QuotedQty = "";
+                item.QuotedDate = model[i].Quoted_date.ToString();
+                item.QuotedQty = model[i].Quoted_qty.ToString();
                 item.DiscountPercent = model[i].Discount_percent.ToString();
-                item.TaxCode = "";
+                item.TaxCode = model[i].Vat_Code.ToString();
                 item.UnitPrice = model[i].Unit_price.ToString();
                 item.LineTotal = model[i].LineTotal.ToString();
                 XmlQtnList.Add(item);
@@ -432,6 +482,8 @@ namespace Troy.Web.Controllers
         {
             try
             {
+                ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
                 string fileLocation = string.Format("{0}/{1}", Server.MapPath("~/App_Data/ExcelFiles"), fileName);
 
                 if (System.IO.File.Exists(fileLocation))
@@ -553,21 +605,21 @@ namespace Troy.Web.Controllers
                                     }
 
                                     pItem.Reference_Number = ds.Tables[0].Rows[i]["Reference Number"].ToString();
-                                    pItem.Quotation_Status = ds.Tables[0].Rows[i]["Status"].ToString();
+                                    pItem.Quotation_Status = ds.Tables[0].Rows[i]["Quotation Status"].ToString();
                                     pItem.Ship_To = Convert.ToInt32(ds.Tables[0].Rows[i]["Ship To"]);
                                     pItem.Freight = Convert.ToInt32(ds.Tables[0].Rows[i]["Freight"]);
                                     pItem.Loading = Convert.ToInt32(ds.Tables[0].Rows[i]["Loading"]);
                                     pItem.Posting_Date = Convert.ToDateTime(ds.Tables[0].Rows[i]["Posting Date"]);
-                                    pItem.Valid_Date = Convert.ToDateTime(ds.Tables[0].Rows[i]["Valid Date"]);
+                                    pItem.Valid_Date = Convert.ToDateTime(ds.Tables[0].Rows[i]["Valid Up To"]);
                                     pItem.Required_Date = Convert.ToDateTime(ds.Tables[0].Rows[i]["Required Date"]);
-                                    pItem.DocDiscAmt = Convert.ToInt32(ds.Tables[0].Rows[i]["DocDiscAmt"]);
+                                    //pItem.DocDiscAmt = Convert.ToInt32(ds.Tables[0].Rows[i]["DocDiscAmt"]);
                                     pItem.Remarks = ds.Tables[0].Rows[i]["Remarks"].ToString();
 
-                                    pItem.Created_User_Id = 1; //GetUserId();
-                                    pItem.Created_Branc_Id = 2; //GetBranchId();
+                                    pItem.Created_User_Id = currentUser.Created_User_Id;
+                                    pItem.Created_Branc_Id = currentUser.Created_Branch_Id;
                                     pItem.Created_Date = DateTime.Now;
-                                    pItem.Modified_User_Id = 2; //GetUserId();
-                                    pItem.Modified_Branch_Id = 2; //GetBranchId();
+                                    pItem.Modified_User_Id = currentUser.Modified_User_Id;
+                                    pItem.Modified_Branch_Id = currentUser.Modified_Branch_Id;
                                     pItem.Modified_Date = DateTime.Now;
 
                                     //plist.PurchaseQuotationList.Add(pItem);
@@ -658,9 +710,9 @@ namespace Troy.Web.Controllers
                     return null;
                 }
 
-                if (ds.Tables[0].Rows[i]["Discount Percentage"] != null)
+                if (ds.Tables[0].Rows[i]["Discount"] != null)
                 {
-                    pqItem.Discount_percent = Convert.ToInt32(ds.Tables[0].Rows[i]["Discount Percentage"]);
+                    pqItem.Discount_percent = Convert.ToInt32(ds.Tables[0].Rows[i]["Discount"]);
                 }
                 else
                 {
@@ -677,9 +729,19 @@ namespace Troy.Web.Controllers
                     //returnMessage = "VAT Code cannot be empty it the excel sheet";
                     return null;
                 }
-               
-                pqItem.Quoted_qty = 10; //GetQuantity()
-                pqItem.Quoted_date = DateTime.Now.AddDays(2);
+
+                if (ds.Tables[0].Rows[i]["Amount"] != null)
+                {
+                    pqItem.LineTotal = Convert.ToInt32(ds.Tables[0].Rows[i]["Amount"]);
+                }
+                else
+                {
+                    //returnMessage = "VAT Code cannot be empty it the excel sheet";
+                    return null;
+                }
+
+                pqItem.Quoted_qty = null; //GetQuantity()
+                pqItem.Quoted_date = null;
 
                 return pqItem;
 
@@ -705,7 +767,7 @@ namespace Troy.Web.Controllers
                 return false;
             }
 
-            if (ds.Tables[0].Rows[i]["Status"].ToString() == "" || ds.Tables[0].Rows[i]["Status"] == null)
+            if (ds.Tables[0].Rows[i]["Quotation Status"].ToString() == "" || ds.Tables[0].Rows[i]["Quotation Status"] == null)
             {
                 response = true;
             }
@@ -725,7 +787,7 @@ namespace Troy.Web.Controllers
                 return false;
             }
 
-            if (ds.Tables[0].Rows[i]["Fright"].ToString() == "" || ds.Tables[0].Rows[i]["Fright"] == null)
+            if (ds.Tables[0].Rows[i]["Freight"].ToString() == "" || ds.Tables[0].Rows[i]["Freight"] == null)
             {
                 response = true;
             }
@@ -755,7 +817,7 @@ namespace Troy.Web.Controllers
                 return false;
             }
 
-            if (ds.Tables[0].Rows[i]["Valid Date"].ToString() == "" || ds.Tables[0].Rows[i]["Valid Date"] == null)
+            if (ds.Tables[0].Rows[i]["Valid Up To"].ToString() == "" || ds.Tables[0].Rows[i]["Valid Up To"] == null)
             {
                 response = true;
             }
@@ -775,15 +837,15 @@ namespace Troy.Web.Controllers
                 return false;
             }
 
-            if (ds.Tables[0].Rows[i]["Discount"].ToString() == "" || ds.Tables[0].Rows[i]["Discount"] == null)
-            {
-                response = true;
-            }
-            else
-            {
-                errorMessage = "Invalid Discount at row '" + (i + 2) + "' in the excel sheet";
-                return false;
-            }
+            //if (ds.Tables[0].Rows[i]["Discount"].ToString() == "" || ds.Tables[0].Rows[i]["Discount"] == null)
+            //{
+            //    response = true;
+            //}
+            //else
+            //{
+            //    errorMessage = "Invalid Discount at row '" + (i + 2) + "' in the excel sheet";
+            //    return false;
+            //}
 
             if (ds.Tables[0].Rows[i]["Remarks"].ToString() == "" || ds.Tables[0].Rows[i]["Remarks"] == null)
             {
@@ -791,7 +853,7 @@ namespace Troy.Web.Controllers
             }
             else
             {
-                errorMessage = "invalid Remarks at row '" + (i + 2) + "' in the excel sheet";
+                errorMessage = "Invalid Remarks at row '" + (i + 2) + "' in the excel sheet";
                 return false;
             }
 
@@ -842,7 +904,7 @@ namespace Troy.Web.Controllers
                 return false;
             }
 
-            if (ds.Tables[0].Rows[i]["Discount Percentage"].ToString() != "" && ds.Tables[0].Rows[i]["Discount Percentage"] != null)
+            if (ds.Tables[0].Rows[i]["Discount"].ToString() != "" && ds.Tables[0].Rows[i]["Discount"] != null)
             {
                 response = true;
             }
@@ -859,6 +921,16 @@ namespace Troy.Web.Controllers
             else
             {
                 returnItemMessage = "Posting Date cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                return false;
+            }
+
+            if (ds.Tables[0].Rows[i]["Amount"].ToString() != "" && ds.Tables[0].Rows[i]["Amount"] != null)
+            {
+                response = true;
+            }
+            else
+            {
+                returnItemMessage = "Amount cannot be empty at row '" + (i + 2) + "' in the excel sheet";
                 return false;
             }
 
@@ -914,7 +986,7 @@ namespace Troy.Web.Controllers
                     return false;
                 }
 
-                if (ds.Tables[0].Rows[i]["Status"].ToString() != "" && ds.Tables[0].Rows[i]["Status"] != null)
+                if (ds.Tables[0].Rows[i]["Quotation Status"].ToString() != "" && ds.Tables[0].Rows[i]["Quotation Status"] != null)
                 {
                     //pItem.Quotation_Status = ds.Tables[0].Rows[i]["Status"].ToString();
                 }
@@ -934,13 +1006,13 @@ namespace Troy.Web.Controllers
                     return false;
                 }
 
-                if (ds.Tables[0].Rows[i]["Fright"].ToString() != "" && ds.Tables[0].Rows[i]["Fright"] != null)
+                if (ds.Tables[0].Rows[i]["Freight"].ToString() != "" && ds.Tables[0].Rows[i]["Freight"] != null)
                 {
                     //pItem.Fright = Convert.ToInt32(ds.Tables[0].Rows[i]["Fright"]);
                 }
                 else
                 {
-                    returnMessage = "Fright cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                    returnMessage = "Freight cannot be empty at row '" + (i + 2) + "' in the excel sheet";
                     return false;
                 }
 
@@ -964,7 +1036,7 @@ namespace Troy.Web.Controllers
                     return false;
                 }
 
-                if (ds.Tables[0].Rows[i]["Valid Date"].ToString() != "" && ds.Tables[0].Rows[i]["Valid Date"] != null)
+                if (ds.Tables[0].Rows[i]["Valid Up To"].ToString() != "" && ds.Tables[0].Rows[i]["Valid Up To"] != null)
                 {
                     //pItem.Valid_Date = Convert.ToDateTime(ds.Tables[0].Rows[i]["Valid Date"]);
                 }
@@ -984,15 +1056,15 @@ namespace Troy.Web.Controllers
                     return false;
                 }
 
-                if (ds.Tables[0].Rows[i]["Discount"].ToString() != "" && ds.Tables[0].Rows[i]["Discount"] != null)
-                {
-                    //pItem.Discount = Convert.ToInt32(ds.Tables[0].Rows[i]["Discount"]);
-                }
-                else
-                {
-                    returnMessage = "Discount cannot be empty at row '" + (i + 2) + "' in the excel sheet";
-                    return false;
-                }
+                //if (ds.Tables[0].Rows[i]["Discount"].ToString() != "" && ds.Tables[0].Rows[i]["Discount"] != null)
+                //{
+                //    //pItem.Discount = Convert.ToInt32(ds.Tables[0].Rows[i]["Discount"]);
+                //}
+                //else
+                //{
+                //    returnMessage = "Discount cannot be empty at row '" + (i + 2) + "' in the excel sheet";
+                //    return false;
+                //}
 
                 if (ds.Tables[0].Rows[i]["Remarks"].ToString() != "" && ds.Tables[0].Rows[i]["Remarks"] != null)
                 {
@@ -1019,21 +1091,25 @@ namespace Troy.Web.Controllers
             return response;
         }
 
-        public JsonResult GetPrice(int? pId)
+        public JsonResult GetPrice(int? pID)
         {
-            //int price = purchaseDb.GetProductPrice(pId);
-
-            int price = 50;
+            int price = purchaseDb.GetProductPrice(pID);
 
             return Json(price, JsonRequestBehavior.AllowGet);
-
         }
 
         public JsonResult GetProductList()
         {
-            var productList = purchaseDb.GetVendorList();
+            var productList = purchaseDb.GetProductList();
 
             return Json(productList, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetVATList()
+        {
+            var vatList = purchaseDb.GetVATList();
+
+            return Json(vatList, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

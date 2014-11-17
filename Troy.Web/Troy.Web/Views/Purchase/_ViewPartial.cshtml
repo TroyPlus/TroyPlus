@@ -75,8 +75,8 @@
                                                     Fright:
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Fright, new { @class = "form-control control-text", disabled = "disabled" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Fright)
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Freight, new { @class = "form-control control-text", disabled = "disabled" })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Freight)
                                                 </div>
                                             </div>
 
@@ -125,17 +125,7 @@
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Valid_Date)
                                                 </div>
                                             </div>
-
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    Discount:
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Discount, new { @class = "form-control control-text", disabled = "disabled" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Discount)
-                                                </div>
-                                            </div>
-
+                                          
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Remarks:
@@ -161,11 +151,12 @@
                                                 <th>Item Code</th>
                                                 <th>Required Date</th>
                                                 <th>Required Quantity</th>
+                                                <th>Quoted Date</th>
+                                                <th>Quoted Quantity</th>
                                                 <th>Unit Price </th>
                                                 <th>Discount %</th>
-                                                <th> Amount </th>
                                                 <th>VAT Code</th>
-                                                <th></th>
+                                                <th> Amount </th>                                                                                                
                                             </tr>
                                         </thead>
 
@@ -177,7 +168,7 @@
                                                     @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].IsDummy, new { @class = "form-control control-text", disabled = "disabled" })
                                                 </td>
                                                 <td width="20%">
-                                                    @Html.DropDownListFor(m => m.PurchaseQuotationItemList[i].Product_id, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name", Model.PurchaseQuotationItemList[i].Product_id), new { @class = "form-control control-text", disabled = "disabled" })
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].ProductName, new { @class = "form-control control-text", @readonly = true })
                                                 </td>
                                                 <td width="15%">
                                                     @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = Model.PurchaseQuotationItemList[i].Required_date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", disabled = "disabled" })
@@ -185,17 +176,23 @@
                                                 <td>
                                                     @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_qty, new { @class = "form-control control-text", disabled = "disabled" })
                                                 </td>
+                                                <td width="15%">
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Quoted_date , new { @class = "form-control control-text datePicker", disabled = "disabled" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Quoted_qty, new { @class = "form-control control-text", disabled = "disabled" })
+                                                </td>
                                                 <td>
                                                     @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Unit_price, new { @class = "form-control control-text", disabled = "disabled" })
                                                 </td>
                                                 <td>
                                                     @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text", disabled = "disabled" })
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Amount, new { @class = "form-control control-text", disabled = "disabled" })
-                                                </td>
+                                                </td>                                                
                                                 <td>
                                                     @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Vat_Code, new { @class = "form-control control-text", disabled = "disabled" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].LineTotal, new { @class = "form-control control-text", disabled = "disabled" })
                                                 </td>
                                             </tr>
                                         }
@@ -214,7 +211,13 @@
         <div class="modal-footer">
             @*<input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />*@
             <button class="btn pull-left" data-dismiss="modal">Close</button>
-            @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+
+            <div class="row" style="float:right;">
+                Total : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalBefDocDisc, new { id = "viewTotalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.DocDiscAmt, new { id = "viewTotalDiscount", @class = "input-small", @readonly = true, @style = "border: none;" }) @Html.ValidationMessageFor(model => model.PurchaseQuotation.DocDiscAmt)</span> <br />
+                Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TaxAmt, new { id = "viewTotalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalQtnAmt, new { id = "viewTotalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+            </div>
         </div>
 
     </div>
