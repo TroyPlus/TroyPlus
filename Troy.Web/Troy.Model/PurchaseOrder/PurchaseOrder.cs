@@ -16,7 +16,7 @@ namespace Troy.Model.PurchaseOrder
         [Required]
         [ForeignKey("purchaseQrderItems")]
         public int Purchase_Order_Id { get; set; }
-        public virtual PurchaseOrderItems purchaseQrderItems { get; set; }
+        public virtual PurchaseOrder purchaseQrderItems { get; set; }
         //-----------
 
         [Required]
@@ -27,16 +27,16 @@ namespace Troy.Model.PurchaseOrder
         public int TargetDocId { get; set; }
         //------------
 
-        [ForeignKey("purchaseQuotation")]
+        //[ForeignKey("purchaseQuotation")]
         public int Purchase_Quote_Id { get; set; }
-        public virtual PurchaseQuotation purchaseQuotation { get; set; }
+        //public virtual PurchaseQuotation purchaseQuotation { get; set; }
         //-----
 
         [Required]
         public int Vendor { get; set; }
         //-----------
 
-        [Required]
+        [Required(ErrorMessage = "Reference Number is required.")]
         [StringLength(30)]
         public string Reference_Number { get; set; }
         //-----------
@@ -46,22 +46,22 @@ namespace Troy.Model.PurchaseOrder
         public string Order_Status { get; set; }
         //-----------
 
-        [Required]
+        [Required(ErrorMessage = "Posting Date is required.")]
         public DateTime Posting_Date { get; set; }
         //------
 
-        [Required]
+        [Required(ErrorMessage = "Delivery Date is required.")]
         public DateTime Delivery_Date { get; set; }
         //------
 
-        [Required]
+        [Required(ErrorMessage = "Document Date is required.")]
         public DateTime Document_Date { get; set; }
         //------
 
         [Required]
         public int Ship_To { get; set; }
         //------
-               
+
         public decimal Freight { get; set; }
         //------
 

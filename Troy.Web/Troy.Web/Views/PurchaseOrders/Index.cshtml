@@ -9,7 +9,166 @@
 
     $(document).ready(function () {
 
-        $('.datePicker').datepicker();
+        //$('.datePicker').datepicker();
+        $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
+        $("#typeahead").jAutochecklist({
+            width: 221
+        });
+        $("#productTypeahead").jAutochecklist({
+            width: 135,
+            listMaxHeight: 50
+        });
+
+        i = 1;
+
+        //Dynamically add quotation row
+        function addRow() {
+            var date = new Date();
+            var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+
+            var selectHtml = CreateSelect(i);
+            var selectHtml1 = CreateVATSelect(i);
+
+            selectHtml += '</select>';
+            selectHtml1 += '</select>';
+
+            var html = '<tr>' +
+                        '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="PurchaseOrderItemsList' + i + '__IsDummy" name="PurchaseOrderItemsList[' + i + '].IsDummy" type="text" value="">  </td>' +
+                        '<td width="20%"> ' +
+                            selectHtml +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Product_id" data-valmsg-replace="true"></span>' +                       
+                        '<td>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="PurchaseOrderItemsList' + i + 'Quantity" name="PurchaseOrderItemsList[' + i + '].Quantity" onkeyup="OnChangeQuantity(this, ' + i + ');" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Quantity" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseOrderItemsList' + i + 'Unit_price" name="PurchaseOrderItemsList[' + i + '].Unit_price" readonly="True" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="PurchaseOrderItemsList' + i + '__Discount_percent" name="PurchaseOrderItemsList[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                         '<td>' +     
+                             selectHtml1 +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
+                        '</td>' +                                            
+                        '<td>' +
+                            '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
+                        '</td>' +
+                        '</tr>'
+
+            $(html).appendTo($("#createItemTable"))
+
+            i++;
+
+            //$("form").removeData("validator");
+            //$("form").removeData("unobtrusiveValidation");
+            //$.validator.unobtrusive.parse("form");
+
+            $("form").removeData("validator");
+            $("form").removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse("form");
+
+            $("#createItemTable").delegate(".datePicker", "focusin", function () {
+                $(this).datepicker();
+            });
+
+        }
+
+        function CreateSelect(rowID) {
+
+            //debugger;
+
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseOrderItemsList' + rowID + '__Product_id" name="PurchaseOrderItemsList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            selectHtml += '<option value=""></option>';
+
+            var dataUrl = "/PurchaseOrders/GetProductList";
+
+            $.ajax({
+                type: 'GET',
+                url: dataUrl,
+                async: false,
+                cache: false,
+                crossDomain: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                error: function (xhr, err) {
+                },
+                success: function (result, status) {
+                    //debugger;
+                    for (var count = 0; count < result.length; count++) {
+                        selectHtml += '<option value="' + result[count].Product_Id + '">' + result[count].Product_Name + '</option>';
+                    }
+                }
+            });
+
+            return selectHtml;
+        }
+
+        function CreateVATSelect(rowID)
+        {
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="PurchaseOrderItemsList' + rowID + '__VAT_Id" name="PurchaseOrderItemsList[' + rowID + '].VAT_Id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            selectHtml += '<option value=""></option>';
+
+
+            var dataUrl =  "/PurchaseOrders/GetVATList";
+
+            $.ajax({
+                type: 'GET',
+                url: dataUrl,
+                async: false,
+                cache: false,
+                crossDomain: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                error: function (xhr, err) {
+                },
+                success: function (result, status) {
+                    //debugger;
+                    for (var count = 0; count < result.length; count++) {
+                        selectHtml += '<option value="' + result[count].VAT_Id + '">' + result[count].VAT_percentage + '</option>';
+                    }
+                }
+            });
+
+            return selectHtml;
+        }
+
+        $("#createItemTable").on("click", ".BtnPlus", addRow);
+
+        
+
+        function deleteRow() {
+
+            //debugger;
+
+            if (i == 1) {
+                alert("Atleast one item for each product");
+            }
+            else {
+
+                var par = $(this).parent().parent();
+                //par.remove();
+                //$('#idEstablishmentRow td.ms-formbody span input').attr('id');
+
+                var id = par[0].childNodes[0].childNodes[1].id;
+
+                id = '#' + id;
+
+                $(id).val("1");
+
+                //par[0].childNodes[0].childNodes[1].value = 1;
+
+                //$(id).val(1);
+                par.remove();
+                i--;
+                CalculateTotal();
+            }
+        };
+
+        $("#createItemTable").on("click", ".BtnMinus", deleteRow);
+
     });
 
     function EditPurchase(id) {
@@ -84,6 +243,158 @@
             }
         });
     }
+
+    $(function () {
+        $("#btnNextTab").click(function (e) {
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#default");
+
+            var validator = $("#default").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+                debugger;
+                if (this.parentNode.parentNode.className != "jAutochecklist_list") {
+                    if (!validator.element(this)) { // validate every input element inside this step
+                        anyError = true;
+                    }
+                }
+            });
+
+            _form.find("select").each(function () {
+                //debugger;
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                $('#createtabs a[href = #addQuotationlist]').tab('show');
+            }// exit if any error found
+
+            //$.post(_form.attr("action"), _form.serialize(), function (data) {
+            //    //check the result and do whatever you want
+            //    $('#createtabs a[href = #addQuotationlist]').tab('show');
+            //})
+
+
+            //$("#default").validate({
+            //    showErrors: function (errorMap, errorList) {
+            //        debugger;
+            //    }
+            //});
+
+        });
+
+        $("#btnSuddbmit").click(function (e) {
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#addQuotationlist");
+
+            var validator = $("#addQuotationlist").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+                debugger;
+                if (this.parentNode.parentNode.className != "jAutochecklist_list" || this.type != "hidden") {
+                    if (!validator.element(this)) { // validate every input element inside this step
+                        anyError = true;
+                    }
+                }
+            });
+
+            _form.find("select").each(function () {
+                debugger;
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                return true; //$('#createtabs a[href = #addQuotationlist]').tab('show');
+            }// exit if any error found
+        });
+
+    });
+
+    function OnChangeProduct(value, rowId) {      
+        //debugger;
+      
+        var pID = this.value;
+
+        var dataUrl = "/PurchaseOrders/GetPrice";
+
+        $.ajax({
+            type: 'GET',
+            url: dataUrl,
+            data: pID,
+            async: true,
+            cache: false,
+            crossDomain: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            error: function (xhr, err) {
+            },
+            success: function (result, status) {
+                //debugger;
+                var id = "#PurchaseOrderItemsList" + rowId + "__Unit_price";
+              
+                $(id).val(result);
+                CalculateTotal();
+            }
+        });
+    }
+
+    function OnChangeQuantity(currentQty, rowId) {
+        //debugger;
+
+        var qty = currentQty.value;
+        var price = $("#PurchaseOrderItemsList" + rowId + "__Unit_price").val();
+
+        var totAmount = price * qty;
+       
+        var id = "#PurchaseOrderItemsList" + rowId + "__LineTotal";
+        $(id).val(totAmount);
+        CalculateTotal();
+    }
+
+    function OnChangeDiscount(currentDis, rowId) {
+        //debugger;
+
+        var dis = currentDis.value;
+        var qty = $("#PurchaseOrderItemsList" + rowId + "__Quantity").val();
+        var price = $("#PurchaseOrderItemsList" + rowId + "__Unit_price").val();
+
+        var totAmount = (price * qty) - dis
+
+        var id = "#PurchaseOrderItemsList" + rowId + "__LineTotal";
+        $(id).val(totAmount);
+
+        CalculateTotal();
+    }
+
+    function CalculateTotal() {
+        //debugger;
+        var tot = 0;
+        //if (i == 0) {
+        //    tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + i + "__Amount").val());
+        //}
+        //else {
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList" + j + "__LineTotal").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#PurchaseOrderItemsList" + j + "__LineTotal").val());
+            }
+        }
+        //}
+
+        $("#totalPurchase").text(tot);
+    }
+
 </script>
 
 @using (Html.BeginForm("Index", "PurchaseOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -172,7 +483,7 @@
                                         {
                                             <tr class="odd gradeX">
                                                 <td style="text-align:center;">@item.Purchase_Order_Id</td>
-                                                <td>@item.Vendor</td>
+                                                <td>@item.Vendor_Name</td>
                                                 <td style="text-align:center;">@item.Reference_Number</td>
                                                 <td>@item.Order_Status</td>
                                                 <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>

@@ -29,6 +29,7 @@ namespace Troy.Data.Repository
         PurchaseQuotation FindOneQuotationById(int qId);
 
         IList<PurchaseQuotationItem> FindOneQuotationItemById(int qId);
-    
+
+        bool AddNewQuotation(PurchaseOrder Quotation, IList<PurchaseOrderItems> QuotationItemList, ref string ErrorMessage);
     }
 }

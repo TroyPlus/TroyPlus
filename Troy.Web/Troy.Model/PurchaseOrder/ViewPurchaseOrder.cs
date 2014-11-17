@@ -32,5 +32,7 @@ namespace Troy.Model.PurchaseOrder
         public int Modified_User_Id { get; set; }
         public int Modified_Branch_Id { get; set; }
         public DateTime? Modified_Date { get; set; }
+
+        public string Vendor_Name { get; set; }
     }
 }

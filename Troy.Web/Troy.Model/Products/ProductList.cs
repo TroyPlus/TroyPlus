@@ -9,8 +9,8 @@ namespace Troy.Model.Products
     public class ProductList
     {
         public int Product_Id { get; set; }
-        public string Product_Code { get; set; }
+        //public string Product_Code { get; set; }
         public string Product_Name { get; set; }
-        public string Product_Desc { get; set; }
+        //public string Product_Desc { get; set; }
     }
 }

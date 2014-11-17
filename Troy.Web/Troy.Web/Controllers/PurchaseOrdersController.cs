@@ -73,6 +73,56 @@ namespace Troy.Web.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult Index(string submitButton, PurchaseOrderViewModels model, HttpPostedFileBase file)
+        {
+            try
+            {
+                //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
+
+                if (submitButton == "Save")
+                {
+                  
+                    model.PurchaseOrder.Order_Status = "Open";
+                    model.PurchaseOrder.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
+                    model.PurchaseOrder.Created_Date = DateTime.Now;
+                    model.PurchaseOrder.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
+                    model.PurchaseOrder.Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                    model.PurchaseOrder.Modified_Date = DateTime.Now;
+                    model.PurchaseOrder.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
+                   
+
+                    var QuotationList = model.PurchaseOrderItemsList.Where(x => x.IsDummy == 0);
+                    model.PurchaseOrderItemsList = QuotationList.ToList();
+
+                   
+
+                    if (purchaseorderRepository.AddNewQuotation(model.PurchaseOrder, model.PurchaseOrderItemsList, ref ErrorMessage))
+                    {
+                        //XMLGenerate_SAPInsert(model);
+                        //for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
+                        //{
+                        //    XMLGenerate_Quotation_SAPInsert(model.PurchaseQuotationItemList[i]);
+                        //}
+                        return RedirectToAction("Index", "PurchaseOrders");
+                    }
+                    else
+                    {
+                        ViewBag.AppErrorMessage = ErrorMessage;
+                        return View("Error");
+                    }
+                }
+               
+                return RedirectToAction("Index", "PurchaseOrders");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
+
         public PartialViewResult _ViewPurchaseQuotation(int id)
         {
             try
@@ -106,6 +156,30 @@ namespace Troy.Web.Controllers
                 ViewBag.AppErrorMessage = ex.Message;
                 return PartialView("Error");
             }
+        }
+
+        public JsonResult GetProductList()
+        {
+            var productList = purchaseorderRepository.GetProductList().ToList();
+
+            return Json(productList, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetVATList()
+        {
+            var vatList = purchaseorderRepository.GetVAT().ToList();
+
+            return Json(vatList, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPrice(int? pId)
+        {
+            //int price = purchaseDb.GetProductPrice(pId);
+
+            int price = 50;
+
+            return Json(price, JsonRequestBehavior.AllowGet);
+
         }
 
         #endregion

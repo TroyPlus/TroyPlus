@@ -29,13 +29,15 @@ namespace Troy.Data.Repository
             List<ViewPurchaseOrder> qList = new List<ViewPurchaseOrder>();
 
             qList = (from p in purchaseordercontext.purchaseorder
+                      join b in purchaseordercontext.Businesspartner
+                       on p.Vendor equals b.BP_Id
                      select new ViewPurchaseOrder()
                      {
                          Purchase_Order_Id = p.Purchase_Order_Id,
                          BaseDocId = p.BaseDocId,
                          TargetDocId = p.TargetDocId,
                          Purchase_Quote_Id = p.Purchase_Quote_Id,
-                         Vendor = p.Vendor,
+                         Vendor_Name = b.BP_Name,
                          Reference_Number = p.Reference_Number,
                          Order_Status = p.Order_Status,
                          Posting_Date = p.Posting_Date,
@@ -49,14 +51,14 @@ namespace Troy.Data.Repository
                          TaxAmt = p.TaxAmt,
                          TotalOrdAmt = p.TotalOrdAmt,
                          Remarks = p.Remarks
-                     }).ToList();          
+                     }).ToList();
 
             return qList;
         }
 
-        public List<ViewPurchaseQuotation> GetPurchaseQuotation()            
+        public List<ViewPurchaseQuotation> GetPurchaseQuotation()
         {
-            List<ViewPurchaseQuotation> qlist = new List<ViewPurchaseQuotation>();           
+            List<ViewPurchaseQuotation> qlist = new List<ViewPurchaseQuotation>();
             qlist = (from pq in purchaseordercontext.purchasequotation
                      join b in purchaseordercontext.Businesspartner
                        on pq.Vendor_Code equals b.BP_Id
@@ -68,9 +70,9 @@ namespace Troy.Data.Repository
                          Vendor_Name = b.BP_Name,
                          Quotation_Status = pq.Quotation_Status
                      }).ToList();
-            return qlist;                   
+            return qlist;
         }
-        
+
 
         public List<BranchList> GetBranchList()
         {
@@ -108,6 +110,7 @@ namespace Troy.Data.Repository
         public List<BussinessList> GetBusinessPartnerList()
         {
             var item = (from a in purchaseordercontext.Businesspartner
+                        where a.Group_Type == "Vendor"
                         select new BussinessList
                         {
                             BP_Id = a.BP_Id,
@@ -128,6 +131,38 @@ namespace Troy.Data.Repository
             return (from p in purchaseordercontext.purchasequotationitem
                     where p.Purchase_Quote_Id == qId
                     select p).ToList();
+        }
+
+        public bool AddNewQuotation(PurchaseOrder Quotation, IList<PurchaseOrderItems> QuotationItemList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                purchaseordercontext.purchaseorder.Add(Quotation);
+
+                purchaseordercontext.SaveChanges();
+
+                int currentId = Quotation.Purchase_Order_Id;
+
+                for (int i = 0; i < QuotationItemList.Count; i++)
+                {
+                    QuotationItemList[i].Purchase_Order_Id = currentId;
+                    QuotationItemList[i].BaseDocLink = "Y";
+                    QuotationItemList[i].LineTotal = 100;
+                }
+
+                purchaseordercontext.purchaseorderitems.AddRange(QuotationItemList);
+
+                purchaseordercontext.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ErrorMessage = ex.Message;
+                return false;
+            }
         }
     }
 }
