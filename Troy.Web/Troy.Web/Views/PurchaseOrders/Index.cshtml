@@ -1,26 +1,16 @@
-﻿@model Troy.Web.Models.PurchaseViewModels
+﻿@model  Troy.Web.Models.PurchaseOrderViewModels
 
 @{
-    ViewBag.Title = "Purchase Quotation";
+    ViewBag.Title = "Purchase Order";
 }
 
-
 <script type="text/javascript">
-    var i = 0;
+
 
     $(document).ready(function () {
 
-        $('.datePicker').datepicker();
-       
-        $('#creRequiredDate').datepicker({
-            minDate: 0          
-        });
-
-        $('#creValidDate').datepicker({
-            minDate: 0
-        });
-
-        //{ dateFormat: 'dd-mm-yy' }
+        //$('.datePicker').datepicker();
+        $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
         $("#typeahead").jAutochecklist({
             width: 221
         });
@@ -36,54 +26,36 @@
             var date = new Date();
             var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 
-            var productSelectHtml = CreateProductSelect(i);
+            var selectHtml = CreateSelect(i);
+            var selectHtml1 = CreateVATSelect(i);
 
-            productSelectHtml += '</select>';
-
-
-            var vatSelectHtml = CreateVATSelect(i);
-
-            vatSelectHtml += '</select>';
-
-            //debugger;
+            selectHtml += '</select>';
+            selectHtml1 += '</select>';
 
             var html = '<tr>' +
-                        '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="PurchaseQuotationItemList_' + i + '__IsDummy" name="PurchaseQuotationItemList[' + i + '].IsDummy" type="text" value="">  </td>' +
+                        '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="PurchaseOrderItemsList' + i + '__IsDummy" name="PurchaseOrderItemsList[' + i + '].IsDummy" type="text" value="">  </td>' +
                         '<td width="20%"> ' +
-                            productSelectHtml +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Product_id" data-valmsg-replace="true"></span>' +
-                        '</td>' +
-                        '<td width="15%">' +
-                            '<input class="form-control control-text datePicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_' + i + '__Required_date" name="PurchaseQuotationItemList[' + i + '].Required_date" type="text" value="' + strDate + '">' +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_date" data-valmsg-replace="true"></span>' +
+                            selectHtml +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Product_id" data-valmsg-replace="true"></span>' +                       
+                        '<td>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="PurchaseOrderItemsList' + i + 'Quantity" name="PurchaseOrderItemsList[' + i + '].Quantity" onkeyup="OnChangeQuantity(this, ' + i + ');" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Quantity" data-valmsg-replace="true"></span>' +
                         '</td>' +
                         '<td>' +
-                            '<input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="PurchaseQuotationItemList_' + i + '__Required_qty" name="PurchaseQuotationItemList[' + i + '].Required_qty" onkeyup="OnChangeQuantity(this, ' + i + ');" type="text" value="">' +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_qty" data-valmsg-replace="true"></span>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseOrderItemsList' + i + 'Unit_price" name="PurchaseOrderItemsList[' + i + '].Unit_price" readonly="True" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
                         '</td>' +
                         '<td>' +
-                            '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseQuotationItemList_' + i + '__Unit_price" name="PurchaseQuotationItemList[' + i + '].Unit_price" readonly="True" type="text" value="">' +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="PurchaseOrderItemsList' + i + '__Discount_percent" name="PurchaseOrderItemsList[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
                         '</td>' +
-                        '<td>' +
-                            '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="PurchaseQuotationItemList_' + i + '__Discount_percent" name="PurchaseQuotationItemList[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
-                        '</td>' +
-                         '<td width="10%">' +
-                            vatSelectHtml +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseQuotationItemList_' + i + '__LineTotal" name="PurchaseQuotationItemList[' + i + '].LineTotal" readonly="True" type="text" value="">' +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
-                        '</td>' +
+                         '<td>' +     
+                             selectHtml1 +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
+                        '</td>' +                                            
                         '<td>' +
                             '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
                         '</td>' +
-
-                        @*'<td>@Html.TextBoxFor(model => model.PurchaseQuotationItemList[2].Required_date, new { @class = "form-control control-text datePicker" })</td>' +
-                        '<td> <input class="form-control control-text datePicker hasDatepicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_0__Required_date" name="PurchaseQuotationItemList[0].Required_date" type="text" value=""> </td>' +*@
-
                         '</tr>'
 
             $(html).appendTo($("#createItemTable"))
@@ -104,14 +76,14 @@
 
         }
 
-        function CreateProductSelect(rowID) {
+        function CreateSelect(rowID) {
 
             //debugger;
 
-            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseQuotationItemList_' + rowID + '__Product_id" name="PurchaseQuotationItemList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseOrderItemsList' + rowID + '__Product_id" name="PurchaseOrderItemsList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
 
-            var dataUrl = "/Purchase/GetProductList";
+            var dataUrl = "/PurchaseOrders/GetProductList";
 
             $.ajax({
                 type: 'GET',
@@ -134,14 +106,13 @@
             return selectHtml;
         }
 
-        function CreateVATSelect(rowID) {
+        function CreateVATSelect(rowID)
+        {
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="PurchaseOrderItemsList' + rowID + '__VAT_Id" name="PurchaseOrderItemsList[' + rowID + '].VAT_Id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            selectHtml += '<option value=""></option>';
 
-            //debugger;
 
-            var vatselectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT must be a number." data-val-required="The VAT field is required." id="PurchaseQuotationItemList_' + rowID + '__Vat_Code" name="PurchaseQuotationItemList[' + rowID + '].Vat_Code" onchange="OnChangeVAT();" >';
-            vatselectHtml += '<option value=""></option>';
-
-            var dataUrl = "/Purchase/GetVATList";
+            var dataUrl =  "/PurchaseOrders/GetVATList";
 
             $.ajax({
                 type: 'GET',
@@ -156,15 +127,17 @@
                 success: function (result, status) {
                     //debugger;
                     for (var count = 0; count < result.length; count++) {
-                        vatselectHtml += '<option value="' + result[count].VAT_Id + '">' + result[count].VAT_percentage + '</option>';
+                        selectHtml += '<option value="' + result[count].VAT_Id + '">' + result[count].VAT_percentage + '</option>';
                     }
                 }
             });
 
-            return vatselectHtml;
+            return selectHtml;
         }
 
         $("#createItemTable").on("click", ".BtnPlus", addRow);
+
+        
 
         function deleteRow() {
 
@@ -221,6 +194,17 @@
         });
     }
 
+    function ViewPurchaseQuotation(id) {
+
+        var url =  $('#viewPurQuoModal').data('url') + '/' + id;
+        
+        $.get(url, function (data) {
+            $('#viewPurQuomodelcontainer').html(data);
+
+            $('#viewPurQuoModal').modal('show');
+        });
+    }
+
     function IFrameSubmit() {
 
         var fileSelected = $('#FileUpload').val();
@@ -231,7 +215,7 @@
 
         var formData = new FormData($('form')[0]);
 
-        var dataUrl = "/Purchase/index";
+        var dataUrl = "/PurchaseOrders/index";
 
         $.ajax({
             url: dataUrl,
@@ -338,16 +322,17 @@
 
     });
 
-    function OnChangeProduct(val, rowId) {
+    function OnChangeProduct(value, rowId) {      
+        //debugger;
+      
+        var pID = this.value;
 
-        var pID = parseInt(val.value);
-
-        var dataUrl = "/Purchase/GetPrice?pID=" + pID;
+        var dataUrl = "/PurchaseOrders/GetPrice";
 
         $.ajax({
             type: 'GET',
             url: dataUrl,
-            //data: pID,
+            data: pID,
             async: true,
             cache: false,
             crossDomain: true,
@@ -357,56 +342,40 @@
             },
             success: function (result, status) {
                 //debugger;
-                var id = "#PurchaseQuotationItemList_" + rowId + "__Unit_price";
+                var id = "#PurchaseOrderItemsList" + rowId + "__Unit_price";
+              
                 $(id).val(result);
                 CalculateTotal();
-                CalculateTotalAmount();
             }
         });
     }
 
     function OnChangeQuantity(currentQty, rowId) {
+        //debugger;
 
         var qty = currentQty.value;
-        var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
+        var price = $("#PurchaseOrderItemsList" + rowId + "__Unit_price").val();
 
         var totAmount = price * qty;
-
-        var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
+       
+        var id = "#PurchaseOrderItemsList" + rowId + "__LineTotal";
         $(id).val(totAmount);
         CalculateTotal();
-        CalculateTotalAmount();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
         //debugger;
 
         var dis = currentDis.value;
-        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Required_qty").val();
-        var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
+        var qty = $("#PurchaseOrderItemsList" + rowId + "__Quantity").val();
+        var price = $("#PurchaseOrderItemsList" + rowId + "__Unit_price").val();
 
-        //var totAmount = (price * qty) - dis
-        //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
-        //$(id).val(totAmount);
+        var totAmount = (price * qty) - dis
 
-        CalculateDiscount();
-        CalculateTotalAmount();
-    }
+        var id = "#PurchaseOrderItemsList" + rowId + "__LineTotal";
+        $(id).val(totAmount);
 
-    function OnChangeVAT()
-    {
-        CalculateTax();
-        CalculateTotalAmount();
-    }
-
-    function OnChangeDiscountSummary(currentDis)
-    {
-        var totdis = currentDis.value;
-        var totdoc = $("#totalPurchase").val();
-        var tottax = $("#totalTax").val();
-        tot = (parseFloat(totdoc) - parseFloat(totdis)) +  parseFloat(tottax);
-
-        $("#totalQuotationAmt").val(tot);
+        CalculateTotal();
     }
 
     function CalculateTotal() {
@@ -417,73 +386,19 @@
         //}
         //else {
         for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val());
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList" + j + "__LineTotal").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#PurchaseOrderItemsList" + j + "__LineTotal").val());
             }
         }
         //}
 
-        $("#totalPurchase").val(tot);
-    }
-
-    function CalculateDiscount() {
-        var tot = 0;
-
-        for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val());
-            }
-        }
-
-        $("#totalDiscount").val(tot);
-    }
-
-    function CalculateTax() {
-        var tot = 0;
-
-        for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
-            }
-        }
-
-        $("#totalTax").val(tot);
-    }
-
-    function CalculateTotalAmount() {
-        var totdoc = 0;
-        var totdis = 0;
-        var tottax = 0;
-        var tot = 0;
-        for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
-                totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val());
-            }
-        }
-
-        for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val()))) {
-                totdis = parseFloat(totdis) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val());
-            }
-        }
-
-        for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
-                tottax = parseFloat(tottax) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
-            }
-        }
-
-        tot = (totdoc - totdis) + tottax;
-
-        $("#totalQuotationAmt").val(tot);
+        $("#totalPurchase").text(tot);
     }
 
 </script>
 
-
-@using (Html.BeginForm())
+@using (Html.BeginForm("Index", "PurchaseOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-
     @Html.ValidationSummary(true)
     @Html.HiddenFor(m => m.SearchColumn)
 
@@ -509,7 +424,11 @@
                     <div class="col-lg-10 col-md-10">
                         <div class="row">
                             <div class="pull-right group-button btn-toolbar">
-                                <button type="button" title="New Purchase" class="btn btn-primary" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false">
+                                @*<button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false">
+                                        <i class="en-add-to-list strong"></i>
+                                        <span> New</span>
+                                    </button>*@
+                                <button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#confirmationModal" data-backdrop="static" data-keyboard="false">
                                     <i class="en-add-to-list strong"></i>
                                     <span> New</span>
                                 </button>
@@ -519,8 +438,10 @@
                                     <span> Bulk</span>
                                 </button>
 
-                                <input class="btn btn-primary" type="submit" name="submitButton" id="btnExport" value="Export" />
-
+                                <button type="button" title="Excel Export" class="btn btn-primary">
+                                    <i class="im-file-excel strong"></i>
+                                    <span> Export</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -548,32 +469,32 @@
                                     <thead>
 
                                         <tr>
-                                            <th>Quotation ID</th>
-                                            <th>Vendor</th>
+                                            <th>Purchase Order ID</th>
+                                            <th>Vendor Name</th>
                                             <th>Ref. Number</th>
-                                            <th>Quotation Status</th>
+                                            <th>Order Status</th>
                                             <th>Posting Date</th>
-                                            <th>Valid Up to</th>
+                                            <th>Delivery Date</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (Troy.Model.Purchase.PurchaseQuotation item in Model.PurchaseQuotationList)
+                                        @foreach (Troy.Model.PurchaseOrder.ViewPurchaseOrder item in Model.PurchaseOrderList)
                                         {
                                             <tr class="odd gradeX">
-                                                <td style="text-align:center;">@item.Purchase_Quote_Id</td>
+                                                <td style="text-align:center;">@item.Purchase_Order_Id</td>
                                                 <td>@item.Vendor_Name</td>
                                                 <td style="text-align:center;">@item.Reference_Number</td>
-                                                <td>@item.Quotation_Status</td>
+                                                <td>@item.Order_Status</td>
                                                 <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
-                                                <td>@item.Valid_Date.ToString("MM/dd/yyyy")</td>
+                                                <td>@item.Delivery_Date.ToString("MM/dd/yyyy")</td>
                                                 <td>
-                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Purchase_Quote_Id);">
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Purchase_Order_Id);">
                                                         <i class="im-eye2"></i>
 
                                                     </a>
                                                     <span class="text-muted">|</span>
-                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Purchase_Quote_Id);">
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Purchase_Order_Id);">
                                                         <i class="im-pencil2"></i>
                                                     </a>
                                                     @*<span class="text-muted">|</span>
@@ -598,10 +519,19 @@
         </div>
         <!-- End .content-wrapper -->
     </div>
+
     <div class="clearfix"></div>
     <div class="modal fade bs-example-modal-lg" id="createModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true">
         @Html.Partial("_CreatePartial", Model)
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="viewPurQuoModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPurchaseQuotation")'>
+        @*@Html.Partial("_CreatePartial", Model)*@
+        <div id="viewPurQuomodelcontainer">
+
+        </div>
     </div>
 
     <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
@@ -615,7 +545,10 @@
         <div id="viewmodelcontainer">
         </div>
     </div>
+}
 
+@using (Html.BeginForm("Upload", "PurchaseOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
     <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -666,12 +599,150 @@
                 <div class="modal-footer">
                     <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
                     <button class="btn pull-left" data-dismiss="modal">Cancel</button>
-                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
                 </div>
 
             </div>
         </div>
     </div>
-
 }
+
+@using (Html.BeginForm("Confirmation", "PurchaseOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal fade bs-example-modal-lg" id="confirmationModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Select Way of Entry</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="tabs">
+                                <ul id="myTab" class="nav nav-tabs tabdrop">
+                                    <li class="active">
+                                        <a href="#default" data-toggle="tab">Select way of entry</a>
+                                    </li>
+                                </ul>
+
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade in active" id="default">
+                                        <br />
+
+                                        <div id="FileUploadDiv">
+                                            @*<iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>*@
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    @*<input type="file" id="Select" name="FileUpload" />*@
+                                                    @*@Html.RadioButton("select", "Create from Purchase Quotation", false)Create from Purchase Quotation
+                                                        @Html.RadioButton("select", "Create Directly", false) Create Directly*@
+                                                    <button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#RetrivePurQuoModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal">
+                                                        <i class="en-add-to-list strong"></i>
+                                                        <span> Create from Purchase Quotation</span>
+                                                    </button>
+                                                    <button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal">
+                                                        <i class="en-add-to-list strong"></i>
+                                                        <span> Create Directly</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input class="btn btn-primary pull-left" type="button" id="btnOK" name="FileUploadButton" value="OK" />
+                    <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("RetrivePurQuo", "PurchaseOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal fade bs-example-modal-lg" id="RetrivePurQuoModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Purchase Quotations</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="tabs">
+                                <ul id="myTab" class="nav nav-tabs tabdrop">
+                                    <li class="active">
+                                        <a href="#default" data-toggle="tab">Purchase Quotations</a>
+                                    </li>
+                                </ul>
+
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade in active" id="default">
+                                        <br />
+                                        <div id="FileUploadDiv">
+                                            @*<iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>*@
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="panel-body">
+
+                                                        <table class="table display" id="datatable">
+                                                            <thead>
+
+                                                                <tr>
+                                                                    <th>Purchase Quotation ID</th>
+                                                                    <th>Valid Date</th>
+                                                                    <th>Vendor</th>
+                                                                    <th>Quotation Status</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (Troy.Model.Purchase.ViewPurchaseQuotation item in Model.PurchaseQuotationList)
+                                                                {
+                                                                <tr class="odd gradeX">
+                                                                    <td style="text-align:center;">@item.Purchase_Quote_Id</td>
+                                                                    <td>@item.Valid_Date</td>
+                                                                    <td style="text-align:center;">@item.Vendor_Name</td>
+                                                                    <td>@item.Quotation_Status</td>
+                                                                    <td>
+                                                                        <a href="#" class="top-right" data-toggle="modal" data-target="#viewPurQuoModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseQuotation(@item.Purchase_Quote_Id);">
+                                                                            <i class="im-eye2"></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
 

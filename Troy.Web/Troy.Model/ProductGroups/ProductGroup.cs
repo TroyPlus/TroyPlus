@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 
 
-namespace Troy.Model.ProductGroup
+namespace Troy.Model.ProductGroups
 {
     [Table("tblProductGroup")]
     public class ProductGroup
     {
         [Key]
+        [ForeignKey("productgroup")]
         public int Product_Group_Id { get; set; }
+        public virtual ProductGroup productgroup { get; set; }
 
         [Index(IsUnique = true)]
         [Required(ErrorMessage = "ProductGroup Name is required.")]

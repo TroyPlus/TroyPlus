@@ -64,8 +64,10 @@
     <Compile Include="DataContext\GoodsReceiptContext.cs" />
     <Compile Include="DataContext\ManufactureContext.cs" />
     <Compile Include="DataContext\MasterDataContext.cs" />
+    <Compile Include="DataContext\ProductContext.cs" />
     <Compile Include="DataContext\ProductGroupContext.cs" />
     <Compile Include="DataContext\PurchaseContext.cs" />
+    <Compile Include="DataContext\PurchaseOrderContext.cs" />
     <Compile Include="DataContext\SAPOUTContext.cs" />
     <Compile Include="DataContext\StateContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="Repository\IGoodsReceiptRepository.cs" />
     <Compile Include="Repository\IManufacturerRepository.cs" />
     <Compile Include="Repository\IProductGroupRepository.cs" />
+    <Compile Include="Repository\IPurchaseOrderRepository.cs" />
     <Compile Include="Repository\IPurchaseRepository.cs" />
     <Compile Include="Repository\ISAPOUTRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
@@ -90,6 +93,7 @@
     <Compile Include="Repository\MasterData\IYearRepository.cs" />
     <Compile Include="Repository\MasterData\YearRepository.cs" />
     <Compile Include="Repository\ProductGroupRepository.cs" />
+    <Compile Include="Repository\PurchaseOrderRepository.cs" />
     <Compile Include="Repository\PurchaseRepository.cs" />
     <Compile Include="Repository\SAPOUTRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />

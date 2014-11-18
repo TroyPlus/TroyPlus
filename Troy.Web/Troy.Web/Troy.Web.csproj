@@ -209,12 +209,12 @@
     <Compile Include="Controllers\BusinessPartnerController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
-    <Compile Include="Controllers\GoodsReceiptController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManufacturerController.cs" />
     <Compile Include="Controllers\ProductGroupController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
+    <Compile Include="Controllers\PurchaseOrdersController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -225,10 +225,10 @@
     <Compile Include="Models\ConfigurationViewModels.cs" />
     <Compile Include="Models\EditUserViewModel.cs" />
     <Compile Include="Models\EmployeeViewModels.cs" />
-    <Compile Include="Models\GoodsReceiptViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ManufacturerViewModels.cs" />
     <Compile Include="Models\ProductGroupViewModels.cs" />
+    <Compile Include="Models\PurchaseOrderViewModels.cs" />
     <Compile Include="Models\PurchaseViewModels.cs" />
     <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Models\ViewModelBranch.cs" />
@@ -1474,10 +1474,12 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Employee\_EditPartial.cshtml" />
     <Content Include="Views\Employee\_ViewPartial.cshtml" />
-    <Content Include="Views\GoodsReceipt\Index.cshtml" />
-    <Content Include="Views\GoodsReceipt\_CreatePartial.cshtml" />
-    <Content Include="Views\GoodsReceipt\_EditPartial.cshtml" />
-    <Content Include="Views\GoodsReceipt\_ViewPartial.cshtml" />
+    <Content Include="Views\PurchaseOrders\_CreatePartial.cshtml" />
+    <Content Include="Views\PurchaseOrders\Delete.cshtml" />
+    <Content Include="Views\PurchaseOrders\_ViewPartial.cshtml" />
+    <Content Include="Views\PurchaseOrders\_EditPartial.cshtml" />
+    <Content Include="Views\PurchaseOrders\Index.cshtml" />
+    <Content Include="Views\PurchaseOrders\_ViewPurchaseQuotation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />
@@ -1521,7 +1523,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49215</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:49215/</IISUrl>
+          <IISUrl>http://localhost:49225/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

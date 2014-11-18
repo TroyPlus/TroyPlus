@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Troy.Model.ProductGroup;
+using Troy.Model.ProductGroups;
 using System.Xml;
 using System.Xml.Serialization;
 

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Troy.Model.Configuration;
 
 namespace Troy.Model.Products
 {
@@ -13,10 +14,14 @@ namespace Troy.Model.Products
     {
         [Required]
         public int Product_Id { get; set; }
+        [ForeignKey("Product_Id")]
+        public virtual Product product { get; set; }
         //-----------   
 
         [Required]
         public int ID { get; set; }
+        [ForeignKey("ID")]
+        public virtual PriceList pricelist { get; set; }
         //-----------   
 
         [Required]

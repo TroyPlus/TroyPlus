@@ -54,6 +54,7 @@ namespace Troy.Web.App_Start
             container.RegisterType<IEmployeeRepository, EmployeeRepository>();
             container.RegisterType<IUserRepository, UserRepository>();
             container.RegisterType<IYearRepository, YearRepository>();
+            container.RegisterType<IPurchaseOrderRepository, PurchaseOrderRepository>();
 
             container.RegisterType(typeof(UserManager<>), new InjectionConstructor(typeof(IUserStore<>)));
             container.RegisterType<IUser>(new InjectionFactory(c => c.Resolve<Microsoft.AspNet.Identity.IUser>()));

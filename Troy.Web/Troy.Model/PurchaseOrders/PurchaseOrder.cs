@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Troy.Model.Purchase;
 
 namespace Troy.Model.PurchaseOrders
 {
@@ -13,10 +14,8 @@ namespace Troy.Model.PurchaseOrders
     {
         [Key]
         [Required]
+        [ForeignKey("purchaseQrderItems")]
         public int Purchase_Order_Id { get; set; }
-        [ForeignKey("Purchase_Order_Id")]
-
-        public virtual PurchaseOrder purchaseorder { get; set; }
         //-----------
 
         [Required]
@@ -27,15 +26,16 @@ namespace Troy.Model.PurchaseOrders
         public int TargetDocId { get; set; }
         //------------
 
-
+        //[ForeignKey("purchaseQuotation")]
         public int Purchase_Quote_Id { get; set; }
+        //public virtual PurchaseQuotation purchaseQuotation { get; set; }
         //-----
 
         [Required]
         public int Vendor { get; set; }
         //-----------
 
-        [Required]
+        [Required(ErrorMessage = "Reference Number is required.")]
         [StringLength(30)]
         public string Reference_Number { get; set; }
         //-----------
@@ -45,15 +45,15 @@ namespace Troy.Model.PurchaseOrders
         public string Order_Status { get; set; }
         //-----------
 
-        [Required]
+        [Required(ErrorMessage = "Posting Date is required.")]
         public DateTime Posting_Date { get; set; }
         //------
 
-        [Required]
+        [Required(ErrorMessage = "Delivery Date is required.")]
         public DateTime Delivery_Date { get; set; }
         //------
 
-        [Required]
+        [Required(ErrorMessage = "Document Date is required.")]
         public DateTime Document_Date { get; set; }
         //------
 
