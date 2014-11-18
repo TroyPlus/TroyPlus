@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Troy.Model.BusinessPartner
+namespace Troy.Model.BusinessPartners
 {
     public class BussinessList
     {

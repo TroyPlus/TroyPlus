@@ -209,6 +209,7 @@
     <Compile Include="Controllers\BusinessPartnerController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\GoodsReceiptController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManufacturerController.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Models\ConfigurationViewModels.cs" />
     <Compile Include="Models\EditUserViewModel.cs" />
     <Compile Include="Models\EmployeeViewModels.cs" />
+    <Compile Include="Models\GoodsReceiptViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ManufacturerViewModels.cs" />
     <Compile Include="Models\ProductGroupViewModels.cs" />
@@ -1472,6 +1474,10 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Employee\_EditPartial.cshtml" />
     <Content Include="Views\Employee\_ViewPartial.cshtml" />
+    <Content Include="Views\GoodsReceipt\Index.cshtml" />
+    <Content Include="Views\GoodsReceipt\_CreatePartial.cshtml" />
+    <Content Include="Views\GoodsReceipt\_EditPartial.cshtml" />
+    <Content Include="Views\GoodsReceipt\_ViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />

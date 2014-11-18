@@ -14,7 +14,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI;
 using Troy.Data.Repository;
 using Troy.Data.DataContext;
-using Troy.Model.BusinessPartner;
+using Troy.Model.BusinessPartners;
 using Troy.Web.Models;
 using Troy.Web;
 using Troy.Utilities.CrossCutting;

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Troy.Model.PurchaseOrder
+namespace Troy.Model.PurchaseOrders
 {
     [Table("tblPurchaseOrder")]
     public class PurchaseOrder
@@ -14,6 +14,9 @@ namespace Troy.Model.PurchaseOrder
         [Key]
         [Required]
         public int Purchase_Order_Id { get; set; }
+        [ForeignKey("Purchase_Order_Id")]
+
+        public virtual PurchaseOrder purchaseorder { get; set; }
         //-----------
 
         [Required]

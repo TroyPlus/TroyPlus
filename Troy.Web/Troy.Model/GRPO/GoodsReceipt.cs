@@ -5,9 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Troy.Model.Branches;
+using Troy.Model.BusinessPartners;
+using Troy.Model.PurchaseOrders;
 
 
-namespace Troy.Model.Goods_Receipt_Product_Order_GPRO_
+namespace Troy.Model.GPRO
 {
    [Table("tblGoodsReceipt")]
    public class GoodsReceipt
@@ -24,9 +27,14 @@ namespace Troy.Model.Goods_Receipt_Product_Order_GPRO_
 
 
        public int Purchase_Order_Id { get; set; }
+        [ForeignKey("Purchase_Order_Id")]
+       public virtual PurchaseOrder purchaseorder { get; set; }
 
        [Required]
        public int Vendor { get; set; }
+     //  [ForeignKey("Vendor")]
+      // public virtual BusinessPartner businesspartner { get; set; }
+
 
        [Required]
        [StringLength(30)]
@@ -50,6 +58,9 @@ namespace Troy.Model.Goods_Receipt_Product_Order_GPRO_
 
        [Required]
        public int Ship_To { get; set; }
+       [ForeignKey("Ship_To")]
+       public virtual Branch branch { get; set; }
+
 
        public decimal Freight { get; set; }
 
@@ -89,6 +100,9 @@ namespace Troy.Model.Goods_Receipt_Product_Order_GPRO_
 
        [Column(TypeName = "date")]
        public DateTime? Modified_Dte { get; set; }
+
+       [NotMapped]
+       public string Vendor_Name { get; set; }
 
     }
 }

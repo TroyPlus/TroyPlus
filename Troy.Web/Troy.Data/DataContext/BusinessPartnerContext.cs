@@ -9,7 +9,7 @@ using Troy.Model.Groups;
 using Troy.Model.Ledgers;
 using Troy.Model.Branches;
 using Troy.Model.Employees;
-using Troy.Model.BusinessPartner;
+using Troy.Model.BusinessPartners;
 //using Troy.Model.Designations;
 //using Troy.Model.Departments;
 using Troy.Model.Initials;

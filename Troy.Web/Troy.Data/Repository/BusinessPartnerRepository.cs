@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Data.DataContext;
-using Troy.Model.BusinessPartner;
+using Troy.Model.BusinessPartners;
 using Troy.Utilities.CrossCutting;
 using Troy.Model.Configuration;
 using Troy.Model.Groups;

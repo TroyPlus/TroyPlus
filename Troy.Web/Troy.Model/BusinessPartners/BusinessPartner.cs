@@ -12,13 +12,16 @@ using Troy.Model.Employees;
 using Troy.Model.Groups;
 using Troy.Model.Ledgers;
 using Troy.Model.Configuration;
-namespace Troy.Model.BusinessPartner
+namespace Troy.Model.BusinessPartners
 {
     [Table("tblBp")]
     public class BusinessPartner
     {
         [Key]
         public int BP_Id { get; set; }
+        [ForeignKey("BP_Id")]
+        public virtual BusinessPartner businesspartner { get; set; }
+
         //------------
         [Index(IsUnique = true)]
         //[Required(ErrorMessage = "Business Partner is required.")]

@@ -1,0 +1,750 @@
+﻿@*@model Troy.Model.GPRO.GoodsReceipt
+
+    @{
+        ViewBag.Title = "_EditPartial";
+    }
+
+    <h2>_EditPartial</h2>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>GoodsReceipt</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Goods_Receipt_Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BaseDocId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.BaseDocId, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.BaseDocId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TargetDocId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TargetDocId, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TargetDocId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Purchase_Order_Id, "Purchase_Order_Id", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Purchase_Order_Id", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Purchase_Order_Id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Vendor, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Vendor, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Vendor, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Reference_Number, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Reference_Number, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Reference_Number, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Doc_Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Doc_Status, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Doc_Status, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Posting_Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Posting_Date, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Posting_Date, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Due_Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Due_Date, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Due_Date, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Document_Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Document_Date, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Document_Date, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Ship_To, "Ship_To", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Ship_To", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Ship_To, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Freight, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Freight, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Freight, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Loading, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Loading, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Loading, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Distribute_LandedCost, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Distribute_LandedCost, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Distribute_LandedCost, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TotalBefDocDisc, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TotalBefDocDisc, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TotalBefDocDisc, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DocDiscAmt, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DocDiscAmt, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DocDiscAmt, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TaxAmt, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TaxAmt, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TaxAmt, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TotalGRDocAmt, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TotalGRDocAmt, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TotalGRDocAmt, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Created_User_Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Created_User_Id, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Created_User_Id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Created_Branc_Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Created_Branc_Id, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Created_Branc_Id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Created_Dte, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Created_Dte, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Created_Dte, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Modified_User_Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Modified_User_Id, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Modified_User_Id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Modified_Branch_Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Modified_Branch_Id, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Modified_Branch_Id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">GoodsReceiptViewModels
+                @Html.LabelFor(model => model.Modified_Dte, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Modified_Dte, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Modified_Dte, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@
+
+
+
+@model Troy.Web.Models.GoodsReceiptViewModels
+
+@Scripts.Render("~/bundles/script/jqueryval")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('.datePicke').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+
+        $('.datePicker').datepicker();
+        $('.datepick').datepicker();
+        $('.date').datepicker();
+        $("#editTypeahead").jAutochecklist();
+        var i;
+
+        i = $("#ItemCount").val();
+
+        //Dynamically add quotation row
+        function addRow() {
+
+            var date = new Date();
+            var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+
+            var selectHtml = CreateSelect(i);
+            var html = '<tr>' +
+                      '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="goodreceiptitemlist_' + i + '__IsDummy" name="goodreceiptitemlist[' + i + '].IsDummy" type="text" value="">  </td>' +
+                      '<td width="20%"> ' +
+                          selectHtml +
+                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Product_id" data-valmsg-replace="true"></span>' +
+                      '</td>' +
+                      //'<td width="15%">' +
+                      //    '<input class="form-control control-text datePicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_' + i + '__Required_date" name="PurchaseQuotationItemList[' + i + '].Required_date" type="text" value="' + strDate + '">' +
+                      //    '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Required_date" data-valmsg-replace="true"></span>' +
+                      //'</td>' +
+                      '<td>' +
+                          '<input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="goodreceiptitemlist_' + i + '__Quantity" name="goodreceiptitemlist[' + i + '].Quantity" onkeyup="OnChangeQuantity(this, ' + i + ');" type="text" value="">' +
+                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Quantity" data-valmsg-replace="true"></span>' +
+                      '</td>' +
+                      '<td>' +
+                          '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="goodreceiptitemlist_' + i + '__Unit_price" name="goodreceiptitemlist[' + i + '].Unit_price" readonly="True" type="text" value="">' +
+                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
+                      '</td>' +
+                      '<td>' +
+                          '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="goodreceiptitemlist_' + i + '__Discount_percent" name="goodreceiptitemlist[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
+                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
+                      '</td>' +
+                      '<td>' +
+                          '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__Freight_Loading" name="goodreceiptitemlist[' + i + '].Freight_Loading" readonly="True" type="text" value="">' +
+                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
+                      '</td>' +
+                      '<td>' +
+                          '<input class="form-control control-text" data-val="true" data-val-number="The field VAT Code must be a number." data-val-required="The VAT Code field is required." id="goodreceiptitemlist_' + i + '__Vat_Code" name="goodreceiptitemlist[' + i + '].Vat_Code" type="text" value="">' +
+                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
+                      '</td>' +
+                      '<td>' +
+                          '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
+                      '</td>' +
+
+                      @*'<td>@Html.TextBoxFor(model => model.PurchaseQuotationItemList[2].Required_date, new { @class = "form-control control-text datePicker" })</td>' +
+                  '<td> <input class="form-control control-text datePicker hasDatepicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_0__Required_date" name="PurchaseQuotationItemList[0].Required_date" type="text" value=""> </td>' +*@
+
+                      '</tr>'
+            $(html).appendTo($("#EditTable"))
+
+            //$("#PurchaseQuotationItemList_1__Required_date").datepicker("refresh");
+            i++;
+
+            //$("form").removeData("validator");
+            $("form").removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse("form");
+
+            $("#EditTable").delegate(".datePicker", "focusin", function () {
+                $(this).datepicker();
+            });
+        };
+        function CreateSelect(rowID) {
+
+            //debugger;
+
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="goodreceiptitemlist_' + rowID + '__Product_id" name="goodreceiptitemlist[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            selectHtml += '<option value=""></option>';
+
+            var dataUrl = "/GoodsReceipt/GetProductList";
+
+            $.ajax({
+                type: 'GET',
+                url: dataUrl,
+                async: false,
+                cache: false,
+                crossDomain: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                error: function (xhr, err) {
+                },
+                success: function (result, status) {
+                    //debugger;
+                    for (var count = 0; count < result.length; count++) {
+                        selectHtml += '<option value="' + result[count].BP_Id + '">' + result[count].BP_Name + '</option>';
+                    }
+                }
+            });
+
+            return selectHtml;
+        }
+        $("#EditTable").on("click", ".BtnPlus", addRow)
+
+        function deleteRow() {
+
+            //debugger;
+
+            if (i == 1) {
+                alert("Atleast one item for each product");
+            }
+            else {
+
+                var par = $(this).parent().parent();
+                //par.remove();
+                //$('#idEstablishmentRow td.ms-formbody span input').attr('id');
+
+                var id = par[0].childNodes[0].childNodes[1].id;
+
+                id = '#' + id;
+
+                $(id).val("1");
+
+                //par[0].childNodes[0].childNodes[1].value = 1;
+
+                //$(id).val(1);
+                par.remove();
+                i--;
+                CalculateTotal();
+            }
+        };
+        $("#EditTable").on("click", ".BtnMinus", deleteRow);
+
+    });
+
+    function TabChange() {
+        debugger;
+        //if ($("#btnSubmit").val == "Next") {
+        $('#edittabs a[href = #editQuotationItem]').tab('show');
+        //    $("#btnSubmit").val("Save");
+        //}
+    }
+
+    $(function () {
+        $("#btnEditNextTab").click(function (e) {
+
+            debugger;
+
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#editdefault");
+
+            var validator = $("#editdefault").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+                //debugger;
+                if (this.parentNode.parentNode.className != "jAutochecklist_list") {
+                    if (!validator.element(this)) { // validate every input element inside this step
+                        anyError = true;
+                    }
+                }
+            });
+
+            _form.find("select").each(function () {
+                debugger;
+
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                $('#edittabs a[href = #editQuotationItem]').tab('show');
+            }// exit if any error found
+
+        });
+
+    });
+</script>
+
+@using (Html.BeginForm("Index", "GoodsReceipt"))
+{
+    @Html.ValidationSummary(true)
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Edit Purchase</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="tabs">
+                            <ul id="edittabs" class="nav nav-tabs tabdrop">
+                                <li class="active">
+                                    <a href="#editdefault" data-toggle="tab">General </a>
+                                </li>
+                                <li><a href="#editQuotationItem" data-toggle="tab">Product </a></li>
+                            </ul>
+                            @Html.HiddenFor(model => model.goodreceipt.Goods_Receipt_Id);
+                            @Html.HiddenFor(model => model.goodreceipt.Created_Branc_Id);
+                            @Html.HiddenFor(model => model.goodreceipt.Created_User_Id);
+                            @Html.HiddenFor(model => model.goodreceipt.Created_Dte);
+                            <div id="editTabContent" class="tab-content">
+
+                                <div class="tab-pane fade active in" id="editdefault">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+                                            <div class="form-horizontal">
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Purchase_Order_Id, new { @class = "control-label normal" })*@
+                                                        PurchaseOrder Id
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @*, new { @id = "typeahead", @size = 12 }*@
+                                                        @Html.DropDownListFor(m => m.goodreceipt.Purchase_Order_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
+                                                        @*@Html.TextBoxFor(model => model.goodreceipt.Purchase_Order_Id, new { @class = "form-control control-text" })*@
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Purchase_Order_Id)
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.goodreceipt.Vendor, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @*@Html.TextBoxFor(model => model.goodreceipt.Vendor, new { @class = "form-control control-text" })*@
+                                                        @Html.DropDownListFor(m => m.goodreceipt.Vendor_Name, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Vendor_Name)
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.goodreceipt.Reference_Number, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Reference_Number, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Reference_Number)
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Doc_Status, new { @class = "control-label normal" })*@
+                                                        Document Status
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownListFor(model => model.goodreceipt.Doc_Status, new List<SelectListItem>
+                                                         {
+                                                            new SelectListItem{ Text="Open", Value = "Open" },
+                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
+                                                         }, "Open", new { @class = "form-control" })@*, @disabled = true })*@
+
+                                                        @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Ship_To, new { @class = "control-label normal" })*@
+                                                        Ship To
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownListFor(m => m.goodreceipt.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
+                                                        @*@Html.TextBoxFor(model => model.goodreceipt.Ship_To, new { @class = "form-control control-text" })*@
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Ship_To)
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Posting_Date, new { @class = "control-label normal" })*@
+                                                        Posting Date
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @class = "form-control control-text datePicke", @id = "datePicker" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Due_Date, new { @class = "control-label normal" })*@
+                                                        Due Date:
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @class = "form-control control-text datePicke", @id = "datepick" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
+                                                        Document Date
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "date" })@*, @readonly = true })*@
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
+
+                                                <div class="row  form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.goodreceipt.Freight, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Freight, new { @class = "form-control control-text " })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Freight)
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.goodreceipt.Loading, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Loading, new { @class = "form-control control-text " })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Loading)
+                                                    </div>
+                                                </div>
+
+                                                @*<div class="row  form-group">
+                                                    <div class="col-md-4">
+                                                        Html.LabelFor(m => m.goodreceipt.Distribute_LandedCost, new { @class = "control-label normal" })*@
+                                                @*Distribute LandedCost
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.goodreceipt.Distribute_LandedCost, new { @class = "form-control control-text" })
+                                                            @Html.ValidationMessageFor(model => model.goodreceipt.Distribute_LandedCost)
+                                                        </div>
+                                                    </div>*@
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.TotalBefDocDisc, new { @class = "control-label normal" })*@
+                                                        TotalBefDocDisc
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreceipt.TotalBefDocDisc, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.TotalBefDocDisc)
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.DocDiscAmt, new { @class = "control-label normal" })*@
+                                                        DocumentDiscountAmount
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreceipt.DocDiscAmt, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.DocDiscAmt)
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.TaxAmt, new { @class = "control-label normal" })*@
+                                                        Tax Amount
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreceipt.TaxAmt, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.TaxAmt)
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.TotalGRDocAmt, new { @class = "control-label normal" })*@
+                                                        TotGRDcouAmt
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreceipt.TotalGRDocAmt, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.TotalGRDocAmt)
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.goodreceipt.Distribute_LandedCost, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownListFor(model => model.goodreceipt.Distribute_LandedCost, new List<SelectListItem>
+                                                         {
+                                                            new SelectListItem{ Text="Equally", Value = "Equally" },
+                                                            new SelectListItem{ Text="Quantity", Value = "Quantity" },
+                                                               new SelectListItem{ Text="Cost", Value = "Cost" }
+                                                         }, "", new { @class = "form-control" })
+
+                                                        @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="modal-footer">
+                                            <input class="btn btn-primary pull-left" type="button" id="btnEditNextTab" name="nextButton" value="Next" />
+                                            <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="tab-pane fade" id="editQuotationItem">
+
+                                    <div>
+
+                                        <table id="EditTable" class="table display">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product_Id</th>
+                                                    <th>Quantity</th>
+                                                    <th>Unit Price</th>
+                                                    <th>Discount %</th>
+                                                    <th> Freight_Loading</th>
+                                                    <th>VAT Code</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < 1; i++)
+                                                {
+
+                                                    <tr>
+                                                        <td style="display:none;">
+                                                            @Html.HiddenFor(model => model.goodreceiptitemlist[i].IsDummy, 0)
+
+                                                        </td>
+                                                        <td width="20%">
+                                                            @*@Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })*@
+
+                                                            @Html.DropDownListFor(m => m.goodreceiptitemlist[i].Product_id, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
+                                                            @*@Html.TextBoxFor(model => model.goodreceiptitemlist[i].Product_id, new { @class = "form-control control-text" })*@
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Product_id)
+                                                        </td>
+                                                        @*<td width="15%">
+                                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker" })
+                                                                @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
+                                                            </td>*@
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Quantity, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");" })
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Quantity)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Unit_price, new { @class = "form-control control-text" })@*, @readonly = true })*@
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Unit_price)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Discount_percent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");" })
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Discount_percent)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Freight_Loading, new { @class = "form-control control-text" }) @*//@readonly = true })*@
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Freight_Loading)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Vat_Code, new { @class = "form-control control-text" })
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Vat_Code)
+                                                        </td>
+                                                        <td style="width: 90px;">
+                                                            <input class="BtnPlus btn pull-left" type="button" value="+" />
+                                                            @*<input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />*@
+                                                        </td>
+                                                    </tr>
+
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="modal-footer">
+
+                                        <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
+                                        <button class="btn pull-left" data-dismiss="modal">Close</button>
+                                        @Ajax.ActionLink(" ", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            @*<div class="modal-footer">
+                    <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
+                    <button class="btn pull-left" data-dismiss="modal">Close</button>
+                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+                </div>*@
+
+        </div>
+    </div>
+}
+
