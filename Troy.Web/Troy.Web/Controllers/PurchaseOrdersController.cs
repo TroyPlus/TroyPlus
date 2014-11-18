@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Troy.Data.DataContext;
-using Troy.Model.PurchaseOrder;
+using Troy.Model.PurchaseOrders;
 using Troy.Data.Repository;
 using Troy.Utilities.CrossCutting;
 using Troy.Web.Models;

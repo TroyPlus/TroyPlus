@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Troy.Model.PurchaseOrder
+namespace Troy.Model.PurchaseOrders
 {
     public class ViewPurchaseOrder
     {

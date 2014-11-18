@@ -16,6 +16,7 @@ namespace Troy.Model.PurchaseOrders
         [Required]
         [ForeignKey("purchaseQrderItems")]
         public int Purchase_Order_Id { get; set; }
+        public virtual PurchaseOrder purchaseQrderItems { get; set; }
         //-----------
 
         [Required]
@@ -68,9 +69,10 @@ namespace Troy.Model.PurchaseOrders
         //------
 
         [Required]
+        [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Invalid Total Before Document Discount Amount")]
         public decimal TotalBefDocDisc { get; set; }
         //------
-
+        [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Invalid Document Discount Amount")]
         public decimal DocDiscAmt { get; set; }
         //------
 

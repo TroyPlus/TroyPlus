@@ -11,11 +11,12 @@ using System.Threading.Tasks;
 using System.Xml;
 using Troy.Data.DataContext;
 using Troy.Model.Branches;
-using Troy.Model.BusinessPartner;
+using Troy.Model.BusinessPartners;
 using Troy.Model.Purchase;
 using Troy.Model.SAP_OUT;
 using Troy.Utilities.CrossCutting;
-
+using Troy.Model.Products;
+using Troy.Model.Configuration;
 
 namespace Troy.Data.Repository
 {

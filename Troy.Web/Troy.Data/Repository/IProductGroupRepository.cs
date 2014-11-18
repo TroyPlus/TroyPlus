@@ -13,7 +13,7 @@ namespace Troy.Data.Repository
 
         List<ProductGroup> GetFilterProductGroup(string searchColumn, string searchString, Guid userId);
 
-        ProductGroup GetProductGroupById(int qId);     
+        ProductGroup GetProductGroupById(int qId);
 
         ProductGroup CheckDuplicateName(string mProdGrp_Name);
 
