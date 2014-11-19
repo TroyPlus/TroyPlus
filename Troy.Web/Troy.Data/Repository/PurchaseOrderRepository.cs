@@ -184,7 +184,6 @@ namespace Troy.Data.Repository
                 {
                     QuotationItemList[i].Purchase_Order_Id = currentId;
                     QuotationItemList[i].BaseDocLink = "Y";
-                    QuotationItemList[i].LineTotal = 100;
                 }
 
                 purchaseordercontext.purchaseorderitems.AddRange(QuotationItemList);

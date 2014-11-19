@@ -93,7 +93,7 @@
 
             //debugger;
 
-            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseOrderItemsList' + rowID + '__Product_id" name="PurchaseOrderItemsList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseOrderItemsList_' + rowID + '__Product_id" name="PurchaseOrderItemsList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
 
             var dataUrl = "/PurchaseOrders/GetProductList";
@@ -182,6 +182,18 @@
 
     });
 
+    function ViewPurchaseQuotation(id) {
+        
+        var url = $('#editModal').data('url') + '/' + id;
+
+        $.get(url, function (data) {
+
+            $('#editmodelcontainer').html(data);
+
+            $('#editModal').modal('show');
+        });
+    }
+
     function EditPurchase(id) {
 
         var url = $('#editModal').data('url') + '/' + id;
@@ -205,7 +217,7 @@
         });
     }
 
-    function ViewPurchaseQuotation(id) {
+    function ViewPurchaseQuotation1(id) {
 
         var url =  $('#viewPurQuoModal').data('url') + '/' + id;
         
@@ -558,7 +570,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (Troy.Model.PurchaseOrder.ViewPurchaseOrder item in Model.PurchaseOrderList)
+                                        @foreach (Troy.Model.PurchaseOrders.ViewPurchaseOrder item in Model.PurchaseOrderList)
                                         {
                                             <tr class="odd gradeX">
                                                 <td style="text-align:center;">@item.Purchase_Order_Id</td>
@@ -605,10 +617,17 @@
         @Html.Partial("_CreatePartial", Model)
     </div>
 
-    <div class="modal fade bs-example-modal-lg" id="viewPurQuoModal" tabindex="-1" role="dialog"
+    @*<div class="modal fade bs-example-modal-lg" id="viewPurQuoModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPurchaseQuotation")'>
-        @*@Html.Partial("_CreatePartial", Model)*@
+        
         <div id="viewPurQuomodelcontainer">
+
+        </div>
+    </div>*@
+
+    <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPurchaseQuotation")'>
+        <div id="editmodelcontainer">
 
         </div>
     </div>
@@ -715,7 +734,7 @@
                                         <div id="FileUploadDiv">
                                             @*<iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>*@
                                             <div class="row">
-                                                <div class="col-md-12">
+                                                <div class="col-md-12" align="center">
                                                     @*<input type="file" id="Select" name="FileUpload" />*@
                                                     @*@Html.RadioButton("select", "Create from Purchase Quotation", false)Create from Purchase Quotation
                                                         @Html.RadioButton("select", "Create Directly", false) Create Directly*@
@@ -738,10 +757,10 @@
                     </div>
                 </div>
 
-                <div class="modal-footer">
+                @*<div class="modal-footer">
                     <input class="btn btn-primary pull-left" type="button" id="btnOK" name="FileUploadButton" value="OK" />
                     <button class="btn pull-left" data-dismiss="modal">Cancel</button>
-                </div>
+                </div>*@
 
             </div>
         </div>
@@ -800,8 +819,11 @@
                                                                     <td style="text-align:center;">@item.Vendor_Name</td>
                                                                     <td>@item.Quotation_Status</td>
                                                                     <td>
-                                                                        <a href="#" class="top-right" data-toggle="modal" data-target="#viewPurQuoModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseQuotation(@item.Purchase_Quote_Id);">
+                                                                        @*<a href="#" class="top-right" data-toggle="modal" data-target="#viewPurQuoModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseQuotation(@item.Purchase_Quote_Id);">
                                                                             <i class="im-eye2"></i>
+                                                                        </a>*@
+                                                                        <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseQuotation(@item.Purchase_Quote_Id);" >
+                                                                            <i class="im-pencil2"></i>
                                                                         </a>
                                                                     </td>
                                                                 </tr>

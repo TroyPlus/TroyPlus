@@ -14,9 +14,10 @@ namespace Troy.Model.PurchaseOrders
     {
         [Key]
         [Required]
-        [ForeignKey("purchaseQrderItems")]
+
         public int Purchase_Order_Id { get; set; }
-        public virtual PurchaseOrder purchaseQrderItems { get; set; }
+        //[ForeignKey("Purchase_Order_Id")]
+        //public virtual PurchaseOrder purchaseorder { get; set; }
         //-----------
 
         [Required]

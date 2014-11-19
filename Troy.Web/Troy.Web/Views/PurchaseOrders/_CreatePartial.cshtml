@@ -79,7 +79,8 @@
                                                 </div>
                                                 <div class="col-md-8">
                                                     @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
-                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate" })
+                                                    @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker", @id = "crePostingDate" })*@
+                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker"})
                                                     @Html.ValidationMessageFor(model => model.PurchaseOrder.Posting_Date)
                                                 </div>
                                             </div>
@@ -103,7 +104,8 @@
                                                 </div>
                                                 <div class="col-md-8">
                                                     @*@Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
-                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
+                                                    @*@Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })*@
+                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @class = "form-control control-text datePicker" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseOrder.Document_Date)
                                                 </div>
                                             </div>
