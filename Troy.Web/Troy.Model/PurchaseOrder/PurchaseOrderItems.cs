@@ -38,6 +38,7 @@ namespace Troy.Model.PurchaseOrder
         //-----------
 
         [Required]
+        [Range(0, 100)]
         public decimal Discount_percent { get; set; }
         //-----------
 

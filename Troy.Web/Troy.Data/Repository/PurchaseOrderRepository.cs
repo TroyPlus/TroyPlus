@@ -29,8 +29,8 @@ namespace Troy.Data.Repository
             List<ViewPurchaseOrder> qList = new List<ViewPurchaseOrder>();
 
             qList = (from p in purchaseordercontext.purchaseorder
-                      join b in purchaseordercontext.Businesspartner
-                       on p.Vendor equals b.BP_Id
+                     join b in purchaseordercontext.Businesspartner
+                      on p.Vendor equals b.BP_Id
                      select new ViewPurchaseOrder()
                      {
                          Purchase_Order_Id = p.Purchase_Order_Id,
@@ -126,11 +126,47 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
+        public int GetProductPrice(int? productId)
+        {
+            int price = (from p in purchaseordercontext.productprice
+                         where p.Product_Id == productId
+                         select p.Price).FirstOrDefault();
+
+            return price;
+        }
+
+
         public IList<PurchaseQuotationItem> FindOneQuotationItemById(int qId)
         {
-            return (from p in purchaseordercontext.purchasequotationitem
-                    where p.Purchase_Quote_Id == qId
-                    select p).ToList();
+            //return (from p in purchaseordercontext.purchasequotationitem
+            //        where p.Purchase_Quote_Id == qId
+            //        select p).ToList();
+
+            var qtn = (from p in purchaseordercontext.purchasequotationitem
+                       where p.Purchase_Quote_Id == qId
+                       select p).ToList();
+
+            var purchase = (from q in qtn
+                            join pi in purchaseordercontext.product on q.Product_id equals pi.Product_Id
+                            select new PurchaseQuotationItem
+                            {
+                                Discount_percent = q.Discount_percent,
+                                //LineTotal = q.LineTotal,
+                                Product_id = q.Product_id,
+                                ProductName = pi.Product_Name,
+                                Purchase_Quote_Id = q.Purchase_Quote_Id,
+                                Quote_Item_Id = q.Quote_Item_Id,
+                                Quoted_date = q.Quoted_date,
+                                Quoted_qty = q.Quoted_qty - q.Used_qty,
+                                Required_date = q.Required_date,
+                                Required_qty = q.Required_qty,
+                                Unit_price = q.Unit_price,
+                                Used_qty = q.Used_qty,
+                                Vat_Code = q.Vat_Code
+                            }).ToList();
+
+            return purchase;
+
         }
 
         public bool AddNewQuotation(PurchaseOrder Quotation, IList<PurchaseOrderItems> QuotationItemList, ref string ErrorMessage)

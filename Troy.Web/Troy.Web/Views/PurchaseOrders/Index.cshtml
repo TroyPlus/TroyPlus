@@ -5,12 +5,21 @@
 }
 
 <script type="text/javascript">
-
+    var i = 0;
 
     $(document).ready(function () {
 
         //$('.datePicker').datepicker();
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
+
+        $('#creDocumentDate').datepicker({
+            minDate: 0
+        });
+
+        $('#crePostingDate').datepicker({
+            minDate: 0
+        });
+
         $("#typeahead").jAutochecklist({
             width: 221
         });
@@ -33,26 +42,30 @@
             selectHtml1 += '</select>';
 
             var html = '<tr>' +
-                        '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="PurchaseOrderItemsList' + i + '__IsDummy" name="PurchaseOrderItemsList[' + i + '].IsDummy" type="text" value="">  </td>' +
+                        '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="PurchaseOrderItemsList_' + i + '__IsDummy" name="PurchaseOrderItemsList[' + i + '].IsDummy" type="text" value="">  </td>' +
                         '<td width="20%"> ' +
                             selectHtml +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Product_id" data-valmsg-replace="true"></span>' +                       
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Product_id" data-valmsg-replace="true"></span>' +
                         '<td>' +
-                            '<input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="PurchaseOrderItemsList' + i + 'Quantity" name="PurchaseOrderItemsList[' + i + '].Quantity" onkeyup="OnChangeQuantity(this, ' + i + ');" type="text" value="">' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="PurchaseOrderItemsList_' + i + '__Quantity" name="PurchaseOrderItemsList[' + i + '].Quantity" onkeyup="OnChangeQuantity(this, ' + i + ');" type="text" value="">' +
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Quantity" data-valmsg-replace="true"></span>' +
                         '</td>' +
                         '<td>' +
-                            '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseOrderItemsList' + i + 'Unit_price" name="PurchaseOrderItemsList[' + i + '].Unit_price" readonly="True" type="text" value="">' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseOrderItemsList_' + i + '__Unit_price" name="PurchaseOrderItemsList[' + i + '].Unit_price" readonly="True" type="text" value="">' +
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
                         '</td>' +
                         '<td>' +
-                            '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="PurchaseOrderItemsList' + i + '__Discount_percent" name="PurchaseOrderItemsList[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="PurchaseOrderItemsList_' + i + '__Discount_percent" name="PurchaseOrderItemsList[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
                         '</td>' +
                          '<td>' +     
                              selectHtml1 +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
-                        '</td>' +                                            
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList_[' + i + '].__Vat_Code" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                         '<td>' +
+                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseOrderItemsList_' + i + '__LineTotal" name="PurchaseOrderItemsList[' + i + '].LineTotal" readonly="True" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
+                        '</td>' +
                         '<td>' +
                             '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
                         '</td>' +
@@ -108,7 +121,7 @@
 
         function CreateVATSelect(rowID)
         {
-            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="PurchaseOrderItemsList' + rowID + '__VAT_Id" name="PurchaseOrderItemsList[' + rowID + '].VAT_Id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="PurchaseOrderItemsList_' + rowID + '__VAT_Id" name="PurchaseOrderItemsList[' + rowID + '].VAT_Id" onchange="OnChangeVAT();" >';
             selectHtml += '<option value=""></option>';
 
 
@@ -135,9 +148,7 @@
             return selectHtml;
         }
 
-        $("#createItemTable").on("click", ".BtnPlus", addRow);
-
-        
+        $("#createItemTable").on("click", ".BtnPlus", addRow);        
 
         function deleteRow() {
 
@@ -322,17 +333,17 @@
 
     });
 
-    function OnChangeProduct(value, rowId) {      
+    function OnChangeProduct(val, rowId) {
         //debugger;
-      
-        var pID = this.value;
-
-        var dataUrl = "/PurchaseOrders/GetPrice";
-
+       
+        var pID = parseInt(val.value);
+       
+        var dataUrl = "/PurchaseOrders/GetPrice?pID=" + pID;
+        
         $.ajax({
             type: 'GET',
             url: dataUrl,
-            data: pID,
+            //data: pID,
             async: true,
             cache: false,
             crossDomain: true,
@@ -342,10 +353,10 @@
             },
             success: function (result, status) {
                 //debugger;
-                var id = "#PurchaseOrderItemsList" + rowId + "__Unit_price";
-              
-                $(id).val(result);
+                var id = "#PurchaseOrderItemsList_" + rowId + "__Unit_price";
+                $(id).val(result);               
                 CalculateTotal();
+                CalculateTotalAmount();
             }
         });
     }
@@ -354,28 +365,44 @@
         //debugger;
 
         var qty = currentQty.value;
-        var price = $("#PurchaseOrderItemsList" + rowId + "__Unit_price").val();
+        var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
 
         var totAmount = price * qty;
        
-        var id = "#PurchaseOrderItemsList" + rowId + "__LineTotal";
+        var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
         $(id).val(totAmount);
         CalculateTotal();
+        CalculateTotalAmount();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
         //debugger;
 
         var dis = currentDis.value;
-        var qty = $("#PurchaseOrderItemsList" + rowId + "__Quantity").val();
-        var price = $("#PurchaseOrderItemsList" + rowId + "__Unit_price").val();
+        var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
+        var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
 
-        var totAmount = (price * qty) - dis
+        //var totAmount = (price * qty) - dis
 
-        var id = "#PurchaseOrderItemsList" + rowId + "__LineTotal";
-        $(id).val(totAmount);
+        //var id = "#PurchaseOrderItemsList" + rowId + "__LineTotal";
+        //$(id).val(totAmount);
 
-        CalculateTotal();
+        CalculateDiscount();
+        CalculateTotalAmount();
+    }
+
+    function OnChangeVAT() {
+        CalculateTax();
+        CalculateTotalAmount();
+    }
+
+    function OnChangeDiscountSummary(currentDis) {
+        var totdis = currentDis.value;
+        var totdoc = $("#totalPurchase").val();
+        var tottax = $("#totalTax").val();
+        tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+
+        $("#totalQuotationAmt").val(tot);
     }
 
     function CalculateTotal() {
@@ -386,13 +413,65 @@
         //}
         //else {
         for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseOrderItemsList" + j + "__LineTotal").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseOrderItemsList" + j + "__LineTotal").val());
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val());
+              
             }
         }
         //}
+        $("#totalPurchase").val(tot);
+    }
 
-        $("#totalPurchase").text(tot);
+    function CalculateDiscount() {
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val());
+            }
+        }
+
+        $("#totalDiscount").val(tot);
+    }
+
+    function CalculateTax() {
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val());
+            }
+        }
+
+        $("#totalTax").val(tot);
+    }
+
+    function CalculateTotalAmount() {
+        var totdoc = 0;
+        var totdis = 0;
+        var tottax = 0;
+        var tot = 0;
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val());
+            }
+        }
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val()))) {
+                totdis = parseFloat(totdis) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val());
+            }
+        }
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()))) {
+                tottax = parseFloat(tottax) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val());
+            }
+        }
+
+        tot = (totdoc - totdis) + tottax;
+      
+        $("#totalQuotationAmt").val(tot);
     }
 
 </script>

@@ -172,11 +172,9 @@ namespace Troy.Web.Controllers
             return Json(vatList, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetPrice(int? pId)
+        public JsonResult GetPrice(int? pID)
         {
-            //int price = purchaseDb.GetProductPrice(pId);
-
-            int price = 50;
+            int price = purchaseorderRepository.GetProductPrice(pID);
 
             return Json(price, JsonRequestBehavior.AllowGet);
 
