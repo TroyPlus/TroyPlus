@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Troy.Model.Products;
 using Troy.Model.Configuration;
 
-namespace Troy.Model.PurchaseOrder
+namespace Troy.Model.PurchaseOrders
 {
     [Table("tblPurchaseOrderItems")]
     public class PurchaseOrderItems

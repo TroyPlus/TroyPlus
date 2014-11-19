@@ -19,7 +19,7 @@ namespace Troy.Data.DataContext
 
         public DbSet<PurchaseQuotationItem> PurchaseQuotationItem { get; set; }
 
-        public System.Data.Entity.DbSet<Troy.Model.PurchaseOrder.PurchaseOrder> PurchaseOrders { get; set; }
+        public System.Data.Entity.DbSet<Troy.Model.PurchaseOrders.PurchaseOrder> PurchaseOrders { get; set; }
 
         //public DbSet<Branch> Branch { get; set; }
 

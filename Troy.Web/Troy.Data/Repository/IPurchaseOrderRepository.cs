@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Troy.Model.PurchaseOrder;
-using Troy.Model.BusinessPartner;
+using Troy.Model.PurchaseOrders;
+using Troy.Model.BusinessPartners;
 using Troy.Model.Branches;
 using Troy.Model.Configuration;
 using Troy.Model.Products;
 using Troy.Model.Purchase;
+
 
 namespace Troy.Data.Repository
 {

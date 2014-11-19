@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Troy.Model.BusinessPartner;
+using Troy.Model.BusinessPartners;
 using Troy.Model.Groups;
 using Troy.Model.Branches;
 using Troy.Model.Ledgers;

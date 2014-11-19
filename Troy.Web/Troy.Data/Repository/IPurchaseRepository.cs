@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Model.Branches;
-using Troy.Model.BusinessPartner;
+using Troy.Model.BusinessPartners;
 using Troy.Model.Configuration;
 using Troy.Model.Products;
 using Troy.Model.Purchase;

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Troy.Model.Configuration;
+using Troy.Model.Products;
 
-namespace Troy.Model.Goods_Receipt_Product_Order_GPRO_
+namespace Troy.Model.GPRO
 {
     public class GoodsReceiptItems
     {
@@ -15,6 +18,8 @@ namespace Troy.Model.Goods_Receipt_Product_Order_GPRO_
 
         [Required]
         public int Product_id { get; set; }
+        [ForeignKey("Product_id")]
+        public virtual Product product { get; set; }
 
         [Required]
         public int Quantity { get; set; }
@@ -24,7 +29,7 @@ namespace Troy.Model.Goods_Receipt_Product_Order_GPRO_
         public int Invoiced_Qty { get; set; }
 
         [Required]
-        [Range(10,2, ErrorMessage = "Allowed Range is 0 to 100")]
+        //[ ErrorMessage = "Allowed Range is 0 to 100")]
         public decimal Unit_price { get; set; }
 
         [Required]
@@ -32,6 +37,8 @@ namespace Troy.Model.Goods_Receipt_Product_Order_GPRO_
 
         [Required]
         public int Vat_Code { get; set; }
+       // [ForeignKey("Vat_Code")]
+      //  public virtual VAT vat { get; set; }
 
         public decimal Freight_Loading { get; set; }
 
@@ -41,5 +48,9 @@ namespace Troy.Model.Goods_Receipt_Product_Order_GPRO_
         [Required]
         [StringLength(1)]
         public string BaseDocLink { get; set; }
+
+
+        [NotMapped]
+        public int IsDummy { get; set; }
     }
 }
