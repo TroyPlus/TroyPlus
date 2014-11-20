@@ -126,6 +126,27 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
+        public PurchaseQuotation FindQuotationforBaseDocID(int qId, int vId)
+        {
+            return (from p in purchaseordercontext.purchasequotation
+                    where p.Purchase_Quote_Id == qId
+                    where p.Vendor_Code == vId
+                    select p).FirstOrDefault();
+        }
+
+        public PurchaseQuotationItem FindQuotationItemforBaseDocID(int qId, int pId, int iCount)
+        {
+            for (int j = 1; j >= iCount; j++)
+            {
+                var item= (from p in purchaseordercontext.purchasequotationitem
+                        where p.Purchase_Quote_Id == qId
+                        where p.Product_id == pId
+                        select p).FirstOrDefault();
+                return item;
+            }
+            return null;
+        }
+
         public int GetProductPrice(int? productId)
         {
             int price = (from p in purchaseordercontext.productprice
