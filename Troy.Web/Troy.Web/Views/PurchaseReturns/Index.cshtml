@@ -1,0 +1,349 @@
+﻿@model  Troy.Web.Models.PurchaseReturnViewModels
+
+@{
+    ViewBag.Title = "Purchase Return";
+}
+@using (Html.BeginForm("Index", "PurchaseReturn", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m => m.SearchColumn)
+
+    <div id="content">
+        <!-- Start .content-wrapper -->
+        <div class="content-wrapper">
+            <div class="row">&nbsp;</div>
+            <!-- Start .row -->
+            <div class="row">
+                <!-- Start .bredcrumb -->
+                <ul id="crumb" class="breadcrumb"></ul>
+                <!-- End .breadcrumb -->
+                <!-- Start .page-header -->
+                <div class="form-group">
+                    <label class="col-md-2 col-md-2 col-sm-12 h4 control-label pull-left">
+                        @ViewBag.Title
+                    </label>
+
+                    <!-- Start .option-buttons -->
+                    <!-- Removed -->
+                    <!-- End .option-buttons -->
+
+                    <div class="col-lg-10 col-md-10">
+                        <div class="row">
+                            <div class="pull-right group-button btn-toolbar">
+                                @*<button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false">
+                                        <i class="en-add-to-list strong"></i>
+                                        <span> New</span>
+                                    </button>*@
+                                <button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#confirmationModal" data-backdrop="static" data-keyboard="false">
+                                    <i class="en-add-to-list strong"></i>
+                                    <span> New</span>
+                                </button>
+
+                                <button type="button" title="Bulk Addition" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal" data-backdrop="static" data-keyboard="false">
+                                    <i class="st-file-add strong"></i>
+                                    <span> Bulk</span>
+                                </button>
+
+                                <button type="button" title="Excel Export" class="btn btn-primary">
+                                    <i class="im-file-excel strong"></i>
+                                    <span> Export</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End .page-header -->
+            </div>
+            <!-- End .row -->
+            <div class="row">&nbsp;</div>
+            <div class="outlet">
+                <!-- Start .outlet -->
+                <!-- Page start here ( usual with .row ) -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- col-lg-12 start here -->
+                        <div class="panel panel-default plain">
+                            <!-- Start .panel -->
+                            <div class="panel-heading">
+                                <div class="row">
+
+                                </div>
+                            </div>
+                            <div class="panel-body">
+
+                                <table class="table display" id="datatable">
+                                    <thead>
+
+                                        <tr>
+                                            <th>Purchase Return ID</th>
+                                            <th>Vendor Name</th>
+                                            <th>Ref. Number</th>
+                                            <th>Doc Status</th>
+                                            <th>Posting Date</th>
+                                            <th>Due Date</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (Troy.Model.PurchaseReturn.ViewPurchaseReturn item in Model.PurchaseReturnList)
+                                        {
+                                            <tr class="odd gradeX">
+                                                <td style="text-align:center;">@item.Purchase_Return_Id</td>
+                                                <td>@item.Vendor_Name</td>
+                                                <td style="text-align:center;">@item.Reference_Number</td>
+                                                <td>@item.Doc_Status</td>
+                                                <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
+                                                <td>@item.Due_Date.ToString("MM/dd/yyyy")</td>
+                                                <td>
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Purchase_Return_Id);">
+                                                        <i class="im-eye2"></i>
+
+                                                    </a>
+                                                    <span class="text-muted">|</span>
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Purchase_Return_Id);">
+                                                        <i class="im-pencil2"></i>
+                                                    </a>
+                                                    @*<span class="text-muted">|</span>
+                                                        <a href="@Url.Action("_DeletePartialView", "Suppliers", new { id = item.Purchase_Quote_Id })" data-modal="true">
+                                                            <i class="im-remove2"></i>
+                                                        </a>*@
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <!-- End .panel -->
+                    </div>
+                    <!-- col-lg-12 end here -->
+                </div>
+                <!-- Page End here -->
+            </div>
+            <!-- End .outlet -->
+        </div>
+        <!-- End .content-wrapper -->
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="modal fade bs-example-modal-lg" id="createModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+   @*     @Html.Partial("_CreatePartial", Model)*@
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="viewPurQuoModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPurchaseQuotation")'>
+        @Html.Partial("_CreatePartial", Model)
+        <div id="viewPurQuomodelcontainer">
+
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
+        <div id="editmodelcontainer">
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="viewModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPartial")'>
+        <div id="viewmodelcontainer">
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("Upload", "PurchaseOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">File Upload</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="tabs">
+                                <ul id="myTab" class="nav nav-tabs tabdrop">
+                                    <li class="active">
+                                        <a href="#default" data-toggle="tab">Bulk Addition</a>
+                                    </li>
+                                </ul>
+
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade in active" id="default">
+                                        <br />
+
+                                        <div id="FileUploadDiv">
+                                            <iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <input type="file" id="FileUpload" name="FileUpload" />
+                                                </div>
+                                            </div>
+                                            @*<div class="row">
+                                                    <div class="col-md-12 text-right">
+                                                        <input type="button" id="btnUpload" name="FileUploadButton" value="Upload" class="btn btn-success"
+                                                               onclick="return IFrameSubmit();" />
+                                                    </div>
+                                                </div>*@
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
+                    <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("Confirmation", "PurchaseReturns", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal fade bs-example-modal-lg" id="confirmationModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Select Way of Entry</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="tabs">
+                                <ul id="myTab" class="nav nav-tabs tabdrop">
+                                    <li class="active">
+                                        <a href="#default" data-toggle="tab">Select way of entry</a>
+                                    </li>
+                                </ul>
+
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade in active" id="default">
+                                        <br />
+
+                                        <div id="FileUploadDiv">
+                                            @*<iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>*@
+                                            <div class="row">
+                                                <div class="col-md-12" align="center">
+                                                    @*<input type="file" id="Select" name="FileUpload" />*@
+                                                    @*@Html.RadioButton("select", "Create from Purchase Quotation", false)Create from Purchase Quotation
+                                                        @Html.RadioButton("select", "Create Directly", false) Create Directly*@
+                                                    <button type="button" title="New Purchase Return" class="btn btn-primary" data-toggle="modal" data-target="#RetrivePurInvModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal">
+                                                        <i class="en-add-to-list strong"></i>
+                                                        <span> Create from Purchase Invoice</span>
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input class="btn btn-primary pull-left" type="button" id="btnOK" name="FileUploadButton" value="OK" />
+                    <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+@using (Html.BeginForm("RetrivePurInv", "PurchaseReturns", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal fade bs-example-modal-lg" id="RetrivePurInvModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Purchase Returns</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="tabs">
+                                <ul id="myTab" class="nav nav-tabs tabdrop">
+                                    <li class="active">
+                                        <a href="#default" data-toggle="tab">Purchase Returns</a>
+                                    </li>
+                                </ul>
+
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade in active" id="default">
+                                        <br />
+                                        <div id="FileUploadDiv">
+                                            @*<iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>*@
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="panel-body">
+
+                                                        <table class="table display" id="datatable">
+                                                            <thead>
+
+                                                                <tr>
+                                                                    <th>Purchase Invoice ID</th>
+                                                                   <th>Vendor</th>
+                                                                    <th>Doc Status</th>
+                                                                    <th>Posting Date</th>
+                                                                    <th>Due Date</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (Troy.Model.PurchaseReturn.ViewPurchaseReturn item in Model.PurchaseReturnList)  @*purchase Invoice*@
+                                                                {
+                                                                    <tr class="odd gradeX">
+                                                                        <td style="text-align:center;">@item.Purchase_Return_Id</td>
+                                                                       
+                                                                        <td style="text-align:center;">@item.Vendor_Name</td>
+                                                                        <td>@item.Doc_Status</td>
+                                                                        <td>@item.Posting_Date</td>
+                                                                        <td>@item.Due_Date</td>
+                                                                        <td>
+                                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#viewPurQuoModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseReturn(@item.Purchase_Return_Id);">
+                                                                                <i class="im-eye2"></i>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
