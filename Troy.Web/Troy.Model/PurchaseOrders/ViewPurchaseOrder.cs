@@ -34,5 +34,8 @@ namespace Troy.Model.PurchaseOrders
         public DateTime? Modified_Date { get; set; }
 
         public string Vendor_Name { get; set; }
+
+
+        public string Distribute_LandedCost { get; set; }
     }
 }

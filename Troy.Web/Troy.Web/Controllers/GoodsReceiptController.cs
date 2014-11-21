@@ -54,6 +54,11 @@ namespace Troy.Web.Controllers
                 model.BranchList = goodsrepository.GetAddressbranchList().ToList();
 
                 model.BussinessList = goodsrepository.GetAddressbusinessList().ToList();
+                model.productlist = goodsrepository.GetProductList();
+
+                model.VATList = goodsrepository.GetVATList();
+
+                model.PurchaseOrderList = goodsrepository.GetallGoodsItems().ToList();
 
                 //model.productlist =goodsrepository.GetAddressproductList().ToList();
 
@@ -90,6 +95,20 @@ namespace Troy.Web.Controllers
                     model.goodreceipt.Created_Branc_Id = 1;//CurrentBranchId;
                     model.goodreceipt.Created_Dte = DateTime.Now;
                     model.goodreceipt.Created_User_Id = 1;//CurrentUser.Id;
+                   // model.goodreceipt.Distribute_LandedCost = "equality";
+                    //if (model.goodreceipt.Distribute_LandedCost == "Equality")
+                    //{
+                    //    double a = Convert.ToDouble(model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count);
+                    //}
+                    //else if(model.goodreceipt.Distribute_LandedCost=="Quantity")
+                    //{
+                    //    double b = Convert.ToDouble(model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count *(model.goodreceiptitemlist.FirstOrDefault().LineTotal));
+                    //}
+                    //else
+                    //{
+                    //    double c = Convert.ToDouble((model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count) - (model.goodreceiptitem.Quantity * model.goodreceiptitem.Unit_price)*model.goodreceiptitem.Discount_percent);
+                    //}
+
 
                     var GoodsList = model.goodreceiptitemlist.Where(x => x.IsDummy == 0);
                     model.goodreceiptitemlist = GoodsList.ToList();
@@ -97,7 +116,10 @@ namespace Troy.Web.Controllers
                     for (int i = 0; i < model.goodreceiptitemlist.Count; i++)
                     {
                         model.goodreceiptitemlist[i].BaseDocLink = "N";
+                        
                     }
+                 
+
                     if (goodsrepository.AddNewQuotation(model.goodreceipt, model.goodreceiptitemlist, ref ErrorMessage))
                     {
                         return RedirectToAction("Index", "GoodsReceipt");
@@ -149,6 +171,45 @@ namespace Troy.Web.Controllers
         }
 
 
+        public PartialViewResult _ViewPurchaseOrder(int id)
+        {
+            try
+            {
+                GoodsReceiptViewModels model = new GoodsReceiptViewModels();
+                model.PurchaseOrder = goodsrepository.FindOneQuotationById1(id);
+
+                model.PurchaseOrderItemsList = goodsrepository.FindOneQuotationItemById1(id);
+
+
+               // model.goodreceiptlist = goodsrepository.GetallGoods();
+
+                model.BranchList = goodsrepository.GetAddressbranchList().ToList();
+
+                model.BussinessList = goodsrepository.GetAddressbusinessList().ToList();
+                model.productlist = goodsrepository.GetProductList();
+
+                model.VATList = goodsrepository.GetVATList();
+
+
+                return PartialView(model);
+            }
+            //catch (OptimisticConcurrencyException ex)
+            //{
+            //    ObjectStateEntry entry = ex.StateEntries[0];
+            //    GoodsReceipt post = entry.Entity as GoodsReceipt; //Post is the entity name he is using. Rename it with yours
+            //    Console.WriteLine("Failed to save {0} because it was changed in the database", post.Goods_Receipt_Id);
+            //    return View("Error");
+            //}
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+
+        }
+
+
         //public JsonResult GetProductList()
         //{
         //    var productList = goodsrepository.GetAddressproductList();
@@ -157,8 +218,26 @@ namespace Troy.Web.Controllers
         //}
 
 
+        public JsonResult GetVATList()
+        {
+            var vatList = goodsrepository.GetVATList();
 
+            return Json(vatList, JsonRequestBehavior.AllowGet);
+        }
 
+        public JsonResult GetPrice(int? pID)
+        {
+            int price = goodsrepository.GetProductPrice(pID);
+
+            return Json(price, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetProductList()
+        {
+            var productList = goodsrepository.GetProductList();
+
+            return Json(productList, JsonRequestBehavior.AllowGet);
+        }
         // GET: GoodsReceipt
         //public ActionResult Index()
         //{

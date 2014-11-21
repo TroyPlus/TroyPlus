@@ -124,6 +124,9 @@
     <Compile Include="Employees\ViewEmployee.cs" />
     <Compile Include="Genders\Gender.cs" />
     <Compile Include="Genders\GenderList.cs" />
+    <Compile Include="GRPOReturns\GoodsReturn.cs" />
+    <Compile Include="GRPOReturns\GoodsReturnitems.cs" />
+    <Compile Include="GRPOReturns\ViewGoodsReturn.cs" />
     <Compile Include="GRPO\GoodsReceipt.cs" />
     <Compile Include="GRPO\GoodsReceiptItems.cs" />
     <Compile Include="GRPO\ViewGoodsReceipt.cs" />
