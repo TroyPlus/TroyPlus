@@ -223,9 +223,10 @@
             //var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 
             var selectHtml = CreateSelect(i);
+            var selectHtml1 = CreateVATSelect(i);
 
             selectHtml += '</select>';
-
+            selectHtml1 += '</select>';
             //debugger;
 
             var html = '<tr>' +
@@ -250,18 +251,21 @@
                             '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="goodreceiptitemlist_' + i + '__Discount_percent" name="goodreceiptitemlist[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
                             '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
                         '</td>' +
+                         '<td>' +
+
+                           '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__LineTotal" name="goodreceiptitemlist[' + i + '].LineTotal" readonly="True" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
+                        '</td>' +
                         //'<td>' +
                         //    '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__Freight_Loading" name="goodreceiptitemlist[' + i + '].Freight_Loading" readonly="True" type="text" value="">' +
                         //    '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
                         //'</td>' +
                         '<td>' +
-                            '<input class="form-control control-text" data-val="true" data-val-number="The field VAT Code must be a number." data-val-required="The VAT Code field is required." id="goodreceiptitemlist_' + i + '__Vat_Code" name="goodreceiptitemlist[' + i + '].Vat_Code" type="text" value="">' +
+                        
+                          selectHtml1 +
                             '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
                         '</td>' +
-                         '<td>' +
-                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__LineTotal" name="goodreceiptitemlist[' + i + '].LineTotal" readonly="True" type="text" value="">' +
-                            '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
-                        '</td>' +
+                        
                         '<td>' +
                             '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
                         '</td>' +
@@ -350,7 +354,6 @@
 
             return vatselectHtml;
         }
-        alert('Row add aganum');
         $("#createItemTable").on("click", ".BtnPlus", addRow);
         //  alert('Row add aganum');
 
@@ -600,7 +603,7 @@
                                     <thead>
 
                                         <tr>
-                                            <th>Quotation ID</th>
+                                            <th>Purchase Order Id</th>
                                             <th>Vendor</th>
                                             <th>Ref. Number</th>
                                             <th>Document Status</th>
@@ -614,7 +617,7 @@
                                         {
                                             <tr class="odd gradeX">
                                                 <td style="text-align:center;">@item.Purchase_Order_Id</td>
-                                                <td>@item.Vendor</td>
+                                                <td>@item.Vendor_Name</td>
                                                 <td style="text-align:center;">@item.Reference_Number</td>
                                                 <td>@item.Doc_Status</td>
                                                 <td>@item.Posting_Date</td>

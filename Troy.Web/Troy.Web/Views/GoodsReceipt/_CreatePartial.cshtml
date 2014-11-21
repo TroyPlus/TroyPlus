@@ -47,8 +47,8 @@
                                                 </div>
                                                 <div class="col-md-8">
                                                     @*@Html.TextBoxFor(model => model.goodreceipt.Vendor, new { @class = "form-control control-text" })*@
-                                                      @Html.DropDownListFor(m => m.goodreceipt.Vendor_Name, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.goodreceipt.Vendor_Name)
+                                                      @Html.DropDownListFor(m => m.goodreceipt.Vendor, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.goodreceipt.Vendor)
                                                 </div>
                                             </div>
 

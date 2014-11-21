@@ -171,14 +171,14 @@ namespace Troy.Data.Repository
         public GoodsReceipt FindOneQuotationById(int qId)
         {
             return (from p in goodscontext.goodsreceipt
-                    where p.Purchase_Order_Id == qId
+                    where p.Goods_Receipt_Id == qId
                     select p).FirstOrDefault();
         }
 
         public IList<GoodsReceiptItems> FindOneQuotationItemById(int qId)
         {
             return (from p in goodscontext.goodsreceiptitem
-                    where p.Product_id == qId
+                    where p.Goods_Receipt_Id == qId
                     select p).ToList();
         }
 
