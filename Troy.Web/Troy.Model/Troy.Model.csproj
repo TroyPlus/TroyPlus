@@ -147,6 +147,9 @@
     <Compile Include="Products\ProductPrice.cs" />
     <Compile Include="Products\ProductPriceList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseInvoices\PurchaseInvoice.cs" />
+    <Compile Include="PurchaseInvoices\PurchaseInvoiceItems.cs" />
+    <Compile Include="PurchaseInvoices\ViewPurchaseInvoice.cs" />
     <Compile Include="PurchaseOrders\PurchaseOrder.cs" />
     <Compile Include="PurchaseOrders\PurchaseOrderItems.cs" />
     <Compile Include="PurchaseOrders\ViewPurchaseOrder.cs" />

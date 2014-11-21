@@ -12,6 +12,7 @@ using Troy.Model.PurchaseReturn;
 using Troy.Utilities.CrossCutting;
 using Troy.Web.Models;
 
+
 namespace Troy.Web.Controllers
 {
     public class PurchaseReturnsController : BaseController
@@ -43,6 +44,28 @@ namespace Troy.Web.Controllers
                 PurchaseReturnViewModels model = new PurchaseReturnViewModels();
                 model.PurchaseReturnList = qList;
 
+
+                ////Bind Branch
+                //var BranchList = purchasereturnrepository.GetBranchList().ToList();
+                //model.BranchList = BranchList;
+
+                ////Bind VAT
+                //var VATList = purchasereturnrepository.GetVAT().ToList();
+                //model.VATList = VATList;
+
+                ////Bind Product
+                //var ProductList = purchasereturnrepository.GetProductList().ToList();
+                //model.ProductList = ProductList;
+
+                ////Bind Businesspartner
+                //var BusinessParterList = purchasereturnrepository.GetBusinessPartnerList().ToList();
+                //model.BusinessPartnerList = BusinessParterList;
+
+                //Bind PurchaseQuotation
+                var qList1 = purchasereturnrepository.GetPurchaseInvoice().ToList();
+                model.PurchaseInvoiceList = qList1;
+
+
                 return View(model);
             }
             catch (Exception ex)
@@ -52,6 +75,41 @@ namespace Troy.Web.Controllers
                 return View("Error");
             }
         }
+        public PartialViewResult _ViewPurchaseInvoice(int id)
+        {
+            try
+            {
+                PurchaseReturnViewModels model = new PurchaseReturnViewModels();
+                model.PurchaseReturn = purchasereturnrepository.FindOneQuotationById(id);
+                model.PurchaseInvoiceItemsList = purchasereturnrepository.FindOneQuotationItemById(id);
+
+                //Bind Branch
+                var BranchList = purchasereturnrepository.GetBranchList().ToList();
+                model.BranchList = BranchList;
+
+                //Bind VAT
+                var VATList = purchasereturnrepository.GetVAT().ToList();
+                model.VATList = VATList;
+
+                //Bind Product
+                var ProductList = purchasereturnrepository.GetProductList().ToList();
+                model.ProductList = ProductList;
+
+                //Bind Businesspartner
+                var BusinessParterList = purchasereturnrepository.GetBusinessPartnerList().ToList();
+                model.BusinessPartnerList = BusinessParterList;
+
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+        }
+
 
     }
 }

@@ -215,8 +215,8 @@
     <Compile Include="Controllers\ManufacturerController.cs" />
     <Compile Include="Controllers\ProductGroupController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
+    <Compile Include="Controllers\PurchaseInvoicesController.cs" />
     <Compile Include="Controllers\PurchaseOrdersController.cs" />
-    <Compile Include="Controllers\PurchaseReturnsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -231,8 +231,8 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ManufacturerViewModels.cs" />
     <Compile Include="Models\ProductGroupViewModels.cs" />
+    <Compile Include="Models\PurchaseInvoiceViewModels.cs" />
     <Compile Include="Models\PurchaseOrderViewModels.cs" />
-    <Compile Include="Models\PurchaseReturnViewModels.cs" />
     <Compile Include="Models\PurchaseViewModels.cs" />
     <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Models\ViewModelBranch.cs" />
@@ -1488,11 +1488,11 @@
     <Content Include="Views\GoodsReceipt\_CreatePartial.cshtml" />
     <Content Include="Views\GoodsReceipt\_EditPartial.cshtml" />
     <Content Include="Views\GoodsReceipt\_ViewPartial.cshtml" />
-    <Content Include="Views\PurchaseReturns\_CreatePartial.cshtml" />
-    <Content Include="Views\PurchaseReturns\Delete.cshtml" />
-    <Content Include="Views\PurchaseReturns\Details.cshtml" />
-    <Content Include="Views\PurchaseReturns\Edit.cshtml" />
-    <Content Include="Views\PurchaseReturns\Index.cshtml" />
+    <Content Include="Views\PurchaseInvoices\_CreatePartial.cshtml" />
+    <Content Include="Views\PurchaseInvoices\_ViewPartial.cshtml" />
+    <Content Include="Views\PurchaseInvoices\_ViewGoodsReceipt.cshtml" />
+    <Content Include="Views\PurchaseInvoices\_EditPartial.cshtml" />
+    <Content Include="Views\PurchaseInvoices\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />

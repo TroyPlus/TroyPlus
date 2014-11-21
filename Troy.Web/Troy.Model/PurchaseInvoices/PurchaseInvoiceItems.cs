@@ -5,45 +5,41 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Troy.Model.Products;
 
-namespace Troy.Model.PurchaseReturn
+namespace Troy.Model.PurchaseInvoices
 {
-     [Table("tblPurchaseReturnitems")]
-    public class PurchaseReturnitems
+    [Table("tblPurchaseInvoiceItems")]
+    public class PurchaseInvoiceItems
     {
         [Key]
         [Required]
-        public int Purchase_Return_Id { get; set; }
-       // [ForeignKey("Purchase_Return_Id")]
-        //public virtual PurchaseReturnitems purchasereturnItems { get; set; }
+        public int Purchase_Invoice_Id { get; set; }
         //-----------
 
-        [Required]
+        [Required(ErrorMessage = "Item is required.")]
         public int Product_id { get; set; }
-        //[ForeignKey("Product_id")]
-        //public virtual Product product { get; set; }
         //-----------
 
-
-        [Required]
+        [Required(ErrorMessage = "Quantity is required.")]
         public int Quantity { get; set; }
         //-----------
 
+        public int Inv_Return_Qty { get; set; }
+        //-----------
 
-        [Required]
+        [Required(ErrorMessage = "Unit Price is required.")]
         public decimal Unit_price { get; set; }
         //-----------
 
         [Required]
+        [Range(0, 100)]
         public decimal Discount_percent { get; set; }
         //-----------
 
-        [Required]
+        [Required(ErrorMessage = "VAT Code is required.")]
         public int Vat_Code { get; set; }
         //-----------
-
-        [Required]
+               
         public decimal Freight_Loading { get; set; }
         //-----------
 
@@ -56,6 +52,7 @@ namespace Troy.Model.PurchaseReturn
         [Column(TypeName = "char")]
         public string BaseDocLink { get; set; }
         //------
+
         [NotMapped]
         public int IsDummy { get; set; }
     }

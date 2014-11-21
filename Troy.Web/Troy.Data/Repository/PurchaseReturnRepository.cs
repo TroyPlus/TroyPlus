@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Troy.Data.DataContext;
 using Troy.Model.Branches;
+using Troy.Model.PurchaseInvoices;
 using Troy.Model.PurchaseReturn;
 
 namespace Troy.Data.Repository
@@ -56,6 +57,23 @@ namespace Troy.Data.Repository
                         }).ToList();
             return item;
         }
+             public List<ViewPurchaseInvoice> GetPurchaseInvoice()
+             {
+                 List<ViewPurchaseInvoice> qlist = new List<ViewPurchaseInvoice>();
+                 qlist = (from pr in purchasereturncontext.PurchaseInvoice
+                          join b in purchasereturncontext.Businesspartner
+                            on pr.Vendor equals b.BP_Id
+                          where pr.Doc_Status == "Open"
+                          select new ViewPurchaseInvoice()
+                          {
+                              Purchase_Invoice_Id = pr.Purchase_Invoice_Id,
+                              Posting_Date = pr.Posting_Date,
+                              Due_Date = pr.Due_Date,
+                              Vendor_Name = b.BP_Name,
+                              Doc_Status = pr.Doc_Status
+                          }).ToList();
+                 return qlist;
+             }
 
 
             

@@ -82,7 +82,7 @@ namespace Troy.Web.Controllers
 
                 if (submitButton == "Save")
                 {
-                  
+
                     model.PurchaseOrder.Order_Status = "Open";
                     model.PurchaseOrder.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
                     model.PurchaseOrder.Created_Date = DateTime.Now;
@@ -90,12 +90,12 @@ namespace Troy.Web.Controllers
                     model.PurchaseOrder.Modified_User_Id = 1;//currentUser.Modified_User_Id;
                     model.PurchaseOrder.Modified_Date = DateTime.Now;
                     model.PurchaseOrder.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
-                   
+
 
                     var QuotationList = model.PurchaseOrderItemsList.Where(x => x.IsDummy == 0);
                     model.PurchaseOrderItemsList = QuotationList.ToList();
 
-                   
+
 
                     if (purchaseorderRepository.AddNewQuotation(model.PurchaseOrder, model.PurchaseOrderItemsList, ref ErrorMessage))
                     {
@@ -112,7 +112,12 @@ namespace Troy.Web.Controllers
                         return View("Error");
                     }
                 }
-               
+                else if (submitButton == "Save-PurQuo")
+                {
+                    PurchaseOrderViewModels model1 = new PurchaseOrderViewModels();
+                    model1.PurchaseQuotation = purchaseorderRepository.FindQuotationforBaseDocID(model.PurchaseQuotation.Purchase_Quote_Id, model.PurchaseQuotation.Vendor_Code);               
+                }
+
                 return RedirectToAction("Index", "PurchaseOrders");
             }
             catch (Exception ex)

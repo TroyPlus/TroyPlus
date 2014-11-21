@@ -67,6 +67,7 @@
     <Compile Include="DataContext\ProductContext.cs" />
     <Compile Include="DataContext\ProductGroupContext.cs" />
     <Compile Include="DataContext\PurchaseContext.cs" />
+    <Compile Include="DataContext\PurchaseInvoiceContext.cs" />
     <Compile Include="DataContext\PurchaseOrderContext.cs" />
     <Compile Include="DataContext\PurchaseReturnContext.cs" />
     <Compile Include="DataContext\SAPOUTContext.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Repository\IGoodsReceiptRepository.cs" />
     <Compile Include="Repository\IManufacturerRepository.cs" />
     <Compile Include="Repository\IProductGroupRepository.cs" />
+    <Compile Include="Repository\IPurchaseInvoiceRepository.cs" />
     <Compile Include="Repository\IPurchaseOrderRepository.cs" />
     <Compile Include="Repository\IPurchaseRepository.cs" />
     <Compile Include="Repository\IPurchaseReturnRepository.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="Repository\MasterData\IYearRepository.cs" />
     <Compile Include="Repository\MasterData\YearRepository.cs" />
     <Compile Include="Repository\ProductGroupRepository.cs" />
+    <Compile Include="Repository\PurchaseInvoiceRepository.cs" />
     <Compile Include="Repository\PurchaseOrderRepository.cs" />
     <Compile Include="Repository\PurchaseRepository.cs" />
     <Compile Include="Repository\PurchaseReturnRepository.cs" />

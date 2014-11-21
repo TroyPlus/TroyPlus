@@ -5,19 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Troy.Model.Purchase;
 
-namespace Troy.Model.PurchaseOrders
+namespace Troy.Model.PurchaseInvoices
 {
-    [Table("tblPurchaseOrder")]
-    public class PurchaseOrder
+    [Table("tblPurchaseInvoice")]
+    public class PurchaseInvoice
     {
         [Key]
         [Required]
-
-        public int Purchase_Order_Id { get; set; }
-        //[ForeignKey("Purchase_Order_Id")]
-        //public virtual PurchaseOrder purchaseorder { get; set; }
+        public int Purchase_Invoice_Id { get; set; }
         //-----------
 
         [Required]
@@ -28,9 +24,7 @@ namespace Troy.Model.PurchaseOrders
         public int TargetDocId { get; set; }
         //------------
 
-        //[ForeignKey("purchaseQuotation")]
-        public int Purchase_Quote_Id { get; set; }
-        //public virtual PurchaseQuotation purchaseQuotation { get; set; }
+        public int Goods_Receipt_Id { get; set; }
         //-----
 
         [Required]
@@ -41,18 +35,24 @@ namespace Troy.Model.PurchaseOrders
         [StringLength(30)]
         public string Reference_Number { get; set; }
         //-----------
-
+            
         [Required]
         [StringLength(15)]
-        public string Order_Status { get; set; }
+        public string Doc_Status { get; set; }
         //-----------
+
+        [Required]
+        [StringLength(1)]
+        [Column(TypeName = "char")]
+        public string Invoice_Payment { get; set; }
+        //------
 
         [Required(ErrorMessage = "Posting Date is required.")]
         public DateTime Posting_Date { get; set; }
         //------
 
         [Required(ErrorMessage = "Delivery Date is required.")]
-        public DateTime Delivery_Date { get; set; }
+        public DateTime Due_Date { get; set; }
         //------
 
         [Required(ErrorMessage = "Document Date is required.")]
@@ -68,11 +68,16 @@ namespace Troy.Model.PurchaseOrders
 
         public decimal Loading { get; set; }
         //------
+              
+        [StringLength(15)]
+        public string Distribute_LandedCost { get; set; }
+        //-----------
 
         [Required]
         [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Invalid Total Before Document Discount Amount")]
         public decimal TotalBefDocDisc { get; set; }
         //------
+
         [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Invalid Document Discount Amount")]
         public decimal DocDiscAmt { get; set; }
         //------
@@ -82,7 +87,7 @@ namespace Troy.Model.PurchaseOrders
         //------
 
         [Required]
-        public decimal TotalOrdAmt { get; set; }
+        public decimal TotalPurInvAmt { get; set; }
         //------
 
         public string Remarks { get; set; }
