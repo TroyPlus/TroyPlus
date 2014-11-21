@@ -1490,6 +1490,12 @@
     <Content Include="Views\GoodsReceipt\_CreatePartial.cshtml" />
     <Content Include="Views\GoodsReceipt\_EditPartial.cshtml" />
     <Content Include="Views\GoodsReceipt\_ViewPartial.cshtml" />
+    <Content Include="Views\GoodsReturn\Index.cshtml" />
+    <Content Include="Views\GoodsReturn\_CreatePartial.cshtml" />
+    <Content Include="Views\GoodsReturn\_EditPartial.cshtml" />
+    <Content Include="Views\GoodsReturn\_ViewGoodsReceipt.cshtml" />
+    <Content Include="Views\GoodsReturn\_ViewPartial.cshtml" />
+    <Content Include="Views\GoodsReceipt\_ViewPurchaseOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />

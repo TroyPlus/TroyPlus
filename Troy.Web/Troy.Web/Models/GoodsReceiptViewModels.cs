@@ -7,6 +7,7 @@ using Troy.Model.BusinessPartners;
 using Troy.Model.Configuration;
 using Troy.Model.GPRO;
 using Troy.Model.Products;
+using Troy.Model.PurchaseOrders;
 
 namespace Troy.Web.Models
 {
@@ -45,6 +46,5 @@ namespace Troy.Web.Models
 
         public List<ProductPriceList> productpricelist { get; set; }
 
-        public List<VATList> VATList { get; set; }
     }
 }
