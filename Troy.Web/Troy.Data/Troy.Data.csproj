@@ -62,6 +62,7 @@
     <Compile Include="DataContext\CountryContext.cs" />
     <Compile Include="DataContext\EmployeeContext.cs" />
     <Compile Include="DataContext\GoodsReceiptContext.cs" />
+    <Compile Include="DataContext\GoodsReturnContext.cs" />
     <Compile Include="DataContext\ManufactureContext.cs" />
     <Compile Include="DataContext\MasterDataContext.cs" />
     <Compile Include="DataContext\ProductContext.cs" />
@@ -77,12 +78,13 @@
     <Compile Include="Repository\ConfigurationRepository.cs" />
     <Compile Include="Repository\EmployeeRepository.cs" />
     <Compile Include="Repository\GoodsReceiptRepository.cs" />
-    <Compile Include="Repository\GoodsReciptRepository.cs" />
+    <Compile Include="Repository\GoodsReturnRepository.cs" />
     <Compile Include="Repository\IBranchRepository.cs" />
     <Compile Include="Repository\IBusinessPartnerRepository.cs" />
     <Compile Include="Repository\IConfigurationRepository.cs" />
     <Compile Include="Repository\IEmployeeRepository.cs" />
     <Compile Include="Repository\IGoodsReceiptRepository.cs" />
+    <Compile Include="Repository\IGoodsReturnRepository.cs" />
     <Compile Include="Repository\IManufacturerRepository.cs" />
     <Compile Include="Repository\IProductGroupRepository.cs" />
     <Compile Include="Repository\IPurchaseOrderRepository.cs" />

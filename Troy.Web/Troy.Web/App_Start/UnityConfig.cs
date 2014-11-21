@@ -54,6 +54,7 @@ namespace Troy.Web.App_Start
             container.RegisterType<IEmployeeRepository, EmployeeRepository>();
             container.RegisterType<IUserRepository, UserRepository>();
             container.RegisterType<IGoodsReceiptRepository,GoodsReceiptRepository>();
+            container.RegisterType<IGoodsReturnRepository,GoodsReturnRepository>();
             container.RegisterType<IYearRepository, YearRepository>();
             container.RegisterType<IPurchaseOrderRepository, PurchaseOrderRepository>();
 

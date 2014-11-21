@@ -36,5 +36,9 @@ namespace Troy.Data.DataContext
 
        public DbSet<PurchaseOrder> purchaseorder { get; set; }
 
+       public DbSet<PurchaseOrderItems> purchaseorderitem { get; set; }
+
+       public System.Data.Entity.DbSet<Troy.Model.GRPOReturns.GoodsReturn> GoodsReturns { get; set; }
+
     }
 }

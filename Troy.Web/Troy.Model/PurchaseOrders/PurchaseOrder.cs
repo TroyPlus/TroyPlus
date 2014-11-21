@@ -112,5 +112,7 @@ namespace Troy.Model.PurchaseOrders
         [Column(TypeName = "date")]
         public DateTime? Modified_Date { get; set; }
         //------
+        [NotMapped]
+        public string Distribute_LandedCost { get; set; }
     }
 }

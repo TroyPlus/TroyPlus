@@ -138,6 +138,8 @@
         $("#createItemTable").on("click", ".BtnPlus", addRow);
 
         
+      
+
 
         function deleteRow() {
 
@@ -397,6 +399,8 @@
 
 </script>
 
+
+
 @using (Html.BeginForm("Index", "PurchaseOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(true)
@@ -479,7 +483,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (Troy.Model.PurchaseOrder.ViewPurchaseOrder item in Model.PurchaseOrderList)
+                                        @foreach (Troy.Model.PurchaseOrders.ViewPurchaseOrder item in Model.PurchaseOrderList)
                                         {
                                             <tr class="odd gradeX">
                                                 <td style="text-align:center;">@item.Purchase_Order_Id</td>
