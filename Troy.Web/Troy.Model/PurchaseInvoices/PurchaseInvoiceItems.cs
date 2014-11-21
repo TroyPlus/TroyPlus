@@ -5,32 +5,26 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Troy.Model.Products;
-using Troy.Model.Configuration;
 
-namespace Troy.Model.PurchaseOrders
+namespace Troy.Model.PurchaseInvoices
 {
-    [Table("tblPurchaseOrderItems")]
-    public class PurchaseOrderItems
+    [Table("tblPurchaseInvoiceItems")]
+    public class PurchaseInvoiceItems
     {
         [Key]
         [Required]
-        public int Purchase_Order_Id { get; set; }
-        //[ForeignKey("Purchase_Order_Id")]
-        //public virtual PurchaseOrder purchaseorder { get; set; }
+        public int Purchase_Invoice_Id { get; set; }
         //-----------
 
         [Required(ErrorMessage = "Item is required.")]
         public int Product_id { get; set; }
-        [ForeignKey("Product_id")]
-        public virtual Product product { get; set; }
         //-----------
 
         [Required(ErrorMessage = "Quantity is required.")]
         public int Quantity { get; set; }
         //-----------
 
-        public int Received_Qty { get; set; }
+        public int Inv_Return_Qty { get; set; }
         //-----------
 
         [Required(ErrorMessage = "Unit Price is required.")]
@@ -44,8 +38,9 @@ namespace Troy.Model.PurchaseOrders
 
         [Required(ErrorMessage = "VAT Code is required.")]
         public int Vat_Code { get; set; }
-        //[ForeignKey("Vat_Code")]
-        //public virtual VAT vat { get; set; }
+        //-----------
+               
+        public decimal Freight_Loading { get; set; }
         //-----------
 
         [Required]
@@ -60,8 +55,5 @@ namespace Troy.Model.PurchaseOrders
 
         [NotMapped]
         public int IsDummy { get; set; }
-
-        [NotMapped]
-        public string Freight_Loading { get; set; }
     }
 }

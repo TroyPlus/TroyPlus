@@ -57,6 +57,7 @@ namespace Troy.Web.App_Start
             container.RegisterType<IGoodsReturnRepository,GoodsReturnRepository>();
             container.RegisterType<IYearRepository, YearRepository>();
             container.RegisterType<IPurchaseOrderRepository, PurchaseOrderRepository>();
+            container.RegisterType<IPurchaseInvoiceRepository, PurchaseInvoiceRepository>();
 
             container.RegisterType(typeof(UserManager<>), new InjectionConstructor(typeof(IUserStore<>)));
             container.RegisterType<IUser>(new InjectionFactory(c => c.Resolve<Microsoft.AspNet.Identity.IUser>()));

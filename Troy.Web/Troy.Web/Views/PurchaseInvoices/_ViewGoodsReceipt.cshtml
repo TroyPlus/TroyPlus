@@ -1,4 +1,4 @@
-﻿@model  Troy.Web.Models.PurchaseOrderViewModels
+﻿@model  Troy.Web.Models.GoodsReceiptViewModels
 
 @Scripts.Render("~/bundles/script/jqueryval")
 
@@ -12,7 +12,7 @@
 
         //Dynamically add quotation row
         function addRow() {
-           
+
             var date = new Date();
             var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 
@@ -23,40 +23,38 @@
             selectHtml1 += '</select>';
 
             var html = '<tr>' +
-                        '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="PurchaseQuotationItemList_' + i + '__IsDummy" name="PurchaseQuotationItemList[' + i + '].IsDummy" type="text" value="">  </td>' +
-                        '<td width="20%"> ' +
-                            selectHtml +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Product_id" data-valmsg-replace="true"></span>' +
-                        '</td>' +                      
-                        '<td>' +
-                            '<input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="PurchaseQuotationItemList_' + i + '__Quoted_qty" name="PurchaseQuotationItemList[' + i + '].Quoted_qty" onkeyup="OnChangeQuantity(this, ' + i + ');" type="text" value="">' +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Quoted_qty" data-valmsg-replace="true"></span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseQuotationItemList_' + i + '__Unit_price" name="PurchaseQuotationItemList[' + i + '].Unit_price" readonly="True" type="text" value="">' +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-required="The Discount_percent field is required." id="PurchaseQuotationItemList_' + i + '__Discount_percent" name="PurchaseQuotationItemList[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
-                        '</td>' +
+                         '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="PurchaseInvoiceItemsList_' + i + '__IsDummy" name="PurchaseInvoiceItemsList[' + i + '].IsDummy" type="text" value="">  </td>' +
+                         '<td width="25%"> ' +
+                             selectHtml +
+                             '<span class="field-validation-valid" data-valmsg-for="PurchaseInvoiceItemsList[' + i + '].Product_id" data-valmsg-replace="true"></span>' +
+                         '<td width="10%">' +
+                             '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseInvoiceItemsList_' + i + '__Unit_price" name="PurchaseInvoiceItemsList[' + i + '].Unit_price" readonly="True" type="text" value="">' +
+                             '<span class="field-validation-valid" data-valmsg-for="PurchaseInvoiceItemsList[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
+                         '</td>' +
+                         '<td width="10%">' +
+                             '<input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="PurchaseInvoiceItemsList_' + i + '__Quantity" name="PurchaseInvoiceItemsList[' + i + '].Quantity" onkeyup="OnChangeQuantity(this, ' + i + ');" type="text" value="">' +
+                             '<span class="field-validation-valid" data-valmsg-for="PurchaseInvoiceItemsList[' + i + '].Quantity" data-valmsg-replace="true"></span>' +
+                         '</td>' +
+                         '<td width="8%">' +
+                             '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="PurchaseInvoiceItemsList_' + i + '__Discount_percent" name="PurchaseInvoiceItemsList[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
+                             '<span class="field-validation-valid" data-valmsg-for="PurchaseInvoiceItemsList[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
+                         '</td>' +
+                          '<td width="12%">' +
+                              selectHtml1 +
+                             '<span class="field-validation-valid" data-valmsg-for="PurchaseInvoiceItemsList_[' + i + '].__Vat_Code" data-valmsg-replace="true"></span>' +
+                         '</td>' +
+                          '<td width="5%">' +
+                             '<input class="form-control control-text" data-val="true" data-val-number="The field Freight_Loading must be a number." data-val-range="The Freight Loading is required."  data-val-required="The Freight_Loading field is required." id="PurchaseInvoiceItemsList_' + i + '__Freight_Loading" name="PurchaseInvoiceItemsList[' + i + '].Freight_Loading" type="text" value="">' +
+                             '<span class="field-validation-valid" data-valmsg-for="PurchaseInvoiceItemsList[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
+                         '</td>' +
+                          '<td width="5%">' +
+                             '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseInvoiceItemsList_' + i + '__LineTotal" name="PurchaseInvoiceItemsList[' + i + '].LineTotal" readonly="True" type="text" value="">' +
+                             '<span class="field-validation-valid" data-valmsg-for="PurchaseInvoiceItemsList[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
+                         '</td>' +
                          '<td>' +
-                             selectHtml1 +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList_[' + i + '].__Vat_Code" data-valmsg-replace="true"></span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseQuotationItemList_' + i + '__LineTotal" name="PurchaseQuotationItemList[' + i + '].LineTotal" type="text" value="">' +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
-                        '</td>' +
-                       
-                        '<td>' +
-                            '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
-                        '</td>' +
-
-                        @*'<td>@Html.TextBoxFor(model => model.PurchaseQuotationItemList[2].Required_date, new { @class = "form-control control-text datePicker" })</td>' +
-                        '<td> <input class="form-control control-text datePicker hasDatepicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_0__Required_date" name="PurchaseQuotationItemList[0].Required_date" type="text" value=""> </td>' +*@
-
-                        '</tr>'
+                             '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
+                         '</td>' +
+                         '</tr>'
 
             $(html).appendTo($("#EditTable"))
 
@@ -75,10 +73,10 @@
         function CreateSelect(rowID) {
             //debugger;
 
-            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseQuotationItemList_' + rowID + '__Product_id" name="PurchaseQuotationItemList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseInvoiceItemsList_' + rowID + '__Product_id" name="PurchaseInvoiceItemsList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
-           
-            var dataUrl = "/PurchaseOrders/GetProductList";
+
+            var dataUrl = "/PurchaseInvoices/GetProductList";
 
             $.ajax({
                 type: 'GET',
@@ -102,11 +100,11 @@
         }
 
         function CreateVATSelect(rowID) {
-            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="PurchaseQuotationItemList_' + rowID + '__VAT_Id" name="PurchaseQuotationItemList[' + rowID + '].VAT_Id" onchange="OnChangeVAT();" >';
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="PurchaseInvoiceItemsList_' + rowID + '__VAT_Id" name="PurchaseInvoiceItemsList[' + rowID + '].VAT_Id" onchange="OnChangeVAT();" >';
             selectHtml += '<option value=""></option>';
 
 
-            var dataUrl = "/PurchaseOrders/GetVATList";
+            var dataUrl = "/PurchaseInvoices/GetVATList";
 
             $.ajax({
                 type: 'GET',
@@ -198,10 +196,10 @@
     });
 
     function OnChangeProduct(val, rowId) {
-        
-        //debugger;      
+
+        //debugger;
         var pID = parseInt(val.value);
-        var dataUrl = "/PurchaseOrders/GetPrice?pID=" + pID;
+        var dataUrl = "/PurchaseInvoices/GetPrice?pID=" + pID;
 
         $.ajax({
             type: 'GET',
@@ -216,9 +214,9 @@
             },
             success: function (result, status) {
                 //debugger;
-                var id = "#PurchaseQuotationItemList_" + rowId + "__Unit_price";
+                var id = "#PurchaseInvoiceItemsList_" + rowId + "__Unit_price";
                 $(id).val(result);
-                
+
                 CalculateTotal();
                 CalculateTotalAmount();
             }
@@ -229,11 +227,11 @@
         //debugger;
 
         var qty = currentQty.value;
-        var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
+        var price = $("#PurchaseInvoiceItemsList_" + rowId + "__Unit_price").val();
 
         var totAmount = price * qty;
 
-        var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
+        var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
         $(id).val(totAmount);
         CalculateTotal();
         CalculateTotalAmount();
@@ -243,8 +241,8 @@
         //debugger;
 
         var dis = currentDis.value;
-        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quantity").val();
-        var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
+        var qty = $("#PurchaseInvoiceItemsList_" + rowId + "__Quantity").val();
+        var price = $("#PurchaseInvoiceItemsList_" + rowId + "__Unit_price").val();
 
         //var totAmount = (price * qty) - (price * dis / 100)
 
@@ -276,41 +274,41 @@
         //}
         //else {
         for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val());
+            if (!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val());
 
             }
         }
         //}
-        
+
         $("#totalPurchase1").val(tot);
-       
+
     }
 
     function CalculateDiscount() {
         var tot = 0;
 
         for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val());
+            if (!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Discount_percent").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Discount_percent").val());
             }
         }
 
         $("#totalDiscount1").val(tot);
-       
+
     }
 
     function CalculateTax() {
         var tot = 0;
 
         for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
+            if (!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val());
             }
         }
 
         $("#totalTax1").val(tot);
-       
+
     }
 
     function CalculateTotalAmount() {
@@ -319,27 +317,27 @@
         var tottax = 0;
         var tot = 0;
         for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
-                totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val());
+            if (!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val());
             }
         }
 
         for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val()))) {
-                totdis = parseFloat(totdis) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val());
+            if (!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Discount_percent").val()))) {
+                totdis = parseFloat(totdis) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Discount_percent").val());
             }
         }
 
         for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
-                tottax = parseFloat(tottax) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
+            if (!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val()))) {
+                tottax = parseFloat(tottax) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val());
             }
         }
 
         tot = (totdoc - totdis) + tottax;
 
         $("#totalQuotationAmt1").val(tot);
-       
+
     }
 
 </script>
@@ -349,10 +347,9 @@
     @Html.ValidationSummary(true)
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Add Purchase Order from Purchase Quotation</h4>
+                <h4 class="modal-title" id="myModalLabel">Add Purchase Invoice from Goods Receipt</h4>
             </div>
 
             <div class="modal-body">
@@ -366,25 +363,21 @@
                                 <li><a href="#editQuotationItem" data-toggle="tab">Product </a></li>
                             </ul>
 
-                            @Html.HiddenFor(model => model.PurchaseQuotation.Purchase_Quote_Id)
-                            @Html.Hidden("ItemCount", Model.PurchaseQuotationItemList.Count)
+                            @Html.HiddenFor(model => model.goodreceipt.Goods_Receipt_Id)
+                            @Html.Hidden("ItemCount", Model.goodreceiptitemlist.Count)
 
                             <div id="editTabContent" class="tab-content">
-
                                 <div class="tab-pane fade active in" id="editdefault">
-
                                     <div class="row">
                                         <div class="col-md-6">
-
                                             <div class="form-horizontal">
-
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        Purchase QuotationID
+                                                        Goods Receipt ID
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Purchase_Quote_Id, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Purchase_Quote_Id)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Goods_Receipt_Id, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Goods_Receipt_Id)
                                                     </div>
                                                 </div>
 
@@ -393,30 +386,35 @@
                                                         Vendor Name
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.DropDownListFor(m => m.PurchaseQuotation.Vendor_Code, new SelectList(Model.BusinessPartnerList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Vendor_Code)
+                                                        @*@Html.TextBoxFor(model => model.PurchaseInvoice.Vendor, new { @class = "form-control control-text" })
+                                                            @Html.ValidationMessageFor(model => model.PurchaseInvoice.Vendor)*@
+                                                        @Html.DropDownListFor(m => m.goodreceipt.Vendor, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Vendor)
                                                     </div>
-
                                                 </div>
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Reference Number
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Reference_Number, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Reference_Number)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Reference_Number, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Reference_Number)
                                                     </div>
                                                 </div>
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        @Html.LabelFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "control-label normal" })
+                                                        Document Status
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.DropDownListFor(model => model.PurchaseQuotation.Quotation_Status, new List<SelectListItem>
-                                                         {
-                                                            new SelectListItem{ Text="Open", Value = "Open" },
-                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
-                                                         }, new { @class = "form-control" })
+                                                        @Html.DropDownListFor(model => model.goodreceipt.Doc_Status, new List<SelectListItem>
+                                                        {
+                                                        new SelectListItem{ Text="Open", Value = "Open" },
+                                                        new SelectListItem{ Text="Closed", Value = "Closed" },
+                                                        new SelectListItem{ Text="Cancel", Value = "Cancel" }
+                                                        }, new { @class = "form-control", @disabled = true })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Doc_Status)
                                                     </div>
                                                 </div>
 
@@ -425,44 +423,44 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
+                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
+                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker", @id = "crePostingDate" })*@
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @class = "form-control control-text datePicker" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)
                                                     </div>
                                                 </div>
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        Delivery Date
+                                                        Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @class = "form-control control-text datePicker" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Required_Date)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @class = "form-control control-text datePicker" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-
-                                            <div class="form-horizontal">
-
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Document Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Modified_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Modified_Date)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @class = "form-control control-text datePicker" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)
                                                     </div>
                                                 </div>
-
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Ship To
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.DropDownListFor(m => m.PurchaseQuotation.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Ship_To)
+                                                        @*@Html.TextBoxFor(model => model.PurchaseInvoice.Ship_To, new { @class = "form-control control-text" })
+                                                            @Html.ValidationMessageFor(model => model.PurchaseInvoice.Ship_To)*@
+                                                        @Html.DropDownListFor(m => m.goodreceipt.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Ship_To)
                                                     </div>
                                                 </div>
 
@@ -471,8 +469,8 @@
                                                         Freight
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Freight, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Freight)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Freight, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Freight)
                                                     </div>
                                                 </div>
 
@@ -481,17 +479,28 @@
                                                         Loading
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Loading, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Loading)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Loading, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Loading)
                                                     </div>
                                                 </div>
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        Document Discount Amount
+                                                        Distirbuted Land Cost
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.DocDiscAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.DocDiscAmt)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Distribute_LandedCost, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Distribute_LandedCost)
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        Discount
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreceipt.DocDiscAmt, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.DocDiscAmt)
                                                     </div>
                                                 </div>
                                                 <div class="row form-group">
@@ -499,16 +508,13 @@
                                                         Remarks
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextAreaFor(model => model.PurchaseQuotation.Remarks, new { @class = "form-control", @cols = 55, @rows = 5 })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Remarks)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Remarks, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Remarks)
                                                     </div>
                                                 </div>
-
                                             </div>
-
                                         </div>
                                     </div>
-
                                     <br />
                                     <div class="row">
                                         <div class="modal-footer">
@@ -516,7 +522,6 @@
                                             <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
-
                                 </div>
 
                                 <div class="tab-pane fade" id="editQuotationItem">
@@ -527,49 +532,55 @@
                                             <thead>
                                                 <tr>
                                                     <th>Product Id</th>
-                                                    <th>Quantity</th>
                                                     <th>Unit Price</th>
+                                                    <th>Quantity</th>
                                                     <th>Discount %</th>
                                                     <th>VAT Code</th>
-                                                    <th>Line Total</th>
+                                                    <th>Freight Loading</th>
+                                                    <th>LineTotal</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
 
-                                            @for (int i = 0; i < Model.PurchaseQuotationItemList.Count; i++)
+                                            @for (int i = 0; i < Model.goodreceiptitemlist.Count; i++)
                                             {
-                                                @Html.HiddenFor(model => model.PurchaseQuotationItemList[i].Quote_Item_Id)
-                                                @Html.HiddenFor(model => model.PurchaseQuotationItemList[i].Purchase_Quote_Id)
+                                                @Html.HiddenFor(model => model.goodreceiptitemlist[i].Goods_Receipt_Id)
 
                                                 <tr>
                                                     <td style="display:none;">
-                                                        @Html.HiddenFor(model => model.PurchaseQuotationItemList[i].IsDummy, 0)
+                                                        @Html.HiddenFor(model => model.goodreceiptitemlist[i].IsDummy, 0)
 
                                                     </td>
-                                                    <td width="30%">
-                                                        @Html.DropDownListFor(m => m.PurchaseQuotationItemList[i].Product_id, new SelectList(Model.ProductList.AsEnumerable(), "Product_Id", "Product_Name", Model.PurchaseQuotationItemList[i].Product_id), new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Product_id)
+                                                    <td width="25%">
+                                                        @Html.DropDownListFor(m => m.goodreceiptitemlist[i].Product_id, new SelectList(Model.productlist.AsEnumerable(), "Product_Id", "Product_Name", Model.goodreceiptitemlist[i].Product_id), new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Product_id)
                                                     </td>
                                                     <td width="10%">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Quoted_qty, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Quoted_qty)
+                                                        @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Unit_price, new { @class = "form-control control-text", @readonly = true })
+                                                        @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Unit_price)
                                                     </td>
                                                     <td width="10%">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Unit_price, new { @class = "form-control control-text", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Unit_price)
+                                                        @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Quantity, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Quantity)
                                                     </td>
                                                     <td width="8%">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Discount_percent)
+                                                        @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Discount_percent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Discount_percent)
                                                     </td>
                                                     <td width="12%">
-                                                        @Html.DropDownListFor(m => m.PurchaseQuotationItemList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage",Model.PurchaseQuotationItemList[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Vat_Code)
+                                                        @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Vat_Code, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Vat_Code)
+                                                        @*@Html.DropDownListFor(m => m.goodreceiptitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage", Model.goodreceiptitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Vat_Code)*@
                                                     </td>
-                                                    <td width="10%">                                                        
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].LineTotal, new { @class = "form-control control-text", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].LineTotal)
-                                                    </td>                                                   
+                                                    <td width="5%">
+                                                        @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Freight_Loading, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Freight_Loading)
+                                                    </td>
+                                                    <td width="5%">
+                                                        @Html.TextBoxFor(model => model.goodreceiptitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true })
+                                                        @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].LineTotal)
+                                                    </td>
                                                     <td style="width: 90px;">
                                                         <input class="BtnPlus btn pull-left" type="button" value="+" />
                                                         @if (i > 0)
@@ -584,7 +595,7 @@
                                     </div>
 
                                     <div class="modal-footer">
-                                                                                
+
                                         <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save-PurQuo" />
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
 
@@ -595,21 +606,18 @@
                                                 Tax Amount : <span id="taxamt">@Model.PurchaseQuotation.TaxAmt</span><br />
                                                 Total Order Amount : <span id="totalordamt">@Model.PurchaseQuotation.TotalQtnAmt</span><br />*@
 
-                                            Total : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.DocDiscAmt, new { id = "totalDiscount1", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.PurchaseQuotation.DocDiscAmt) </span> <br />
-                                            Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TaxAmt, new { id = "totalTax1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalQtnAmt, new { id = "totalQuotationAmt1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.DocDiscAmt, new { id = "totalDiscount1", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.goodreceipt.DocDiscAmt) </span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TaxAmt, new { id = "totalTax1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalGRDocAmt, new { id = "totalQuotationAmt1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                         </div>
                                     </div>
 
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

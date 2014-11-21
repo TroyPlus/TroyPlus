@@ -216,6 +216,7 @@
     <Compile Include="Controllers\ManufacturerController.cs" />
     <Compile Include="Controllers\ProductGroupController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
+    <Compile Include="Controllers\PurchaseInvoicesController.cs" />
     <Compile Include="Controllers\PurchaseOrdersController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -232,6 +233,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ManufacturerViewModels.cs" />
     <Compile Include="Models\ProductGroupViewModels.cs" />
+    <Compile Include="Models\PurchaseInvoiceViewModels.cs" />
     <Compile Include="Models\PurchaseOrderViewModels.cs" />
     <Compile Include="Models\PurchaseViewModels.cs" />
     <Compile Include="Models\UserViewModels.cs" />
@@ -1488,12 +1490,6 @@
     <Content Include="Views\GoodsReceipt\_CreatePartial.cshtml" />
     <Content Include="Views\GoodsReceipt\_EditPartial.cshtml" />
     <Content Include="Views\GoodsReceipt\_ViewPartial.cshtml" />
-    <Content Include="Views\GoodsReceipt\_ViewPurchaseOrder.cshtml" />
-    <Content Include="Views\GoodsReturn\Index.cshtml" />
-    <Content Include="Views\GoodsReturn\_CreatePartial.cshtml" />
-    <Content Include="Views\GoodsReturn\_EditPartial.cshtml" />
-    <Content Include="Views\GoodsReturn\_ViewPartial.cshtml" />
-    <Content Include="Views\GoodsReturn\_ViewGoodsReceipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />
