@@ -5,6 +5,19 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.datePicker').datepicker();
+
+        $('#creGRDocumentDate').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
+
+        $('#creGRDueDate').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
+
+        $('#creGRPostingDate').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
+
         $("#editTypeahead").jAutochecklist();
         var i;
 
@@ -425,7 +438,7 @@
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
                                                         @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker", @id = "crePostingDate" })*@
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @class = "form-control control-text datePicker" })
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @class = "form-control control-text", @id = "creGRPostingDate" })
                                                         @Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)
                                                     </div>
                                                 </div>
@@ -435,7 +448,7 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @class = "form-control control-text datePicker" })
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @class = "form-control control-text", @id = "creGRDueDate" })
                                                         @Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)
                                                     </div>
                                                 </div>
@@ -444,7 +457,7 @@
                                                         Document Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @class = "form-control control-text datePicker" })
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @class = "form-control control-text", @id = "creGRDocumentDate" })
                                                         @Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)
                                                     </div>
                                                 </div>
@@ -489,7 +502,13 @@
                                                         Distirbuted Land Cost
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Distribute_LandedCost, new { @class = "form-control control-text" })
+                                                        @*@Html.TextBoxFor(model => model.goodreceipt.Distribute_LandedCost, new { @class = "form-control control-text" })*@
+                                                        @Html.DropDownListFor(model => model.goodreceipt.Distribute_LandedCost, new List<SelectListItem>
+                                                         {
+                                                            new SelectListItem{ Text="Equally", Value = "Equally" },
+                                                            new SelectListItem{ Text="Quantity", Value = "Quantity" },
+                                                            new SelectListItem{ Text="Cost", Value = "Cost" }
+                                                         }, new { @class = "form-control" })
                                                         @Html.ValidationMessageFor(model => model.goodreceipt.Distribute_LandedCost)
                                                     </div>
                                                 </div>
@@ -568,10 +587,10 @@
                                                         @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Discount_percent)
                                                     </td>
                                                     <td width="12%">
-                                                        @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Vat_Code, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Vat_Code)
-                                                        @*@Html.DropDownListFor(m => m.goodreceiptitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage", Model.goodreceiptitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
+                                                        @*@Html.TextBoxFor(model => model.goodreceiptitemlist[i].Vat_Code, new { @class = "form-control control-text" })
                                                             @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Vat_Code)*@
+                                                        @Html.DropDownListFor(m => m.goodreceiptitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage", Model.goodreceiptitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Vat_Code)
                                                     </td>
                                                     <td width="5%">
                                                         @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Freight_Loading, new { @class = "form-control control-text" })

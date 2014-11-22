@@ -15,6 +15,7 @@ using Troy.Model.Branches;
 using Troy.Model.Products;
 using Troy.Model.Configuration;
 using Troy.Model.BusinessPartners;
+using Troy.Utilities.CrossCutting;
 
 namespace Troy.Data.Repository
 {
@@ -152,11 +153,43 @@ namespace Troy.Data.Repository
                                 Unit_price = q.Unit_price,
                                 Discount_percent = q.Discount_percent,
                                 Vat_Code = q.Vat_Code,
-                                Freight_Loading = q.Freight_Loading
+                                Freight_Loading = q.Freight_Loading,
+                                LineTotal=q.LineTotal
                             }).ToList();
 
             return purchase;
 
+        }
+
+        public bool AddNewPurchaseInvoice(PurchaseInvoice Invoice, IList<PurchaseInvoiceItems> InvoiceItemList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                purchaseinvoicecontext.PurchaseInvoice.Add(Invoice);
+
+                purchaseinvoicecontext.SaveChanges();
+
+                int currentId = Invoice.Purchase_Invoice_Id;
+
+                for (int i = 0; i < InvoiceItemList.Count; i++)
+                {
+                    InvoiceItemList[i].Purchase_Invoice_Id = currentId;
+                    InvoiceItemList[i].BaseDocLink = "Y";
+                }
+
+                purchaseinvoicecontext.PurchaseInvoiceItems.AddRange(InvoiceItemList);
+
+                purchaseinvoicecontext.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ErrorMessage = ex.Message;
+                return false;
+            }
         }
     }
 }

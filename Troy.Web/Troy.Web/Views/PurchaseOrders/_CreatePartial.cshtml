@@ -80,7 +80,7 @@
                                                 <div class="col-md-8">
                                                     @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
                                                     @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker", @id = "crePostingDate" })*@
-                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker"})
+                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseOrder.Posting_Date)
                                                 </div>
                                             </div>
@@ -105,7 +105,7 @@
                                                 <div class="col-md-8">
                                                     @*@Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
                                                     @*@Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })*@
-                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @class = "form-control control-text datePicker" })
+                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseOrder.Document_Date)
                                                 </div>
                                             </div>
@@ -218,7 +218,7 @@
                                                     <td width="12%">
                                                         @*@Html.TextBoxFor(model => model.PurchaseOrderItemsList[i].Vat_Code, new { @class = "form-control control-text" })
                                                             @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Vat_Code)*@
-                                                        @Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage"), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
+                                                        @Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage"), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Vat_Code)
                                                     </td>
                                                     <td width="10%">

@@ -97,7 +97,7 @@ namespace Troy.Web.Controllers
 
 
 
-                    if (purchaseorderRepository.AddNewQuotation(model.PurchaseOrder, model.PurchaseOrderItemsList, ref ErrorMessage))
+                    if (purchaseorderRepository.AddNewPurchaseOrder(model.PurchaseOrder, model.PurchaseOrderItemsList, ref ErrorMessage))
                     {
                         //XMLGenerate_SAPInsert(model);
                         //for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
