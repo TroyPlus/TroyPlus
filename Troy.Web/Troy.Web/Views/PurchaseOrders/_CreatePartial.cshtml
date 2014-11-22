@@ -203,7 +203,7 @@
                                                         @Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Product_id, new SelectList(Model.ProductList.AsEnumerable(), "Product_Id", "Product_Name"), "", new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Product_id)
                                                     </td>
-                                                    <td width="10%">
+                                                    <td width="9%">
                                                         @Html.TextBoxFor(model => model.PurchaseOrderItemsList[i].Quantity, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Quantity)
                                                     </td>
@@ -215,13 +215,13 @@
                                                         @Html.TextBoxFor(model => model.PurchaseOrderItemsList[i].Discount_percent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Discount_percent)
                                                     </td>
-                                                    <td width="12%">
+                                                    <td width="11%">
                                                         @*@Html.TextBoxFor(model => model.PurchaseOrderItemsList[i].Vat_Code, new { @class = "form-control control-text" })
                                                             @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Vat_Code)*@
                                                         @Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage"), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Vat_Code)
                                                     </td>
-                                                    <td width="10%">
+                                                    <td width="12%">
                                                         @Html.TextBoxFor(model => model.PurchaseOrderItemsList[i].LineTotal, new { @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].LineTotal)
                                                     </td>

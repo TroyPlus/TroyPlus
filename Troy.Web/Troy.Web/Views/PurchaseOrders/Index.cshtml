@@ -60,7 +60,7 @@
                         '</td>' +
                          '<td>' +
                              selectHtml1 +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList_[' + i + '].__Vat_Code" data-valmsg-replace="true"></span>' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList_[' + i + '].__Vat_Code" onkeyup="OnChangeVAT(this, ' + i + ');" data-valmsg-replace="true"></span>' +
                         '</td>' +
                          '<td>' +
                             '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseOrderItemsList_' + i + '__LineTotal" name="PurchaseOrderItemsList[' + i + '].LineTotal" readonly="True" type="text" value="">' +
@@ -120,7 +120,7 @@
         }
 
         function CreateVATSelect(rowID) {
-            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="PurchaseOrderItemsList_' + rowID + '__VAT_Id" name="PurchaseOrderItemsList[' + rowID + '].VAT_Id" onchange="OnChangeVAT();" >';
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="PurchaseOrderItemsList_' + rowID + '__Vat_Code" name="PurchaseOrderItemsList[' + rowID + '].Vat_Code" onchange="OnChangeVAT();" >';
             selectHtml += '<option value=""></option>';
 
 
@@ -139,7 +139,7 @@
                 success: function (result, status) {
                     //debugger;
                     for (var count = 0; count < result.length; count++) {
-                        selectHtml += '<option value="' + result[count].VAT_Id + '">' + result[count].VAT_percentage + '</option>';
+                        selectHtml += '<option value="' + result[count].VAT_percentage + '">' + result[count].VAT_percentage + '</option>';
                     }
                 }
             });
@@ -174,6 +174,8 @@
                 par.remove();
                 i--;
                 CalculateTotal();
+                CalculateTotalAmount();
+                CalculateTax();
             }
         };
 
@@ -381,7 +383,7 @@
         var totAmount = price * qty;
 
         var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
-        $(id).val(totAmount);
+        $(id).val(totAmount.toFixed(2));
         CalculateTotal();
         CalculateTotalAmount();
     }
@@ -396,9 +398,10 @@
         var totAmount = price * qty - ((price * qty) * dis / 100)
 
         var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
-        $(id).val(totAmount);
+        $(id).val(totAmount.toFixed(2));
 
-        CalculateDiscount();
+        CalculateTotal();
+        //CalculateDiscount();
         CalculateTotalAmount();
     }
 
@@ -420,12 +423,43 @@
     }
 
     function OnChangeDiscountSummary(currentDis) {
-        var totdis = currentDis.value;
-        var totdoc = $("#totalPurchase").val();
-        var tottax = $("#totalTax").val();
-        tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+        //var totdis = currentDis.value;
+        //var totdoc = $("#totalPurchase").val();
+        //var tottax = $("#totalTax").val();
+        //tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
 
-        $("#totalQuotationAmt").val(tot);
+        //$("#totalQuotationAmt").val(tot);
+
+        var percentage = 0;
+        var totdoc = 0;
+        var totdis = currentDis.value;
+        var tottax = 0;
+        var totline = 0;
+        var totminus = 0;
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val());
+            }
+        }
+
+        percentage = totdis / totdoc * 100;
+
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()))) {
+                totline = parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val() * percentage / 100);               
+                totminus = parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()) - totline;                
+                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()) / 100;               
+            }
+        }       
+
+        tot = (totdoc - totdis) + tottax;
+        
+        $("#totalTax").val(tottax.toFixed(2));
+        $("#totalQuotationAmt").val(tot.toFixed(2));
+
     }
 
     function CalculateTotal() {
@@ -442,7 +476,7 @@
             }
         }
         //}
-        $("#totalPurchase").val(tot);
+        $("#totalPurchase").val(tot.toFixed(2));
     }
 
     function CalculateDiscount() {
@@ -454,19 +488,25 @@
             }
         }
 
-        $("#totalDiscount").val(tot);
+        $("#totalDiscount").val(tot.toFixed(2));
     }
 
     function CalculateTax() {
         var tot = 0;
 
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()))) {
+        //        tot = parseFloat(tot) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val());
+        //    }
+        //}
+
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val());
+                tot = parseFloat(tot) + (parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
-        $("#totalTax").val(tot);
+        $("#totalTax").val(tot.toFixed(2));
     }
 
     function CalculateTotalAmountOLD() {
@@ -494,7 +534,7 @@
 
         tot = (totdoc - totdis) + tottax;
 
-        $("#totalQuotationAmt").val(tot);
+        $("#totalQuotationAmt").val(tot.toFixed(2));
     }
 
     function CalculateTotalAmount() {
@@ -508,11 +548,11 @@
             }
         }
 
-        for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val()))) {
-                totdis = parseFloat(totdis) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val());
-            }
-        }
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val()))) {
+        //        totdis = parseFloat(totdis) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val());
+        //    }
+        //}
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()))) {
@@ -520,9 +560,10 @@
             }
         }
 
-        tot = (totdoc - totdis) + tottax;
+        //tot = (totdoc - totdis) + tottax;
+        tot = totdoc + tottax;
 
-        $("#totalQuotationAmt").val(tot);
+        $("#totalQuotationAmt").val(tot.toFixed(2));
     }
 
 </script>
@@ -852,20 +893,20 @@
                                                             <tbody>
                                                                 @foreach (Troy.Model.Purchase.ViewPurchaseQuotation item in Model.PurchaseQuotationList)
                                                                 {
-                                                                <tr class="odd gradeX">
-                                                                    <td style="text-align:center;">@item.Purchase_Quote_Id</td>
-                                                                    <td>@item.Valid_Date</td>
-                                                                    <td style="text-align:center;">@item.Vendor_Name</td>
-                                                                    <td>@item.Quotation_Status</td>
-                                                                    <td>
-                                                                        @*<a href="#" class="top-right" data-toggle="modal" data-target="#viewPurQuoModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseQuotation(@item.Purchase_Quote_Id);">
-                                                                                <i class="im-eye2"></i>
-                                                                            </a>*@
-                                                                        <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseQuotation(@item.Purchase_Quote_Id);">
-                                                                            <i class="im-pencil2"></i>
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
+                                                                    <tr class="odd gradeX">
+                                                                        <td style="text-align:center;">@item.Purchase_Quote_Id</td>
+                                                                        <td>@item.Valid_Date</td>
+                                                                        <td style="text-align:center;">@item.Vendor_Name</td>
+                                                                        <td>@item.Quotation_Status</td>
+                                                                        <td>
+                                                                            @*<a href="#" class="top-right" data-toggle="modal" data-target="#viewPurQuoModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseQuotation(@item.Purchase_Quote_Id);">
+                                                                                    <i class="im-eye2"></i>
+                                                                                </a>*@
+                                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseQuotation(@item.Purchase_Quote_Id);">
+                                                                                <i class="im-pencil2"></i>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
                                                                 }
                                                             </tbody>
                                                         </table>
