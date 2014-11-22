@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 using Troy.Data.DataContext;
 using Troy.Model.Branches;
 using Troy.Model.BusinessPartners;
+using Troy.Model.Configuration;
 using Troy.Model.GPRO;
 using Troy.Model.Products;
+using Troy.Model.PurchaseOrders;
 using Troy.Utilities.CrossCutting;
 
 namespace Troy.Data.Repository
@@ -33,28 +35,41 @@ namespace Troy.Data.Repository
         private SAPOUTContext sapcontext = new SAPOUTContext();
 
 
-        public List<GoodsReceipt> GetallGoods()
+        public List<ViewGoodsReceipt> GetallGoods()
         {
-            List<GoodsReceipt> qList = new List<GoodsReceipt>();
+            List<ViewGoodsReceipt> qList = new List<ViewGoodsReceipt>();
 
 
-            var goods = (from p in goodscontext.goodsreceipt
-                         select p).ToList();
+            //var goods = (from p in goodscontext.goodsreceipt
+            //             select p).ToList();
 
-            //qList = (from p in goods
-            //         join b in goodscontext.businesspartner on p.Vendor equals b.BP_Id
-            //         select new ViewGoodsReceipt()
-            //         {
-            //             Goods_Receipt_Id = p.Goods_Receipt_Id,
-            //             Vendor = p.Vendor,
-            //             Vendor_Name=b.BP_Name,
-            //             Reference_Number = p.Reference_Number,
-            //             Doc_Status = p.Doc_Status,
-            //             Posting_Date = p.Posting_Date,
-            //             Due_Date = p.Due_Date
-            //         }).ToList();
+            qList = (from p in goodscontext.goodsreceipt
+                     join b in goodscontext.businesspartner on p.Vendor equals b.BP_Id
+                     join pd in goodscontext.purchaseorder on p.Purchase_Order_Id equals pd.Purchase_Order_Id
+                     join br in goodscontext.branch on p.Ship_To equals br.Branch_Id
+                      select new ViewGoodsReceipt()
+                     {
+                         Purchase_Order_Id = p.Purchase_Order_Id,
+                         BaseDocId = p.BaseDocId,
+                         TargetDocId = p.TargetDocId,
+                         Goods_Receipt_Id = p.Goods_Receipt_Id,
+                         Vendor_Name = b.BP_Name,
+                         Reference_Number = p.Reference_Number,
+                         Doc_Status = p.Doc_Status,
+                         Posting_Date = p.Posting_Date,
+                         Due_Date = p.Due_Date,
+                         Document_Date = p.Document_Date,
+                         Ship_To = p.Ship_To,
+                         Freight = p.Freight,
+                         Loading = p.Loading,
+                         TotalBefDocDisc = p.TotalBefDocDisc,
+                         DocDiscAmt = p.DocDiscAmt,
+                         TaxAmt = p.TaxAmt,
+                         TotalGRDocAmt = p.TotalGRDocAmt,
+                         Remarks = p.Remarks
+                     }).ToList();
 
-            return goods;
+            return qList;
         }
 
         //qList = (from p in goodscontext.goodsreceipt
@@ -94,6 +109,41 @@ namespace Troy.Data.Repository
         //}
 
 
+        public List<ViewPurchaseOrder> GetallGoodsItems()
+        {
+            List<ViewPurchaseOrder> qList = new List<ViewPurchaseOrder>();
+
+            qList = (from p in goodscontext.purchaseorder
+                     join b in goodscontext.businesspartner
+                      on p.Vendor equals b.BP_Id
+                     where p.Order_Status == "Open"
+                     select new ViewPurchaseOrder()
+                     {
+                         Purchase_Order_Id = p.Purchase_Order_Id,
+                         BaseDocId = p.BaseDocId,
+                         TargetDocId = p.TargetDocId,
+                         Purchase_Quote_Id = p.Purchase_Quote_Id,
+                         Vendor_Name = b.BP_Name,
+                         Reference_Number = p.Reference_Number,
+                         Order_Status = p.Order_Status,
+                         Posting_Date = p.Posting_Date,
+                         Delivery_Date = p.Delivery_Date,
+                         Document_Date = p.Document_Date,
+                         Ship_To = p.Ship_To,
+                         Freight = p.Freight,
+                         Loading = p.Loading,
+                         TotalBefDocDisc = p.TotalBefDocDisc,
+                         DocDiscAmt = p.DocDiscAmt,
+                         TaxAmt = p.TaxAmt,
+                         TotalOrdAmt = p.TotalOrdAmt,
+                         Remarks = p.Remarks
+                     }).ToList();
+
+            return qList;
+        }
+
+
+
         public List<BranchList> GetAddressbranchList()
         {
             var item = (from a in goodscontext.branch
@@ -121,14 +171,14 @@ namespace Troy.Data.Repository
         public GoodsReceipt FindOneQuotationById(int qId)
         {
             return (from p in goodscontext.goodsreceipt
-                    where p.Purchase_Order_Id == qId
+                    where p.Goods_Receipt_Id == qId
                     select p).FirstOrDefault();
         }
 
         public IList<GoodsReceiptItems> FindOneQuotationItemById(int qId)
         {
             return (from p in goodscontext.goodsreceiptitem
-                    where p.Product_id == qId
+                    where p.Goods_Receipt_Id == qId
                     select p).ToList();
         }
 
@@ -145,8 +195,54 @@ namespace Troy.Data.Repository
         //}
 
 
+        public List<ProductList> GetProductList()
+        {
+            var item = (from a in goodscontext.product
+                        select new ProductList
+                        {
+                            Product_Name = a.Product_Name,
+                            Product_Id = a.Product_Id
+                        }).ToList();
+
+            return item;
+        }
+
+        public List<VATList> GetVATList()
+        {
+            var item = (from a in goodscontext.vat
+                        select new VATList
+                        {
+                            VAT_Id = a.VAT_Id,
+                            VAT_percentage = a.VAT_percentage
+                        }).ToList();
+
+            return item;
+        }
+
+        public int GetProductPrice(int? productId)
+        {
+            int price = (from p in goodscontext.productorder
+                         where p.Product_Id == productId
+                         select p.Price).FirstOrDefault();
+
+            return price;
+        }
 
 
+
+        public PurchaseOrder FindOneQuotationById1(int qId)
+        {
+            return (from p in goodscontext.purchaseorder
+                    where p.Purchase_Order_Id == qId
+                    select p).FirstOrDefault();
+        }
+
+        public IList<PurchaseOrderItems> FindOneQuotationItemById1(int qId)
+        {
+            return (from p in goodscontext.purchaseorderitem
+                    where p.Purchase_Order_Id == qId
+                    select p).ToList();
+        }
 
 
         public bool AddNewQuotation(GoodsReceipt Goodsreceipt, IList<GoodsReceiptItems> GoodsItemList, ref string ErrorMessage)

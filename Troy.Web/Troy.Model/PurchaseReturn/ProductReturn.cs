@@ -1,68 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading.Tasks;
-using Troy.Model.Purchase;
+using System.ComponentModel.DataAnnotations.Schema;
+using Troy.Model.PurchaseInvoices;
 
-namespace Troy.Model.PurchaseOrders
+namespace Troy.Model.PurchaseReturn
 {
-    [Table("tblPurchaseOrder")]
-    public class PurchaseOrder
+    [Table("tblPurchaseReturn")]
+    public class PurchaseReturn
     {
         [Key]
         [Required]
-
-        public int Purchase_Order_Id { get; set; }
-        //[ForeignKey("Purchase_Order_Id")]
-        //public virtual PurchaseOrder purchaseorder { get; set; }
-        //-----------
+        public int Purchase_Return_Id { get; set; }
+        //------
 
         [Required]
         public int BaseDocId { get; set; }
-        //----------
+        //------
 
         [Required]
-        public int TargetDocId { get; set; }
-        //------------
-
-        //[ForeignKey("purchaseQuotation")]
-        public int Purchase_Quote_Id { get; set; }
-        //public virtual PurchaseQuotation purchaseQuotation { get; set; }
-        //-----
+        public int Purchase_Invoice_Id { get; set; }
+       // [ForeignKey("Purchase_Invoice_Id")]
+        //  public virtual
+        //------
 
         [Required]
         public int Vendor { get; set; }
-        //-----------
-
-        [Required(ErrorMessage = "Reference Number is required.")]
-        [StringLength(30)]
-        public string Reference_Number { get; set; }
-        //-----------
+        //------
 
         [Required]
-        [StringLength(15)]
-        public string Order_Status { get; set; }
-        //-----------
+        [StringLength(30)]
+        public string Reference_Number { get; set; }
+        //------
 
-        [Required(ErrorMessage = "Posting Date is required.")]
+        [Required]
+        [StringLength(30)]
+        public string Doc_Status { get; set; }
+        //------
+
+        [Required]
         public DateTime Posting_Date { get; set; }
         //------
 
-        [Required(ErrorMessage = "Delivery Date is required.")]
-        public DateTime Delivery_Date { get; set; }
-        //------
-
-        [Required(ErrorMessage = "Document Date is required.")]
-        public DateTime Document_Date { get; set; }
+        [Required]
+        public DateTime Due_Date { get; set; }
         //------
 
         [Required]
+        public DateTime Document_Date { get; set; }
+        //------
+        [Required]
         public int Ship_To { get; set; }
         //------
-
         public decimal Freight { get; set; }
         //------
 
@@ -70,10 +62,9 @@ namespace Troy.Model.PurchaseOrders
         //------
 
         [Required]
-        [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Invalid Total Before Document Discount Amount")]
         public decimal TotalBefDocDisc { get; set; }
         //------
-        [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Invalid Document Discount Amount")]
+
         public decimal DocDiscAmt { get; set; }
         //------
 
@@ -82,7 +73,7 @@ namespace Troy.Model.PurchaseOrders
         //------
 
         [Required]
-        public decimal TotalOrdAmt { get; set; }
+        public decimal TotalPurRtnAmt { get; set; }
         //------
 
         public string Remarks { get; set; }
@@ -113,7 +104,5 @@ namespace Troy.Model.PurchaseOrders
         [Column(TypeName = "date")]
         public DateTime? Modified_Date { get; set; }
         //------
-        [NotMapped]
-        public string Distribute_LandedCost { get; set; }
     }
 }

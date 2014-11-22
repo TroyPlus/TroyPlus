@@ -6,46 +6,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Troy.Model.Products;
-using Troy.Model.Configuration;
 
-namespace Troy.Model.PurchaseOrders
+namespace Troy.Model.PurchaseReturn
 {
-    [Table("tblPurchaseOrderItems")]
-    public class PurchaseOrderItems
+     [Table("tblPurchaseReturnitems")]
+    public class PurchaseReturnitems
     {
         [Key]
         [Required]
-        public int Purchase_Order_Id { get; set; }
-        //[ForeignKey("Purchase_Order_Id")]
-        //public virtual PurchaseOrder purchaseorder { get; set; }
+        public int Purchase_Return_Id { get; set; }
+       // [ForeignKey("Purchase_Return_Id")]
+        //public virtual PurchaseReturnitems purchasereturnItems { get; set; }
         //-----------
 
-        [Required(ErrorMessage = "Item is required.")]
+        [Required]
         public int Product_id { get; set; }
-        [ForeignKey("Product_id")]
-        public virtual Product product { get; set; }
+        //[ForeignKey("Product_id")]
+        //public virtual Product product { get; set; }
         //-----------
 
-        [Required(ErrorMessage = "Quantity is required.")]
+
+        [Required]
         public int Quantity { get; set; }
         //-----------
 
-        public int Received_Qty { get; set; }
-        //-----------
 
-        [Required(ErrorMessage = "Unit Price is required.")]
+        [Required]
         public decimal Unit_price { get; set; }
         //-----------
 
         [Required]
-        [Range(0, 100)]
         public decimal Discount_percent { get; set; }
         //-----------
 
-        [Required(ErrorMessage = "VAT Code is required.")]
+        [Required]
         public int Vat_Code { get; set; }
-        //[ForeignKey("Vat_Code")]
-        //public virtual VAT vat { get; set; }
+        //-----------
+
+        [Required]
+        public decimal Freight_Loading { get; set; }
         //-----------
 
         [Required]
@@ -57,11 +56,7 @@ namespace Troy.Model.PurchaseOrders
         [Column(TypeName = "char")]
         public string BaseDocLink { get; set; }
         //------
-
         [NotMapped]
         public int IsDummy { get; set; }
-
-        [NotMapped]
-        public string Freight_Loading { get; set; }
     }
 }

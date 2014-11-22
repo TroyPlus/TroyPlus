@@ -5,14 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Troy.Model.Branches;
 using Troy.Model.BusinessPartners;
+using Troy.Model.Configuration;
 using Troy.Model.GPRO;
 using Troy.Model.Products;
+using Troy.Model.PurchaseOrders;
 
 namespace Troy.Data.Repository
 {
   public interface IGoodsReceiptRepository
     {
-      List<GoodsReceipt> GetallGoods();
+      List<ViewGoodsReceipt> GetallGoods();
 
       List<BranchList> GetAddressbranchList();
 
@@ -23,6 +25,18 @@ namespace Troy.Data.Repository
       GoodsReceipt FindOneQuotationById(int qId);
 
       IList<GoodsReceiptItems> FindOneQuotationItemById(int qId);
+
+      List<VATList> GetVATList();
+
+      List<ProductList> GetProductList();
+
+      List<ViewPurchaseOrder> GetallGoodsItems();
+
+      PurchaseOrder FindOneQuotationById1(int qId);
+
+      IList<PurchaseOrderItems> FindOneQuotationItemById1(int qId);
+
+      int GetProductPrice(int? productId);
 
       bool AddNewQuotation(GoodsReceipt Goodsreceipt, IList<GoodsReceiptItems> GoodsItemList, ref string ErrorMessage);
 

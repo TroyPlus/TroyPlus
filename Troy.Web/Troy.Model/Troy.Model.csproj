@@ -124,6 +124,9 @@
     <Compile Include="Employees\ViewEmployee.cs" />
     <Compile Include="Genders\Gender.cs" />
     <Compile Include="Genders\GenderList.cs" />
+    <Compile Include="GRPOReturns\GoodsReturn.cs" />
+    <Compile Include="GRPOReturns\GoodsReturnitems.cs" />
+    <Compile Include="GRPOReturns\ViewGoodsReturn.cs" />
     <Compile Include="GRPO\GoodsReceipt.cs" />
     <Compile Include="GRPO\GoodsReceiptItems.cs" />
     <Compile Include="GRPO\ViewGoodsReceipt.cs" />
@@ -153,6 +156,9 @@
     <Compile Include="PurchaseOrders\PurchaseOrder.cs" />
     <Compile Include="PurchaseOrders\PurchaseOrderItems.cs" />
     <Compile Include="PurchaseOrders\ViewPurchaseOrder.cs" />
+    <Compile Include="PurchaseReturn\ProductReturn.cs" />
+    <Compile Include="PurchaseReturn\PurchaseReturnitems.cs" />
+    <Compile Include="PurchaseReturn\ViewPurchaseReturn.cs" />
     <Compile Include="Purchase\PurchaseQuotation.cs" />
     <Compile Include="Purchase\PurchaseQuotationItem.cs" />
     <Compile Include="Purchase\ViewPurchaseQuotation.cs" />
