@@ -20,16 +20,16 @@ namespace Troy.Web.Controllers
     {
         #region Fields
         private readonly IGoodsReceiptRepository goodsrepository;
-      //  private readonly IConfigurationRepository configurationRepository;
+        //  private readonly IConfigurationRepository configurationRepository;
 
         private GoodsReceiptContext goodscontext = new GoodsReceiptContext();
         public string Temp_Purchase;
         private string ErrorMessage = string.Empty;
 
         #endregion
-      //  private GoodsReceiptContext db = new GoodsReceiptContext();
+        //  private GoodsReceiptContext db = new GoodsReceiptContext();
 
-          #region Constructor
+        #region Constructor
         //inject dependency
         public GoodsReceiptController(IGoodsReceiptRepository grepository)
         {
@@ -38,8 +38,6 @@ namespace Troy.Web.Controllers
         #endregion
 
         public ActionResult Index()
-        
-        
         {
 
             try
@@ -66,7 +64,7 @@ namespace Troy.Web.Controllers
 
                 //model.CityList = branchRepository.GetAddresscityList().ToList();
 
-             
+
 
                 return View(model);
             }
@@ -88,18 +86,33 @@ namespace Troy.Web.Controllers
         {
             try
             {
-               
+
                 if (submitButton == "Save")
                 {
-                    model.goodreceipt.Doc_Status="Open";
+                    model.goodreceipt.Doc_Status = "Open";
                     model.goodreceipt.Created_Branc_Id = 1;//CurrentBranchId;
                     model.goodreceipt.Created_Dte = DateTime.Now;
                     model.goodreceipt.Created_User_Id = 1;//CurrentUser.Id;
-                   // model.goodreceipt.Distribute_LandedCost = "equality";
+                    model.goodreceipt.Purchase_Order_Id = model.PurchaseOrder.Purchase_Order_Id;
+                    model.goodreceipt.Reference_Number = model.PurchaseOrder.Reference_Number;
+                    model.goodreceipt.Vendor = model.PurchaseOrder.Vendor;
+                    model.goodreceipt.Doc_Status = model.PurchaseOrder.Order_Status;
+                    model.goodreceipt.Posting_Date = model.PurchaseOrder.Posting_Date;
+                    model.goodreceipt.Due_Date = model.PurchaseOrder.Delivery_Date;
+                    model.goodreceipt.Document_Date = model.PurchaseOrder.Document_Date;
+                    model.goodreceipt.Ship_To = model.PurchaseOrder.Ship_To;
+                    model.goodreceipt.Freight = model.PurchaseOrder.Freight;
+                    model.goodreceipt.Loading = model.PurchaseOrder.Loading;
+                    model.goodreceipt.TotalBefDocDisc = model.PurchaseOrder.TotalBefDocDisc;
+                    model.goodreceipt.DocDiscAmt = model.PurchaseOrder.DocDiscAmt;
+                    model.goodreceipt.TotalGRDocAmt = model.PurchaseOrder.TotalOrdAmt;
+                    model.goodreceipt.TaxAmt = model.PurchaseOrder.TaxAmt;
+
+                    // model.goodreceipt.Distribute_LandedCost = "equality";
                     //if (model.goodreceipt.Distribute_LandedCost == "Equality")
                     //{
                     //    double a = Convert.ToDouble(model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count);
-                    //}
+                    //}Purchase_Order_Id
                     //else if(model.goodreceipt.Distribute_LandedCost=="Quantity")
                     //{
                     //    double b = Convert.ToDouble(model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count *(model.goodreceiptitemlist.FirstOrDefault().LineTotal));
@@ -116,9 +129,16 @@ namespace Troy.Web.Controllers
                     for (int i = 0; i < model.goodreceiptitemlist.Count; i++)
                     {
                         model.goodreceiptitemlist[i].BaseDocLink = "N";
-                        
+                        model.goodreceiptitemlist[i].Product_id = model.PurchaseOrderItemsList[i].Product_id;
+                        model.goodreceiptitemlist[i].Quantity = model.PurchaseOrderItemsList[i].Quantity;
+                        model.goodreceiptitemlist[i].Unit_price = model.PurchaseOrderItemsList[i].Unit_price;
+                        model.goodreceiptitemlist[i].Discount_percent = model.PurchaseOrderItemsList[i].Discount_percent;
+                        model.goodreceiptitemlist[i].Vat_Code = model.PurchaseOrderItemsList[i].Vat_Code;
+                        model.goodreceiptitemlist[i].Freight_Loading =Convert.ToDecimal(model.PurchaseOrderItemsList[i].Freight_Loading);
+
                     }
-                 
+
+
 
                     if (goodsrepository.AddNewQuotation(model.goodreceipt, model.goodreceiptitemlist, ref ErrorMessage))
                     {
@@ -132,28 +152,28 @@ namespace Troy.Web.Controllers
 
                 }
                 else if (submitButton == "Update")
+                {
+                    model.goodreceipt.Modified_Branch_Id = 1;//CurrentBranchId;
+                    model.goodreceipt.Modified_Dte = DateTime.Now;
+                    model.goodreceipt.Modified_User_Id = 1;//CurrentUser.Id;
+
+                    for (int i = 0; i < model.goodreceiptitemlist.Count; i++)
                     {
-                        model.goodreceipt.Modified_Branch_Id = 1;//CurrentBranchId;
-                        model.goodreceipt.Modified_Dte = DateTime.Now;
-                        model.goodreceipt.Modified_User_Id = 1;//CurrentUser.Id;
-
-                        for (int i = 0; i < model.goodreceiptitemlist.Count; i++)
-                        {
-                            model.goodreceiptitemlist[i].BaseDocLink = "N";
-                        }
-                        if (goodsrepository.UpdateQuotation(model.goodreceipt, model.goodreceiptitemlist, ref ErrorMessage))
-                        {
-                            return RedirectToAction("Index", "GoodsReceipt");
-                        }
-                        else
-                        {
-                            ViewBag.AppErrorMessage = ErrorMessage;
-                            return View("Error");
-                        }
+                        model.goodreceiptitemlist[i].BaseDocLink = "N";
                     }
+                    if (goodsrepository.UpdateQuotation(model.goodreceipt, model.goodreceiptitemlist, ref ErrorMessage))
+                    {
+                        return RedirectToAction("Index", "GoodsReceipt");
+                    }
+                    else
+                    {
+                        ViewBag.AppErrorMessage = ErrorMessage;
+                        return View("Error");
+                    }
+                }
 
-                    return RedirectToAction("Index", "GoodsReceipt");
-               
+                return RedirectToAction("Index", "GoodsReceipt");
+
             }
             catch (OptimisticConcurrencyException ex)
             {
@@ -181,7 +201,7 @@ namespace Troy.Web.Controllers
                 model.PurchaseOrderItemsList = goodsrepository.FindOneQuotationItemById1(id);
 
 
-               // model.goodreceiptlist = goodsrepository.GetallGoods();
+                // model.goodreceiptlist = goodsrepository.GetallGoods();
 
                 model.BranchList = goodsrepository.GetAddressbranchList().ToList();
 
@@ -277,11 +297,11 @@ namespace Troy.Web.Controllers
                 model.goodreceiptitemlist = goodsrepository.FindOneQuotationItemById(id);
                 model.BranchList = goodsrepository.GetAddressbranchList().ToList();
                 model.BussinessList = goodsrepository.GetAddressbusinessList().ToList();
-               // model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
-               //  model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
-               // model.BranchList = purchaseDb.GetAddressList().ToList();
-               // model.BussinessList = purchaseDb.GetVendorList();
-              
+                // model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
+                //  model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
+                // model.BranchList = purchaseDb.GetAddressList().ToList();
+                // model.BussinessList = purchaseDb.GetVendorList();
+
                 return PartialView(model);
             }
             catch (Exception ex)

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -82,6 +84,115 @@ namespace Troy.Web.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult Index(string submitButton, GoodsReturnViewModels model, HttpPostedFileBase file = null)
+        {
+            try
+            {
+
+                if (submitButton == "Save")
+                {
+                    model.goodreturn.Doc_Status = "Open";
+                    model.goodreturn.Created_Branc_Id = 1;//CurrentBranchId;
+                    model.goodreturn.Created_Dte = DateTime.Now;
+                    model.goodreturn.Created_User_Id = 1;//CurrentUser.Id;
+                    model.goodreturn.Goods_Receipt_Id = model.goodreceipt.Goods_Receipt_Id;
+                    model.goodreturn.Vendor = model.goodreceipt.Vendor;
+                    model.goodreturn.Doc_Status = model.goodreceipt.Doc_Status;
+                    model.goodreturn.Posting_Date = model.goodreceipt.Posting_Date;
+                    model.goodreturn.Due_Date = model.goodreceipt.Due_Date;
+                    model.goodreturn.Document_Date = model.goodreceipt.Document_Date;
+                    model.goodreturn.Ship_To = model.goodreceipt.Ship_To;
+                    model.goodreturn.Freight = model.goodreceipt.Freight;
+                    model.goodreturn.Loading = model.goodreceipt.Loading;
+                    model.goodreturn.TotalBefDocDisc = model.goodreceipt.TotalBefDocDisc;
+                    model.goodreturn.DocDiscAmt = model.goodreceipt.DocDiscAmt;
+                    model.goodreturn.TaxAmt = model.goodreceipt.TaxAmt;
+                    model.goodreturn.TotalGRDocAmt = model.goodreceipt.TotalGRDocAmt;
+                    model.goodreturn.Reference_Number = model.goodreceipt.Reference_Number;
+                    // model.goodreceipt.Distribute_LandedCost = "equality";
+                    //if (model.goodreceipt.Distribute_LandedCost == "Equality")
+                    //{
+                    //    double a = Convert.ToDouble(model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count);
+                    //}
+                    //else if(model.goodreceipt.Distribute_LandedCost=="Quantity")
+                    //{
+                    //    double b = Convert.ToDouble(model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count *(model.goodreceiptitemlist.FirstOrDefault().LineTotal));
+                    //}
+                    //else
+                    //{
+                    //    double c = Convert.ToDouble((model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count) - (model.goodreceiptitem.Quantity * model.goodreceiptitem.Unit_price)*model.goodreceiptitem.Discount_percent);
+                    //}
+
+
+
+                    var GoodsList = model.goodreturnitemlist.Where(x => x.IsDummy == 0);
+                    model.goodreturnitemlist = GoodsList.ToList();
+
+                    for (int i = 0; i < model.goodreturnitemlist.Count; i++)
+                    {
+                        model.goodreturnitemlist[i].BaseDocLink = "N";
+                        model.goodreturnitemlist[i].Product_id = model.goodreceiptitemlist[i].Product_id;
+                        model.goodreturnitemlist[i].Quantity = model.goodreceiptitemlist[i].Quantity;
+                        model.goodreturnitemlist[i].Unit_price = model.goodreceiptitemlist[i].Unit_price;
+                        model.goodreturnitemlist[i].Discount_percent = model.goodreceiptitemlist[i].Discount_percent;
+                        model.goodreturnitemlist[i].Vat_Code = model.goodreceiptitemlist[i].Vat_Code;
+                        model.goodreturnitemlist[i].Freight_Loading = model.goodreceiptitemlist[i].Freight_Loading;
+                        model.goodreturnitemlist[i].LineTotal = model.goodreceiptitemlist[i].LineTotal;
+
+                    }           
+
+                    if (goodsreturnrepository.AddNewQuotation(model.goodreturn, model.goodreturnitemlist, ref ErrorMessage))
+                    {
+                        return RedirectToAction("Index", "GoodsReturn");
+                    }
+                    else
+                    {
+                        ViewBag.AppErrorMessage = ErrorMessage;
+                        return View("Error");
+                    }
+
+                }
+                else if (submitButton == "Update")
+                {
+                    model.goodreturn.Modified_Branch_Id = 1;//CurrentBranchId;
+                    model.goodreturn.Modified_Dte = DateTime.Now;
+                    model.goodreturn.Modified_User_Id = 1;//CurrentUser.Id;
+
+                    for (int i = 0; i < model.goodreceiptitemlist.Count; i++)
+                    {
+                        model.goodreceiptitemlist[i].BaseDocLink = "N";
+                    }
+                    if (goodsreturnrepository.UpdateQuotation(model.goodreturn, model.goodreturnitemlist, ref ErrorMessage))
+                    {
+                        return RedirectToAction("Index", "GoodsReceipt");
+                    }
+                    else
+                    {
+                        ViewBag.AppErrorMessage = ErrorMessage;
+                        return View("Error");
+                    }
+                }
+
+                return RedirectToAction("Index", "GoodsReceipt");
+
+            }
+            catch (OptimisticConcurrencyException ex)
+            {
+                ObjectStateEntry entry = ex.StateEntries[0];
+                GoodsReturn post = entry.Entity as GoodsReturn; //Post is the entity name he is using. Rename it with yours
+                Console.WriteLine("Failed to save {0} because it was changed in the database", post.Goods_Return_Id);
+                return View("Error");
+            }
+            //catch (Exception ex)
+            //{
+            //    ExceptionHandler.LogException(ex);
+            //    ViewBag.AppErrorMessage = ex.Message;
+            //    return View("Error");
+            //}
+        }
+
+
 
         public PartialViewResult _ViewGoodsReceipt(int id)
         {
@@ -141,6 +252,37 @@ namespace Troy.Web.Controllers
             var productList = goodsreturnrepository.GetProductList();
 
             return Json(productList, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public PartialViewResult _CreatePartial()
+        {
+            return PartialView();
+        }
+
+
+        public PartialViewResult _EditPartial(int id)
+        {
+            try
+            {
+                GoodsReturnViewModels model = new GoodsReturnViewModels();
+                model.goodreturn = goodsreturnrepository.FindOneQuotationById(id);
+                model.goodreturnitemlist = goodsreturnrepository.FindOneQuotationItemById(id);
+                model.BranchList = goodsreturnrepository.GetAddressbranchList().ToList();
+                model.BussinessList = goodsreturnrepository.GetAddressbusinessList().ToList();
+                // model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
+                //  model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
+                // model.BranchList = purchaseDb.GetAddressList().ToList();
+                // model.BussinessList = purchaseDb.GetVendorList();
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
         }
     }
 }

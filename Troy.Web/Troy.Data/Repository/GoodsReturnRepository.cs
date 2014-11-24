@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +45,7 @@ namespace Troy.Data.Repository
                          Goods_Receipt_Id = gr.Goods_Receipt_Id,
                          Vendor = bp.BP_Id,
                          Ship_To = b.Branch_Id,
+                         Vendor_Name=bp.BP_Name,
                          Reference_Number = r.Reference_Number,
                          Doc_Status = r.Doc_Status,
                          Posting_Date = r.Posting_Date,
@@ -103,6 +106,20 @@ namespace Troy.Data.Repository
             return qList;
         }
 
+
+        public GoodsReturn FindOneQuotationById(int qId)
+        {
+            return (from p in goodsreturncontext.goodsreturn
+                    where p.Goods_Return_Id == qId
+                    select p).FirstOrDefault();
+        }
+
+        public IList<GoodsReturnitems> FindOneQuotationItemById(int qId)
+        {
+            return (from p in goodsreturncontext.goodsreturnitem
+                    where p.Goods_Return_Id == qId
+                    select p).ToList();
+        }
 
 
         public List<BranchList> GetAddressbranchList()
@@ -178,6 +195,173 @@ namespace Troy.Data.Repository
                          select p.Price).FirstOrDefault();
 
             return price;
+        }
+
+
+
+        public bool AddNewQuotation(GoodsReturn Goodsreturn, IList<GoodsReturnitems> GoodsreturnItemList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                goodsreturncontext.goodsreturn.Add(Goodsreturn);
+                goodsreturncontext.SaveChanges();
+
+                int currentId = Goodsreturn.Goods_Receipt_Id;
+
+                for (int i = 0; i < GoodsreturnItemList.Count; i++)
+                {
+                    GoodsreturnItemList[i].Goods_Return_Id = currentId;
+                }
+
+                goodsreturncontext.goodsreturnitem.AddRange(GoodsreturnItemList);
+
+                goodsreturncontext.SaveChanges();
+
+                return true;
+            }
+
+            catch (DbEntityValidationException dbEx)
+            {
+                var errorList = new List<string>();
+
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+                    }
+                }
+                return false;
+            }
+            //catch (Exception ex)
+            //{
+            //    ExceptionHandler.LogException(ex);
+            //    ErrorMessage = ex.Message;
+            //    return false;
+            //}
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //public bool AddNewQuotation(GoodsReturn Goodsreturn, IList<GoodsReturnitems> GoodsreturnItemList, ref string ErrorMessage)
+        //{
+        //    ErrorMessage = string.Empty;
+        //    try
+        //    {
+        //        goodsreturncontext.goodsreturn.Add(Goodsreturn);
+
+        //        goodscontext.SaveChanges();
+
+        //        int currentId = Goodsreturn.Goods_Receipt_Id;
+
+        //        for (int i = 0; i < GoodsreturnItemList.Count; i++)
+        //        {
+        //            GoodsreturnItemList[i].Goods_Return_Id = currentId;
+        //        }
+
+        //        goodsreturncontext.goodsreturnitem.AddRange(GoodsreturnItemList);
+
+        //        goodsreturncontext.SaveChanges();
+
+        //        return true;
+        //    }
+
+        //    catch (DbEntityValidationException dbEx)
+        //    {
+        //        var errorList = new List<string>();
+
+        //        foreach (var validationErrors in dbEx.EntityValidationErrors)
+        //        {
+        //            foreach (var validationError in validationErrors.ValidationErrors)
+        //            {
+        //                errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+        //            }
+        //        }
+        //        return false;
+        //    }
+        //    //catch (Exception ex)
+        //    //{
+        //    //    ExceptionHandler.LogException(ex);
+        //    //    ErrorMessage = ex.Message;
+        //    //    return false;
+        //    //}
+        //}
+
+
+
+
+
+
+        public bool UpdateQuotation(GoodsReturn Goodsreturn, IList<GoodsReturnitems> GoodsreturnItemList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                goodsreturncontext.Entry(Goodsreturn).State = EntityState.Modified;
+                goodsreturncontext.SaveChanges();
+
+                foreach (var model in GoodsreturnItemList)
+                {
+                    if (model.IsDummy == 1)
+                    {
+                        goodsreturncontext.Entry(model).State = EntityState.Deleted;
+                        goodsreturncontext.SaveChanges();
+                    }
+                    else
+                    {
+                        if (model.Goods_Return_Id == 0)
+                        {
+                            model.Goods_Return_Id = Goodsreturn.Goods_Receipt_Id;
+                            goodsreturncontext.goodsreturnitem.Add(model);
+                            goodsreturncontext.SaveChanges();
+                        }
+                        else
+                        {
+                            goodsreturncontext.Entry(model).State = EntityState.Modified;
+                            goodsreturncontext.SaveChanges();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                var errorList = new List<string>();
+
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+                    }
+                }
+                return false;
+            }
+
+
+
         }
     }
 }
