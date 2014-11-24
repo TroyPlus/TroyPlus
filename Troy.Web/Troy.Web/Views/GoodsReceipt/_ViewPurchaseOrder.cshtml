@@ -625,7 +625,8 @@
                                                         <td width="20%">
                                                             @*@Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })*@
 
-                                                            @Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Product_id, new SelectList(Model.productlist.AsEnumerable(), "Product_Id", "Product_Name"), "", new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
+                                                            @Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Product_id, new SelectList(Model.productlist.AsEnumerable(), "Product_Id", "Product_Name", Model.PurchaseOrderItemsList[i].Product_id), new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
+                                                            @*@Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Product_id, new SelectList(Model.productlist.AsEnumerable(), "Product_Id", "Product_Name"), "", new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })*@
                                                             @*@Html.TextBoxFor(model => model.goodreceiptitemlist[i].Product_id, new { @class = "form-control control-text" })*@
                                                             @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Product_id)
                                                         </td>
@@ -650,7 +651,8 @@
                                                                 @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Freight_Loading)
                                                             </td>*@
                                                         <td width="10%">
-                                                            @Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage"), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
+                                                            @Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage", Model.PurchaseOrderItemsList[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");" })
+                                                            @*@Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage"), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })*@
                                                             @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Vat_Code)
                                                         </td>
                                                         <td>

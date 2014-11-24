@@ -16,6 +16,10 @@ namespace Troy.Data.Repository
     {
        List<ViewGoodsReturn> GetallGoodsreturn();
 
+       GoodsReturn FindOneQuotationById(int qId);
+
+       IList<GoodsReturnitems> FindOneQuotationItemById(int qId);
+
        List<BranchList> GetAddressbranchList();
 
        List<BussinessList> GetAddressbusinessList();
@@ -32,5 +36,14 @@ namespace Troy.Data.Repository
 
        int GetProductPrice(int? productId);
 
+     // bool AddNewQuotation(GoodsReturn Goodsreturn, GoodsReceipt goodsreceipt, IList<GoodsReturnitems> GoodsreturnItemList, IList<GoodsReceiptItems> goodsreceiptitems, ref string ErrorMessage);
+      // bool AddNewQuotation(GoodsReceipt Goodsreceipt, IList<GoodsReceiptItems> GoodsItemList, ref string ErrorMessage);
+
+       bool AddNewQuotation(GoodsReturn Goodsreturn, IList<GoodsReturnitems> GoodsreturnItemList, ref string ErrorMessage);
+
+       bool UpdateQuotation(GoodsReturn Goodsreturn, IList<GoodsReturnitems> GoodsreturnItemList, ref string ErrorMessage);
+
+
+      // bool AddNewQuotation(GoodsReturn goodsReturn, IList<GoodsReturnitems> list1, GoodsReceipt goodsReceipt, IList<GoodsReceiptItems> list2, ref string ErrorMessage);
     }
 }

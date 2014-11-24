@@ -258,7 +258,7 @@ namespace Troy.Data.Repository
 
                 for (int i = 0; i < GoodsItemList.Count; i++)
                 {
-                    GoodsItemList[i].Product_id = currentId;
+                    GoodsItemList[i].Goods_Receipt_Id = currentId;
                 }
 
                 goodscontext.goodsreceiptitem.AddRange(GoodsItemList);
@@ -288,6 +288,9 @@ namespace Troy.Data.Repository
             //    return false;
             //}
         }
+
+
+
         public bool UpdateQuotation(GoodsReceipt Goodsreceipt, IList<GoodsReceiptItems> GoodsItemList, ref string ErrorMessage)
         {
             ErrorMessage = string.Empty;
