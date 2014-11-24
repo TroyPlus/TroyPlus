@@ -190,24 +190,24 @@ namespace Troy.Data.Repository
 
         }
 
-        public bool AddNewQuotation(PurchaseOrder Quotation, IList<PurchaseOrderItems> QuotationItemList, ref string ErrorMessage)
+        public bool AddNewPurchaseOrder(PurchaseOrder Order, IList<PurchaseOrderItems> OrderItemList, ref string ErrorMessage)
         {
             ErrorMessage = string.Empty;
             try
             {
-                purchaseordercontext.purchaseorder.Add(Quotation);
+                purchaseordercontext.purchaseorder.Add(Order);
 
                 purchaseordercontext.SaveChanges();
 
-                int currentId = Quotation.Purchase_Order_Id;
+                int currentId = Order.Purchase_Order_Id;
 
-                for (int i = 0; i < QuotationItemList.Count; i++)
+                for (int i = 0; i < OrderItemList.Count; i++)
                 {
-                    QuotationItemList[i].Purchase_Order_Id = currentId;
-                    QuotationItemList[i].BaseDocLink = "Y";
+                    OrderItemList[i].Purchase_Order_Id = currentId;
+                    OrderItemList[i].BaseDocLink = "Y";
                 }
 
-                purchaseordercontext.purchaseorderitems.AddRange(QuotationItemList);
+                purchaseordercontext.purchaseorderitems.AddRange(OrderItemList);
 
                 purchaseordercontext.SaveChanges();
 

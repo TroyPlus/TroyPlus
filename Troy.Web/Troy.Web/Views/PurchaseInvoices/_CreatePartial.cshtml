@@ -68,7 +68,7 @@
                                                 <div class="col-md-8">
                                                     @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
                                                     @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker", @id = "crePostingDate" })*@
-                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Posting_Date, new { @class = "form-control control-text datePicker" })
+                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseInvoice.Posting_Date)
                                                 </div>
                                             </div>
@@ -78,7 +78,7 @@
                                                     Due Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Due_Date, new { @class = "form-control control-text datePicker" })
+                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Due_Date, new { @class = "form-control control-text", @id = "creDueDate" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseInvoice.Due_Date)
                                                 </div>
                                             </div>
@@ -87,7 +87,7 @@
                                                     Document Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Document_Date, new { @class = "form-control control-text datePicker" })
+                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseInvoice.Document_Date)
                                                 </div>
                                             </div>
@@ -132,7 +132,13 @@
                                                     Distirbuted Land Cost
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Distribute_LandedCost, new { @class = "form-control control-text" })
+                                                    @*@Html.TextBoxFor(model => model.PurchaseInvoice.Distribute_LandedCost, new { @class = "form-control control-text" })*@
+                                                    @Html.DropDownListFor(model => model.PurchaseInvoice.Distribute_LandedCost, new List<SelectListItem>
+                                                         {
+                                                            new SelectListItem{ Text="Equally", Value = "Equally" },
+                                                            new SelectListItem{ Text="Quantity", Value = "Quantity" },
+                                                            new SelectListItem{ Text="Cost", Value = "Cost" }
+                                                         }, new { @class = "form-control"})
                                                     @Html.ValidationMessageFor(model => model.PurchaseInvoice.Distribute_LandedCost)
                                                 </div>
                                             </div>

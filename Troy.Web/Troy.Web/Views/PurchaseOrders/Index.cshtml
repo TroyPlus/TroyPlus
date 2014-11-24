@@ -13,11 +13,11 @@
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
         $('#creDocumentDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
         $('#crePostingDate').datepicker({
-            minDate: 0
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
         $("#typeahead").jAutochecklist({
@@ -58,9 +58,9 @@
                             '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="PurchaseOrderItemsList_' + i + '__Discount_percent" name="PurchaseOrderItemsList[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
                         '</td>' +
-                         '<td>' +     
+                         '<td>' +
                              selectHtml1 +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList_[' + i + '].__Vat_Code" data-valmsg-replace="true"></span>' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList_[' + i + '].__Vat_Code" onkeyup="OnChangeVAT(this, ' + i + ');" data-valmsg-replace="true"></span>' +
                         '</td>' +
                          '<td>' +
                             '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseOrderItemsList_' + i + '__LineTotal" name="PurchaseOrderItemsList[' + i + '].LineTotal" readonly="True" type="text" value="">' +
@@ -119,13 +119,12 @@
             return selectHtml;
         }
 
-        function CreateVATSelect(rowID)
-        {
-            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="PurchaseOrderItemsList_' + rowID + '__VAT_Id" name="PurchaseOrderItemsList[' + rowID + '].VAT_Id" onchange="OnChangeVAT();" >';
+        function CreateVATSelect(rowID) {
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="PurchaseOrderItemsList_' + rowID + '__Vat_Code" name="PurchaseOrderItemsList[' + rowID + '].Vat_Code" onchange="OnChangeVAT();" >';
             selectHtml += '<option value=""></option>';
 
 
-            var dataUrl =  "/PurchaseOrders/GetVATList";
+            var dataUrl = "/PurchaseOrders/GetVATList";
 
             $.ajax({
                 type: 'GET',
@@ -140,7 +139,7 @@
                 success: function (result, status) {
                     //debugger;
                     for (var count = 0; count < result.length; count++) {
-                        selectHtml += '<option value="' + result[count].VAT_Id + '">' + result[count].VAT_percentage + '</option>';
+                        selectHtml += '<option value="' + result[count].VAT_percentage + '">' + result[count].VAT_percentage + '</option>';
                     }
                 }
             });
@@ -148,7 +147,7 @@
             return selectHtml;
         }
 
-        $("#createItemTable").on("click", ".BtnPlus", addRow);        
+        $("#createItemTable").on("click", ".BtnPlus", addRow);
 
         function deleteRow() {
 
@@ -175,6 +174,8 @@
                 par.remove();
                 i--;
                 CalculateTotal();
+                CalculateTotalAmount();
+                CalculateTax();
             }
         };
 
@@ -183,7 +184,7 @@
     });
 
     function ViewPurchaseQuotation(id) {
-        
+
         var url = $('#editModal').data('url') + '/' + id;
 
         $.get(url, function (data) {
@@ -219,8 +220,8 @@
 
     function ViewPurchaseQuotation1(id) {
 
-        var url =  $('#viewPurQuoModal').data('url') + '/' + id;
-        
+        var url = $('#viewPurQuoModal').data('url') + '/' + id;
+
         $.get(url, function (data) {
             $('#viewPurQuomodelcontainer').html(data);
 
@@ -347,11 +348,11 @@
 
     function OnChangeProduct(val, rowId) {
         //debugger;
-       
+
         var pID = parseInt(val.value);
-       
+
         var dataUrl = "/PurchaseOrders/GetPrice?pID=" + pID;
-        
+
         $.ajax({
             type: 'GET',
             url: dataUrl,
@@ -366,7 +367,7 @@
             success: function (result, status) {
                 //debugger;
                 var id = "#PurchaseOrderItemsList_" + rowId + "__Unit_price";
-                $(id).val(result);               
+                $(id).val(result);
                 CalculateTotal();
                 CalculateTotalAmount();
             }
@@ -380,9 +381,9 @@
         var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
 
         var totAmount = price * qty;
-       
+
         var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
-        $(id).val(totAmount);
+        $(id).val(totAmount.toFixed(2));
         CalculateTotal();
         CalculateTotalAmount();
     }
@@ -394,27 +395,71 @@
         var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
         var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
 
-        //var totAmount = (price * qty) - dis
+        var totAmount = price * qty - ((price * qty) * dis / 100)
 
-        //var id = "#PurchaseOrderItemsList" + rowId + "__LineTotal";
-        //$(id).val(totAmount);
+        var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
 
-        CalculateDiscount();
+        CalculateTotal();
+        //CalculateDiscount();
         CalculateTotalAmount();
     }
 
     function OnChangeVAT() {
+        //var vat = currentVAT.value;
+        //var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
+        //var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
+        //var dis = $("#PurchaseOrderItemsList_" + rowId + "__Discount_percent").val();
+
+        //var totAmount = price * qty - ((price * qty) * dis / 100)
+        //var totvat = totAmount * (vat / 100)
+        //var totNet = totAmount + totvat
+
+        //var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+        //$(id).val(totNet);
+
         CalculateTax();
         CalculateTotalAmount();
     }
 
     function OnChangeDiscountSummary(currentDis) {
-        var totdis = currentDis.value;
-        var totdoc = $("#totalPurchase").val();
-        var tottax = $("#totalTax").val();
-        tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+        //var totdis = currentDis.value;
+        //var totdoc = $("#totalPurchase").val();
+        //var tottax = $("#totalTax").val();
+        //tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
 
-        $("#totalQuotationAmt").val(tot);
+        //$("#totalQuotationAmt").val(tot);
+
+        var percentage = 0;
+        var totdoc = 0;
+        var totdis = currentDis.value;
+        var tottax = 0;
+        var totline = 0;
+        var totminus = 0;
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val());
+            }
+        }
+
+        percentage = totdis / totdoc * 100;
+
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()))) {
+                totline = parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val() * percentage / 100);               
+                totminus = parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()) - totline;                
+                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()) / 100;               
+            }
+        }       
+
+        tot = (totdoc - totdis) + tottax;
+        
+        $("#totalTax").val(tottax.toFixed(2));
+        $("#totalQuotationAmt").val(tot.toFixed(2));
+
     }
 
     function CalculateTotal() {
@@ -427,11 +472,11 @@
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()))) {
                 tot = parseFloat(tot) + parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val());
-              
+
             }
         }
         //}
-        $("#totalPurchase").val(tot);
+        $("#totalPurchase").val(tot.toFixed(2));
     }
 
     function CalculateDiscount() {
@@ -443,22 +488,28 @@
             }
         }
 
-        $("#totalDiscount").val(tot);
+        $("#totalDiscount").val(tot.toFixed(2));
     }
 
     function CalculateTax() {
         var tot = 0;
 
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()))) {
+        //        tot = parseFloat(tot) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val());
+        //    }
+        //}
+
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val());
+                tot = parseFloat(tot) + (parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
-        $("#totalTax").val(tot);
+        $("#totalTax").val(tot.toFixed(2));
     }
 
-    function CalculateTotalAmount() {
+    function CalculateTotalAmountOLD() {
         var totdoc = 0;
         var totdis = 0;
         var tottax = 0;
@@ -482,8 +533,37 @@
         }
 
         tot = (totdoc - totdis) + tottax;
-      
-        $("#totalQuotationAmt").val(tot);
+
+        $("#totalQuotationAmt").val(tot.toFixed(2));
+    }
+
+    function CalculateTotalAmount() {
+        var totdoc = 0;
+        var totdis = 0;
+        var tottax = 0;
+        var tot = 0;
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val());
+            }
+        }
+
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val()))) {
+        //        totdis = parseFloat(totdis) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val());
+        //    }
+        //}
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()))) {
+                tottax = parseFloat(tottax) + (parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()) / 100);
+            }
+        }
+
+        //tot = (totdoc - totdis) + tottax;
+        tot = totdoc + tottax;
+
+        $("#totalQuotationAmt").val(tot.toFixed(2));
     }
 
 </script>
@@ -618,12 +698,12 @@
     </div>
 
     @*<div class="modal fade bs-example-modal-lg" id="viewPurQuoModal" tabindex="-1" role="dialog"
-         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPurchaseQuotation")'>
-        
-        <div id="viewPurQuomodelcontainer">
+             aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPurchaseQuotation")'>
 
-        </div>
-    </div>*@
+            <div id="viewPurQuomodelcontainer">
+
+            </div>
+        </div>*@
 
     <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPurchaseQuotation")'>
@@ -758,9 +838,9 @@
                 </div>
 
                 @*<div class="modal-footer">
-                    <input class="btn btn-primary pull-left" type="button" id="btnOK" name="FileUploadButton" value="OK" />
-                    <button class="btn pull-left" data-dismiss="modal">Cancel</button>
-                </div>*@
+                        <input class="btn btn-primary pull-left" type="button" id="btnOK" name="FileUploadButton" value="OK" />
+                        <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                    </div>*@
 
             </div>
         </div>
@@ -813,20 +893,20 @@
                                                             <tbody>
                                                                 @foreach (Troy.Model.Purchase.ViewPurchaseQuotation item in Model.PurchaseQuotationList)
                                                                 {
-                                                                <tr class="odd gradeX">
-                                                                    <td style="text-align:center;">@item.Purchase_Quote_Id</td>
-                                                                    <td>@item.Valid_Date</td>
-                                                                    <td style="text-align:center;">@item.Vendor_Name</td>
-                                                                    <td>@item.Quotation_Status</td>
-                                                                    <td>
-                                                                        @*<a href="#" class="top-right" data-toggle="modal" data-target="#viewPurQuoModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseQuotation(@item.Purchase_Quote_Id);">
-                                                                            <i class="im-eye2"></i>
-                                                                        </a>*@
-                                                                        <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseQuotation(@item.Purchase_Quote_Id);" >
-                                                                            <i class="im-pencil2"></i>
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
+                                                                    <tr class="odd gradeX">
+                                                                        <td style="text-align:center;">@item.Purchase_Quote_Id</td>
+                                                                        <td>@item.Valid_Date</td>
+                                                                        <td style="text-align:center;">@item.Vendor_Name</td>
+                                                                        <td>@item.Quotation_Status</td>
+                                                                        <td>
+                                                                            @*<a href="#" class="top-right" data-toggle="modal" data-target="#viewPurQuoModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseQuotation(@item.Purchase_Quote_Id);">
+                                                                                    <i class="im-eye2"></i>
+                                                                                </a>*@
+                                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseQuotation(@item.Purchase_Quote_Id);">
+                                                                                <i class="im-pencil2"></i>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
                                                                 }
                                                             </tbody>
                                                         </table>

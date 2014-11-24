@@ -1496,6 +1496,11 @@
     <Content Include="Views\GoodsReturn\_ViewGoodsReceipt.cshtml" />
     <Content Include="Views\GoodsReturn\_ViewPartial.cshtml" />
     <Content Include="Views\GoodsReceipt\_ViewPurchaseOrder.cshtml" />
+    <Content Include="Views\PurchaseInvoices\Index.cshtml" />
+    <Content Include="Views\PurchaseInvoices\_CreatePartial.cshtml" />
+    <Content Include="Views\PurchaseInvoices\_EditPartial.cshtml" />
+    <Content Include="Views\PurchaseInvoices\_ViewGoodsReceipt.cshtml" />
+    <Content Include="Views\PurchaseInvoices\_ViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />
