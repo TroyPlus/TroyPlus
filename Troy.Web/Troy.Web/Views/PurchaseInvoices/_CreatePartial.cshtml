@@ -219,7 +219,7 @@
                                                     <td width="12%">
                                                         @*@Html.TextBoxFor(model => model.PurchaseInvoiceItemsList[i].Vat_Code, new { @class = "form-control control-text" })
                                                             @Html.ValidationMessageFor(model => model.PurchaseInvoiceItemsList[i].Vat_Code)*@
-                                                        @Html.DropDownListFor(m => m.PurchaseInvoiceItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage"), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
+                                                        @Html.DropDownListFor(m => m.PurchaseInvoiceItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage"), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoiceItemsList[i].Vat_Code)
                                                     </td>
                                                     <td width="5%">

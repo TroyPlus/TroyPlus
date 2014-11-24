@@ -63,5 +63,8 @@ namespace Troy.Model.PurchaseOrders
 
         [NotMapped]
         public string Freight_Loading { get; set; }
+
+        [NotMapped]
+        public string ProductName { get; set; }
     }
 }

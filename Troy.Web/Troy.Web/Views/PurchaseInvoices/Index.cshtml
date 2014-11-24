@@ -129,8 +129,8 @@
 
         function CreateVATSelect(rowID)
         {
-            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="PurchaseInvoiceItemsList_' + rowID + '__VAT_Id" name="PurchaseInvoiceItemsList[' + rowID + '].VAT_Id" onchange="OnChangeVAT();" >';
-            selectHtml += '<option value=""></option>';
+            var selectHtml1 = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="PurchaseInvoiceItemsList_' + rowID + '__Vat_Code" name="PurchaseInvoiceItemsList[' + rowID + '].Vat_Code" onchange="OnChangeVAT();" >';
+            selectHtml1 += '<option value=""></option>';
 
 
             var dataUrl =  "/PurchaseInvoices/GetVATList";
@@ -148,12 +148,12 @@
                 success: function (result, status) {
                     //debugger;
                     for (var count = 0; count < result.length; count++) {
-                        selectHtml += '<option value="' + result[count].VAT_Id + '">' + result[count].VAT_percentage + '</option>';
+                        selectHtml1 += '<option value="' + result[count].VAT_percentage + '">' + result[count].VAT_percentage + '</option>';
                     }
                 }
             });
 
-            return selectHtml;
+            return selectHtml1;
         }
 
         $("#createItemTable").on("click", ".BtnPlus", addRow);
@@ -183,6 +183,8 @@
                 par.remove();
                 i--;
                 CalculateTotal();
+                CalculateTotalAmount();
+                CalculateTax();
             }
         };
 
@@ -204,13 +206,13 @@
 
     function EditPurchase(id) {
 
-        var url = $('#editModal').data('url') + '/' + id;
+        var url = $('#editModal1').data('url') + '/' + id;
 
         $.get(url, function (data) {
 
-            $('#editmodelcontainer').html(data);
+            $('#editmodelcontainer1').html(data);
 
-            $('#editModal').modal('show');
+            $('#editModal1').modal('show');
         });
     }
 
@@ -390,7 +392,7 @@
         var totAmount = price * qty;
 
         var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
-        $(id).val(totAmount);
+        $(id).val(totAmount.toFixed(2));
         CalculateTotal();
         CalculateTotalAmount();
     }
@@ -405,36 +407,66 @@
         var totAmount = price * qty - ((price * qty) * dis / 100)
 
         var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
-        $(id).val(totAmount);
+        $(id).val(totAmount.toFixed(2));
 
-        CalculateDiscount();
+        CalculateTotal();
+        //CalculateDiscount();
         CalculateTotalAmount();
     }
 
     function OnChangeVAT() {
-        var vat = currentVAT.value;       
-        var qty = $("#PurchaseInvoiceItemsList_" + rowId + "__Quantity").val();
-        var price = $("#PurchaseInvoiceItemsList_" + rowId + "__Unit_price").val();
-        var dis = $("#PurchaseInvoiceItemsList_" + rowId + "__Discount_percent").val();
+        //var vat = currentVAT.value;       
+        //var qty = $("#PurchaseInvoiceItemsList_" + rowId + "__Quantity").val();
+        //var price = $("#PurchaseInvoiceItemsList_" + rowId + "__Unit_price").val();
+        //var dis = $("#PurchaseInvoiceItemsList_" + rowId + "__Discount_percent").val();
 
-        var totAmount = price * qty - ((price * qty) * dis / 100)
-        var totvat = totAmount * (vat / 100)
-        var totNet = totAmount + totvat
+        //var totAmount = price * qty - ((price * qty) * dis / 100)
+        //var totvat = totAmount * (vat / 100)
+        //var totNet = totAmount + totvat
       
-        var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
-        $(id).val(totNet);
+        //var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
+        //$(id).val(totNet);
 
         CalculateTax();
         CalculateTotalAmount();
     }
 
     function OnChangeDiscountSummary(currentDis) {
-        var totdis = currentDis.value;
-        var totdoc = $("#totalPurchase").val();
-        var tottax = $("#totalTax").val();
-        tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+        //var totdis = currentDis.value;
+        //var totdoc = $("#totalPurchase").val();
+        //var tottax = $("#totalTax").val();
+        //tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
 
-        $("#totalQuotationAmt").val(tot);
+        //$("#totalQuotationAmt").val(tot);
+        var percentage = 0;
+        var totdoc = 0;
+        var totdis = currentDis.value;
+        var tottax = 0;
+        var totline = 0;
+        var totminus = 0;
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val());
+            }
+        }
+
+        percentage = totdis / totdoc * 100;
+
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val()))) {
+                totline = parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val() * percentage / 100);               
+                totminus = parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val()) - totline;                
+                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val()) / 100;               
+            }
+        }       
+
+        tot = (totdoc - totdis) + tottax;
+        
+        $("#totalTax").val(tottax.toFixed(2));
+        $("#totalQuotationAmt").val(tot.toFixed(2));
     }
 
     function CalculateTotal() {
@@ -471,11 +503,12 @@
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val());
+                //tot = parseFloat(tot) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val());
+                tot = parseFloat(tot) + (parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
-        $("#totalTax").val(tot);
+        $("#totalTax").val(tot.toFixed(2));
     }
 
     function CalculateTotalAmount() {
@@ -489,21 +522,23 @@
             }
         }
 
-        for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Discount_percent").val()))) {
-                totdis = parseFloat(totdis) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Discount_percent").val());
-            }
-        }
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Discount_percent").val()))) {
+        //        totdis = parseFloat(totdis) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Discount_percent").val());
+        //    }
+        //}
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val()))) {
-                tottax = parseFloat(tottax) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val());
+                //tottax = parseFloat(tottax) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val());
+                tottax = parseFloat(tottax) + (parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
-        tot = (totdoc - totdis) + tottax;
+        //tot = (totdoc - totdis) + tottax;
+        tot = totdoc + tottax;
 
-        $("#totalQuotationAmt").val(tot);
+        $("#totalQuotationAmt").val(tot.toFixed(2));
     }
 
 </script>
@@ -640,9 +675,9 @@
         </div>
     </div>
 
-    <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
+    <div class="modal fade bs-example-modal-lg" id="editModal1" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
-        <div id="editmodelcontainer">
+        <div id="editmodelcontainer1">
         </div>
     </div>
 

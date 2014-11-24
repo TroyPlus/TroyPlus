@@ -9,7 +9,7 @@
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
         $('#crePQDocumentDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0,maxDate: 0
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
         $('#crePQPostingDate').datepicker({
@@ -20,10 +20,12 @@
         var i;
 
         i = $("#ItemCount").val();
+        //alert(i);
 
         //Dynamically add quotation row
         function addRow() {
-
+            //i = parseFloat(i) + 1;
+            //alert(i);
             var date = new Date();
             var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 
@@ -132,7 +134,7 @@
                 success: function (result, status) {
                     //debugger;
                     for (var count = 0; count < result.length; count++) {
-                        selectHtml += '<option value="' + result[count].VAT_Id + '">' + result[count].VAT_percentage + '</option>';
+                        selectHtml += '<option value="' + result[count].VAT_percentage + '">' + result[count].VAT_percentage + '</option>';
                     }
                 }
             });
@@ -156,6 +158,9 @@
 
             //$(id).val(1);
             par.hide();
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
         };
         $("#EditTable").on("click", ".BtnMinus", deleteRow);
 
@@ -245,7 +250,7 @@
         var totAmount = price * qty;
 
         var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
-        $(id).val(totAmount);
+        $(id).val(totAmount.toFixed(2));
         CalculateTotal();
         CalculateTotalAmount();
     }
@@ -260,36 +265,67 @@
         var totAmount = price * qty - ((price * qty) * dis / 100)
 
         var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
-        $(id).val(totAmount);
+        $(id).val(totAmount.toFixed(2));
 
-        CalculateDiscount();
+        CalculateTotal();
+        //CalculateDiscount();
         CalculateTotalAmount();
     }
 
     function OnChangeVAT(currentVAT, rowId) {
-        var vat = currentVAT.value;
-        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quoted_qty").val();
-        var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
-        var dis = $("#PurchaseQuotationItemList_" + rowId + "__Discount_percent").val();
+        //var vat = currentVAT.value;
+        //var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quoted_qty").val();
+        //var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
+        //var dis = $("#PurchaseQuotationItemList_" + rowId + "__Discount_percent").val();
 
-        var totAmount = price * qty - ((price * qty) * dis / 100)
-        var totvat = totAmount * (vat / 100)
-        var totNet = totAmount + totvat
+        //var totAmount = price * qty - ((price * qty) * dis / 100)
+        //var totvat = totAmount * (vat / 100)
+        //var totNet = totAmount + totvat
 
-        var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
-        $(id).val(totNet);
+        //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
+        //$(id).val(totNet);
 
         CalculateTax();
         CalculateTotalAmount();
     }
 
     function OnChangeDiscountSummary(currentDis) {
-        var totdis = currentDis.value;
-        var totdoc = $("#totalPurchase1").val();
-        var tottax = $("#totalTax1").val();
-        tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+        //var totdis = currentDis.value;
+        //var totdoc = $("#totalPurchase1").val();
+        //var tottax = $("#totalTax1").val();
+        //tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
 
-        $("#totalQuotationAmt1").val(tot);
+        //$("#totalQuotationAmt1").val(tot);
+
+        var percentage = 0;
+        var totdoc = 0;
+        var totdis = currentDis.value;
+        var tottax = 0;
+        var totline = 0;
+        var totminus = 0;
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val());
+            }
+        }
+
+        percentage = totdis / totdoc * 100;
+
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
+                totline = parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val() * percentage / 100);
+                totminus = parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()) - totline;
+                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()) / 100;
+            }
+        }
+
+        tot = (totdoc - totdis) + tottax;
+
+        $("#totalTax1").val(tottax.toFixed(2));
+        $("#totalQuotationAmt1").val(tot.toFixed(2));
     }
 
     function CalculateTotal() {
@@ -307,7 +343,7 @@
         }
         //}
 
-        $("#totalPurchase1").val(tot);
+        $("#totalPurchase1").val(tot.toFixed(2));
 
     }
 
@@ -320,7 +356,7 @@
             }
         }
 
-        $("#totalDiscount1").val(tot);
+        $("#totalDiscount1").val(tot.toFixed(2));
 
     }
 
@@ -329,11 +365,12 @@
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
+                //tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
+                tot = parseFloat(tot) + (parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
-        $("#totalTax1").val(tot);
+        $("#totalTax1").val(tot.toFixed(2));
 
     }
 
@@ -342,27 +379,30 @@
         var totdis = 0;
         var tottax = 0;
         var tot = 0;
+        
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
                 totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val());
             }
         }
 
-        for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val()))) {
-                totdis = parseFloat(totdis) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val());
-            }
-        }
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val()))) {
+        //        totdis = parseFloat(totdis) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val());
+        //    }
+        //}
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
-                tottax = parseFloat(tottax) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
+                //tottax = parseFloat(tottax) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
+                tottax = parseFloat(tottax) + (parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
-        tot = (totdoc - totdis) + tottax;
+        //tot = (totdoc - totdis) + tottax;
+        tot = totdoc + tottax;
 
-        $("#totalQuotationAmt1").val(tot);
+        $("#totalQuotationAmt1").val(tot.toFixed(2));
 
     }
 
@@ -589,7 +629,7 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Discount_percent)
                                                     </td>
                                                     <td width="12%">
-                                                        @Html.DropDownListFor(m => m.PurchaseQuotationItemList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage", Model.PurchaseQuotationItemList[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");" })
+                                                        @Html.DropDownListFor(m => m.PurchaseQuotationItemList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.PurchaseQuotationItemList[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Vat_Code)
                                                     </td>
                                                     <td width="10%">

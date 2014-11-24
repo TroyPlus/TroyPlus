@@ -126,6 +126,13 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
+        public PurchaseOrder FindOneOrderById(int qId)
+        {
+            return (from p in purchaseordercontext.purchaseorder
+                    where p.Purchase_Order_Id == qId
+                    select p).FirstOrDefault();
+        }
+
         public PurchaseQuotation FindQuotationforBaseDocID(int qId, int vId)
         {
             return (from p in purchaseordercontext.purchasequotation
@@ -156,6 +163,30 @@ namespace Troy.Data.Repository
             return price;
         }
 
+        public IList<PurchaseOrderItems> FindOneOrderItemById(int qId)
+        {
+            var qtn = (from p in purchaseordercontext.purchaseorderitems
+                       where p.Purchase_Order_Id == qId
+                       select p).ToList();
+
+            var purchase = (from q in qtn
+                            join pi in purchaseordercontext.product on q.Product_id equals pi.Product_Id
+                            select new PurchaseOrderItems
+                            {                                                        
+                                Product_id = q.Product_id,
+                                ProductName = pi.Product_Name,
+                                Purchase_Order_Id = q.Purchase_Order_Id, 
+                                Quantity = q.Quantity - q.Received_Qty,
+                                Received_Qty = q.Received_Qty,
+                                Unit_price = q.Unit_price,
+                                Discount_percent = q.Discount_percent, 
+                                Vat_Code = q.Vat_Code,
+                                LineTotal = q.LineTotal
+                            }).ToList();
+
+            return purchase;
+        }
+
 
         public IList<PurchaseQuotationItem> FindOneQuotationItemById(int qId)
         {
@@ -183,7 +214,8 @@ namespace Troy.Data.Repository
                                 Required_qty = q.Required_qty,
                                 Unit_price = q.Unit_price,
                                 Used_qty = q.Used_qty,
-                                Vat_Code = q.Vat_Code
+                                Vat_Code = q.Vat_Code,
+                                LineTotal=q.LineTotal
                             }).ToList();
 
             return purchase;

@@ -197,13 +197,13 @@
 
     function EditPurchase(id) {
 
-        var url = $('#editModal').data('url') + '/' + id;
+        var url = $('#editModal1').data('url') + '/' + id;
 
         $.get(url, function (data) {
 
-            $('#editmodelcontainer').html(data);
+            $('#editmodelcontainer1').html(data);
 
-            $('#editModal').modal('show');
+            $('#editModal1').modal('show');
         });
     }
 
@@ -665,7 +665,7 @@
 
                                                     </a>
                                                     <span class="text-muted">|</span>
-                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Purchase_Order_Id);">
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal1" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Purchase_Order_Id);">
                                                         <i class="im-pencil2"></i>
                                                     </a>
                                                     @*<span class="text-muted">|</span>
@@ -712,9 +712,9 @@
         </div>
     </div>
 
-    <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
+    <div class="modal fade bs-example-modal-lg" id="editModal1" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
-        <div id="editmodelcontainer">
+        <div id="editmodelcontainer1">
         </div>
     </div>
 

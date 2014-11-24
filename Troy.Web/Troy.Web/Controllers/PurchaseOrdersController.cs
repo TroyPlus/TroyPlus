@@ -163,6 +163,41 @@ namespace Troy.Web.Controllers
             }
         }
 
+        public PartialViewResult _EditPartial(int id)
+        {
+            try
+            {
+                PurchaseOrderViewModels model = new PurchaseOrderViewModels();
+                model.PurchaseOrder = purchaseorderRepository.FindOneOrderById(id);
+                model.PurchaseOrderItemsList = purchaseorderRepository.FindOneOrderItemById(id);
+
+                //Bind Branch
+                var BranchList = purchaseorderRepository.GetBranchList().ToList();
+                model.BranchList = BranchList;
+
+                //Bind VAT
+                var VATList = purchaseorderRepository.GetVAT().ToList();
+                model.VATList = VATList;
+
+                //Bind Product
+                var ProductList = purchaseorderRepository.GetProductList().ToList();
+                model.ProductList = ProductList;
+
+                //Bind Businesspartner
+                var BusinessParterList = purchaseorderRepository.GetBusinessPartnerList().ToList();
+                model.BusinessPartnerList = BusinessParterList;
+
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+        }
+
         public JsonResult GetProductList()
         {
             var productList = purchaseorderRepository.GetProductList().ToList();
