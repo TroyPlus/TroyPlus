@@ -10,7 +10,11 @@ namespace Troy.Model.GRPOReturns
 {
    public class GoodsReturnitems
     {
+
        [Key]
+       [Required]
+       public int Id { get; set; }
+
        [Required]
        public int Goods_Return_Id { get; set; }
 

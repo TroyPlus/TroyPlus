@@ -85,10 +85,10 @@
 
             //debugger;
 
-            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="goodreceiptitemlist_' + rowID + '__Product_id" name="goodreceiptitemlist[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="goodreturnitemlist_' + rowID + '__Product_id" name="goodreturnitemlist[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
 
-            var dataUrl = "/GoodsReceipt/GetProductList";
+            var dataUrl = "/GoodsReturn/GetProductList";
 
             $.ajax({
                 type: 'GET',
@@ -103,7 +103,7 @@
                 success: function (result, status) {
                     //debugger;
                     for (var count = 0; count < result.length; count++) {
-                        selectHtml += '<option value="' + result[count].BP_Id + '">' + result[count].BP_Name + '</option>';
+                        selectHtml += '<option value="' + result[count].Product_Id + '">' + result[count].Product_Name + '</option>';
                     }
                 }
             });
@@ -237,7 +237,7 @@
                                                     <div class="col-md-8">
                                                         @*, new { @id = "typeahead", @size = 12 }*@
                                                         @*@Html.DropDownListFor(m => m.goodreturn.Goods_Return_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Goods_Receipt_Id, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.goodreturn.Goods_Receipt_Id, new { @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.goodreturn.Goods_Receipt_Id)
                                                     </div>
                                                 </div>
@@ -458,7 +458,7 @@
 
                                                     // @Html.HiddenFor(model => model.goodreceiptitemlist[i].Goods_Receipt_Id)
                                                     // @Html.HiddenFor(model => model.goodreceiptitemlist[i].Purchase_Quote_Id)
-                                                    // @Html.HiddenFor(model => model.goodreceiptitemlist[i].Product_id)
+                                                     @Html.HiddenFor(model => model.goodreturnitemlist[i].Id)
 
                                                     <tr>
                                                         <td style="display:none;">
@@ -467,8 +467,8 @@
                                                         </td>
                                                         <td width="20%">
                                                             @*@Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })*@
-
-                                                            @Html.DropDownListFor(m => m.goodreturnitemlist[i].Product_id, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
+                                                            @Html.DropDownListFor(m => m.goodreturnitemlist[i].Product_id, new SelectList(Model.productlist.AsEnumerable(), "Product_Id", "Product_Name"), "", new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
+                                                            @*@Html.DropDownListFor(m => m.goodreturnitemlist[i].Product_id, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })*@
                                                             @*@Html.TextBoxFor(model => model.goodreceiptitemlist[i].Product_id, new { @class = "form-control control-text" })*@
                                                             @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].Product_id)
                                                         </td>

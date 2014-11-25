@@ -270,6 +270,10 @@ namespace Troy.Web.Controllers
                 model.goodreturnitemlist = goodsreturnrepository.FindOneQuotationItemById(id);
                 model.BranchList = goodsreturnrepository.GetAddressbranchList().ToList();
                 model.BussinessList = goodsreturnrepository.GetAddressbusinessList().ToList();
+                model.productlist = goodsreturnrepository.GetProductList();
+
+                model.VATList = goodsreturnrepository.GetVATList();
+
                 // model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
                 //  model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
                 // model.BranchList = purchaseDb.GetAddressList().ToList();
