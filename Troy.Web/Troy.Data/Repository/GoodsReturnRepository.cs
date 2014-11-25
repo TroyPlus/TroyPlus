@@ -207,7 +207,7 @@ namespace Troy.Data.Repository
                 goodsreturncontext.goodsreturn.Add(Goodsreturn);
                 goodsreturncontext.SaveChanges();
 
-                int currentId = Goodsreturn.Goods_Receipt_Id;
+                int currentId = Goodsreturn.Goods_Return_Id;
 
                 for (int i = 0; i < GoodsreturnItemList.Count; i++)
                 {

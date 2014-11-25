@@ -437,6 +437,9 @@
                             </ul>
                             @Html.HiddenFor(model => model.goodreceipt.Goods_Receipt_Id)
                             @Html.Hidden("ItemCount", Model.goodreceiptitemlist.Count)
+                            @Html.HiddenFor(model=>model.goodreceipt.Created_Dte)
+                            @Html.HiddenFor(model => model.goodreceipt.Created_Branc_Id)
+                            @Html.HiddenFor(model => model.goodreceipt.Created_User_Id)
                             @*@Html.HiddenFor(model=>model.PurchaseOrder.Purchase_Quote_Id);*@
 
                             <div id="editTabContent" class="tab-content">
@@ -455,8 +458,8 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*, new { @id = "typeahead", @size = 12 }*@
-                                                        @Html.DropDownListFor(m => m.goodreceipt.Purchase_Order_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
-                                                        @*@Html.TextBoxFor(model => model.goodreceipt.Purchase_Order_Id, new { @class = "form-control control-text" })*@
+                                                        @*@Html.DropDownListFor(m => m.goodreceipt.Purchase_Order_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Purchase_Order_Id, new { @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.goodreceipt.Purchase_Order_Id)
                                                     </div>
                                                 </div>
@@ -538,7 +541,7 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "date" })@*, @readonly = true })*@
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @class = "form-control control-text datePicke" })@*, @readonly = true })*@
                                                         @Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)
                                                     </div>
                                                 </div>
@@ -672,12 +675,12 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @for (int i = 0; i < 1; i++)
+                                                @for (int i = 0; i < Model.goodreceiptitemlist.Count; i++)
                                                 {
-
-                                                    // @Html.HiddenFor(model => model.goodreceiptitemlist[i].Goods_Receipt_Id)
-                                                    // @Html.HiddenFor(model => model.goodreceiptitemlist[i].Purchase_Quote_Id)
-                                                    // @Html.HiddenFor(model => model.goodreceiptitemlist[i].Product_id)
+                                                    @Html.HiddenFor(model=>model.goodreceiptitemlist[i].Id)
+                                                   //  @Html.HiddenFor(model => model.goodreceiptitemlist[i].Goods_Receipt_Id)
+                                                   //  @Html.HiddenFor(model => model.goodreceiptitemlist[i].Product_id)
+                                                     @Html.HiddenFor(model => model.goodreceiptitemlist[i].Product_id)
 
                                                     <tr>
                                                         <td style="display:none;">

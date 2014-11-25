@@ -117,10 +117,11 @@ namespace Troy.Data.Repository
                      join b in goodscontext.businesspartner
                       on p.Vendor equals b.BP_Id
                      where p.Order_Status == "Open"
+                     where p.Vendor==b.BP_Id
                      select new ViewPurchaseOrder()
                      {
                          Purchase_Order_Id = p.Purchase_Order_Id,
-                         BaseDocId = p.BaseDocId,
+                         BaseDocId = p.Purchase_Order_Id,
                          TargetDocId = p.TargetDocId,
                          Purchase_Quote_Id = p.Purchase_Quote_Id,
                          Vendor_Name = b.BP_Name,
@@ -229,6 +230,15 @@ namespace Troy.Data.Repository
         }
 
 
+        public PurchaseOrder findid(int id)
+        {
+            return (from p in goodscontext.purchaseorder
+                    join g in goodscontext.goodsreceipt
+                    on p.Vendor equals g.Vendor
+                    where g.BaseDocId == p.Purchase_Order_Id
+                    select p).FirstOrDefault();
+            
+        }
 
         public PurchaseOrder FindOneQuotationById1(int qId)
         {
@@ -250,6 +260,8 @@ namespace Troy.Data.Repository
             ErrorMessage = string.Empty;
             try
             {
+               
+               // findid(id);
                 goodscontext.goodsreceipt.Add(Goodsreceipt);
 
                 goodscontext.SaveChanges();

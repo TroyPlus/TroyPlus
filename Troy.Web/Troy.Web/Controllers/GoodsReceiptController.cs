@@ -89,61 +89,70 @@ namespace Troy.Web.Controllers
 
                 if (submitButton == "Save")
                 {
-                    model.goodreceipt.Doc_Status = "Open";
-                    model.goodreceipt.Created_Branc_Id = 1;//CurrentBranchId;
-                    model.goodreceipt.Created_Dte = DateTime.Now;
-                    model.goodreceipt.Created_User_Id = 1;//CurrentUser.Id;
-                    model.goodreceipt.Purchase_Order_Id = model.PurchaseOrder.Purchase_Order_Id;
-                    model.goodreceipt.Reference_Number = model.PurchaseOrder.Reference_Number;
-                    model.goodreceipt.Vendor = model.PurchaseOrder.Vendor;
-                    model.goodreceipt.Doc_Status = model.PurchaseOrder.Order_Status;
-                    model.goodreceipt.Posting_Date = model.PurchaseOrder.Posting_Date;
-                    model.goodreceipt.Due_Date = model.PurchaseOrder.Delivery_Date;
-                    model.goodreceipt.Document_Date = model.PurchaseOrder.Document_Date;
-                    model.goodreceipt.Ship_To = model.PurchaseOrder.Ship_To;
-                    model.goodreceipt.Freight = model.PurchaseOrder.Freight;
-                    model.goodreceipt.Loading = model.PurchaseOrder.Loading;
-                    model.goodreceipt.TotalBefDocDisc = model.PurchaseOrder.TotalBefDocDisc;
-                    model.goodreceipt.DocDiscAmt = model.PurchaseOrder.DocDiscAmt;
-                    model.goodreceipt.TotalGRDocAmt = model.PurchaseOrder.TotalOrdAmt;
-                    model.goodreceipt.TaxAmt = model.PurchaseOrder.TaxAmt;
 
-                    // model.goodreceipt.Distribute_LandedCost = "equality";
-                    //if (model.goodreceipt.Distribute_LandedCost == "Equality")
-                    //{
-                    //    double a = Convert.ToDouble(model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count);
-                    //}Purchase_Order_Id
-                    //else if(model.goodreceipt.Distribute_LandedCost=="Quantity")
-                    //{
-                    //    double b = Convert.ToDouble(model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count *(model.goodreceiptitemlist.FirstOrDefault().LineTotal));
-                    //}
-                    //else
-                    //{
-                    //    double c = Convert.ToDouble((model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count) - (model.goodreceiptitem.Quantity * model.goodreceiptitem.Unit_price)*model.goodreceiptitem.Discount_percent);
-                    //}
+                   
+                  
+                        // model.goodreceipt.BaseDocId = model.PurchaseOrder.Purchase_Order_Id;
+                        model.goodreceipt.Doc_Status = "Open";
+                        model.goodreceipt.Created_Branc_Id = 1;//CurrentBranchId;
+                        model.goodreceipt.Created_Dte = DateTime.Now;
+                        model.goodreceipt.Created_User_Id = 1;//CurrentUser.Id;
+                        model.goodreceipt.Purchase_Order_Id = model.PurchaseOrder.Purchase_Order_Id;
+                        model.goodreceipt.Reference_Number = model.PurchaseOrder.Reference_Number;
+                        model.goodreceipt.Vendor = model.PurchaseOrder.Vendor;
+                        model.goodreceipt.Doc_Status = model.PurchaseOrder.Order_Status;
+                        model.goodreceipt.Posting_Date = model.PurchaseOrder.Posting_Date;
+                        model.goodreceipt.Due_Date = model.PurchaseOrder.Delivery_Date;
+                        model.goodreceipt.Document_Date = model.PurchaseOrder.Document_Date;
+                        model.goodreceipt.Ship_To = model.PurchaseOrder.Ship_To;
+                        model.goodreceipt.Freight = model.PurchaseOrder.Freight;
+                        model.goodreceipt.Loading = model.PurchaseOrder.Loading;
+                        model.goodreceipt.TotalBefDocDisc = model.PurchaseOrder.TotalBefDocDisc;
+                        model.goodreceipt.DocDiscAmt = model.PurchaseOrder.DocDiscAmt;
+                        model.goodreceipt.TotalGRDocAmt = model.PurchaseOrder.TotalOrdAmt;
+                        model.goodreceipt.TaxAmt = model.PurchaseOrder.TaxAmt;
+                      
 
-
-                    var GoodsList = model.goodreceiptitemlist.Where(x => x.IsDummy == 0);
-                    model.goodreceiptitemlist = GoodsList.ToList();
-
-                    for (int i = 0; i < model.goodreceiptitemlist.Count; i++)
-                    {
-                        model.goodreceiptitemlist[i].BaseDocLink = "N";
-                        model.goodreceiptitemlist[i].Product_id = model.PurchaseOrderItemsList[i].Product_id;
-                        model.goodreceiptitemlist[i].Quantity = model.PurchaseOrderItemsList[i].Quantity;
-                        model.goodreceiptitemlist[i].Unit_price = model.PurchaseOrderItemsList[i].Unit_price;
-                        model.goodreceiptitemlist[i].Discount_percent = model.PurchaseOrderItemsList[i].Discount_percent;
-                        model.goodreceiptitemlist[i].Vat_Code = model.PurchaseOrderItemsList[i].Vat_Code;
-                        model.goodreceiptitemlist[i].Freight_Loading =Convert.ToDecimal(model.PurchaseOrderItemsList[i].Freight_Loading);
-
-                    }
+                        // model.goodreceipt.Distribute_LandedCost = "equality";
+                        //if (model.goodreceipt.Distribute_LandedCost == "Equality")
+                        //{
+                        //    double a = Convert.ToDouble(model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count);
+                        //}Purchase_Order_Id
+                        //else if(model.goodreceipt.Distribute_LandedCost=="Quantity")
+                        //{
+                        //    double b = Convert.ToDouble(model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count *(model.goodreceiptitemlist.FirstOrDefault().LineTotal));
+                        //}
+                        //else
+                        //{
+                        //    double c = Convert.ToDouble((model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count) - (model.goodreceiptitem.Quantity * model.goodreceiptitem.Unit_price)*model.goodreceiptitem.Discount_percent);
+                        //}
 
 
+                        var GoodsList = model.goodreceiptitemlist.Where(x => x.IsDummy == 0);
+                        model.goodreceiptitemlist = GoodsList.ToList();
 
-                    if (goodsrepository.AddNewQuotation(model.goodreceipt, model.goodreceiptitemlist, ref ErrorMessage))
-                    {
-                        return RedirectToAction("Index", "GoodsReceipt");
-                    }
+                        for (int i = 0; i < model.goodreceiptitemlist.Count; i++)
+                        {
+                            model.goodreceiptitemlist[i].BaseDocLink = "N";
+                            model.goodreceiptitemlist[i].Product_id = model.PurchaseOrderItemsList[i].Product_id;
+                            model.goodreceiptitemlist[i].Quantity = model.PurchaseOrderItemsList[i].Quantity;
+                            model.goodreceiptitemlist[i].Unit_price = model.PurchaseOrderItemsList[i].Unit_price;
+                            model.goodreceiptitemlist[i].Discount_percent = model.PurchaseOrderItemsList[i].Discount_percent;
+                            model.goodreceiptitemlist[i].Vat_Code = model.PurchaseOrderItemsList[i].Vat_Code;
+                            model.goodreceiptitemlist[i].Freight_Loading = Convert.ToDecimal(model.PurchaseOrderItemsList[i].Freight_Loading);
+
+                        }
+
+
+
+                        if (goodsrepository.AddNewQuotation(model.goodreceipt, model.goodreceiptitemlist, ref ErrorMessage))
+                        {
+                            return RedirectToAction("Index", "GoodsReceipt");
+                        }
+                        else if(submitButton=="Save pur-ord")
+                        {
+
+                        }
                     else
                     {
                         ViewBag.AppErrorMessage = ErrorMessage;

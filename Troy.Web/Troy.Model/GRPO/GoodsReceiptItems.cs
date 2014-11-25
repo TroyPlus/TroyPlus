@@ -14,7 +14,11 @@ namespace Troy.Model.GPRO
     {
         [Key]
         [Required]
+        public int Id { get; set; }
+
+        [Required]
         public int Goods_Receipt_Id { get; set; }
+       
 
         [Required]
         public int Product_id { get; set; }
