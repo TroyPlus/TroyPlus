@@ -32,6 +32,10 @@ namespace Troy.Data.Repository
 
         GoodsReceipt FindOneGoodsReceiptById(int qId);
 
+        PurchaseInvoice FindOneInvoiceById(int qId);
+
+        IList<PurchaseInvoiceItems> FindOneInvoiceItemById(int qId);
+
         bool AddNewPurchaseInvoice(PurchaseInvoice Invoice, IList<PurchaseInvoiceItems> InvoiceItemList, ref string ErrorMessage);
     }
 }

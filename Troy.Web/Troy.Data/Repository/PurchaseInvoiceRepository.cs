@@ -134,6 +134,39 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
+        public PurchaseInvoice FindOneInvoiceById(int qId)
+        {
+            return (from p in purchaseinvoicecontext.PurchaseInvoice
+                    where p.Purchase_Invoice_Id == qId
+                    select p).FirstOrDefault();
+        }
+
+        public IList<PurchaseInvoiceItems> FindOneInvoiceItemById(int qId)
+        {
+            //return (from p in purchaseordercontext.purchasequotationitem
+            //        where p.Purchase_Quote_Id == qId
+            //        select p).ToList();
+
+            var qtn = (from p in purchaseinvoicecontext.PurchaseInvoiceItems
+                       where p.Purchase_Invoice_Id == qId
+                       select p).ToList();
+
+            var purchase = (from q in qtn
+                            join pi in purchaseinvoicecontext.product on q.Product_id equals pi.Product_Id
+                            select new PurchaseInvoiceItems
+                            {
+                                Product_id = q.Product_id,
+                                Quantity = q.Quantity - q.Inv_Return_Qty,
+                                Unit_price = q.Unit_price,
+                                Discount_percent = q.Discount_percent,
+                                Vat_Code = q.Vat_Code,
+                                Freight_Loading = q.Freight_Loading,
+                                LineTotal = q.LineTotal
+                            }).ToList();
+
+            return purchase;
+        }
+
         public IList<GoodsReceiptItems> FindOneGoodsReceiptItemById(int qId)
         {
             //return (from p in purchaseordercontext.purchasequotationitem
