@@ -347,7 +347,7 @@
                 success: function (result, status) {
                     //debugger;
                     for (var count = 0; count < result.length; count++) {
-                        vatselectHtml += '<option value="' + result[count].VAT_Id + '">' + result[count].VAT_percentage + '</option>';
+                        vatselectHtml += '<option value="' + result[count].VAT_percentage + '">' + result[count].VAT_percentage + '</option>';
                     }
                 }
             });
@@ -424,7 +424,7 @@
         var totAmount = price * qty;
 
         var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
-        $(id).val(totAmount);
+        $(id).val(totAmount.toFixed(2));
         CalculateTotal();
         CalculateTotalAmount();
     }
@@ -436,11 +436,16 @@
         var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
         var price = $("#goodreceiptitemlist_" + rowId + "__Unit_price").val();
 
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+
+        var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         //var totAmount = (price * qty) - dis
         //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
         //$(id).val(totAmount);
 
-        CalculateDiscount();
+        CalculateTotal();
         CalculateTotalAmount();
     }
 
@@ -451,12 +456,45 @@
     }
 
     function OnChangeDiscountSummary(currentDis) {
-        var totdis = currentDis.value;
-        var totdoc = $("#totalPurchase").val();
-        var tottax = $("#totalTax").val();
-        tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+        //var totdis = currentDis.value;
+        //var totdoc = $("#totalPurchase").val();
+        //var tottax = $("#totalTax").val();
+        //tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
 
-        $("#totalQuotationAmt").val(tot);
+        //$("#totalQuotationAmt").val(tot);
+        var percentage = 0;
+        var totdoc = 0;
+        var totdis = currentDis.value;
+        var tottax = 0;
+        var totline = 0;
+        var totminus = 0;
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val());
+            }
+        }
+
+        percentage = totdis / totdoc * 100;
+
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()))) {
+                totline = parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val() * percentage / 100);
+                totminus = parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()) - totline;
+                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()) / 100;
+            }
+        }
+
+        tot = (totdoc - totdis) + tottax;
+
+        $("#totalTax").val(tottax.toFixed(2));
+        $("#totalQuotationAmt").val(tot.toFixed(2));
+
+
+
+
     }
 
     function CalculateTotal() {
@@ -473,8 +511,7 @@
         }
         //}
 
-        $("#totalPurchase").val(tot);
-        alert(tot);
+        $("#totalPurchase").val(tot.toFixed(2));
     }
 
     function CalculateDiscount() {
@@ -486,22 +523,29 @@
             }
         }
 
-        $("#totalDiscount").val(tot);
+        $("#totalDiscount").val(tot.toFixed(2));
     }
 
     function CalculateTax() {
         var tot = 0;
 
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()))) {
+        //        tot = parseFloat(tot) + parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val());
+        //    }
+        //}
+
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val());
+                tot = parseFloat(tot) + (parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()) * parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
-        $("#totalTax").val(tot);
+        $("#totalTax").val(tot.toFixed(2));
+
     }
 
-    function CalculateTotalAmount() {
+    function CalculateTotalAmountOLD() {
         var totdoc = 0;
         var totdis = 0;
         var tottax = 0;
@@ -526,7 +570,36 @@
 
         tot = (totdoc - totdis) + tottax;
 
-        $("#totalQuotationAmt").val(tot);
+        $("#totalQuotationAmt").val(tot.toFixed(2));
+    }
+
+    function CalculateTotalAmount() {
+        var totdoc = 0;
+        var totdis = 0;
+        var tottax = 0;
+        var tot = 0;
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val());
+            }
+        }
+
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val()))) {
+        //        totdis = parseFloat(totdis) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val());
+        //    }
+        //}
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()))) {
+                tottax = parseFloat(tottax) + (parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()) * parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()) / 100);
+            }
+        }
+
+        //tot = (totdoc - totdis) + tottax;
+        tot = totdoc + tottax;
+
+        $("#totalQuotationAmt").val(tot.toFixed(2));
     }
 
     $.validator.unobtrusive.parse('#myModal form');

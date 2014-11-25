@@ -122,7 +122,7 @@
                 success: function (result, status) {
                     //debugger;
                     for (var count = 0; count < result.length; count++) {
-                        selectHtml += '<option value="' + result[count].VAT_Id + '">' + result[count].VAT_percentage + '</option>';
+                        selectHtml += '<option value="' + result[count].VAT_percentage + '">' + result[count].VAT_percentage + '</option>';
                     }
                 }
             });
@@ -241,6 +241,7 @@
                 //debugger;
                 var id = "#PurchaseOrderItemsList_" + rowId + "__Unit_price";
                 $(id).val(result);
+
                 CalculateTotal();
                 CalculateTotalAmount();
             }
@@ -270,8 +271,15 @@
         //var totAmount = (price * qty) - dis
         //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
         //$(id).val(totAmount);
+        var totAmount = price * qty - ((price * qty) * dis / 100)
 
-        CalculateDiscount();
+        var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
+        CalculateTotal();
+
+
+        //CalculateDiscount();
         CalculateTotalAmount();
     }
 
@@ -282,12 +290,40 @@
     }
 
     function OnChangeDiscountSummary(currentDis) {
+        //var totdis = currentDis.value;
+        //var totdoc = $("#totalPurchase").val();
+        //var tottax = $("#totalTax").val();
+        //tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+        var percentage = 0;
+        var totdoc = 0;
         var totdis = currentDis.value;
-        var totdoc = $("#totalPurchase").val();
-        var tottax = $("#totalTax").val();
-        tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+        var tottax = 0;
+        var totline = 0;
+        var totminus = 0;
+        var tot = 0;
 
-        $("#totalQuotationAmt").val(tot);
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val());
+            }
+        }
+
+        percentage = totdis / totdoc * 100;
+
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()))) {
+                totline = parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val() * percentage / 100);
+                totminus = parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()) - totline;
+                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()) / 100;
+            }
+        }
+
+        tot = (totdoc - totdis) + tottax;
+
+
+        $("#totalTax1").val(tottax.toFixed(2));
+        $("#totalQuotationAmt1").val(tot);
     }
 
     function CalculateTotal() {
@@ -304,7 +340,7 @@
         }
         //}
 
-        $("#totalPurchase").val(tot);
+        $("#totalPurchase1").val(tot.toFixed(2));
         alert(tot);
     }
 
@@ -317,7 +353,7 @@
             }
         }
 
-        $("#totalDiscount").val(tot);
+        $("#totalDiscount1").val(tot.toFixed(2));
     }
 
     function CalculateTax() {
@@ -325,11 +361,12 @@
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val());
+                //tot = parseFloat(tot) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val());
+                tot = parseFloat(tot) + (parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
-        $("#totalTax").val(tot);
+        $("#totalTax1").val(tot.toFixed(2));
     }
 
     function CalculateTotalAmount() {
@@ -343,21 +380,22 @@
             }
         }
 
-        for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val()))) {
-                totdis = parseFloat(totdis) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val());
-            }
-        }
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val()))) {
+        //        totdis = parseFloat(totdis) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val());
+        //    }
+        //}
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()))) {
-                tottax = parseFloat(tottax) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val());
+                //tottax = parseFloat(tottax) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val());
+                tottax = parseFloat(tottax) + (parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
         tot = (totdoc - totdis) + tottax;
 
-        $("#totalQuotationAmt").val(tot);
+        $("#totalQuotationAmt1").val(tot.toFixed(2));
     }
 
 
@@ -464,6 +502,16 @@
                                                     </div>
                                                 </div>
 
+
+
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Due_Date, new { @class = "control-label normal" })*@
@@ -474,6 +522,7 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrder.Delivery_Date)
                                                     </div>
                                                 </div>
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
@@ -487,11 +536,6 @@
                                                 </div>
 
 
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
 
                                                 <div class="row  form-group">
                                                     <div class="col-md-4">
@@ -511,61 +555,6 @@
                                                     <div class="col-md-8">
                                                         @Html.TextBoxFor(model => model.PurchaseOrder.Loading, new { @class = "form-control control-text " })
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrder.Loading)
-                                                    </div>
-                                                </div>
-
-                                                @*<div class="row  form-group">
-                                                    <div class="col-md-4">
-                                                        Html.LabelFor(m => m.goodreceipt.Distribute_LandedCost, new { @class = "control-label normal" })*@
-                                                @*Distribute LandedCost
-                                                        </div>
-                                                        <div class="col-md-8">
-                                                            @Html.TextBoxFor(model => model.goodreceipt.Distribute_LandedCost, new { @class = "form-control control-text" })
-                                                            @Html.ValidationMessageFor(model => model.goodreceipt.Distribute_LandedCost)
-                                                        </div>
-                                                    </div>*@
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.TotalBefDocDisc, new { @class = "control-label normal" })*@
-                                                        TotalBefDocDisc
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.TotalBefDocDisc, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseOrder.TotalBefDocDisc)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.DocDiscAmt, new { @class = "control-label normal" })*@
-                                                        DocumentDiscountAmount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.DocDiscAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseOrder.DocDiscAmt)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.TaxAmt, new { @class = "control-label normal" })*@
-                                                        Tax Amount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.TaxAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseOrder.TaxAmt)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.TotalGRDocAmt, new { @class = "control-label normal" })*@
-                                                        TotGRDcouAmt
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.TotalOrdAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseOrder.TotalOrdAmt)
                                                     </div>
                                                 </div>
 
@@ -651,7 +640,7 @@
                                                                 @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Freight_Loading)
                                                             </td>*@
                                                         <td width="10%">
-                                                            @Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage", Model.PurchaseOrderItemsList[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");" })
+                                                            @Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.PurchaseOrderItemsList[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");" })
                                                             @*@Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage"), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })*@
                                                             @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Vat_Code)
                                                         </td>
@@ -674,15 +663,15 @@
 
 
                                     <div class="modal-footer">
-                                        <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+                                        <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save pur-ord" />
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
                                         @*@Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })*@
 
                                         <div class="row" style="float:right;">
-                                            Total : <span>@Html.TextBoxFor(m => m.PurchaseOrder.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseOrder.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.PurchaseOrder.DocDiscAmt) </span> <br />
-                                            Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseOrder.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseOrder.TotalOrdAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total : <span>@Html.TextBoxFor(m => m.PurchaseOrder.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseOrder.DocDiscAmt, new { id = "totalDiscount1", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.PurchaseOrder.DocDiscAmt) </span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseOrder.TaxAmt, new { id = "totalTax1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseOrder.TotalOrdAmt, new { id = "totalQuotationAmt1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                         </div>
 
                                     </div>

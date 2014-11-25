@@ -344,14 +344,14 @@
                 success: function (result, status) {
                     //debugger;
                     for (var count = 0; count < result.length; count++) {
-                        vatselectHtml += '<option value="' + result[count].VAT_Id + '">' + result[count].VAT_percentage + '</option>';
+                        vatselectHtml += '<option value="' + result[count].VAT_percentage + '">' + result[count].VAT_percentage + '</option>';
                     }
                 }
             });
 
             return vatselectHtml;
         }
-        alert('Row add aganum');
+      //  alert('Row add aganum');
         $("#createItemTable").on("click", ".BtnPlus", addRow);
         //  alert('Row add aganum');
 
@@ -434,11 +434,12 @@
         var qty = $("#goodreturnitemlist_" + rowId + "__Quantity").val();
         var price = $("#goodreturnitemlist_" + rowId + "__Unit_price").val();
 
-        //var totAmount = (price * qty) - dis
-        //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
-        //$(id).val(totAmount);
+        var totAmount = price * qty - ((price * qty) * dis / 100)
 
-        CalculateDiscount();
+        var id = "#goodreturnitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
+        CalculateTotal();
         CalculateTotalAmount();
     }
 
@@ -449,12 +450,41 @@
     }
 
     function OnChangeDiscountSummary(currentDis) {
+        //var totdis = currentDis.value;
+        //var totdoc = $("#totalPurchase").val();
+        //var tottax = $("#totalTax").val();
+        //tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+        var percentage = 0;
+        var totdoc = 0;
         var totdis = currentDis.value;
-        var totdoc = $("#totalPurchase").val();
-        var tottax = $("#totalTax").val();
-        tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+        var tottax = 0;
+        var totline = 0;
+        var totminus = 0;
+        var tot = 0;
 
-        $("#totalQuotationAmt").val(tot);
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val());
+            }
+        }
+
+        percentage = totdis / totdoc * 100;
+
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val()))) {
+                totline = parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val() * percentage / 100);
+                totminus = parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val()) - totline;
+                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#goodreturnitemlist_" + j + "__Vat_Code").val()) / 100;
+            }
+        }
+
+        tot = (totdoc - totdis) + tottax;
+
+        $("#totalTax").val(tottax.toFixed(2));
+        $("#totalQuotationAmt").val(tot.toFixed(2));
+
+  
     }
 
     function CalculateTotal() {
@@ -471,8 +501,8 @@
         }
         //}
 
-        $("#totalPurchase").val(tot);
-        alert(tot);
+        $("#totalPurchase").val(tot.toFixed(2));
+     
     }
 
     function CalculateDiscount() {
@@ -484,7 +514,7 @@
             }
         }
 
-        $("#totalDiscount").val(tot);
+        $("#totalDiscount").val(tot.toFixed(2));
     }
 
     function CalculateTax() {
@@ -492,14 +522,14 @@
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#goodreturnitemlist_" + j + "__Vat_Code").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#goodreturnitemlist_" + j + "__Vat_Code").val());
+                tot = parseFloat(tot) + (parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val()) * parseFloat($("#goodreturnitemlist_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
-        $("#totalTax").val(tot);
+        $("#totalTax").val(tot.toFixed(2));
     }
 
-    function CalculateTotalAmount() {
+    function CalculateTotalAmountOLD() {
         var totdoc = 0;
         var totdis = 0;
         var tottax = 0;
@@ -527,7 +557,34 @@
         $("#totalQuotationAmt").val(tot);
     }
 
+    function CalculateTotalAmount() {
+        var totdoc = 0;
+        var totdis = 0;
+        var tottax = 0;
+        var tot = 0;
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val());
+            }
+        }
 
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val()))) {
+        //        totdis = parseFloat(totdis) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val());
+        //    }
+        //}
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreturnitemlist_" + j + "__Vat_Code").val()))) {
+                tottax = parseFloat(tottax) + (parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val()) * parseFloat($("#goodreturnitemlist_" + j + "__Vat_Code").val()) / 100);
+            }
+        }
+
+        //tot = (totdoc - totdis) + tottax;
+        tot = totdoc + tottax;
+
+        $("#totalQuotationAmt").val(tot.toFixed(2));
+    }
 
 
     $.validator.unobtrusive.parse('#myModal form');

@@ -1,233 +1,4 @@
-﻿@*@model Troy.Model.GPRO.GoodsReceipt
-
-    @{
-        ViewBag.Title = "_EditPartial";
-    }
-
-    <h2>_EditPartial</h2>
-
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            <h4>GoodsReceipt</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(model => model.Goods_Receipt_Id)
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.BaseDocId, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.BaseDocId, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.BaseDocId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.TargetDocId, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.TargetDocId, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.TargetDocId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Purchase_Order_Id, "Purchase_Order_Id", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("Purchase_Order_Id", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Purchase_Order_Id, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Vendor, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Vendor, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Vendor, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Reference_Number, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Reference_Number, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Reference_Number, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Doc_Status, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Doc_Status, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Doc_Status, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Posting_Date, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Posting_Date, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Posting_Date, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Due_Date, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Due_Date, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Due_Date, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document_Date, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Document_Date, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Document_Date, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Ship_To, "Ship_To", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("Ship_To", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Ship_To, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Freight, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Freight, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Freight, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Loading, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Loading, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Loading, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Distribute_LandedCost, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Distribute_LandedCost, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Distribute_LandedCost, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.TotalBefDocDisc, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.TotalBefDocDisc, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.TotalBefDocDisc, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.DocDiscAmt, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.DocDiscAmt, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.DocDiscAmt, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.TaxAmt, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.TaxAmt, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.TaxAmt, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.TotalGRDocAmt, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.TotalGRDocAmt, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.TotalGRDocAmt, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Created_User_Id, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Created_User_Id, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Created_User_Id, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Created_Branc_Id, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Created_Branc_Id, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Created_Branc_Id, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Created_Dte, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Created_Dte, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Created_Dte, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Modified_User_Id, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Modified_User_Id, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Modified_User_Id, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Modified_Branch_Id, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Modified_Branch_Id, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Modified_Branch_Id, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">GoodsReceiptViewModels
-                @Html.LabelFor(model => model.Modified_Dte, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Modified_Dte, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Modified_Dte, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-    }
-
-    <div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>
-
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }*@
-
-
-
-@model Troy.Web.Models.GoodsReceiptViewModels
+﻿@model Troy.Web.Models.GoodsReceiptViewModels
 
 @Scripts.Render("~/bundles/script/jqueryval")
 
@@ -412,6 +183,204 @@
         });
 
     });
+
+
+    function OnChangeProduct(val, rowId) {
+
+        //debugger;
+        var pID = parseInt(val.value);
+        var dataUrl = "/PurchaseOrders/GetPrice?pID=" + pID;
+
+        $.ajax({
+            type: 'GET',
+            url: dataUrl,
+            data: pID,
+            async: true,
+            cache: false,
+            crossDomain: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            error: function (xhr, err) {
+            },
+            success: function (result, status) {
+                //debugger;
+                var id = "#goodreceiptitemlist_" + rowId + "__Unit_price";
+                $(id).val(result);
+
+                CalculateTotal();
+                CalculateTotalAmount();
+            }
+        });
+    }
+
+    function OnChangeQuantity(currentQty, rowId) {
+        //debugger;
+
+        var qty = currentQty.value;
+        var price = $("#goodreceiptitemlist_" + rowId + "__Unit_price").val();
+
+        var totAmount = price * qty;
+
+        var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+        CalculateTotal();
+        CalculateTotalAmount();
+    }
+
+    function OnChangeDiscount(currentDis, rowId) {
+        //debugger;
+
+        var dis = currentDis.value;
+        var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
+        var price = $("#goodreceiptitemlist_" + rowId + "__Unit_price").val();
+
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+
+        var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
+        CalculateTotal();
+        //CalculateDiscount();
+        CalculateTotalAmount();
+    }
+
+    function OnChangeVAT(currentVAT, rowId) {
+        //var vat = currentVAT.value;
+        //var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quantity").val();
+        //var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
+        //var dis = $("#PurchaseQuotationItemList_" + rowId + "__Discount_percent").val();
+
+        //var totAmount = price * qty - ((price * qty) * dis / 100)
+        //var totvat = totAmount * (vat / 100)
+        //var totNet = totAmount + totvat
+
+        //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
+        //$(id).val(totNet);
+
+        CalculateTax();
+        CalculateTotalAmount();
+    }
+
+    function OnChangeDiscountSummary(currentDis) {
+        //var totdis = currentDis.value;
+        //var totdoc = $("#totalPurchase1").val();
+        //var tottax = $("#totalTax1").val();
+        //tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+
+        //$("#totalQuotationAmt1").val(tot);
+
+        var percentage = 0;
+        var totdoc = 0;
+        var totdis = currentDis.value;
+        var tottax = 0;
+        var totline = 0;
+        var totminus = 0;
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val());
+            }
+        }
+
+        percentage = totdis / totdoc * 100;
+
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()))) {
+                totline = parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val() * percentage / 100);
+                totminus = parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()) - totline;
+                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()) / 100;
+            }
+        }
+
+        tot = (totdoc - totdis) + tottax;
+
+        $("#totalTax1").val(tottax.toFixed(2));
+        $("#totalQuotationAmt1").val(tot.toFixed(2));
+    }
+
+    function CalculateTotal() {
+        //debugger;
+        var tot = 0;
+        //if (i == 0) {
+        //    tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + i + "__Amount").val());
+        //}
+        //else {
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val());
+
+            }
+        }
+        //}
+
+        $("#totalPurchase1").val(tot.toFixed(2));
+
+    }
+
+    function CalculateDiscount() {
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__Discount_percent").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#goodreceiptitemlist_" + j + "__Discount_percent").val());
+            }
+        }
+
+        $("#totalDiscount1").val(tot.toFixed(2));
+
+    }
+
+    function CalculateTax() {
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()))) {
+                //tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
+                tot = parseFloat(tot) + (parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()) * parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()) / 100);
+            }
+        }
+
+        $("#totalTax1").val(tot.toFixed(2));
+
+    }
+
+    function CalculateTotalAmount() {
+        var totdoc = 0;
+        var totdis = 0;
+        var tottax = 0;
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val());
+            }
+        }
+
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val()))) {
+        //        totdis = parseFloat(totdis) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val());
+        //    }
+        //}
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()))) {
+                //tottax = parseFloat(tottax) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
+                tottax = parseFloat(tottax) + (parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()) * parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()) / 100);
+            }
+        }
+
+        //tot = (totdoc - totdis) + tottax;
+        tot = totdoc + tottax;
+
+        $("#totalQuotationAmt1").val(tot.toFixed(2));
+
+    }
+
+
+
+
 </script>
 
 @using (Html.BeginForm("Index", "GoodsReceipt"))
@@ -437,7 +406,7 @@
                             </ul>
                             @Html.HiddenFor(model => model.goodreceipt.Goods_Receipt_Id)
                             @Html.Hidden("ItemCount", Model.goodreceiptitemlist.Count)
-                            @Html.HiddenFor(model=>model.goodreceipt.Created_Dte)
+                            @Html.HiddenFor(model => model.goodreceipt.Created_Dte)
                             @Html.HiddenFor(model => model.goodreceipt.Created_Branc_Id)
                             @Html.HiddenFor(model => model.goodreceipt.Created_User_Id)
                             @*@Html.HiddenFor(model=>model.PurchaseOrder.Purchase_Quote_Id);*@
@@ -677,9 +646,9 @@
                                             <tbody>
                                                 @for (int i = 0; i < Model.goodreceiptitemlist.Count; i++)
                                                 {
-                                                    @Html.HiddenFor(model=>model.goodreceiptitemlist[i].Id)
-                                                   //  @Html.HiddenFor(model => model.goodreceiptitemlist[i].Goods_Receipt_Id)
-                                                   //  @Html.HiddenFor(model => model.goodreceiptitemlist[i].Product_id)
+                                                    @Html.HiddenFor(model => model.goodreceiptitemlist[i].Id)
+                                                    //  @Html.HiddenFor(model => model.goodreceiptitemlist[i].Goods_Receipt_Id)
+                                                    //  @Html.HiddenFor(model => model.goodreceiptitemlist[i].Product_id)
                                                     // @Html.HiddenFor(model => model.goodreceiptitemlist[i].Product_id)
 
                                                     <tr>
@@ -704,7 +673,7 @@
                                                             @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Quantity)
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Unit_price, new { @class = "form-control control-text" })@*, @readonly = true })*@
+                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Unit_price, new { @class = "form-control control-text" , @readonly = true })
                                                             @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Unit_price)
                                                         </td>
                                                         <td>
@@ -712,7 +681,7 @@
                                                             @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Discount_percent)
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Freight_Loading, new { @class = "form-control control-text" }) @*//@readonly = true })*@
+                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Freight_Loading, new { @class = "form-control control-text" ,@readonly = true })
                                                             @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Freight_Loading)
                                                         </td>
                                                         <td>
@@ -734,7 +703,12 @@
 
                                         <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
-                                        @Ajax.ActionLink(" ", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+                                        <div class="row" style="float:right;">
+                                            Total : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.DocDiscAmt, new { id = "totalDiscount1", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.goodreceipt.DocDiscAmt) </span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TaxAmt, new { id = "totalTax1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalGRDocAmt, new { id = "totalQuotationAmt1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        </div>
 
                                     </div>
 
