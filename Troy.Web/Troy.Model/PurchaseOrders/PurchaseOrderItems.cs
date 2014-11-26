@@ -14,6 +14,9 @@ namespace Troy.Model.PurchaseOrders
     public class PurchaseOrderItems
     {
         [Key]
+        public int Purchase_OrderItem_Id { get; set; }
+
+
         [Required]
         public int Purchase_Order_Id { get; set; }
         //[ForeignKey("Purchase_Order_Id")]
@@ -43,7 +46,7 @@ namespace Troy.Model.PurchaseOrders
         //-----------
 
         [Required(ErrorMessage = "VAT Code is required.")]
-        public int Vat_Code { get; set; }
+        public float Vat_Code { get; set; }
         //[ForeignKey("Vat_Code")]
         //public virtual VAT vat { get; set; }
         //-----------

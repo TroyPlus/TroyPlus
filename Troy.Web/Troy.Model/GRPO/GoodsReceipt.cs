@@ -23,7 +23,7 @@ namespace Troy.Model.GPRO
         public int BaseDocId { get; set; }
 
         [Required]
-        public int TargetDocId { get; set; }
+        public string TargetDocId { get; set; }
 
 
         public int Purchase_Order_Id { get; set; }

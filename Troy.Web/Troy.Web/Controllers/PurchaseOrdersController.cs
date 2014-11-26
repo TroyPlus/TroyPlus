@@ -11,6 +11,9 @@ using Troy.Model.PurchaseOrders;
 using Troy.Data.Repository;
 using Troy.Utilities.CrossCutting;
 using Troy.Web.Models;
+using System.Data.Entity.Validation;
+using System.Data.Entity.Core;
+using System.Data.Entity.Core.Objects;
 
 namespace Troy.Web.Controllers
 {
@@ -84,6 +87,7 @@ namespace Troy.Web.Controllers
                 {
 
                     model.PurchaseOrder.Order_Status = "Open";
+                    model.PurchaseOrder.TargetDocId = "0";
                     model.PurchaseOrder.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
                     model.PurchaseOrder.Created_Date = DateTime.Now;
                     model.PurchaseOrder.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
@@ -115,17 +119,126 @@ namespace Troy.Web.Controllers
                 else if (submitButton == "Save-PurQuo")
                 {
                     PurchaseOrderViewModels model1 = new PurchaseOrderViewModels();
-                    model1.PurchaseQuotation = purchaseorderRepository.FindQuotationforBaseDocID(model.PurchaseQuotation.Purchase_Quote_Id, model.PurchaseQuotation.Vendor_Code);               
+                    model1.PurchaseQuotation = purchaseorderRepository.FindOneQuotationById(model.PurchaseQuotation.Purchase_Quote_Id);
+                    model1.PurchaseQuotationItemList = purchaseorderRepository.FindOneQuotationItemById(model.PurchaseQuotation.Purchase_Quote_Id);
+
+
+                    if (model1.PurchaseQuotation.Vendor_Code == model.PurchaseQuotation.Vendor_Code)
+                    {
+                        //for BaseDocId
+                        for (int j = 0; j < model.PurchaseQuotationItemList.Count; j++)
+                        {
+                            if (model1.PurchaseQuotationItemList[j].Product_id == model.PurchaseQuotationItemList[j].Product_id)
+                            {
+                                model.PurchaseOrder.BaseDocId = model.PurchaseQuotation.Purchase_Quote_Id;
+                            }
+                        }
+
+                        //for BaseDocLink
+                        for (int j = 0; j < model.PurchaseQuotationItemList.Count; j++)
+                        {
+                            if (model1.PurchaseQuotationItemList[j].Product_id == model.PurchaseQuotationItemList[j].Product_id)
+                            {
+                                model.PurchaseOrderItems.BaseDocLink = "Y";                              
+
+                            }
+                            else
+                            {
+                                model.PurchaseOrderItems.BaseDocLink = "N";
+                            }
+
+                            // model.PurchaseOrder.Purchase_Order_Id = model.PurchaseQuotation.Purchase_Quote_Id;
+                            model.PurchaseOrder.Reference_Number = model.PurchaseQuotation.Reference_Number;
+                            model.PurchaseOrder.Vendor = model.PurchaseQuotation.Vendor_Code;
+                            model.PurchaseOrder.Order_Status = "Open";
+                            model.PurchaseOrder.Posting_Date = model.PurchaseQuotation.Posting_Date;
+                            model.PurchaseOrder.Delivery_Date = model.PurchaseQuotation.Valid_Date;
+                            model.PurchaseOrder.Document_Date = model.PurchaseQuotation.Posting_Date;
+                            model.PurchaseOrder.Ship_To = model.PurchaseQuotation.Ship_To;
+                            model.PurchaseOrder.Freight = Convert.ToDecimal(model.PurchaseQuotation.Freight);
+                            model.PurchaseOrder.Loading = Convert.ToDecimal(model.PurchaseQuotation.Loading);
+                            model.PurchaseOrder.TotalBefDocDisc = model.PurchaseQuotation.TotalBefDocDisc;
+                            model.PurchaseOrder.DocDiscAmt = model.PurchaseQuotation.DocDiscAmt;
+                            model.PurchaseOrder.TotalBefDocDisc = model.PurchaseQuotation.TotalQtnAmt;
+                            model.PurchaseOrder.TaxAmt = model.PurchaseQuotation.TaxAmt;
+
+                            //var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
+                            //model.PurchaseOrderItemsList = QuotationList.ToList();
+                            int count = model1.PurchaseQuotationItemList.Count;
+
+                            for (int i = 0; i < count; i++)
+                            {
+                                model.PurchaseOrderItemsList[i].BaseDocLink = "N";
+                                model.PurchaseOrderItemsList[i].Product_id = model.PurchaseOrderItemsList[i].Product_id;
+                                model.PurchaseOrderItemsList[i].Quantity = model.PurchaseOrderItemsList[i].Quantity;
+                                model.PurchaseOrderItemsList[i].Unit_price = model.PurchaseOrderItemsList[i].Unit_price;
+                                model.PurchaseOrderItemsList[i].Discount_percent = model.PurchaseOrderItemsList[i].Discount_percent;
+                                model.PurchaseOrderItemsList[i].Vat_Code = model.PurchaseOrderItemsList[i].Vat_Code;
+                                model.PurchaseOrderItemsList[i].Freight_Loading = model.PurchaseOrderItemsList[i].Freight_Loading;
+
+                            }
+
+                            if (purchaseorderRepository.AddNewPurchaseOrder(model.PurchaseOrder, model.PurchaseOrderItemsList, ref ErrorMessage))
+                            {
+                                return RedirectToAction("Index", "PurchaseOrders");
+                            }
+                            else
+                            {
+                                ViewBag.AppErrorMessage = ErrorMessage;
+                                return View("Error");
+                            }
+                        }
+
+                        //for Purchase Quotation/Purchase Quotation item table update
+                        for (int j = 0; j < model.PurchaseQuotationItemList.Count; j++)
+                        {
+                            if (model1.PurchaseQuotationItemList[j].Product_id == model.PurchaseQuotationItemList[j].Product_id && model.PurchaseQuotationItemList[j].Quoted_qty >= model1.PurchaseQuotationItemList[j].Quoted_qty)
+                            {
+                                model.PurchaseQuotation.Quotation_Status = "Closed";
+                                model.PurchaseQuotation.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+                                model.PurchaseQuotationItemList[j].Used_qty = Convert.ToInt32(model.PurchaseQuotationItemList[j].Quoted_qty);
+                            }
+                            else if (model1.PurchaseQuotationItemList[j].Product_id == model.PurchaseQuotationItemList[j].Product_id && model.PurchaseQuotationItemList[j].Quoted_qty < model1.PurchaseQuotationItemList[j].Quoted_qty)
+                            {
+                                model.PurchaseQuotation.Quotation_Status = "Open";
+                                model.PurchaseQuotation.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+                                model.PurchaseQuotationItemList[j].Used_qty = Convert.ToInt32(model.PurchaseQuotationItemList[j].Quoted_qty);
+                            }
+                        }
+                    }
                 }
 
                 return RedirectToAction("Index", "PurchaseOrders");
             }
-            catch (Exception ex)
+            //catch (Exception ex)
+            //{
+            //    ExceptionHandler.LogException(ex);
+            //    ViewBag.AppErrorMessage = ex.Message;
+            //    return View("Error");
+            //}
+
+            catch (OptimisticConcurrencyException ex)
             {
-                ExceptionHandler.LogException(ex);
-                ViewBag.AppErrorMessage = ex.Message;
+                ObjectStateEntry entry = ex.StateEntries[0];
+                PurchaseOrder post = entry.Entity as PurchaseOrder; //Post is the entity name he is using. Rename it with yours
+                Console.WriteLine("Failed to save {0} because it was changed in the database", post.Purchase_Order_Id);
                 return View("Error");
             }
+
+            //catch (DbEntityValidationException dbEx)
+            //{
+            //    var errorList = new List<string>();
+
+            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+            //    {
+            //        foreach (var validationError in validationErrors.ValidationErrors)
+            //        {
+            //            errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+            //        }
+            //    }
+            //    return View("Error");
+            //}
+
         }
 
         public PartialViewResult _ViewPurchaseQuotation(int id)
