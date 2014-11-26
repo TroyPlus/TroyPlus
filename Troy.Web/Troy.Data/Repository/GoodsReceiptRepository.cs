@@ -293,7 +293,7 @@ namespace Troy.Data.Repository
 
                 goodscontext.SaveChanges();
 
-                int currentId = Goodsreceipt.Purchase_Order_Id;
+                int currentId = Goodsreceipt.Goods_Receipt_Id;
 
                 for (int i = 0; i < GoodsItemList.Count; i++)
                 {
