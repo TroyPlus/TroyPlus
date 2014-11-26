@@ -18,7 +18,7 @@ namespace Troy.Model.GPRO
         [Key]
         [Display(Name = "GoodsReceiptId")]
         public int Goods_Receipt_Id { get; set; }
-
+       
         [Required]
         public int BaseDocId { get; set; }
 

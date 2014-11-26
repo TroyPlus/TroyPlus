@@ -159,13 +159,13 @@ namespace Troy.Web.Controllers
                     model.goodreturn.Modified_Dte = DateTime.Now;
                     model.goodreturn.Modified_User_Id = 1;//CurrentUser.Id;
 
-                    for (int i = 0; i < model.goodreceiptitemlist.Count; i++)
+                    for (int i = 0; i < model.goodreturnitemlist.Count; i++)
                     {
-                        model.goodreceiptitemlist[i].BaseDocLink = "N";
+                        model.goodreturnitemlist[i].BaseDocLink = "N";
                     }
                     if (goodsreturnrepository.UpdateQuotation(model.goodreturn, model.goodreturnitemlist, ref ErrorMessage))
                     {
-                        return RedirectToAction("Index", "GoodsReceipt");
+                        return RedirectToAction("Index", "GoodsReturn");
                     }
                     else
                     {
@@ -174,7 +174,7 @@ namespace Troy.Web.Controllers
                     }
                 }
 
-                return RedirectToAction("Index", "GoodsReceipt");
+                return RedirectToAction("Index", "GoodsReturn");
 
             }
             catch (OptimisticConcurrencyException ex)
@@ -270,6 +270,10 @@ namespace Troy.Web.Controllers
                 model.goodreturnitemlist = goodsreturnrepository.FindOneQuotationItemById(id);
                 model.BranchList = goodsreturnrepository.GetAddressbranchList().ToList();
                 model.BussinessList = goodsreturnrepository.GetAddressbusinessList().ToList();
+                model.productlist = goodsreturnrepository.GetProductList();
+
+                model.VATList = goodsreturnrepository.GetVATList();
+
                 // model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
                 //  model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
                 // model.BranchList = purchaseDb.GetAddressList().ToList();

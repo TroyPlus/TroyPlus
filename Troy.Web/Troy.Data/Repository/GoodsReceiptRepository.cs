@@ -117,10 +117,11 @@ namespace Troy.Data.Repository
                      join b in goodscontext.businesspartner
                       on p.Vendor equals b.BP_Id
                      where p.Order_Status == "Open"
+                     where p.Vendor==b.BP_Id
                      select new ViewPurchaseOrder()
                      {
                          Purchase_Order_Id = p.Purchase_Order_Id,
-                         BaseDocId = p.BaseDocId,
+                         BaseDocId = p.Purchase_Order_Id,
                          TargetDocId = p.TargetDocId,
                          Purchase_Quote_Id = p.Purchase_Quote_Id,
                          Vendor_Name = b.BP_Name,
@@ -229,6 +230,15 @@ namespace Troy.Data.Repository
         }
 
 
+        public PurchaseOrder findid(int id)
+        {
+            return (from p in goodscontext.purchaseorder
+                    join g in goodscontext.goodsreceipt
+                    on p.Vendor equals g.Vendor
+                    where g.BaseDocId == p.Purchase_Order_Id
+                    select p).FirstOrDefault();
+            
+        }
 
         public PurchaseOrder FindOneQuotationById1(int qId)
         {
@@ -239,9 +249,36 @@ namespace Troy.Data.Repository
 
         public IList<PurchaseOrderItems> FindOneQuotationItemById1(int qId)
         {
-            return (from p in goodscontext.purchaseorderitem
-                    where p.Purchase_Order_Id == qId
-                    select p).ToList();
+            //return (from p in goodscontext.purchaseorderitem
+            //        where p.Purchase_Order_Id == qId
+            //        select p).ToList();
+
+
+            var qtn = (from p in goodscontext.purchaseorderitem
+                       where p.Purchase_Order_Id == qId
+                       select p).ToList();
+
+            var purchase = (from q in qtn
+                            join pi in goodscontext.product on q.Product_id equals pi.Product_Id
+                            select new PurchaseOrderItems
+                            {
+                                Discount_percent = q.Discount_percent,
+                                
+                                //LineTotal = q.LineTotal,
+                                Product_id = q.Product_id,
+                                ProductName = pi.Product_Name,
+                                Purchase_Order_Id = q.Purchase_Order_Id,
+                                Quantity=q.Quantity,
+                                Unit_price=q.Unit_price,
+                                Freight_Loading=q.Freight_Loading,
+                                Vat_Code = q.Vat_Code,
+                                LineTotal = q.LineTotal
+                            }).ToList();
+
+            return purchase;
+
+
+
         }
 
 
@@ -250,11 +287,13 @@ namespace Troy.Data.Repository
             ErrorMessage = string.Empty;
             try
             {
+               
+               // findid(id);
                 goodscontext.goodsreceipt.Add(Goodsreceipt);
 
                 goodscontext.SaveChanges();
 
-                int currentId = Goodsreceipt.Purchase_Order_Id;
+                int currentId = Goodsreceipt.Goods_Receipt_Id;
 
                 for (int i = 0; i < GoodsItemList.Count; i++)
                 {

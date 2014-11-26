@@ -140,7 +140,7 @@
                 success: function (result, status) {
                     //debugger;
                     for (var count = 0; count < result.length; count++) {
-                        selectHtml += '<option value="' + result[count].VAT_Id + '">' + result[count].VAT_percentage + '</option>';
+                        selectHtml += '<option value="' + result[count].VAT_percentage + '">' + result[count].VAT_percentage + '</option>';
                     }
                 }
             });
@@ -258,6 +258,7 @@
                 //debugger;
                 var id = "#goodreceiptitemlist_" + rowId + "__Unit_price";
                 $(id).val(result);
+                
                 CalculateTotal();
                 CalculateTotalAmount();
             }
@@ -486,6 +487,16 @@
                                                     </div>
                                                 </div>
 
+                                             
+                                             
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Due_Date, new { @class = "control-label normal" })*@
@@ -496,6 +507,7 @@
                                                         @Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)
                                                     </div>
                                                 </div>
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
@@ -509,11 +521,7 @@
                                                 </div>
 
 
-                                            </div>
-                                        </div>
 
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
 
                                                 <div class="row  form-group">
                                                     <div class="col-md-4">
@@ -535,77 +543,6 @@
                                                         @Html.ValidationMessageFor(model => model.goodreceipt.Loading)
                                                     </div>
                                                 </div>
-
-                                                @*<div class="row  form-group">
-                            <div class="col-md-4">
-                                Html.LabelFor(m => m.goodreceipt.Distribute_LandedCost, new { @class = "control-label normal" })*@
-                                                @*Distribute LandedCost
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.TextBoxFor(model => model.goodreceipt.Distribute_LandedCost, new { @class = "form-control control-text" })
-                                    @Html.ValidationMessageFor(model => model.goodreceipt.Distribute_LandedCost)
-                                </div>
-                            </div>*@
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.TotalBefDocDisc, new { @class = "control-label normal" })*@
-                                                        TotalBefDocDisc
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.TotalBefDocDisc, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.TotalBefDocDisc)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.DocDiscAmt, new { @class = "control-label normal" })*@
-                                                        DocumentDiscountAmount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.DocDiscAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.DocDiscAmt)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.TaxAmt, new { @class = "control-label normal" })*@
-                                                        Tax Amount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.TaxAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.TaxAmt)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.TotalGRDocAmt, new { @class = "control-label normal" })*@
-                                                        TotGRDcouAmt
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.TotalGRDocAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.TotalGRDocAmt)
-                                                    </div>
-                                                </div>
-
-                                                @*<div class="row form-group">
-                            <div class="col-md-4">
-                                @Html.LabelFor(m => m.goodreceipt.Distribute_LandedCost, new { @class = "control-label normal" })
-                            </div>
-                            <div class="col-md-8">
-                                @Html.DropDownListFor(model => model.PurchaseOrder.Distribute_LandedCost, new List<SelectListItem>
-                                 {
-                                    new SelectListItem{ Text="Equally", Value = "Equally" },
-                                    new SelectListItem{ Text="Quantity", Value = "Quantity" },
-                                       new SelectListItem{ Text="Cost", Value = "Cost" }
-                                 }, "", new { @class = "form-control" })*@
-
-                                                @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
-                                                @*</div>
-                            </div>*@
 
                                             </div>
                                         </div>
@@ -641,7 +578,8 @@
 
                                                 <tr>
                                                     <td style="display:none;">
-                                                        @Html.HiddenFor(model => model.goodreceiptitemlist[i].IsDummy, 0)
+                                                        @Html.HiddenFor(model => model.goodreturnitemlist[i].IsDummy, 0)
+                                              
 
                                                     </td>
                                                     <td width="20%">
@@ -651,10 +589,7 @@
                                                         @*@Html.TextBoxFor(model => model.goodreceiptitemlist[i].Product_id, new { @class = "form-control control-text" })*@
                                                         @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Product_id)
                                                     </td>
-                                                    @*<td width="15%">
-                            @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker" })
-                            @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
-                        </td>*@
+                
                                                     <td>
                                                         @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Quantity, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Quantity)
