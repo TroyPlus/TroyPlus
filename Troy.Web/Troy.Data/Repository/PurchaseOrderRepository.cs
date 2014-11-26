@@ -133,11 +133,10 @@ namespace Troy.Data.Repository
                     select p).FirstOrDefault();
         }
 
-        public PurchaseQuotation FindQuotationforBaseDocID(int qId, int vId)
+        public PurchaseQuotation FindQuotationforBaseDocID(int qId)
         {
             return (from p in purchaseordercontext.purchasequotation
                     where p.Purchase_Quote_Id == qId
-                    where p.Vendor_Code == vId
                     select p).FirstOrDefault();
         }
 
@@ -147,7 +146,6 @@ namespace Troy.Data.Repository
             {
                 var item= (from p in purchaseordercontext.purchasequotationitem
                         where p.Purchase_Quote_Id == qId
-                        where p.Product_id == pId
                         select p).FirstOrDefault();
                 return item;
             }
@@ -231,12 +229,12 @@ namespace Troy.Data.Repository
 
                 purchaseordercontext.SaveChanges();
 
-                int currentId = Order.Purchase_Order_Id;
+                int currentId = Order.Purchase_Order_Id;               
 
                 for (int i = 0; i < OrderItemList.Count; i++)
                 {
                     OrderItemList[i].Purchase_Order_Id = currentId;
-                    OrderItemList[i].BaseDocLink = "Y";
+                    OrderItemList[i].BaseDocLink = "N";
                 }
 
                 purchaseordercontext.purchaseorderitems.AddRange(OrderItemList);

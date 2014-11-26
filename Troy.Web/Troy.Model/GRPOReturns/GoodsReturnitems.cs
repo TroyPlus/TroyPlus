@@ -34,7 +34,7 @@ namespace Troy.Model.GRPOReturns
         public decimal Discount_percent { get; set; }
 
         [Required]
-        public int Vat_Code { get; set; }
+        public float Vat_Code { get; set; }
         // [ForeignKey("Vat_Code")]
         //  public virtual VAT vat { get; set; }
 

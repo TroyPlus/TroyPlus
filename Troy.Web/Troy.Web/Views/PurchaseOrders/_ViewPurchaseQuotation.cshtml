@@ -430,7 +430,8 @@
                                 <li><a href="#editQuotationItem" data-toggle="tab">Product </a></li>
                             </ul>
 
-                            @Html.HiddenFor(model => model.PurchaseQuotation.Purchase_Quote_Id)
+                            @Html.HiddenFor(model => model.PurchaseOrder.Purchase_Order_Id)
+                            @Html.HiddenFor(model => model.PurchaseOrderItems.Purchase_Order_Id)
                             @Html.Hidden("ItemCount", Model.PurchaseQuotationItemList.Count)
 
                             <div id="editTabContent" class="tab-content">

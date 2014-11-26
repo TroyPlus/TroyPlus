@@ -39,7 +39,7 @@ namespace Troy.Data.Repository
 
         int GetProductPrice(int? productId);
 
-        PurchaseQuotation FindQuotationforBaseDocID(int qId, int vId);
+        PurchaseQuotation FindQuotationforBaseDocID(int qId);
 
         PurchaseQuotationItem FindQuotationItemforBaseDocID(int qId, int pId, int iCount);
     }

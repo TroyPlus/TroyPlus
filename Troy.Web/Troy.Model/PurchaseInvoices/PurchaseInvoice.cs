@@ -21,7 +21,7 @@ namespace Troy.Model.PurchaseInvoices
         //----------
 
         [Required]
-        public int TargetDocId { get; set; }
+        public string TargetDocId { get; set; }
         //------------
 
         public int Goods_Receipt_Id { get; set; }

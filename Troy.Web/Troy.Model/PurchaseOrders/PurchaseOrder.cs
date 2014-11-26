@@ -25,7 +25,7 @@ namespace Troy.Model.PurchaseOrders
         //----------
 
         [Required]
-        public int TargetDocId { get; set; }
+        public string TargetDocId { get; set; }
         //------------
 
         //[ForeignKey("purchaseQuotation")]

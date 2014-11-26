@@ -10,7 +10,7 @@ namespace Troy.Model.PurchaseOrders
     {
         public int Purchase_Order_Id { get; set; }
         public int BaseDocId { get; set; }
-        public int TargetDocId { get; set; }
+        public string TargetDocId { get; set; }
         public int Purchase_Quote_Id { get; set; }
         public int Vendor { get; set; }
         public string Reference_Number { get; set; }

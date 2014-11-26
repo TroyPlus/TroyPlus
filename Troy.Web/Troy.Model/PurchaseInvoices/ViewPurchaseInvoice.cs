@@ -10,7 +10,7 @@ namespace Troy.Model.PurchaseInvoices
     {
         public int Purchase_Invoice_Id { get; set; }
         public int BaseDocId { get; set; }
-        public int TargetDocId { get; set; }
+        public string TargetDocId { get; set; }
         public int Goods_Receipt_Id { get; set; }
         public int Vendor { get; set; }
         public string Reference_Number { get; set; }
