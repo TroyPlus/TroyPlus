@@ -90,7 +90,7 @@ namespace Troy.Web.Controllers
                     model.PurchaseInvoice.Modified_User_Id = 1;//currentUser.Modified_User_Id;
                     model.PurchaseInvoice.Modified_Date = DateTime.Now;
                     model.PurchaseInvoice.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
-                    
+
 
                     var InvoiceList = model.PurchaseInvoiceItemsList.Where(x => x.IsDummy == 0);
                     model.PurchaseInvoiceItemsList = InvoiceList.ToList();
@@ -114,11 +114,128 @@ namespace Troy.Web.Controllers
                 }
                 else if (submitButton == "Save-PurQuo")
                 {
-                    //PurchaseOrderViewModels model1 = new PurchaseOrderViewModels();
-                    //model1.PurchaseQuotation = purchaseorderRepository.FindQuotationforBaseDocID(model.PurchaseQuotation.Purchase_Quote_Id, model.PurchaseQuotation.Vendor_Code);
+                    PurchaseInvoiceViewModels model1 = new PurchaseInvoiceViewModels();
+                    model1.GoodsReceipt = purchaseinvoiceRepository.FindOneGoodsReceiptById(model.GoodsReceipt.Goods_Receipt_Id);
+                    model1.GoodsReceiptItemList = purchaseinvoiceRepository.FindOneGoodsReceiptItemById(model.GoodsReceipt.Goods_Receipt_Id);
+
+
+                    if (model1.GoodsReceipt.Vendor == model.GoodsReceipt.Vendor)
+                    {
+                        //for BaseDocId
+                        for (int j = 0; j < model.GoodsReceiptItemList.Count; j++)
+                        {
+                            if (model1.GoodsReceiptItemList[j].Product_id == model.GoodsReceiptItemList[j].Product_id)
+                            {
+                                model.PurchaseInvoice.BaseDocId = model.GoodsReceipt.Goods_Receipt_Id;
+                            }
+                        }
+
+                        //for BaseDocLink
+                        for (int j = 0; j < model.GoodsReceiptItemList.Count; j++)
+                        {
+                            if (model1.GoodsReceiptItemList[j].Product_id == model.GoodsReceiptItemList[j].Product_id)
+                            {
+                                model.PurchaseInvoiceItemsList[j].BaseDocLink = "Y";
+                            }
+                            else
+                            {
+                                model.PurchaseInvoiceItemsList[j].BaseDocLink = "N";
+                            }
+
+                            model.PurchaseInvoice.Purchase_Invoice_Id = model.GoodsReceipt.Goods_Receipt_Id;
+                            model.PurchaseInvoice.Reference_Number = model.GoodsReceipt.Reference_Number;
+                            model.PurchaseInvoice.Vendor = model.GoodsReceipt.Vendor;
+                            model.PurchaseInvoice.Doc_Status = "Open";
+                            model.PurchaseInvoice.Posting_Date = DateTime.Now;// model.PurchaseQuotation.Posting_Date;
+                            model.PurchaseInvoice.Due_Date = DateTime.Now;// model.PurchaseQuotation.Valid_Date;
+                            model.PurchaseInvoice.Document_Date = DateTime.Now; //model.PurchaseQuotation.Posting_Date;
+                            model.PurchaseInvoice.Ship_To = model.GoodsReceipt.Ship_To;
+                            model.PurchaseInvoice.Freight = Convert.ToDecimal(model.GoodsReceipt.Freight);
+                            model.PurchaseInvoice.Loading = Convert.ToDecimal(model.GoodsReceipt.Loading);
+                            model.PurchaseInvoice.TotalBefDocDisc = model.GoodsReceipt.TotalBefDocDisc;
+                            model.PurchaseInvoice.DocDiscAmt = model.GoodsReceipt.DocDiscAmt;
+                            model.PurchaseInvoice.TotalBefDocDisc = model.GoodsReceipt.TotalGRDocAmt;
+                            model.PurchaseInvoice.TaxAmt = model.GoodsReceipt.TaxAmt;
+                            model.PurchaseInvoice.Remarks = model.GoodsReceipt.Remarks;
+                            model.PurchaseInvoice.TargetDocId = "0";
+                            model.PurchaseInvoice.Distribute_LandedCost = model.GoodsReceipt.Distribute_LandedCost;
+                            model.PurchaseInvoice.Invoice_Payment = "N";
+                            model.PurchaseInvoice.Remarks = model.GoodsReceipt.Remarks;
+
+                            model.PurchaseInvoice.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
+                            model.PurchaseInvoice.Created_Date = DateTime.Now;
+                            model.PurchaseInvoice.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
+                            model.PurchaseInvoice.Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                            model.PurchaseInvoice.Modified_Date = DateTime.Now;
+                            model.PurchaseInvoice.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
+
+
+                            var QuotationList = model.GoodsReceiptItemList.Where(x => x.IsDummy == 0);
+                            model.GoodsReceiptItemList = QuotationList.ToList();
+
+                            model.PurchaseInvoiceItemsList[j].Product_id = model.GoodsReceiptItemList[j].Product_id;
+                            model.PurchaseInvoiceItemsList[j].Quantity = Convert.ToInt32(model.GoodsReceiptItemList[j].Quantity);
+                            model.PurchaseInvoiceItemsList[j].Unit_price = model.GoodsReceiptItemList[j].Unit_price;
+                            model.PurchaseInvoiceItemsList[j].Discount_percent = model.GoodsReceiptItemList[j].Discount_percent;
+                            model.PurchaseInvoiceItemsList[j].Vat_Code = model.GoodsReceiptItemList[j].Vat_Code;
+                            model.PurchaseInvoiceItemsList[j].Freight_Loading = model.GoodsReceiptItemList[j].Freight_Loading;
+
+                        }
+
+                        if (purchaseinvoiceRepository.AddNewPurchaseInvoice(model.PurchaseInvoice, model.PurchaseInvoiceItemsList, ref ErrorMessage))
+                        {
+                            //for Purchase Quotation/Purchase Quotation item table update
+                            for (int j = 0; j < model.GoodsReceiptItemList.Count; j++)
+                            {
+                                if (model1.GoodsReceiptItemList[j].Product_id == model.GoodsReceiptItemList[j].Product_id && model.GoodsReceiptItemList[j].Quantity >= model1.GoodsReceiptItemList[j].Quantity)
+                                {
+                                    model1.GoodsReceipt.Doc_Status = "Closed";
+                                    model1.GoodsReceipt.TargetDocId = Convert.ToString(model.PurchaseInvoice.Purchase_Invoice_Id);
+
+
+                                    model1.GoodsReceiptItemList[j].Id = model1.GoodsReceiptItemList[j].Id;
+                                    model1.GoodsReceiptItemList[j].Goods_Receipt_Id = model1.GoodsReceiptItemList[j].Goods_Receipt_Id;
+                                    model1.GoodsReceiptItemList[j].Invoiced_Qty = Convert.ToInt32(model.GoodsReceiptItemList[j].Quantity);
+                                    model1.GoodsReceiptItemList[j].Product_id = model.GoodsReceiptItemList[j].Product_id;
+                                    model1.GoodsReceiptItemList[j].Unit_price = model.GoodsReceiptItemList[j].Unit_price;
+                                    model1.GoodsReceiptItemList[j].Discount_percent = model.GoodsReceiptItemList[j].Discount_percent;
+                                    model1.GoodsReceiptItemList[j].Vat_Code = model.GoodsReceiptItemList[j].Vat_Code;
+                                }
+                                else if (model1.GoodsReceiptItemList[j].Product_id == model.GoodsReceiptItemList[j].Product_id && model.GoodsReceiptItemList[j].Quantity < model1.GoodsReceiptItemList[j].Quantity)
+                                {
+                                    model1.GoodsReceipt.Doc_Status = "Open";
+                                    model1.GoodsReceipt.TargetDocId = Convert.ToString(model.PurchaseInvoice.Purchase_Invoice_Id);
+
+
+                                    model1.GoodsReceiptItemList[j].Id = model1.GoodsReceiptItemList[j].Id;
+                                    model1.GoodsReceiptItemList[j].Goods_Receipt_Id = model1.GoodsReceiptItemList[j].Goods_Receipt_Id;
+                                    model1.GoodsReceiptItemList[j].Invoiced_Qty = Convert.ToInt32(model.GoodsReceiptItemList[j].Quantity);
+                                    model1.GoodsReceiptItemList[j].Product_id = model.GoodsReceiptItemList[j].Product_id;
+                                    model1.GoodsReceiptItemList[j].Unit_price = model.GoodsReceiptItemList[j].Unit_price;
+                                    model1.GoodsReceiptItemList[j].Discount_percent = model.GoodsReceiptItemList[j].Discount_percent;
+                                    model1.GoodsReceiptItemList[j].Vat_Code = model.GoodsReceiptItemList[j].Vat_Code;
+                                }                                
+                            }
+
+                            model1.GoodsReceipt.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
+                            model1.GoodsReceipt.Created_Dte = DateTime.Now;
+                            model1.GoodsReceipt.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
+                            model1.GoodsReceipt.Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                            model1.GoodsReceipt.Modified_Dte = DateTime.Now;
+                            model1.GoodsReceipt.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
+
+                            purchaseinvoiceRepository.UpdateGoodsReceipt(model1.GoodsReceipt, model1.GoodsReceiptItemList, ref ErrorMessage);
+                            return RedirectToAction("Index", "PurchaseInvoices");
+                        }
+                        else
+                        {
+                            ViewBag.AppErrorMessage = ErrorMessage;
+                            return View("Error");
+                        }
+                    }
                 }
 
-                return RedirectToAction("Index", "PurchaseOrders");
+                return RedirectToAction("Index", "PurchaseInvoices");
             }
             catch (Exception ex)
             {
@@ -132,9 +249,9 @@ namespace Troy.Web.Controllers
         {
             try
             {
-                GoodsReceiptViewModels model = new GoodsReceiptViewModels();
-                model.goodreceipt = purchaseinvoiceRepository.FindOneGoodsReceiptById(id);
-                model.goodreceiptitemlist = purchaseinvoiceRepository.FindOneGoodsReceiptItemById(id);
+                PurchaseInvoiceViewModels model = new PurchaseInvoiceViewModels();
+                model.GoodsReceipt = purchaseinvoiceRepository.FindOneGoodsReceiptById(id);
+                model.GoodsReceiptItemList = purchaseinvoiceRepository.FindOneGoodsReceiptItemById(id);
 
                 //Bind Branch
                 var BranchList = purchaseinvoiceRepository.GetBranchList().ToList();
@@ -146,11 +263,11 @@ namespace Troy.Web.Controllers
 
                 //Bind Product
                 var ProductList = purchaseinvoiceRepository.GetProductList().ToList();
-                model.productlist = ProductList;
+                model.ProductList = ProductList;
 
                 //Bind Businesspartner
                 var BusinessParterList = purchaseinvoiceRepository.GetBusinessPartnerList().ToList();
-                model.BussinessList = BusinessParterList;
+                model.BusinessPartnerList = BusinessParterList;
 
 
                 return PartialView(model);

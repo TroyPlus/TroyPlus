@@ -431,8 +431,12 @@
                             </ul>
 
                             @Html.HiddenFor(model => model.PurchaseOrder.Purchase_Order_Id)
-                            @Html.HiddenFor(model => model.PurchaseOrderItems.Purchase_Order_Id)
+                            @*@Html.HiddenFor(model => model.PurchaseOrderItemsList.Count)*@
+
+                            @*@Html.HiddenFor(model => model.PurchaseOrderItemsList[0].Purchase_Order_Id)*@
                             @Html.Hidden("ItemCount", Model.PurchaseQuotationItemList.Count)
+                            @Html.HiddenFor(model => model.PurchaseQuotation.Purchase_Quote_Id)
+                            @Html.HiddenFor(model => model.PurchaseQuotationItem.Quote_Item_Id)
 
                             <div id="editTabContent" class="tab-content">
 
@@ -606,6 +610,7 @@
                                             @for (int i = 0; i < Model.PurchaseQuotationItemList.Count; i++)
                                             {
                                                 @Html.HiddenFor(model => model.PurchaseQuotationItemList[i].Quote_Item_Id)
+                                                @Html.HiddenFor(model => model.PurchaseOrderItemsList[i].Purchase_Order_Id)
                                                 @Html.HiddenFor(model => model.PurchaseQuotationItemList[i].Purchase_Quote_Id)
 
                                                 <tr>
