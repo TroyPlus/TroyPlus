@@ -100,7 +100,6 @@ namespace Troy.Web.Controllers
                     model.PurchaseOrderItemsList = QuotationList.ToList();
 
 
-
                     if (purchaseorderRepository.AddNewPurchaseOrder(model.PurchaseOrder, model.PurchaseOrderItemsList, ref ErrorMessage))
                     {
                         //XMLGenerate_SAPInsert(model);
@@ -139,21 +138,20 @@ namespace Troy.Web.Controllers
                         {
                             if (model1.PurchaseQuotationItemList[j].Product_id == model.PurchaseQuotationItemList[j].Product_id)
                             {
-                                model.PurchaseOrderItems.BaseDocLink = "Y";                              
-
+                                model.PurchaseOrderItemsList[j].BaseDocLink = "Y";
                             }
                             else
                             {
-                                model.PurchaseOrderItems.BaseDocLink = "N";
+                                model.PurchaseOrderItemsList[j].BaseDocLink = "N";
                             }
 
-                            // model.PurchaseOrder.Purchase_Order_Id = model.PurchaseQuotation.Purchase_Quote_Id;
+                            model.PurchaseOrder.Purchase_Order_Id = model.PurchaseQuotation.Purchase_Quote_Id;
                             model.PurchaseOrder.Reference_Number = model.PurchaseQuotation.Reference_Number;
                             model.PurchaseOrder.Vendor = model.PurchaseQuotation.Vendor_Code;
                             model.PurchaseOrder.Order_Status = "Open";
-                            model.PurchaseOrder.Posting_Date = model.PurchaseQuotation.Posting_Date;
-                            model.PurchaseOrder.Delivery_Date = model.PurchaseQuotation.Valid_Date;
-                            model.PurchaseOrder.Document_Date = model.PurchaseQuotation.Posting_Date;
+                            model.PurchaseOrder.Posting_Date = DateTime.Now;// model.PurchaseQuotation.Posting_Date;
+                            model.PurchaseOrder.Delivery_Date = DateTime.Now;// model.PurchaseQuotation.Valid_Date;
+                            model.PurchaseOrder.Document_Date = DateTime.Now; //model.PurchaseQuotation.Posting_Date;
                             model.PurchaseOrder.Ship_To = model.PurchaseQuotation.Ship_To;
                             model.PurchaseOrder.Freight = Convert.ToDecimal(model.PurchaseQuotation.Freight);
                             model.PurchaseOrder.Loading = Convert.ToDecimal(model.PurchaseQuotation.Loading);
@@ -161,49 +159,86 @@ namespace Troy.Web.Controllers
                             model.PurchaseOrder.DocDiscAmt = model.PurchaseQuotation.DocDiscAmt;
                             model.PurchaseOrder.TotalBefDocDisc = model.PurchaseQuotation.TotalQtnAmt;
                             model.PurchaseOrder.TaxAmt = model.PurchaseQuotation.TaxAmt;
+                            model.PurchaseOrder.Remarks = model.PurchaseQuotation.Remarks;
+                            model.PurchaseOrder.TargetDocId = "0";
 
-                            //var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
-                            //model.PurchaseOrderItemsList = QuotationList.ToList();
-                            int count = model1.PurchaseQuotationItemList.Count;
+                            model.PurchaseOrder.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
+                            model.PurchaseOrder.Created_Date = DateTime.Now;
+                            model.PurchaseOrder.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
+                            model.PurchaseOrder.Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                            model.PurchaseOrder.Modified_Date = DateTime.Now;
+                            model.PurchaseOrder.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
 
-                            for (int i = 0; i < count; i++)
-                            {
-                                model.PurchaseOrderItemsList[i].BaseDocLink = "N";
-                                model.PurchaseOrderItemsList[i].Product_id = model.PurchaseOrderItemsList[i].Product_id;
-                                model.PurchaseOrderItemsList[i].Quantity = model.PurchaseOrderItemsList[i].Quantity;
-                                model.PurchaseOrderItemsList[i].Unit_price = model.PurchaseOrderItemsList[i].Unit_price;
-                                model.PurchaseOrderItemsList[i].Discount_percent = model.PurchaseOrderItemsList[i].Discount_percent;
-                                model.PurchaseOrderItemsList[i].Vat_Code = model.PurchaseOrderItemsList[i].Vat_Code;
-                                model.PurchaseOrderItemsList[i].Freight_Loading = model.PurchaseOrderItemsList[i].Freight_Loading;
 
-                            }
+                            var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
+                            model.PurchaseQuotationItemList = QuotationList.ToList();
 
-                            if (purchaseorderRepository.AddNewPurchaseOrder(model.PurchaseOrder, model.PurchaseOrderItemsList, ref ErrorMessage))
-                            {
-                                return RedirectToAction("Index", "PurchaseOrders");
-                            }
-                            else
-                            {
-                                ViewBag.AppErrorMessage = ErrorMessage;
-                                return View("Error");
-                            }
+                            model.PurchaseOrderItemsList[j].Product_id = model.PurchaseQuotationItemList[j].Product_id;
+                            model.PurchaseOrderItemsList[j].Quantity = Convert.ToInt32(model.PurchaseQuotationItemList[j].Quoted_qty);
+                            model.PurchaseOrderItemsList[j].Unit_price = model.PurchaseQuotationItemList[j].Unit_price;
+                            model.PurchaseOrderItemsList[j].Discount_percent = model.PurchaseQuotationItemList[j].Discount_percent;
+                            model.PurchaseOrderItemsList[j].Vat_Code = model.PurchaseQuotationItemList[j].Vat_Code;
+                            model.PurchaseOrderItemsList[j].Freight_Loading = "0";// model.PurchaseQuotationItemList[i].Freight_Loading;
+
                         }
 
-                        //for Purchase Quotation/Purchase Quotation item table update
-                        for (int j = 0; j < model.PurchaseQuotationItemList.Count; j++)
+                        if (purchaseorderRepository.AddNewPurchaseOrder(model.PurchaseOrder, model.PurchaseOrderItemsList, ref ErrorMessage))
                         {
-                            if (model1.PurchaseQuotationItemList[j].Product_id == model.PurchaseQuotationItemList[j].Product_id && model.PurchaseQuotationItemList[j].Quoted_qty >= model1.PurchaseQuotationItemList[j].Quoted_qty)
+                            //return RedirectToAction("Index", "PurchaseOrders");
+
+                            //for Purchase Quotation/Purchase Quotation item table update
+                            for (int j = 0; j < model.PurchaseQuotationItemList.Count; j++)
                             {
-                                model.PurchaseQuotation.Quotation_Status = "Closed";
-                                model.PurchaseQuotation.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
-                                model.PurchaseQuotationItemList[j].Used_qty = Convert.ToInt32(model.PurchaseQuotationItemList[j].Quoted_qty);
+                                if (model1.PurchaseQuotationItemList[j].Product_id == model.PurchaseQuotationItemList[j].Product_id && model.PurchaseQuotationItemList[j].Quoted_qty >= model1.PurchaseQuotationItemList[j].Quoted_qty)
+                                {
+                                    model1.PurchaseQuotation.Quotation_Status = "Closed";
+                                    model1.PurchaseQuotation.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+
+
+                                    model1.PurchaseQuotationItemList[j].Quote_Item_Id = model1.PurchaseQuotationItemList[j].Quote_Item_Id;
+                                    model1.PurchaseQuotationItemList[j].Purchase_Quote_Id = model1.PurchaseQuotationItemList[j].Purchase_Quote_Id;
+                                    model1.PurchaseQuotationItemList[j].Quoted_date = model1.PurchaseQuotationItemList[j].Quoted_date;
+                                    model1.PurchaseQuotationItemList[j].Used_qty = Convert.ToInt32(model.PurchaseQuotationItemList[j].Quoted_qty);
+                                    model1.PurchaseQuotationItemList[j].Product_id = model.PurchaseQuotationItemList[j].Product_id;
+                                    model1.PurchaseQuotationItemList[j].Unit_price = model.PurchaseQuotationItemList[j].Unit_price;
+                                    model1.PurchaseQuotationItemList[j].Discount_percent = model.PurchaseQuotationItemList[j].Discount_percent;
+                                    model1.PurchaseQuotationItemList[j].Vat_Code = model.PurchaseQuotationItemList[j].Vat_Code;
+                                }
+                                else if (model1.PurchaseQuotationItemList[j].Product_id == model.PurchaseQuotationItemList[j].Product_id && model.PurchaseQuotationItemList[j].Quoted_qty < model1.PurchaseQuotationItemList[j].Quoted_qty)
+                                {
+                                    model1.PurchaseQuotation.Quotation_Status = "Open";
+                                    model1.PurchaseQuotation.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+
+
+                                    model1.PurchaseQuotationItemList[j].Quote_Item_Id = model1.PurchaseQuotationItemList[j].Quote_Item_Id;
+                                    model1.PurchaseQuotationItemList[j].Purchase_Quote_Id = model1.PurchaseQuotationItemList[j].Purchase_Quote_Id;
+                                    model1.PurchaseQuotationItemList[j].Quoted_date = model1.PurchaseQuotationItemList[j].Quoted_date;
+                                    model1.PurchaseQuotationItemList[j].Used_qty = Convert.ToInt32(model.PurchaseQuotationItemList[j].Quoted_qty);
+                                    model1.PurchaseQuotationItemList[j].Product_id = model.PurchaseQuotationItemList[j].Product_id;
+                                    model1.PurchaseQuotationItemList[j].Unit_price = model.PurchaseQuotationItemList[j].Unit_price;
+                                    model1.PurchaseQuotationItemList[j].Discount_percent = model.PurchaseQuotationItemList[j].Discount_percent;
+                                    model1.PurchaseQuotationItemList[j].Vat_Code = model.PurchaseQuotationItemList[j].Vat_Code;
+                                }
                             }
-                            else if (model1.PurchaseQuotationItemList[j].Product_id == model.PurchaseQuotationItemList[j].Product_id && model.PurchaseQuotationItemList[j].Quoted_qty < model1.PurchaseQuotationItemList[j].Quoted_qty)
+
+                            model1.PurchaseQuotation.Creating_Branch = 1;
+                            model1.PurchaseQuotation.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
+                            model1.PurchaseQuotation.Created_Date = DateTime.Now;
+                            model1.PurchaseQuotation.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
+                            model1.PurchaseQuotation.Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                            model1.PurchaseQuotation.Modified_Date = DateTime.Now;
+                            model1.PurchaseQuotation.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
+
+                            if (ModelState.IsValid)
                             {
-                                model.PurchaseQuotation.Quotation_Status = "Open";
-                                model.PurchaseQuotation.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
-                                model.PurchaseQuotationItemList[j].Used_qty = Convert.ToInt32(model.PurchaseQuotationItemList[j].Quoted_qty);
+                                purchaseorderRepository.UpdateQuotation(model1.PurchaseQuotation, model1.PurchaseQuotationItemList, ref ErrorMessage);
+                                return RedirectToAction("Index", "PurchaseOrders");
                             }
+                        }
+                        else
+                        {
+                            ViewBag.AppErrorMessage = ErrorMessage;
+                            return View("Error");
                         }
                     }
                 }

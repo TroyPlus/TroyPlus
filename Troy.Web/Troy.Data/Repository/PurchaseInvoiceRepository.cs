@@ -16,6 +16,7 @@ using Troy.Model.Products;
 using Troy.Model.Configuration;
 using Troy.Model.BusinessPartners;
 using Troy.Utilities.CrossCutting;
+using System.Data.Entity.Validation;
 
 namespace Troy.Data.Repository
 {
@@ -181,6 +182,11 @@ namespace Troy.Data.Repository
                             join pi in purchaseinvoicecontext.product on q.Product_id equals pi.Product_Id
                             select new GoodsReceiptItems
                             {
+                                Id=q.Id,
+                                Goods_Receipt_Id=q.Goods_Receipt_Id,
+                                Return_Qty=q.Return_Qty,
+                                Invoiced_Qty=q.Invoiced_Qty,
+                                BaseDocLink=q.BaseDocLink,
                                 Product_id = q.Product_id,
                                 Quantity = q.Quantity - q.Return_Qty - q.Invoiced_Qty,
                                 Unit_price = q.Unit_price,
@@ -217,10 +223,78 @@ namespace Troy.Data.Repository
 
                 return true;
             }
-            catch (Exception ex)
+            //catch (Exception ex)
+            //{
+            //    ExceptionHandler.LogException(ex);
+            //    ErrorMessage = ex.Message;
+            //    return false;
+            //}
+            catch (DbEntityValidationException dbEx)
             {
-                ExceptionHandler.LogException(ex);
-                ErrorMessage = ex.Message;
+                var errorList = new List<string>();
+
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+                    }
+                }
+                return false;
+            }
+        }
+
+        public bool UpdateGoodsReceipt(GoodsReceipt Quotation, IList<GoodsReceiptItems> QuotationItemList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                purchaseinvoicecontext.Entry(Quotation).State = EntityState.Modified;
+                purchaseinvoicecontext.SaveChanges();
+
+                foreach (var model in QuotationItemList)
+                {
+                    if (model.IsDummy == 1)
+                    {
+                        purchaseinvoicecontext.Entry(model).State = EntityState.Deleted;
+                        purchaseinvoicecontext.SaveChanges();
+                    }
+                    else
+                    {
+                        if (model.Id == 0)
+                        {
+                            model.Goods_Receipt_Id = Quotation.Goods_Receipt_Id;
+                            purchaseinvoicecontext.GoodsReceiptItems.Add(model);
+                            purchaseinvoicecontext.SaveChanges();
+                        }
+                        else
+                        {
+                            // purchaseordercontext.purchasequotationitem.Attach(model); 
+                            purchaseinvoicecontext.Entry(model).State = EntityState.Modified;
+                            purchaseinvoicecontext.SaveChanges();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            //catch (Exception ex)
+            //{
+            //    ExceptionHandler.LogException(ex);
+            //    ErrorMessage = ex.Message;
+            //    return false;
+            //}
+            catch (DbEntityValidationException dbEx)
+            {
+                var errorList = new List<string>();
+
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+                    }
+                }
                 return false;
             }
         }
