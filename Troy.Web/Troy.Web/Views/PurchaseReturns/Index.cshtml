@@ -6,15 +6,33 @@
 <script type="text/javascript">
     function ViewPurchaseInvoice(id) {
 
-        var url = $('#editModal').data('url') + '/' + id;
+        var url = $('#viewPurInvModal').data('url') + '/' + id;
         alert(url);
         $.get(url, function (data) {
 
+            $('#viewPurInvmodelcontainer').html(data);
+
+            $('#viewPurInvModal').modal('show');
+        });
+    }
+    function EditPurchaseReturn(id) {
+        alert(id);
+        var url = $('#editModal').data('url') + '/' + id;
+        alert(url);
+        $.get(url, function (data) {
+            alert(url);
             $('#editmodelcontainer').html(data);
 
             $('#editModal').modal('show');
         });
     }
+    function EditSubmit(button) {
+        alert(button);
+        var text = button.value;
+        $('#submitAction').val(button.value)
+        return true;
+    }
+
     
 </script>
 @using (Html.BeginForm("Index", "PurchaseReturns", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -114,7 +132,7 @@
 
                                                     </a>
                                                     <span class="text-muted">|</span>
-                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Purchase_Return_Id);">
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchaseReturn(@item.Purchase_Return_Id);">
                                                         <i class="im-pencil2"></i>
                                                     </a>
                                                     @*<span class="text-muted">|</span>
@@ -151,12 +169,7 @@
         @* @Html.Partial("_CreatePartial", Model)*@
         <div id="viewPurInvmodelcontainer">
 
-            <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
-                 aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPurchaseInvoice")'>
-                <div id="editmodelcontainer">
-
-                </div>
-            </div>
+            
 
 
         </div>

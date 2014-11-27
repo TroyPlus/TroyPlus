@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
@@ -142,7 +143,18 @@ namespace Troy.Data.Repository
                     where p.Vendor == vId
                     select p).FirstOrDefault();
         }
-
+        public PurchaseReturn FindOneReturnById(int qId)
+        {
+            return (from p in purchasereturncontext.purchasereturn
+                    where p.Purchase_Return_Id == qId
+                    select p).FirstOrDefault();
+        }
+        public IList<PurchaseReturnitems> FindOneReturnItemById(int qId)
+        {
+            return (from p in purchasereturncontext.purchasereturnitems
+                    where p.Purchase_Return_Id == qId
+                    select p).ToList();
+        }
         public IList<PurchaseInvoiceItems> FindOneInvoiceItemById(int qId)
         {
             //return (from p in purchaseordercontext.purchasequotationitem
@@ -210,12 +222,57 @@ namespace Troy.Data.Repository
                 }
                 return false;
             }
-            //catch (Exception ex)
-            //{
-            //    ExceptionHandler.LogException(ex);
-            //    ErrorMessage = ex.Message;
-            //    return false;
-            //}
+          
+        }
+        public bool UpdateReturn(PurchaseReturn PurchaseReturn, IList<PurchaseReturnitems> PurchaseReturnitemsList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                purchasereturncontext.Entry(PurchaseReturn).State = EntityState.Modified;
+                purchasereturncontext.SaveChanges();
+
+                foreach (var model in PurchaseReturnitemsList)
+                {
+                    if (model.IsDummy == 1)
+                    {
+                        purchasereturncontext.Entry(model).State = EntityState.Deleted;
+                        purchasereturncontext.SaveChanges();
+                    }
+                    else
+                    {
+                        if (model.Purchase_Return_Id == 0)
+                        {
+                            model.Purchase_Return_Id = PurchaseReturn.Purchase_Invoice_Id;
+                            purchasereturncontext.purchasereturnitems.Add(model);
+                            purchasereturncontext.SaveChanges();
+                        }
+                        else
+                        {
+                            purchasereturncontext.Entry(model).State = EntityState.Modified;
+                            purchasereturncontext.SaveChanges();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                var errorList = new List<string>();
+
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+                    }
+                }
+                return false;
+            }
+
+
+
         }
     }
 }

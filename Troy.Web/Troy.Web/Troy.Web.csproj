@@ -1503,12 +1503,11 @@
     <Content Include="Views\PurchaseInvoices\_EditPartial.cshtml" />
     <Content Include="Views\PurchaseInvoices\_ViewGoodsReceipt.cshtml" />
     <Content Include="Views\PurchaseInvoices\_ViewPartial.cshtml" />
-    <Content Include="Views\PurchaseReturns\Delete.cshtml" />
-    <Content Include="Views\PurchaseReturns\Details.cshtml" />
-    <Content Include="Views\PurchaseReturns\Edit.cshtml" />
+    <Content Include="Views\PurchaseReturns\_EditPartial.cshtml" />
     <Content Include="Views\PurchaseReturns\Index.cshtml" />
     <Content Include="Views\PurchaseReturns\_ViewPurchaseInvoice.cshtml" />
     <Content Include="Views\PurchaseReturns\_CreatePartial.cshtml" />
+    <Content Include="Views\PurchaseReturns\_ViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />

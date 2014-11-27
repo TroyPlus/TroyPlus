@@ -40,7 +40,7 @@ namespace Troy.Model.PurchaseReturn
         //-----------
 
         [Required]
-        public int Vat_Code { get; set; }
+        public float Vat_Code { get; set; }
         //-----------
 
         [Required]

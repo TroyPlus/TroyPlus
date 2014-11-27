@@ -204,7 +204,31 @@ namespace Troy.Web.Controllers
                     }
 
                 }
+               
+                  else if (submitButton == "Update")
+                {
+                    model.PurchaseReturn.Doc_Status = "open";
+                    model.PurchaseReturn.Modified_Branch_Id = 1;//CurrentBranchId;
+                    model.PurchaseReturn.Modified_Date = DateTime.Now;
+                    model.PurchaseReturn.Modified_User_Id = 1;//CurrentUser.Id;
+
+                    for (int i = 0; i < model.PurchaseReturnitemsList.Count; i++)
+                    {
+                        model.PurchaseReturnitemsList[i].BaseDocLink = "N";
+                    }
+                    if (purchasereturnrepository.UpdateReturn(model.PurchaseReturn, model.PurchaseReturnitemsList, ref ErrorMessage))
+                    {
+                        return RedirectToAction("Index", "PurchaseReturns");
+                    }
+                    else
+                    {
+                        ViewBag.AppErrorMessage = ErrorMessage;
+                        return View("Error");
+                    }
+                }
+
                 return RedirectToAction("Index", "PurchaseReturns");
+
             }
             catch (OptimisticConcurrencyException ex)
             {
@@ -259,7 +283,31 @@ namespace Troy.Web.Controllers
             }
         }
 
+        public PartialViewResult _EditPartial(int id)
+        {
+            try
+            {
+                PurchaseReturnViewModels model = new PurchaseReturnViewModels();
+                model.PurchaseReturn = purchasereturnrepository.FindOneReturnById(id);
+                model.PurchaseReturnitemsList = purchasereturnrepository.FindOneReturnItemById(id);
+                model.BranchList = purchasereturnrepository.GetBranchList().ToList();
+                model.BusinessPartnerList = purchasereturnrepository.GetBusinessPartnerList().ToList();
+                model.ProductList = purchasereturnrepository.GetProductList();
+                model.VATList = purchasereturnrepository.GetVAT();
+                // model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
+                //  model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
+                // model.BranchList = purchaseDb.GetAddressList().ToList();
+                // model.BussinessList = purchaseDb.GetVendorList();
 
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+        }
 
 
 

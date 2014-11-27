@@ -32,6 +32,12 @@ namespace Troy.Data.Repository
 
         PurchaseInvoice FindInvoiceforBaseDocID(int qId, int vId);
 
+        PurchaseReturn FindOneReturnById(int qId);
+
+        IList<PurchaseReturnitems> FindOneReturnItemById(int qId);
+
         bool AddNewReturn(PurchaseReturn PurchaseReturn, IList<PurchaseReturnitems> PurchaseReturnitemsList, ref string ErrorMessage);
+
+        bool UpdateReturn(PurchaseReturn PurchaseReturn, IList<PurchaseReturnitems> PurchaseReturnitemsList, ref string ErrorMessage);
     }
 }
