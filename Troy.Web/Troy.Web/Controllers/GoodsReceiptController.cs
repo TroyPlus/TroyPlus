@@ -169,6 +169,7 @@ namespace Troy.Web.Controllers
                             if (model1.PurchaseOrderItemsList[j].Product_id == model.PurchaseOrderItemsList[j].Product_id)
                             {
                                 model.goodreceipt.BaseDocId = model.PurchaseOrder.Purchase_Order_Id;
+                                model.goodreceipt.TargetDocId = "Y";
                                 model.goodreceipt.Doc_Status = "Open";
                                 model.goodreceipt.Created_Branc_Id = 1;//CurrentBranchId;
                                 model.goodreceipt.Created_Dte = DateTime.Now;
@@ -188,10 +189,10 @@ namespace Troy.Web.Controllers
                                 model.goodreceipt.TotalGRDocAmt = model.PurchaseOrder.TotalOrdAmt;
                                 model.goodreceipt.TaxAmt = model.PurchaseOrder.TaxAmt;
                                 //model.PurchaseOrder.BaseDocId = qq;   
-                                var Goodslist = model.goodreceiptitemlist.Where(x => x.IsDummy == 0);
-                                model.goodreceiptitemlist = Goodslist.ToList();
+                                var Goodslist = model.PurchaseOrderItemsList.Where(x => x.IsDummy == 0);
+                                model.PurchaseOrderItemsList = Goodslist.ToList();
 
-                                for (int i = 0; i < model.goodreceiptitemlist.Count; i++)
+                                for (int i = 0; i < model.PurchaseOrderItemsList.Count; i++)
                                 {
                                     model.goodreceiptitemlist[i].BaseDocLink = "N";
                                     model.goodreceiptitemlist[i].Product_id = model.PurchaseOrderItemsList[i].Product_id;
@@ -233,10 +234,10 @@ namespace Troy.Web.Controllers
                         model.goodreceipt.TotalGRDocAmt = model.PurchaseOrder.TotalOrdAmt;
                         model.goodreceipt.TaxAmt = model.PurchaseOrder.TaxAmt;
                         //model.PurchaseOrder.BaseDocId = qq;   
-                        var Goodslist = model.goodreceiptitemlist.Where(x => x.IsDummy == 0);
-                        model.goodreceiptitemlist = Goodslist.ToList();
+                        var Goodslist = model.PurchaseOrderItemsList.Where(x => x.IsDummy == 0);
+                        model.PurchaseOrderItemsList = Goodslist.ToList();
 
-                        for (int i = 0; i < model.goodreceiptitemlist.Count; i++)
+                        for (int i = 0; i < model.PurchaseOrderItemsList.Count; i++)
                         {
                             model.goodreceiptitemlist[i].BaseDocLink = "N";
                             model.goodreceiptitemlist[i].Product_id = model.PurchaseOrderItemsList[i].Product_id;
