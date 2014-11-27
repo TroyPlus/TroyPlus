@@ -12,6 +12,9 @@ namespace Troy.Model.PurchaseInvoices
     public class PurchaseInvoiceItems
     {
         [Key]
+        public int Purchase_InvoiceItem_Id { get; set; }
+
+
         [Required]
         public int Purchase_Invoice_Id { get; set; }
         //-----------
@@ -37,7 +40,7 @@ namespace Troy.Model.PurchaseInvoices
         //-----------
 
         [Required(ErrorMessage = "VAT Code is required.")]
-        public int Vat_Code { get; set; }
+        public float Vat_Code { get; set; }
         //-----------
                
         public decimal Freight_Loading { get; set; }

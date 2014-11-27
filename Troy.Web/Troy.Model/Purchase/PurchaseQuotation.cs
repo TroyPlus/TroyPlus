@@ -18,7 +18,7 @@ namespace Troy.Model.Purchase
         //[ForeignKey("Purchase_Quote_Id")]
         //public virtual PurchaseQuotation purchaseQuotation { get; set; }
 
-        public int TargetDocId { get; set; }
+        public string TargetDocId { get; set; }
 
         [Required]
         [Display(Name = "Vendor")]

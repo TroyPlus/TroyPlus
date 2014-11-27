@@ -187,7 +187,7 @@ namespace Troy.Data.Repository
                                 Discount_percent = q.Discount_percent,
                                 Vat_Code = q.Vat_Code,
                                 Freight_Loading = q.Freight_Loading,
-                                LineTotal=q.LineTotal
+                                LineTotal = q.LineTotal
                             }).ToList();
 
             return purchase;

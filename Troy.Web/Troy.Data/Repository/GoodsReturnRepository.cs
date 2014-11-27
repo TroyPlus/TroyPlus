@@ -85,7 +85,7 @@ namespace Troy.Data.Repository
                      {
                          Purchase_Order_Id = p.Purchase_Order_Id,
                          BaseDocId = p.BaseDocId,
-                         TargetDocId = p.TargetDocId,
+                         TargetDocId =p.TargetDocId,
                          Goods_Receipt_Id = p.Goods_Receipt_Id,
                          Vendor_Name = b.BP_Name,
                          Reference_Number = p.Reference_Number,
