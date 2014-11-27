@@ -79,7 +79,7 @@ namespace Troy.Model.GPRO
         public decimal Discount_percent { get; set; }
 
        
-        public int Vat_Code { get; set; }
+        public float Vat_Code { get; set; }
 
         public decimal Freight_Loading { get; set; }
 

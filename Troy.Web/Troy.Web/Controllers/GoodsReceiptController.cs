@@ -212,7 +212,7 @@ namespace Troy.Web.Controllers
                         }
 
                     }
-
+                
                     else
                     {
                         // model.goodreceipt.Doc_Status = "Open";
@@ -265,6 +265,7 @@ namespace Troy.Web.Controllers
                     model.goodreceipt.Modified_Branch_Id = 1;//CurrentBranchId;
                     model.goodreceipt.Modified_Dte = DateTime.Now;
                     model.goodreceipt.Modified_User_Id = 1;//CurrentUser.Id;
+                    model.goodreceipt.TargetDocId = "1";
 
                     for (int i = 0; i < model.goodreceiptitemlist.Count; i++)
                     {
@@ -422,5 +423,28 @@ namespace Troy.Web.Controllers
                 return PartialView("Error");
             }
         }
+
+        public PartialViewResult _ViewPartial(int id)
+        {
+            try
+            {
+                GoodsReceiptViewModels model = new GoodsReceiptViewModels();
+                model.goodreceipt = goodsrepository.FindOneQuotationById(id);
+                model.goodreceiptitemlist = goodsrepository.FindOneQuotationItemById(id);
+                model.BranchList = goodsrepository.GetAddressbranchList().ToList();
+                model.BussinessList = goodsrepository.GetAddressbusinessList().ToList();
+                model.productlist = goodsrepository.GetProductList();
+                model.VATList = goodsrepository.GetVATList();
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+        }
+
     }
 }

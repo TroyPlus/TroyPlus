@@ -60,7 +60,7 @@
 
         var url = $('#viewPurQuoModal').data('url') + '/' + id;
         alert(url);
-        $.get(url, function (data) {  
+        $.get(url, function (data) {
             $('#viewPurQuomodelcontainer').html(data);
 
             $('#viewPurQuoModal').modal('show');
@@ -105,9 +105,8 @@
     }
 
     function loadingcalaulation() {
-        if (i == equality)
-        {
-                 
+        if (i == equality) {
+
 
         }
     }
@@ -218,7 +217,7 @@
 
         //Dynamically add quotation row
         function addRow() {
-            alert('click');
+
             //var date = new Date();
             //var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 
@@ -251,6 +250,10 @@
                             '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="goodreceiptitemlist_' + i + '__Discount_percent" name="goodreceiptitemlist[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
                             '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
                         '</td>' +
+                        '<td>' +
+                '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__Freight_Loading" name="goodreceiptitemlist[' + i + '].Freight_Loading" readonly="True" type="text" value="">' +
+                '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
+                     '</td>' +
                          '<td>' +
 
                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__LineTotal" name="goodreceiptitemlist[' + i + '].LineTotal" readonly="True" type="text" value="">' +
@@ -261,11 +264,11 @@
                         //    '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
                         //'</td>' +
                         '<td>' +
-                        
+
                           selectHtml1 +
                             '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
                         '</td>' +
-                        
+
                         '<td>' +
                             '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
                         '</td>' +
@@ -602,6 +605,86 @@
         $("#totalQuotationAmt").val(tot.toFixed(2));
     }
 
+    //function OnChange() {
+    //    var tot = 0;
+    //    var tot1 = 0;
+    //    var totdoc = 0;
+    //    //var tot = parseFloat($('#txtBox1').val() + $('#txtBox2').val());
+    //    var tot = parseFloat($('#txtBox1').val());
+    //    var tot1 = parseFloat($('#txtBox2').val());
+    //    var t = tot + tot1;
+    //    //if (Distribute_LandedCost == "Equally")
+    //    //{
+    //        //for (var j = i; j >= 0; j--) {
+    //        //    //if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__i").val()))) {
+    //        //    //   var totdoc = parseFloat(t) / parseFloat($("#goodreceiptitemlist_" + j + "__Id").val());
+    //        //    //    alert(totdoc);
+    //        //    //}
+
+    //        //     totdoc = parseFloat(t) / i;
+    //        //    alert(totdoc);
+    //        //    }
+    //        //}
+
+
+    //    //}
+
+
+    //    //alert(t);
+
+    //    //var tot2 = parseFloat($('#txtBox3').val());
+    //    //alert(tot2);
+
+    //    //var total = t / tot2;
+    // //   alert(total);
+
+    //$("#totloading").val(t);
+    //   // alert(t);
+
+    //}
+
+
+
+    function OnChangeload() {
+        var tot = 0;
+        var tot1 = 0;
+        var totdoc = 0;
+        //var tot = parseFloat($('#txtBox1').val() + $('#txtBox2').val());
+        var tot = parseFloat($('#txtBox1').val());
+        var tot1 = parseFloat($('#txtBox2').val());
+        var t = tot + tot1;
+        alert(t);
+
+        if (textload.text == "Equally")
+            alert("test");
+
+        {
+            for (var j = i; j >= 0; j--) {
+                var total = t / i;
+            }
+      
+        }
+   
+
+  //    else if (textload.text == "Quality")
+  //    {
+  //        for (var j = i; j >= 0; j--) {
+  //            var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
+  //            var total = t / qty;
+
+  //        }
+  //    }
+  //else if (textload.text == "Cost") 
+  //    {
+  //          for (var j = i; j >= 0; j--) {
+  //              var line = $("#goodreceiptitemlist_" + rowId + "__LineTotal").val();
+  //              var total = t / line;
+
+  //          }
+  //      }
+        $("#totloading").val(total);
+    }
+
     $.validator.unobtrusive.parse('#myModal form');
 </script>
 @*//"Index", "GoodsReceipt", FormMethod.Post, new { enctype = "multipart/form-data" }*@
@@ -731,219 +814,217 @@
          aria-labelledby="myLargeModalLabel" aria-hidden="true">
         @Html.Partial("_CreatePartial", Model)
     </div>
-    
-        <div class="modal fade bs-example-modal-lg" id="viewPurQuoModal" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPurchaseOrder")'>
-            @*@Html.Partial("_CreatePartial", Model)*@
-            <div id="viewPurQuomodelcontainer">
 
-            </div>
-        </div>
+    <div class="modal fade bs-example-modal-lg" id="viewPurQuoModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPurchaseOrder")'>
+        @*@Html.Partial("_CreatePartial", Model)*@
+        <div id="viewPurQuomodelcontainer">
 
-        <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
-            <div id="editmodelcontainer">
-            </div>
         </div>
+    </div>
 
-        <div class="modal fade bs-example-modal-lg" id="viewModal" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPartial")'>
-            <div id="viewmodelcontainer">
-            </div>
+    <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
+        <div id="editmodelcontainer">
         </div>
-        }
-        @using (Html.BeginForm("Upload", "GoodsReceipt", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="viewModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPartial")'>
+        <div id="viewmodelcontainer">
+        </div>
+    </div>
+}
+@using (Html.BeginForm("Upload", "GoodsReceipt", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
-            <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
-                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
+    <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myModalLabel">File Upload</h4>
-                        </div>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">File Upload</h4>
+                </div>
 
-                        <div class="modal-body">
+                <div class="modal-body">
 
-                            <div class="form-horizontal">
-                                <div class="row">
-                                    <div class="tabs">
-                                        <ul id="myTab" class="nav nav-tabs tabdrop">
-                                            <li class="active">
-                                                <a href="#default" data-toggle="tab">Bulk Addition</a>
-                                            </li>
-                                        </ul>
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="tabs">
+                                <ul id="myTab" class="nav nav-tabs tabdrop">
+                                    <li class="active">
+                                        <a href="#default" data-toggle="tab">Bulk Addition</a>
+                                    </li>
+                                </ul>
 
-                                        <div id="myTabContent" class="tab-content">
-                                            <div class="tab-pane fade in active" id="default">
-                                                <br />
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade in active" id="default">
+                                        <br />
 
-                                                <div id="FileUploadDiv">
-                                                    <iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <input type="file" id="FileUpload" name="FileUpload" />
-                                                        </div>
-                                                    </div>
-                                                    @*<div class="row">
-                                                            <div class="col-md-12 text-right">
-                                                                <input type="button" id="btnUpload" name="FileUploadButton" value="Upload" class="btn btn-success"
-                                                                       onclick="return IFrameSubmit();" />
-                                                            </div>
-                                                        </div>*@
+                                        <div id="FileUploadDiv">
+                                            <iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <input type="file" id="FileUpload" name="FileUpload" />
                                                 </div>
-
                                             </div>
+                                            @*<div class="row">
+                                                    <div class="col-md-12 text-right">
+                                                        <input type="button" id="btnUpload" name="FileUploadButton" value="Upload" class="btn btn-success"
+                                                               onclick="return IFrameSubmit();" />
+                                                    </div>
+                                                </div>*@
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="modal-footer">
-                            <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
-                            <button class="btn pull-left" data-dismiss="modal">Cancel</button>
-                            @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
-                        </div>
-
                     </div>
                 </div>
+
+                <div class="modal-footer">
+                    <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
+                    <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+                </div>
+
             </div>
+        </div>
+    </div>
 
 }
 
 
 
-        @using (Html.BeginForm("Confirmation", "GoodsReceipt", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Confirmation", "GoodsReceipt", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-            <div class="modal fade bs-example-modal-lg" id="confirmationModal" tabindex="-1" role="dialog"
-                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
+    <div class="modal fade bs-example-modal-lg" id="confirmationModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myModalLabel">Select Way of Entry</h4>
-                        </div>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Select Way of Entry</h4>
+                </div>
 
-                        <div class="modal-body">
+                <div class="modal-body">
 
-                            <div class="form-horizontal">
-                                <div class="row">
-                                    <div class="tabs">
-                                        <ul id="myTab" class="nav nav-tabs tabdrop">
-                                            <li class="active">
-                                                <a href="#default" data-toggle="tab">Select way of entry</a>
-                                            </li>
-                                        </ul>
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="tabs">
+                                <ul id="myTab" class="nav nav-tabs tabdrop">
+                                    <li class="active">
+                                        <a href="#default" data-toggle="tab">Select way of entry</a>
+                                    </li>
+                                </ul>
 
-                                        <div id="myTabContent" class="tab-content">
-                                            <div class="tab-pane fade in active" id="default">
-                                                <br />
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade in active" id="default">
+                                        <br />
 
-                                                <div id="FileUploadDiv">
-                                                    @*<iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>*@
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            @*<input type="file" id="Select" name="FileUpload" />*@
-                                                            @*@Html.RadioButton("select", "Create from Purchase Quotation", false)Create from Purchase Quotation
-                                                                @Html.RadioButton("select", "Create Directly", false) Create Directly*@
-                                                            <button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#RetrivePurQuoModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal">
-                                                                <i class="en-add-to-list strong"></i>
-                                                                <span> Create from Purchase Order</span>
-                                                            </button>
-                                                            <button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal">
-                                                                <i class="en-add-to-list strong"></i>
-                                                                <span> Create Directly</span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
+                                        <div id="FileUploadDiv">
+                                            @*<iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>*@
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    @*<input type="file" id="Select" name="FileUpload" />*@
+                                                    @*@Html.RadioButton("select", "Create from Purchase Quotation", false)Create from Purchase Quotation
+                                                        @Html.RadioButton("select", "Create Directly", false) Create Directly*@
+                                                    <button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#RetrivePurQuoModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal">
+                                                        <i class="en-add-to-list strong"></i>
+                                                        <span> Create from Purchase Order</span>
+                                                    </button>
+                                                    <button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal">
+                                                        <i class="en-add-to-list strong"></i>
+                                                        <span> Create Directly</span>
+                                                    </button>
                                                 </div>
-
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="modal-footer">
-                            <input class="btn btn-primary pull-left" type="button" id="btnOK" name="FileUploadButton" value="OK" />
-                            <button class="btn pull-left" data-dismiss="modal">Cancel</button>
-                        </div>
-
                     </div>
                 </div>
+
+                <div class="modal-footer">
+                    <input class="btn btn-primary pull-left" type="button" id="btnOK" name="FileUploadButton" value="OK" />
+                    <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                </div>
+
             </div>
+        </div>
+    </div>
 }
 
 
-        @using (Html.BeginForm("RetrivePurQuo", "GoodsReceipt", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("RetrivePurQuo", "GoodsReceipt", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-            <div class="modal fade bs-example-modal-lg" id="RetrivePurQuoModal" tabindex="-1" role="dialog"
-                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
+    <div class="modal fade bs-example-modal-lg" id="RetrivePurQuoModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myModalLabel">Goods Receipt</h4>
-                        </div>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Goods Receipt</h4>
+                </div>
 
-                        <div class="modal-body">
+                <div class="modal-body">
 
-                            <div class="form-horizontal">
-                                <div class="row">
-                                    <div class="tabs">
-                                        <ul id="myTab" class="nav nav-tabs tabdrop">
-                                            <li class="active">
-                                                <a href="#default" data-toggle="tab">Goods Receipt</a>
-                                            </li>
-                                        </ul>
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="tabs">
+                                <ul id="myTab" class="nav nav-tabs tabdrop">
+                                    <li class="active">
+                                        <a href="#default" data-toggle="tab">Goods Receipt</a>
+                                    </li>
+                                </ul>
 
-                                        <div id="myTabContent" class="tab-content">
-                                            <div class="tab-pane fade in active" id="default">
-                                                <br />
-                                                <div id="FileUploadDiv">
-                                                    @*<iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>*@
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="panel-body">
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade in active" id="default">
+                                        <br />
+                                        <div id="FileUploadDiv">
+                                            @*<iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>*@
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="panel-body">
 
-                                                                <table class="table display" id="datatable">
-                                                                    <thead>
+                                                        <table class="table display" id="datatable">
+                                                            <thead>
 
-                                                                        <tr>
-                                                                            <th>Purchase Order ID</th>
-                                                                            <th>Posting Date</th>
-                                                                            <th>Delivery Date</th>
-                                                                            <th>Vendor</th>
-                                                                            <th>Quotation Status</th>
-                                                                            <th></th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        @foreach (Troy.Model.PurchaseOrders.ViewPurchaseOrder item in Model.PurchaseOrderList)
+                                                                <tr>
+                                                                    <th>Purchase Order ID</th>
+                                                                    <th>Posting Date</th>
+                                                                    <th>Delivery Date</th>
+                                                                    <th>Vendor</th>
+                                                                    <th>Quotation Status</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (Troy.Model.PurchaseOrders.ViewPurchaseOrder item in Model.PurchaseOrderList)
                                                                 {
-                                                                            <tr class="odd gradeX">
-                                                                                <td style="text-align:center;">@item.Purchase_Order_Id</td>
-                                                                                <td>@item.Posting_Date</td>
-                                                                                <td>@item.Delivery_Date</td>
-                                                                                <td style="text-align:center;">@item.Vendor_Name</td>
-                                                                                <td>@item.Order_Status</td>
-                                                                                <td>
-                                                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewPurQuoModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewGoodsReceipt(@item.Purchase_Order_Id);">
-                                                                                        <i class="im-eye2"></i>
-                                                                                    </a>
-                                                                                </td>
-                                                                            </tr>
+                                                                    <tr class="odd gradeX">
+                                                                        <td style="text-align:center;">@item.Purchase_Order_Id</td>
+                                                                        <td>@item.Posting_Date</td>
+                                                                        <td>@item.Delivery_Date</td>
+                                                                        <td style="text-align:center;">@item.Vendor_Name</td>
+                                                                        <td>@item.Order_Status</td>
+                                                                        <td>
+                                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#viewPurQuoModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewGoodsReceipt(@item.Purchase_Order_Id);">
+                                                                                <i class="im-eye2"></i>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
                                                                 }
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
@@ -955,4 +1036,6 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 }
