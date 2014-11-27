@@ -42,14 +42,17 @@ namespace Troy.Model.PurchaseReturn
         //------
 
         [Required]
+        [Column(TypeName = "date")]
         public DateTime Posting_Date { get; set; }
         //------
 
         [Required]
+        [Column(TypeName = "date")]
         public DateTime Due_Date { get; set; }
         //------
 
         [Required]
+        [Column(TypeName = "date")]
         public DateTime Document_Date { get; set; }
         //------
         [Required]

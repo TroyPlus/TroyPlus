@@ -50,12 +50,12 @@ namespace Troy.Model.PurchaseReturn
 
         public int Created_Branc_Id { get; set; }
 
-        public DateTime? Created_Date { get; set; }
+        public DateTime Created_Date { get; set; }
 
         public int Modified_User_Id { get; set; }
 
         public int Modified_Branch_Id { get; set; }
 
-        public DateTime? Modified_Date { get; set; }
+        public DateTime Modified_Date { get; set; }
     }
 }

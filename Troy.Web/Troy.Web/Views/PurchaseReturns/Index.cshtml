@@ -3,7 +3,21 @@
 @{
     ViewBag.Title = "Purchase Return";
 }
-@using (Html.BeginForm("Index", "PurchaseReturn", FormMethod.Post, new { enctype = "multipart/form-data" }))
+<script type="text/javascript">
+    function ViewPurchaseInvoice(id) {
+
+        var url = $('#editModal').data('url') + '/' + id;
+        alert(url);
+        $.get(url, function (data) {
+
+            $('#editmodelcontainer').html(data);
+
+            $('#editModal').modal('show');
+        });
+    }
+    
+</script>
+@using (Html.BeginForm("Index", "PurchaseReturns", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(true)
     @Html.HiddenFor(m => m.SearchColumn)
@@ -34,7 +48,7 @@
                                         <i class="en-add-to-list strong"></i>
                                         <span> New</span>
                                     </button>*@
-                                <button type="button" title="New Purchase Order" class="btn btn-primary" data-toggle="modal" data-target="#confirmationModal" data-backdrop="static" data-keyboard="false">
+                                <button type="button" title="New Purchase Return" class="btn btn-primary" data-toggle="modal" data-target="#confirmationModal" data-backdrop="static" data-keyboard="false">
                                     <i class="en-add-to-list strong"></i>
                                     <span> New</span>
                                 </button>
@@ -129,13 +143,21 @@
     <div class="clearfix"></div>
     <div class="modal fade bs-example-modal-lg" id="createModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true">
-   @*     @Html.Partial("_CreatePartial", Model)*@
+        @*     @Html.Partial("_CreatePartial", Model)*@
     </div>
 
-    <div class="modal fade bs-example-modal-lg" id="viewPurQuoModal" tabindex="-1" role="dialog"
-         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPurchaseQuotation")'>
-       @* @Html.Partial("_CreatePartial", Model)*@
-        <div id="viewPurQuomodelcontainer">
+    <div class="modal fade bs-example-modal-lg" id="viewPurInvModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPurchaseInvoice")'>
+        @* @Html.Partial("_CreatePartial", Model)*@
+        <div id="viewPurInvmodelcontainer">
+
+            <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
+                 aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPurchaseInvoice")'>
+                <div id="editmodelcontainer">
+
+                </div>
+            </div>
+
 
         </div>
     </div>
@@ -153,7 +175,7 @@
     </div>
 }
 
-@using (Html.BeginForm("Upload", "PurchaseOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Upload", "PurchaseReturn", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -212,7 +234,7 @@
     </div>
 }
 
-@using (Html.BeginForm("Confirmation", "PurchaseReturns", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Confirmation", "PurchaseReturn", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="modal fade bs-example-modal-lg" id="confirmationModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -271,7 +293,7 @@
         </div>
     </div>
 }
-@using (Html.BeginForm("RetrivePurInv", "PurchaseReturns", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("RetrivePurInv", "PurchaseReturn", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="modal fade bs-example-modal-lg" id="RetrivePurInvModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -308,30 +330,33 @@
 
                                                                 <tr>
                                                                     <th>Purchase Invoice ID</th>
-                                                                   <th>Vendor</th>
+                                                                    <th>Vendor</th>
                                                                     <th>Doc Status</th>
                                                                     <th>Posting Date</th>
                                                                     <th>Due Date</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                               @foreach (Troy.Model.PurchaseInvoices.ViewPurchaseInvoice item in Model.PurchaseInvoiceList) 
+                                                                @foreach (Troy.Model.PurchaseInvoices.ViewPurchaseInvoice item in Model.PurchaseInvoiceList)
                                                                 {
                                                                     <tr class="odd gradeX">
                                                                         <td style="text-align:center;">@item.Purchase_Invoice_Id</td>
-                                                                       
+
                                                                         <td style="text-align:center;">@item.Vendor_Name</td>
                                                                         <td>@item.Doc_Status</td>
                                                                         <td>@item.Posting_Date</td>
                                                                         <td>@item.Due_Date</td>
                                                                         <td>
-                                                                        <a href="#" class="top-right" data-toggle="modal" data-target="#viewPurInvModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseInvoice(@item.Purchase_Invoice_Id);">
-        <i class="im-eye2"></i>
+                                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#viewPurInvModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseInvoice(@item.Purchase_Invoice_Id);">
+                                                                                <i class="im-eye2"></i>
 
-    </a>  
+                                                                            </a>
+                                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseInvoice(@item.Purchase_Invoice_Id);">
+                                                                                <i class="im-pencil2"></i>
+                                                                            </a>
                                                                         </td>
-                                                                    </tr> 
-                                                               }
+                                                                    </tr>
+                                                                }
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -347,4 +372,4 @@
             </div>
         </div>
     </div>
-                                                               }
+}

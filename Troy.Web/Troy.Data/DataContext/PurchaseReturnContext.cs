@@ -23,7 +23,7 @@ namespace Troy.Data.DataContext
 
         public DbSet<PurchaseReturnitems> purchasereturnitems { get; set; }
 
-        //   public DbSet<GoodsReceipt> goodsreceipt { get; set; }
+        public DbSet<GoodsReceipt> goodsreceipt { get; set; }
 
         public DbSet<BusinessPartner> Businesspartner { get; set; }
 
