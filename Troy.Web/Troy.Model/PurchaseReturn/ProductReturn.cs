@@ -31,6 +31,10 @@ namespace Troy.Model.PurchaseReturn
         public int Vendor { get; set; }
         //------
 
+        //[Required]
+        //public string TargetDocId { get; set; }
+        //------------
+
         [Required]
         [StringLength(30)]
         public string Reference_Number { get; set; }
@@ -42,14 +46,17 @@ namespace Troy.Model.PurchaseReturn
         //------
 
         [Required]
+        [Column(TypeName = "date")]
         public DateTime Posting_Date { get; set; }
         //------
 
         [Required]
+        [Column(TypeName = "date")]
         public DateTime Due_Date { get; set; }
         //------
 
         [Required]
+        [Column(TypeName = "date")]
         public DateTime Document_Date { get; set; }
         //------
         [Required]
@@ -89,7 +96,7 @@ namespace Troy.Model.PurchaseReturn
 
         //[Required]
         [Column(TypeName = "date")]
-        public DateTime? Created_Date { get; set; }
+        public DateTime Created_Date { get; set; }
         //------
 
         //[Required]
@@ -102,7 +109,7 @@ namespace Troy.Model.PurchaseReturn
 
         //[Required]
         [Column(TypeName = "date")]
-        public DateTime? Modified_Date { get; set; }
+        public DateTime Modified_Date { get; set; }
         //------
     }
 }

@@ -16,6 +16,7 @@ using Troy.Model.Branches;
 using Troy.Model.Configuration;
 using Troy.Model.Products;
 using Troy.Model.Purchase;
+using System.Data.Entity.Validation;
 
 namespace Troy.Data.Repository
 {
@@ -144,9 +145,9 @@ namespace Troy.Data.Repository
         {
             for (int j = 1; j >= iCount; j++)
             {
-                var item= (from p in purchaseordercontext.purchasequotationitem
-                        where p.Purchase_Quote_Id == qId
-                        select p).FirstOrDefault();
+                var item = (from p in purchaseordercontext.purchasequotationitem
+                            where p.Purchase_Quote_Id == qId
+                            select p).FirstOrDefault();
                 return item;
             }
             return null;
@@ -170,14 +171,14 @@ namespace Troy.Data.Repository
             var purchase = (from q in qtn
                             join pi in purchaseordercontext.product on q.Product_id equals pi.Product_Id
                             select new PurchaseOrderItems
-                            {                                                        
+                            {
                                 Product_id = q.Product_id,
                                 ProductName = pi.Product_Name,
-                                Purchase_Order_Id = q.Purchase_Order_Id, 
+                                Purchase_Order_Id = q.Purchase_Order_Id,
                                 Quantity = q.Quantity - q.Received_Qty,
                                 Received_Qty = q.Received_Qty,
                                 Unit_price = q.Unit_price,
-                                Discount_percent = q.Discount_percent, 
+                                Discount_percent = q.Discount_percent,
                                 Vat_Code = q.Vat_Code,
                                 LineTotal = q.LineTotal
                             }).ToList();
@@ -213,7 +214,7 @@ namespace Troy.Data.Repository
                                 Unit_price = q.Unit_price,
                                 Used_qty = q.Used_qty,
                                 Vat_Code = q.Vat_Code,
-                                LineTotal=q.LineTotal
+                                LineTotal = q.LineTotal
                             }).ToList();
 
             return purchase;
@@ -229,12 +230,15 @@ namespace Troy.Data.Repository
 
                 purchaseordercontext.SaveChanges();
 
-                int currentId = Order.Purchase_Order_Id;               
+                int currentId = Order.Purchase_Order_Id;
 
                 for (int i = 0; i < OrderItemList.Count; i++)
                 {
                     OrderItemList[i].Purchase_Order_Id = currentId;
-                    OrderItemList[i].BaseDocLink = "N";
+                    if (OrderItemList[i].BaseDocLink == "")
+                    {
+                        OrderItemList[i].BaseDocLink = "N";
+                    }
                 }
 
                 purchaseordercontext.purchaseorderitems.AddRange(OrderItemList);
@@ -243,10 +247,77 @@ namespace Troy.Data.Repository
 
                 return true;
             }
-            catch (Exception ex)
+            //catch (Exception ex)
+            //{
+            //    ExceptionHandler.LogException(ex);
+            //    ErrorMessage = ex.Message;
+            //    return false;
+            //}
+            catch (DbEntityValidationException dbEx)
             {
-                ExceptionHandler.LogException(ex);
-                ErrorMessage = ex.Message;
+                var errorList = new List<string>();
+
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+                    }
+                }
+                return false;
+            }
+        }
+
+        public bool UpdateQuotation(PurchaseQuotation Quotation, IList<PurchaseQuotationItem> QuotationItemList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                purchaseordercontext.Entry(Quotation).State = EntityState.Modified;
+                purchaseordercontext.SaveChanges();
+
+                foreach (var model in QuotationItemList)
+                {
+                    if (model.IsDummy == 1)
+                    {
+                        purchaseordercontext.Entry(model).State = EntityState.Deleted;
+                        purchaseordercontext.SaveChanges();
+                    }
+                    else
+                    {
+                        if (model.Quote_Item_Id == 0)
+                        {
+                            model.Purchase_Quote_Id = Quotation.Purchase_Quote_Id;
+                            purchaseordercontext.purchasequotationitem.Add(model);
+                            purchaseordercontext.SaveChanges();
+                        }
+                        else
+                        {                           
+                            purchaseordercontext.Entry(model).State = EntityState.Modified;
+                            purchaseordercontext.SaveChanges();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            //catch (Exception ex)
+            //{
+            //    ExceptionHandler.LogException(ex);
+            //    ErrorMessage = ex.Message;
+            //    return false;
+            //}
+            catch (DbEntityValidationException dbEx)
+            {
+                var errorList = new List<string>();
+
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+                    }
+                }
                 return false;
             }
         }

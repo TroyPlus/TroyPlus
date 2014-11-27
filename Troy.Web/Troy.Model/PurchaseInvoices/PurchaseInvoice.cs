@@ -103,7 +103,7 @@ namespace Troy.Model.PurchaseInvoices
 
         //[Required]
         [Column(TypeName = "date")]
-        public DateTime? Created_Date { get; set; }
+        public DateTime Created_Date { get; set; }
         //------
 
         //[Required]
@@ -116,7 +116,7 @@ namespace Troy.Model.PurchaseInvoices
 
         //[Required]
         [Column(TypeName = "date")]
-        public DateTime? Modified_Date { get; set; }
+        public DateTime Modified_Date { get; set; }
         //------
     }
 }
