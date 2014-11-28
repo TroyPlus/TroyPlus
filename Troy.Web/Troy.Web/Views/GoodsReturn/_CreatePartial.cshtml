@@ -72,7 +72,7 @@
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
                                                             new SelectListItem{ Text="Closed", Value = "Closed" }
-                                                         }, "Open", new { @class = "form-control" })@*, @disabled = true })*@
+                                                         }, new { @class = "form-control" })@*, @disabled = true })*@
 
                                                         @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
                                                     </div>
@@ -118,7 +118,7 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.goodreturn.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text " })@*, @readonly = true })*@
+                                                        @Html.TextBoxFor(model => model.goodreturn.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker " })@*, @readonly = true })*@
                                                         @Html.ValidationMessageFor(model => model.goodreturn.Document_Date)
                                                     </div>
                                                 </div>

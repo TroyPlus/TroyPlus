@@ -42,6 +42,8 @@ namespace Troy.Data.Repository
 
       bool UpdateQuotation(GoodsReceipt Goodsreceipt, IList<GoodsReceiptItems> GoodsItemList, ref string ErrorMessage);
 
+      bool UpdateQuotationorder(PurchaseOrder Quotation, IList<PurchaseOrderItems> QuotationItemList, ref string ErrorMessage);
+
      // List<ViewGoodsReceipt> GoodsList();
     }
 }

@@ -20,6 +20,8 @@ namespace Troy.Data.Repository
     {
         private GoodsReceiptContext goodscontext = new GoodsReceiptContext();
 
+        private GoodsReceiptContext goodscontext1 = new GoodsReceiptContext();
+
         private BusinessPartnerContext businesspartner = new BusinessPartnerContext();
         private BranchContext branchcontext = new BranchContext();
 
@@ -160,6 +162,7 @@ namespace Troy.Data.Repository
         public List<BussinessList> GetAddressbusinessList()
         {
             var item = (from a in goodscontext.businesspartner
+                        where a.Group_Type=="Vendor"
                         select new BussinessList
                         {
                             BP_Id = a.BP_Id,
@@ -191,7 +194,7 @@ namespace Troy.Data.Repository
                                 //LineTotal = q.LineTotal,
                                 Product_id = q.Product_id,
                                 ProductName = pi.Product_Name,
-                                Quantity = q.Quantity,
+                                Quantity = q.Quantity - q.Return_Qty ,
                                 Unit_price = q.Unit_price,
                                 Freight_Loading = q.Freight_Loading,
                                 Vat_Code = q.Vat_Code,
@@ -281,12 +284,13 @@ namespace Troy.Data.Repository
                             select new PurchaseOrderItems
                             {
                                 Discount_percent = q.Discount_percent,
-                                
+                                Purchase_OrderItem_Id=q.Purchase_OrderItem_Id,
+                                BaseDocLink=q.BaseDocLink,
                                 //LineTotal = q.LineTotal,
                                 Product_id = q.Product_id,
                                 ProductName = pi.Product_Name,
                                 Purchase_Order_Id = q.Purchase_Order_Id,
-                                Quantity=q.Quantity,
+                                Quantity=q.Quantity - q.Received_Qty,
                                 Unit_price=q.Unit_price,
                                 Freight_Loading=q.Freight_Loading,
                                 Vat_Code = q.Vat_Code,
@@ -397,6 +401,62 @@ namespace Troy.Data.Repository
 
 
 
+        }
+
+        public bool UpdateQuotationorder(PurchaseOrder Quotation, IList<PurchaseOrderItems> QuotationItemList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                goodscontext.Entry(Quotation).State = EntityState.Modified;
+                goodscontext.SaveChanges();
+
+                foreach (var model1 in QuotationItemList)
+                {
+                    if (model1.IsDummy == 1)
+                    {
+                        goodscontext.Entry(model1).State = EntityState.Deleted;
+                        goodscontext.SaveChanges();
+                    }
+                    else
+                    {
+                        if (model1.Purchase_OrderItem_Id == 0)
+                        {
+                            model1.Purchase_Order_Id = Quotation.Purchase_Quote_Id;
+                            goodscontext.purchaseorderitem.Add(model1);
+                            goodscontext.SaveChanges();
+                        }
+                        else
+                        {
+                            goodscontext1.purchaseorderitem.Attach(model1);
+                            goodscontext1.Entry(model1).State = EntityState.Modified;
+                            //goodscontext.SaveChanges();
+                        }
+                        goodscontext1.SaveChanges();
+                    }
+                }
+
+                return true;
+            }
+            //catch (Exception ex)
+            //{
+            //    ExceptionHandler.LogException(ex);
+            //    ErrorMessage = ex.Message;
+            //    return false;
+            //}
+            catch (DbEntityValidationException dbEx)
+            {
+                var errorList = new List<string>();
+
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+                    }
+                }
+                return false;
+            }
         }
     }
 }

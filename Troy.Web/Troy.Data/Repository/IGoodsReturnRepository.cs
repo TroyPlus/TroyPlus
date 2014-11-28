@@ -43,6 +43,7 @@ namespace Troy.Data.Repository
 
        bool UpdateQuotation(GoodsReturn Goodsreturn, IList<GoodsReturnitems> GoodsreturnItemList, ref string ErrorMessage);
 
+       bool UpdateQuotationreceipt(GoodsReceipt Quotation, IList<GoodsReceiptItems> QuotationItemList, ref string ErrorMessage);
 
       // bool AddNewQuotation(GoodsReturn goodsReturn, IList<GoodsReturnitems> list1, GoodsReceipt goodsReceipt, IList<GoodsReceiptItems> list2, ref string ErrorMessage);
     }

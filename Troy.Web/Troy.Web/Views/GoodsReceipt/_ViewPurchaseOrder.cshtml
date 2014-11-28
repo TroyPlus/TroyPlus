@@ -172,7 +172,7 @@
 
     $(function () {
         $("#btnNextTabPurQuo").click(function (e) {
-            alert(e);
+           
             e.preventDefault();
             var _this = $(this);
             var _form = _this.closest("#editdefault");
@@ -341,7 +341,7 @@
         //}
 
         $("#totalPurchase1").val(tot.toFixed(2));
-        alert(tot);
+       
     }
 
     function CalculateDiscount() {
@@ -429,6 +429,10 @@
                                     <div class="col-md-6">
                                         <div class="form-horizontal">
                                             @Html.HiddenFor(model => model.goodreceipt.Goods_Receipt_Id)
+                                            @Html.Hidden("ItemCount", Model.PurchaseOrderItemsList.Count)
+                                            @Html.HiddenFor(model => model.PurchaseOrder.Purchase_Order_Id)
+                                            @Html.HiddenFor(model => model.PurchaseOrderItems.Purchase_OrderItem_Id)
+                                          
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     @*@Html.LabelFor(m => m.goodreceipt.Purchase_Order_Id, new { @class = "control-label normal" })*@
@@ -473,7 +477,7 @@
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
                                                             new SelectListItem{ Text="Closed", Value = "Closed" }
-                                                         }, "Open", new { @class = "form-control" })@*, @disabled = true })*@
+                                                         }, new { @class = "form-control" })@*, @disabled = true })*@
 
                                                         @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
                                                     </div>
@@ -530,7 +534,7 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text " })@*, @readonly = true })*@
+                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text  datePicker" })@*, @readonly = true })*@
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrder.Document_Date)
                                                     </div>
                                                 </div>
@@ -603,9 +607,15 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @for (int i = 0; i <Model.PurchaseOrderItemsList.Count; i++)
+                                                @for (int i = 0; i < Model.PurchaseOrderItemsList.Count; i++)
                                                 {
-                                                    @Html.HiddenFor(model=>model.goodreceiptitemlist[i].Id)
+                                                   
+                                                    @Html.HiddenFor(model=>model.goodreceiptitemlist[i].Goods_Receipt_Id)
+                                                    @Html.HiddenFor(model => model.PurchaseOrderItemsList[i].Purchase_OrderItem_Id)
+                                                    @Html.HiddenFor(model => model.PurchaseOrderItemsList[i].Purchase_Order_Id)
+
+
+  
                                                     <tr>
                                                         <td style="display:none;">
                                                             @Html.HiddenFor(model => model.PurchaseOrderItemsList[i].IsDummy, 0)
@@ -640,7 +650,7 @@
                                                                 @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Freight_Loading)
                                                             </td>*@
                                                         <td width="10%">
-                                                            @Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.PurchaseOrderItemsList[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");" })
+                                                            @Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.PurchaseOrderItemsList[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
                                                             @*@Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage"), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })*@
                                                             @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Vat_Code)
                                                         </td>

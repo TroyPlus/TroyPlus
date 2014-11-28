@@ -87,62 +87,10 @@ namespace Troy.Web.Controllers
             {
                 //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
-                //if (submitButton == "Save-PurRtn")
-                //{
-                //    model.PurchaseReturn.Doc_Status = "open";
-                //    model.PurchaseReturn.Created_Branc_Id = 1;
-                //    model.PurchaseReturn.Created_Date = DateTime.Now;
-                //    model.PurchaseReturn.Created_User_Id = 1; //1;  //GetUserId()
-
-
-
-
-                //    if (PurchaseReturnDb.AddNewReturn(model.PurchaseReturn))
-                //    {
-                //        return RedirectToAction("Index", "PurchaseReturns");
-                //    }
-                //    else
-                //    {
-                //        ModelState.AddModelError("", "PurchaseReturn Not Saved");
-                //    }
-                //}
-                //else if (submitButton == "Update")
-                //{
-
-                //    //model.Country.Created_Branc_Id = 1;
-                //    //model.Country.Created_Dte = DateTime.Now;
-                //    //model.Country.Created_User_Id = 1;  //GetUserId()
-                //    model.Country.Modified_User_Id = currentUser.Id;
-                //    model.Country.Modified_Dte = DateTime.Now;
-                //    model.Country.Modified_Branch_Id = currentUser.Modified_Branch_Id;
-
-
-                //    if (ConfigurationDb.EditExistingCountry(model.Country))
-                //    {
-                //        return RedirectToAction("Country", "Configuration");
-                //    }
-                //    else
-                //    {
-                //        ModelState.AddModelError("", "Country Not Updated");
-                //    }
-                //}
-
-
-
-                ////          return RedirectToAction("Index", "PurchaseReturns");
-
-                ////    }
-                ////    catch (Exception ex)
-                ////    {
-                ////        ExceptionHandler.LogException(ex);
-                ////        ViewBag.AppErrorMessage = ex.Message;
-                ////        return View("Error");
-                ////    }
-                ////}
-
+               
                 if (submitButton == "Save-PurRtn")
                 {
-                    model.PurchaseReturn.Doc_Status = "Open";
+                    model.PurchaseReturn.Doc_Status = "Closed";
                     model.PurchaseReturn.Created_Branc_Id = 1;//CurrentBranchId;
                     model.PurchaseReturn.Created_Date = DateTime.Now;
                     model.PurchaseReturn.Created_User_Id = 1;//CurrentUser.Id;
@@ -161,28 +109,14 @@ namespace Troy.Web.Controllers
                     model.PurchaseReturn.TotalPurRtnAmt = model.PurchaseInvoice.TotalPurInvAmt;
                     model.PurchaseReturn.Reference_Number = model.PurchaseInvoice.Reference_Number;
 
-                    // model.goodreceipt.Distribute_LandedCost = "equality";
-                    //if (model.goodreceipt.Distribute_LandedCost == "Equality")
-                    //{
-                    //    double a = Convert.ToDouble(model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count);
-                    //}
-                    //else if(model.goodreceipt.Distribute_LandedCost=="Quantity")
-                    //{
-                    //    double b = Convert.ToDouble(model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count *(model.goodreceiptitemlist.FirstOrDefault().LineTotal));
-                    //}
-                    //else
-                    //{
-                    //    double c = Convert.ToDouble((model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count) - (model.goodreceiptitem.Quantity * model.goodreceiptitem.Unit_price)*model.goodreceiptitem.Discount_percent);
-                    //}
 
 
-
-                    var GoodsList = model.PurchaseReturnitemsList.Where(x => x.IsDummy == 0);
-                    model.PurchaseReturnitemsList = GoodsList.ToList();
-
+                    var RetrnList = model.PurchaseReturnitemsList.Where(x => x.IsDummy == 0);
+                    model.PurchaseReturnitemsList = RetrnList.ToList();
+                   
                     for (int i = 0; i < model.PurchaseReturnitemsList.Count; i++)
                     {
-                        model.PurchaseReturnitemsList[i].BaseDocLink = "N";
+                        model.PurchaseReturnitemsList[i].BaseDocLink = "Y";
                         model.PurchaseReturnitemsList[i].Product_id = model.PurchaseInvoiceItemsList[i].Product_id;
                         model.PurchaseReturnitemsList[i].Quantity = model.PurchaseInvoiceItemsList[i].Quantity;
                         model.PurchaseReturnitemsList[i].Unit_price = model.PurchaseInvoiceItemsList[i].Unit_price;
@@ -294,10 +228,7 @@ namespace Troy.Web.Controllers
                 model.BusinessPartnerList = purchasereturnrepository.GetBusinessPartnerList().ToList();
                 model.ProductList = purchasereturnrepository.GetProductList();
                 model.VATList = purchasereturnrepository.GetVAT();
-                // model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
-                //  model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
-                // model.BranchList = purchaseDb.GetAddressList().ToList();
-                // model.BussinessList = purchaseDb.GetVendorList();
+               
 
                 return PartialView(model);
             }
@@ -309,7 +240,28 @@ namespace Troy.Web.Controllers
             }
         }
 
+        public PartialViewResult _ViewPartial(int id)
+        {
+            try
+            {
+                PurchaseReturnViewModels model = new PurchaseReturnViewModels();
+                model.PurchaseReturn = purchasereturnrepository.FindOneReturnById(id);
+                model.PurchaseReturnitemsList = purchasereturnrepository.FindOneReturnItemById(id);
+                model.BranchList = purchasereturnrepository.GetBranchList().ToList();
+                model.BusinessPartnerList = purchasereturnrepository.GetBusinessPartnerList().ToList();
+                model.ProductList = purchasereturnrepository.GetProductList();
+                model.VATList = purchasereturnrepository.GetVAT();
+              
 
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+        }
 
     }
 }
