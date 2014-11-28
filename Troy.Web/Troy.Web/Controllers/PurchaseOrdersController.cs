@@ -228,12 +228,10 @@ namespace Troy.Web.Controllers
                             model1.PurchaseQuotation.Modified_User_Id = 1;//currentUser.Modified_User_Id;
                             model1.PurchaseQuotation.Modified_Date = DateTime.Now;
                             model1.PurchaseQuotation.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
+                            
+                            purchaseorderRepository.UpdateQuotation(model1.PurchaseQuotation, model1.PurchaseQuotationItemList, ref ErrorMessage);
+                            return RedirectToAction("Index", "PurchaseOrders");
 
-                            if (ModelState.IsValid)
-                            {
-                                purchaseorderRepository.UpdateQuotation(model1.PurchaseQuotation, model1.PurchaseQuotationItemList, ref ErrorMessage);
-                                return RedirectToAction("Index", "PurchaseOrders");
-                            }
                         }
                         else
                         {

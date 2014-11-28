@@ -276,26 +276,28 @@ namespace Troy.Data.Repository
                 purchaseordercontext.Entry(Quotation).State = EntityState.Modified;
                 purchaseordercontext.SaveChanges();
 
-                foreach (var model in QuotationItemList)
+                foreach (var model1 in QuotationItemList)
                 {
-                    if (model.IsDummy == 1)
+                    if (model1.IsDummy == 1)
                     {
-                        purchaseordercontext.Entry(model).State = EntityState.Deleted;
+                        purchaseordercontext.Entry(model1).State = EntityState.Deleted;
                         purchaseordercontext.SaveChanges();
                     }
                     else
                     {
-                        if (model.Quote_Item_Id == 0)
+                        if (model1.Quote_Item_Id == 0)
                         {
-                            model.Purchase_Quote_Id = Quotation.Purchase_Quote_Id;
-                            purchaseordercontext.purchasequotationitem.Add(model);
+                            model1.Purchase_Quote_Id = Quotation.Purchase_Quote_Id;
+                            purchaseordercontext.purchasequotationitem.Add(model1);
                             purchaseordercontext.SaveChanges();
                         }
                         else
-                        {                           
-                            purchaseordercontext.Entry(model).State = EntityState.Modified;
-                            purchaseordercontext.SaveChanges();
+                        {
+                            purchaseordercontext.purchasequotationitem.Attach(model1);
+                            purchaseordercontext.Entry(model1).State = EntityState.Modified;
+                           
                         }
+                        purchaseordercontext.SaveChanges();
                     }
                 }
 
