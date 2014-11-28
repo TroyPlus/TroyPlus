@@ -379,7 +379,7 @@
         var totdis = 0;
         var tottax = 0;
         var tot = 0;
-        
+
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
                 totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val());
@@ -611,7 +611,8 @@
                                             {
                                                 @Html.HiddenFor(model => model.PurchaseQuotationItemList[i].Quote_Item_Id)
                                                 @Html.HiddenFor(model => model.PurchaseOrderItemsList[i].Purchase_Order_Id)
-                                                @*@Html.HiddenFor(model => model.PurchaseQuotationItemList[i].Purchase_Quote_Id)*@
+                                                @Html.HiddenFor(model => model.PurchaseQuotationItemList[i].Purchase_Quote_Id)
+
 
                                                 <tr>
                                                     <td style="display:none;">

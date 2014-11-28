@@ -23,6 +23,7 @@ namespace Troy.Data.Repository
     public class PurchaseOrderRepository : BaseRepository, IPurchaseOrderRepository
     {
         private PurchaseOrderContext purchaseordercontext = new PurchaseOrderContext();
+        private PurchaseOrderContext purchaseordercontext1 = new PurchaseOrderContext();
         private BusinessPartnerContext businessContext = new BusinessPartnerContext();
 
         public List<ViewPurchaseOrder> GetAllPurchaseOrders()
@@ -293,11 +294,11 @@ namespace Troy.Data.Repository
                         }
                         else
                         {
-                            purchaseordercontext.purchasequotationitem.Attach(model1);
-                            purchaseordercontext.Entry(model1).State = EntityState.Modified;
+                            purchaseordercontext1.purchasequotationitem.Attach(model1);
+                            purchaseordercontext1.Entry(model1).State = EntityState.Modified;
                            
                         }
-                        purchaseordercontext.SaveChanges();
+                        purchaseordercontext1.SaveChanges();
                     }
                 }
 
