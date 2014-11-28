@@ -429,6 +429,10 @@
                                     <div class="col-md-6">
                                         <div class="form-horizontal">
                                             @Html.HiddenFor(model => model.goodreceipt.Goods_Receipt_Id)
+                                            @Html.Hidden("ItemCount", Model.PurchaseOrderItemsList.Count)
+                                            @Html.HiddenFor(model => model.PurchaseOrder.Purchase_Order_Id)
+                                            @Html.HiddenFor(model => model.PurchaseOrderItems.Purchase_OrderItem_Id)
+                                          
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     @*@Html.LabelFor(m => m.goodreceipt.Purchase_Order_Id, new { @class = "control-label normal" })*@
@@ -603,9 +607,15 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @for (int i = 0; i <Model.PurchaseOrderItemsList.Count; i++)
+                                                @for (int i = 0; i < Model.PurchaseOrderItemsList.Count; i++)
                                                 {
-                                                    @Html.HiddenFor(model=>model.goodreceiptitemlist[i].Id)
+                                                   
+                                                    @Html.HiddenFor(model=>model.goodreceiptitemlist[i].Goods_Receipt_Id)
+                                                    @Html.HiddenFor(model => model.PurchaseOrderItemsList[i].Purchase_OrderItem_Id)
+                                                    @Html.HiddenFor(model => model.PurchaseOrderItemsList[i].Purchase_Order_Id)
+
+
+  
                                                     <tr>
                                                         <td style="display:none;">
                                                             @Html.HiddenFor(model => model.PurchaseOrderItemsList[i].IsDummy, 0)

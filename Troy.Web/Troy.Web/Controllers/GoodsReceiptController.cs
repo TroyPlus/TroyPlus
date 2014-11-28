@@ -169,96 +169,118 @@ namespace Troy.Web.Controllers
                             if (model1.PurchaseOrderItemsList[j].Product_id == model.PurchaseOrderItemsList[j].Product_id)
                             {
                                 model.goodreceipt.BaseDocId = model.PurchaseOrder.Purchase_Order_Id;
-                                model.goodreceipt.TargetDocId = "Y";
-                                model.goodreceipt.Doc_Status = "Open";
-                                model.goodreceipt.Created_Branc_Id = 1;//CurrentBranchId;
-                                model.goodreceipt.Created_Dte = DateTime.Now;
-                                model.goodreceipt.Created_User_Id = 1;//CurrentUser.Id;
-                                model.goodreceipt.Purchase_Order_Id = model.PurchaseOrder.Purchase_Order_Id;
-                                model.goodreceipt.Reference_Number = model.PurchaseOrder.Reference_Number;
-                                model.goodreceipt.Vendor = model.PurchaseOrder.Vendor;
-                                model.goodreceipt.Doc_Status = model.PurchaseOrder.Order_Status;
-                                model.goodreceipt.Posting_Date = model.PurchaseOrder.Posting_Date;
-                                model.goodreceipt.Due_Date = model.PurchaseOrder.Delivery_Date;
-                                model.goodreceipt.Document_Date = model.PurchaseOrder.Document_Date;
-                                model.goodreceipt.Ship_To = model.PurchaseOrder.Ship_To;
-                                model.goodreceipt.Freight = model.PurchaseOrder.Freight;
-                                model.goodreceipt.Loading = model.PurchaseOrder.Loading;
-                                model.goodreceipt.TotalBefDocDisc = model.PurchaseOrder.TotalBefDocDisc;
-                                model.goodreceipt.DocDiscAmt = model.PurchaseOrder.DocDiscAmt;
-                                model.goodreceipt.TotalGRDocAmt = model.PurchaseOrder.TotalOrdAmt;
-                                model.goodreceipt.TaxAmt = model.PurchaseOrder.TaxAmt;
-                                //model.PurchaseOrder.BaseDocId = qq;   
-                                var Goodslist = model.PurchaseOrderItemsList.Where(x => x.IsDummy == 0);
-                                model.PurchaseOrderItemsList = Goodslist.ToList();
-
-                                for (int i = 0; i < model.PurchaseOrderItemsList.Count; i++)
-                                {
-                                    model.goodreceiptitemlist[i].BaseDocLink = "N";
-                                    model.goodreceiptitemlist[i].Product_id = model.PurchaseOrderItemsList[i].Product_id;
-                                    model.goodreceiptitemlist[i].Quantity = model.PurchaseOrderItemsList[i].Quantity;
-                                    model.goodreceiptitemlist[i].Unit_price = model.PurchaseOrderItemsList[i].Unit_price;
-                                    model.goodreceiptitemlist[i].Discount_percent = model.PurchaseOrderItemsList[i].Discount_percent;
-                                    model.goodreceiptitemlist[i].Vat_Code = model.PurchaseOrderItemsList[i].Vat_Code;
-                                    model.goodreceiptitemlist[i].Freight_Loading = Convert.ToDecimal(model.PurchaseOrderItemsList[i].Freight_Loading);
-
-                                }
 
                             }
+
+                        }
+
+                        //for BaseDocLink
+                        for (int j = 0; j < model.PurchaseOrderItemsList.Count; j++)
+                        {
+                            if (model1.PurchaseOrderItemsList[j].Product_id == model.PurchaseOrderItemsList[j].Product_id)
+                            {
+                                model.goodreceiptitemlist[j].BaseDocLink = "Y";
+                            }
+                            else
+                            {
+                                model.goodreceiptitemlist[j].BaseDocLink = "N";
+                            }
+
+                            model.goodreceipt.Doc_Status = "Open";
+                            model.goodreceipt.Created_Branc_Id = 1;//CurrentBranchId;
+                            model.goodreceipt.Created_Dte = DateTime.Now;
+                            model.goodreceipt.Created_User_Id = 1;//CurrentUser.Id;
+                            model.goodreceipt.Purchase_Order_Id = model.PurchaseOrder.Purchase_Order_Id;
+                            model.goodreceipt.Reference_Number = model.PurchaseOrder.Reference_Number;
+                            model.goodreceipt.Vendor = model.PurchaseOrder.Vendor;
+                            model.goodreceipt.Doc_Status = model.PurchaseOrder.Order_Status;
+                            model.goodreceipt.Posting_Date = model.PurchaseOrder.Posting_Date;
+                            model.goodreceipt.Due_Date = model.PurchaseOrder.Delivery_Date;
+                            model.goodreceipt.Document_Date = model.PurchaseOrder.Document_Date;
+                            model.goodreceipt.Ship_To = model.PurchaseOrder.Ship_To;
+                            model.goodreceipt.Freight = model.PurchaseOrder.Freight;
+                            model.goodreceipt.Loading = model.PurchaseOrder.Loading;
+                            model.goodreceipt.TotalBefDocDisc = model.PurchaseOrder.TotalBefDocDisc;
+                            model.goodreceipt.DocDiscAmt = model.PurchaseOrder.DocDiscAmt;
+                            model.goodreceipt.TotalGRDocAmt = model.PurchaseOrder.TotalOrdAmt;
+                            model.goodreceipt.TaxAmt = model.PurchaseOrder.TaxAmt;
+                            model.goodreceipt.TargetDocId = "0";
+                            //model.PurchaseOrder.BaseDocId = qq;   
+                            var Goodslist = model.PurchaseOrderItemsList.Where(x => x.IsDummy == 0);
+                            model.PurchaseOrderItemsList = Goodslist.ToList();
+
+                            for (int i = 0; i < model.PurchaseOrderItemsList.Count; i++)
+                            {
+                                model.goodreceiptitemlist[i].BaseDocLink = "Y";
+                                model.goodreceiptitemlist[i].Product_id = model.PurchaseOrderItemsList[i].Product_id;
+                                model.goodreceiptitemlist[i].Quantity = model.PurchaseOrderItemsList[i].Quantity;
+                                model.goodreceiptitemlist[i].Unit_price = model.PurchaseOrderItemsList[i].Unit_price;
+                                model.goodreceiptitemlist[i].Discount_percent = model.PurchaseOrderItemsList[i].Discount_percent;
+                                model.goodreceiptitemlist[i].Vat_Code = model.PurchaseOrderItemsList[i].Vat_Code;
+                                model.goodreceiptitemlist[i].Freight_Loading = Convert.ToDecimal(model.PurchaseOrderItemsList[i].Freight_Loading);
+                            }
+
                             if (goodsrepository.AddNewQuotation(model.goodreceipt, model.goodreceiptitemlist, ref ErrorMessage))
                             {
+                                for (int k = 0; k < model.PurchaseOrderItemsList.Count; k++)
+                                {
+                                    if (model1.PurchaseOrderItemsList[k].Product_id == model.PurchaseOrderItemsList[k].Product_id && model.PurchaseOrderItemsList[k].Received_Qty >= model1.PurchaseOrderItemsList[k].Received_Qty)
+                                    {
+                                        model1.PurchaseOrder.Order_Status = "Closed";
+                                        model1.PurchaseOrder.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+
+
+                                        model1.PurchaseOrderItemsList[k].Purchase_OrderItem_Id = model1.PurchaseOrderItemsList[k].Purchase_OrderItem_Id;
+                                        model1.PurchaseOrderItemsList[k].Purchase_Order_Id = model1.PurchaseOrderItemsList[k].Purchase_Order_Id;
+                                        //model1.PurchaseOrderItemsList[j].Quoted_date = model1.PurchaseOrderItemsList[j].Quoted_date;
+                                        model1.PurchaseOrderItemsList[k].Quantity = Convert.ToInt32(model.PurchaseOrderItemsList[k].Received_Qty);
+                                        model1.PurchaseOrderItemsList[k].Product_id = model.PurchaseOrderItemsList[k].Product_id;
+                                        model1.PurchaseOrderItemsList[k].Unit_price = model.PurchaseOrderItemsList[k].Unit_price;
+                                        model1.PurchaseOrderItemsList[k].Discount_percent = model.PurchaseOrderItemsList[k].Discount_percent;
+                                        model1.PurchaseOrderItemsList[k].Vat_Code = model.PurchaseOrderItemsList[k].Vat_Code;
+                                    }
+                                    else if (model1.PurchaseOrderItemsList[k].Product_id == model.PurchaseOrderItemsList[k].Product_id && model.PurchaseOrderItemsList[k].Received_Qty < model1.PurchaseOrderItemsList[k].Received_Qty)
+                                    {
+                                        model1.PurchaseOrder.Order_Status = "Open";
+                                        model1.PurchaseOrder.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+
+
+                                        model1.PurchaseOrderItemsList[k].Purchase_OrderItem_Id = model1.PurchaseOrderItemsList[k].Purchase_OrderItem_Id;
+                                        model1.PurchaseOrderItemsList[k].Purchase_Order_Id = model1.PurchaseOrderItemsList[k].Purchase_Order_Id;
+                                        //model1.PurchaseOrderItemsList[j].Quoted_date = model1.PurchaseOrderItemsList[j].Quoted_date;
+                                        model1.PurchaseOrderItemsList[k].Quantity = Convert.ToInt32(model.PurchaseOrderItemsList[k].Received_Qty);
+                                        model1.PurchaseOrderItemsList[k].Product_id = model.PurchaseOrderItemsList[k].Product_id;
+                                        model1.PurchaseOrderItemsList[k].Unit_price = model.PurchaseOrderItemsList[k].Unit_price;
+                                        model1.PurchaseOrderItemsList[k].Discount_percent = model.PurchaseOrderItemsList[k].Discount_percent;
+                                        model1.PurchaseOrderItemsList[k].Vat_Code = model.PurchaseOrderItemsList[k].Vat_Code;
+                                    }
+                                }
+
+                                //model1.PurchaseOrder.Creating_Branch = 1;
+                                model1.PurchaseOrder.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
+                                model1.PurchaseOrder.Created_Date = DateTime.Now;
+                                model1.PurchaseOrder.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
+                                model1.PurchaseOrder.Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                                model1.PurchaseOrder.Modified_Date = DateTime.Now;
+                                model1.PurchaseOrder.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
+
+
+
+                                goodsrepository.UpdateQuotationorder(model1.PurchaseOrder, model1.PurchaseOrderItemsList, ref ErrorMessage);
                                 return RedirectToAction("Index", "GoodsReceipt");
+
+                            }
+                            else
+                            {
+                                ViewBag.AppErrorMessage = ErrorMessage;
+                                return View("Error");
                             }
                         }
 
                     }
-                
-                    else
-                    {
-                        // model.goodreceipt.Doc_Status = "Open";
-                        model.goodreceipt.Created_Branc_Id = 1;//CurrentBranchId;
-                        model.goodreceipt.Created_Dte = DateTime.Now;
-                        model.goodreceipt.Created_User_Id = 1;//CurrentUser.Id;
-                        model.goodreceipt.Purchase_Order_Id = model.PurchaseOrder.Purchase_Order_Id;
-                        model.goodreceipt.Reference_Number = model.PurchaseOrder.Reference_Number;
-                        model.goodreceipt.Vendor = model.PurchaseOrder.Vendor;
-                        model.goodreceipt.Doc_Status = model.PurchaseOrder.Order_Status;
-                        model.goodreceipt.Posting_Date = model.PurchaseOrder.Posting_Date;
-                        model.goodreceipt.Due_Date = model.PurchaseOrder.Delivery_Date;
-                        model.goodreceipt.Document_Date = model.PurchaseOrder.Document_Date;
-                        model.goodreceipt.Ship_To = model.PurchaseOrder.Ship_To;
-                        model.goodreceipt.Freight = model.PurchaseOrder.Freight;
-                        model.goodreceipt.Loading = model.PurchaseOrder.Loading;
-                        model.goodreceipt.TotalBefDocDisc = model.PurchaseOrder.TotalBefDocDisc;
-                        model.goodreceipt.DocDiscAmt = model.PurchaseOrder.DocDiscAmt;
-                        model.goodreceipt.TotalGRDocAmt = model.PurchaseOrder.TotalOrdAmt;
-                        model.goodreceipt.TaxAmt = model.PurchaseOrder.TaxAmt;
-                        //model.PurchaseOrder.BaseDocId = qq;   
-                        var Goodslist = model.PurchaseOrderItemsList.Where(x => x.IsDummy == 0);
-                        model.PurchaseOrderItemsList = Goodslist.ToList();
-
-                        for (int i = 0; i < model.PurchaseOrderItemsList.Count; i++)
-                        {
-                            model.goodreceiptitemlist[i].BaseDocLink = "N";
-                            model.goodreceiptitemlist[i].Product_id = model.PurchaseOrderItemsList[i].Product_id;
-                            model.goodreceiptitemlist[i].Quantity = model.PurchaseOrderItemsList[i].Quantity;
-                            model.goodreceiptitemlist[i].Unit_price = model.PurchaseOrderItemsList[i].Unit_price;
-                            model.goodreceiptitemlist[i].Discount_percent = model.PurchaseOrderItemsList[i].Discount_percent;
-                            model.goodreceiptitemlist[i].Vat_Code = model.PurchaseOrderItemsList[i].Vat_Code;
-                            model.goodreceiptitemlist[i].Freight_Loading = Convert.ToDecimal(model.PurchaseOrderItemsList[i].Freight_Loading);
-
-                        }
-                        if (goodsrepository.AddNewQuotation(model.goodreceipt, model.goodreceiptitemlist, ref ErrorMessage))
-                        {
-                            return RedirectToAction("Index", "GoodsReceipt");
-                        }
-                        else
-                        {
-                            ViewBag.AppErrorMessage = ErrorMessage;
-                            return View("Error");
-                        }
+                                         
                     }
-                }
+                
 
                 else if (submitButton == "Update")
                 {

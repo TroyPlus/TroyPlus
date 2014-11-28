@@ -281,7 +281,7 @@ namespace Troy.Data.Repository
                             select new PurchaseOrderItems
                             {
                                 Discount_percent = q.Discount_percent,
-                                
+                                Purchase_OrderItem_Id=q.Purchase_OrderItem_Id,
                                 //LineTotal = q.LineTotal,
                                 Product_id = q.Product_id,
                                 ProductName = pi.Product_Name,
@@ -397,6 +397,60 @@ namespace Troy.Data.Repository
 
 
 
+        }
+
+        public bool UpdateQuotationorder(PurchaseOrder Quotation, IList<PurchaseOrderItems> QuotationItemList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                goodscontext.Entry(Quotation).State = EntityState.Modified;
+                goodscontext.SaveChanges();
+
+                foreach (var model in QuotationItemList)
+                {
+                    if (model.IsDummy == 1)
+                    {
+                        goodscontext.Entry(model).State = EntityState.Deleted;
+                        goodscontext.SaveChanges();
+                    }
+                    else
+                    {
+                        if (model.Purchase_OrderItem_Id == 0)
+                        {
+                            model.Purchase_Order_Id = Quotation.Purchase_Quote_Id;
+                            goodscontext.purchaseorderitem.Add(model);
+                            goodscontext.SaveChanges();
+                        }
+                        else
+                        {
+                            goodscontext.Entry(model).State = EntityState.Modified;
+                            goodscontext.SaveChanges();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            //catch (Exception ex)
+            //{
+            //    ExceptionHandler.LogException(ex);
+            //    ErrorMessage = ex.Message;
+            //    return false;
+            //}
+            catch (DbEntityValidationException dbEx)
+            {
+                var errorList = new List<string>();
+
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+                    }
+                }
+                return false;
+            }
         }
     }
 }
