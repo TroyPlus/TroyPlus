@@ -194,18 +194,18 @@ namespace Troy.Web.Controllers
                                     model1.PurchaseQuotation.Quotation_Status = "Closed";
                                     if (model1.PurchaseQuotation.TargetDocId == "")
                                     {
-                                    model1.PurchaseQuotation.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+                                        model1.PurchaseQuotation.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
                                     }
                                     else
                                     {
-                                        model1.PurchaseQuotation.TargetDocId = model1.PurchaseQuotation.TargetDocId + "," + Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);                                      
+                                        model1.PurchaseQuotation.TargetDocId = model1.PurchaseQuotation.TargetDocId + "," + Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
                                     }
 
 
                                     model1.PurchaseQuotationItemList[j].Quote_Item_Id = model1.PurchaseQuotationItemList[j].Quote_Item_Id;
                                     model1.PurchaseQuotationItemList[j].Purchase_Quote_Id = model1.PurchaseQuotationItemList[j].Purchase_Quote_Id;
                                     model1.PurchaseQuotationItemList[j].Quoted_date = model1.PurchaseQuotationItemList[j].Quoted_date;
-                                    model1.PurchaseQuotationItemList[j].Used_qty = Convert.ToInt32(model.PurchaseQuotationItemList[j].Quoted_qty);
+                                    model1.PurchaseQuotationItemList[j].Used_qty = model1.PurchaseQuotationItemList[j].Used_qty + Convert.ToInt32(model.PurchaseQuotationItemList[j].Quoted_qty);
                                     model1.PurchaseQuotationItemList[j].Product_id = model.PurchaseQuotationItemList[j].Product_id;
                                     model1.PurchaseQuotationItemList[j].Unit_price = model.PurchaseQuotationItemList[j].Unit_price;
                                     model1.PurchaseQuotationItemList[j].Discount_percent = model.PurchaseQuotationItemList[j].Discount_percent;
@@ -220,7 +220,7 @@ namespace Troy.Web.Controllers
                                     model1.PurchaseQuotationItemList[j].Quote_Item_Id = model1.PurchaseQuotationItemList[j].Quote_Item_Id;
                                     model1.PurchaseQuotationItemList[j].Purchase_Quote_Id = model1.PurchaseQuotationItemList[j].Purchase_Quote_Id;
                                     model1.PurchaseQuotationItemList[j].Quoted_date = model1.PurchaseQuotationItemList[j].Quoted_date;
-                                    model1.PurchaseQuotationItemList[j].Used_qty = Convert.ToInt32(model.PurchaseQuotationItemList[j].Quoted_qty);
+                                    model1.PurchaseQuotationItemList[j].Used_qty = model1.PurchaseQuotationItemList[j].Used_qty + Convert.ToInt32(model.PurchaseQuotationItemList[j].Quoted_qty);
                                     model1.PurchaseQuotationItemList[j].Product_id = model.PurchaseQuotationItemList[j].Product_id;
                                     model1.PurchaseQuotationItemList[j].Unit_price = model.PurchaseQuotationItemList[j].Unit_price;
                                     model1.PurchaseQuotationItemList[j].Discount_percent = model.PurchaseQuotationItemList[j].Discount_percent;
@@ -236,10 +236,8 @@ namespace Troy.Web.Controllers
                             model1.PurchaseQuotation.Modified_Date = DateTime.Now;
                             model1.PurchaseQuotation.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
 
-                            if (ModelState.IsValid)
-                            {
-                                purchaseorderRepository.UpdateQuotation(model1.PurchaseQuotation, model1.PurchaseQuotationItemList, ref ErrorMessage);
-                                return RedirectToAction("Index", "PurchaseOrders");
+                            purchaseorderRepository.UpdateQuotation(model1.PurchaseQuotation, model1.PurchaseQuotationItemList, ref ErrorMessage);
+                            return RedirectToAction("Index", "PurchaseOrders");
 
                         }
                         else
@@ -282,6 +280,7 @@ namespace Troy.Web.Controllers
             //}
 
         }
+
 
         public PartialViewResult _ViewPurchaseQuotation(int id)
         {

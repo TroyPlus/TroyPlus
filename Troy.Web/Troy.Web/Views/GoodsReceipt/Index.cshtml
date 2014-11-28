@@ -11,6 +11,14 @@
     $(document).ready(function () {
 
         $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+
+        $('#creDocumentDate').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
+
+        $('#crePostingDate').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
         //var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
         $('#grdBranch').dataTable({
@@ -59,7 +67,7 @@
     function ViewGoodsReceipt(id) {
 
         var url = $('#viewPurQuoModal').data('url') + '/' + id;
-        alert(url);
+       
         $.get(url, function (data) {
             $('#viewPurQuomodelcontainer').html(data);
 
@@ -653,10 +661,10 @@
         var tot = parseFloat($('#txtBox1').val());
         var tot1 = parseFloat($('#txtBox2').val());
         var t = tot + tot1;
-        alert(t);
+      
 
         if (textload.text == "Equally")
-            alert("test");
+          
 
         {
             for (var j = i; j >= 0; j--) {

@@ -1,12 +1,50 @@
 ﻿@model Troy.Web.Models.GoodsReturnViewModels
 
+@Scripts.Render("~/bundles/script/jqueryval")
+<script>
+
+    $(function () {
+        $("#btnNextTabPurQuo").click(function (e) {
+
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#Viewdefault");
+
+            var validator = $("#Viewdefault").validate(); // obtain validator
+            var anyError = false;
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                $('#tabs a[href = #ViewaddQuotationlist]').tab('show');
+            }// exit if any error found
+
+            //$.post(_form.attr("action"), _form.serialize(), function (data) {
+            //    //check the result and do whatever you want
+            //    $('#createtabs a[href = #addQuotationlist]').tab('show');
+            //})
+
+
+            //$("#default").validate({
+            //    showErrors: function (errorMap, errorList) {
+            //        debugger;
+            //    }
+            //});
+
+        });
+
+
+    });
+</script>
+
 
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Add GoodsReturns</h4>
+            <h4 class="modal-title" id="myModalLabel">View GoodsReturns</h4>
         </div>
 
         <div class="modal-body">
@@ -97,8 +135,8 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.Posting_Date, new { @class = "form-control control-text datePicker", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.Posting_Date)
+                                                        @Html.TextBoxFor(model => model.goodreturn.Posting_Date, new { @class = "form-control control-text datePicker", @disabled = "disabled" })
+                                                       
                                                     </div>
                                                 </div>
 
@@ -108,8 +146,8 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.Due_Date, new { @class = "form-control control-text datePicker", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.Due_Date)
+                                                        @Html.TextBoxFor(model => model.goodreturn.Due_Date, new { @class = "form-control control-text datePicker", @disabled = "disabled" })
+                                                      
                                                     </div>
                                                 </div>
                                                 <div class="row form-group">
@@ -119,8 +157,8 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.goodreturn.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @readonly = true, @class = "form-control control-text " })@*, @readonly = true })*@
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.Document_Date)
+                                                        @Html.TextBoxFor(model => model.goodreturn.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @disabled = "disabled", @class = "form-control control-text " })@*, @readonly = true })*@
+                                                       
                                                     </div>
                                                 </div>
 
@@ -229,7 +267,7 @@
                                     <br />
                                     <div class="row">
                                         <div class="modal-footer">
-                                            <input class="btn btn-primary pull-left" type="button" id="btnNextTab" name="nextButton" value="Next" />
+                                            <input class="btn btn-primary pull-left" type="button" id="btnNextTabPurQuo" name="nextButton" value="Next" />
                                             <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>

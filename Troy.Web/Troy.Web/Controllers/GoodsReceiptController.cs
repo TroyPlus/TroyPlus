@@ -94,9 +94,10 @@ namespace Troy.Web.Controllers
 
                     // model.goodreceipt.BaseDocId = model.PurchaseOrder.Purchase_Order_Id;
                     model.goodreceipt.Doc_Status = "Open";
-                    model.goodreceipt.Created_Branc_Id = 1;//CurrentBranchId;
+                    model.goodreceipt.TargetDocId = "0";
+                    model.goodreceipt.Created_Branc_Id = CurrentBranchId;//CurrentBranchId;
                     model.goodreceipt.Created_Dte = DateTime.Now;
-                    model.goodreceipt.Created_User_Id = 1;//CurrentUser.Id;
+                    model.goodreceipt.Created_User_Id = CurrentUser.Id;//CurrentUser.Id;
 
                     // model.goodreceipt.Distribute_LandedCost = "equality";
                     //if (model.goodreceipt.Distribute_LandedCost == "Equality")
@@ -146,16 +147,10 @@ namespace Troy.Web.Controllers
                     GoodsReceiptViewModels model1 = new GoodsReceiptViewModels();
 
                     model1.BranchList = goodsrepository.GetAddressbranchList().ToList();
-
                     model1.BussinessList = goodsrepository.GetAddressbusinessList().ToList();
                     model1.productlist = goodsrepository.GetProductList();
-
                     model1.VATList = goodsrepository.GetVATList();
-
-
-
                     model1.PurchaseOrder = goodsrepository.FindOneQuotationById1(model.PurchaseOrder.Purchase_Order_Id);
-
                     model1.PurchaseOrderItemsList = goodsrepository.FindOneQuotationItemById1(model.PurchaseOrder.Purchase_Order_Id);
 
                     // model1.PurchaseOrderItems = goodsrepository.FindOneQuotationItemById1(model.PurchaseOrderList.FirstOrDefault().Purchase_Order_Id);
@@ -224,31 +219,39 @@ namespace Troy.Web.Controllers
                             {
                                 for (int k = 0; k < model.PurchaseOrderItemsList.Count; k++)
                                 {
-                                    if (model1.PurchaseOrderItemsList[k].Product_id == model.PurchaseOrderItemsList[k].Product_id && model.PurchaseOrderItemsList[k].Received_Qty >= model1.PurchaseOrderItemsList[k].Received_Qty)
+                                    if (model1.PurchaseOrderItemsList[k].Product_id == model.PurchaseOrderItemsList[k].Product_id && model.PurchaseOrderItemsList[k].Quantity >= model1.PurchaseOrderItemsList[k].Received_Qty)
                                     {
                                         model1.PurchaseOrder.Order_Status = "Closed";
-                                        model1.PurchaseOrder.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+                                        //model1.PurchaseOrder.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+                                        if (model1.PurchaseOrder.TargetDocId == "")
+                                        {
+                                            model1.PurchaseOrder.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+                                        }
+                                        else
+                                        {
+                                            model1.PurchaseOrder.TargetDocId = model1.PurchaseOrder.TargetDocId + "," + Convert.ToString(model.goodreceipt.Purchase_Order_Id);
+                                        }
 
-
+                                       // model.PurchaseOrderItemsList[k].BaseDocLink = "N";
                                         model1.PurchaseOrderItemsList[k].Purchase_OrderItem_Id = model1.PurchaseOrderItemsList[k].Purchase_OrderItem_Id;
                                         model1.PurchaseOrderItemsList[k].Purchase_Order_Id = model1.PurchaseOrderItemsList[k].Purchase_Order_Id;
                                         //model1.PurchaseOrderItemsList[j].Quoted_date = model1.PurchaseOrderItemsList[j].Quoted_date;
-                                        model1.PurchaseOrderItemsList[k].Quantity = Convert.ToInt32(model.PurchaseOrderItemsList[k].Received_Qty);
+                                        model1.PurchaseOrderItemsList[k].Received_Qty = Convert.ToInt32(model.PurchaseOrderItemsList[k].Received_Qty) + model1.PurchaseOrderItemsList[k].Quantity;
                                         model1.PurchaseOrderItemsList[k].Product_id = model.PurchaseOrderItemsList[k].Product_id;
                                         model1.PurchaseOrderItemsList[k].Unit_price = model.PurchaseOrderItemsList[k].Unit_price;
                                         model1.PurchaseOrderItemsList[k].Discount_percent = model.PurchaseOrderItemsList[k].Discount_percent;
                                         model1.PurchaseOrderItemsList[k].Vat_Code = model.PurchaseOrderItemsList[k].Vat_Code;
                                     }
-                                    else if (model1.PurchaseOrderItemsList[k].Product_id == model.PurchaseOrderItemsList[k].Product_id && model.PurchaseOrderItemsList[k].Received_Qty < model1.PurchaseOrderItemsList[k].Received_Qty)
+                                    else if (model1.PurchaseOrderItemsList[k].Product_id == model.PurchaseOrderItemsList[k].Product_id && model.PurchaseOrderItemsList[k].Quantity < model1.PurchaseOrderItemsList[k].Received_Qty)
                                     {
                                         model1.PurchaseOrder.Order_Status = "Open";
                                         model1.PurchaseOrder.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
 
-
+                                       // model.PurchaseOrderItemsList[k].BaseDocLink = "N";
                                         model1.PurchaseOrderItemsList[k].Purchase_OrderItem_Id = model1.PurchaseOrderItemsList[k].Purchase_OrderItem_Id;
                                         model1.PurchaseOrderItemsList[k].Purchase_Order_Id = model1.PurchaseOrderItemsList[k].Purchase_Order_Id;
                                         //model1.PurchaseOrderItemsList[j].Quoted_date = model1.PurchaseOrderItemsList[j].Quoted_date;
-                                        model1.PurchaseOrderItemsList[k].Quantity = Convert.ToInt32(model.PurchaseOrderItemsList[k].Received_Qty);
+                                        model1.PurchaseOrderItemsList[k].Received_Qty = Convert.ToInt32(model.PurchaseOrderItemsList[k].Received_Qty) + model1.PurchaseOrderItemsList[k].Quantity;
                                         model1.PurchaseOrderItemsList[k].Product_id = model.PurchaseOrderItemsList[k].Product_id;
                                         model1.PurchaseOrderItemsList[k].Unit_price = model.PurchaseOrderItemsList[k].Unit_price;
                                         model1.PurchaseOrderItemsList[k].Discount_percent = model.PurchaseOrderItemsList[k].Discount_percent;
@@ -257,12 +260,12 @@ namespace Troy.Web.Controllers
                                 }
 
                                 //model1.PurchaseOrder.Creating_Branch = 1;
-                                model1.PurchaseOrder.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
+                                model1.PurchaseOrder.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                                 model1.PurchaseOrder.Created_Date = DateTime.Now;
-                                model1.PurchaseOrder.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
-                                model1.PurchaseOrder.Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                                model1.PurchaseOrder.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
+                                model1.PurchaseOrder.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
                                 model1.PurchaseOrder.Modified_Date = DateTime.Now;
-                                model1.PurchaseOrder.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
+                                model1.PurchaseOrder.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
 
 
 
@@ -278,15 +281,15 @@ namespace Troy.Web.Controllers
                         }
 
                     }
-                                         
-                    }
-                
+
+                }
+
 
                 else if (submitButton == "Update")
                 {
-                    model.goodreceipt.Modified_Branch_Id = 1;//CurrentBranchId;
+                    model.goodreceipt.Modified_Branch_Id = CurrentBranchId;//CurrentBranchId;
                     model.goodreceipt.Modified_Dte = DateTime.Now;
-                    model.goodreceipt.Modified_User_Id = 1;//CurrentUser.Id;
+                    model.goodreceipt.Modified_User_Id = CurrentUser.Id;//CurrentUser.Id;
                     model.goodreceipt.TargetDocId = "1";
 
                     for (int i = 0; i < model.goodreceiptitemlist.Count; i++)

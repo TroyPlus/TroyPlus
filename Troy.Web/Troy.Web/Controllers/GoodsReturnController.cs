@@ -16,7 +16,7 @@ using Troy.Web.Models;
 
 namespace Troy.Web.Controllers
 {
-    public class GoodsReturnController : Controller
+    public class GoodsReturnController : BaseController
     {
 
 
@@ -92,10 +92,11 @@ namespace Troy.Web.Controllers
 
                 if (submitButton == "Save")
                 {
-                    model.goodreturn.Doc_Status = "Open";
-                    model.goodreturn.Created_Branc_Id = 1;//CurrentBranchId;
+                    model.goodreturn.Doc_Status = "Closed";
+                    model.goodreturn.Created_Branc_Id =CurrentBranchId;//CurrentBranchId;
                     model.goodreturn.Created_Dte = DateTime.Now;
-                    model.goodreturn.Created_User_Id = 1;//CurrentUser.Id;
+                    model.goodreturn.BaseDocId = model.goodreceipt.BaseDocId;
+                    model.goodreturn.Created_User_Id = CurrentUser.Id;//CurrentUser.Id;
                     model.goodreturn.Goods_Receipt_Id = model.goodreceipt.Goods_Receipt_Id;
                     model.goodreturn.Vendor = model.goodreceipt.Vendor;
                     model.goodreturn.Doc_Status = model.goodreceipt.Doc_Status;
@@ -110,19 +111,7 @@ namespace Troy.Web.Controllers
                     model.goodreturn.TaxAmt = model.goodreceipt.TaxAmt;
                     model.goodreturn.TotalGRDocAmt = model.goodreceipt.TotalGRDocAmt;
                     model.goodreturn.Reference_Number = model.goodreceipt.Reference_Number;
-                    // model.goodreceipt.Distribute_LandedCost = "equality";
-                    //if (model.goodreceipt.Distribute_LandedCost == "Equality")
-                    //{
-                    //    double a = Convert.ToDouble(model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count);
-                    //}
-                    //else if(model.goodreceipt.Distribute_LandedCost=="Quantity")
-                    //{
-                    //    double b = Convert.ToDouble(model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count *(model.goodreceiptitemlist.FirstOrDefault().LineTotal));
-                    //}
-                    //else
-                    //{
-                    //    double c = Convert.ToDouble((model.goodreceipt.Freight + model.goodreceipt.Loading / model.goodreceiptitemlist.Count) - (model.goodreceiptitem.Quantity * model.goodreceiptitem.Unit_price)*model.goodreceiptitem.Discount_percent);
-                    //}
+                   
 
 
 
@@ -131,7 +120,7 @@ namespace Troy.Web.Controllers
 
                     for (int i = 0; i < model.goodreturnitemlist.Count; i++)
                     {
-                        model.goodreturnitemlist[i].BaseDocLink = "N";
+                        model.goodreturnitemlist[i].BaseDocLink = "Y";
                         model.goodreturnitemlist[i].Product_id = model.goodreceiptitemlist[i].Product_id;
                         model.goodreturnitemlist[i].Quantity = model.goodreceiptitemlist[i].Quantity;
                         model.goodreturnitemlist[i].Unit_price = model.goodreceiptitemlist[i].Unit_price;
@@ -144,7 +133,64 @@ namespace Troy.Web.Controllers
 
                     if (goodsreturnrepository.AddNewQuotation(model.goodreturn, model.goodreturnitemlist, ref ErrorMessage))
                     {
+                        model.goodreceipt = goodsreturnrepository.FindOneQuotationById1(model.goodreceipt.Goods_Receipt_Id);
+
+                        model.goodreceiptitemlist = goodsreturnrepository.FindOneQuotationItemById1(model.goodreceipt.Goods_Receipt_Id);
+                        for (int k = 0; k < model.goodreceiptitemlist.Count; k++)
+                        {
+                            if (model.goodreceiptitemlist[k].Product_id == model.goodreceiptitemlist[k].Product_id && model.goodreceiptitemlist[k].Return_Qty >= model.goodreceiptitemlist[k].Quantity)
+                            {
+                                model.goodreceipt.Doc_Status = "Closed";
+                                //model1.PurchaseOrder.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+                                if (model.goodreceipt.TargetDocId == "")
+                                {
+                                    model.goodreceipt.TargetDocId = Convert.ToString(model.goodreceipt.Purchase_Order_Id);
+                                }
+                                else
+                                {
+                                    model.goodreceipt.TargetDocId = model.goodreceipt.TargetDocId + "," + Convert.ToString(model.goodreceipt.Purchase_Order_Id);
+                                }
+
+
+                                model.goodreceiptitemlist[k].Id = model.goodreceiptitemlist[k].Id;
+                                model.goodreceiptitemlist[k].Goods_Receipt_Id = model.goodreceiptitemlist[k].Goods_Receipt_Id;
+                                //model1.PurchaseOrderItemsList[j].Quoted_date = model1.PurchaseOrderItemsList[j].Quoted_date;
+                                model.goodreceiptitemlist[k].Quantity = Convert.ToInt32(model.goodreceiptitemlist[k].Return_Qty);
+                                model.goodreceiptitemlist[k].Product_id = model.goodreceiptitemlist[k].Product_id;
+                                model.goodreceiptitemlist[k].Unit_price = model.goodreceiptitemlist[k].Unit_price;
+                                model.goodreceiptitemlist[k].Discount_percent = model.goodreceiptitemlist[k].Discount_percent;
+                                model.goodreceiptitemlist[k].Vat_Code = model.goodreceiptitemlist[k].Vat_Code;
+                            }
+                            else if (model.goodreceiptitemlist[k].Product_id == model.goodreceiptitemlist[k].Product_id && model.goodreceiptitemlist[k].Return_Qty < model.goodreceiptitemlist[k].Quantity)
+                            {
+                                model.goodreceipt.Doc_Status = "Open";
+                                model.goodreceipt.TargetDocId = Convert.ToString(model.goodreceipt.Purchase_Order_Id);
+
+                                model.goodreceiptitemlist[k].BaseDocLink = "N";
+                                model.goodreceiptitemlist[k].Id = model.goodreceiptitemlist[k].Id;
+                                model.goodreceiptitemlist[k].Goods_Receipt_Id = model.goodreceiptitemlist[k].Goods_Receipt_Id;
+                                //model1.PurchaseOrderItemsList[j].Quoted_date = model1.PurchaseOrderItemsList[j].Quoted_date;
+                                model.goodreceiptitemlist[k].Quantity = Convert.ToInt32(model.goodreceiptitemlist[k].Return_Qty);
+                                model.goodreceiptitemlist[k].Product_id = model.goodreceiptitemlist[k].Product_id;
+                                model.goodreceiptitemlist[k].Unit_price = model.goodreceiptitemlist[k].Unit_price;
+                                model.goodreceiptitemlist[k].Discount_percent = model.goodreceiptitemlist[k].Discount_percent;
+                                model.goodreceiptitemlist[k].Vat_Code = model.goodreceiptitemlist[k].Vat_Code;
+                            }
+                        }
+
+                        //model1.PurchaseOrder.Creating_Branch = 1;
+                        model.goodreceipt.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
+                        model.goodreceipt.Created_Dte = DateTime.Now;
+                        model.goodreceipt.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
+                        model.goodreceipt.Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                        model.goodreceipt.Modified_Dte = DateTime.Now;
+                        model.goodreceipt.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
+
+
+
+                        goodsreturnrepository.UpdateQuotationreceipt(model.goodreceipt, model.goodreceiptitemlist, ref ErrorMessage);
                         return RedirectToAction("Index", "GoodsReturn");
+
                     }
                     else
                     {
@@ -155,9 +201,9 @@ namespace Troy.Web.Controllers
                 }
                 else if (submitButton == "Update")
                 {
-                    model.goodreturn.Modified_Branch_Id = 1;//CurrentBranchId;
+                    model.goodreturn.Modified_Branch_Id = CurrentBranchId;//CurrentBranchId;
                     model.goodreturn.Modified_Dte = DateTime.Now;
-                    model.goodreturn.Modified_User_Id = 1;//CurrentUser.Id;
+                    model.goodreturn.Modified_User_Id = CurrentUser.Id;//CurrentUser.Id;
                     
 
                     for (int i = 0; i < model.goodreturnitemlist.Count; i++)
