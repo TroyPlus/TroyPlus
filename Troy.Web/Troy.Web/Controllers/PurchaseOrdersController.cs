@@ -115,6 +115,31 @@ namespace Troy.Web.Controllers
                         return View("Error");
                     }
                 }
+                else if (submitButton == "Update")
+                {
+                    model.PurchaseOrder.Order_Status = "Open";
+                    model.PurchaseOrder.TargetDocId = "0";
+                    model.PurchaseOrder.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
+                    model.PurchaseOrder.Created_Date = DateTime.Now;
+                    model.PurchaseOrder.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
+                    model.PurchaseOrder.Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                    model.PurchaseOrder.Modified_Date = DateTime.Now;
+                    model.PurchaseOrder.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
+
+
+                    var QuotationList = model.PurchaseOrderItemsList.Where(x => x.IsDummy == 0);
+                    model.PurchaseOrderItemsList = QuotationList.ToList();
+
+                    if (purchaseorderRepository.UpdatePurchaseOrder(model.PurchaseOrder, model.PurchaseOrderItemsList, ref ErrorMessage))
+                    {
+                        return RedirectToAction("Index", "PurchaseOrders");
+                    }
+                    else
+                    {
+                        ViewBag.AppErrorMessage = ErrorMessage;
+                        return View("Error");
+                    }
+                }
                 else if (submitButton == "Save-PurQuo")
                 {
                     PurchaseOrderViewModels model1 = new PurchaseOrderViewModels();
@@ -178,6 +203,7 @@ namespace Troy.Web.Controllers
                             model.PurchaseOrderItemsList[j].Unit_price = model.PurchaseQuotationItemList[j].Unit_price;
                             model.PurchaseOrderItemsList[j].Discount_percent = model.PurchaseQuotationItemList[j].Discount_percent;
                             model.PurchaseOrderItemsList[j].Vat_Code = model.PurchaseQuotationItemList[j].Vat_Code;
+                            model.PurchaseOrderItemsList[j].LineTotal = model.PurchaseQuotationItemList[j].LineTotal;
                             model.PurchaseOrderItemsList[j].Freight_Loading = "0";// model.PurchaseQuotationItemList[i].Freight_Loading;
 
                         }
@@ -210,12 +236,19 @@ namespace Troy.Web.Controllers
                                     model1.PurchaseQuotationItemList[j].Unit_price = model.PurchaseQuotationItemList[j].Unit_price;
                                     model1.PurchaseQuotationItemList[j].Discount_percent = model.PurchaseQuotationItemList[j].Discount_percent;
                                     model1.PurchaseQuotationItemList[j].Vat_Code = model.PurchaseQuotationItemList[j].Vat_Code;
+                                    model1.PurchaseQuotationItemList[j].LineTotal = model.PurchaseQuotationItemList[j].LineTotal;
                                 }
                                 else if (model1.PurchaseQuotationItemList[j].Product_id == model.PurchaseQuotationItemList[j].Product_id && model.PurchaseQuotationItemList[j].Quoted_qty < model1.PurchaseQuotationItemList[j].Quoted_qty)
                                 {
                                     model1.PurchaseQuotation.Quotation_Status = "Open";
-                                    model1.PurchaseQuotation.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
-
+                                    if (model1.PurchaseQuotation.TargetDocId == "")
+                                    {
+                                        model1.PurchaseQuotation.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+                                    }
+                                    else
+                                    {
+                                        model1.PurchaseQuotation.TargetDocId = model1.PurchaseQuotation.TargetDocId + "," + Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+                                    }
 
                                     model1.PurchaseQuotationItemList[j].Quote_Item_Id = model1.PurchaseQuotationItemList[j].Quote_Item_Id;
                                     model1.PurchaseQuotationItemList[j].Purchase_Quote_Id = model1.PurchaseQuotationItemList[j].Purchase_Quote_Id;
@@ -225,6 +258,7 @@ namespace Troy.Web.Controllers
                                     model1.PurchaseQuotationItemList[j].Unit_price = model.PurchaseQuotationItemList[j].Unit_price;
                                     model1.PurchaseQuotationItemList[j].Discount_percent = model.PurchaseQuotationItemList[j].Discount_percent;
                                     model1.PurchaseQuotationItemList[j].Vat_Code = model.PurchaseQuotationItemList[j].Vat_Code;
+                                    model1.PurchaseQuotationItemList[j].LineTotal = model.PurchaseQuotationItemList[j].LineTotal;
                                 }
                             }
 

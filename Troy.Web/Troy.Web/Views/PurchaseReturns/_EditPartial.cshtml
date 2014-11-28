@@ -143,20 +143,8 @@
 
     });
 
-    function TabChange() {
-        debugger;
-        //if ($("#btnSubmit").val == "Next") {
-        $('#edittabs a[href = #editQuotationItem]').tab('show');
-        //    $("#btnSubmit").val("Save");
-        //}
-    }
-
     $(function () {
-        $("#btnEditNextTab").click(function (e) {
-            alert(e);
-
-            debugger;
-
+        $("#btnNextTab1").click(function (e) {
             e.preventDefault();
             var _this = $(this);
             var _form = _this.closest("#editdefault");
@@ -164,16 +152,15 @@
             var validator = $("#editdefault").validate(); // obtain validator
             var anyError = false;
             _form.find("input").each(function () {
-                //debugger;
+                debugger;
                 if (this.parentNode.parentNode.className != "jAutochecklist_list") {
                     if (!validator.element(this)) { // validate every input element inside this step
                         anyError = true;
                     }
                 }
             });
-
             _form.find("select").each(function () {
-                debugger;
+               // debugger;
 
                 if (!validator.element(this)) { // validate every input element inside this step
                     anyError = true;
@@ -184,7 +171,7 @@
                 return false;
             }
             else {
-                $('#edittabs a[href = #editQuotationItem]').tab('show');
+                $('#edittabs a[href = #editQuotationlist]').tab('show');
             }// exit if any error found
 
         });
@@ -230,15 +217,7 @@
                                         <div class="col-md-6">
                                             @*@Html.HiddenFor(model => model.PurchaseOrder.Purchase_Quote_Id)*@
                                             <div class="form-horizontal">
-                                                @*<div class="row form-group">
-                                                        <div class="col-md-4">
-                                                            Purchase QuotationID
-                                                        </div>
-                                                        <div class="col-md-8">
-                                                            @Html.TextBoxFor(model => model.PurchaseOrder.Purchase_Quote_Id, new { @class = "form-control control-text" })
-                                                            @Html.ValidationMessageFor(model => model.PurchaseOrder.Purchase_Quote_Id)
-                                                        </div>
-                                                    </div>*@
+                                              
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -281,8 +260,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
-                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker", @id = "crePostingDate" })*@
+                                                       
                                                         @Html.TextBoxFor(model => model.PurchaseReturn.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate1" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseReturn.Posting_Date)
                                                     </div>
@@ -297,6 +275,7 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseReturn.Due_Date)
                                                     </div>
                                                 </div>
+                                         
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -306,8 +285,7 @@
                                                         Document Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
-                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })*@
+
                                                         @Html.TextBoxFor(model => model.PurchaseReturn.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseReturn.Document_Date)
                                                     </div>
@@ -318,8 +296,7 @@
                                                         Ship To
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Ship_To, new { @class = "form-control control-text" })
-                                                            @Html.ValidationMessageFor(model => model.PurchaseOrder.Ship_To)*@
+                                                       
                                                         @Html.DropDownListFor(m => m.PurchaseReturn.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseReturn.Ship_To)
                                                     </div>
@@ -371,7 +348,7 @@
                                     <div class="row">
                                         <div class="modal-footer">
                                             <input class="btn btn-primary pull-left" type="button" id="btnNextTab1" name="nextButton" value="Next" />
-                                            <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                                            @*<button class="btn pull-left" data-dismiss="modal">Cancel</button>*@
                                         </div>
                                     </div>
                                 </div>

@@ -324,5 +324,45 @@ namespace Troy.Data.Repository
                 return false;
             }
         }
+        public bool UpdatePurchaseOrder(PurchaseOrder Quotation, IList<PurchaseOrderItems> QuotationItemList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                purchaseordercontext.Entry(Quotation).State = EntityState.Modified;
+                purchaseordercontext.SaveChanges();
+
+                foreach (var model in QuotationItemList)
+                {
+                    if (model.IsDummy == 1)
+                    {
+                        purchaseordercontext.Entry(model).State = EntityState.Deleted;
+                        purchaseordercontext.SaveChanges();
+                    }
+                    else
+                    {
+                        if (model.Purchase_OrderItem_Id == 0)
+                        {
+                            model.Purchase_Order_Id = Quotation.Purchase_Order_Id;
+                            purchaseordercontext.purchaseorderitems.Add(model);
+                            purchaseordercontext.SaveChanges();
+                        }
+                        else
+                        {
+                            purchaseordercontext.Entry(model).State = EntityState.Modified;
+                            purchaseordercontext.SaveChanges();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ErrorMessage = ex.Message;
+                return false;
+            }
+        }
     }
 }

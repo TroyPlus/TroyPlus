@@ -16,11 +16,10 @@
         });
     }
     function EditPurchaseReturn(id) {
-        alert(id);
-        var url = $('#editModal').data('url') + '/' + id;
+     var url = $('#editModal').data('url') + '/' + id;
         alert(url);
         $.get(url, function (data) {
-            alert(url);
+          
             $('#editmodelcontainer').html(data);
 
             $('#editModal').modal('show');
@@ -32,8 +31,20 @@
         $('#submitAction').val(button.value)
         return true;
     }
+    function ViewPurchaseReturn(id) {
+
+        var url = $('#viewModal').data('url') + '/' + id;
+        alert(url);
+        $.get(url, function (data) {
+            $('#viewmodelcontainer').html(data);
+
+            $('#viewModal').modal('show');
+        });
+    }
 
     
+  
+
 </script>
 @using (Html.BeginForm("Index", "PurchaseReturns", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -127,7 +138,7 @@
                                                 <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
                                                 <td>@item.Due_Date.ToString("MM/dd/yyyy")</td>
                                                 <td>
-                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Purchase_Return_Id);">
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchaseReturn(@item.Purchase_Return_Id);">
                                                         <i class="im-eye2"></i>
 
                                                     </a>
@@ -278,9 +289,7 @@
                                             @*<iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>*@
                                             <div class="row">
                                                 <div class="col-md-12" align="center">
-                                                    @*<input type="file" id="Select" name="FileUpload" />*@
-                                                    @*@Html.RadioButton("select", "Create from Purchase Quotation", false)Create from Purchase Quotation
-                                                        @Html.RadioButton("select", "Create Directly", false) Create Directly*@
+                                                   
                                                     <button type="button" title="New Purchase Return" class="btn btn-primary" data-toggle="modal" data-target="#RetrivePurInvModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal">
                                                         <i class="en-add-to-list strong"></i>
                                                         <span> Create from Purchase Invoice</span>
@@ -364,9 +373,7 @@
                                                                                 <i class="im-eye2"></i>
 
                                                                             </a>
-                                                                            <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseInvoice(@item.Purchase_Invoice_Id);">
-                                                                                <i class="im-pencil2"></i>
-                                                                            </a>
+                                                                           
                                                                         </td>
                                                                     </tr>
                                                                 }

@@ -167,13 +167,13 @@
     function TabChange() {
         debugger;
         //if ($("#btnSubmit").val == "Next") {
-        $('#edittabs a[href = #editQuotationItem]').tab('show');
+        $('#edittabs a[href = #editInvoiceItem]').tab('show');
         //    $("#btnSubmit").val("Save");
         //}
     }
 
     $(function () {
-        $("#btnEditNextTab").click(function (e) {
+        $("#btnpurinv").click(function (e) {
 
             debugger;
 
@@ -204,7 +204,7 @@
                 return false;
             }
             else {
-                $('#edittabs a[href = #editQuotationItem]').tab('show');
+                $('#edittabs a[href = #editInvoiceItem]').tab('show');
             }// exit if any error found
 
         });
@@ -433,7 +433,7 @@
                                                         Purchase InvoiceID
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Purchase_Invoice_Id, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Purchase_Invoice_Id, new { @class = "form-control control-text" ,@readonly =true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Purchase_Invoice_Id)
                                                     </div>
                                                 </div>
@@ -443,7 +443,7 @@
                                                         Vendor Name
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.DropDownListFor(m => m.PurchaseInvoice.Vendor, new SelectList(Model.BusinessPartnerList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text" })
+                                                        @Html.DropDownListFor(m => m.PurchaseInvoice.Vendor, new SelectList(Model.BusinessPartnerList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Vendor)
                                                     </div>
 
@@ -453,7 +453,7 @@
                                                         Reference Number
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Reference_Number, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Reference_Number, new { @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Reference_Number)
                                                     </div>
                                                 </div>
@@ -465,8 +465,8 @@
                                                         @Html.DropDownListFor(model => model.PurchaseInvoice.Doc_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
-                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
-                                                         }, new { @class = "form-control" })
+                                                           
+                                                         }, new { @class = "form-control",@readonly = true })
                                                     </div>
                                                 </div>
 
@@ -485,17 +485,10 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Due_Date, new { @class = "form-control control-text datePicker" })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Due_Date, new { @class = "form-control control-text datePicker", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Due_Date)
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-
-                                            <div class="form-horizontal">
-
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Document Date
@@ -505,13 +498,21 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Modified_Date)
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="form-horizontal">
+
+                                             
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Ship To
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.DropDownListFor(m => m.PurchaseInvoice.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
+                                                        @Html.DropDownListFor(m => m.PurchaseInvoice.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Ship_To)
                                                     </div>
                                                 </div>
@@ -521,7 +522,7 @@
                                                         Freight
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Freight, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Freight, new { @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Freight)
                                                     </div>
                                                 </div>
@@ -531,7 +532,7 @@
                                                         Loading
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Loading, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Loading, new { @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Loading)
                                                     </div>
                                                 </div>
@@ -540,7 +541,7 @@
                                                         TotalBefDocDisc
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.TotalBefDocDisc, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.TotalBefDocDisc, new { @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.TotalBefDocDisc)
                                                     </div>
                                                 </div>
@@ -549,7 +550,7 @@
                                                         Document Discount Amount
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.DocDiscAmt, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.DocDiscAmt, new { @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.DocDiscAmt)
                                                     </div>
                                                 </div>
@@ -558,7 +559,7 @@
                                                         TaxAmt
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextAreaFor(model => model.PurchaseInvoice.TaxAmt, new { @class = "form-control", @cols = 55, @rows = 5 })
+                                                        @Html.TextAreaFor(model => model.PurchaseInvoice.TaxAmt, new { @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.TaxAmt)
                                                     </div>
                                                 </div>
@@ -568,7 +569,7 @@
                                                         TotalPurInvAmt
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.TotalPurInvAmt, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.TotalPurInvAmt, new { @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.TotalPurInvAmt)
                                                     </div>
                                                 </div>
@@ -580,8 +581,8 @@
                                     <br />
                                     <div class="row">
                                         <div class="modal-footer">
-                                            <input class="btn btn-primary pull-left" type="button" id="btnEditNextTab" name="nextButton" value="Next" />
-                                            <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                                            <input class="btn btn-primary pull-left" type="button" id="btnpurinv" name="nextButton" value="Next" />
+                                            @*<button class="btn pull-left" data-dismiss="modal">Cancel</button>*@
                                         </div>
                                     </div>
 

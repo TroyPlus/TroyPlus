@@ -1,11 +1,370 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿@model Troy.Web.Models.PurchaseReturnViewModels
 
-namespace Troy.Web.Views.PurchaseReturns
-{
-	public class _ViewPartial
-	{
-	}
-}
+@Scripts.Render("~/bundles/script/jqueryval")
+
+<script>
+  $(function () {
+        $("#btnNextTab").click(function (e) {
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#default");
+
+            var validator = $("#default").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+                debugger;
+                if (this.parentNode.parentNode.className != "jAutochecklist_list") {
+                    if (!validator.element(this)) { // validate every input element inside this step
+                        anyError = true;
+                    }
+                }
+            });
+
+            _form.find("select").each(function () {
+                //debugger;
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                $('#createtabs a[href = #addreturnlist]').tab('show');
+            }// exit if any error found
+
+
+        });
+        $("#btnSuddbmit").click(function (e) {
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#addreturnlist");
+
+            var validator = $("#addreturnlist").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+                debugger;
+                if (this.parentNode.parentNode.className != "jAutochecklist_list" || this.type != "hidden") {
+                    if (!validator.element(this)) { // validate every input element inside this step
+                        anyError = true;
+                    }
+                }
+            });
+
+            _form.find("select").each(function () {
+                debugger;
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                return true; //$('#createtabs a[href = #addreturnlist]').tab('show');
+            }// exit if any error found
+        });
+
+    });
+    </script>
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">View PurchaseReturn</h4>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="row">
+                    <div class="tabs">
+                        <ul id="createtabs" class="nav nav-tabs tabdrop">
+                            <li class="active">
+                                <a href="#default" data-toggle="tab">General</a>
+                            </li>
+                            <li><a href="#addreturnlist" data-toggle="tab">PurchaseReturn Items </a></li>
+
+                        </ul>
+
+                        <div id="createtabContent" class="tab-content">
+
+                            <div class="tab-pane fade active in" id="default">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                 
+                                                    PurReturnId
+                                                </div>
+                                                <div class="col-md-8">
+                                                 
+                                                    @Html.TextBoxFor(m => m.PurchaseReturn.Purchase_Return_Id, new { @class = "form-control control-text" ,@readonly = true })
+                                                  
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Vendor Name
+                                                </div>
+                                                <div class="col-md-8">
+                                                  
+                                                    @Html.DropDownListFor(m => m.PurchaseReturn.Vendor, new SelectList(Model.BusinessPartnerList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text" ,@readonly = true})
+                                                   
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                   Ref.Number
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.PurchaseReturn.Reference_Number, new { @class = "form-control control-text", @readonly = true })
+                                                   
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                 
+                                                    Doc Status
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.PurchaseReturn.Doc_Status,  new { @class = "form-control" , @readonly = true})
+
+                                                      
+                                                    </div>
+                                                </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Ship To
+                                                </div>
+                                                <div class="col-md-8">
+
+                                                    @Html.DropDownListFor(m => m.PurchaseReturn.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text",@readonly = true })
+                                                    
+                                                </div>
+                                            </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        
+                                                        Posting Date
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Posting_Date, new { @class = "form-control control-text datePicker", @readonly = true })
+                                                       
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                   
+                                                        Due Date:
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Due_Date, new { @class = "form-control control-text datePicker", @readonly = true })
+                                                        
+                                                    </div>
+                                                </div>
+                                               
+                                          
+
+                                             
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                           
+                                            <div class="form-horizontal">
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        Document Date
+                                                    </div>
+                                                    <div class="col-md-8">
+
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @readonly = true })
+                                                     
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row  form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.PurchaseReturn.Freight, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Freight, new { @class = "form-control control-text ", @readonly = true })
+                                                       
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.PurchaseReturn.Loading, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Loading, new { @class = "form-control control-text ", @readonly = true })
+                                                       
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+
+                                                        TotalBefDocDisc
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.TotalBefDocDisc, new { @class = "form-control control-text", @readonly = true })
+                                                      
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+
+                                                        DocDisAmt
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.DocDiscAmt, new { @class = "form-control control-text", @readonly = true })
+                                                       
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+
+                                                        Tax Amount
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.TaxAmt, new { @class = "form-control control-text", @readonly = true })
+                                                        
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+
+                                                        TotalPurRtnAmt
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.TotalPurRtnAmt, new { @class = "form-control control-text", @readonly = true })
+                                                       
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                <div class="row">
+                                    <div class="modal-footer">
+                                        <input class="btn btn-primary pull-left" type="button" id="btnNextTab" name="nextButton" value="Next" />
+                                        @*<button class="btn pull-left" data-dismiss="modal">Cancel</button>*@
+                                    </div>
+                                </div>
+
+                                </div>
+
+                                <div class="tab-pane fade" id="addreturnlist">
+
+                                    <div>
+
+                                        <table id="createItemTable" class="table display" style="min-height:180px;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product_Id</th>
+                                                    <th>Quantity</th>
+                                                    <th>Unit Price</th>
+                                                    <th>Discount %</th>
+                                                    <th> LineTotal</th>
+                                                    <th>VAT Code</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < 1; i++)
+                                                {
+
+                                                    <tr>
+                                                        <td style="display:none;">
+                                                            @Html.HiddenFor(model => model.PurchaseReturnitemsList[i].IsDummy, 0)
+
+                                                        </td>
+                                                        <td width="30%">
+
+                                                            @Html.DropDownListFor(m => m.PurchaseReturnitemsList[i].Product_id, new SelectList(Model.ProductList.AsEnumerable(), "Product_Id", "Product_Name", Model.PurchaseReturnitemsList[i].Product_id), "", new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");",@readonly = true })
+                                                           
+                                                        </td>
+                                                      
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.PurchaseReturnitemsList[i].Quantity, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");" ,@readonly = true })
+                                                            
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.PurchaseReturnitemsList[i].Unit_price, new { @class = "form-control control-text", @readonly = true })
+                                                            
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.PurchaseReturnitemsList[i].Discount_percent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");", @readonly = true })
+                                                           
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.PurchaseReturnitemsList[i].LineTotal, new { @class = "form-control control-text", @readonly = true })
+                                                            
+                                                        </td>
+                                                        <td width="10%">
+                                                            @Html.TextBoxFor(m => m.PurchaseReturnitemsList[i].Vat_Code,  new { @class = "form-control control-text", @onchange = "OnChangeVAT();", @readonly = true })
+                                                            
+                                                        </td>
+                                                        <td style="width: 90px;">
+                                                            <input class="BtnPlus btn pull-left" type="button" value="+" />
+                                                            @*<input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />*@
+                                                        </td>
+                                                    </tr>
+
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+
+
+                                    <div class="modal-footer">
+                                      
+                                        <button class="btn pull-left" data-dismiss="modal">Close</button>
+                                       
+                                        <div class="row" style="float:right;">
+                                            Total : <span>@Html.TextBoxFor(m => m.PurchaseReturn.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseReturn.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.PurchaseReturn.DocDiscAmt) </span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseReturn.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseReturn.TotalPurRtnAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          
+        </div>
+
+    </div>
