@@ -158,10 +158,12 @@ namespace Troy.Web.Controllers
                     model.goodreturn.Modified_Branch_Id = 1;//CurrentBranchId;
                     model.goodreturn.Modified_Dte = DateTime.Now;
                     model.goodreturn.Modified_User_Id = 1;//CurrentUser.Id;
+                    
 
                     for (int i = 0; i < model.goodreturnitemlist.Count; i++)
                     {
                         model.goodreturnitemlist[i].BaseDocLink = "N";
+               
                     }
                     if (goodsreturnrepository.UpdateQuotation(model.goodreturn, model.goodreturnitemlist, ref ErrorMessage))
                     {
@@ -278,6 +280,29 @@ namespace Troy.Web.Controllers
                 //  model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
                 // model.BranchList = purchaseDb.GetAddressList().ToList();
                 // model.BussinessList = purchaseDb.GetVendorList();
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+        }
+
+        public PartialViewResult _ViewPartial(int id)
+        {
+            try
+            {
+                GoodsReturnViewModels model = new GoodsReturnViewModels();
+                model.goodreturn = goodsreturnrepository.FindOneQuotationById(id);
+                model.goodreturnitemlist = goodsreturnrepository.FindOneQuotationItemById(id);
+                model.BranchList = goodsreturnrepository.GetAddressbranchList().ToList();
+                model.BussinessList = goodsreturnrepository.GetAddressbusinessList().ToList();
+                model.productlist = goodsreturnrepository.GetProductList();
+
+                model.VATList = goodsreturnrepository.GetVATList();
 
                 return PartialView(model);
             }

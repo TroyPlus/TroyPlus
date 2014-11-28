@@ -178,9 +178,27 @@ namespace Troy.Data.Repository
 
         public IList<GoodsReceiptItems> FindOneQuotationItemById(int qId)
         {
-            return (from p in goodscontext.goodsreceiptitem
-                    where p.Goods_Receipt_Id == qId
-                    select p).ToList();
+            var qtn = (from p in goodscontext.goodsreceiptitem
+                       where p.Goods_Receipt_Id == qId
+                       select p).ToList();
+
+            var purchase = (from q in qtn
+                            join pi in goodscontext.product on q.Product_id equals pi.Product_Id
+                            select new GoodsReceiptItems
+                            {
+                                Discount_percent = q.Discount_percent,
+
+                                //LineTotal = q.LineTotal,
+                                Product_id = q.Product_id,
+                                ProductName = pi.Product_Name,
+                                Quantity = q.Quantity,
+                                Unit_price = q.Unit_price,
+                                Freight_Loading = q.Freight_Loading,
+                                Vat_Code = q.Vat_Code,
+                                LineTotal = q.LineTotal
+                            }).ToList();
+
+            return purchase;
         }
 
         //public List<ProductList> GetAddressproductList()
