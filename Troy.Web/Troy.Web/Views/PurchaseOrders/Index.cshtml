@@ -96,7 +96,7 @@
             var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseOrderItemsList_' + rowID + '__Product_id" name="PurchaseOrderItemsList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
 
-            var dataUrl = "/PurchaseOrders/GetProductList";
+            var dataUrl = "../PurchaseOrders/GetProductList";
 
             $.ajax({
                 type: 'GET',
@@ -124,7 +124,7 @@
             selectHtml += '<option value=""></option>';
 
 
-            var dataUrl = "/PurchaseOrders/GetVATList";
+            var dataUrl = "../PurchaseOrders/GetVATList";
 
             $.ajax({
                 type: 'GET',
@@ -239,7 +239,7 @@
 
         var formData = new FormData($('form')[0]);
 
-        var dataUrl = "/PurchaseOrders/index";
+        var dataUrl = "../PurchaseOrders/index";
 
         $.ajax({
             url: dataUrl,
@@ -351,7 +351,7 @@
 
         var pID = parseInt(val.value);
 
-        var dataUrl = "/PurchaseOrders/GetPrice?pID=" + pID;
+        var dataUrl = "../PurchaseOrders/GetPrice?pID=" + pID;
 
         $.ajax({
             type: 'GET',

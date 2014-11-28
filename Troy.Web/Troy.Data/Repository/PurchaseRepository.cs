@@ -332,8 +332,8 @@ namespace Troy.Data.Repository
             ErrorMessage = string.Empty;
             try
             {
-                //purchaseContext.Entry(Quotation).State = EntityState.Modified;
-                //purchaseContext.SaveChanges();
+                purchaseContext.Entry(Quotation).State = EntityState.Modified;
+                purchaseContext.SaveChanges();
 
                 foreach (var model in QuotationItemList)
                 {

@@ -88,12 +88,12 @@ namespace Troy.Web.Controllers
 
                     model.PurchaseOrder.Order_Status = "Open";
                     model.PurchaseOrder.TargetDocId = "0";
-                    model.PurchaseOrder.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
+                    model.PurchaseOrder.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                     model.PurchaseOrder.Created_Date = DateTime.Now;
-                    model.PurchaseOrder.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
-                    model.PurchaseOrder.Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                    model.PurchaseOrder.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
+                    model.PurchaseOrder.Modified_User_Id = CurrentUser.Id; ;//currentUser.Modified_User_Id;
                     model.PurchaseOrder.Modified_Date = DateTime.Now;
-                    model.PurchaseOrder.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
+                    model.PurchaseOrder.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
 
 
                     var QuotationList = model.PurchaseOrderItemsList.Where(x => x.IsDummy == 0);
@@ -119,19 +119,19 @@ namespace Troy.Web.Controllers
                 {
                     model.PurchaseOrder.Order_Status = "Open";
                     model.PurchaseOrder.TargetDocId = "0";
-                    model.PurchaseOrder.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
+                    model.PurchaseOrder.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                     model.PurchaseOrder.Created_Date = DateTime.Now;
-                    model.PurchaseOrder.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
-                    model.PurchaseOrder.Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                    model.PurchaseOrder.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
+                    model.PurchaseOrder.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
                     model.PurchaseOrder.Modified_Date = DateTime.Now;
-                    model.PurchaseOrder.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
-
+                    model.PurchaseOrder.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
+                   
 
                     var QuotationList = model.PurchaseOrderItemsList.Where(x => x.IsDummy == 0);
                     model.PurchaseOrderItemsList = QuotationList.ToList();
 
                     if (purchaseorderRepository.UpdatePurchaseOrder(model.PurchaseOrder, model.PurchaseOrderItemsList, ref ErrorMessage))
-                    {
+                    { 
                         return RedirectToAction("Index", "PurchaseOrders");
                     }
                     else
@@ -187,12 +187,12 @@ namespace Troy.Web.Controllers
                             model.PurchaseOrder.Remarks = model.PurchaseQuotation.Remarks;
                             model.PurchaseOrder.TargetDocId = "0";
 
-                            model.PurchaseOrder.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
+                            model.PurchaseOrder.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                             model.PurchaseOrder.Created_Date = DateTime.Now;
-                            model.PurchaseOrder.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
-                            model.PurchaseOrder.Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                            model.PurchaseOrder.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
+                            model.PurchaseOrder.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
                             model.PurchaseOrder.Modified_Date = DateTime.Now;
-                            model.PurchaseOrder.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
+                            model.PurchaseOrder.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
 
 
                             var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
@@ -224,7 +224,7 @@ namespace Troy.Web.Controllers
                                     }
                                     else
                                     {
-                                        model1.PurchaseQuotation.TargetDocId = model1.PurchaseQuotation.TargetDocId + "," + Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+                                        model1.PurchaseQuotation.TargetDocId = model1.PurchaseQuotation.TargetDocId + "," + Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);                                      
                                     }
 
 
@@ -262,13 +262,13 @@ namespace Troy.Web.Controllers
                                 }
                             }
 
-                            model1.PurchaseQuotation.Creating_Branch = 1;
-                            model1.PurchaseQuotation.Created_Branc_Id = 1;//currentUser.Created_Branch_Id; 
+                            model1.PurchaseQuotation.Creating_Branch = CurrentBranchId;
+                            model1.PurchaseQuotation.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                             model1.PurchaseQuotation.Created_Date = DateTime.Now;
-                            model1.PurchaseQuotation.Created_User_Id = 1;//currentUser.Created_User_Id;  //GetUserId()
-                            model1.PurchaseQuotation.Modified_User_Id = 1;//currentUser.Modified_User_Id;
+                            model1.PurchaseQuotation.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
+                            model1.PurchaseQuotation.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
                             model1.PurchaseQuotation.Modified_Date = DateTime.Now;
-                            model1.PurchaseQuotation.Modified_Branch_Id = 1;//currentUser.Modified_Branch_Id; 
+                            model1.PurchaseQuotation.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
 
                             purchaseorderRepository.UpdateQuotation(model1.PurchaseQuotation, model1.PurchaseQuotationItemList, ref ErrorMessage);
                             return RedirectToAction("Index", "PurchaseOrders");
@@ -351,6 +351,41 @@ namespace Troy.Web.Controllers
         }
 
         public PartialViewResult _EditPartial(int id)
+        {
+            try
+            {
+                PurchaseOrderViewModels model = new PurchaseOrderViewModels();
+                model.PurchaseOrder = purchaseorderRepository.FindOneOrderById(id);
+                model.PurchaseOrderItemsList = purchaseorderRepository.FindOneOrderItemById(id);
+
+                //Bind Branch
+                var BranchList = purchaseorderRepository.GetBranchList().ToList();
+                model.BranchList = BranchList;
+
+                //Bind VAT
+                var VATList = purchaseorderRepository.GetVAT().ToList();
+                model.VATList = VATList;
+
+                //Bind Product
+                var ProductList = purchaseorderRepository.GetProductList().ToList();
+                model.ProductList = ProductList;
+
+                //Bind Businesspartner
+                var BusinessParterList = purchaseorderRepository.GetBusinessPartnerList().ToList();
+                model.BusinessPartnerList = BusinessParterList;
+
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+        }
+
+        public PartialViewResult _ViewPartial(int id)
         {
             try
             {

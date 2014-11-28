@@ -104,7 +104,7 @@
             var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseInvoiceItemsList_' + rowID + '__Product_id" name="PurchaseInvoiceItemsList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
 
-            var dataUrl = "/PurchaseInvoices/GetProductList";
+            var dataUrl = "../PurchaseInvoices/GetProductList";
 
             $.ajax({
                 type: 'GET',
@@ -133,7 +133,7 @@
             selectHtml1 += '<option value=""></option>';
 
 
-            var dataUrl =  "/PurchaseInvoices/GetVATList";
+            var dataUrl =  "../PurchaseInvoices/GetVATList";
 
             $.ajax({
                 type: 'GET',
@@ -248,7 +248,7 @@
 
         var formData = new FormData($('form')[0]);
 
-        var dataUrl = "/PurchaseInvoices/index";
+        var dataUrl = "../PurchaseInvoices/index";
 
         $.ajax({
             url: dataUrl,
@@ -360,7 +360,7 @@
 
         var pID = parseInt(val.value);
 
-        var dataUrl = "/PurchaseInvoices/GetPrice?pID=" + pID;
+        var dataUrl = "../PurchaseInvoices/GetPrice?pID=" + pID;
 
         $.ajax({
             type: 'GET',
@@ -640,7 +640,7 @@
 
                                                     </a>
                                                     <span class="text-muted">|</span>
-                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Purchase_Invoice_Id);">
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal1" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Purchase_Invoice_Id);">
                                                         <i class="im-pencil2"></i>
                                                     </a>
                                                 </td>

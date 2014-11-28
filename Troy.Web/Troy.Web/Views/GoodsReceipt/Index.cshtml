@@ -11,6 +11,14 @@
     $(document).ready(function () {
 
         $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+
+        $('#creDocumentDate').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
+
+        $('#crePostingDate').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
         //var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
         $('#grdBranch').dataTable({
@@ -59,7 +67,7 @@
     function ViewGoodsReceipt(id) {
 
         var url = $('#viewPurQuoModal').data('url') + '/' + id;
-        alert(url);
+       
         $.get(url, function (data) {
             $('#viewPurQuomodelcontainer').html(data);
 
@@ -76,7 +84,7 @@
         }
 
         var formData = new FormData($('form')[0]);
-        var dataurl = "/Branch/index";
+        var dataurl = "../Branch/index";
         $.ajax({
             url: dataurl,
             type: 'POST',
@@ -304,7 +312,7 @@
             var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="goodreceiptitemlist_' + rowID + '__Product_id" name="goodreceiptitemlist[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
 
-            var dataUrl = "/GoodsReceipt/GetProductList";
+            var dataUrl = "../GoodsReceipt/GetProductList";
 
             $.ajax({
                 type: 'GET',
@@ -335,7 +343,7 @@
             var vatselectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT must be a number." data-val-required="The VAT field is required." id="goodreceiptitemlist_' + rowID + '__Vat_Code" name="goodreceiptitemlist[' + rowID + '].Vat_Code" onchange="OnChangeVAT();" >';
             vatselectHtml += '<option value=""></option>';
 
-            var dataUrl = "/GoodsReceipt/GetVATList";
+            var dataUrl = "../GoodsReceipt/GetVATList";
 
             $.ajax({
                 type: 'GET',
@@ -396,7 +404,7 @@
 
         var pID = parseInt(val.value);
 
-        var dataUrl = "/GoodsReceipt/GetPrice?pID=" + pID;
+        var dataUrl = "../GoodsReceipt/GetPrice?pID=" + pID;
 
         $.ajax({
             type: 'GET',
@@ -653,10 +661,10 @@
         var tot = parseFloat($('#txtBox1').val());
         var tot1 = parseFloat($('#txtBox2').val());
         var t = tot + tot1;
-        alert(t);
+      
 
         if (textload.text == "Equally")
-            alert("test");
+          
 
         {
             for (var j = i; j >= 0; j--) {

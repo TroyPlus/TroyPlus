@@ -79,7 +79,7 @@
             var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseOrderItemsList' + rowID + '__Product_id" name="PurchaseOrderItemsList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
 
-            var dataUrl = "/GoodsReceipt/GetProductList";
+            var dataUrl = "../GoodsReceipt/GetProductList";
 
             $.ajax({
                 type: 'GET',
@@ -107,7 +107,7 @@
             selectHtml += '<option value=""></option>';
 
 
-            var dataUrl = "/GoodsReceipt/GetVATList";
+            var dataUrl = "../GoodsReceipt/GetVATList";
 
             $.ajax({
                 type: 'GET',
@@ -172,7 +172,7 @@
 
     $(function () {
         $("#btnNextTabPurQuo").click(function (e) {
-            alert(e);
+           
             e.preventDefault();
             var _this = $(this);
             var _form = _this.closest("#editdefault");
@@ -224,7 +224,7 @@
 
         var pID = parseInt(val.value);
 
-        var dataUrl = "/GoodsReceipt/GetPrice?pID=" + pID;
+        var dataUrl = "../GoodsReceipt/GetPrice?pID=" + pID;
 
         $.ajax({
             type: 'GET',
@@ -341,7 +341,7 @@
         //}
 
         $("#totalPurchase1").val(tot.toFixed(2));
-        alert(tot);
+       
     }
 
     function CalculateDiscount() {
@@ -477,7 +477,7 @@
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
                                                             new SelectListItem{ Text="Closed", Value = "Closed" }
-                                                         }, "Open", new { @class = "form-control" })@*, @disabled = true })*@
+                                                         }, new { @class = "form-control" })@*, @disabled = true })*@
 
                                                         @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
                                                     </div>
@@ -534,7 +534,7 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text " })@*, @readonly = true })*@
+                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text  datePicker" })@*, @readonly = true })*@
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrder.Document_Date)
                                                     </div>
                                                 </div>
@@ -650,7 +650,7 @@
                                                                 @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Freight_Loading)
                                                             </td>*@
                                                         <td width="10%">
-                                                            @Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.PurchaseOrderItemsList[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");" })
+                                                            @Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.PurchaseOrderItemsList[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
                                                             @*@Html.DropDownListFor(m => m.PurchaseOrderItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage"), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })*@
                                                             @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Vat_Code)
                                                         </td>

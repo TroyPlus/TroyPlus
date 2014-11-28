@@ -1,5 +1,42 @@
 ﻿@model Troy.Web.Models.GoodsReceiptViewModels
 
+@Scripts.Render("~/bundles/script/jqueryval")
+<script>
+
+    $(function () {
+        $("#btnNextTabPurQuo").click(function (e) {
+
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#Viewdefault");
+
+            var validator = $("#Viewdefault").validate(); // obtain validator
+            var anyError = false;
+            if (anyError) {
+                return false;
+            }
+            else {
+                $('#tabs a[href = #ViewaddQuotationlist]').tab('show');
+            }// exit if any error found
+
+            //$.post(_form.attr("action"), _form.serialize(), function (data) {
+            //    //check the result and do whatever you want
+            //    $('#createtabs a[href = #addQuotationlist]').tab('show');
+            //})
+
+
+            //$("#default").validate({
+            //    showErrors: function (errorMap, errorList) {
+            //        debugger;
+            //    }
+            //});
+
+        });
+
+
+    });
+</script>
+
 
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -97,8 +134,8 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @class = "form-control control-text datePicker", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @class = "form-control control-text datePicker", @disabled = "disabled" })
+                                                       
                                                     </div>
                                                 </div>
 
@@ -108,8 +145,8 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @class = "form-control control-text datePicker", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @class = "form-control control-text datePicker", @disabled = "disabled" })
+                                                      
                                                     </div>
                                                 </div>
 
@@ -128,8 +165,8 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @class = "form-control control-text datePicker", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @class = "form-control control-text datePicker", @disabled = "disabled" })
+                                                       
                                                     </div>
                                                 </div>
                                                 <div class="row form-group">
@@ -139,8 +176,8 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @readonly = true })@*, @readonly = true })*@
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @disabled = "disabled" })@*, @readonly = true })*@
+                                                      
                                                     </div>
                                                 </div>
 
@@ -201,7 +238,7 @@
                                     <br />
                                     <div class="row">
                                         <div class="modal-footer">
-                                            <input class="btn btn-primary pull-left" type="button" id="btnNextTab" name="nextButton" value="Next" onclick="OnChangeload()" />
+                                            <input class="btn btn-primary pull-left" type="button" id="btnNextTabPurQuo" name="nextButton" value="Next" />
                                             <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>

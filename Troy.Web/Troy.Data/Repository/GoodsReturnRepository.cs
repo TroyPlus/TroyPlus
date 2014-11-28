@@ -18,6 +18,7 @@ namespace Troy.Data.Repository
     public class GoodsReturnRepository : BaseRepository, IGoodsReturnRepository
     {
         private GoodsReturnContext goodsreturncontext = new GoodsReturnContext();
+        private GoodsReturnContext goodsreturncontext1 = new GoodsReturnContext();
 
         private GoodsReceiptContext goodscontext = new GoodsReceiptContext();
 
@@ -81,6 +82,7 @@ namespace Troy.Data.Repository
                      join b in goodsreturncontext.businesspartner on p.Vendor equals b.BP_Id
                      join pd in goodsreturncontext.purchaseorder on p.Purchase_Order_Id equals pd.Purchase_Order_Id
                      join br in goodsreturncontext.branch on p.Ship_To equals br.Branch_Id
+                     where p.Doc_Status=="open"
                      select new ViewGoodsReceipt()
                      {
                          Purchase_Order_Id = p.Purchase_Order_Id,
@@ -183,6 +185,8 @@ namespace Troy.Data.Repository
                             select new GoodsReceiptItems
                             {
                                 Discount_percent = q.Discount_percent,
+                                Goods_Receipt_Id=q.Goods_Receipt_Id,
+                                Id=q.Id,
                                 // Product_id=q.Product_id
                                 //LineTotal = q.LineTotal,
                                 Product_id = q.Product_id,
@@ -332,6 +336,64 @@ namespace Troy.Data.Repository
         //    //    return false;
         //    //}
         //}
+
+
+        public bool UpdateQuotationreceipt(GoodsReceipt Quotation, IList<GoodsReceiptItems> QuotationItemList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                goodsreturncontext.Entry(Quotation).State = EntityState.Modified;
+                goodsreturncontext.SaveChanges();
+
+                foreach (var model1 in QuotationItemList)
+                {
+                    if (model1.IsDummy == 1)
+                    {
+                        goodsreturncontext.Entry(model1).State = EntityState.Deleted;
+                        goodsreturncontext.SaveChanges();
+                    }
+                    else
+                    {
+                        if (model1.Id == 0)
+                        {
+                            model1.Goods_Receipt_Id = Quotation.Goods_Receipt_Id;
+                            goodsreturncontext.goodsreceiptitem.Add(model1);
+                            goodsreturncontext.SaveChanges();
+                        }
+                        else
+                        {
+                            goodsreturncontext1.goodsreceiptitem.Attach(model1);
+                            goodsreturncontext1.Entry(model1).State = EntityState.Modified;
+                            //goodscontext.SaveChanges();
+                        }
+                        goodsreturncontext1.SaveChanges();
+                    }
+                }
+
+                return true;
+            }
+            //catch (Exception ex)
+            //{
+            //    ExceptionHandler.LogException(ex);
+            //    ErrorMessage = ex.Message;
+            //    return false;
+            //}
+            catch (DbEntityValidationException dbEx)
+            {
+                var errorList = new List<string>();
+
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+                    }
+                }
+                return false;
+            }
+        }
+
 
 
 
