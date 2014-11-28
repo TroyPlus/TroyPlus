@@ -91,9 +91,9 @@ namespace Troy.Web.Controllers
                 if (submitButton == "Save-PurRtn")
                 {
                     model.PurchaseReturn.Doc_Status = "Closed";
-                    model.PurchaseReturn.Created_Branc_Id = 1;//CurrentBranchId;
+                    model.PurchaseReturn.Created_Branc_Id = CurrentBranchId;//CurrentBranchId;
                     model.PurchaseReturn.Created_Date = DateTime.Now;
-                    model.PurchaseReturn.Created_User_Id = 1;//CurrentUser.Id;
+                    model.PurchaseReturn.Created_User_Id = CurrentUser.Id;//CurrentUser.Id;
                     model.PurchaseReturn.Purchase_Invoice_Id = model.PurchaseInvoice.Purchase_Invoice_Id;
                     model.PurchaseReturn.Vendor = model.PurchaseInvoice.Vendor;
                     // model.PurchaseReturn.Doc_Status = model.PurchaseInvoice.Doc_Status;
@@ -142,9 +142,9 @@ namespace Troy.Web.Controllers
                   else if (submitButton == "Update")
                 {
                     model.PurchaseReturn.Doc_Status = "open";
-                    model.PurchaseReturn.Modified_Branch_Id = 1;//CurrentBranchId;
+                    model.PurchaseReturn.Modified_Branch_Id = CurrentBranchId;//CurrentBranchId;
                     model.PurchaseReturn.Modified_Date = DateTime.Now;
-                    model.PurchaseReturn.Modified_User_Id = 1;//CurrentUser.Id;
+                    model.PurchaseReturn.Modified_User_Id = CurrentUser.Id;//CurrentUser.Id;
 
                     for (int i = 0; i < model.PurchaseReturnitemsList.Count; i++)
                     {

@@ -87,7 +87,7 @@
             var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="goodreceiptitemlist_' + rowID + '__Product_id" name="goodreceiptitemlist[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
 
-            var dataUrl = "/GoodsReceipt/GetProductList";
+            var dataUrl = "../GoodsReceipt/GetProductList";
 
             $.ajax({
                 type: 'GET',
@@ -117,7 +117,7 @@
             selectHtml += '<option value=""></option>';
 
 
-            var dataUrl = "../GoodsReturn/GetVATList";
+            var dataUrl = "../GoodsReceipt/GetVATList";
 
 
             $.ajax({
@@ -227,7 +227,7 @@
 
         //debugger;
         var pID = parseInt(val.value);
-        var dataUrl = "/PurchaseOrders/GetPrice?pID=" + pID;
+        var dataUrl = "../GoodsReceipt/GetPrice?pID=" + pID;
 
         $.ajax({
             type: 'GET',
