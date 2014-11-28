@@ -131,6 +131,7 @@
                                                         @Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)
                                                     </div>
                                                 </div>
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
@@ -148,7 +149,7 @@
                                                         @Html.LabelFor(m => m.goodreceipt.Freight, new { @class = "control-label normal" })
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Freight, new { @class = "form-control control-text " })
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Freight, new { @class = "form-control control-text ", @id = "txtBox1", @onkeyup = "OnChangeload();" })
                                                         @Html.ValidationMessageFor(model => model.goodreceipt.Freight)
                                                     </div>
                                                 </div>
@@ -159,7 +160,7 @@
                                                         @Html.LabelFor(m => m.goodreceipt.Loading, new { @class = "control-label normal" })
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Loading, new { @class = "form-control control-text " })
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Loading, new { @class = "form-control control-text ", @id = "txtBox2", @onkeyup = "OnChangeload();" })
                                                         @Html.ValidationMessageFor(model => model.goodreceipt.Loading)
                                                     </div>
                                                 </div>
@@ -188,7 +189,7 @@
                                                             new SelectListItem{ Text="Equally", Value = "Equally" },
                                                             new SelectListItem{ Text="Quantity", Value = "Quantity" },
                                                                new SelectListItem{ Text="Cost", Value = "Cost" }
-                                                         }, "", new { @class = "form-control", @id = "" })
+                                                         }, "", new { @class = "form-control", @id = "textload" ,@onkeyup = "OnChangeload(this);"}) 
 
                                                         @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
                                                     </div>
@@ -200,7 +201,7 @@
                                     <br />
                                     <div class="row">
                                         <div class="modal-footer">
-                                            <input class="btn btn-primary pull-left" type="button" id="btnNextTab" name="nextButton" value="Next" />
+                                            <input class="btn btn-primary pull-left" type="button" id="btnNextTab" name="nextButton" value="Next" onclick="OnChangeload()" />
                                             <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
@@ -218,6 +219,7 @@
                                                     <th>Quantity</th>
                                                     <th>Unit Price</th>
                                                     <th>Discount %</th>
+                                                    <th>Freight_Loading</th>
                                                     <th> LineTotal</th>
                                                     <th>VAT Code</th>
                                                     <th></th>
@@ -256,7 +258,11 @@
                                                             @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Discount_percent)
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true })
+                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Freight_Loading, new { @class = "form-control control-text", @readonly = true ,@id = "totloading"})
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Freight_Loading)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true }) @*@id = "totloading"*@
                                                             @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].LineTotal)
                                                         </td>
                                                         <td width="10%">

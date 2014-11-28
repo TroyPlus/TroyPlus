@@ -1355,6 +1355,7 @@
     <Content Include="Content\themes\TroyPlus\css\TroyPlus\fonts\vjs.ttf" />
     <Content Include="Content\themes\TroyPlus\css\TroyPlus\fonts\vjs.woff" />
     <None Include="Properties\PublishProfiles\troyerp.pubxml" />
+    <None Include="Properties\PublishProfiles\TroyERPLAT.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrapValidator.js" />
     <Content Include="Scripts\bootstrapValidator.min.js" />

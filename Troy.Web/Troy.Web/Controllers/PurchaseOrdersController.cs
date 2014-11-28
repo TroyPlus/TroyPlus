@@ -192,7 +192,14 @@ namespace Troy.Web.Controllers
                                 if (model1.PurchaseQuotationItemList[j].Product_id == model.PurchaseQuotationItemList[j].Product_id && model.PurchaseQuotationItemList[j].Quoted_qty >= model1.PurchaseQuotationItemList[j].Quoted_qty)
                                 {
                                     model1.PurchaseQuotation.Quotation_Status = "Closed";
+                                    if (model1.PurchaseQuotation.TargetDocId == "")
+                                    {
                                     model1.PurchaseQuotation.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+                                    }
+                                    else
+                                    {
+                                        model1.PurchaseQuotation.TargetDocId = model1.PurchaseQuotation.TargetDocId + "," + Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);                                      
+                                    }
 
 
                                     model1.PurchaseQuotationItemList[j].Quote_Item_Id = model1.PurchaseQuotationItemList[j].Quote_Item_Id;
@@ -233,7 +240,7 @@ namespace Troy.Web.Controllers
                             {
                                 purchaseorderRepository.UpdateQuotation(model1.PurchaseQuotation, model1.PurchaseQuotationItemList, ref ErrorMessage);
                                 return RedirectToAction("Index", "PurchaseOrders");
-                            }
+
                         }
                         else
                         {

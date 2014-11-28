@@ -8,23 +8,31 @@
         $('.datePicke').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
         $('.datePicker').datepicker();
-        $('.datepick').datepicker();
-        $('.date').datepicker();
+        $('.datepick1').datepicker();
+        $('.datepick2').datepicker();
+        $('.date3').datepicker();
         $("#editTypeahead").jAutochecklist();
         var i;
 
         i = $("#ItemCount").val();
+   
+
 
 
         //Dynamically add quotation row
         function addRow() {
+          
 
             var date = new Date();
             var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 
             var selectHtml = CreateSelect(i);
+            var selectHtml1 = CreateVATSelect(i);
 
             selectHtml += '</select>';
+            selectHtml1 += '</select>';
+
+          
 
             var html = '<tr>' +
                        '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="goodreturnitemlist_' + i + '__IsDummy" name="goodreturnitemlist[' + i + '].IsDummy" type="text" value="">  </td>' +
@@ -52,13 +60,13 @@
                        //    '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__Freight_Loading" name="goodreceiptitemlist[' + i + '].Freight_Loading" readonly="True" type="text" value="">' +
                        //    '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
                        //'</td>' +
-                       '<td>' +
-                           '<input class="form-control control-text" data-val="true" data-val-number="The field VAT Code must be a number." data-val-required="The VAT Code field is required." id="goodreturnitemlist_' + i + '__Vat_Code" name="goodreturnitemlist[' + i + '].Vat_Code" type="text" value="">' +
-                           '<span class="field-validation-valid" data-valmsg-for="goodreturnitemlist[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
-                       '</td>' +
                         '<td>' +
-                           '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreturnitemlist_' + i + '__LineTotal" name="goodreturnitemlist[' + i + '].LineTotal" readonly="True" type="text" value="">' +
-                           '<span class="field-validation-valid" data-valmsg-for="goodreturnitemlist[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
+                           '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreturnitemlist_' + i + '_Freight_Loading" name="goodreturnitemlist[' + i + '].Freight_Loading" readonly="True" type="text" value="">' +
+                           '<span class="field-validation-valid" data-valmsg-for="goodreturnitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
+                       '</td>' +
+                          '<td>' +
+                            selectHtml1 +
+                          '<span class="field-validation-valid" data-valmsg-for="goodreturnitemlist_[' + i + '].__Vat_Code" onkeyup="OnChangeVAT(this, ' + i + ');" data-valmsg-replace="true"></span>' +
                        '</td>' +
                        '<td>' +
                            '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
@@ -110,6 +118,37 @@
 
             return selectHtml;
         }
+            function CreateVATSelect(rowID) {
+         
+                var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="goodreturnitemlist_' + rowID + '__VAT_Id" name="goodreturnitemlist[' + rowID + '].VAT_Id" onchange="OnChangeVAT();" >';
+                selectHtml += '<option value=""></option>';
+
+
+                var dataUrl = "../GoodsReturn/GetVATList";
+               
+
+                $.ajax({
+                    type: 'GET',
+                    url: dataUrl,
+                    async: false,
+                    cache: false,
+                    crossDomain: true,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    error: function (xhr, err) {
+                    },
+                    success: function (result, status) {
+                        //debugger;
+                        for (var count = 0; count < result.length; count++) {
+                            selectHtml += '<option value="' + result[count].VAT_percentage + '">' + result[count].VAT_percentage + '</option>';
+                        }
+                    }
+                });
+
+                return selectHtml;
+            }
+
+        
         $("#EditTable").on("click", ".BtnPlus", addRow)
 
         function deleteRow() {
@@ -153,7 +192,7 @@
 
     $(function () {
         $("#btnEditNextTab").click(function (e) {
-            alert(e);
+       
 
             debugger;
 
@@ -190,6 +229,180 @@
         });
 
     });
+
+
+    function OnChangeQuantity(currentQty, rowId) {
+        //debugger;
+
+        var qty = currentQty.value;
+        var price = $("#goodreturnitemlist_" + rowId + "__Unit_price").val();
+
+        var totAmount = price * qty;
+
+        var id = "#goodreturnitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+        CalculateTotal();
+        CalculateTotalAmount();
+    }
+
+    function OnChangeDiscount(currentDis, rowId) {
+        //debugger;
+
+        var dis = currentDis.value;
+        var qty = $("#goodreturnitemlist_" + rowId + "__Quantity").val();
+        var price = $("#goodreturnitemlist_" + rowId + "__Unit_price").val();
+
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+
+        var id = "#goodreturnitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
+        CalculateTotal();
+        //CalculateDiscount();
+        CalculateTotalAmount();
+    }
+
+    function OnChangeVAT(currentVAT, rowId) {
+        //var vat = currentVAT.value;
+        //var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quantity").val();
+        //var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
+        //var dis = $("#PurchaseQuotationItemList_" + rowId + "__Discount_percent").val();
+
+        //var totAmount = price * qty - ((price * qty) * dis / 100)
+        //var totvat = totAmount * (vat / 100)
+        //var totNet = totAmount + totvat
+
+        //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
+        //$(id).val(totNet);
+
+        CalculateTax();
+        CalculateTotalAmount();
+    }
+
+    function OnChangeDiscountSummary(currentDis) {
+        //var totdis = currentDis.value;
+        //var totdoc = $("#totalPurchase1").val();
+        //var tottax = $("#totalTax1").val();
+        //tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+
+        //$("#totalQuotationAmt1").val(tot);
+
+        var percentage = 0;
+        var totdoc = 0;
+        var totdis = currentDis.value;
+        var tottax = 0;
+        var totline = 0;
+        var totminus = 0;
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val());
+            }
+        }
+
+        percentage = totdis / totdoc * 100;
+
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val()))) {
+                totline = parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val() * percentage / 100);
+                totminus = parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val()) - totline;
+                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#goodreturnitemlist_" + j + "__Vat_Code").val()) / 100;
+            }
+        }
+
+        tot = (totdoc - totdis) + tottax;
+
+        $("#totalTax1").val(tottax.toFixed(2));
+        $("#totalQuotationAmt1").val(tot.toFixed(2));
+    }
+
+    function CalculateTotal() {
+        //debugger;
+        var tot = 0;
+        //if (i == 0) {
+        //    tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + i + "__Amount").val());
+        //}
+        //else {
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val());
+
+            }
+        }
+        //}
+
+        $("#totalPurchase1").val(tot.toFixed(2));
+
+    }
+
+    function CalculateDiscount() {
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreturnitemlist_" + j + "__Discount_percent").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#goodreturnitemlist_" + j + "__Discount_percent").val());
+            }
+        }
+
+        $("#totalDiscount1").val(tot.toFixed(2));
+
+    }
+
+    function CalculateTax() {
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreturnitemlist_" + j + "__Vat_Code").val()))) {
+                //tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
+                tot = parseFloat(tot) + (parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val()) * parseFloat($("#goodreturnitemlist_" + j + "__Vat_Code").val()) / 100);
+            }
+        }
+
+        $("#totalTax1").val(tot.toFixed(2));
+
+    }
+
+    function CalculateTotalAmount() {
+        var totdoc = 0;
+        var totdis = 0;
+        var tottax = 0;
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val());
+            }
+        }
+
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val()))) {
+        //        totdis = parseFloat(totdis) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val());
+        //    }
+        //}
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreturnitemlist_" + j + "__Vat_Code").val()))) {
+                //tottax = parseFloat(tottax) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
+                tottax = parseFloat(tottax) + (parseFloat($("#goodreturnitemlist_" + j + "__LineTotal").val()) * parseFloat($("#goodreturnitemlist_" + j + "__Vat_Code").val()) / 100);
+            }
+        }
+
+        //tot = (totdoc - totdis) + tottax;
+        tot = totdoc + tottax;
+
+        $("#totalQuotationAmt1").val(tot.toFixed(2));
+
+    }
+
+
+
+
+
+
+
+
 </script>
 
 @using (Html.BeginForm("Index", "GoodsReturn"))
@@ -291,6 +504,11 @@
                                                     </div>
                                                 </div>
 
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Posting_Date, new { @class = "control-label normal" })*@
@@ -308,10 +526,22 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.Due_Date, new { @class = "form-control control-text datePicke", @id = "datepick" })
+                                                        @Html.TextBoxFor(model => model.goodreturn.Due_Date, new { @class = "form-control control-text datePicke", @id = "datepick1" })
                                                         @Html.ValidationMessageFor(model => model.goodreturn.Due_Date)
                                                     </div>
                                                 </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Due_Date, new { @class = "control-label normal" })*@
+                                                        Due Date:
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreturn.Due_Date, new { @class = "form-control control-text datePicke", @id = "datepick2" })
+                                                        @Html.ValidationMessageFor(model => model.goodreturn.Due_Date)
+                                                    </div>
+                                                </div>
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
@@ -319,17 +549,11 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.goodreturn.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "date" })@*, @readonly = true })*@
+                                                        @Html.TextBoxFor(model => model.goodreturn.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "date3" })@*, @readonly = true })*@
                                                         @Html.ValidationMessageFor(model => model.goodreturn.Document_Date)
                                                     </div>
                                                 </div>
 
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
 
                                                 <div class="row  form-group">
                                                     <div class="col-md-4">
@@ -363,49 +587,12 @@
                                                         </div>
                                                     </div>*@
 
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.TotalBefDocDisc, new { @class = "control-label normal" })*@
-                                                        TotalBefDocDisc
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.TotalBefDocDisc, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.TotalBefDocDisc)
-                                                    </div>
-                                                </div>
+                                            
 
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.DocDiscAmt, new { @class = "control-label normal" })*@
-                                                        DocumentDiscountAmount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.DocDiscAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.DocDiscAmt)
-                                                    </div>
-                                                </div>
+                                               
 
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.TaxAmt, new { @class = "control-label normal" })*@
-                                                        Tax Amount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.TaxAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.TaxAmt)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.TotalGRDocAmt, new { @class = "control-label normal" })*@
-                                                        TotGRDcouAmt
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.TotalGRDocAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.TotalGRDocAmt)
-                                                    </div>
-                                                </div>
+                                              
+                                            
 
                                                 @*<div class="row form-group">
                                                     <div class="col-md-4">
@@ -467,7 +654,7 @@
                                                         </td>
                                                         <td width="20%">
                                                             @*@Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })*@
-                                                            @Html.DropDownListFor(m => m.goodreturnitemlist[i].Product_id, new SelectList(Model.productlist.AsEnumerable(), "Product_Id", "Product_Name"), "", new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
+                                                            @Html.DropDownListFor(m => m.goodreturnitemlist[i].Product_id, new SelectList(Model.productlist.AsEnumerable(), "Product_Id", "Product_Name",Model.goodreturnitemlist[i].Product_id), new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
                                                             @*@Html.DropDownListFor(m => m.goodreturnitemlist[i].Product_id, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })*@
                                                             @*@Html.TextBoxFor(model => model.goodreceiptitemlist[i].Product_id, new { @class = "form-control control-text" })*@
                                                             @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].Product_id)
@@ -481,7 +668,7 @@
                                                             @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].Quantity)
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(model => model.goodreturnitemlist[i].Unit_price, new { @class = "form-control control-text" })@*, @readonly = true })*@
+                                                            @Html.TextBoxFor(model => model.goodreturnitemlist[i].Unit_price, new { @class = "form-control control-text" , @readonly = true })
                                                             @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].Unit_price)
                                                         </td>
                                                         <td>
@@ -489,11 +676,11 @@
                                                             @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].Discount_percent)
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(model => model.goodreturnitemlist[i].Freight_Loading, new { @class = "form-control control-text" }) @*//@readonly = true })*@
+                                                            @Html.TextBoxFor(model => model.goodreturnitemlist[i].Freight_Loading, new { @class = "form-control control-text" ,@readonly = true })
                                                             @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].Freight_Loading)
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(model => model.goodreturnitemlist[i].Vat_Code, new { @class = "form-control control-text" })
+                                                            @Html.DropDownListFor(m => m.goodreturnitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.goodreturnitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");" })
                                                             @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].Vat_Code)
                                                         </td>
                                                         <td style="width: 90px;">
@@ -511,7 +698,12 @@
 
                                         <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
-                                        @Ajax.ActionLink(" ", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+                                        <div class="row" style="float:right;">
+                                            Total : <span>@Html.TextBoxFor(m => m.goodreturn.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.goodreturn.DocDiscAmt, new { id = "totalDiscount1", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.goodreturn.DocDiscAmt) </span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.goodreturn.TaxAmt, new { id = "totalTax1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.goodreturn.TotalGRDocAmt, new { id = "totalQuotationAmt1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        </div>
 
                                     </div>
 

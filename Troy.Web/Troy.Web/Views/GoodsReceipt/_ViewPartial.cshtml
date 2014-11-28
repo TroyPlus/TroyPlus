@@ -1,210 +1,311 @@
-﻿@*@model Troy.Model.GPRO.GoodsReceipt
+﻿@model Troy.Web.Models.GoodsReceiptViewModels
 
-@{
-    ViewBag.Title = "_ViewPartial";
-}
 
-<h2>_ViewPartial</h2>
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
 
-<div>
-    <h4>GoodsReceipt</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.branch.Branch_Code)
-        </dt>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Add Goods</h4>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.branch.Branch_Code)
-        </dd>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="row">
+                    <div class="tabs">
+                        <ul id="tabs" class="nav nav-tabs tabdrop">
+                            <li class="active">
+                                <a href="#Viewdefault" data-toggle="tab">General</a>
+                            </li>
+                            <li><a href="#ViewaddQuotationlist" data-toggle="tab">Goods Items </a></li>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.purchaseorder.Reference_Number)
-        </dt>
+                        </ul>
 
-        <dd>
-            @Html.DisplayFor(model => model.purchaseorder.Reference_Number)
-        </dd>
+                        <div id="viewmyTabContent" class="tab-content">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BaseDocId)
-        </dt>
+                            <div class="tab-pane fade active in" id="Viewdefault">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-horizontal">
 
-        <dd>
-            @Html.DisplayFor(model => model.BaseDocId)
-        </dd>
+                                            @*<div class="row form-group">
+                                                <div class="col-md-4">*@
+                                            @*@Html.LabelFor(m => m.goodreceipt.Purchase_Order_Id, new { @class = "control-label normal" })*@
+                                            @*PurchaseOrder Id
+                                                </div>
+                                                <div class="col-md-8">*@
+                                            @*, new { @id = "typeahead", @size = 12 }*@
+                                            @*@Html.DropDownListFor(m => m.goodreceipt.Purchase_Order_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
+                                            @*@Html.TextBoxFor(model => model.goodreceipt.Purchase_Order_Id, new { @class = "form-control control-text" })*@
+                                            @*@Html.ValidationMessageFor(model => model.goodreceipt.Purchase_Order_Id)
+                                                    </div>
+                                                </div>*@
+                                            @Html.HiddenFor(model => model.goodreceipt.Goods_Receipt_Id)
+                                            @Html.Hidden("ItemCount", Model.goodreceiptitemlist.Count)
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(m => m.goodreceipt.Vendor, new { @class = "control-label normal", @readonly = true })
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @*@Html.TextBoxFor(model => model.goodreceipt.Vendor, new { @class = "form-control control-text" })*@
+                                                    @Html.DropDownListFor(m => m.goodreceipt.Vendor, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text", @readonly = true })
+                                                    @Html.ValidationMessageFor(model => model.goodreceipt.Vendor)
+                                                </div>
+                                            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TargetDocId)
-        </dt>
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(m => m.goodreceipt.Reference_Number, new { @class = "control-label normal" })
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.goodreceipt.Reference_Number, new { @class = "form-control control-text", @readonly = true })
+                                                    @Html.ValidationMessageFor(model => model.goodreceipt.Reference_Number)
+                                                </div>
+                                            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.TargetDocId)
-        </dd>
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    @*@Html.LabelFor(m => m.goodreceipt.Doc_Status, new { @class = "control-label normal" })*@
+                                                    Document Status
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownListFor(model => model.goodreceipt.Doc_Status, new List<SelectListItem>
+                                                         {
+                                                            new SelectListItem{ Text="Open", Value = "Open" },
+                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
+                                                         }, "Open", new { @class = "form-control", @readonly = true })@*, @disabled = true })*@
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Vendor)
-        </dt>
+                                                        @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
+                                                    </div>
+                                                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Vendor)
-        </dd>
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Ship_To, new { @class = "control-label normal" })*@
+                                                        Ship To
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownListFor(m => m.goodreceipt.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text", @readonly = true })
+                                                        @*@Html.TextBoxFor(model => model.goodreceipt.Ship_To, new { @class = "form-control control-text" })*@
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Ship_To)
+                                                    </div>
+                                                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Reference_Number)
-        </dt>
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Posting_Date, new { @class = "control-label normal" })*@
+                                                        Posting Date
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @class = "form-control control-text datePicker", @readonly = true })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)
+                                                    </div>
+                                                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Reference_Number)
-        </dd>
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Due_Date, new { @class = "control-label normal" })*@
+                                                        Due Date:
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @class = "form-control control-text datePicker", @readonly = true })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)
+                                                    </div>
+                                                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Doc_Status)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Doc_Status)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Posting_Date)
-        </dt>
+                                            </div>
+                                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Posting_Date)
-        </dd>
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Due_Date)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Due_Date)
-        </dd>
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Due_Date, new { @class = "control-label normal" })*@
+                                                        Due Date:
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @class = "form-control control-text datePicker", @readonly = true })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
+                                                        Document Date
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @readonly = true })@*, @readonly = true })*@
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)
+                                                    </div>
+                                                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Document_Date)
-        </dt>
+                                                <div class="row  form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.goodreceipt.Freight, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Freight, new { @class = "form-control control-text ", @readonly = true, @id = "txtBox1", @onkeyup = "OnChangeload(this);" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Freight)
+                                                    </div>
+                                                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Document_Date)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Freight)
-        </dt>
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.goodreceipt.Loading, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Loading, new { @class = "form-control control-text ", @readonly = true, @id = "txtBox2", @onkeyup = "OnChangeload(this);" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Loading)
+                                                    </div>
+                                                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Freight)
-        </dd>
+                                                @*<div class="row  form-group">
+                                                    <div class="col-md-4">
+                                                        Html.LabelFor(m => m.goodreceipt.Distribute_LandedCost, new { @class = "control-label normal" })*@
+                                                @*Distribute LandedCost
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.goodreceipt.Distribute_LandedCost, new { @class = "form-control control-text" })
+                                                            @Html.ValidationMessageFor(model => model.goodreceipt.Distribute_LandedCost)
+                                                        </div>
+                                                    </div>*@
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Loading)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Loading)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Distribute_LandedCost)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Distribute_LandedCost)
-        </dd>
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.goodreceipt.Distribute_LandedCost, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownListFor(model => model.goodreceipt.Distribute_LandedCost, new List<SelectListItem>
+                                                         {
+                                                            new SelectListItem{ Text="Equally", Value = "Equally" },
+                                                            new SelectListItem{ Text="Quantity", Value = "Quantity" },
+                                                               new SelectListItem{ Text="Cost", Value = "Cost" }
+                                                         }, "", new { @class = "form-control", @id = "textload", @readonly = true, @onkeyup = "OnChangeload(this);" })
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TotalBefDocDisc)
-        </dt>
+                                                        @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
+                                                    </div>
+                                                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.TotalBefDocDisc)
-        </dd>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="modal-footer">
+                                            <input class="btn btn-primary pull-left" type="button" id="btnNextTab" name="nextButton" value="Next" onclick="OnChangeload()" />
+                                            <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DocDiscAmt)
-        </dt>
+                                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.DocDiscAmt)
-        </dd>
+                                <div class="tab-pane fade" id="ViewaddQuotationlist">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TaxAmt)
-        </dt>
+                                    <div>
 
-        <dd>
-            @Html.DisplayFor(model => model.TaxAmt)
-        </dd>
+                                        <table id="viewmyTabContent" class="table display" style="min-height:180px;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product_Id</th>
+                                                    <th>Quantity</th>
+                                                    <th>Unit Price</th>
+                                                    <th>Discount %</th>
+                                                    <th> LineTotal</th>
+                                                    <th>VAT Code</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < 1; i++)
+                                                {
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TotalGRDocAmt)
-        </dt>
+                                                    <tr>
+                                                        <td style="display:none;">
+                                                            @Html.HiddenFor(model => model.goodreceiptitemlist[i].IsDummy, 0)
+                                                            @*@Html.HiddenFor(model=>model.goodreceiptitemlist[i].Goods_Receipt_Id)*@
+                                                            @Html.HiddenFor(model => model.goodreceiptitemlist[i].Id)
 
-        <dd>
-            @Html.DisplayFor(model => model.TotalGRDocAmt)
-        </dd>
+                                                        </td>
+                                                        <td width="20%">
+                                                            @*@Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })*@
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Remarks)
-        </dt>
+                                                            @Html.DropDownListFor(m => m.goodreceiptitemlist[i].Product_id, new SelectList(Model.productlist.AsEnumerable(), "Product_Id", "Product_Name", Model.goodreceiptitemlist[i].Product_id), new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");", @readonly = true })
+                                                            @*@Html.TextBoxFor(model => model.goodreceiptitemlist[i].Product_id, new { @class = "form-control control-text" })*@
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Product_id)
+                                                        </td>
+                                                        @*<td width="15%">
+                                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker" })
+                                                                @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
+                                                            </td>*@
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Quantity, new { @class = "form-control control-text", @readonly = true, @onkeyup = "OnChangeQuantity(this, " + i + ");" })
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Quantity)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Unit_price, new { @class = "form-control control-text", @readonly = true })
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Unit_price)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Discount_percent, new { @class = "form-control control-text", @readonly = true, @onkeyup = "OnChangeDiscount(this, " + i + ");" })
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Discount_percent)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true, @id = "totloading" })
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].LineTotal)
+                                                        </td>
+                                                        <td width="10%">
+                                                            @Html.DropDownListFor(m => m.goodreceiptitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.goodreceiptitemlist[i].Vat_Code), new { @class = "form-control control-text", @readonly = true, @onchange = "OnChangeVAT();" })
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Vat_Code)
+                                                        </td>
+                                                        <td style="width: 90px;">
+                                                            <input class="BtnPlus btn pull-left" type="button" value="+" />
+                                                            @*<input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />*@
+                                                        </td>
+                                                    </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Remarks)
-        </dd>
+                                                }
+                                            </tbody>
+                                        </table>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Created_User_Id)
-        </dt>
+                                    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Created_User_Id)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Created_Branc_Id)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Created_Branc_Id)
-        </dd>
+                                    <div class="modal-footer">
+                                        @*<input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />*@
+                                        <button class="btn pull-left" data-dismiss="modal">Close</button>
+                                        @*@Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })*@
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Created_Dte)
-        </dt>
+                                        <div class="row" style="float:right;">
+                                            Total : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.goodreceipt.DocDiscAmt) </span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalGRDocAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Created_Dte)
-        </dd>
+                                    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Modified_User_Id)
-        </dt>
+                                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Modified_User_Id)
-        </dd>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Modified_Branch_Id)
-        </dt>
+            @*<div class="modal-footer">
+                    <input class="btn btn-primary" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+                    <button class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                </div>*@
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Modified_Branch_Id)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Modified_Dte)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Modified_Dte)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Goods_Receipt_Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>*@
+    </div>
