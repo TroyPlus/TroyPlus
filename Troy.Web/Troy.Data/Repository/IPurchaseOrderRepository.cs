@@ -39,6 +39,8 @@ namespace Troy.Data.Repository
 
         bool UpdateQuotation(PurchaseQuotation Quotation, IList<PurchaseQuotationItem> QuotationItemList, ref string ErrorMessage);
 
+        bool UpdatePurchaseOrder(PurchaseOrder Quotation, IList<PurchaseOrderItems> QuotationItemList, ref string ErrorMessage);
+
         int GetProductPrice(int? productId);
 
         PurchaseQuotation FindQuotationforBaseDocID(int qId);
