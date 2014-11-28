@@ -23,6 +23,7 @@ namespace Troy.Data.Repository
     public class PurchaseInvoiceRepository : BaseRepository, IPurchaseInvoiceRepository
     {
         private PurchaseInvoiceContext purchaseinvoicecontext = new PurchaseInvoiceContext();
+        private PurchaseInvoiceContext purchaseinvoicecontext1 = new PurchaseInvoiceContext();
 
         public List<ViewPurchaseInvoice> GetAllPurchaseInvoice()
         {
@@ -157,12 +158,15 @@ namespace Troy.Data.Repository
                             select new PurchaseInvoiceItems
                             {
                                 Product_id = q.Product_id,
+                                Purchase_Invoice_Id=q.Purchase_Invoice_Id,
+                                Purchase_InvoiceItem_Id=q.Purchase_InvoiceItem_Id,
                                 Quantity = q.Quantity - q.Inv_Return_Qty,
                                 Unit_price = q.Unit_price,
                                 Discount_percent = q.Discount_percent,
                                 Vat_Code = q.Vat_Code,
                                 Freight_Loading = q.Freight_Loading,
-                                LineTotal = q.LineTotal
+                                LineTotal = q.LineTotal,
+                                BaseDocLink=q.BaseDocLink
                             }).ToList();
 
             return purchase;
@@ -256,22 +260,21 @@ namespace Troy.Data.Repository
                 {
                     if (model.IsDummy == 1)
                     {
-                        purchaseinvoicecontext.Entry(model).State = EntityState.Deleted;
-                        purchaseinvoicecontext.SaveChanges();
+                        purchaseinvoicecontext1.Entry(model).State = EntityState.Deleted;
+                        purchaseinvoicecontext1.SaveChanges();
                     }
                     else
                     {
                         if (model.Id == 0)
                         {
                             model.Goods_Receipt_Id = Quotation.Goods_Receipt_Id;
-                            purchaseinvoicecontext.GoodsReceiptItems.Add(model);
-                            purchaseinvoicecontext.SaveChanges();
+                            purchaseinvoicecontext1.GoodsReceiptItems.Add(model);
+                            purchaseinvoicecontext1.SaveChanges();
                         }
                         else
-                        {
-                            // purchaseordercontext.purchasequotationitem.Attach(model); 
-                            purchaseinvoicecontext.Entry(model).State = EntityState.Modified;
-                            purchaseinvoicecontext.SaveChanges();
+                        {                         
+                            purchaseinvoicecontext1.Entry(model).State = EntityState.Modified;
+                            purchaseinvoicecontext1.SaveChanges();
                         }
                     }
                 }
@@ -295,6 +298,47 @@ namespace Troy.Data.Repository
                         errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
                     }
                 }
+                return false;
+            }
+        }
+
+        public bool UpdatePurchaseInvoice(PurchaseInvoice Quotation, IList<PurchaseInvoiceItems> QuotationItemList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                purchaseinvoicecontext.Entry(Quotation).State = EntityState.Modified;
+                purchaseinvoicecontext.SaveChanges();
+
+                foreach (var model in QuotationItemList)
+                {
+                    if (model.IsDummy == 1)
+                    {
+                        purchaseinvoicecontext.Entry(model).State = EntityState.Deleted;
+                        purchaseinvoicecontext.SaveChanges();
+                    }
+                    else
+                    {
+                        if (model.Purchase_InvoiceItem_Id == 0)
+                        {
+                            model.Purchase_Invoice_Id = Quotation.Purchase_Invoice_Id;
+                            purchaseinvoicecontext.PurchaseInvoiceItems.Add(model);
+                            purchaseinvoicecontext.SaveChanges();
+                        }
+                        else
+                        {
+                            purchaseinvoicecontext.Entry(model).State = EntityState.Modified;
+                            purchaseinvoicecontext.SaveChanges();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ErrorMessage = ex.Message;
                 return false;
             }
         }

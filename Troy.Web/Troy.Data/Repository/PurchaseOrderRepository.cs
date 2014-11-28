@@ -174,6 +174,7 @@ namespace Troy.Data.Repository
                             select new PurchaseOrderItems
                             {
                                 Product_id = q.Product_id,
+                                Purchase_OrderItem_Id = q.Purchase_OrderItem_Id,
                                 ProductName = pi.Product_Name,
                                 Purchase_Order_Id = q.Purchase_Order_Id,
                                 Quantity = q.Quantity - q.Received_Qty,
@@ -181,7 +182,8 @@ namespace Troy.Data.Repository
                                 Unit_price = q.Unit_price,
                                 Discount_percent = q.Discount_percent,
                                 Vat_Code = q.Vat_Code,
-                                LineTotal = q.LineTotal
+                                LineTotal = q.LineTotal,
+                                BaseDocLink = q.BaseDocLink
                             }).ToList();
 
             return purchase;
@@ -236,7 +238,7 @@ namespace Troy.Data.Repository
                 for (int i = 0; i < OrderItemList.Count; i++)
                 {
                     OrderItemList[i].Purchase_Order_Id = currentId;
-                    if (OrderItemList[i].BaseDocLink == "")
+                    if (OrderItemList[i].BaseDocLink == null || OrderItemList[i].BaseDocLink == "")
                     {
                         OrderItemList[i].BaseDocLink = "N";
                     }
@@ -281,24 +283,22 @@ namespace Troy.Data.Repository
                 {
                     if (model1.IsDummy == 1)
                     {
-                        purchaseordercontext.Entry(model1).State = EntityState.Deleted;
-                        purchaseordercontext.SaveChanges();
+                        purchaseordercontext1.Entry(model1).State = EntityState.Deleted;
+                        purchaseordercontext1.SaveChanges();
                     }
                     else
                     {
                         if (model1.Quote_Item_Id == 0)
                         {
                             model1.Purchase_Quote_Id = Quotation.Purchase_Quote_Id;
-                            purchaseordercontext.purchasequotationitem.Add(model1);
-                            purchaseordercontext.SaveChanges();
+                            purchaseordercontext1.purchasequotationitem.Add(model1);
+                            purchaseordercontext1.SaveChanges();
                         }
                         else
                         {
-                            purchaseordercontext1.purchasequotationitem.Attach(model1);
                             purchaseordercontext1.Entry(model1).State = EntityState.Modified;
-                           
+                            purchaseordercontext1.SaveChanges();
                         }
-                        purchaseordercontext1.SaveChanges();
                     }
                 }
 
@@ -324,6 +324,7 @@ namespace Troy.Data.Repository
                 return false;
             }
         }
+
         public bool UpdatePurchaseOrder(PurchaseOrder Quotation, IList<PurchaseOrderItems> QuotationItemList, ref string ErrorMessage)
         {
             ErrorMessage = string.Empty;

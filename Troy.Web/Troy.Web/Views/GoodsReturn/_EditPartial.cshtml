@@ -96,7 +96,7 @@
             var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="goodreturnitemlist_' + rowID + '__Product_id" name="goodreturnitemlist[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
 
-            var dataUrl = "/GoodsReturn/GetProductList";
+            var dataUrl = "../GoodsReturn/GetProductList";
 
             $.ajax({
                 type: 'GET',
