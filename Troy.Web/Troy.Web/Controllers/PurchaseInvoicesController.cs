@@ -86,10 +86,10 @@ namespace Troy.Web.Controllers
                     model.PurchaseInvoice.Invoice_Payment = "N";
                     model.PurchaseInvoice.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                     model.PurchaseInvoice.Created_Date = DateTime.Now;
-                    model.PurchaseInvoice.Created_User_Id = CurrentUser.Created_User_Id;//currentUser.Created_User_Id;  //GetUserId()
-                    model.PurchaseInvoice.Modified_User_Id = CurrentUser.Created_User_Id;//currentUser.Modified_User_Id;
-                    model.PurchaseInvoice.Modified_Date = DateTime.Now;
-                    model.PurchaseInvoice.Modified_Branch_Id =CurrentBranchId;//currentUser.Modified_Branch_Id; 
+                    model.PurchaseInvoice.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
+                    //model.PurchaseInvoice.Modified_User_Id = CurrentUser.Created_User_Id;//currentUser.Modified_User_Id;
+                    //model.PurchaseInvoice.Modified_Date = DateTime.Now;
+                    //model.PurchaseInvoice.Modified_Branch_Id =CurrentBranchId;//currentUser.Modified_Branch_Id; 
                     model.PurchaseInvoice.TargetDocId = "0";
 
 
@@ -117,10 +117,10 @@ namespace Troy.Web.Controllers
                 {
                     model.PurchaseInvoice.Doc_Status = "Open";
                     model.PurchaseInvoice.Invoice_Payment = "N";
-                    model.PurchaseInvoice.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
-                    model.PurchaseInvoice.Created_Date = DateTime.Now;
-                    model.PurchaseInvoice.Created_User_Id = CurrentUser.Created_User_Id;//currentUser.Created_User_Id;  //GetUserId()
-                    model.PurchaseInvoice.Modified_User_Id = CurrentUser.Created_User_Id;//currentUser.Modified_User_Id;
+                    //model.PurchaseInvoice.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
+                    //model.PurchaseInvoice.Created_Date = DateTime.Now;
+                    //model.PurchaseInvoice.Created_User_Id = CurrentUser.Created_User_Id;//currentUser.Created_User_Id;  //GetUserId()
+                    model.PurchaseInvoice.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
                     model.PurchaseInvoice.Modified_Date = DateTime.Now;
                     model.PurchaseInvoice.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
                     model.PurchaseInvoice.TargetDocId = "0";
@@ -190,10 +190,10 @@ namespace Troy.Web.Controllers
 
                             model.PurchaseInvoice.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                             model.PurchaseInvoice.Created_Date = DateTime.Now;
-                            model.PurchaseInvoice.Created_User_Id = CurrentUser.Created_User_Id;//currentUser.Created_User_Id;  //GetUserId()
-                            model.PurchaseInvoice.Modified_User_Id = CurrentUser.Created_User_Id;//currentUser.Modified_User_Id;
-                            model.PurchaseInvoice.Modified_Date = DateTime.Now;
-                            model.PurchaseInvoice.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
+                            model.PurchaseInvoice.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
+                            //model.PurchaseInvoice.Modified_User_Id = CurrentUser.Created_User_Id;//currentUser.Modified_User_Id;
+                            //model.PurchaseInvoice.Modified_Date = DateTime.Now;
+                            //model.PurchaseInvoice.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
 
 
                             var QuotationList = model.GoodsReceiptItemList.Where(x => x.IsDummy == 0);
@@ -245,10 +245,10 @@ namespace Troy.Web.Controllers
 
                             model1.GoodsReceipt.Created_Branc_Id =CurrentBranchId;//currentUser.Created_Branch_Id; 
                             model1.GoodsReceipt.Created_Dte = DateTime.Now;
-                            model1.GoodsReceipt.Created_User_Id = CurrentUser.Created_User_Id;//currentUser.Created_User_Id;  //GetUserId()
-                            model1.GoodsReceipt.Modified_User_Id = CurrentUser.Created_User_Id;//currentUser.Modified_User_Id;
-                            model1.GoodsReceipt.Modified_Dte = DateTime.Now;
-                            model1.GoodsReceipt.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
+                            model1.GoodsReceipt.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
+                            //model1.GoodsReceipt.Modified_User_Id = CurrentUser.Created_User_Id;//currentUser.Modified_User_Id;
+                            //model1.GoodsReceipt.Modified_Dte = DateTime.Now;
+                            //model1.GoodsReceipt.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
 
                             purchaseinvoiceRepository.UpdateGoodsReceipt(model1.GoodsReceipt, model1.GoodsReceiptItemList, ref ErrorMessage);
                             return RedirectToAction("Index", "PurchaseInvoices");

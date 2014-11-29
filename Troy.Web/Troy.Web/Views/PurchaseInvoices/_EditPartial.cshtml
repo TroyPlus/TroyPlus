@@ -8,18 +8,18 @@
     $(document).ready(function () {
 
         //$('.datePicker').datepicker();
-        $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
+        $('.datePicker').datepicker({ dateFormat: 'dd/mm/yy' }).val();
 
         $('#creDocumentDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0,maxDate:0
+            dateFormat: 'dd/mm/yy', minDate: 0,maxDate:0
         });
 
         $('#creDueDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0,maxDate:0
+            dateFormat: 'dd/mm/yy', minDate: 0,maxDate:0
         });
 
         $('#crePostingDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0,maxDate:0
+            dateFormat: 'dd/mm/yy', minDate: 0,maxDate:0
         });
 
         $("#typeahead").jAutochecklist({
@@ -450,6 +450,10 @@
                             @Html.HiddenFor(model => model.PurchaseInvoice.Purchase_Invoice_Id)
                             @Html.Hidden("ItemCount", Model.PurchaseInvoiceItemsList.Count)
 
+                            @Html.HiddenFor(model => model.PurchaseInvoice.Created_User_Id)
+                            @Html.HiddenFor(model => model.PurchaseInvoice.Created_Branc_Id)
+                            @Html.HiddenFor(model => model.PurchaseInvoice.Created_Date)
+
                             <div id="edittabContent" class="tab-content">
                                 <div class="tab-pane fade active in" id="editdefault">
                                     <div class="row">
@@ -500,7 +504,7 @@
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
                                                         @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker", @id = "crePostingDate" })*@
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate1" })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Posting_Date, new { @Value = Model.PurchaseInvoice.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @id = "crePostingDate1" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Posting_Date)
                                                     </div>
                                                 </div>

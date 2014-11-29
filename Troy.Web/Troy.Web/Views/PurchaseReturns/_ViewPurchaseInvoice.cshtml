@@ -475,7 +475,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @readonly = true })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Posting_Date, new { @class = "form-control control-text datePicker", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Posting_Date)
                                                     </div>
                                                 </div>
@@ -494,8 +494,8 @@
                                                         Document Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Modified_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.Modified_Date)
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Document_Date, new { @class = "form-control control-text datePicker", @readonly = true })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.Document_Date)
                                                     </div>
                                                 </div>
                                             </div>
