@@ -99,7 +99,7 @@ namespace Troy.Web.Controllers
                     model.goodreceipt.TargetDocId = "0";
                     model.goodreceipt.Created_Branc_Id = CurrentBranchId;//CurrentBranchId;
                     model.goodreceipt.Created_Dte = DateTime.Now;
-                    model.goodreceipt.Created_User_Id = CurrentBranchId;//CurrentUser.Id;
+                    model.goodreceipt.Created_User_Id = CurrentUser.Id;//CurrentUser.Id;
 
                     // model.goodreceipt.Distribute_LandedCost = "equality";
                     //if (model.goodreceipt.Distribute_LandedCost == "Equality")
@@ -264,8 +264,8 @@ namespace Troy.Web.Controllers
                                 //model1.PurchaseOrder.Creating_Branch = 1;
                                 model1.PurchaseOrder.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                                 model1.PurchaseOrder.Created_Date = DateTime.Now;
-                                model1.PurchaseOrder.Created_User_Id = CurrentBranchId;//currentUser.Created_User_Id;  //GetUserId()
-                                model1.PurchaseOrder.Modified_User_Id = CurrentBranchId;//currentUser.Modified_User_Id;
+                                model1.PurchaseOrder.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
+                                model1.PurchaseOrder.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
                                 model1.PurchaseOrder.Modified_Date = DateTime.Now;
                                 model1.PurchaseOrder.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
 
@@ -291,7 +291,7 @@ namespace Troy.Web.Controllers
                 {
                     model.goodreceipt.Modified_Branch_Id = CurrentBranchId;//CurrentBranchId;
                     model.goodreceipt.Modified_Dte = DateTime.Now;
-                    model.goodreceipt.Modified_User_Id = CurrentBranchId;//CurrentUser.Id;
+                    model.goodreceipt.Modified_User_Id = CurrentUser.Id;//CurrentUser.Id;
                     model.goodreceipt.TargetDocId = "1";
 
                     for (int i = 0; i < model.goodreceiptitemlist.Count; i++)

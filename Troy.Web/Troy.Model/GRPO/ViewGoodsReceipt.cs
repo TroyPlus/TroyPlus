@@ -30,13 +30,13 @@ namespace Troy.Model.GPRO
         public string Doc_Status { get; set; }
 
        
-        public DateTime? Posting_Date { get; set; }
+        public DateTime Posting_Date { get; set; }
 
      
-        public DateTime? Due_Date { get; set; }
+        public DateTime Due_Date { get; set; }
 
         
-        public DateTime? Document_Date { get; set; }
+        public DateTime Document_Date { get; set; }
 
       
         public int Ship_To { get; set; }
@@ -105,13 +105,13 @@ namespace Troy.Model.GPRO
 
         public int Created_Branc_Id { get; set; }
 
-        public DateTime? Created_Date { get; set; }
+        public DateTime Created_Date { get; set; }
 
         public int Modified_User_Id { get; set; }
 
         public int Modified_Branch_Id { get; set; }
 
-        public DateTime? Modified_Date { get; set; }
+        public DateTime Modified_Date { get; set; }
 
         
         public string Vendor_Name { get; set; }

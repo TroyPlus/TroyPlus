@@ -46,15 +46,24 @@ namespace Troy.Model.GPRO
 
         [Required]
         [Column(TypeName = "date")]
-        public DateTime? Posting_Date { get; set; }
+       // [DataType(DataType.Date)]
+       // [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+     //  [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime Posting_Date { get; set; }
 
         [Required]
         [Column(TypeName = "date")]
-        public DateTime? Due_Date { get; set; }
+       /// [DataType(DataType.Date)]
+       // [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+      //  [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime Due_Date { get; set; }
 
         [Required]
         [Column(TypeName = "date")]
-        public DateTime? Document_Date { get; set; }
+       // [DataType(DataType.Date)]
+       // [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+       // [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime Document_Date { get; set; }
 
         [Required]
         public int Ship_To { get; set; }

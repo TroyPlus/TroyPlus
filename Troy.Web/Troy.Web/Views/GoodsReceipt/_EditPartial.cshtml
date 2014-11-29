@@ -7,9 +7,9 @@
 
         $('.datePicke').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
-        $('.datePicker').datepicker();
-        $('.datepick').datepicker();
-        $('.date').datepicker();
+        $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+        $('.datepick').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+        $('.date').datepicker({ dateFormat: 'dd-mm-yy' }).val();
         $("#editTypeahead").jAutochecklist();
         var i;
 
@@ -147,29 +147,30 @@
 
             //debugger;
 
-            if (i == 1) {
-                alert("Atleast one item for each product");
-            }
-            else {
+            //if (i == 1) {
+            //    alert("Atleast one item for each product");
+            //}
+            //else {
 
-                var par = $(this).parent().parent();
-                //par.remove();
-                //$('#idEstablishmentRow td.ms-formbody span input').attr('id');
+            var par = $(this).parent().parent();
+            //par.remove();
+            //$('#idEstablishmentRow td.ms-formbody span input').attr('id');
 
-                var id = par[0].childNodes[0].childNodes[1].id;
+            var id = par[0].childNodes[1].childNodes[1].id;
 
-                id = '#' + id;
+            id = '#' + id;
 
-                $(id).val("1");
+            $(id).val("1");
 
-                //par[0].childNodes[0].childNodes[1].value = 1;
+            //par[0].childNodes[0].childNodes[1].value = 1;
 
-                //$(id).val(1);
-                par.remove();
-                i--;
-                CalculateTotal();
-            }
+            //$(id).val(1);
+            par.hide();
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
         };
+       
         $("#EditTable").on("click", ".BtnMinus", deleteRow);
 
     });
@@ -526,10 +527,16 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @class = "form-control control-text datePicke", @id = "datePicker" })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @Value = Model.goodreceipt.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "datePicker" })
+                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)*@
                                                     </div>
                                                 </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -537,10 +544,11 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @class = "form-control control-text datePicke", @id = "datepick" })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = Model.goodreceipt.Due_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "datepick" })
+                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)*@
                                                     </div>
                                                 </div>
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
@@ -548,17 +556,11 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @class = "form-control control-text datePicke" })@*, @readonly = true })*@
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @Value = Model.goodreceipt.Document_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "datepicke" })@*, @readonly = true })*@
+                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)*@
                                                     </div>
                                                 </div>
 
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
 
                                                 <div class="row  form-group">
                                                     <div class="col-md-4">
@@ -580,61 +582,7 @@
                                                         @Html.ValidationMessageFor(model => model.goodreceipt.Loading)
                                                     </div>
                                                 </div>
-
-                                                @*<div class="row  form-group">
-                                                    <div class="col-md-4">
-                                                        Html.LabelFor(m => m.goodreceipt.Distribute_LandedCost, new { @class = "control-label normal" })*@
-                                                @*Distribute LandedCost
-                                                        </div>
-                                                        <div class="col-md-8">
-                                                            @Html.TextBoxFor(model => model.goodreceipt.Distribute_LandedCost, new { @class = "form-control control-text" })
-                                                            @Html.ValidationMessageFor(model => model.goodreceipt.Distribute_LandedCost)
-                                                        </div>
-                                                    </div>*@
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.TotalBefDocDisc, new { @class = "control-label normal" })*@
-                                                        TotalBefDocDisc
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.TotalBefDocDisc, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.TotalBefDocDisc)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.DocDiscAmt, new { @class = "control-label normal" })*@
-                                                        DocumentDiscountAmount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.DocDiscAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.DocDiscAmt)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.TaxAmt, new { @class = "control-label normal" })*@
-                                                        Tax Amount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.TaxAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.TaxAmt)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.TotalGRDocAmt, new { @class = "control-label normal" })*@
-                                                        TotGRDcouAmt
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.TotalGRDocAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.TotalGRDocAmt)
-                                                    </div>
-                                                </div>
+          
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -726,9 +674,17 @@
                                                             @Html.DropDownListFor(m => m.goodreceiptitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.goodreceiptitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");" })
                                                             @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Vat_Code)
                                                         </td>
-                                                        <td style="width: 90px;">
+                                                        @*<td style="width: 90px;">
                                                             <input class="BtnPlus btn pull-left" type="button" value="+" />
                                                             @*<input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />*@
+                                                        @*</td>*@
+
+                                                        <td style="width: 90px;">
+                                                            <input class="BtnPlus btn pull-left" type="button" value="+" />
+                                                            @if (i > 0)
+                                                            {
+                                                                <input style="margin-left:5px;" class="BtnMinus btn pull-left" type="button" value="-" />
+                                                            }
                                                         </td>
                                                     </tr>
 

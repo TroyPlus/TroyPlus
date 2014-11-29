@@ -96,7 +96,7 @@ namespace Troy.Web.Controllers
                     model.goodreturn.Created_Branc_Id =CurrentBranchId;//CurrentBranchId;
                     model.goodreturn.Created_Dte = DateTime.Now;
                     model.goodreturn.BaseDocId = model.goodreceipt.BaseDocId;
-                    model.goodreturn.Created_User_Id = CurrentBranchId;//CurrentUser.Id;
+                    model.goodreturn.Created_User_Id = CurrentUser.Id;//CurrentUser.Id;
                     model.goodreturn.Goods_Receipt_Id = model.goodreceipt.Goods_Receipt_Id;
                     model.goodreturn.Vendor = model.goodreceipt.Vendor;
                     model.goodreturn.Doc_Status = model.goodreceipt.Doc_Status;
@@ -151,7 +151,7 @@ namespace Troy.Web.Controllers
                                     model.goodreceipt.TargetDocId = model.goodreceipt.TargetDocId + "," + Convert.ToString(model.goodreceipt.Purchase_Order_Id);
                                 }
 
-
+                                model.goodreceiptitemlist[k].BaseDocLink = "N";
                                 model.goodreceiptitemlist[k].Id = model.goodreceiptitemlist[k].Id;
                                 model.goodreceiptitemlist[k].Goods_Receipt_Id = model.goodreceiptitemlist[k].Goods_Receipt_Id;
                                 //model1.PurchaseOrderItemsList[j].Quoted_date = model1.PurchaseOrderItemsList[j].Quoted_date;
@@ -181,8 +181,8 @@ namespace Troy.Web.Controllers
                         //model1.PurchaseOrder.Creating_Branch = 1;
                         model.goodreceipt.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                         model.goodreceipt.Created_Dte = DateTime.Now;
-                        model.goodreceipt.Created_User_Id = CurrentBranchId;//currentUser.Created_User_Id;  //GetUserId()
-                        model.goodreceipt.Modified_User_Id = CurrentBranchId;//currentUser.Modified_User_Id;
+                        model.goodreceipt.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
+                        model.goodreceipt.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
                         model.goodreceipt.Modified_Dte = DateTime.Now;
                         model.goodreceipt.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
 
@@ -203,7 +203,7 @@ namespace Troy.Web.Controllers
                 {
                     model.goodreturn.Modified_Branch_Id = CurrentBranchId;//CurrentBranchId;
                     model.goodreturn.Modified_Dte = DateTime.Now;
-                    model.goodreturn.Modified_User_Id = CurrentBranchId;//CurrentUser.Id;
+                    model.goodreturn.Modified_User_Id = CurrentUser.Id;//CurrentUser.Id;
                     
 
                     for (int i = 0; i < model.goodreturnitemlist.Count; i++)

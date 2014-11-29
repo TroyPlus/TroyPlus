@@ -7,10 +7,10 @@
 
         $('.datePicke').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
-        $('.datePicker').datepicker();
-        $('.datepick1').datepicker();
-        $('.datepick2').datepicker();
-        $('.date3').datepicker();
+        $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+        $('.datepick1').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+        $('.datepick2').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+        $('.date3').datepicker({ dateFormat: 'dd-mm-yy' }).val();
         $("#editTypeahead").jAutochecklist();
         var i;
 
@@ -155,16 +155,16 @@
 
             //debugger;
 
-            if (i == 1) {
-                alert("Atleast one item for each product");
-            }
-            else {
+            //if (i == 1) {
+            //    alert("Atleast one item for each product");
+            //}
+            //else {
 
                 var par = $(this).parent().parent();
                 //par.remove();
                 //$('#idEstablishmentRow td.ms-formbody span input').attr('id');
 
-                var id = par[0].childNodes[0].childNodes[1].id;
+                var id = par[0].childNodes[1].childNodes[1].id;
 
                 id = '#' + id;
 
@@ -173,10 +173,14 @@
                 //par[0].childNodes[0].childNodes[1].value = 1;
 
                 //$(id).val(1);
-                par.remove();
-                i--;
+            //    par.remove();
+            //    i--;
+            //    CalculateTotal();
+            //}
+                par.hide();
                 CalculateTotal();
-            }
+                CalculateTotalAmount();
+                CalculateTax();
         };
         $("#EditTable").on("click", ".BtnMinus", deleteRow);
 
@@ -515,10 +519,12 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.Posting_Date, new { @class = "form-control control-text datePicke", @id = "datePicker" })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.Posting_Date)
+                                                        @Html.TextBoxFor(model => model.goodreturn.Posting_Date, new { @Value = Model.goodreturn.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "datePicker" })
+                                                        @*@Html.ValidationMessageFor(model => model.goodreturn.Posting_Date)*@
                                                     </div>
                                                 </div>
+
+                                               
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -526,19 +532,8 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.Due_Date, new { @class = "form-control control-text datePicke", @id = "datepick1" })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.Due_Date)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Due_Date, new { @class = "control-label normal" })*@
-                                                        Due Date:
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.Due_Date, new { @class = "form-control control-text datePicke", @id = "datepick2" })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.Due_Date)
+                                                        @Html.TextBoxFor(model => model.goodreturn.Due_Date, new { @Value = Model.goodreturn.Due_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "datepick2" })
+                                                        @*@Html.ValidationMessageFor(model => model.goodreturn.Due_Date)*@
                                                     </div>
                                                 </div>
 
@@ -549,8 +544,8 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.goodreturn.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "date3" })@*, @readonly = true })*@
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.Document_Date)
+                                                        @Html.TextBoxFor(model => model.goodreturn.Document_Date, new { @Value = Model.goodreturn.Document_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "date3" })@*, @readonly = true })*@
+                                                        @*@Html.ValidationMessageFor(model => model.goodreturn.Document_Date)*@
                                                     </div>
                                                 </div>
 
@@ -685,7 +680,10 @@
                                                         </td>
                                                         <td style="width: 90px;">
                                                             <input class="BtnPlus btn pull-left" type="button" value="+" />
-                                                            @*<input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />*@
+                                                            @if (i > 0)
+                                                            {
+                                                                <input style="margin-left:5px;" class="BtnMinus btn pull-left" type="button" value="-" />
+                                                            }
                                                         </td>
                                                     </tr>
 
