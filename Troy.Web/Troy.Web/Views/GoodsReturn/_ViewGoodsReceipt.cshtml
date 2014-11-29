@@ -240,7 +240,7 @@
 
         var pID = parseInt(val.value);
 
-        var dataUrl = "../GoodsReturn/GetPrice?pID=" + pID;
+        var dataUrl = "../GoodsReceipt/GetPrice?pID=" + pID;
 
         $.ajax({
             type: 'GET',
@@ -255,7 +255,7 @@
             },
             success: function (result, status) {
                 //debugger;
-                var id = "#goodreceiptitemlist_" + rowId + "__Unit_price";
+                var id = "#PurchaseOrderItemsList_" + rowId + "__Unit_price";
                 $(id).val(result);
 
                 CalculateTotal();
@@ -287,8 +287,15 @@
         //var totAmount = (price * qty) - dis
         //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
         //$(id).val(totAmount);
+        var totAmount = price * qty - ((price * qty) * dis / 100)
 
-        CalculateDiscount();
+        var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
+        CalculateTotal();
+
+
+        //CalculateDiscount();
         CalculateTotalAmount();
     }
 
@@ -299,12 +306,40 @@
     }
 
     function OnChangeDiscountSummary(currentDis) {
+        //var totdis = currentDis.value;
+        //var totdoc = $("#totalPurchase").val();
+        //var tottax = $("#totalTax").val();
+        //tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+        var percentage = 0;
+        var totdoc = 0;
         var totdis = currentDis.value;
-        var totdoc = $("#totalPurchase").val();
-        var tottax = $("#totalTax").val();
-        tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+        var tottax = 0;
+        var totline = 0;
+        var totminus = 0;
+        var tot = 0;
 
-        $("#totalQuotationAmt").val(tot);
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val());
+            }
+        }
+
+        percentage = totdis / totdoc * 100;
+
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()))) {
+                totline = parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val() * percentage / 100);
+                totminus = parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()) - totline;
+                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()) / 100;
+            }
+        }
+
+        tot = (totdoc - totdis) + tottax;
+
+
+        $("#totalTax1").val(tottax.toFixed(2));
+        $("#totalQuotationAmt1").val(tot);
     }
 
     function CalculateTotal() {
@@ -321,8 +356,8 @@
         }
         //}
 
-        $("#totalPurchase").val(tot);
-       
+        $("#totalPurchase1").val(tot.toFixed(2));
+
     }
 
     function CalculateDiscount() {
@@ -334,7 +369,7 @@
             }
         }
 
-        $("#totalDiscount").val(tot);
+        $("#totalDiscount1").val(tot.toFixed(2));
     }
 
     function CalculateTax() {
@@ -342,11 +377,12 @@
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val());
+                //tot = parseFloat(tot) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val());
+                tot = parseFloat(tot) + (parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()) * parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
-        $("#totalTax").val(tot);
+        $("#totalTax1").val(tot.toFixed(2));
     }
 
     function CalculateTotalAmount() {
@@ -360,22 +396,24 @@
             }
         }
 
-        for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__Discount_percent").val()))) {
-                totdis = parseFloat(totdis) + parseFloat($("#goodreceiptitemlist_" + j + "__Discount_percent").val());
-            }
-        }
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val()))) {
+        //        totdis = parseFloat(totdis) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val());
+        //    }
+        //}
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()))) {
-                tottax = parseFloat(tottax) + parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val());
+                //tottax = parseFloat(tottax) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val());
+                tottax = parseFloat(tottax) + (parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()) * parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
         tot = (totdoc - totdis) + tottax;
 
-        $("#totalQuotationAmt").val(tot);
+        $("#totalQuotationAmt1").val(tot.toFixed(2));
     }
+
 
 
 </script>
@@ -634,10 +672,10 @@
                                         @*@Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })*@
 
                                         <div class="row" style="float:right;">
-                                            Total : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Discount Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.goodreceipt.DocDiscAmt) </span> <br />
-                                            Tax Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalGRDocAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.DocDiscAmt, new { id = "totalDiscount1", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.goodreceipt.DocDiscAmt) </span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TaxAmt, new { id = "totalTax1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalGRDocAmt, new { id = "totalQuotationAmt1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                         </div>
 
                                     </div>
