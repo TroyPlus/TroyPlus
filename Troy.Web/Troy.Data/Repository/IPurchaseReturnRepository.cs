@@ -39,5 +39,7 @@ namespace Troy.Data.Repository
         bool AddNewReturn(PurchaseReturn PurchaseReturn, IList<PurchaseReturnitems> PurchaseReturnitemsList, ref string ErrorMessage);
 
         bool UpdateReturn(PurchaseReturn PurchaseReturn, IList<PurchaseReturnitems> PurchaseReturnitemsList, ref string ErrorMessage);
+
+        bool UpdateInvoice(PurchaseInvoice PurchaseInvoice, IList<PurchaseInvoiceItems> PurchaseInvoiceItemsList, ref string ErrorMessage);
     }
 }
