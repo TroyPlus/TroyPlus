@@ -90,7 +90,22 @@ namespace Troy.Web.Controllers
                
                 if (submitButton == "Save-PurRtn")
                 {
-                    model.PurchaseReturn.Doc_Status = "Closed";
+                     PurchaseReturnViewModels model1 = new PurchaseReturnViewModels();
+                    model1.PurchaseInvoice = purchasereturnrepository.FindOneInvoiceById(model.PurchaseInvoice.Purchase_Invoice_Id);
+                    model1.PurchaseInvoiceItemsList = purchasereturnrepository.FindOneInvoiceItemById(model.PurchaseInvoice.Purchase_Invoice_Id);
+
+
+                    if (model1.PurchaseInvoice.Vendor == model.PurchaseInvoice.Vendor)
+                    {
+                        //for BaseDocId
+                        for (int j = 0; j < model.PurchaseInvoiceItemsList.Count; j++)
+                        {
+                            if (model1.PurchaseInvoiceItemsList[j].Product_id == model.PurchaseInvoiceItemsList[j].Product_id)
+                            {
+                                model.PurchaseReturn.BaseDocId = model.PurchaseInvoice.Purchase_Invoice_Id;
+                            }
+                        }
+                    model.PurchaseReturn.Doc_Status = "OPEN";
                     model.PurchaseReturn.Created_Branc_Id = CurrentBranchId;//CurrentBranchId;
                     model.PurchaseReturn.Created_Date = DateTime.Now;
                     model.PurchaseReturn.Created_User_Id = CurrentUser.Id;//CurrentUser.Id;
@@ -116,7 +131,14 @@ namespace Troy.Web.Controllers
                    
                     for (int i = 0; i < model.PurchaseReturnitemsList.Count; i++)
                     {
-                        model.PurchaseReturnitemsList[i].BaseDocLink = "Y";
+                       if (model1.PurchaseInvoiceItemsList[i].Product_id == model.PurchaseInvoiceItemsList[i].Product_id)
+                            {
+                                model.PurchaseReturnitemsList[i].BaseDocLink = "Y";
+                            }
+                            else
+                            {
+                                model.PurchaseReturnitemsList[i].BaseDocLink = "N";
+                            }
                         model.PurchaseReturnitemsList[i].Product_id = model.PurchaseInvoiceItemsList[i].Product_id;
                         model.PurchaseReturnitemsList[i].Quantity = model.PurchaseInvoiceItemsList[i].Quantity;
                         model.PurchaseReturnitemsList[i].Unit_price = model.PurchaseInvoiceItemsList[i].Unit_price;
@@ -129,17 +151,84 @@ namespace Troy.Web.Controllers
 
                     if (purchasereturnrepository.AddNewReturn(model.PurchaseReturn, model.PurchaseReturnitemsList, ref ErrorMessage))
                     {
-                        return RedirectToAction("Index", "PurchaseReturns");
-                    }
-                    else
-                    {
-                        ViewBag.AppErrorMessage = ErrorMessage;
-                        return View("Error");
-                    }
+                            //return RedirectToAction("Index", "PurchaseOrders");
 
-                }
-               
-                  else if (submitButton == "Update")
+                            //for Purchase Quotation/Purchase Quotation item table update
+                            for (int j = 0; j < model.PurchaseInvoiceItemsList.Count; j++)
+                            {
+                                if (model1.PurchaseInvoiceItemsList[j].Product_id == model.PurchaseInvoiceItemsList[j].Product_id && model.PurchaseInvoiceItemsList[j].Quantity >= model1.PurchaseInvoiceItemsList[j].Quantity)
+                                {
+                                    model1.PurchaseInvoice.Doc_Status = "Closed";
+                                    if (model1.PurchaseInvoice.TargetDocId == "")
+                                    {
+                                        model1.PurchaseInvoice.TargetDocId = Convert.ToString(model.PurchaseReturn.Purchase_Return_Id);
+                                    }
+                                    else
+                                    {
+                                        model1.PurchaseInvoice.TargetDocId = model1.PurchaseInvoice.TargetDocId + "," + Convert.ToString(model.PurchaseReturn.Purchase_Return_Id);                                      
+                                    }
+
+
+                                   // model1.PurchaseInvoiceItemsList[j].Quote_Item_Id = model1.PurchaseInvoiceItemsList[j].Quote_Item_Id;
+                                    model1.PurchaseInvoiceItemsList[j].Purchase_Invoice_Id = model1.PurchaseInvoiceItemsList[j].Purchase_Invoice_Id;
+                                    //model1.PurchaseInvoiceItemsList[j].Quoted_date = model1.PurchaseInvoiceItemsList[j].Quoted_date;
+                                    model1.PurchaseInvoiceItemsList[j].Inv_Return_Qty = model1.PurchaseInvoiceItemsList[j].Inv_Return_Qty + Convert.ToInt32(model.PurchaseInvoiceItemsList[j].Quantity);
+                                    model1.PurchaseInvoiceItemsList[j].Product_id = model.PurchaseInvoiceItemsList[j].Product_id;
+                                    model1.PurchaseInvoiceItemsList[j].Unit_price = model.PurchaseInvoiceItemsList[j].Unit_price;
+                                    model1.PurchaseInvoiceItemsList[j].Discount_percent = model.PurchaseInvoiceItemsList[j].Discount_percent;
+                                    model1.PurchaseInvoiceItemsList[j].Vat_Code = model.PurchaseInvoiceItemsList[j].Vat_Code;
+                                    model1.PurchaseInvoiceItemsList[j].LineTotal = model.PurchaseInvoiceItemsList[j].LineTotal;
+                                }
+                                else if (model1.PurchaseInvoiceItemsList[j].Product_id == model.PurchaseInvoiceItemsList[j].Product_id && model.PurchaseInvoiceItemsList[j].Quantity < model1.PurchaseInvoiceItemsList[j].Quantity)
+                                {
+                                    model1.PurchaseInvoice.Doc_Status = "Open";
+                                    if (model1.PurchaseInvoice.TargetDocId == "")
+                                    {
+                                        model1.PurchaseInvoice.TargetDocId = Convert.ToString(model.PurchaseReturn.Purchase_Return_Id);
+                                    }
+                                    else
+                                    {
+                                        model1.PurchaseInvoice.TargetDocId = model1.PurchaseInvoice.TargetDocId + "," + Convert.ToString(model.PurchaseReturn.Purchase_Return_Id);
+                                    }
+
+                                 // model1.PurchaseInvoiceItemsList[j].Quote_Item_Id = model1.PurchaseInvoiceItemsList[j].Quote_Item_Id;
+                                    model1.PurchaseInvoiceItemsList[j].Purchase_Invoice_Id = model1.PurchaseInvoiceItemsList[j].Purchase_Invoice_Id;
+                                    //model1.PurchaseInvoiceItemsList[j].Quoted_date = model1.PurchaseInvoiceItemsList[j].Quoted_date;
+                                    model1.PurchaseInvoiceItemsList[j].Inv_Return_Qty = model1.PurchaseInvoiceItemsList[j].Inv_Return_Qty + Convert.ToInt32(model.PurchaseInvoiceItemsList[j].Quantity);
+                                    model1.PurchaseInvoiceItemsList[j].Product_id = model.PurchaseInvoiceItemsList[j].Product_id;
+                                    model1.PurchaseInvoiceItemsList[j].Unit_price = model.PurchaseInvoiceItemsList[j].Unit_price;
+                                    model1.PurchaseInvoiceItemsList[j].Discount_percent = model.PurchaseInvoiceItemsList[j].Discount_percent;
+                                    model1.PurchaseInvoiceItemsList[j].Vat_Code = model.PurchaseInvoiceItemsList[j].Vat_Code;
+                                    model1.PurchaseInvoiceItemsList[j].LineTotal = model.PurchaseInvoiceItemsList[j].LineTotal;
+                                }
+                            }
+
+                           // model1.PurchaseInvoice.Creating_Branch = CurrentBranchId;
+                            model1.PurchaseInvoice.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
+                            model1.PurchaseInvoice.Created_Date = DateTime.Now;
+                            model1.PurchaseInvoice.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
+                            model1.PurchaseInvoice.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
+                            model1.PurchaseInvoice.Modified_Date = DateTime.Now;
+                            model1.PurchaseInvoice.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
+
+                            purchasereturnrepository.UpdateInvoice(model1.PurchaseInvoice, model1.PurchaseInvoiceItemsList, ref ErrorMessage);
+                            return RedirectToAction("Index", "PurchaseReturns");
+
+                        }
+                        else
+                        {
+                            ViewBag.AppErrorMessage = ErrorMessage;
+                            return View("Error");
+                        }
+                    
+                
+
+                return RedirectToAction("Index", "PurchaseReturns");
+            }
+        }
+    
+    
+             else if (submitButton == "Update")
                 {
                     model.PurchaseReturn.Doc_Status = "open";
                     model.PurchaseReturn.Modified_Branch_Id = CurrentBranchId;//CurrentBranchId;
@@ -179,7 +268,8 @@ namespace Troy.Web.Controllers
                 //}
 
             }
-        }
+        }   
+                 
 
         public PartialViewResult _ViewPurchaseInvoice(int id)
         {

@@ -224,6 +224,59 @@ namespace Troy.Data.Repository
             }
           
         }
+        public bool UpdateInvoice(PurchaseInvoice PurchaseInvoice, IList<PurchaseInvoiceItems> PurchaseInvoiceItemsList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                purchasereturncontext.Entry(PurchaseInvoice).State = EntityState.Modified;
+                purchasereturncontext.SaveChanges();
+
+                foreach (var model1 in PurchaseInvoiceItemsList)
+                {
+                    if (model1.IsDummy == 1)
+                    {
+                        purchasereturncontext.Entry(model1).State = EntityState.Deleted;
+                        purchasereturncontext.SaveChanges();
+                    }
+                    //else
+                    //{
+                    //    if (model1.Quote_Item_Id == 0)
+                    //    {
+                    //        model1.Purchase_Quote_Id = Quotation.Purchase_Quote_Id;
+                    //        purchaseordercontext1.purchasequotationitem.Add(model1);
+                    //        purchaseordercontext1.SaveChanges();
+                    //    }
+                    //    else
+                    //    {
+                    //        purchaseordercontext1.Entry(model1).State = EntityState.Modified;
+                    //        purchaseordercontext1.SaveChanges();
+                    //    }
+                    //}
+                }
+
+                return true;
+            }
+            //catch (Exception ex)
+            //{
+            //    ExceptionHandler.LogException(ex);
+            //    ErrorMessage = ex.Message;
+            //    return false;
+            //}
+            catch (DbEntityValidationException dbEx)
+            {
+                var errorList = new List<string>();
+
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+                    }
+                }
+                return false;
+            }
+        }
         public bool UpdateReturn(PurchaseReturn PurchaseReturn, IList<PurchaseReturnitems> PurchaseReturnitemsList, ref string ErrorMessage)
         {
             ErrorMessage = string.Empty;
