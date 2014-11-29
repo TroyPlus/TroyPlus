@@ -112,7 +112,7 @@
                                                     Freight
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Freight, new { @class = "form-control control-text" })
+                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Freight, new { @class = "form-control control-text", @id = "txtBox1" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseInvoice.Freight)
                                                 </div>
                                             </div>
@@ -122,7 +122,7 @@
                                                     Loading
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Loading, new { @class = "form-control control-text" })
+                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Loading, new { @class = "form-control control-text", @id = "txtBox2" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseInvoice.Loading)
                                                 </div>
                                             </div>
@@ -138,7 +138,7 @@
                                                             new SelectListItem{ Text="Equally", Value = "Equally" },
                                                             new SelectListItem{ Text="Quantity", Value = "Quantity" },
                                                             new SelectListItem{ Text="Cost", Value = "Cost" }
-                                                         }, new { @class = "form-control"})
+                                                         }, new { @class = "form-control", @id = "dislandcosttext" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseInvoice.Distribute_LandedCost)
                                                 </div>
                                             </div>
@@ -223,7 +223,7 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoiceItemsList[i].Vat_Code)
                                                     </td>
                                                     <td width="5%">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoiceItemsList[i].Freight_Loading, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoiceItemsList[i].Freight_Loading, new { @class = "form-control control-text",@id="txtfreight" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoiceItemsList[i].Freight_Loading)
                                                     </td>
                                                     <td width="5%">

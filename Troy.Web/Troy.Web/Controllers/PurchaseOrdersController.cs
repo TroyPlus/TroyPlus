@@ -91,9 +91,9 @@ namespace Troy.Web.Controllers
                     model.PurchaseOrder.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                     model.PurchaseOrder.Created_Date = DateTime.Now;
                     model.PurchaseOrder.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
-                    model.PurchaseOrder.Modified_User_Id = CurrentUser.Id; ;//currentUser.Modified_User_Id;
-                    model.PurchaseOrder.Modified_Date = DateTime.Now;
-                    model.PurchaseOrder.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
+                    //model.PurchaseOrder.Modified_User_Id = CurrentUser.Id; ;//currentUser.Modified_User_Id;
+                    //model.PurchaseOrder.Modified_Date = DateTime.Now;
+                    //model.PurchaseOrder.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
 
 
                     var QuotationList = model.PurchaseOrderItemsList.Where(x => x.IsDummy == 0);
@@ -119,9 +119,9 @@ namespace Troy.Web.Controllers
                 {
                     model.PurchaseOrder.Order_Status = "Open";
                     model.PurchaseOrder.TargetDocId = "0";
-                    model.PurchaseOrder.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
-                    model.PurchaseOrder.Created_Date = DateTime.Now;
-                    model.PurchaseOrder.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
+                    //model.PurchaseOrder.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
+                    //model.PurchaseOrder.Created_Date = DateTime.Now;
+                    //model.PurchaseOrder.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
                     model.PurchaseOrder.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
                     model.PurchaseOrder.Modified_Date = DateTime.Now;
                     model.PurchaseOrder.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
@@ -190,9 +190,9 @@ namespace Troy.Web.Controllers
                             model.PurchaseOrder.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                             model.PurchaseOrder.Created_Date = DateTime.Now;
                             model.PurchaseOrder.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
-                            model.PurchaseOrder.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
-                            model.PurchaseOrder.Modified_Date = DateTime.Now;
-                            model.PurchaseOrder.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
+                            //model.PurchaseOrder.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
+                            //model.PurchaseOrder.Modified_Date = DateTime.Now;
+                            //model.PurchaseOrder.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
 
 
                             var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
@@ -266,9 +266,9 @@ namespace Troy.Web.Controllers
                             model1.PurchaseQuotation.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                             model1.PurchaseQuotation.Created_Date = DateTime.Now;
                             model1.PurchaseQuotation.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
-                            model1.PurchaseQuotation.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
-                            model1.PurchaseQuotation.Modified_Date = DateTime.Now;
-                            model1.PurchaseQuotation.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
+                            //model1.PurchaseQuotation.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
+                            //model1.PurchaseQuotation.Modified_Date = DateTime.Now;
+                            //model1.PurchaseQuotation.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
 
                             purchaseorderRepository.UpdateQuotation(model1.PurchaseQuotation, model1.PurchaseQuotationItemList, ref ErrorMessage);
                             return RedirectToAction("Index", "PurchaseOrders");
