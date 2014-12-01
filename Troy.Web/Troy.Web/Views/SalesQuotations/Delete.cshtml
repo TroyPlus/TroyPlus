@@ -1,0 +1,176 @@
+﻿@model Troy.Model.SalesQuotations.SalesQuotation
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>SalesQuotation</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TargetDocId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TargetDocId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reference_Number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reference_Number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Posting_Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Posting_Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Valid_Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Valid_Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Document_Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Document_Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Branch)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Branch)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalBefDocDisc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalBefDocDisc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocDiscAmt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocDiscAmt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaxAmt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaxAmt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalSlsQtnAmt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalSlsQtnAmt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created_User_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created_User_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created_Branc_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created_Branc_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created_Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created_Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Modified_User_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Modified_User_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Modified_Branch_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Modified_Branch_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Modified_Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Modified_Date)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
