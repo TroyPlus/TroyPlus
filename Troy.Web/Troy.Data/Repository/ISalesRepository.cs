@@ -13,7 +13,7 @@ namespace Troy.Data.Repository
 {
     public interface ISalesRepository
     {
-        List<SalesQuotation> GetAllQuotation();
+        List<ViewSalesQuotation> GetAllQuotation();
 
         List<BranchList> GetAddressList();
 

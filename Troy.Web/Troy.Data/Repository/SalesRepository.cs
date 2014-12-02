@@ -26,16 +26,16 @@ namespace Troy.Data.Repository
         private ProductContext productContext = new ProductContext();
         private ConfigurationContext configContext = new ConfigurationContext();
 
-        public List<SalesQuotation> GetAllQuotation()
+        public List<ViewSalesQuotation> GetAllQuotation()
         {
-            List<SalesQuotation> qList = new List<SalesQuotation>();
+            List<ViewSalesQuotation> qList = new List<ViewSalesQuotation>();
 
             var purchase = (from p in salesquotationContext.SalesQuotation
                             select p).ToList();
 
             qList = (from p in purchase
                      join b in businessContext.BusinessPartner on p.Customer equals b.BP_Id
-                     select new SalesQuotation()
+                     select new ViewSalesQuotation()
                      {
                          Vendor_Name = b.BP_Name,
                          Customer = p.Customer,

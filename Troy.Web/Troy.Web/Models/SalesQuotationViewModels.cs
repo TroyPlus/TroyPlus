@@ -19,7 +19,7 @@ namespace Troy.Web.Models
 
         public IList<SalesQuotationItems> SalesQuotationItemList { get; set; }
 
-        public List<SalesQuotation> SalesQuotationList { get; set; }             
+        public List<ViewSalesQuotation> SalesQuotationList { get; set; }             
 
         public IEnumerable<SelectListItem> QuotationStatus { get; set; }
 
