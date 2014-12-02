@@ -1,0 +1,756 @@
+﻿@model  Troy.Web.Models.SalesQuotationViewModels
+
+@{
+    ViewBag.Title = "Sales Quotation";
+}
+
+<script type="text/javascript">
+    var i = 0;
+
+    $(document).ready(function () {
+
+        //$('.datePicker').datepicker();
+        $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
+
+        $('#creDocumentDate').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
+
+        $('#crePostingDate').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
+
+        $("#typeahead").jAutochecklist({
+            width: 221
+        });
+        $("#productTypeahead").jAutochecklist({
+            width: 135,
+            listMaxHeight: 50
+        });
+
+        i = 1;
+
+        //Dynamically add quotation row
+        function addRow() {
+            var date = new Date();
+            var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+
+            var selectHtml = CreateSelect(i);
+            var selectHtml1 = CreateVATSelect(i);
+
+            selectHtml += '</select>';
+            selectHtml1 += '</select>';
+
+            var html = '<tr>' +
+                        '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="SalesQuotationItemList_' + i + '__IsDummy" name="SalesQuotationItemList[' + i + '].IsDummy" type="text" value="">  </td>' +
+                        '<td width="20%"> ' +
+                            selectHtml +
+                            '<span class="field-validation-valid" data-valmsg-for="SalesQuotationItemList[' + i + '].Product_id" data-valmsg-replace="true"></span>' +
+                        '<td>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="SalesQuotationItemList_' + i + '__Quantity" name="SalesQuotationItemList[' + i + '].Quantity" onkeyup="OnChangeQuantity(this, ' + i + ');" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="SalesQuotationItemList[' + i + '].Quantity" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="SalesQuotationItemList_' + i + '__Unit_price" name="SalesQuotationItemList[' + i + '].Unit_price" readonly="True" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="SalesQuotationItemList[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="SalesQuotationItemList_' + i + '__Discount_percent" name="SalesQuotationItemList[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="SalesQuotationItemList[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                         '<td>' +
+                             selectHtml1 +
+                            '<span class="field-validation-valid" data-valmsg-for="SalesQuotationItemList_[' + i + '].__Vat_Code" onkeyup="OnChangeVAT(this, ' + i + ');" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                         '<td>' +
+                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="SalesQuotationItemList_' + i + '__LineTotal" name="SalesQuotationItemList[' + i + '].LineTotal" readonly="True" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="SalesQuotationItemList[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
+                        '</td>' +
+                        '</tr>'
+
+            $(html).appendTo($("#createItemTable"))
+
+            i++;
+
+            //$("form").removeData("validator");
+            //$("form").removeData("unobtrusiveValidation");
+            //$.validator.unobtrusive.parse("form");
+
+            $("form").removeData("validator");
+            $("form").removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse("form");
+
+            $("#createItemTable").delegate(".datePicker", "focusin", function () {
+                $(this).datepicker();
+            });
+
+        }
+
+        function CreateSelect(rowID) {
+
+            //debugger;
+
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="SalesQuotationItemList_' + rowID + '__Product_id" name="SalesQuotationItemList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            selectHtml += '<option value=""></option>';
+
+            var dataUrl = "../SalesQuotations/GetProductList";
+
+            $.ajax({
+                type: 'GET',
+                url: dataUrl,
+                async: false,
+                cache: false,
+                crossDomain: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                error: function (xhr, err) {
+                },
+                success: function (result, status) {
+                    //debugger;
+                    for (var count = 0; count < result.length; count++) {
+                        selectHtml += '<option value="' + result[count].Product_Id + '">' + result[count].Product_Name + '</option>';
+                    }
+                }
+            });
+
+            return selectHtml;
+        }
+
+        function CreateVATSelect(rowID) {
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="SalesQuotationItemList_' + rowID + '__Vat_Code" name="SalesQuotationItemList[' + rowID + '].Vat_Code" onchange="OnChangeVAT();" >';
+            selectHtml += '<option value=""></option>';
+
+
+            var dataUrl = "../SalesQuotations/GetVATList";
+
+            $.ajax({
+                type: 'GET',
+                url: dataUrl,
+                async: false,
+                cache: false,
+                crossDomain: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                error: function (xhr, err) {
+                },
+                success: function (result, status) {
+                    //debugger;
+                    for (var count = 0; count < result.length; count++) {
+                        selectHtml += '<option value="' + result[count].VAT_percentage + '">' + result[count].VAT_percentage + '</option>';
+                    }
+                }
+            });
+
+            return selectHtml;
+        }
+
+        $("#createItemTable").on("click", ".BtnPlus", addRow);
+
+        function deleteRow() {
+
+            //debugger;
+
+            if (i == 1) {
+                alert("Atleast one item for each product");
+            }
+            else {
+
+                var par = $(this).parent().parent();
+                //par.remove();
+                //$('#idEstablishmentRow td.ms-formbody span input').attr('id');
+
+                var id = par[0].childNodes[0].childNodes[1].id;
+
+                id = '#' + id;
+
+                $(id).val("1");
+
+                //par[0].childNodes[0].childNodes[1].value = 1;
+
+                //$(id).val(1);
+                par.remove();
+                i--;
+                CalculateTotal();
+                CalculateTotalAmount();
+                CalculateTax();
+            }
+        };
+
+        $("#createItemTable").on("click", ".BtnMinus", deleteRow);
+
+    });
+       
+
+    function EditPurchase(id) {
+
+        var url = $('#editModal').data('url') + '/' + id;
+
+        $.get(url, function (data) {
+
+            $('#editmodelcontainer').html(data);
+
+            $('#editModal').modal('show');
+        });
+    }
+
+    function ViewPurchase(id) {
+
+        var url = $('#viewModal').data('url') + '/' + id;
+
+        $.get(url, function (data) {
+            $('#viewmodelcontainer').html(data);
+
+            $('#viewModal').modal('show');
+        });
+    }
+
+    function ViewPurchaseQuotation1(id) {
+
+        var url = $('#viewPurQuoModal').data('url') + '/' + id;
+
+        $.get(url, function (data) {
+            $('#viewPurQuomodelcontainer').html(data);
+
+            $('#viewPurQuoModal').modal('show');
+        });
+    }
+
+    function IFrameSubmit() {
+
+        var fileSelected = $('#FileUpload').val();
+        if (fileSelected == '') {
+            alert('Please choose the Excel to Upload');
+            return false;
+        }
+
+        var formData = new FormData($('form')[0]);
+
+        var dataUrl = "../SalesQuotations/index";
+
+        $.ajax({
+            url: dataUrl,
+            type: 'POST',
+            xhr: function () {
+                var myXhr = $.ajaxSettings.xhr();
+                return myXhr;
+            },
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+
+                if (data.success == "true") {
+                    alert(data.Message);
+                    window.location.reload();
+                }
+                else {
+                    alert(data.Message);
+                }
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+    }
+
+    $(function () {
+        $("#btnNextTab").click(function (e) {
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#default");
+
+            var validator = $("#default").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+                debugger;
+                if (this.parentNode.parentNode.className != "jAutochecklist_list") {
+                    if (!validator.element(this)) { // validate every input element inside this step
+                        anyError = true;
+                    }
+                }
+            });
+
+            _form.find("select").each(function () {
+                //debugger;
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                $('#createtabs a[href = #addQuotationlist]').tab('show');
+            }// exit if any error found
+
+            //$.post(_form.attr("action"), _form.serialize(), function (data) {
+            //    //check the result and do whatever you want
+            //    $('#createtabs a[href = #addQuotationlist]').tab('show');
+            //})
+
+
+            //$("#default").validate({
+            //    showErrors: function (errorMap, errorList) {
+            //        debugger;
+            //    }
+            //});
+
+        });
+
+        $("#btnSuddbmit").click(function (e) {
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#addQuotationlist");
+
+            var validator = $("#addQuotationlist").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+                debugger;
+                if (this.parentNode.parentNode.className != "jAutochecklist_list" || this.type != "hidden") {
+                    if (!validator.element(this)) { // validate every input element inside this step
+                        anyError = true;
+                    }
+                }
+            });
+
+            _form.find("select").each(function () {
+                debugger;
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                return true; //$('#createtabs a[href = #addQuotationlist]').tab('show');
+            }// exit if any error found
+        });
+
+    });
+
+    function OnChangeProduct(val, rowId) {
+        //debugger;
+       
+        var pID = parseInt(val.value);
+
+        var dataUrl = "../SalesQuotations/GetPrice?pID=" + pID;
+
+        $.ajax({
+            type: 'GET',
+            url: dataUrl,
+            //data: pID,
+            async: true,
+            cache: false,
+            crossDomain: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            error: function (xhr, err) {
+            },
+            success: function (result, status) {
+                //debugger;
+                var id = "#SalesQuotationItemList_" + rowId + "__Unit_price";
+                $(id).val(result);
+                CalculateTotal();
+                CalculateTotalAmount();
+            }
+        });
+    }
+
+    function OnChangeQuantity(currentQty, rowId) {
+        //debugger;
+
+        var qty = currentQty.value;
+        var price = $("#SalesQuotationItemList_" + rowId + "__Unit_price").val();
+
+        var totAmount = price * qty;
+
+        var id = "#SalesQuotationItemList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+        CalculateTotal();
+        CalculateTotalAmount();
+    }
+
+    function OnChangeDiscount(currentDis, rowId) {
+        //debugger;
+
+        var dis = currentDis.value;
+        var qty = $("#SalesQuotationItemList_" + rowId + "__Quantity").val();
+        var price = $("#SalesQuotationItemList_" + rowId + "__Unit_price").val();
+
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+
+        var id = "#SalesQuotationItemList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
+        CalculateTotal();
+        //CalculateDiscount();
+        CalculateTotalAmount();
+    }
+
+    function OnChangeVAT() {
+        //var vat = currentVAT.value;
+        //var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
+        //var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
+        //var dis = $("#PurchaseOrderItemsList_" + rowId + "__Discount_percent").val();
+
+        //var totAmount = price * qty - ((price * qty) * dis / 100)
+        //var totvat = totAmount * (vat / 100)
+        //var totNet = totAmount + totvat
+
+        //var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+        //$(id).val(totNet);
+
+        CalculateTax();
+        CalculateTotalAmount();
+    }
+
+    function OnChangeDiscountSummary(currentDis) {
+        //var totdis = currentDis.value;
+        //var totdoc = $("#totalPurchase").val();
+        //var tottax = $("#totalTax").val();
+        //tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+
+        //$("#totalQuotationAmt").val(tot);
+
+        var percentage = 0;
+        var totdoc = 0;
+        var totdis = currentDis.value;
+        var tottax = 0;
+        var totline = 0;
+        var totminus = 0;
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesQuotationItemList_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#SalesQuotationItemList_" + j + "__LineTotal").val());
+            }
+        }
+
+        percentage = totdis / totdoc * 100;
+
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesQuotationItemList_" + j + "__LineTotal").val()))) {
+                totline = parseFloat($("#SalesQuotationItemList_" + j + "__LineTotal").val() * percentage / 100);
+                totminus = parseFloat($("#SalesQuotationItemList_" + j + "__LineTotal").val()) - totline;
+                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#SalesQuotationItemList_" + j + "__Vat_Code").val()) / 100;
+            }
+        }
+
+        tot = (totdoc - totdis) + tottax;
+
+        $("#totalTax").val(tottax.toFixed(2));
+        $("#totalQuotationAmt").val(tot.toFixed(2));
+
+    }
+
+    function CalculateTotal() {
+        //debugger;
+        var tot = 0;
+        //if (i == 0) {
+        //    tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + i + "__Amount").val());
+        //}
+        //else {
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesQuotationItemList_" + j + "__LineTotal").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#SalesQuotationItemList_" + j + "__LineTotal").val());
+
+            }
+        }
+        //}
+        $("#totalPurchase").val(tot.toFixed(2));
+    }
+
+    function CalculateDiscount() {
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesQuotationItemList_" + j + "__Discount_percent").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#SalesQuotationItemList_" + j + "__Discount_percent").val());
+            }
+        }
+
+        $("#totalDiscount").val(tot.toFixed(2));
+    }
+
+    function CalculateTax() {
+        var tot = 0;
+
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()))) {
+        //        tot = parseFloat(tot) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val());
+        //    }
+        //}
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesQuotationItemList_" + j + "__Vat_Code").val()))) {
+                tot = parseFloat(tot) + (parseFloat($("#SalesQuotationItemList_" + j + "__LineTotal").val()) * parseFloat($("#SalesQuotationItemList_" + j + "__Vat_Code").val()) / 100);
+            }
+        }
+
+        $("#totalTax").val(tot.toFixed(2));
+    }
+
+    function CalculateTotalAmountOLD() {
+        var totdoc = 0;
+        var totdis = 0;
+        var tottax = 0;
+        var tot = 0;
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesQuotationItemList_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#SalesQuotationItemList_" + j + "__LineTotal").val());
+            }
+        }
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesQuotationItemList_" + j + "__Discount_percent").val()))) {
+                totdis = parseFloat(totdis) + parseFloat($("#SalesQuotationItemList_" + j + "__Discount_percent").val());
+            }
+        }
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesQuotationItemList_" + j + "__Vat_Code").val()))) {
+                tottax = parseFloat(tottax) + parseFloat($("#SalesQuotationItemList_" + j + "__Vat_Code").val());
+            }
+        }
+
+        tot = (totdoc - totdis) + tottax;
+
+        $("#totalQuotationAmt").val(tot.toFixed(2));
+    }
+
+    function CalculateTotalAmount() {
+        var totdoc = 0;
+        var totdis = 0;
+        var tottax = 0;
+        var tot = 0;
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesQuotationItemList_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#SalesQuotationItemList_" + j + "__LineTotal").val());
+            }
+        }
+
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val()))) {
+        //        totdis = parseFloat(totdis) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val());
+        //    }
+        //}
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesQuotationItemList_" + j + "__Vat_Code").val()))) {
+                tottax = parseFloat(tottax) + (parseFloat($("#SalesQuotationItemList_" + j + "__LineTotal").val()) * parseFloat($("#SalesQuotationItemList_" + j + "__Vat_Code").val()) / 100);
+            }
+        }
+
+        //tot = (totdoc - totdis) + tottax;
+        tot = totdoc + tottax;
+
+        $("#totalQuotationAmt").val(tot.toFixed(2));
+    }
+
+</script>
+
+
+
+@using (Html.BeginForm("Index", "SalesQuotations", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m => m.SearchColumn)
+
+    <div id="content">
+        <!-- Start .content-wrapper -->
+        <div class="content-wrapper">
+            <div class="row">&nbsp;</div>
+            <!-- Start .row -->
+            <div class="row">
+                <!-- Start .bredcrumb -->
+                <ul id="crumb" class="breadcrumb"></ul>
+                <!-- End .breadcrumb -->
+                <!-- Start .page-header -->
+                <div class="form-group">
+                    <label class="col-md-2 col-md-2 col-sm-12 h4 control-label pull-left">
+                        @ViewBag.Title
+                    </label>
+
+                    <!-- Start .option-buttons -->
+                    <!-- Removed -->
+                    <!-- End .option-buttons -->
+
+                    <div class="col-lg-10 col-md-10">
+                        <div class="row">
+                            <div class="pull-right group-button btn-toolbar">
+                                <button type="button" title="New Purchase" class="btn btn-primary" data-toggle="modal" data-target="#createModal" data-backdrop="static" data-keyboard="false">
+                                    <i class="en-add-to-list strong"></i>
+                                    <span> New</span>
+                                </button>
+
+                                <button type="button" title="Bulk Addition" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal" data-backdrop="static" data-keyboard="false">
+                                    <i class="st-file-add strong"></i>
+                                    <span> Bulk</span>
+                                </button>
+
+                                <input class="btn btn-primary" type="submit" name="submitButton" id="btnExport" value="Export" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End .page-header -->
+            </div>
+            <!-- End .row -->
+            <div class="row">&nbsp;</div>
+            <div class="outlet">
+                <!-- Start .outlet -->
+                <!-- Page start here ( usual with .row ) -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- col-lg-12 start here -->
+                        <div class="panel panel-default plain">
+                            <!-- Start .panel -->
+                            <div class="panel-heading">
+                                <div class="row">
+
+                                </div>
+                            </div>
+                            <div class="panel-body">
+
+                                <table class="table display" id="datatable">
+                                    <thead>
+
+                                        <tr>
+                                            <th>Quotation ID</th>
+                                            <th>Customer Name</th>
+                                            <th>Ref. Number</th>
+                                            <th>Document Status</th>
+                                            <th>Posting Date</th>
+                                            <th>Valid Date</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (Troy.Model.SalesQuotations.SalesQuotation item in Model.SalesQuotationList)
+                                        {
+                                            <tr class="odd gradeX">
+                                                <td style="text-align:center;">@item.Sales_Qtn_Id</td>
+                                                <td>@item.Vendor_Name</td>
+                                                <td style="text-align:center;">@item.Reference_Number</td>
+                                                <td>@item.Doc_Status</td>
+                                                <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
+                                                <td>@item.Valid_Date.ToString("MM/dd/yyyy")</td>
+                                                <td>
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Sales_Qtn_Id);">
+                                                        <i class="im-eye2"></i>
+
+                                                    </a>
+                                                    <span class="text-muted">|</span>
+                                                    <a href="#" class="top-right" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false" onclick="EditPurchase(@item.Sales_Qtn_Id);">
+                                                        <i class="im-pencil2"></i>
+                                                    </a>
+                                                    @*<span class="text-muted">|</span>
+                                                        <a href="@Url.Action("_DeletePartialView", "Suppliers", new { id = item.Purchase_Quote_Id })" data-modal="true">
+                                                            <i class="im-remove2"></i>
+                                                        </a>*@
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <!-- End .panel -->
+                    </div>
+                    <!-- col-lg-12 end here -->
+                </div>
+                <!-- Page End here -->
+            </div>
+            <!-- End .outlet -->
+        </div>
+        <!-- End .content-wrapper -->
+    </div>
+    <div class="clearfix"></div>
+    <div class="modal fade bs-example-modal-lg" id="createModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        @Html.Partial("_CreatePartial", Model)
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_EditPartial")'>
+        <div id="editmodelcontainer">
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="viewModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-url='@Url.Action("_ViewPartial")'>
+        <div id="viewmodelcontainer">
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("Upload", "SalesQuotations", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal fade bs-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">File Upload</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="tabs">
+                                <ul id="myTab" class="nav nav-tabs tabdrop">
+                                    <li class="active">
+                                        <a href="#default" data-toggle="tab">Bulk Addition</a>
+                                    </li>
+                                </ul>
+
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade in active" id="default">
+                                        <br />
+
+                                        <div id="FileUploadDiv">
+                                            <iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <input type="file" id="FileUpload" name="FileUpload" />
+                                                </div>
+                                            </div>
+                                            @*<div class="row">
+                                                    <div class="col-md-12 text-right">
+                                                        <input type="button" id="btnUpload" name="FileUploadButton" value="Upload" class="btn btn-success"
+                                                               onclick="return IFrameSubmit();" />
+                                                    </div>
+                                                </div>*@
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
+                    <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
