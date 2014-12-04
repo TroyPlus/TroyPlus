@@ -36,12 +36,15 @@ namespace Troy.Model.SalesDeliveries
         public string Doc_Status { get; set; }
 
         [Required]
+        [Column(TypeName = "date")]
         public DateTime Posting_Date { get; set; }
 
         [Required]
+         [Column(TypeName = "date")]
         public DateTime Delivery_Date { get; set; }
 
         [Required]
+         [Column(TypeName = "date")]
         public DateTime Document_Date { get; set; }
 
         [Required]
@@ -69,15 +72,17 @@ namespace Troy.Model.SalesDeliveries
         public int Created_Branc_Id { get; set; }
 
         [Required]
+        [Column(TypeName = "date")]
         public DateTime Created_Date { get; set; }
 
-        [Required]
+        //[Required]
         public int Modified_User_Id { get; set; }
 
-        [Required]
+        //[Required]
         public int Modified_Branc_Id { get; set; }
 
-        [Required]
+        //[Required]
+        [Column(TypeName = "date")]
         public DateTime Modified_Date { get; set; }
 
     }

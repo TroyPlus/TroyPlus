@@ -11,13 +11,18 @@ namespace Troy.Model.SalesDeliveries
       [Table("tblSalesDeliveryItems")]
       public class SalesDeliveryItems
     {
+         
+          [Key]
           [Required]
-        public int Sales_Delivery_Id { get; set; }
+          public int sales_Item_Id {get;set;}
+
+          [Required]
+          public int Sales_Delivery_Id { get; set; }
 
           [Required]
           public int Product_Id {get; set;}
 
-       [Required]
+          [Required]
           public int Quantity {get; set;}
 
           [Required]
@@ -26,7 +31,7 @@ namespace Troy.Model.SalesDeliveries
           [Required]
           public int Invoiced_Qty {get; set;}
 
-        [Required]
+          [Required]
           public Decimal Unit_Price {get; set;}
 
           [Required]
