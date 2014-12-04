@@ -11,7 +11,6 @@ namespace Troy.Model.SalesDelivery
     [Table("tblSalesDelivery")]
     public class SalesDelivery
     {
-
         [Key]
         [Required]
         public int Sales_Delivery_Id { get; set; }
