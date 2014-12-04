@@ -106,5 +106,7 @@ namespace Troy.Model.SalesDeliveries
 
        
         public Char BaseDocLink { get; set; }
+
+        public string Vendor_Name { get; set; }
     }
 }
