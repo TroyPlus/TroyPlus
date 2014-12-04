@@ -390,7 +390,7 @@ namespace Troy.Web.Controllers
             try
             {
                 PurchaseOrderViewModels model = new PurchaseOrderViewModels();
-                model.PurchaseOrder = purchaseorderRepository.FindOneOrderById(id);
+                model.PurchaseOrder = purchaseorderRepository.FindOneOrderById(id);                
                 model.PurchaseOrderItemsList = purchaseorderRepository.FindOneOrderItemById(id);
 
                 //Bind Branch
@@ -439,7 +439,6 @@ namespace Troy.Web.Controllers
             int price = purchaseorderRepository.GetProductPrice(pID);
 
             return Json(price, JsonRequestBehavior.AllowGet);
-
         }
 
         #endregion

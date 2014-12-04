@@ -41,9 +41,10 @@ namespace Troy.Model.Purchase
         [Range(0, 100)]
         public decimal Discount_percent { get; set; }
 
-        [Required]
-        [Display(Name = "VAT")]
-        public int Vat_Code { get; set; }
+         [Required(ErrorMessage = "VAT Code is required.")]
+        //[Display(Name = "VAT")]
+        //public int Vat_Code { get; set; }
+        public float Vat_Code { get; set; }
 
         [DefaultValue(0)]
         public decimal Unit_price { get; set; }

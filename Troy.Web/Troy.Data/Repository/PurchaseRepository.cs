@@ -58,27 +58,27 @@ namespace Troy.Data.Repository
 
         public List<PurchaseQuotationItem> GetAllQuotationItem()
         {
-            var qtn = (from p in purchaseContext.PurchaseQuotationItem                       
+            var qtn = (from p in purchaseContext.PurchaseQuotationItem
                        select p).ToList();
 
             var item = (from q in qtn
-                            join pi in productContext.Product on q.Product_id equals pi.Product_Id
-                            select new PurchaseQuotationItem
-                            {
-                                Discount_percent = q.Discount_percent,
-                                LineTotal = q.LineTotal,
-                                Product_id = q.Product_id,
-                                ProductName = pi.Product_Name,
-                                Purchase_Quote_Id = q.Purchase_Quote_Id,
-                                Quote_Item_Id = q.Quote_Item_Id,
-                                Quoted_date = q.Quoted_date,
-                                Quoted_qty = q.Quoted_qty,
-                                Required_date = q.Required_date,
-                                Required_qty = q.Required_qty,
-                                Unit_price = q.Unit_price,
-                                Used_qty = q.Used_qty,
-                                Vat_Code = q.Vat_Code
-                            }).ToList();
+                        join pi in productContext.Product on q.Product_id equals pi.Product_Id
+                        select new PurchaseQuotationItem
+                        {
+                            Discount_percent = q.Discount_percent,
+                            LineTotal = q.LineTotal,
+                            Product_id = q.Product_id,
+                            ProductName = pi.Product_Name,
+                            Purchase_Quote_Id = q.Purchase_Quote_Id,
+                            Quote_Item_Id = q.Quote_Item_Id,
+                            Quoted_date = q.Quoted_date,
+                            Quoted_qty = q.Quoted_qty,
+                            Required_date = q.Required_date,
+                            Required_qty = q.Required_qty,
+                            Unit_price = q.Unit_price,
+                            Used_qty = q.Used_qty,
+                            Vat_Code = q.Vat_Code
+                        }).ToList();
 
             return item;
         }
@@ -166,8 +166,8 @@ namespace Troy.Data.Repository
         public IList<PurchaseQuotationItem> FindOneQuotationItemById(int qId)
         {
             var qtn = (from p in purchaseContext.PurchaseQuotationItem
-                    where p.Purchase_Quote_Id == qId
-                    select p).ToList();
+                       where p.Purchase_Quote_Id == qId
+                       select p).ToList();
 
             var purchase = (from q in qtn
                             join pi in productContext.Product on q.Product_id equals pi.Product_Id
@@ -234,6 +234,7 @@ namespace Troy.Data.Repository
         public List<BussinessList> GetVendorList()
         {
             var item = (from a in businessContext.BusinessPartner
+                        where a.Group_Type == "Vendor"
                         select new BussinessList
                         {
                             BP_Name = a.BP_Name,
@@ -298,7 +299,7 @@ namespace Troy.Data.Repository
 
                 return true;
             }
-           
+
 
             catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
             {

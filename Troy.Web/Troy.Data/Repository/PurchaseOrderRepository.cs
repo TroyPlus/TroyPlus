@@ -65,6 +65,7 @@ namespace Troy.Data.Repository
                      join b in purchaseordercontext.Businesspartner
                        on pq.Vendor_Code equals b.BP_Id
                      where pq.Quotation_Status == "Open"
+                     where pq.Valid_Date >= DateTime.Now
                      select new ViewPurchaseQuotation()
                      {
                          Purchase_Quote_Id = pq.Purchase_Quote_Id,
