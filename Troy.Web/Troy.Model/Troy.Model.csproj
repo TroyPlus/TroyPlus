@@ -162,6 +162,9 @@
     <Compile Include="Purchase\PurchaseQuotation.cs" />
     <Compile Include="Purchase\PurchaseQuotationItem.cs" />
     <Compile Include="Purchase\ViewPurchaseQuotation.cs" />
+    <Compile Include="SalesInvoices\SalesInvoiceItems.cs" />
+    <Compile Include="SalesInvoices\SalesInvoices.cs" />
+    <Compile Include="SalesInvoices\ViewSalesInvoice.cs" />
     <Compile Include="SalesQuotations\SalesQuotation.cs" />
     <Compile Include="SalesQuotations\SalesQuotationItems.cs" />
     <Compile Include="SalesQuotations\ViewSalesQuotation.cs" />
