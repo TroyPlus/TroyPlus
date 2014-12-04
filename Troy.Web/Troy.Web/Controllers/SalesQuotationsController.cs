@@ -43,6 +43,7 @@ namespace Troy.Web.Controllers
                 SalesQuotationViewModels model = new SalesQuotationViewModels();
                 model.SalesQuotation = new SalesQuotation();
                 model.SalesQuotationList = salesquotationRepository.GetAllQuotation();
+
                 model.BranchList = salesquotationRepository.GetAddressList().ToList();
 
                 model.BussinessList = salesquotationRepository.GetVendorList();
