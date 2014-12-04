@@ -96,8 +96,8 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.Posting_Date, new { @class = "form-control control-text datePicker" })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.Posting_Date)
+                                                        @Html.TextBoxFor(model => model.goodreturn.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", @id = "creDocumentDate1" })
+                                                        @*@Html.ValidationMessageFor(model => model.goodreturn.Posting_Date)*@
                                                     </div>
                                                 </div>
 
@@ -107,8 +107,8 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.Due_Date, new { @class = "form-control control-text datePicker" })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.Due_Date)
+                                                        @Html.TextBoxFor(model => model.goodreturn.Due_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", @id = "creDocumentDate2" })
+                                                        @*@Html.ValidationMessageFor(model => model.goodreturn.Due_Date)*@
                                                     </div>
                                                 </div>
                                                 <div class="row form-group">
@@ -118,8 +118,8 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.goodreturn.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker " })@*, @readonly = true })*@
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.Document_Date)
+                                                        @Html.TextBoxFor(model => model.goodreturn.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker ", @id = "creDocumentDate3" })@*, @readonly = true })*@
+                                                        @*@Html.ValidationMessageFor(model => model.goodreturn.Document_Date)*@
                                                     </div>
                                                 </div>
 

@@ -111,7 +111,7 @@
             var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseQuotationItemList_' + rowID + '__Product_id" name="PurchaseQuotationItemList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
 
-            var dataUrl = "/Purchase/GetProductList";
+            var dataUrl = "../Purchase/GetProductList";
 
             $.ajax({
                 type: 'GET',
@@ -141,7 +141,7 @@
             var vatselectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT must be a number." data-val-required="The VAT field is required." id="PurchaseQuotationItemList_' + rowID + '__Vat_Code" name="PurchaseQuotationItemList[' + rowID + '].Vat_Code" onchange="OnChangeVAT();" >';
             vatselectHtml += '<option value=""></option>';
 
-            var dataUrl = "/Purchase/GetVATList";
+            var dataUrl = "../Purchase/GetVATList";
 
             $.ajax({
                 type: 'GET',
@@ -156,7 +156,7 @@
                 success: function (result, status) {
                     //debugger;
                     for (var count = 0; count < result.length; count++) {
-                        vatselectHtml += '<option value="' + result[count].VAT_Id + '">' + result[count].VAT_percentage + '</option>';
+                        vatselectHtml += '<option value="' + result[count].VAT_percentage + '">' + result[count].VAT_percentage + '</option>';
                     }
                 }
             });
@@ -191,6 +191,8 @@
                 par.remove();
                 i--;
                 CalculateTotal();
+                CalculateTotalAmount();
+                CalculateTax();
             }
         };
 
@@ -231,7 +233,7 @@
 
         var formData = new FormData($('form')[0]);
 
-        var dataUrl = "/Purchase/index";
+        var dataUrl = "../Purchase/index";
 
         $.ajax({
             url: dataUrl,
@@ -342,7 +344,7 @@
 
         var pID = parseInt(val.value);
 
-        var dataUrl = "/Purchase/GetPrice?pID=" + pID;
+        var dataUrl = "../Purchase/GetPrice?pID=" + pID;
 
         $.ajax({
             type: 'GET',
@@ -373,7 +375,7 @@
         var totAmount = price * qty;
 
         var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
-        $(id).val(totAmount);
+        $(id).val(totAmount.toFixed(2));
         CalculateTotal();
         CalculateTotalAmount();
     }
@@ -385,11 +387,13 @@
         var qty = $("#PurchaseQuotationItemList_" + rowId + "__Required_qty").val();
         var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
 
-        //var totAmount = (price * qty) - dis
-        //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
-        //$(id).val(totAmount);
+        var totAmount = price * qty - ((price * qty) * dis / 100)
 
-        CalculateDiscount();
+        var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
+        CalculateTotal();
+        //CalculateDiscount();
         CalculateTotalAmount();
     }
 
@@ -401,12 +405,42 @@
 
     function OnChangeDiscountSummary(currentDis)
     {
-        var totdis = currentDis.value;
-        var totdoc = $("#totalPurchase").val();
-        var tottax = $("#totalTax").val();
-        tot = (parseFloat(totdoc) - parseFloat(totdis)) +  parseFloat(tottax);
+        //var totdis = currentDis.value;
+        //var totdoc = $("#totalPurchase").val();
+        //var tottax = $("#totalTax").val();
+        //tot = (parseFloat(totdoc) - parseFloat(totdis)) +  parseFloat(tottax);
 
-        $("#totalQuotationAmt").val(tot);
+        //$("#totalQuotationAmt").val(tot);
+
+        var percentage = 0;
+        var totdoc = 0;
+        var totdis = currentDis.value;
+        var tottax = 0;
+        var totline = 0;
+        var totminus = 0;
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val());
+            }
+        }
+
+        percentage = totdis / totdoc * 100;
+
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
+                totline = parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val() * percentage / 100);
+                totminus = parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()) - totline;
+                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()) / 100;
+            }
+        }
+
+        tot = (totdoc - totdis) + tottax;
+
+        $("#totalTax").val(tottax.toFixed(2));
+        $("#totalQuotationAmt").val(tot.toFixed(2));
     }
 
     function CalculateTotal() {
@@ -423,7 +457,7 @@
         }
         //}
 
-        $("#totalPurchase").val(tot);
+        $("#totalPurchase").val(tot.toFixed(2));
     }
 
     function CalculateDiscount() {
@@ -435,7 +469,7 @@
             }
         }
 
-        $("#totalDiscount").val(tot);
+        $("#totalDiscount").val(tot.toFixed(2));
     }
 
     function CalculateTax() {
@@ -443,11 +477,11 @@
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
+                tot = parseFloat(tot) + (parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
-        $("#totalTax").val(tot);
+        $("#totalTax").val(tot.toFixed(2));
     }
 
     function CalculateTotalAmount() {
@@ -461,21 +495,22 @@
             }
         }
 
-        for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val()))) {
-                totdis = parseFloat(totdis) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val());
-            }
-        }
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val()))) {
+        //        totdis = parseFloat(totdis) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Discount_percent").val());
+        //    }
+        //}
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
-                tottax = parseFloat(tottax) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
+                tottax = parseFloat(tottax) + (parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
-        tot = (totdoc - totdis) + tottax;
+        //tot = (totdoc - totdis) + tottax;
+        tot = totdoc + tottax;
 
-        $("#totalQuotationAmt").val(tot);
+        $("#totalQuotationAmt").val(tot.toFixed(2));
     }
 
 </script>

@@ -23,13 +23,13 @@ namespace Troy.Model.GRPOReturns
         public string Doc_Status { get; set; }
 
    
-        public DateTime? Posting_Date { get; set; }
+        public DateTime Posting_Date { get; set; }
 
     
-        public DateTime? Due_Date { get; set; }
+        public DateTime Due_Date { get; set; }
 
        
-        public DateTime? Document_Date { get; set; }
+        public DateTime Document_Date { get; set; }
 
       
         public int Ship_To { get; set; }
@@ -62,7 +62,7 @@ namespace Troy.Model.GRPOReturns
 
       
         
-        public DateTime? Created_Dte { get; set; }
+        public DateTime Created_Dte { get; set; }
 
 
         public int Modified_User_Id { get; set; }
@@ -72,7 +72,7 @@ namespace Troy.Model.GRPOReturns
 
 
         
-        public DateTime? Modified_Dte { get; set; }
+        public DateTime Modified_Dte { get; set; }
 
     
         public string Vendor_Name { get; set; }

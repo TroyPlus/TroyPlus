@@ -336,7 +336,7 @@ namespace Troy.Web.Controllers
                 model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
                 model.BranchList = purchaseDb.GetAddressList().ToList();
                 model.BussinessList = purchaseDb.GetVendorList();
-                //model.ProductList = purchaseDb.GetProductList();
+                model.ProductList = purchaseDb.GetProductList();
                 model.VATList = purchaseDb.GetVATList();
                 TempData["oldPurchaseQuotation_Name"] = model.PurchaseQuotation.Vendor_Code;
                 return PartialView(model);

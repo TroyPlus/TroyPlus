@@ -13,15 +13,15 @@
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
         $('#creDocumentDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0,maxDate:0
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
         $('#creDueDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0,maxDate:0
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
         $('#crePostingDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0,maxDate:0
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
         $("#typeahead").jAutochecklist({
@@ -36,6 +36,7 @@
 
         //Dynamically add quotation row
         function addRow() {
+
             var date = new Date();
             var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 
@@ -94,11 +95,10 @@
             $("#createItemTable").delegate(".datePicker", "focusin", function () {
                 $(this).datepicker();
             });
-
+            //DisLanCost();
         }
 
-        function CreateSelect(rowID)
-        {
+        function CreateSelect(rowID) {
             //debugger;
 
             var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseInvoiceItemsList_' + rowID + '__Product_id" name="PurchaseInvoiceItemsList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
@@ -127,13 +127,12 @@
             return selectHtml;
         }
 
-        function CreateVATSelect(rowID)
-        {
+        function CreateVATSelect(rowID) {
             var selectHtml1 = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="PurchaseInvoiceItemsList_' + rowID + '__Vat_Code" name="PurchaseInvoiceItemsList[' + rowID + '].Vat_Code" onchange="OnChangeVAT();" >';
             selectHtml1 += '<option value=""></option>';
 
 
-            var dataUrl =  "../PurchaseInvoices/GetVATList";
+            var dataUrl = "../PurchaseInvoices/GetVATList";
 
             $.ajax({
                 type: 'GET',
@@ -229,7 +228,7 @@
 
     function ViewPurchaseQuotation1(id) {
 
-        var url =  $('#viewPurQuoModal').data('url') + '/' + id;
+        var url = $('#viewPurQuoModal').data('url') + '/' + id;
 
         $.get(url, function (data) {
             $('#viewPurQuomodelcontainer').html(data);
@@ -415,7 +414,7 @@
     }
 
     function OnChangeVAT() {
-        //var vat = currentVAT.value;       
+        //var vat = currentVAT.value;
         //var qty = $("#PurchaseInvoiceItemsList_" + rowId + "__Quantity").val();
         //var price = $("#PurchaseInvoiceItemsList_" + rowId + "__Unit_price").val();
         //var dis = $("#PurchaseInvoiceItemsList_" + rowId + "__Discount_percent").val();
@@ -423,7 +422,7 @@
         //var totAmount = price * qty - ((price * qty) * dis / 100)
         //var totvat = totAmount * (vat / 100)
         //var totNet = totAmount + totvat
-      
+
         //var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
         //$(id).val(totNet);
 
@@ -457,14 +456,14 @@
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val()))) {
-                totline = parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val() * percentage / 100);               
-                totminus = parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val()) - totline;                
-                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val()) / 100;               
+                totline = parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val() * percentage / 100);
+                totminus = parseFloat($("#PurchaseInvoiceItemsList_" + j + "__LineTotal").val()) - totline;
+                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val()) / 100;
             }
-        }       
+        }
 
         tot = (totdoc - totdis) + tottax;
-        
+
         $("#totalTax").val(tottax.toFixed(2));
         $("#totalQuotationAmt").val(tot.toFixed(2));
     }
@@ -483,7 +482,7 @@
             }
         }
         //}
-        $("#totalPurchase").val(tot);
+        $("#totalPurchase").val(tot.toFixed(2));
     }
 
     function CalculateDiscount() {
@@ -495,7 +494,7 @@
             }
         }
 
-        $("#totalDiscount").val(tot);
+        $("#totalDiscount").val(tot.toFixed(2));
     }
 
     function CalculateTax() {
@@ -540,6 +539,33 @@
 
         $("#totalQuotationAmt").val(tot.toFixed(2));
     }
+
+    //function DisLanCost() {
+    //    var fri = 0;
+    //    var load = 0;
+    //    var tot = 0;
+
+    //    var fri = parseFloat($('#txtBox1').val());
+    //    var load = parseFloat($('#txtBox2').val());
+    //    var tot = fri + load;
+
+    //    var selectedText = $("select[id=dislandcosttext] option:selected").text();
+
+    //    if (selectedText == " ") {
+
+    //        for (var j = 0; j >= 0; j--) {             
+    //            tot = parseFloat(tot) / (i-1);
+    //            $("#txtfreight").val(tot.toFixed(2));
+    //            //$("#PurchaseInvoiceItemsList_" + j + "__Freight_Loading").text() = tot;
+    //        }
+    //    }
+    //    else if (selectedText == "Quantity") {
+
+    //    }
+    //    else if (selectedText == "Cost") {
+
+    //    }
+    //}
 
 </script>
 
@@ -632,8 +658,8 @@
                                                 <td>@item.Vendor_Name</td>
                                                 <td style="text-align:center;">@item.Reference_Number</td>
                                                 <td>@item.Doc_Status</td>
-                                                <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
-                                                <td>@item.Due_Date.ToString("MM/dd/yyyy")</td>
+                                                <td>@item.Posting_Date.ToString("dd/MM/yyyy")</td>
+                                                <td>@item.Due_Date.ToString("dd/MM/yyyy")</td>
                                                 <td>
                                                     <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Purchase_Invoice_Id);">
                                                         <i class="im-eye2"></i>

@@ -191,7 +191,7 @@ namespace Troy.Data.Repository
                                 //LineTotal = q.LineTotal,
                                 Product_id = q.Product_id,
                                 ProductName = pi.Product_Name,
-                                Quantity = q.Quantity,
+                                Quantity = q.Quantity- q.Return_Qty,
                                 Unit_price = q.Unit_price,
                                 Freight_Loading = q.Freight_Loading,
                                 Vat_Code = q.Vat_Code,

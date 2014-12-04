@@ -4,6 +4,15 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.datePicker').datepicker();
+        $('#date1').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
+        $('#date2').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
+        $('#date3').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
 
         $("#typeahead").jAutochecklist({
             width: 221
@@ -158,29 +167,33 @@
 
             //debugger;
 
-            if (i == 1) {
-                alert("Atleast one item for each product");
-            }
-            else {
+            //if (i == 1) {
+            //    alert("Atleast one item for each product");
+            //}
+            //else {
 
-                var par = $(this).parent().parent();
-                //par.remove();
-                //$('#idEstablishmentRow td.ms-formbody span input').attr('id');
+            var par = $(this).parent().parent();
+            //par.remove();
+            //$('#idEstablishmentRow td.ms-formbody span input').attr('id');
 
-                var id = par[0].childNodes[0].childNodes[1].id;
+            var id = par[0].childNodes[1].childNodes[1].id;
 
-                id = '#' + id;
+            id = '#' + id;
 
-                $(id).val("1");
+            $(id).val("1");
 
-                //par[0].childNodes[0].childNodes[1].value = 1;
+            //par[0].childNodes[0].childNodes[1].value = 1;
 
-                //$(id).val(1);
-                par.remove();
-                i--;
-                CalculateTotal();
-            }
+            //$(id).val(1);
+            //par.remove();
+            //i--;
+            //CalculateTotal();
+            par.hide();
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
         };
+
 
         $("#EditTable").on("click", ".BtnMinus", deleteRow);
 
@@ -522,8 +535,8 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @class = "form-control control-text datePicker" })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @Value = Model.goodreceipt.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker",@id="date1" })
+                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)*@
                                                     </div>
                                                 </div>
 
@@ -543,8 +556,8 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @class = "form-control control-text datePicker" })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = Model.goodreceipt.Due_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", @id = "date2" })
+                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)*@
                                                     </div>
                                                 </div>
 
@@ -555,8 +568,8 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text  datePicker" })@*, @readonly = true })*@
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @Value = Model.goodreceipt.Document_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text  datePicker", @id = "date3" })@*, @readonly = true })*@
+                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)*@
                                                     </div>
                                                 </div>
 
@@ -654,7 +667,10 @@
                                                         </td>
                                                         <td style="width: 90px;">
                                                             <input class="BtnPlus btn pull-left" type="button" value="+" />
-                                                            @*<input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />*@
+                                                            @if (i > 0)
+                                                            {
+                                                                <input style="margin-left:5px;" class="BtnMinus btn pull-left" type="button" value="-" />
+                                                            }
                                                         </td>
                                                     </tr>
 
