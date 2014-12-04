@@ -165,6 +165,9 @@
     <Compile Include="SalesInvoices\SalesInvoiceItems.cs" />
     <Compile Include="SalesInvoices\SalesInvoices.cs" />
     <Compile Include="SalesInvoices\ViewSalesInvoice.cs" />
+    <Compile Include="SalesOrders\SalesOrder.cs" />
+    <Compile Include="SalesOrders\SalesOrderItems.cs" />
+    <Compile Include="SalesOrders\ViewSalesOrder.cs" />
     <Compile Include="SalesQuotations\SalesQuotation.cs" />
     <Compile Include="SalesQuotations\SalesQuotationItems.cs" />
     <Compile Include="SalesQuotations\ViewSalesQuotation.cs" />
