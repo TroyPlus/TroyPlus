@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Troy.Model.SalesDelivery
+namespace Troy.Model.SalesDeliveries
 {
       [Table("tblSalesDeliveryItems")]
       public class SalesDeliveryItems

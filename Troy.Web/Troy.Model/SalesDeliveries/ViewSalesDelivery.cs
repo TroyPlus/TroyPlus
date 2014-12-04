@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Troy.Model.SalesDelivery
+namespace Troy.Model.SalesDeliveries
 {
     class ViewSalesDelivery
     {

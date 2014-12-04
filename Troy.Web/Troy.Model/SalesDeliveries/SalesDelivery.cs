@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Troy.Model.SalesDelivery
+namespace Troy.Model.SalesDeliveries
 {
     [Table("tblSalesDelivery")]
     public class SalesDelivery
