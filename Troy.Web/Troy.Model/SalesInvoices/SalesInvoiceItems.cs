@@ -13,6 +13,7 @@ namespace Troy.Model.SalesInvoices
     {
         [Key]
         public int Sales_InvoiceItem_Id { get; set; }
+        //----
 
         [Required]
         public int Sales_Invoice_Id { get; set; }
