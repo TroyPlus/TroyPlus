@@ -58,7 +58,7 @@ namespace Troy.Web.Controllers
                 var BusinessParterList = purchaseinvoiceRepository.GetBusinessPartnerList().ToList();
                 model.BusinessPartnerList = BusinessParterList;
 
-                //Bind PurchaseQuotation
+                //Bind GoodsReceipt
                 var qList1 = purchaseinvoiceRepository.GetGoodsReceipt().ToList();
                 model.GoodsReceiptList = qList1;
 
