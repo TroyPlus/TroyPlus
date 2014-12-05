@@ -15,12 +15,14 @@ using Troy.Model.Branches;
 using Troy.Model.BusinessPartners;
 using Troy.Model.Configuration;
 using Troy.Model.Products;
+using Troy.Utilities.CrossCutting;
 
 namespace Troy.Data.Repository
 {
     public class SalesInvoiceRepository : BaseRepository,ISalesInvoiceRepository
     {
         private SalesInvoiceContext salesinvoicecontext = new SalesInvoiceContext();
+        private SalesInvoiceContext salesinvoicecontext1 = new SalesInvoiceContext();
 
 
         public List<ViewSalesInvoice> GetAllSalesInvoice()
@@ -146,7 +148,7 @@ namespace Troy.Data.Repository
                             join pi in salesinvoicecontext.Product on q.Product_Id equals pi.Product_Id
                             select new SalesDeliveryItems
                             {
-                                Sales_DeliveryItem_Id = q.Sales_DeliveryItem_Id,
+                                sales_Item_Id = q.sales_Item_Id,
                                 Sales_Delivery_Id = q.Sales_Delivery_Id,
                                 Return_Qty = q.Return_Qty,
                                 Invoiced_Qty = q.Invoiced_Qty,
@@ -162,5 +164,145 @@ namespace Troy.Data.Repository
             return purchase;
 
         }
+
+        public bool AddNewSalesInvoice(SalesInvoices Invoice, IList<SalesInvoiceItems> InvoiceItemList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                salesinvoicecontext.SalesInvoices.Add(Invoice);
+
+                salesinvoicecontext.SaveChanges();
+
+                int currentId = Invoice.Sales_Invoice_Id;
+
+                for (int i = 0; i < InvoiceItemList.Count; i++)
+                {
+                    InvoiceItemList[i].Sales_Invoice_Id = currentId;
+                    InvoiceItemList[i].BaseDocLink = "Y";
+                }
+
+                salesinvoicecontext.SalesInvoiceItems.AddRange(InvoiceItemList);
+
+                salesinvoicecontext.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ErrorMessage = ex.Message;
+                return false;
+            }
+            //catch (DbEntityValidationException dbEx)
+            //{
+            //    var errorList = new List<string>();
+
+            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+            //    {
+            //        foreach (var validationError in validationErrors.ValidationErrors)
+            //        {
+            //            errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+            //        }
+            //    }
+            //    return false;
+            //}
+        }
+
+        public bool UpdateSalesInvoice(SalesInvoices Quotation, IList<SalesInvoiceItems> QuotationItemList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                salesinvoicecontext.Entry(Quotation).State = EntityState.Modified;
+                salesinvoicecontext.SaveChanges();
+
+                foreach (var model in QuotationItemList)
+                {
+                    if (model.IsDummy == 1)
+                    {
+                        salesinvoicecontext.Entry(model).State = EntityState.Deleted;
+                        salesinvoicecontext.SaveChanges();
+                    }
+                    else
+                    {
+                        if (model.Sales_InvoiceItem_Id == 0)
+                        {
+                            model.Sales_Invoice_Id = Quotation.Sales_Invoice_Id;
+                            salesinvoicecontext.SalesInvoiceItems.Add(model);
+                            salesinvoicecontext.SaveChanges();
+                        }
+                        else
+                        {
+                            salesinvoicecontext.Entry(model).State = EntityState.Modified;
+                            salesinvoicecontext.SaveChanges();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ErrorMessage = ex.Message;
+                return false;
+            }
+        }
+
+        public bool UpdateSalesDelivery(SalesDelivery Quotation, IList<SalesDeliveryItems> QuotationItemList, ref string ErrorMessage)
+        {
+            ErrorMessage = string.Empty;
+            try
+            {
+                salesinvoicecontext.Entry(Quotation).State = EntityState.Modified;
+                salesinvoicecontext.SaveChanges();
+
+                foreach (var model in QuotationItemList)
+                {
+                    if (model.IsDummy == 1)
+                    {
+                        salesinvoicecontext1.Entry(model).State = EntityState.Deleted;
+                        salesinvoicecontext1.SaveChanges();
+                    }
+                    else
+                    {
+                        if (model.sales_Item_Id == 0)
+                        {
+                            model.Sales_Delivery_Id = Quotation.Sales_Delivery_Id;
+                            salesinvoicecontext1.SalesDeliveryItems.Add(model);
+                            salesinvoicecontext1.SaveChanges();
+                        }
+                        else
+                        {
+                            salesinvoicecontext1.Entry(model).State = EntityState.Modified;
+                            salesinvoicecontext1.SaveChanges();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ErrorMessage = ex.Message;
+                return false;
+            }
+            //catch (DbEntityValidationException dbEx)
+            //{
+            //    var errorList = new List<string>();
+
+            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+            //    {
+            //        foreach (var validationError in validationErrors.ValidationErrors)
+            //        {
+            //            errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+            //        }
+            //    }
+            //    return false;
+            //}
+        }
+
     }
 }

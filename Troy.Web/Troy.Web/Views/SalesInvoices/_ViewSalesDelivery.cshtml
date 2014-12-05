@@ -55,7 +55,7 @@
                           '<td width="12%">' +
                               selectHtml1 +
                              '<span class="field-validation-valid" data-valmsg-for="SalesDeliveryItemList_[' + i + '].__Vat_Code" data-valmsg-replace="true"></span>' +
-                         '</td>' +                         
+                         '</td>' +
                           '<td width="5%">' +
                              '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="SalesDeliveryItemList_' + i + '__LineTotal" name="SalesDeliveryItemList[' + i + '].LineTotal" readonly="True" type="text" value="">' +
                              '<span class="field-validation-valid" data-valmsg-for="SalesDeliveryItemList[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
@@ -413,7 +413,7 @@
                             @Html.Hidden("ItemCount", Model.SalesDeliveryItemList.Count)
 
                             @Html.HiddenFor(model => model.SalesDelivery.Sales_Delivery_Id)
-                            @Html.HiddenFor(model => model.SalesDeliveryItems.Sales_DeliveryItem_Id)
+                            @Html.HiddenFor(model => model.SalesDeliveryItems.sales_Item_Id)
 
 
                             <div id="editTabContent" class="tab-content">
@@ -426,7 +426,7 @@
                                                         Goods Receipt ID
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesDelivery.Sales_Delivery_Id, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.SalesDelivery.Sales_Delivery_Id, new { @class = "form-control control-text", disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.SalesDelivery.Sales_Delivery_Id)
                                                     </div>
                                                 </div>
@@ -479,7 +479,10 @@
                                                         @Html.ValidationMessageFor(model => model.SalesDelivery.Posting_Date)
                                                     </div>
                                                 </div>
-
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Due Date
@@ -489,11 +492,6 @@
                                                         @Html.ValidationMessageFor(model => model.SalesDelivery.Delivery_Date)
                                                     </div>
                                                 </div>
-                                              
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Document Date
@@ -513,8 +511,8 @@
                                                         @Html.DropDownListFor(m => m.SalesDelivery.Branch, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.SalesDelivery.Branch)
                                                     </div>
-                                                </div>                                              
-                                              
+                                                </div>
+
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -567,7 +565,7 @@
                                             @for (int i = 0; i < Model.SalesDeliveryItemList.Count; i++)
                                             {
                                                 @Html.HiddenFor(model => model.SalesDeliveryItemList[i].Sales_Delivery_Id)
-                                                @Html.HiddenFor(model => model.SalesDeliveryItemList[i].Sales_DeliveryItem_Id)
+                                                @Html.HiddenFor(model => model.SalesDeliveryItemList[i].sales_Item_Id)
                                                 @Html.HiddenFor(model => model.SalesInvoiceItemsList[i].Sales_Invoice_Id)
 
                                                 <tr>
@@ -596,7 +594,7 @@
                                                             @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Vat_Code)*@
                                                         @Html.DropDownListFor(m => m.SalesDeliveryItemList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.SalesDeliveryItemList[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
                                                         @Html.ValidationMessageFor(model => model.SalesDeliveryItemList[i].Vat_Code)
-                                                    </td>                                                    
+                                                    </td>
                                                     <td width="5%">
                                                         @Html.TextBoxFor(model => model.SalesDeliveryItemList[i].LineTotal, new { @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.SalesDeliveryItemList[i].LineTotal)
