@@ -219,8 +219,6 @@
     <Compile Include="Controllers\PurchaseInvoicesController.cs" />
     <Compile Include="Controllers\PurchaseOrdersController.cs" />
     <Compile Include="Controllers\PurchaseReturnsController.cs" />
-    <Compile Include="Controllers\SalesDeliveryController.cs" />
-    <Compile Include="Controllers\SalesOrdersController.cs" />
     <Compile Include="Controllers\SalesQuotationsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -241,8 +239,6 @@
     <Compile Include="Models\PurchaseOrderViewModels.cs" />
     <Compile Include="Models\PurchaseReturnViewModels.cs" />
     <Compile Include="Models\PurchaseViewModels.cs" />
-    <Compile Include="Models\SalesDeliveryViewModels.cs" />
-    <Compile Include="Models\SalesOrderViewModels.cs" />
     <Compile Include="Models\SalesQuotationViewModels.cs" />
     <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Models\ViewModelBranch.cs" />
@@ -1874,16 +1870,6 @@
     <Content Include="Views\SalesQuotations\_ViewPartial.cshtml" />
     <Content Include="Views\SalesQuotations\_EditPartial.cshtml" />
     <Content Include="Views\SalesQuotations\Index.cshtml" />
-    <Content Include="Views\SalesOrders\Index.cshtml" />
-    <Content Include="Views\SalesOrders\_CreatePartial.cshtml" />
-    <Content Include="Views\SalesOrders\_EditPartial.cshtml" />
-    <Content Include="Views\SalesOrders\_ViewPartial.cshtml" />
-    <Content Include="Views\SalesOrders\_ViewSalesQuotation.cshtml" />
-    <Content Include="Views\SalesDelivery\Index.cshtml" />
-    <Content Include="Views\SalesDelivery\_CreatePartial.cshtml" />
-    <Content Include="Views\SalesDelivery\_EditPartial.cshtml" />
-    <Content Include="Views\SalesDelivery\_ViewPartial.cshtml" />
-    <Content Include="Views\SalesDelivery\_ViewSalesOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />

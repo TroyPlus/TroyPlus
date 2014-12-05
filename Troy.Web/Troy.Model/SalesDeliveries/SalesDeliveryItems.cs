@@ -11,45 +11,38 @@ namespace Troy.Model.SalesDeliveries
       [Table("tblSalesDeliveryItems")]
       public class SalesDeliveryItems
     {
-         
-          [Key]
           [Required]
-          public int sales_Item_Id {get;set;}
+        public int Sales_DeliveryItem_Id { get; set; }
+
+
+        [Required]
+        public int Sales_Delivery_Id { get; set; }
 
           [Required]
-          public int Sales_Delivery_Id { get; set; }
+        public int Product_Id { get; set; }
+
+       [Required]
+        public int Quantity { get; set; }
 
           [Required]
-          public int Product_Id {get; set;}
+        public int Return_Qty { get; set; }
 
           [Required]
-          public int Quantity {get; set;}
+        public int Invoiced_Qty { get; set; }
+
+        [Required]
+        public Decimal Unit_Price { get; set; }
 
           [Required]
-          public int Return_Qty {get; set;}
+        public Decimal Discount_Precent { get; set; }
 
           [Required]
-          public int Invoiced_Qty {get; set;}
+        public int Vat_Code { get; set; }
 
           [Required]
-          public Decimal Unit_Price {get; set;}
-
-          [Required]
-          public Decimal Discount_Precent {get; set;}
-
-          [Required]
-          public int Vat_Code{get; set;}
-
-          [Required]
-          public Decimal LineTotal{get; set;}
+        public Decimal LineTotal { get; set; }
 
           [Required]
           public Char BaseDocLink {get; set;}
-
-          [NotMapped]
-          public int IsDummy { get; set; }
-
-          [NotMapped]
-          public string ProductName { get; set; }
     }
 }
