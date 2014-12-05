@@ -80,5 +80,7 @@ namespace Troy.Model.SalesDeliveries
         [Required]
         public DateTime Modified_Date { get; set; }
 
+        [NotMapped]
+        public string Vendor_Name { get; set; }
     }
 }
