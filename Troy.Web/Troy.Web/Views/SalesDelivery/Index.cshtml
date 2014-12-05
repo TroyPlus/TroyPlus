@@ -421,7 +421,7 @@
             var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="salesdeliverytitemlist_' + rowID + '__Product_Id" name="salesdeliverytitemlist[' + rowID + '].Product_Id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
 
-            var dataUrl = "../SalesOrders/GetProductList";
+            var dataUrl = "../SalesDelivery/GetProductList";
 
             $.ajax({
                 type: 'GET',
@@ -452,7 +452,7 @@
             var vatselectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT must be a number." data-val-required="The VAT field is required." id="salesdeliverytitemlist_' + rowID + '__Vat_Code" name="salesdeliverytitemlist[' + rowID + '].Vat_Code" onchange="OnChangeVAT();" >';
             vatselectHtml += '<option value=""></option>';
 
-            var dataUrl = "../SalesOrders/GetVATList";
+            var dataUrl = "../SalesDelivery/GetVATList";
 
             $.ajax({
                 type: 'GET',
@@ -513,7 +513,7 @@
 
         var pID = parseInt(val.value);
 
-        var dataUrl = "../SalesOrders/GetPrice?pID=" + pID;
+        var dataUrl = "../SalesDelivery/GetPrice?pID=" + pID;
 
         $.ajax({
             type: 'GET',
@@ -528,7 +528,7 @@
             },
             success: function (result, status) {
                 //debugger;
-                var id = "#salesorderitemlist_" + rowId + "__Unit_Price";
+                var id = "#salesdeliverytitemlist_" + rowId + "__Unit_Price";
                 $(id).val(result);
                 alert(result);
                 CalculateTotal();

@@ -92,7 +92,7 @@ namespace Troy.Web.Controllers
                 {
                     model.salesdelivery.Branch = CurrentBranchId;
                     model.salesdelivery.Doc_Status = "Open";
-                    model.salesdelivery.TargetDocId = '0';
+                    model.salesdelivery.TargetDocId ="0";
                     model.salesdelivery.Created_Branc_Id = CurrentBranchId;//CurrentBranchId;
                     model.salesdelivery.Created_Date = DateTime.Now;
                     model.salesdelivery.Created_User_Id = CurrentUser.Id;//CurrentUser.Id;
@@ -180,7 +180,7 @@ namespace Troy.Web.Controllers
                             model.salesdelivery.DocDiscAmt = model.salesorder.DocDiscAmt;
                             model.salesdelivery.TotalSlsDlvryAmt = model.salesorder.TotalOrdAmt;
                             model.salesdelivery.TaxAmt = model.salesorder.TaxAmt;
-                            model.salesdelivery.TargetDocId = '0';
+                            model.salesdelivery.TargetDocId = "0";
                             //model.PurchaseOrder.BaseDocId = qq;   
                             var Goodslist = model.salesorderitemlist.Where(x => x.IsDummy == 0);
                             model.salesorderitemlist = Goodslist.ToList();
@@ -273,7 +273,7 @@ namespace Troy.Web.Controllers
                     model.salesdelivery.Modified_Branc_Id = CurrentBranchId;//CurrentBranchId;
                     model.salesdelivery.Modified_Date = DateTime.Now;
                     model.salesdelivery.Modified_User_Id = CurrentUser.Id;//CurrentUser.Id;
-                    model.salesdelivery.TargetDocId = '1';
+                    model.salesdelivery.TargetDocId = "1";
 
                     for (int i = 0; i < model.salesorderitemlist.Count; i++)
                     {
@@ -379,6 +379,48 @@ namespace Troy.Web.Controllers
             var productList = deliveryrepository.GetProductList();
 
             return Json(productList, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public PartialViewResult _CreatePartial()
+        {
+            return PartialView();
+        }
+
+
+        public PartialViewResult _EditPartial(int id)
+        {
+            try
+            {
+                SalesDeliveryViewModels model = new SalesDeliveryViewModels();
+                model.salesdelivery = deliveryrepository.FindOneQuotationById(id);
+
+                model.salesdeliverytitemlist = deliveryrepository.FindOneQuotationItemById(id);
+
+                //model.salesorderviewlist = salesrepository.Getallsalesorder();
+
+                model.BranchList = deliveryrepository.GetAddressbranchList().ToList();
+
+                model.BussinessList = deliveryrepository.GetAddressbusinessList().ToList();
+
+                model.productlist = deliveryrepository.GetProductList();
+
+                model.VATList = deliveryrepository.GetVATList();
+
+                //model.SalesQuotationList = salesrepository.Getallsalesquotation().ToList();
+                // model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
+                //  model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
+                // model.BranchList = purchaseDb.GetAddressList().ToList();
+                // model.BussinessList = purchaseDb.GetVendorList();
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
         }
 
 
