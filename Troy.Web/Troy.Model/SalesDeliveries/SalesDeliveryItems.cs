@@ -49,5 +49,8 @@ namespace Troy.Model.SalesDeliveries
 
         [NotMapped]
         public int IsDummy { get; set; }
+
+        [NotMapped]
+        public string ProductName { get; set; }
     }
 }
