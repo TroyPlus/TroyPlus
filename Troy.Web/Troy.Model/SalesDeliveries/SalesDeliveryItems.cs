@@ -45,7 +45,7 @@ namespace Troy.Model.SalesDeliveries
         [Required]
         [StringLength(1)]
         [Column(TypeName = "char")]
-        public Char BaseDocLink { get; set; }
+        public string BaseDocLink { get; set; }
 
         [NotMapped]
         public int IsDummy { get; set; }

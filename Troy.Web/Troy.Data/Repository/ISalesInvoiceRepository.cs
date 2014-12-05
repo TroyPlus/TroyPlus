@@ -37,5 +37,9 @@ namespace Troy.Data.Repository
         bool UpdateSalesInvoice(SalesInvoices Quotation, IList<SalesInvoiceItems> QuotationItemList, ref string ErrorMessage);
 
         bool UpdateSalesDelivery(SalesDelivery Quotation, IList<SalesDeliveryItems> QuotationItemList, ref string ErrorMessage);
+
+        SalesInvoices FindOneInvoiceById(int qId);
+
+        IList<SalesInvoiceItems> FindOneInvoiceItemById(int qId);
     }
 }

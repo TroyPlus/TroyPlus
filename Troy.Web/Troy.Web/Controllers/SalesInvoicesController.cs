@@ -200,6 +200,7 @@ namespace Troy.Web.Controllers
                             model.SalesInvoiceItemsList[j].Unit_price = model.SalesDeliveryItemList[j].Unit_Price;
                             model.SalesInvoiceItemsList[j].Discount_percent = model.SalesDeliveryItemList[j].Discount_Precent;
                             model.SalesInvoiceItemsList[j].Vat_Code = model.SalesDeliveryItemList[j].Vat_Code;
+                            model.SalesInvoiceItemsList[j].LineTotal = model.SalesDeliveryItemList[j].LineTotal;
                         }
 
                         if (salesinvoiceRepository.AddNewSalesInvoice(model.SalesInvoices, model.SalesInvoiceItemsList, ref ErrorMessage))
@@ -294,6 +295,76 @@ namespace Troy.Web.Controllers
                 SalesInvoiceViewModels model = new SalesInvoiceViewModels();
                 model.SalesDelivery = salesinvoiceRepository.FindOneSalesDeliveryById(id);
                 model.SalesDeliveryItemList = salesinvoiceRepository.FindOneSalesDeliveryItemById(id);
+
+                //Bind Branch
+                var BranchList = salesinvoiceRepository.GetBranchList().ToList();
+                model.BranchList = BranchList;
+
+                //Bind VAT
+                var VATList = salesinvoiceRepository.GetVAT().ToList();
+                model.VATList = VATList;
+
+                //Bind Product
+                var ProductList = salesinvoiceRepository.GetProductList().ToList();
+                model.ProductList = ProductList;
+
+                //Bind Businesspartner
+                var BusinessParterList = salesinvoiceRepository.GetBusinessPartnerList().ToList();
+                model.BusinessPartnerList = BusinessParterList;
+
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+        }
+
+        public PartialViewResult _EditPartial(int id)
+        {
+            try
+            {
+                SalesInvoiceViewModels model = new SalesInvoiceViewModels();
+                model.SalesInvoices = salesinvoiceRepository.FindOneInvoiceById(id);
+                model.SalesInvoiceItemsList = salesinvoiceRepository.FindOneInvoiceItemById(id);
+
+                //Bind Branch
+                var BranchList = salesinvoiceRepository.GetBranchList().ToList();
+                model.BranchList = BranchList;
+
+                //Bind VAT
+                var VATList = salesinvoiceRepository.GetVAT().ToList();
+                model.VATList = VATList;
+
+                //Bind Product
+                var ProductList = salesinvoiceRepository.GetProductList().ToList();
+                model.ProductList = ProductList;
+
+                //Bind Businesspartner
+                var BusinessParterList = salesinvoiceRepository.GetBusinessPartnerList().ToList();
+                model.BusinessPartnerList = BusinessParterList;
+
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+        }
+
+        public PartialViewResult _ViewPartial(int id)
+        {
+            try
+            {
+                SalesInvoiceViewModels model = new SalesInvoiceViewModels();
+                model.SalesInvoices = salesinvoiceRepository.FindOneInvoiceById(id);
+                model.SalesInvoiceItemsList = salesinvoiceRepository.FindOneInvoiceItemById(id);
 
                 //Bind Branch
                 var BranchList = salesinvoiceRepository.GetBranchList().ToList();

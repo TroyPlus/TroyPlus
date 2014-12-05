@@ -39,18 +39,18 @@
                          '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="SalesDeliveryItemList_' + i + '__IsDummy" name="SalesDeliveryItemList[' + i + '].IsDummy" type="text" value="">  </td>' +
                          '<td width="25%"> ' +
                              selectHtml +
-                             '<span class="field-validation-valid" data-valmsg-for="SalesDeliveryItemList[' + i + '].Product_id" data-valmsg-replace="true"></span>' +
+                             '<span class="field-validation-valid" data-valmsg-for="SalesDeliveryItemList[' + i + '].Product_Id" data-valmsg-replace="true"></span>' +
                          '<td width="10%">' +
-                             '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="SalesDeliveryItemList_' + i + '__Unit_price" name="SalesDeliveryItemList[' + i + '].Unit_price" readonly="True" type="text" value="">' +
-                             '<span class="field-validation-valid" data-valmsg-for="SalesDeliveryItemList[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
+                             '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_Price must be a number." data-val-required="The Unit_Price field is required." id="SalesDeliveryItemList_' + i + '__Unit_Price" name="SalesDeliveryItemList[' + i + '].Unit_Price" readonly="True" type="text" value="">' +
+                             '<span class="field-validation-valid" data-valmsg-for="SalesDeliveryItemList[' + i + '].Unit_Price" data-valmsg-replace="true"></span>' +
                          '</td>' +
                          '<td width="10%">' +
                              '<input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="SalesDeliveryItemList_' + i + '__Quantity" name="SalesDeliveryItemList[' + i + '].Quantity" onkeyup="OnChangeQuantity(this, ' + i + ');" type="text" value="">' +
                              '<span class="field-validation-valid" data-valmsg-for="SalesDeliveryItemList[' + i + '].Quantity" data-valmsg-replace="true"></span>' +
                          '</td>' +
                          '<td width="8%">' +
-                             '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="SalesDeliveryItemList_' + i + '__Discount_percent" name="SalesDeliveryItemList[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
-                             '<span class="field-validation-valid" data-valmsg-for="SalesDeliveryItemList[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
+                             '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_Precent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_Precent field is required." id="SalesDeliveryItemList_' + i + '__Discount_Precent" name="SalesDeliveryItemList[' + i + '].Discount_Precent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
+                             '<span class="field-validation-valid" data-valmsg-for="SalesDeliveryItemList[' + i + '].Discount_Precent" data-valmsg-replace="true"></span>' +
                          '</td>' +
                           '<td width="12%">' +
                               selectHtml1 +
@@ -82,10 +82,10 @@
         function CreateSelect(rowID) {
             //debugger;
 
-            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="SalesDeliveryItemList_' + rowID + '__Product_id" name="SalesDeliveryItemList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_Id must be a number." data-val-required="The Product_Id field is required." id="SalesDeliveryItemList_' + rowID + '__Product_Id" name="SalesDeliveryItemList[' + rowID + '].Product_Id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
 
-            var dataUrl = "../PurchaseInvoices/GetProductList";
+            var dataUrl = "../SalesInvoices/GetProductList";
 
             $.ajax({
                 type: 'GET',
@@ -226,7 +226,7 @@
             },
             success: function (result, status) {
                 //debugger;
-                var id = "#SalesDeliveryItemList_" + rowId + "__Unit_price";
+                var id = "#SalesDeliveryItemList_" + rowId + "__Unit_Price";
                 $(id).val(result);
 
                 CalculateTotal();
@@ -236,13 +236,12 @@
     }
 
     function OnChangeQuantity(currentQty, rowId) {
-        //debugger;
-
-        var qty = currentQty.value;
-        var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_price").val();
-
+        //debugger;       
+        var qty = currentQty.value;       
+        var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_Price").val();
+      
         var totAmount = price * qty;
-
+        
         var id = "#SalesDeliveryItemList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
         CalculateTotal();
@@ -254,7 +253,7 @@
 
         var dis = currentDis.value;
         var qty = $("#SalesDeliveryItemList_" + rowId + "__Quantity").val();
-        var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_price").val();
+        var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_Price").val();
 
         var totAmount = price * qty - ((price * qty) * dis / 100)
 
@@ -332,8 +331,8 @@
         var tot = 0;
 
         for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#SalesDeliveryItemList_" + j + "__Discount_percent").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#SalesDeliveryItemList_" + j + "__Discount_percent").val());
+            if (!isNaN(parseFloat($("#SalesDeliveryItemList_" + j + "__Discount_Precent").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#SalesDeliveryItemList_" + j + "__Discount_Precent").val());
             }
         }
 
@@ -556,7 +555,6 @@
                                                     <th>Quantity</th>
                                                     <th>Discount %</th>
                                                     <th>VAT Code</th>
-                                                    <th>Freight Loading</th>
                                                     <th>LineTotal</th>
                                                     <th></th>
                                                 </tr>

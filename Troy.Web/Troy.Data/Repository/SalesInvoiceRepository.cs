@@ -304,5 +304,40 @@ namespace Troy.Data.Repository
             //}
         }
 
+        public SalesInvoices FindOneInvoiceById(int qId)
+        {
+            return (from p in salesinvoicecontext.SalesInvoices
+                    where p.Sales_Invoice_Id == qId
+                    select p).FirstOrDefault();
+        }
+
+        public IList<SalesInvoiceItems> FindOneInvoiceItemById(int qId)
+        {
+            //return (from p in purchaseordercontext.purchasequotationitem
+            //        where p.Purchase_Quote_Id == qId
+            //        select p).ToList();
+
+            var qtn = (from p in salesinvoicecontext.SalesInvoiceItems
+                       where p.Sales_Invoice_Id == qId
+                       select p).ToList();
+
+            var purchase = (from q in qtn
+                            join pi in salesinvoicecontext.Product on q.Product_id equals pi.Product_Id
+                            select new SalesInvoiceItems
+                            {
+                                Product_id = q.Product_id,
+                                Sales_Invoice_Id = q.Sales_Invoice_Id,
+                                Sales_InvoiceItem_Id = q.Sales_InvoiceItem_Id,
+                                Quantity = q.Quantity - q.Inv_Return_Qty,
+                                Unit_price = q.Unit_price,
+                                Discount_percent = q.Discount_percent,
+                                Vat_Code = q.Vat_Code,
+                                LineTotal = q.LineTotal,
+                                BaseDocLink = q.BaseDocLink
+                            }).ToList();
+
+            return purchase;
+        }
+
     }
 }
