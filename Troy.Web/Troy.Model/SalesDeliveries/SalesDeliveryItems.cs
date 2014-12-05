@@ -8,45 +8,41 @@ using System.Threading.Tasks;
 
 namespace Troy.Model.SalesDeliveries
 {
-    [Table("tblSalesDeliveryItems")]
-    public class SalesDeliveryItems
+      [Table("tblSalesDeliveryItems")]
+      public class SalesDeliveryItems
     {
-        [Key]
-        [Required]
+          [Required]
         public int Sales_DeliveryItem_Id { get; set; }
 
 
         [Required]
         public int Sales_Delivery_Id { get; set; }
 
-        [Required]
+          [Required]
         public int Product_Id { get; set; }
 
-        [Required]
+       [Required]
         public int Quantity { get; set; }
 
-        [Required]
+          [Required]
         public int Return_Qty { get; set; }
 
-        [Required]
+          [Required]
         public int Invoiced_Qty { get; set; }
 
         [Required]
         public Decimal Unit_Price { get; set; }
 
-        [Required]
+          [Required]
         public Decimal Discount_Precent { get; set; }
 
-        [Required]
+          [Required]
         public int Vat_Code { get; set; }
 
-        [Required]
+          [Required]
         public Decimal LineTotal { get; set; }
 
-        [Required]
-        public Char BaseDocLink { get; set; }
-
-        [NotMapped]
-        public int IsDummy { get; set; }
+          [Required]
+          public Char BaseDocLink {get; set;}
     }
 }

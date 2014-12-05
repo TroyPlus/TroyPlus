@@ -80,31 +80,31 @@ namespace Troy.Model.SalesDeliveries
 
         public int sales_Item_Id { get; set; }
 
-
+      
         public int Product_Id { get; set; }
 
-
+      
         public int Quantity { get; set; }
 
-
+      
         public int Return_Qty { get; set; }
 
-
+      
         public int Invoiced_Qty { get; set; }
 
-
+      
         public Decimal Unit_Price { get; set; }
 
-
+      
         public Decimal Discount_Precent { get; set; }
 
-
+      
         public int Vat_Code { get; set; }
 
-
+       
         public Decimal LineTotal { get; set; }
 
-
+       
         public Char BaseDocLink { get; set; }
 
         public string Vendor_Name { get; set; }
