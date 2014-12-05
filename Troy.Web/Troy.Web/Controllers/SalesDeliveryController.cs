@@ -102,7 +102,7 @@ namespace Troy.Web.Controllers
 
                     for (int i = 0; i < model.salesdeliverytitemlist.Count; i++)
                     {
-                        model.salesdeliverytitemlist[i].BaseDocLink = '0';
+                        model.salesdeliverytitemlist[i].BaseDocLink = "N";
                         //model.goodreceiptitemlist[i].Product_id = model.PurchaseOrderItemsList[i].Product_id;
                         //model.goodreceiptitemlist[i].Quantity = model.PurchaseOrderItemsList[i].Quantity;
                         //model.goodreceiptitemlist[i].Unit_price = model.PurchaseOrderItemsList[i].Unit_price;
@@ -116,7 +116,7 @@ namespace Troy.Web.Controllers
 
                     if (deliveryrepository.AddNewQuotation(model.salesdelivery, model.salesdeliverytitemlist, ref ErrorMessage))
                     {
-                        return RedirectToAction("Index", "SalesOrders");
+                        return RedirectToAction("Index", "SalesDelivery");
                     }
                     else
                     {
@@ -157,11 +157,11 @@ namespace Troy.Web.Controllers
                         {
                             if (model1.salesorderitemlist[j].Product_id == model.salesorderitemlist[j].Product_id)
                             {
-                                model.salesdeliverytitemlist[j].BaseDocLink = 'Y';
+                                model.salesdeliverytitemlist[j].BaseDocLink = "Y";
                             }
                             else
                             {
-                                model.salesdeliverytitemlist[j].BaseDocLink = 'N';
+                                model.salesdeliverytitemlist[j].BaseDocLink = "N";
                             }
 
                             model.salesdelivery.Doc_Status = "Open";
@@ -185,16 +185,15 @@ namespace Troy.Web.Controllers
                             var Goodslist = model.salesorderitemlist.Where(x => x.IsDummy == 0);
                             model.salesorderitemlist = Goodslist.ToList();
 
-                            for (int i = 0; i < model.salesorderitemlist.Count; i++)
-                            {
-                                model.salesdeliverytitemlist[i].BaseDocLink = 'Y';
-                                model.salesdeliverytitemlist[i].Product_Id = model.salesorderitemlist[i].Product_id;
-                                model.salesdeliverytitemlist[i].Quantity = model.salesorderitemlist[i].Quantity;
-                                model.salesdeliverytitemlist[i].Unit_Price = model.salesorderitemlist[i].Unit_price;
-                                model.salesdeliverytitemlist[i].Discount_Precent = model.salesorderitemlist[i].Discount_percent;
-                                model.salesdeliverytitemlist[i].Vat_Code =Convert.ToInt16( model.salesorderitemlist[i].Vat_Code);
-                                //  model.goodreceiptitemlist[i].Freight_Loading = Convert.ToDecimal(model.SalesQuotationItemList[i].Freight_Loading);
-                            }
+
+                            //model.salesdeliverytitemlist[i].BaseDocLink = "Y";
+                            model.salesdeliverytitemlist[j].Product_Id = model.salesorderitemlist[j].Product_id;
+                            model.salesdeliverytitemlist[j].Quantity = model.salesorderitemlist[j].Quantity;
+                            model.salesdeliverytitemlist[j].Unit_Price = model.salesorderitemlist[j].Unit_price;
+                            model.salesdeliverytitemlist[j].Discount_Precent = model.salesorderitemlist[j].Discount_percent;
+                            model.salesdeliverytitemlist[j].Vat_Code = Convert.ToInt16(model.salesorderitemlist[j].Vat_Code);
+                            //  model.goodreceiptitemlist[i].Freight_Loading = Convert.ToDecimal(model.SalesQuotationItemList[i].Freight_Loading);
+                        }
 
                             if (deliveryrepository.AddNewQuotation(model.salesdelivery, model.salesdeliverytitemlist, ref ErrorMessage))
                             {
@@ -252,7 +251,7 @@ namespace Troy.Web.Controllers
 
 
                                 deliveryrepository.Updateorder(model1.salesorder, model1.salesorderitemlist, ref ErrorMessage);
-                                return RedirectToAction("Index", "SalesOrders");
+                                return RedirectToAction("Index", "SalesDelivery");
 
                             }
                             else
@@ -260,7 +259,7 @@ namespace Troy.Web.Controllers
                                 ViewBag.AppErrorMessage = ErrorMessage;
                                 return View("Error");
                             }
-                        }
+                        
 
                     }
 
@@ -281,7 +280,7 @@ namespace Troy.Web.Controllers
                     }
                     if (deliveryrepository.UpdateQuotation(model.salesdelivery, model.salesdeliverytitemlist, ref ErrorMessage))
                     {
-                        return RedirectToAction("Index", "SalesOrders");
+                        return RedirectToAction("Index", "SalesDelivery");
                     }
                     else
                     {
@@ -290,7 +289,7 @@ namespace Troy.Web.Controllers
                     }
                 }
 
-                return RedirectToAction("Index", "SalesOrders");
+                return RedirectToAction("Index", "SalesDelivery");
 
             }
             catch (OptimisticConcurrencyException ex)
@@ -393,6 +392,42 @@ namespace Troy.Web.Controllers
             try
             {
                 SalesDeliveryViewModels model = new SalesDeliveryViewModels();
+                model.salesdelivery = deliveryrepository.FindOneQuotationById(id);
+
+                model.salesdeliverytitemlist = deliveryrepository.FindOneQuotationItemById(id);
+
+                //model.salesorderviewlist = salesrepository.Getallsalesorder();
+
+                model.BranchList = deliveryrepository.GetAddressbranchList().ToList();
+
+                model.BussinessList = deliveryrepository.GetAddressbusinessList().ToList();
+
+                model.productlist = deliveryrepository.GetProductList();
+
+                model.VATList = deliveryrepository.GetVATList();
+
+                //model.SalesQuotationList = salesrepository.Getallsalesquotation().ToList();
+                // model.PurchaseQuotation = purchaseDb.FindOneQuotationById(id);
+                //  model.PurchaseQuotationItemList = purchaseDb.FindOneQuotationItemById(id);
+                // model.BranchList = purchaseDb.GetAddressList().ToList();
+                // model.BussinessList = purchaseDb.GetVendorList();
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+        }
+
+        public PartialViewResult _ViewPartial(int id)
+        {
+            try
+            {
+                SalesDeliveryViewModels model = new SalesDeliveryViewModels();
+
                 model.salesdelivery = deliveryrepository.FindOneQuotationById(id);
 
                 model.salesdeliverytitemlist = deliveryrepository.FindOneQuotationItemById(id);
