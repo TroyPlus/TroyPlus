@@ -223,6 +223,7 @@
     <Compile Include="Controllers\SalesInvoicesController.cs" />
     <Compile Include="Controllers\SalesOrdersController.cs" />
     <Compile Include="Controllers\SalesQuotationsController.cs" />
+    <Compile Include="Controllers\SalesReturnsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -246,6 +247,7 @@
     <Compile Include="Models\SalesInvoiceViewModels.cs" />
     <Compile Include="Models\SalesOrderViewModels.cs" />
     <Compile Include="Models\SalesQuotationViewModels.cs" />
+    <Compile Include="Models\SalesReturnViewModels.cs" />
     <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Models\ViewModelBranch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1891,6 +1893,11 @@
     <Content Include="Views\SalesOrders\_EditPartial.cshtml" />
     <Content Include="Views\SalesOrders\_ViewPartial.cshtml" />
     <Content Include="Views\SalesOrders\_ViewSalesQuotation.cshtml" />
+    <Content Include="Views\SalesReturns\_CreatePartial.cshtml" />
+    <Content Include="Views\SalesReturns\_ViewSalesInvoice.cshtml" />
+    <Content Include="Views\SalesReturns\_ViewPartial.cshtml" />
+    <Content Include="Views\SalesReturns\_EditPartial.cshtml" />
+    <Content Include="Views\SalesReturns\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />
