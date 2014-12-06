@@ -293,5 +293,40 @@ namespace Troy.Data.Repository
                 return false;
             }
         }
+
+        public SalesReturn FindOneSalesReturnById(int qId)
+        {
+            return (from p in Salesreturncontext.SalesReturn
+                    where p.Sales_Invoice_Id == qId
+                    select p).FirstOrDefault();
+        }
+
+        public IList<SalesReturnItems> FindOneSalesReturnItemById(int qId)
+        {
+            //return (from p in purchaseordercontext.purchasequotationitem
+            //        where p.Purchase_Quote_Id == qId
+            //        select p).ToList();
+
+            var qtn = (from p in Salesreturncontext.SalesReturnItems
+                       where p.Sales_Return_Id == qId
+                       select p).ToList();
+
+            var purchase = (from q in qtn
+                            join pi in Salesreturncontext.Product on q.Product_id equals pi.Product_Id
+                            select new SalesReturnItems
+                            {
+                                Product_id = q.Product_id,
+                                Sales_Return_Id = q.Sales_Return_Id,
+                                Sales_ReturnItem_Id = q.Sales_ReturnItem_Id,
+                                Quantity = q.Quantity,
+                                Unit_price = q.Unit_price,
+                                Discount_percent = q.Discount_percent,
+                                Vat_Code = q.Vat_Code,
+                                LineTotal = q.LineTotal,
+                                BaseDocLink = q.BaseDocLink
+                            }).ToList();
+
+            return purchase;
+        }
     }
 }

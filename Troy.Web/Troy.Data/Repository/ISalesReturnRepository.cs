@@ -35,5 +35,9 @@ namespace Troy.Data.Repository
         bool UpdateSalesReturn(SalesReturn Quotation, IList<SalesReturnItems> QuotationItemList, ref string ErrorMessage);
 
         bool UpdateSalesInvoice(SalesInvoices Quotation, IList<SalesInvoiceItems> QuotationItemList, ref string ErrorMessage);
+
+        SalesReturn FindOneSalesReturnById(int qId);
+
+        IList<SalesReturnItems> FindOneSalesReturnItemById(int qId);
     }
 }

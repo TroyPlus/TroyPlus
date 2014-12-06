@@ -31,6 +31,7 @@ namespace Troy.Web.Controllers
         #endregion
 
         #region Controller Actions
+
         public ActionResult Index()
         {
             try
@@ -78,6 +79,76 @@ namespace Troy.Web.Controllers
                 SalesReturnViewModels model = new SalesReturnViewModels();
                 model.SalesInvoice = salesreturnRepository.FindOneSalesInvoiceById(id);
                 model.SalesInvoiceItemList = salesreturnRepository.FindOneSalesInvoiceItemById(id);
+
+                //Bind Branch
+                var BranchList = salesreturnRepository.GetBranchList().ToList();
+                model.BranchList = BranchList;
+
+                //Bind VAT
+                var VATList = salesreturnRepository.GetVAT().ToList();
+                model.VATList = VATList;
+
+                //Bind Product
+                var ProductList = salesreturnRepository.GetProductList().ToList();
+                model.productlist = ProductList;
+
+                //Bind Businesspartner
+                var BusinessParterList = salesreturnRepository.GetBusinessPartnerList().ToList();
+                model.BussinessList = BusinessParterList;
+
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+        }
+
+        public PartialViewResult _EditPartial(int id)
+        {
+            try
+            {
+                SalesReturnViewModels model = new SalesReturnViewModels();
+                model.SalesReturn = salesreturnRepository.FindOneSalesReturnById(id);
+                model.SalesReturnItemsList = salesreturnRepository.FindOneSalesReturnItemById(id);
+
+                //Bind Branch
+                var BranchList = salesreturnRepository.GetBranchList().ToList();
+                model.BranchList = BranchList;
+
+                //Bind VAT
+                var VATList = salesreturnRepository.GetVAT().ToList();
+                model.VATList = VATList;
+
+                //Bind Product
+                var ProductList = salesreturnRepository.GetProductList().ToList();
+                model.productlist = ProductList;
+
+                //Bind Businesspartner
+                var BusinessParterList = salesreturnRepository.GetBusinessPartnerList().ToList();
+                model.BussinessList = BusinessParterList;
+
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return PartialView("Error");
+            }
+        }
+
+        public PartialViewResult _ViewPartial(int id)
+        {
+            try
+            {
+                SalesReturnViewModels model = new SalesReturnViewModels();
+                model.SalesReturn = salesreturnRepository.FindOneSalesReturnById(id);
+                model.SalesReturnItemsList = salesreturnRepository.FindOneSalesReturnItemById(id);
 
                 //Bind Branch
                 var BranchList = salesreturnRepository.GetBranchList().ToList();
