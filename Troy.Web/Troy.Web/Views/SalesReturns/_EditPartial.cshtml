@@ -181,9 +181,9 @@
 
         $("#EditTable1").on("click", ".BtnMinus", deleteRow);
 
-    }); 
+    });
 
-    
+
 
     function IFrameSubmit() {
 
@@ -267,7 +267,7 @@
             //    }
             //});
 
-        }); 
+        });
 
     });
 
@@ -457,7 +457,7 @@
         $("#totalQuotationAmt").val(tot.toFixed(2));
     }
 
-   
+
 
 </script>
 
@@ -493,6 +493,15 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-horizontal">
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Sales Return ID
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.SalesReturn.Sales_Return_Id, new { @class = "form-control control-text", disabled = "disabled" })
+                                                    @Html.ValidationMessageFor(model => model.SalesReturn.Sales_Return_Id)
+                                                </div>
+                                            </div>
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
@@ -541,7 +550,11 @@
                                                     @Html.TextBoxFor(model => model.SalesReturn.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate" })
                                                     @Html.ValidationMessageFor(model => model.SalesReturn.Posting_Date)
                                                 </div>
-                                            </div>
+                                            </div>                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-horizontal">
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Due Date
@@ -551,10 +564,6 @@
                                                     @Html.ValidationMessageFor(model => model.SalesReturn.Due_Date)
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-horizontal">
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Document Date
@@ -576,7 +585,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row form-group">
+                                            @*<div class="row form-group">
                                                 <div class="col-md-4">
                                                     Discount
                                                 </div>
@@ -584,7 +593,7 @@
                                                     @Html.TextBoxFor(model => model.SalesReturn.DocDiscAmt, new { @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.SalesReturn.DocDiscAmt)
                                                 </div>
-                                            </div>
+                                            </div>*@
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Remarks
@@ -629,7 +638,7 @@
                                                 @Html.HiddenFor(model => model.SalesReturnItemsList[i].Sales_Return_Id)
                                                 @Html.HiddenFor(model => model.SalesReturnItemsList[i].Product_id)
                                                 @Html.HiddenFor(model => model.SalesReturnItemsList[i].BaseDocLink)
-                                                
+
                                                 <tr>
                                                     <td style="display:none;">
                                                         @Html.HiddenFor(model => model.SalesReturnItemsList[i].IsDummy, 0)
@@ -702,4 +711,3 @@
         </div>
     </div>
 </div>
-

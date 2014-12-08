@@ -510,11 +510,11 @@
                                                         @Html.TextBoxFor(model => model.SalesInvoices.Posting_Date, new { @Value = Model.SalesInvoices.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @id = "crePostingDate1" })
                                                         @Html.ValidationMessageFor(model => model.SalesInvoices.Posting_Date)
                                                     </div>
-                                                </div>                                               
+                                                </div>                            
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-horizontal">
+                                            <div class="form-horizontal">                                              
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Due Date
@@ -523,8 +523,7 @@
                                                         @Html.TextBoxFor(model => model.SalesInvoices.Due_Date, new { @class = "form-control control-text", @id = "creDueDate1" })
                                                         @Html.ValidationMessageFor(model => model.SalesInvoices.Due_Date)
                                                     </div>
-                                                </div>
-
+                                                </div>        
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Document Date
@@ -548,7 +547,7 @@
                                                 </div>
 
 
-                                                <div class="row form-group">
+                                                @*<div class="row form-group">
                                                     <div class="col-md-4">
                                                         Discount
                                                     </div>
@@ -556,7 +555,7 @@
                                                         @Html.TextBoxFor(model => model.SalesInvoices.DocDiscAmt, new { @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.SalesInvoices.DocDiscAmt)
                                                     </div>
-                                                </div>
+                                                </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">

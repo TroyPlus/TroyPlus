@@ -9,15 +9,15 @@
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
         $('#creDocumentDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0,maxDate:0
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
         $('#creDueDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0,maxDate:0
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
         $('#crePostingDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0,maxDate:0
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
         $("#typeahead").jAutochecklist({
@@ -180,7 +180,6 @@
                                                         @Html.ValidationMessageFor(model => model.SalesInvoices.Due_Date)
                                                     </div>
                                                 </div>
-
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Document Date
@@ -203,15 +202,15 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Discount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesInvoices.DocDiscAmt, new { @class = "form-control control-text", disabled = "disabled" })
-                                                        @Html.ValidationMessageFor(model => model.SalesInvoices.DocDiscAmt)
-                                                    </div>
-                                                </div>
+                                                @*<div class="row form-group">
+                                                        <div class="col-md-4">
+                                                            Discount
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.SalesInvoices.DocDiscAmt, new { @class = "form-control control-text", disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.SalesInvoices.DocDiscAmt)
+                                                        </div>
+                                                    </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">

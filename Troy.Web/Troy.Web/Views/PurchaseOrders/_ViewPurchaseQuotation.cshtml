@@ -218,7 +218,7 @@
         //debugger;
         var pID = parseInt(val.value);
         var dataUrl = "../PurchaseOrders/GetPrice?pID=" + pID;
-        
+
         $.ajax({
             type: 'GET',
             url: dataUrl,
@@ -452,7 +452,7 @@
                                                         Purchase QuotationID
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Purchase_Quote_Id, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Purchase_Quote_Id, new { @class = "form-control control-text", disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Purchase_Quote_Id)
                                                     </div>
                                                 </div>
@@ -478,14 +478,14 @@
                                                 </div>
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        @Html.LabelFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "control-label normal" })
+                                                        Order Status
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.DropDownListFor(model => model.PurchaseQuotation.Quotation_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
                                                             new SelectListItem{ Text="Closed", Value = "Closed" }
-                                                         }, new { @class = "form-control" })
+                                                         }, new { @class = "form-control", @readonly = true })
                                                     </div>
                                                 </div>
 

@@ -212,7 +212,7 @@
 
     });
 
-    function OnChangeProduct(val, rowId) {        
+    function OnChangeProduct(val, rowId) {
         //debugger;
         var pID = parseInt(val.value);
         var dataUrl = "../SalesQuotations/GetPrice?pID=" + pID;
@@ -440,6 +440,15 @@
                                         <div class="col-md-6">
                                             @*@Html.HiddenFor(model => model.PurchaseOrder.Purchase_Quote_Id)*@
                                             <div class="form-horizontal">
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        Sales Quotation ID
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.SalesQuotation.Sales_Qtn_Id, new { @class = "form-control control-text", disabled = "disabled" })
+                                                        @Html.ValidationMessageFor(model => model.SalesQuotation.Sales_Qtn_Id)
+                                                    </div>
+                                                </div>
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -484,8 +493,11 @@
                                                         @Html.TextBoxFor(model => model.SalesQuotation.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate1" })
                                                         @Html.ValidationMessageFor(model => model.SalesQuotation.Posting_Date)
                                                     </div>
-                                                </div>
-
+                                                </div>                                              
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Document Date
@@ -495,10 +507,7 @@
                                                         @Html.ValidationMessageFor(model => model.SalesQuotation.Document_Date)
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Valid Date
@@ -519,7 +528,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row form-group">
+                                                @*<div class="row form-group">
                                                     <div class="col-md-4">
                                                         Document Amount
                                                     </div>
@@ -527,7 +536,7 @@
                                                         @Html.TextBoxFor(model => model.SalesQuotation.DocDiscAmt, new { @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.SalesQuotation.DocDiscAmt)
                                                     </div>
-                                                </div>
+                                                </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -570,7 +579,7 @@
                                                 @for (int i = 0; i < Model.SalesQuotationItemList.Count; i++)
                                                 {
                                                     @Html.HiddenFor(model => model.SalesQuotationItemList[i].Sales_QtnItems_Id)
-                                                    @Html.HiddenFor(model => model.SalesQuotationItemList[i].Sales_Qtn_Id)                                                  
+                                                    @Html.HiddenFor(model => model.SalesQuotationItemList[i].Sales_Qtn_Id)
                                                     @Html.HiddenFor(model => model.SalesQuotationItemList[i].BaseDocLink)
                                                     <tr>
                                                         <td style="display:none;">

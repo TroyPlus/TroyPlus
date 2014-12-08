@@ -297,7 +297,7 @@ namespace Troy.Data.Repository
         public SalesReturn FindOneSalesReturnById(int qId)
         {
             return (from p in Salesreturncontext.SalesReturn
-                    where p.Sales_Invoice_Id == qId
+                    where p.Sales_Return_Id == qId
                     select p).FirstOrDefault();
         }
 

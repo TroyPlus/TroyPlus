@@ -22,8 +22,8 @@
         $("#viewTypeahead").jAutochecklist();
         var i;
 
-        i = $("#ItemCount").val();      
-       
+        i = $("#ItemCount").val();
+
 
     });
 
@@ -72,7 +72,7 @@
 
         });
 
-    });   
+    });
 
 </script>
 
@@ -107,15 +107,15 @@
                                         <div class="col-md-6">
                                             @*@Html.HiddenFor(model => model.PurchaseOrder.Purchase_Quote_Id)*@
                                             <div class="form-horizontal">
-                                                @*<div class="row form-group">
-                                                        <div class="col-md-4">
-                                                            Purchase QuotationID
-                                                        </div>
-                                                        <div class="col-md-8">
-                                                            @Html.TextBoxFor(model => model.PurchaseOrder.Purchase_Quote_Id, new { @class = "form-control control-text" })
-                                                            @Html.ValidationMessageFor(model => model.PurchaseOrder.Purchase_Quote_Id)
-                                                        </div>
-                                                    </div>*@
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        Purchase Order ID
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Purchase_Order_Id, new { @class = "form-control control-text", disabled = "disabled" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseOrder.Purchase_Order_Id)
+                                                    </div>
+                                                </div>
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -223,7 +223,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row form-group">
+                                                @*<div class="row form-group">
                                                     <div class="col-md-4">
                                                         Document Discount Amount
                                                     </div>
@@ -231,7 +231,7 @@
                                                         @Html.TextBoxFor(model => model.PurchaseOrder.DocDiscAmt, new { @class = "form-control control-text", disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrder.DocDiscAmt)
                                                     </div>
-                                                </div>
+                                                </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -338,7 +338,7 @@
                                                 Total Order Amount : <span id="totalordamt">0</span><br />*@
 
                                             Total : <span>@Html.TextBoxFor(m => m.PurchaseOrder.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseOrder.DocDiscAmt, new { id = "totalDiscount1",@readonly = true, @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.PurchaseOrder.DocDiscAmt) </span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseOrder.DocDiscAmt, new { id = "totalDiscount1", @readonly = true, @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.PurchaseOrder.DocDiscAmt) </span> <br />
                                             Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseOrder.TaxAmt, new { id = "totalTax1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                             Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseOrder.TotalOrdAmt, new { id = "totalQuotationAmt1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
 

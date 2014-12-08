@@ -35,7 +35,7 @@
         //}
     }
 
-    $(function () {       
+    $(function () {
         $("#btnNextTab2").click(function (e) {
 
             debugger;
@@ -110,6 +110,15 @@
                                         <div class="col-md-6">
                                             @*@Html.HiddenFor(model => model.PurchaseOrder.Purchase_Quote_Id)*@
                                             <div class="form-horizontal">
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        Sales Quotation ID
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.SalesQuotation.Sales_Qtn_Id, new { @class = "form-control control-text", disabled = "disabled" })
+                                                        @Html.ValidationMessageFor(model => model.SalesQuotation.Sales_Qtn_Id)
+                                                    </div>
+                                                </div>
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -155,7 +164,10 @@
                                                         @Html.ValidationMessageFor(model => model.SalesQuotation.Posting_Date)
                                                     </div>
                                                 </div>
-
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Document Date
@@ -165,10 +177,7 @@
                                                         @Html.ValidationMessageFor(model => model.SalesQuotation.Document_Date)
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Valid Date
@@ -189,15 +198,15 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Document Amount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesQuotation.DocDiscAmt, new { @class = "form-control control-text", disabled = "disabled" })
-                                                        @Html.ValidationMessageFor(model => model.SalesQuotation.DocDiscAmt)
-                                                    </div>
-                                                </div>
+                                                @*<div class="row form-group">
+                                                        <div class="col-md-4">
+                                                            Document Amount
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.SalesQuotation.DocDiscAmt, new { @class = "form-control control-text", disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.SalesQuotation.DocDiscAmt)
+                                                        </div>
+                                                    </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
