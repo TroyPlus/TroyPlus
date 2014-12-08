@@ -1,6 +1,6 @@
 ﻿@model Troy.Web.Models.SalesDeliveryViewModels
 
-
+@Scripts.Render("~/bundles/script/jqueryval")
 <script type="text/javascript">
     var i = 0;
 
@@ -653,7 +653,8 @@
                                         <tbody>
                                             @for (int i = 0; i < Model.salesorderitemlist.Count; i++)
                                             {
-                                                @Html.HiddenFor(model => model.salesorder.Sales_Order_Id)
+                                                @Html.HiddenFor(model=>model.salesdeliverytitemlist[i].Sales_Delivery_Id)
+                                                @Html.HiddenFor(model => model.salesorderitemlist[i].Sales_Order_Id)
                                                 @Html.HiddenFor(model => model.salesorderitemlist[i].Sale_Orderitem_Id)
                                                 @*@Html.HiddenFor(model => model.SalesQuotationItemList[i].Sales_Qtn_Id)*@
 

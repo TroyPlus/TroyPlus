@@ -127,12 +127,12 @@ namespace Troy.Web.Controllers
                 else if (submitButton == "Save pur-ord")
                 {
 
-                    SalesOrderViewModels model1 = new SalesOrderViewModels();
+                    SalesDeliveryViewModels model1 = new SalesDeliveryViewModels();
 
-                    model1.BranchList = deliveryrepository.GetAddressbranchList().ToList();
-                    model1.BussinessList = deliveryrepository.GetAddressbusinessList().ToList();
-                    model1.ProductList = deliveryrepository.GetProductList();
-                    model1.VATList = deliveryrepository.GetVATList();
+                    //model1.BranchList = deliveryrepository.GetAddressbranchList().ToList();
+                    //model1.BussinessList = deliveryrepository.GetAddressbusinessList().ToList();
+                    //model1.ProductList = deliveryrepository.GetProductList();
+                    //model1.VATList = deliveryrepository.GetVATList();
                     model1.salesorder = deliveryrepository.FindOneQuotationById1(model.salesorder.Sales_Order_Id);
                     model1.salesorderitemlist = deliveryrepository.FindOneQuotationItemById1(model.salesorder.Sales_Order_Id);
 
@@ -165,10 +165,11 @@ namespace Troy.Web.Controllers
                             }
 
                             model.salesdelivery.Doc_Status = "Open";
+                            model.salesdelivery.Remarks =Convert.ToString( model.salesorder.Sales_Order_Id);
                             model.salesdelivery.Created_Branc_Id = CurrentBranchId;//CurrentBranchId;
                             model.salesdelivery.Created_Date = DateTime.Now;
                             model.salesdelivery.Created_User_Id = CurrentBranchId;//CurrentUser.Id;
-                            model.salesdelivery.Sales_Order_Id = model.salesorder.Sales_Order_Id;
+                            model.salesdelivery.Sales_Delivery_Id = model.salesorder.Sales_Order_Id;
                             model.salesdelivery.Reference_Number = model.salesorder.Reference_Number;
                             model.salesdelivery.Customer = model.salesorder.Customer;
                             //model.salesorder.Doc_Status = model.PurchaseOrder.Order_Status;
@@ -185,15 +186,16 @@ namespace Troy.Web.Controllers
                             var Goodslist = model.salesorderitemlist.Where(x => x.IsDummy == 0);
                             model.salesorderitemlist = Goodslist.ToList();
 
-
-                            //model.salesdeliverytitemlist[i].BaseDocLink = "Y";
-                            model.salesdeliverytitemlist[j].Product_Id = model.salesorderitemlist[j].Product_id;
-                            model.salesdeliverytitemlist[j].Quantity = model.salesorderitemlist[j].Quantity;
-                            model.salesdeliverytitemlist[j].Unit_Price = model.salesorderitemlist[j].Unit_price;
-                            model.salesdeliverytitemlist[j].Discount_Precent = model.salesorderitemlist[j].Discount_percent;
-                            model.salesdeliverytitemlist[j].Vat_Code = Convert.ToInt16(model.salesorderitemlist[j].Vat_Code);
-                            //  model.goodreceiptitemlist[i].Freight_Loading = Convert.ToDecimal(model.SalesQuotationItemList[i].Freight_Loading);
-                        }
+                            for (int i = 0; i < model.salesorderitemlist.Count; i++)
+                            {
+                                //model.salesdeliverytitemlist[i].BaseDocLink = "Y";
+                                model.salesdeliverytitemlist[i].Product_Id = model.salesorderitemlist[i].Product_id;
+                                model.salesdeliverytitemlist[i].Quantity = model.salesorderitemlist[i].Quantity;
+                                model.salesdeliverytitemlist[i].Unit_Price = model.salesorderitemlist[i].Unit_price;
+                                model.salesdeliverytitemlist[i].Discount_Precent = model.salesorderitemlist[i].Discount_percent;
+                                model.salesdeliverytitemlist[i].Vat_Code = Convert.ToInt16(model.salesorderitemlist[i].Vat_Code);
+                                //  model.goodreceiptitemlist[i].Freight_Loading = Convert.ToDecimal(model.SalesQuotationItemList[i].Freight_Loading);
+                            }
 
                             if (deliveryrepository.AddNewQuotation(model.salesdelivery, model.salesdeliverytitemlist, ref ErrorMessage))
                             {
@@ -241,12 +243,12 @@ namespace Troy.Web.Controllers
                                 }
 
                                 //model1.PurchaseOrder.Creating_Branch = 1;
-                                model1.SalesQuotation.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
-                                model1.SalesQuotation.Created_Date = DateTime.Now;
-                                model1.SalesQuotation.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
-                                model1.SalesQuotation.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
-                                model1.SalesQuotation.Modified_Date = DateTime.Now;
-                                model1.SalesQuotation.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
+                                model1.salesorder.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
+                                model1.salesorder.Created_Date = DateTime.Now;
+                                model1.salesorder.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
+                                model1.salesorder.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
+                                model1.salesorder.Modified_Date = DateTime.Now;
+                                model1.salesorder.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
 
 
 
@@ -259,8 +261,8 @@ namespace Troy.Web.Controllers
                                 ViewBag.AppErrorMessage = ErrorMessage;
                                 return View("Error");
                             }
-                        
 
+                        }
                     }
 
                 }
@@ -268,15 +270,15 @@ namespace Troy.Web.Controllers
 
                 else if (submitButton == "Update")
                 {
-                    model.salesdelivery.Reference_Number = model.salesorder.Reference_Number;
+                   // model.salesdelivery.Reference_Number = model.salesorder.Reference_Number;
                     model.salesdelivery.Modified_Branc_Id = CurrentBranchId;//CurrentBranchId;
                     model.salesdelivery.Modified_Date = DateTime.Now;
                     model.salesdelivery.Modified_User_Id = CurrentUser.Id;//CurrentUser.Id;
                     model.salesdelivery.TargetDocId = "1";
 
-                    for (int i = 0; i < model.salesorderitemlist.Count; i++)
+                    for (int i = 0; i < model.salesdeliverytitemlist.Count; i++)
                     {
-                        model.salesorderitemlist[i].BaseDocLink = "N";
+                        model.salesdeliverytitemlist[i].BaseDocLink = "N";
                     }
                     if (deliveryrepository.UpdateQuotation(model.salesdelivery, model.salesdeliverytitemlist, ref ErrorMessage))
                     {

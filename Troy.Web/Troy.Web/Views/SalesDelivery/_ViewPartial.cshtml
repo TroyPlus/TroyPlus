@@ -1,6 +1,6 @@
 ﻿@model Troy.Web.Models.SalesDeliveryViewModels
 
-
+@Scripts.Render("~/bundles/script/jqueryval")
 <script>
     function TabChange() {
         debugger;
@@ -99,7 +99,7 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Add SalesDelivery</h4>
+                <h4 class="modal-title" id="myModalLabel">View SalesDelivery</h4>
             </div>
 
             <div class="modal-body">
@@ -145,7 +145,7 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.goodreceipt.Vendor, new { @class = "form-control control-text" })*@
-                                                        @Html.DropDownListFor(m => m.salesdelivery.Customer, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name", Model.salesdelivery.Vendor_Name), new { @class = "form-control control-text" })
+                                                        @Html.DropDownListFor(m => m.salesdelivery.Customer, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name", Model.salesdelivery.Vendor_Name), new { @class = "form-control control-text",@disabled="disabled" })
                                                         @Html.ValidationMessageFor(model => model.salesdelivery.Customer)
                                                     </div>
                                                 </div>
@@ -156,7 +156,7 @@
                                                         @*@Html.LabelFor(m => m.salesorder.Reference_Number, new { @class = "control-label normal" })*@
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesdelivery.Reference_Number, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Reference_Number, new { @class = "form-control control-text", @disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.salesdelivery.Reference_Number)
                                                     </div>
                                                 </div>
@@ -171,7 +171,7 @@
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
                                                             new SelectListItem{ Text="Closed", Value = "Closed" }
-                                                         }, new { @class = "form-control" })@*, @disabled = true })*@
+                                                         }, new { @class = "form-control", @disabled = "disabled" })@*, @disabled = true })*@
 
                                                         @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
                                                     </div>
@@ -183,7 +183,7 @@
                                                         Branch
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.DropDownListFor(m => m.salesdelivery.Branch, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
+                                                        @Html.DropDownListFor(m => m.salesdelivery.Branch, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text", @disabled = "disabled" })
                                                         @*@Html.TextBoxFor(model => model.goodreceipt.Ship_To, new { @class = "form-control control-text" })*@
                                                         @Html.ValidationMessageFor(model => model.salesdelivery.Branch)
                                                     </div>
@@ -195,7 +195,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesdelivery.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate" })
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate", @disabled = "disabled" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)*@
                                                     </div>
                                                 </div>
@@ -205,7 +205,7 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesdelivery.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate1" })
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate1", @disabled = "disabled" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)*@
                                                     </div>
                                                 </div>
@@ -228,7 +228,7 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.salesdelivery.Document_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate2" })@*, @readonly = true })*@
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Document_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate2", @disabled = "disabled" })@*, @readonly = true })*@
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)*@
                                                     </div>
                                                 </div>
@@ -240,7 +240,7 @@
                                                         Discount
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesdelivery.DocDiscAmt, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.salesdelivery.DocDiscAmt, new { @class = "form-control control-text", @disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.salesdelivery.DocDiscAmt)
                                                     </div>
                                                 </div>
@@ -250,7 +250,7 @@
                                                         Remarks
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesdelivery.Remarks, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Remarks, new { @class = "form-control control-text", @disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.salesdelivery.Remarks)
                                                     </div>
                                                 </div>
@@ -261,7 +261,7 @@
                                     <br />
                                     <div class="row">
                                         <div class="modal-footer">
-                                            <input class="btn btn-primary pull-left" type="button" id="btnEditNextTab" name="nextButton" value="Next" onclick="OnChangeload()" />
+                                            <input class="btn btn-primary pull-left" type="button" id="btnEditNextTab" name="nextButton" value="Next" />
                                             <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
@@ -298,7 +298,7 @@
                                                         <td width="20%">
                                                             @*@Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })*@
 
-                                                            @Html.DropDownListFor(m => m.salesdeliverytitemlist[i].Product_Id, new SelectList(Model.productlist.AsEnumerable(), "Product_Id", "Product_Name", Model.salesdeliverytitemlist[i].ProductName), new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
+                                                            @Html.DropDownListFor(m => m.salesdeliverytitemlist[i].Product_Id, new SelectList(Model.productlist.AsEnumerable(), "Product_Id", "Product_Name", Model.salesdeliverytitemlist[i].ProductName), new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");", @disabled = "disabled" })
                                                             @*@Html.TextBoxFor(model => model.goodreceiptitemlist[i].Product_id, new { @class = "form-control control-text" })*@
                                                             @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].Product_Id)
                                                         </td>
@@ -307,15 +307,15 @@
                                                                 @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
                                                             </td>*@
                                                         <td>
-                                                            @Html.TextBoxFor(model => model.salesdeliverytitemlist[i].Quantity, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");" })
+                                                            @Html.TextBoxFor(model => model.salesdeliverytitemlist[i].Quantity, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");", @disabled = "disabled" })
                                                             @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].Quantity)
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(model => model.salesdeliverytitemlist[i].Unit_Price, new { @class = "form-control control-text", @readonly = true })
+                                                            @Html.TextBoxFor(model => model.salesdeliverytitemlist[i].Unit_Price, new { @class = "form-control control-text", @readonly = true, @disabled = "disabled" })
                                                             @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].Unit_Price)
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(model => model.salesdeliverytitemlist[i].Discount_Precent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");" })
+                                                            @Html.TextBoxFor(model => model.salesdeliverytitemlist[i].Discount_Precent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");", @disabled = "disabled" })
                                                             @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].Discount_Precent)
                                                         </td>
                                                         @*<td>
@@ -323,11 +323,11 @@
                                                                 @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Freight_Loading)
                                                             </td>*@
                                                         <td>
-                                                            @Html.TextBoxFor(model => model.salesdeliverytitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true }) @*@id = "totloading"*@
+                                                            @Html.TextBoxFor(model => model.salesdeliverytitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true, @disabled = "disabled" }) @*@id = "totloading"*@
                                                             @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].LineTotal)
                                                         </td>
                                                         <td width="10%">
-                                                            @Html.DropDownListFor(m => m.salesdeliverytitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.salesdeliverytitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
+                                                            @Html.DropDownListFor(m => m.salesdeliverytitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.salesdeliverytitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();", @disabled = "disabled" })
                                                             @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].Vat_Code)
                                                         </td>
                                                         <td style="width: 90px;">

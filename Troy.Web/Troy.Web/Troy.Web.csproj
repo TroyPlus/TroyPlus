@@ -208,6 +208,7 @@
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BusinessPartnerController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
+    <Compile Include="Controllers\DeliveryReturnsController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\GoodsReceiptController.cs" />
     <Compile Include="Controllers\GoodsReturnController.cs" />
@@ -231,6 +232,7 @@
     <Compile Include="Models\BranchViewModels.cs" />
     <Compile Include="Models\BusinessPartnerViewModels.cs" />
     <Compile Include="Models\ConfigurationViewModels.cs" />
+    <Compile Include="Models\DeliveryReturnViewModels.cs" />
     <Compile Include="Models\EditUserViewModel.cs" />
     <Compile Include="Models\EmployeeViewModels.cs" />
     <Compile Include="Models\GoodsReceiptViewModels.cs" />
@@ -1891,6 +1893,10 @@
     <Content Include="Views\SalesOrders\_EditPartial.cshtml" />
     <Content Include="Views\SalesOrders\_ViewPartial.cshtml" />
     <Content Include="Views\SalesOrders\_ViewSalesQuotation.cshtml" />
+    <Content Include="Views\DeliveryReturns\Index.cshtml" />
+    <Content Include="Views\DeliveryReturns\_ViewSalesDelivery.cshtml" />
+    <Content Include="Views\DeliveryReturns\_EditPartial.cshtml" />
+    <Content Include="Views\DeliveryReturns\_ViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ExcelFiles\" />

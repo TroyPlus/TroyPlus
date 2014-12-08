@@ -1,0 +1,341 @@
+﻿@model Troy.Web.Models.DeliveryReturnViewModels
+
+@Scripts.Render("~/bundles/script/jqueryval")
+<script>
+
+    $(function () {
+        $("#btnNextTabPurQuo").click(function (e) {
+
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#Viewdefault");
+
+            var validator = $("#Viewdefault").validate(); // obtain validator
+            var anyError = false;
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                $('#tabs a[href = #ViewaddQuotationlist]').tab('show');
+            }// exit if any error found
+
+            //$.post(_form.attr("action"), _form.serialize(), function (data) {
+            //    //check the result and do whatever you want
+            //    $('#createtabs a[href = #addQuotationlist]').tab('show');
+            //})
+
+
+            //$("#default").validate({
+            //    showErrors: function (errorMap, errorList) {
+            //        debugger;
+            //    }
+            //});
+
+        });
+
+
+    });
+</script>
+
+
+
+
+
+
+@using (Html.BeginForm("Index", "DeliveryReturns"))
+{
+    @Html.ValidationSummary(true)
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">View Deliveryreturns</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="tabs">
+                            <ul id="tabs" class="nav nav-tabs tabdrop">
+                                <li class="active">
+                                    <a href="#Viewdefault" data-toggle="tab">General </a>
+                                </li>
+                                <li><a href="#ViewaddQuotationlist" data-toggle="tab">DeliveryReturn Item </a></li>
+                            </ul>
+                            @Html.HiddenFor(model => model.deliveryreturn.Delivery_Return_Id)
+                            @*@Html.Hidden("ItemCount", Model.deliveryreturnitemlist.Count)
+                            @Html.HiddenFor(model => model.deliveryreturn.Created_Date)
+                            @Html.HiddenFor(model => model.deliveryreturn.Created_Branc_Id)
+                            @Html.HiddenFor(model => model.deliveryreturn.Created_User_Id)*@
+                            @*@Html.HiddenFor(model=>model.PurchaseOrder.Purchase_Quote_Id);*@
+
+                            <div id="viewmyTabContent" class="tab-content">
+
+                                <div class="tab-pane fade active in" id="Viewdefault">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+                                            <div class="form-horizontal">
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Purchase_Order_Id, new { @class = "control-label normal" })*@
+                                                        DeiveryReturn Id
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @*, new { @id = "typeahead", @size = 12 }*@
+                                                        @*@Html.DropDownListFor(m => m.goodreturn.Goods_Return_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
+                                                        @Html.TextBoxFor(model => model.deliveryreturn.Delivery_Return_Id, new { @class = "form-control control-text",@disabled="Disabled" })
+                                                        @Html.ValidationMessageFor(model => model.deliveryreturn.Delivery_Return_Id)
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.deliveryreturn.Customer, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @*@Html.TextBoxFor(model => model.goodreceipt.Vendor, new { @class = "form-control control-text" })*@
+                                                        @Html.DropDownListFor(m => m.deliveryreturn.Customer, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text", @disabled = "Disabled" })
+                                                        @Html.ValidationMessageFor(model => model.deliveryreturn.Customer)
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.deliveryreturn.Reference_Number, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.deliveryreturn.Reference_Number, new { @class = "form-control control-text", @disabled = "Disabled" })
+                                                        @Html.ValidationMessageFor(model => model.deliveryreturn.Reference_Number)
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Doc_Status, new { @class = "control-label normal" })*@
+                                                        Document Status
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownListFor(model => model.deliveryreturn.Doc_Status, new List<SelectListItem>
+                                                         {
+                                                            new SelectListItem{ Text="Open", Value = "Open" },
+                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
+                                                         }, "Open", new { @class = "form-control", @disabled = "Disabled" })@*, @disabled = true })*@
+
+                                                        @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Ship_To, new { @class = "control-label normal" })*@
+                                                        Ship To
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownListFor(m => m.deliveryreturn.Branch, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text", @disabled = "Disabled" })
+                                                        @*@Html.TextBoxFor(model => model.goodreceipt.Ship_To, new { @class = "form-control control-text" })*@
+                                                        @Html.ValidationMessageFor(model => model.deliveryreturn.Branch)
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Posting_Date, new { @class = "control-label normal" })*@
+                                                        Posting Date
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.deliveryreturn.Posting_Date, new { @Value = Model.deliveryreturn.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "datePicker", @disabled = "Disabled" })
+                                                        @*@Html.ValidationMessageFor(model => model.goodreturn.Posting_Date)*@
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Due_Date, new { @class = "control-label normal" })*@
+                                                        Due Date:
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.deliveryreturn.Delivery_Date, new { @Value = Model.deliveryreturn.Delivery_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "datepick2", @disabled = "Disabled" })
+                                                        @*@Html.ValidationMessageFor(model => model.goodreturn.Due_Date)*@
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
+                                                        Document Date
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
+                                                        @Html.TextBoxFor(model => model.deliveryreturn.Document_Date, new { @Value = Model.deliveryreturn.Document_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "date3", @disabled = "Disabled" })@*, @readonly = true })*@
+                                                        @*@Html.ValidationMessageFor(model => model.goodreturn.Document_Date)*@
+                                                    </div>
+                                                </div>
+
+
+
+
+                                                @*<div class="row  form-group">
+                            <div class="col-md-4">
+                                Html.LabelFor(m => m.goodreceipt.Distribute_LandedCost, new { @class = "control-label normal" })*@
+                                                @*Distribute LandedCost
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(model => model.goodreceipt.Distribute_LandedCost, new { @class = "form-control control-text" })
+                                    @Html.ValidationMessageFor(model => model.goodreceipt.Distribute_LandedCost)
+                                </div>
+                            </div>*@
+
+
+
+
+
+
+
+
+                                                @*<div class="row form-group">
+                            <div class="col-md-4">
+                                @Html.LabelFor(m => m.goodreturn.Distribute_LandedCost, new { @class = "control-label normal" })
+                            </div>
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(model => model.goodreceipt.Distribute_LandedCost, new List<SelectListItem>
+                                 {
+                                    new SelectListItem{ Text="Equally", Value = "Equally" },
+                                    new SelectListItem{ Text="Quantity", Value = "Quantity" },
+                                       new SelectListItem{ Text="Cost", Value = "Cost" }
+                                 }, "", new { @class = "form-control" })*@
+
+                                                @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
+                                                @*</div>
+                            </div>*@
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="modal-footer">
+                                            <input class="btn btn-primary pull-left" type="button" id="btnNextTabPurQuo" name="nextButton" value="Next" />
+                                            <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="tab-pane fade" id="ViewaddQuotationlist">
+
+                                    <div>
+
+                                        <table id="viewmyTabContent" class="table display">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product_Id</th>
+                                                    <th>Quantity</th>
+                                                    <th>Unit Price</th>
+                                                    <th>Discount %</th>
+                                                    <th> Freight_Loading</th>
+                                                    <th>VAT Code</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < Model.deliveryreturnitemlist.Count; i++)
+                                                {
+
+                                                    // @Html.HiddenFor(model => model.goodreceiptitemlist[i].Goods_Receipt_Id)
+                                                    // @Html.HiddenFor(model => model.goodreceiptitemlist[i].Purchase_Quote_Id)
+                                                    @Html.HiddenFor(model => model.deliveryreturnitemlist[i].Delivery_Return_Items_Id)
+
+                                                    <tr>
+                                                        <td style="display:none;">
+                                                            @Html.HiddenFor(model => model.deliveryreturnitemlist[i].IsDummy, 0)
+
+                                                        </td>
+                                                        <td width="20%">
+                                                            @*@Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })*@
+                                                            @Html.DropDownListFor(m => m.deliveryreturnitemlist[i].Product_Id, new SelectList(Model.productlist.AsEnumerable(), "Product_Id", "Product_Name", Model.deliveryreturnitemlist[i].Product_Id), new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");", @disabled = "Disabled" })
+                                                            @*@Html.DropDownListFor(m => m.goodreturnitemlist[i].Product_id, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })*@
+                                                            @*@Html.TextBoxFor(model => model.goodreceiptitemlist[i].Product_id, new { @class = "form-control control-text" })*@
+                                                            @Html.ValidationMessageFor(model => model.deliveryreturnitemlist[i].Product_Id)
+                                                        </td>
+                                                        @*<td width="15%">
+                            @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker" })
+                            @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
+                        </td>*@
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.deliveryreturnitemlist[i].Quantity, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");", @disabled = "Disabled" })
+                                                            @Html.ValidationMessageFor(model => model.deliveryreturnitemlist[i].Quantity)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.deliveryreturnitemlist[i].Unit_Price, new { @class = "form-control control-text", @readonly = true, @disabled = "Disabled" })
+                                                            @Html.ValidationMessageFor(model => model.deliveryreturnitemlist[i].Unit_Price)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.deliveryreturnitemlist[i].Discount_Precent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");", @disabled = "Disabled" })
+                                                            @Html.ValidationMessageFor(model => model.deliveryreturnitemlist[i].Discount_Precent)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.deliveryreturnitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true, @disabled = "Disabled" })
+                                                            @Html.ValidationMessageFor(model => model.deliveryreturnitemlist[i].LineTotal)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DropDownListFor(m => m.deliveryreturnitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.deliveryreturnitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");", @disabled = "Disabled" })
+                                                            @Html.ValidationMessageFor(model => model.deliveryreturnitemlist[i].Vat_Code)
+                                                        </td>
+                                                        <td style="width: 90px;">
+                                                            <input class="BtnPlus btn pull-left" type="button" value="+" />
+                                                            @if (i > 0)
+                                                            {
+                                                                <input style="margin-left:5px;" class="BtnMinus btn pull-left" type="button" value="-" />
+                                                            }
+                                                        </td>
+                                                    </tr>
+
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="modal-footer">
+
+                                        
+                                        <button class="btn pull-left" data-dismiss="modal">Close</button>
+                                        <div class="row" style="float:right;">
+                                            Total : <span>@Html.TextBoxFor(m => m.deliveryreturn.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;", @disabled = "Disabled" })</span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.deliveryreturn.DocDiscAmt, new { id = "totalDiscount1", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);", @disabled = "Disabled" }) @Html.ValidationMessageFor(model => model.deliveryreturn.DocDiscAmt) </span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.deliveryreturn.TaxAmt, new { id = "totalTax1", @class = "input-small", @readonly = true, @style = "border: none;", @disabled = "Disabled" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.deliveryreturn.TotalSlsDlvryAmt, new { id = "totalQuotationAmt1", @class = "input-small", @readonly = true, @style = "border: none;", @disabled = "Disabled" })</span> <br />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            @*<div class="modal-footer">
+                    <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
+                    <button class="btn pull-left" data-dismiss="modal">Close</button>
+                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+                </div>*@
+
+        </div>
+    </div>
+}

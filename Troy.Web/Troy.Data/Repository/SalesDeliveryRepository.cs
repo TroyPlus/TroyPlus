@@ -270,6 +270,7 @@ namespace Troy.Data.Repository
                 for (int i = 0; i < deliveryItemList.Count; i++)
                 {
                     deliveryItemList[i].Sales_Delivery_Id = currentId;
+                    deliveryItemList[i].BaseDocLink = "Y";
                 }
 
                 deliverycontext.salesdeliveryitems.AddRange(deliveryItemList);

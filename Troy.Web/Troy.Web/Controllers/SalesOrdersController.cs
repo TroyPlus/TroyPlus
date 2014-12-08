@@ -131,12 +131,9 @@ namespace Troy.Web.Controllers
                 else if (submitButton == "Save pur-ord")
                 {
 
-                    SalesQuotationViewModels model1 = new SalesQuotationViewModels();
+                    SalesOrderViewModels model1 = new SalesOrderViewModels();
 
-                    model1.BranchList = salesrepository.GetAddressbranchList().ToList();
-                    model1.BussinessList = salesrepository.GetAddressbusinessList().ToList();
-                    model1.ProductList = salesrepository.GetProductList();
-                    model1.VATList = salesrepository.GetVATList();
+                   
                     model1.SalesQuotation = salesrepository.FindOneQuotationById1(model.SalesQuotation.Sales_Qtn_Id);
                     model1.SalesQuotationItemList = salesrepository.FindOneQuotationItemById1(model.SalesQuotation.Sales_Qtn_Id);
 
@@ -167,12 +164,12 @@ namespace Troy.Web.Controllers
                             {
                                 model.salesorderitemlist[j].BaseDocLink = "N";
                             }
-
+                            model.salesorder.Sales_Order_Id = model.SalesQuotation.Sales_Qtn_Id;
                             model.salesorder.Order_Status = "Open";
                             model.salesorder.Created_Branc_Id = CurrentBranchId;//CurrentBranchId;
                             model.salesorder.Created_Date = DateTime.Now;
                             model.salesorder.Created_User_Id = CurrentBranchId;//CurrentUser.Id;
-                            model.salesorder.Sales_Qtn_Id = model.SalesQuotation.Sales_Qtn_Id;
+                        //    model.salesorder.Sales_Qtn_Id = model.SalesQuotation.Sales_Qtn_Id;
                             model.salesorder.Reference_Number = model.SalesQuotation.Reference_Number;
                             model.salesorder.Customer = model.SalesQuotation.Customer;
                             //model.salesorder.Doc_Status = model.PurchaseOrder.Order_Status;
@@ -189,14 +186,14 @@ namespace Troy.Web.Controllers
                             var Goodslist = model.SalesQuotationItemList.Where(x => x.IsDummy == 0);
                             model.SalesQuotationItemList = Goodslist.ToList();
 
-                            for (int i = 0; i < model.SalesQuotationItemList.Count; i++)
-                            {
-                                model.salesorderitemlist[i].BaseDocLink = "Y";
-                                model.salesorderitemlist[i].Product_id = model.SalesQuotationItemList[i].Product_id;
-                                model.salesorderitemlist[i].Quantity = model.SalesQuotationItemList[i].Quantity;
-                                model.salesorderitemlist[i].Unit_price = model.SalesQuotationItemList[i].Unit_price;
-                                model.salesorderitemlist[i].Discount_percent = model.SalesQuotationItemList[i].Discount_percent;
-                                model.salesorderitemlist[i].Vat_Code = model.SalesQuotationItemList[i].Vat_Code;
+                            //for (int i = 0; i < model.SalesQuotationItemList.Count; i++)
+                            //{
+                        
+                                model.salesorderitemlist[j].Product_id = model.SalesQuotationItemList[j].Product_id;
+                                model.salesorderitemlist[j].Quantity = model.SalesQuotationItemList[j].Quantity;
+                                model.salesorderitemlist[j].Unit_price = model.SalesQuotationItemList[j].Unit_price;
+                                model.salesorderitemlist[j].Discount_percent = model.SalesQuotationItemList[j].Discount_percent;
+                                model.salesorderitemlist[j].Vat_Code = model.SalesQuotationItemList[j].Vat_Code;
                               //  model.goodreceiptitemlist[i].Freight_Loading = Convert.ToDecimal(model.SalesQuotationItemList[i].Freight_Loading);
                             }
 
@@ -264,7 +261,7 @@ namespace Troy.Web.Controllers
                                 ViewBag.AppErrorMessage = ErrorMessage;
                                 return View("Error");
                             }
-                        }
+                        
 
                     }
 

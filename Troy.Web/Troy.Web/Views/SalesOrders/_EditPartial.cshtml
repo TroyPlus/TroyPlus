@@ -1,6 +1,6 @@
 ﻿@model Troy.Web.Models.SalesOrderViewModels
 
-
+@Scripts.Render("~/bundles/script/jqueryval")
 <script type="text/javascript">
     var i = 0;
 
@@ -201,78 +201,7 @@
     });
 
 
-    //function EditPurchase(id) {
-
-    //    var url = $('#editModal').data('url') + '/' + id;
-
-    //    $.get(url, function (data) {
-
-    //        $('#editmodelcontainer').html(data);
-
-    //        $('#editModal').modal('show');
-    //    });
-    //}
-
-    //function ViewPurchase(id) {
-
-    //    var url = $('#viewModal').data('url') + '/' + id;
-
-    //    $.get(url, function (data) {
-    //        $('#viewmodelcontainer').html(data);
-
-    //        $('#viewModal').modal('show');
-    //    });
-    //}
-
-    //function ViewPurchaseQuotation1(id) {
-
-    //    var url = $('#viewPurQuoModal').data('url') + '/' + id;
-
-    //    $.get(url, function (data) {
-    //        $('#viewPurQuomodelcontainer').html(data);
-
-    //        $('#viewPurQuoModal').modal('show');
-    //    });
-    //}
-
-    //function IFrameSubmit() {
-
-    //    var fileSelected = $('#FileUpload').val();
-    //    if (fileSelected == '') {
-    //        alert('Please choose the Excel to Upload');
-    //        return false;
-    //    }
-
-    //    var formData = new FormData($('form')[0]);
-
-    //    var dataUrl = "../SalesQuotations/index";
-
-    //    $.ajax({
-    //        url: dataUrl,
-    //        type: 'POST',
-    //        xhr: function () {
-    //            var myXhr = $.ajaxSettings.xhr();
-    //            return myXhr;
-    //        },
-    //        data: formData,
-    //        cache: false,
-    //        contentType: false,
-    //        processData: false,
-    //        success: function (data) {
-
-    //            if (data.success == "true") {
-    //                alert(data.Message);
-    //                window.location.reload();
-    //            }
-    //            else {
-    //                alert(data.Message);
-    //            }
-    //        },
-    //        error: function (request, status, error) {
-    //            alert(request.responseText);
-    //        }
-    //    });
-    //}
+  
 
 
     function TabChange() {
@@ -285,6 +214,9 @@
 
     $(function () {
         $("#btnEditNextTab").click(function (e) {
+
+            debugger;
+
             e.preventDefault();
             var _this = $(this);
             var _form = _this.closest("#editdefault");
@@ -292,7 +224,7 @@
             var validator = $("#editdefault").validate(); // obtain validator
             var anyError = false;
             _form.find("input").each(function () {
-                debugger;
+                //debugger;
                 if (this.parentNode.parentNode.className != "jAutochecklist_list") {
                     if (!validator.element(this)) { // validate every input element inside this step
                         anyError = true;
@@ -301,7 +233,8 @@
             });
 
             _form.find("select").each(function () {
-                //debugger;
+                debugger;
+
                 if (!validator.element(this)) { // validate every input element inside this step
                     anyError = true;
                 }
@@ -314,49 +247,6 @@
                 $('#edittabs a[href = #editQuotationItem]').tab('show');
             }// exit if any error found
 
-            //$.post(_form.attr("action"), _form.serialize(), function (data) {
-            //    //check the result and do whatever you want
-            //    $('#createtabs a[href = #addQuotationlist]').tab('show');
-            //})
-
-
-            //$("#default").validate({
-            //    showErrors: function (errorMap, errorList) {
-            //        debugger;
-            //    }
-            //});
-
-        });
-
-        $("#btnSuddbmit").click(function (e) {
-            e.preventDefault();
-            var _this = $(this);
-            var _form = _this.closest("#editQuotationlist");
-
-            var validator = $("#editQuotationlist").validate(); // obtain validator
-            var anyError = false;
-            _form.find("input").each(function () {
-                debugger;
-                if (this.parentNode.parentNode.className != "jAutochecklist_list" || this.type != "hidden") {
-                    if (!validator.element(this)) { // validate every input element inside this step
-                        anyError = true;
-                    }
-                }
-            });
-
-            _form.find("select").each(function () {
-                debugger;
-                if (!validator.element(this)) { // validate every input element inside this step
-                    anyError = true;
-                }
-            });
-
-            if (anyError) {
-                return false;
-            }
-            else {
-                return true; //$('#createtabs a[href = #addQuotationlist]').tab('show');
-            }// exit if any error found
         });
 
     });
@@ -695,7 +585,7 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.TextBoxFor(model => model.salesorder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate" })
-                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)*@
+                                                        @Html.ValidationMessageFor(model => model.salesorder.Posting_Date)
                                                     </div>
                                                 </div>
                                                 <div class="row form-group">
@@ -705,7 +595,7 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.TextBoxFor(model => model.salesorder.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate1" })
-                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)*@
+                                                        @Html.ValidationMessageFor(model => model.salesorder.Delivery_Date)
                                                     </div>
                                                 </div>
 
@@ -728,7 +618,7 @@
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
                                                         @Html.TextBoxFor(model => model.salesorder.Document_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate2" })@*, @readonly = true })*@
-                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)*@
+                                                        @Html.ValidationMessageFor(model => model.salesorder.Document_Date)
                                                     </div>
                                                 </div>
 
@@ -760,7 +650,7 @@
                                     <br />
                                     <div class="row">
                                         <div class="modal-footer">
-                                            <input class="btn btn-primary pull-left" type="button" id="btnEditNextTab" name="nextButton" value="Next" onclick="OnChangeload()" />
+                                            <input class="btn btn-primary pull-left" type="button" id="btnEditNextTab" name="nextButton" value="Next" />
                                             <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>

@@ -115,6 +115,9 @@
     <Compile Include="Configuration\VATList.cs" />
     <Compile Include="Countries\Country.cs" />
     <Compile Include="Countries\CountryList.cs" />
+    <Compile Include="DeliveryReturns\DeliveryReturn.cs" />
+    <Compile Include="DeliveryReturns\DeliveryReturnItems.cs" />
+    <Compile Include="DeliveryReturns\ViewDeliveryReturn.cs" />
     <Compile Include="Departments\Department.cs" />
     <Compile Include="Departments\DepartmentList.cs" />
     <Compile Include="Designations\Designation.cs" />

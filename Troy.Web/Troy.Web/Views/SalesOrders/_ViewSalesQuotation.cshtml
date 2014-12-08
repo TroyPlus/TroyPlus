@@ -513,6 +513,16 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
+                                                    sales Quotation id
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.SalesQuotation.Sales_Qtn_Id, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.SalesQuotation.Sales_Qtn_Id)
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
                                                     Vendor Name
                                                 </div>
                                                 <div class="col-md-8">
@@ -639,9 +649,10 @@
                                         <tbody>
                                             @for (int i = 0; i < Model.SalesQuotationItemList.Count; i++)
                                             {
-                                                @Html.HiddenFor(model => model.salesorder.Sales_Order_Id)
+                                                @Html.HiddenFor(model => model.salesorderitemlist[i].Sales_Order_Id)
                                                 @Html.HiddenFor(model => model.SalesQuotationItemList[i].Sales_QtnItems_Id)
-                                                @*@Html.HiddenFor(model => model.SalesQuotationItemList[i].Sales_Qtn_Id)*@
+                                                @Html.HiddenFor(model => model.SalesQuotationItemList[i].Sales_Qtn_Id)
+                                              
 
                                                 <tr>
                                                     <td style="display:none;">

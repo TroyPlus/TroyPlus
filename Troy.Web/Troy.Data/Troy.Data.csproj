@@ -60,6 +60,7 @@
     <Compile Include="DataContext\CityContext.cs" />
     <Compile Include="DataContext\ConfigurationContext.cs" />
     <Compile Include="DataContext\CountryContext.cs" />
+    <Compile Include="DataContext\DeliveryReturnContext.cs" />
     <Compile Include="DataContext\EmployeeContext.cs" />
     <Compile Include="DataContext\GoodsReceiptContext.cs" />
     <Compile Include="DataContext\GoodsReturnContext.cs" />
@@ -82,12 +83,14 @@
     <Compile Include="Repository\BranchRepository.cs" />
     <Compile Include="Repository\BusinessPartnerRepository.cs" />
     <Compile Include="Repository\ConfigurationRepository.cs" />
+    <Compile Include="Repository\DeliveryReturnRepository.cs" />
     <Compile Include="Repository\EmployeeRepository.cs" />
     <Compile Include="Repository\GoodsReceiptRepository.cs" />
     <Compile Include="Repository\GoodsReturnRepository.cs" />
     <Compile Include="Repository\IBranchRepository.cs" />
     <Compile Include="Repository\IBusinessPartnerRepository.cs" />
     <Compile Include="Repository\IConfigurationRepository.cs" />
+    <Compile Include="Repository\IDeliveryReturnRepository.cs" />
     <Compile Include="Repository\IEmployeeRepository.cs" />
     <Compile Include="Repository\IGoodsReceiptRepository.cs" />
     <Compile Include="Repository\IGoodsReturnRepository.cs" />
