@@ -19,7 +19,7 @@ namespace Troy.Web.Models
 
         public GoodsReturnitems goodreturnitem { get; set; }
 
-        public List<GoodsReturn> Goodsreturnlist { get; set; }
+       // public List<GoodsReturn> Goodsreturnlist { get; set; }
 
         public List<ViewGoodsReturn> goodviewreturnlist { get; set; }
 
@@ -27,7 +27,7 @@ namespace Troy.Web.Models
 
         public List<BranchList> BranchList { get; set; }
 
-        public List<GoodsReceipt> goodsreceiptlist { get; set; }
+        //public List<GoodsReceipt> goodsreceiptlist { get; set; }
 
         public List<BussinessList> BussinessList { get; set; }
 

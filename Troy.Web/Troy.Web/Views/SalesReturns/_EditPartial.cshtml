@@ -1,0 +1,713 @@
+﻿@model  Troy.Web.Models.SalesReturnViewModels
+
+<script type="text/javascript">
+    var i = 0;
+
+    $(document).ready(function () {
+
+        //$('.datePicker').datepicker();
+        $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
+
+        $('#creDocumentDate').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
+
+        $('#creDueDate').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
+
+        $('#crePostingDate').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
+
+        $("#typeahead").jAutochecklist({
+            width: 221
+        });
+        $("#productTypeahead").jAutochecklist({
+            width: 135,
+            listMaxHeight: 50
+        });
+
+        i = 1;
+
+        //Dynamically add quotation row
+        function addRow() {
+
+            var date = new Date();
+            var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+
+            var selectHtml = CreateSelect(i);
+            var selectHtml1 = CreateVATSelect(i);
+
+            selectHtml += '</select>';
+            selectHtml1 += '</select>';
+
+            var html = '<tr>' +
+                        '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="SalesReturnItemsList_' + i + '__IsDummy" name="SalesReturnItemsList[' + i + '].IsDummy" type="text" value="">  </td>' +
+                        '<td width="25%"> ' +
+                            selectHtml +
+                            '<span class="field-validation-valid" data-valmsg-for="SalesReturnItemsList[' + i + '].Product_id" data-valmsg-replace="true"></span>' +
+                        '<td width="10%">' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="SalesReturnItemsList_' + i + '__Unit_price" name="SalesReturnItemsList[' + i + '].Unit_price" readonly="True" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="SalesReturnItemsList[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td width="10%">' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="SalesReturnItemsList_' + i + '__Quantity" name="SalesReturnItemsList[' + i + '].Quantity" onkeyup="OnChangeQuantity(this, ' + i + ');" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="SalesReturnItemsList[' + i + '].Quantity" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td width="8%">' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="SalesReturnItemsList_' + i + '__Discount_percent" name="SalesReturnItemsList[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="SalesReturnItemsList[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                         '<td width="12%">' +
+                             selectHtml1 +
+                            '<span class="field-validation-valid" data-valmsg-for="SalesReturnItemsList_[' + i + '].__Vat_Code" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                         '<td width="5%">' +
+                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="SalesReturnItemsList_' + i + '__LineTotal" name="SalesReturnItemsList[' + i + '].LineTotal" readonly="True" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="SalesReturnItemsList[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
+                        '</td>' +
+                        '</tr>'
+
+            $(html).appendTo($("#createItemTable"))
+
+            i++;
+
+            //$("form").removeData("validator");
+            //$("form").removeData("unobtrusiveValidation");
+            //$.validator.unobtrusive.parse("form");
+
+            $("form").removeData("validator");
+            $("form").removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse("form");
+
+            $("#createItemTable").delegate(".datePicker", "focusin", function () {
+                $(this).datepicker();
+            });
+            //DisLanCost();
+        }
+
+        function CreateSelect(rowID) {
+            //debugger;
+
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="SalesReturnItemsList_' + rowID + '__Product_id" name="SalesReturnItemsList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            selectHtml += '<option value=""></option>';
+
+            var dataUrl = "../SalesInvoices/GetProductList";
+
+            $.ajax({
+                type: 'GET',
+                url: dataUrl,
+                async: false,
+                cache: false,
+                crossDomain: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                error: function (xhr, err) {
+                },
+                success: function (result, status) {
+                    //debugger;
+                    for (var count = 0; count < result.length; count++) {
+                        selectHtml += '<option value="' + result[count].Product_Id + '">' + result[count].Product_Name + '</option>';
+                    }
+                }
+            });
+
+            return selectHtml;
+        }
+
+        function CreateVATSelect(rowID) {
+            var selectHtml1 = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="SalesReturnItemsList_' + rowID + '__Vat_Code" name="SalesReturnItemsList[' + rowID + '].Vat_Code" onchange="OnChangeVAT();" >';
+            selectHtml1 += '<option value=""></option>';
+
+
+            var dataUrl = "../SalesInvoices/GetVATList";
+
+            $.ajax({
+                type: 'GET',
+                url: dataUrl,
+                async: false,
+                cache: false,
+                crossDomain: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                error: function (xhr, err) {
+                },
+                success: function (result, status) {
+                    //debugger;
+                    for (var count = 0; count < result.length; count++) {
+                        selectHtml1 += '<option value="' + result[count].VAT_percentage + '">' + result[count].VAT_percentage + '</option>';
+                    }
+                }
+            });
+
+            return selectHtml1;
+        }
+
+        $("#EditTable1").on("click", ".BtnPlus", addRow);
+
+        function deleteRow() {
+
+            //debugger;
+
+            if (i == 1) {
+                alert("Atleast one item for each product");
+            }
+            else {
+
+                var par = $(this).parent().parent();
+                //par.remove();
+                //$('#idEstablishmentRow td.ms-formbody span input').attr('id');
+
+                var id = par[0].childNodes[0].childNodes[1].id;
+
+                id = '#' + id;
+
+                $(id).val("1");
+
+                //par[0].childNodes[0].childNodes[1].value = 1;
+
+                //$(id).val(1);
+                par.remove();
+                i--;
+                CalculateTotal();
+                CalculateTotalAmount();
+                CalculateTax();
+            }
+        };
+
+        $("#EditTable1").on("click", ".BtnMinus", deleteRow);
+
+    });
+
+
+
+    function IFrameSubmit() {
+
+        var fileSelected = $('#FileUpload').val();
+        if (fileSelected == '') {
+            alert('Please choose the Excel to Upload');
+            return false;
+        }
+
+        var formData = new FormData($('form')[0]);
+
+        var dataUrl = "../SalesInvoices/index";
+
+        $.ajax({
+            url: dataUrl,
+            type: 'POST',
+            xhr: function () {
+                var myXhr = $.ajaxSettings.xhr();
+                return myXhr;
+            },
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+
+                if (data.success == "true") {
+                    alert(data.Message);
+                    window.location.reload();
+                }
+                else {
+                    alert(data.Message);
+                }
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+    }
+
+    $(function () {
+        $("#btnNextTab11").click(function (e) {
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#default1");
+
+            var validator = $("#default1").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+                debugger;
+                if (this.parentNode.parentNode.className != "jAutochecklist_list") {
+                    if (!validator.element(this)) { // validate every input element inside this step
+                        anyError = true;
+                    }
+                }
+            });
+
+            _form.find("select").each(function () {
+                //debugger;
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                $('#edittabs1 a[href = #editQuotationlist1]').tab('show');
+            }// exit if any error found
+
+            //$.post(_form.attr("action"), _form.serialize(), function (data) {
+            //    //check the result and do whatever you want
+            //    $('#createtabs a[href = #addQuotationlist]').tab('show');
+            //})
+
+
+            //$("#default").validate({
+            //    showErrors: function (errorMap, errorList) {
+            //        debugger;
+            //    }
+            //});
+
+        });
+
+    });
+
+    function OnChangeProduct(val, rowId) {
+        //debugger;
+
+        var pID = parseInt(val.value);
+
+        var dataUrl = "../SalesInvoices/GetPrice?pID=" + pID;
+
+        $.ajax({
+            type: 'GET',
+            url: dataUrl,
+            //data: pID,
+            async: true,
+            cache: false,
+            crossDomain: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            error: function (xhr, err) {
+            },
+            success: function (result, status) {
+                //debugger;
+                var id = "#SalesReturnItemsList_" + rowId + "__Unit_price";
+                $(id).val(result);
+                CalculateTotal();
+                CalculateTotalAmount();
+            }
+        });
+    }
+
+    function OnChangeQuantity(currentQty, rowId) {
+        //debugger;
+
+        var qty = currentQty.value;
+        var price = $("#SalesReturnItemsList_" + rowId + "__Unit_price").val();
+
+        var totAmount = price * qty;
+
+        var id = "#SalesReturnItemsList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+        CalculateTotal();
+        CalculateTotalAmount();
+    }
+
+    function OnChangeDiscount(currentDis, rowId) {
+        //debugger;
+
+        var dis = currentDis.value;
+        var qty = $("#SalesReturnItemsList_" + rowId + "__Quantity").val();
+        var price = $("#SalesReturnItemsList_" + rowId + "__Unit_price").val();
+
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+
+        var id = "#SalesReturnItemsList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
+        CalculateTotal();
+        //CalculateDiscount();
+        CalculateTotalAmount();
+    }
+
+    function OnChangeVAT() {
+        //var vat = currentVAT.value;
+        //var qty = $("#PurchaseInvoiceItemsList_" + rowId + "__Quantity").val();
+        //var price = $("#PurchaseInvoiceItemsList_" + rowId + "__Unit_price").val();
+        //var dis = $("#PurchaseInvoiceItemsList_" + rowId + "__Discount_percent").val();
+
+        //var totAmount = price * qty - ((price * qty) * dis / 100)
+        //var totvat = totAmount * (vat / 100)
+        //var totNet = totAmount + totvat
+
+        //var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
+        //$(id).val(totNet);
+
+        CalculateTax();
+        CalculateTotalAmount();
+    }
+
+    function OnChangeDiscountSummary(currentDis) {
+        //var totdis = currentDis.value;
+        //var totdoc = $("#totalPurchase").val();
+        //var tottax = $("#totalTax").val();
+        //tot = (parseFloat(totdoc) - parseFloat(totdis)) + parseFloat(tottax);
+
+        //$("#totalQuotationAmt").val(tot);
+        var percentage = 0;
+        var totdoc = 0;
+        var totdis = currentDis.value;
+        var tottax = 0;
+        var totline = 0;
+        var totminus = 0;
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesReturnItemsList_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#SalesReturnItemsList_" + j + "__LineTotal").val());
+            }
+        }
+
+        percentage = totdis / totdoc * 100;
+
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesReturnItemsList_" + j + "__LineTotal").val()))) {
+                totline = parseFloat($("#SalesReturnItemsList_" + j + "__LineTotal").val() * percentage / 100);
+                totminus = parseFloat($("#SalesReturnItemsList_" + j + "__LineTotal").val()) - totline;
+                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#SalesReturnItemsList_" + j + "__Vat_Code").val()) / 100;
+            }
+        }
+
+        tot = (totdoc - totdis) + tottax;
+
+        $("#totalTax").val(tottax.toFixed(2));
+        $("#totalQuotationAmt").val(tot.toFixed(2));
+    }
+
+    function CalculateTotal() {
+        //debugger;
+        var tot = 0;
+        //if (i == 0) {
+        //    tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + i + "__Amount").val());
+        //}
+        //else {
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesReturnItemsList_" + j + "__LineTotal").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#SalesReturnItemsList_" + j + "__LineTotal").val());
+
+            }
+        }
+        //}
+        $("#totalPurchase").val(tot.toFixed(2));
+    }
+
+    function CalculateDiscount() {
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesReturnItemsList_" + j + "__Discount_percent").val()))) {
+                tot = parseFloat(tot) + parseFloat($("#SalesReturnItemsList_" + j + "__Discount_percent").val());
+            }
+        }
+
+        $("#totalDiscount").val(tot.toFixed(2));
+    }
+
+    function CalculateTax() {
+        var tot = 0;
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesReturnItemsList_" + j + "__Vat_Code").val()))) {
+                //tot = parseFloat(tot) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val());
+                tot = parseFloat(tot) + (parseFloat($("#SalesReturnItemsList_" + j + "__LineTotal").val()) * parseFloat($("#SalesReturnItemsList_" + j + "__Vat_Code").val()) / 100);
+            }
+        }
+
+        $("#totalTax").val(tot.toFixed(2));
+    }
+
+    function CalculateTotalAmount() {
+        var totdoc = 0;
+        var totdis = 0;
+        var tottax = 0;
+        var tot = 0;
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesReturnItemsList_" + j + "__LineTotal").val()))) {
+                totdoc = parseFloat(totdoc) + parseFloat($("#SalesReturnItemsList_" + j + "__LineTotal").val());
+            }
+        }
+
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Discount_percent").val()))) {
+        //        totdis = parseFloat(totdis) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Discount_percent").val());
+        //    }
+        //}
+
+        for (var j = i; j >= 0; j--) {
+            if (!isNaN(parseFloat($("#SalesReturnItemsList_" + j + "__Vat_Code").val()))) {
+                //tottax = parseFloat(tottax) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val());
+                tottax = parseFloat(tottax) + (parseFloat($("#SalesReturnItemsList_" + j + "__LineTotal").val()) * parseFloat($("#SalesReturnItemsList_" + j + "__Vat_Code").val()) / 100);
+            }
+        }
+
+        //tot = (totdoc - totdis) + tottax;
+        tot = totdoc + tottax;
+
+        $("#totalQuotationAmt").val(tot.toFixed(2));
+    }
+
+
+
+</script>
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Edit Sales Return</h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="row">
+                    <div class="tabs">
+                        <ul id="edittabs1" class="nav nav-tabs tabdrop">
+                            <li class="active">
+                                <a href="#editdefault1" data-toggle="tab">General</a>
+                            </li>
+                            <li><a href="#editQuotationlist1" data-toggle="tab">Product </a></li>
+
+                        </ul>
+
+                        @Html.HiddenFor(model => model.SalesReturn.Sales_Return_Id)
+                        @Html.HiddenFor(model => model.SalesReturn.Sales_Invoice_Id)
+                        @Html.Hidden("ItemCount", Model.SalesReturnItemsList.Count)
+
+                        @Html.HiddenFor(model => model.SalesReturn.Created_User_Id)
+                        @Html.HiddenFor(model => model.SalesReturn.Created_Branc_Id)
+                        @Html.HiddenFor(model => model.SalesReturn.Created_Date)
+
+
+                        <div id="edittabContent1" class="tab-content">
+                            <div class="tab-pane fade active in" id="editdefault1">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-horizontal">
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Sales Return ID
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.SalesReturn.Sales_Return_Id, new { @class = "form-control control-text", disabled = "disabled" })
+                                                    @Html.ValidationMessageFor(model => model.SalesReturn.Sales_Return_Id)
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Customer Name
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @*@Html.TextBoxFor(model => model.PurchaseInvoice.Vendor, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.Vendor)*@
+                                                    @Html.DropDownListFor(m => m.SalesReturn.Customer, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.SalesReturn.Customer)
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Reference Number
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.SalesReturn.Reference_Number, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.SalesReturn.Reference_Number)
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Document Status
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownListFor(model => model.SalesReturn.Doc_Status, new List<SelectListItem>
+                                                         {
+                                                            new SelectListItem{ Text="Open", Value = "Open" },
+                                                            new SelectListItem{ Text="Closed", Value = "Closed" },
+                                                            new SelectListItem{ Text="Cancel", Value = "Cancel" }
+                                                         }, new { @class = "form-control", @disabled = true })
+                                                    @Html.ValidationMessageFor(model => model.SalesReturn.Doc_Status)
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Posting Date
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
+                                                    @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker", @id = "crePostingDate" })*@
+                                                    @Html.TextBoxFor(model => model.SalesReturn.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate" })
+                                                    @Html.ValidationMessageFor(model => model.SalesReturn.Posting_Date)
+                                                </div>
+                                            </div>                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-horizontal">
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Due Date
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.SalesReturn.Due_Date, new { @class = "form-control control-text", @id = "creDueDate" })
+                                                    @Html.ValidationMessageFor(model => model.SalesReturn.Due_Date)
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Document Date
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.SalesReturn.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
+                                                    @Html.ValidationMessageFor(model => model.SalesReturn.Document_Date)
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Ship To
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @*@Html.TextBoxFor(model => model.PurchaseInvoice.Ship_To, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.Ship_To)*@
+                                                    @Html.DropDownListFor(m => m.SalesReturn.Branch, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.SalesReturn.Branch)
+                                                </div>
+                                            </div>
+
+                                            @*<div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Discount
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.SalesReturn.DocDiscAmt, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.SalesReturn.DocDiscAmt)
+                                                </div>
+                                            </div>*@
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Remarks
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.SalesReturn.Remarks, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.SalesReturn.Remarks)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="modal-footer">
+                                        <input class="btn btn-primary pull-left" type="button" id="btnNextTab11" name="nextButton" value="Next" />
+                                        <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="editQuotationlist1">
+
+                                <div>
+
+                                    <table id="EditTable1" class="table display" style="min-height:180px;">
+                                        <thead>
+                                            <tr>
+                                                <th>Product Id</th>
+                                                <th>Unit Price</th>
+                                                <th>Quantity</th>
+                                                <th>Discount %</th>
+                                                <th>VAT Code</th>
+                                                <th>LineTotal</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int i = 0; i < Model.SalesReturnItemsList.Count; i++)
+                                            {
+                                                @Html.HiddenFor(model => model.SalesReturnItemsList[i].Sales_ReturnItem_Id)
+                                                @Html.HiddenFor(model => model.SalesReturnItemsList[i].Sales_Return_Id)
+                                                @Html.HiddenFor(model => model.SalesReturnItemsList[i].Product_id)
+                                                @Html.HiddenFor(model => model.SalesReturnItemsList[i].BaseDocLink)
+
+                                                <tr>
+                                                    <td style="display:none;">
+                                                        @Html.HiddenFor(model => model.SalesReturnItemsList[i].IsDummy, 0)
+                                                    </td>
+                                                    <td width="25%">
+                                                        @*@Html.TextBoxFor(model => model.PurchaseInvoiceItemsList[i].Product_id, new { @class = "form-control control-text" })
+                                                            @Html.ValidationMessageFor(model => model.PurchaseInvoiceItemsList[i].Product_id)*@
+                                                        @Html.DropDownListFor(m => m.SalesReturnItemsList[i].Product_id, new SelectList(Model.productlist.AsEnumerable(), "Product_Id", "Product_Name", Model.SalesReturnItemsList[i].Product_id), "", new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
+                                                        @Html.ValidationMessageFor(model => model.SalesReturnItemsList[i].Product_id)
+                                                    </td>
+                                                    <td width="10%">
+                                                        @Html.TextBoxFor(model => model.SalesReturnItemsList[i].Unit_price, new { @class = "form-control control-text", @readonly = true })
+                                                        @Html.ValidationMessageFor(model => model.SalesReturnItemsList[i].Unit_price)
+                                                    </td>
+                                                    <td width="10%">
+                                                        @Html.TextBoxFor(model => model.SalesReturnItemsList[i].Quantity, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");" })
+                                                        @Html.ValidationMessageFor(model => model.SalesReturnItemsList[i].Quantity)
+                                                    </td>
+                                                    <td width="8%">
+                                                        @Html.TextBoxFor(model => model.SalesReturnItemsList[i].Discount_percent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");" })
+                                                        @Html.ValidationMessageFor(model => model.SalesReturnItemsList[i].Discount_percent)
+                                                    </td>
+                                                    <td width="12%">
+                                                        @Html.DropDownListFor(m => m.SalesReturnItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.SalesReturnItemsList[i].Vat_Code), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
+                                                        @Html.ValidationMessageFor(model => model.SalesReturnItemsList[i].Vat_Code)
+                                                    </td>
+                                                    <td width="5%">
+                                                        @Html.TextBoxFor(model => model.SalesReturnItemsList[i].LineTotal, new { @class = "form-control control-text", @readonly = true })
+                                                        @Html.ValidationMessageFor(model => model.SalesReturnItemsList[i].LineTotal)
+                                                    </td>
+                                                    <td style="width: 90px;">
+                                                        <input class="BtnPlus btn pull-left" type="button" value="+" />
+                                                    </td>
+                                                </tr>
+
+                                            }
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                                <br />
+                                <br />
+                                <div class="modal-footer">
+                                    <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
+                                    <button class="btn pull-left" data-dismiss="modal">Close</button>
+
+                                    <div class="row" style="float:right;">
+                                        @*Total : <span id="totalPurchase">0</span><br />
+                                            Total Before Document Discount : <span id="totalbfdocdisc">0</span><br />
+                                            Document Discount Amount : <span id="docdisamt">0</span><br />
+                                            Tax Amount : <span id="taxamt">0</span><br />
+                                            Total Order Amount : <span id="totalordamt">0</span><br />*@
+
+                                        Total : <span>@Html.TextBoxFor(m => m.SalesReturn.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        Discount Amount : <span>@Html.TextBoxFor(m => m.SalesReturn.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.SalesReturn.DocDiscAmt) </span> <br />
+                                        Tax Amount : <span>@Html.TextBoxFor(m => m.SalesReturn.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        Total Quotation Amount : <span>@Html.TextBoxFor(m => m.SalesReturn.TotalSlsRtnAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

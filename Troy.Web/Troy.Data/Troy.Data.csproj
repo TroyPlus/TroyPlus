@@ -76,6 +76,7 @@
     <Compile Include="DataContext\SalesInvoiceContext.cs" />
     <Compile Include="DataContext\SalesOrderContext.cs" />
     <Compile Include="DataContext\SalesQuotationContext.cs" />
+    <Compile Include="DataContext\SalesReturnContext.cs" />
     <Compile Include="DataContext\SAPOUTContext.cs" />
     <Compile Include="DataContext\StateContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Repository\ISalesInvoiceRepository.cs" />
     <Compile Include="Repository\ISalesOrderRepository.cs" />
     <Compile Include="Repository\ISalesRepository.cs" />
+    <Compile Include="Repository\ISalesReturnRepository.cs" />
     <Compile Include="Repository\ISAPOUTRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
     <Compile Include="Repository\ManufactureRepository.cs" />
@@ -118,6 +120,7 @@
     <Compile Include="Repository\SalesInvoiceRepository.cs" />
     <Compile Include="Repository\SalesOrderRepository.cs" />
     <Compile Include="Repository\SalesRepository.cs" />
+    <Compile Include="Repository\SalesReturnRepository.cs" />
     <Compile Include="Repository\SAPOUTRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>

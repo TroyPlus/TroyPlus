@@ -236,12 +236,12 @@
     }
 
     function OnChangeQuantity(currentQty, rowId) {
-        //debugger;       
-        var qty = currentQty.value;       
+        //debugger;
+        var qty = currentQty.value;
         var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_Price").val();
-      
+
         var totAmount = price * qty;
-        
+
         var id = "#SalesDeliveryItemList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
         CalculateTotal();
@@ -513,15 +513,15 @@
                                                 </div>
 
 
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Discount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesDelivery.DocDiscAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.SalesDelivery.DocDiscAmt)
-                                                    </div>
-                                                </div>
+                                                @*<div class="row form-group">
+                                                        <div class="col-md-4">
+                                                            Discount
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.SalesDelivery.DocDiscAmt, new { @class = "form-control control-text" })
+                                                            @Html.ValidationMessageFor(model => model.SalesDelivery.DocDiscAmt)
+                                                        </div>
+                                                    </div>*@
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Remarks

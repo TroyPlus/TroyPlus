@@ -68,7 +68,10 @@
                                                     @Html.ValidationMessageFor(model => model.SalesQuotation.Posting_Date)
                                                 </div>
                                             </div>
-
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-horizontal">
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Document Date
@@ -78,10 +81,7 @@
                                                     @Html.ValidationMessageFor(model => model.SalesQuotation.Document_Date)
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-horizontal">
+
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Valid Date
@@ -102,15 +102,15 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    Document Amount
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.SalesQuotation.DocDiscAmt, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.SalesQuotation.DocDiscAmt)
-                                                </div>
-                                            </div>
+                                            @*<div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        Document Amount
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.SalesQuotation.DocDiscAmt, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.SalesQuotation.DocDiscAmt)
+                                                    </div>
+                                                </div>*@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">

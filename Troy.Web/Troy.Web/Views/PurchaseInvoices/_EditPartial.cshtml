@@ -11,15 +11,15 @@
         $('.datePicker').datepicker({ dateFormat: 'dd/mm/yy' }).val();
 
         $('#creDocumentDate1').datepicker({
-            dateFormat: 'dd/mm/yy', minDate: 0,maxDate:0
+            dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0
         });
 
         $('#creDueDate1').datepicker({
-            dateFormat: 'dd/mm/yy', minDate: 0,maxDate:0
+            dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0
         });
 
         $('#crePostingDate1').datepicker({
-            dateFormat: 'dd/mm/yy', minDate: 0,maxDate:0
+            dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0
         });
 
         $("#typeahead").jAutochecklist({
@@ -95,8 +95,7 @@
 
         }
 
-        function CreateSelect(rowID)
-        {
+        function CreateSelect(rowID) {
             //debugger;
 
             var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseInvoiceItemsList_' + rowID + '__Product_id" name="PurchaseInvoiceItemsList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
@@ -125,13 +124,12 @@
             return selectHtml;
         }
 
-        function CreateVATSelect(rowID)
-        {
+        function CreateVATSelect(rowID) {
             var selectHtml1 = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="PurchaseInvoiceItemsList_' + rowID + '__Vat_Code" name="PurchaseInvoiceItemsList[' + rowID + '].Vat_Code" onchange="OnChangeVAT();" >';
             selectHtml1 += '<option value=""></option>';
 
 
-            var dataUrl =  "../PurchaseInvoices/GetVATList";
+            var dataUrl = "../PurchaseInvoices/GetVATList";
 
             $.ajax({
                 type: 'GET',
@@ -188,7 +186,7 @@
 
         $("#EditTable").on("click", ".BtnMinus", deleteRow);
 
-    });   
+    });
 
     $(function () {
         $("#btnNextTab1").click(function (e) {
@@ -233,7 +231,7 @@
             //    }
             //});
 
-        });     
+        });
 
     });
 
@@ -459,7 +457,15 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-horizontal">
-
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        Purchase Invoice ID
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Purchase_Invoice_Id, new { @class = "form-control control-text", disabled = "disabled" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.Purchase_Invoice_Id)
+                                                    </div>
+                                                </div>
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Vendor Name
@@ -517,8 +523,11 @@
                                                         @Html.TextBoxFor(model => model.PurchaseInvoice.Due_Date, new { @class = "form-control control-text", @id = "creDueDate1" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Due_Date)
                                                     </div>
-                                                </div>
-
+                                                </div>                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Document Date
@@ -528,10 +537,7 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Document_Date)
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Ship To
@@ -580,7 +586,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row form-group">
+                                                @*<div class="row form-group">
                                                     <div class="col-md-4">
                                                         Discount
                                                     </div>
@@ -588,7 +594,7 @@
                                                         @Html.TextBoxFor(model => model.PurchaseInvoice.DocDiscAmt, new { @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.DocDiscAmt)
                                                     </div>
-                                                </div>
+                                                </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
