@@ -33,7 +33,7 @@
             //alert(i);
             var date = new Date();
             var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
-
+          
             var selectHtml = CreateSelect(i);
             var selectHtml1 = CreateVATSelect(i);
 
@@ -109,6 +109,9 @@
                     }
                 }
             });
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
 
             return selectHtml;
         }
@@ -137,7 +140,9 @@
                     }
                 }
             });
-
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
             return selectHtml;
         }
 
@@ -234,8 +239,24 @@
                 var id = "#PurchaseOrderItemsList_" + rowId + "__Unit_price";
                 $(id).val(result);
 
+                //onchange quantity functionality
+                var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
+                var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty;
+                var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
+                //onchange discount functionality
+                var dis = $("#PurchaseOrderItemsList_" + rowId + "__Discount_percent").val();
+                var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
+                var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty - ((price * qty) * dis / 100)
+                var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
                 CalculateTotal();
                 CalculateTotalAmount();
+                CalculateTax();
             }
         });
     }
@@ -245,30 +266,42 @@
 
         var qty = currentQty.value;
         var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
-
         var totAmount = price * qty;
-
         var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
+
+        //onchange discount functionality
+        var dis = $("#PurchaseOrderItemsList_" + rowId + "__Discount_percent").val();
+        var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
+        var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
         //debugger;
+        //onchange quantity functionality
+        var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
+        var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty;
+        var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
 
         var dis = currentDis.value;
         var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
         var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
-
         var totAmount = price * qty - ((price * qty) * dis / 100)
-
         var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
         CalculateTotal();
-        //CalculateDiscount();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeVAT(currentVAT, rowId) {
@@ -286,6 +319,7 @@
 
         CalculateTax();
         CalculateTotalAmount();
+        CalculateTotal();
     }
 
     function OnChangeDiscountSummary(currentDis) {
@@ -378,7 +412,7 @@
         var totdis = 0;
         var tottax = 0;
         var tot = 0;
-
+        
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()))) {
                 totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val());
@@ -400,7 +434,7 @@
 
         //tot = (totdoc - totdis) + tottax;
         tot = totdoc + tottax;
-
+        
         $("#totalQuotationAmt1").val(tot.toFixed(2));
 
     }

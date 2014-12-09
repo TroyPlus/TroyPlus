@@ -30,7 +30,7 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.PurchaseQuotation.Vendor_Code, new { @class = "control-label normal" })
+                                                    Vendor Name
                                                 </div>
                                                 <div class="col-md-8">
                                                     @*, new { @id = "typeahead", @size = 12 }*@
@@ -42,7 +42,7 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.PurchaseQuotation.Reference_Number, new { @class = "control-label normal" })
+                                                    Reference Number
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Reference_Number, new { @class = "form-control control-text" })
@@ -52,7 +52,7 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "control-label normal" })
+                                                    Quotation Status
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.DropDownListFor(model => model.PurchaseQuotation.Quotation_Status, new List<SelectListItem>
@@ -68,7 +68,7 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.PurchaseQuotation.Ship_To, new { @class = "control-label normal" })
+                                                    Ship To
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.DropDownListFor(m => m.PurchaseQuotation.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
@@ -78,7 +78,7 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.PurchaseQuotation.Freight, new { @class = "control-label normal" })
+                                                    Freight
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Freight, new { @class = "form-control control-text" })
@@ -88,7 +88,7 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.PurchaseQuotation.Loading, new { @class = "control-label normal" })
+                                                    Loading
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Loading, new { @class = "form-control control-text" })
@@ -102,7 +102,7 @@
                                         <div class="form-horizontal">
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.PurchaseQuotation.Posting_Date, new { @class = "control-label normal", id = "crePostingDate" })
+                                                    Posting Date
                                                 </div>
                                                 <div class="col-md-8">
                                                     @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
@@ -113,7 +113,7 @@
 
                                             <div class="row  form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.PurchaseQuotation.Required_Date, new { @class = "control-label normal" })
+                                                    Required Date
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), id = "creRequiredDate", @class = "form-control control-text" })
@@ -123,7 +123,7 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.PurchaseQuotation.Valid_Date, new { @class = "control-label normal" })
+                                                    Valid Date
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), id = "creValidDate", @class = "form-control control-text" })
@@ -132,18 +132,18 @@
                                             </div>
 
                                             @*<div class="row  form-group">
-                                                <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.PurchaseQuotation.Discount, new { @class = "control-label normal" })
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Discount, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Discount)
-                                                </div>
-                                            </div>*@
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.PurchaseQuotation.Discount, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Discount, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Discount)
+                                                    </div>
+                                                </div>*@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.PurchaseQuotation.Remarks, new { @class = "control-label normal" })
+                                                    Remarks
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.TextAreaFor(model => model.PurchaseQuotation.Remarks, new { @class = "form-control", @cols = 55, @rows = 5 })
@@ -210,8 +210,8 @@
                                                     <td>
                                                         @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Discount_percent)
-                                                    </td>                                                    
-                                                    <td width ="10%">
+                                                    </td>
+                                                    <td width="10%">
                                                         @Html.DropDownListFor(m => m.PurchaseQuotationItemList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage"), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Vat_Code)
                                                     </td>
@@ -237,7 +237,7 @@
                                     <button class="btn pull-left" data-dismiss="modal">Close</button>
 
                                     <div class="row" style="float:right;">
-                                        Total : <span >@Html.TextBoxFor(m => m.PurchaseQuotation.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;"})</span> <br />
+                                        Total : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                         Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.PurchaseQuotation.DocDiscAmt) </span> <br />
                                         Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                         Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalQtnAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
