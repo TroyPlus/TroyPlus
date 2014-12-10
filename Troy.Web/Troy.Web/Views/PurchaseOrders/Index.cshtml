@@ -71,8 +71,7 @@
                         '</td>' +
                         '</tr>'
 
-            $(html).appendTo($("#createItemTable"))
-
+            $(html).appendTo($("#createItemTable"))           
             i++;
 
             //$("form").removeData("validator");
@@ -115,6 +114,9 @@
                     }
                 }
             });
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();           
 
             return selectHtml;
         }
@@ -143,7 +145,9 @@
                     }
                 }
             });
-
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
             return selectHtml;
         }
 
@@ -368,41 +372,74 @@
                 //debugger;
                 var id = "#PurchaseOrderItemsList_" + rowId + "__Unit_price";
                 $(id).val(result);
+
+                //onchange quantity functionality
+                var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();               
+                var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty;
+                var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
+                //onchange discount functionality
+                var dis = $("#PurchaseOrderItemsList_" + rowId + "__Discount_percent").val();
+                var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
+                var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty - ((price * qty) * dis / 100)
+                var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+                           
+
                 CalculateTotal();
                 CalculateTotalAmount();
+                CalculateTax();
             }
         });
     }
 
     function OnChangeQuantity(currentQty, rowId) {
         //debugger;
-
+        //on change quantity
         var qty = currentQty.value;
         var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
-
         var totAmount = price * qty;
-
         var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
+
+        //onchange discount functionality
+        var dis = $("#PurchaseOrderItemsList_" + rowId + "__Discount_percent").val();
+        var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
+        var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+               
+
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
         //debugger;
-
-        var dis = currentDis.value;
+        //onchange quantity functionality
         var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
         var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
-
-        var totAmount = price * qty - ((price * qty) * dis / 100)
-
+        var totAmount = price * qty;
         var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
+        //on change discount
+        var dis = currentDis.value;
+        var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
+        var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+              
+
         CalculateTotal();
-        //CalculateDiscount();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeVAT() {
@@ -420,6 +457,7 @@
 
         CalculateTax();
         CalculateTotalAmount();
+        CalculateTotal();
     }
 
     function OnChangeDiscountSummary(currentDis) {
@@ -458,7 +496,7 @@
         tot = (totdoc - totdis) + tottax;
         
         $("#totalTax").val(tottax.toFixed(2));
-        $("#totalQuotationAmt").val(tot.toFixed(2));
+        $("#totalQuotationAmt").val(tot.toFixed(2));       
 
     }
 

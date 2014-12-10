@@ -4,122 +4,9 @@
     ViewBag.Title = "Sales Delivery";
 }
 
-@*<script src="~/Scripts/jquery-1.7.2.js" type="text/javascript"></script>
-    <script src="~/Scripts/jquery-ui-1.8.22.js" type="text/javascript"></script>
-    <script src="~/Scripts/jquery.validate.js" type="text/javascript"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.js" type="text/javascript"></script>*@
-
-
-@*<script type="text/javascript">
-
-        $(document).ready(function () {
-            alert("test");
-            $("#Posting_Date").datepicker({ dateFormat: 'dd.mm.yy' });
-            alert("test1");
-            $("#Due_Date").datepicker({ dateFormat: 'dd.mm.yy' });
-            $("#Document_Date").datepicker({ dateFormat: 'dd.mm.yy' });
-
-
-            jQuery.validator.addMethod(
-                'date',
-                function (value, element, params) {
-                    if (this.optional(element)) {
-                        return true;
-                    };
-                    var result = false;
-                    try {
-                        $.datepicker.parseDate('dd.mm.yy', value);
-                        result = true;
-                    } catch (err) {
-                        result = false;
-                    }
-                    return result;
-                },
-                ''
-            );
-        });
-    </script>*@
-
-@*<script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-
-    <script src="~/Scripts/globalize/globalize.js"></script>
-    <script src="~/Scripts/globalize/cultures/globalize.culture.en-GB.js"></script>*@
-
-@*<script>
-        $(document).ready(function () {
-            alert("test");
-            $.culture = Globalize.culture("en-GB");
-            $.validator.methods.date = function (value, element) {
-                //This is not ideal but Chrome passes dates through in ISO1901 format regardless of locale
-                //and despite displaying in the specified format.
-
-                return this.optional(element)
-                    || Globalize.parseDate(value, "dd/MM/yyyy", "en-GB")
-                    || Globalize.parseDate(value, "yyyy-mm-dd");
-            }
-        });
-    </script>*@
-
-
-
-
 
 <script type="text/javascript">
-
-    //$(document).ready(function () {
-
-
-    //    $('#Posting_Date').datepicker({
-    //            dateFormat: "dd/mm/yy",
-    //            showStatus: true,
-    //            showWeeks: true,
-    //            currentText: 'Now',
-    //            autoSize: true,
-    //            gotoCurrent: true,
-    //            showAnim: 'blind',
-    //            highlightWeek: true
-    //        });
-    //});
-
-    //$(document).ready(function () {
-
-    //    $('#Due_Date').datepicker({
-    //        dateFormat: "dd/mm/yy",
-    //        showStatus: true,
-    //        showWeeks: true,
-    //        currentText: 'Now',
-    //        autoSize: true,
-    //        gotoCurrent: true,
-    //        showAnim: 'blind',
-    //        highlightWeek: true
-    //    });
-    //});
-
-    //$(document).ready(function () {
-
-
-    //    $('#Document_Date').datepicker({
-    //        dateFormat: "dd/mm/yy",
-    //        showStatus: true,
-    //        showWeeks: true,
-    //        currentText: 'Now',
-    //        autoSize: true,
-    //        gotoCurrent: true,
-    //        showAnim: 'blind',
-    //        highlightWeek: true
-    //    });
-    //});
-
-
-
-
-
-
-
-
-
+    
     $(document).ready(function () {
 
         $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
@@ -441,6 +328,9 @@
                 }
             });
             //   "Product_Id", "Product_Name"
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
 
             return selectHtml;
         }
@@ -471,6 +361,9 @@
                     }
                 }
             });
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
 
             return vatselectHtml;
         }
@@ -502,6 +395,8 @@
                 par.remove();
                 i--;
                 CalculateTotal();
+                CalculateTotalAmount();
+                CalculateTax();
             }
         };
 
@@ -529,51 +424,79 @@
             success: function (result, status) {
                 //debugger;
                 var id = "#salesdeliverytitemlist_" + rowId + "__Unit_Price";
-                $(id).val(result);
-                alert(result);
+                $(id).val(result);               
+
+                //onchange quantity functionality
+                var qty = $("#salesdeliverytitemlist_" + rowId + "__Quantity").val();
+                var price = $("#salesdeliverytitemlist_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty;
+                var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+                
+                //onchange discount functionality
+                var dis = $("#salesdeliverytitemlist_" + rowId + "__Discount_Precent").val();
+                var qty = $("#salesdeliverytitemlist_" + rowId + "__Quantity").val();
+                var price = $("#salesdeliverytitemlist_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty - ((price * qty) * dis / 100)
+                var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
                 CalculateTotal();
                 CalculateTotalAmount();
+                CalculateTax();
             }
         });
     }
 
     function OnChangeQuantity(currentQty, rowId) {
 
+        //on change quantity
         var qty = currentQty.value;
-        var price = $("#salesdeliverytitemlist_" + rowId + "__Unit_Price").val();
-
+        var price = $("#salesdeliverytitemlist_" + rowId + "__Unit_price").val();
         var totAmount = price * qty;
-
         var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
+
+        //onchange discount functionality
+        var dis = $("#salesdeliverytitemlist_" + rowId + "__Discount_Precent").val();
+        var qty = $("#salesdeliverytitemlist_" + rowId + "__Quantity").val();
+        var price = $("#salesdeliverytitemlist_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
         //debugger;
-
-        var dis = currentDis.value;
+        //onchange quantity functionality
         var qty = $("#salesdeliverytitemlist_" + rowId + "__Quantity").val();
-        var price = $("#salesdeliverytitemlist_" + rowId + "__Unit_Price").val();
-
-        var totAmount = price * qty - ((price * qty) * dis / 100)
-
+        var price = $("#salesdeliverytitemlist_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty;
         var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
-        //var totAmount = (price * qty) - dis
-        //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
-        //$(id).val(totAmount);
+        //on change discount
+        var dis = currentDis.value;
+        var qty = $("#salesdeliverytitemlist_" + rowId + "__Quantity").val();
+        var price = $("#salesdeliverytitemlist_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
 
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
 
     function OnChangeVAT() {
         CalculateTax();
         CalculateTotalAmount();
+        CalculateTotal();
     }
 
     function OnChangeDiscountSummary(currentDis) {
@@ -631,7 +554,7 @@
             }
         }
         //}
-
+      
         $("#totalPurchase").val(tot.toFixed(2));
     }
 
@@ -784,22 +707,7 @@
         }
 
 
-  //    else if (textload.text == "Quality")
-  //    {
-  //        for (var j = i; j >= 0; j--) {
-  //            var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
-  //            var total = t / qty;
-
-  //        }
-  //    }
-  //else if (textload.text == "Cost")
-  //    {
-  //          for (var j = i; j >= 0; j--) {
-  //              var line = $("#goodreceiptitemlist_" + rowId + "__LineTotal").val();
-  //              var total = t / line;
-
-  //          }
-  //      }
+ 
         $("#totloading").val(t);
     }
 
@@ -808,7 +716,7 @@
 @*//"Index", "SalesOrder", FormMethod.Post, new { enctype = "multipart/form-data" }*@
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Index", "SalesDelivery", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
     @Html.ValidationSummary(true)

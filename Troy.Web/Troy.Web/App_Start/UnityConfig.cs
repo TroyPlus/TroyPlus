@@ -62,6 +62,7 @@ namespace Troy.Web.App_Start
             container.RegisterType<ISalesRepository, SalesRepository>();
             container.RegisterType<ISalesInvoiceRepository, SalesInvoiceRepository>();
             container.RegisterType<ISalesOrderRepository, SalesOrderRepository>();
+            container.RegisterType<ISalesReturnRepository, SalesReturnRepository>();
             container.RegisterType<ISalesDeliveryRepository, SalesDeliveryRepository>();
             container.RegisterType<IDeliveryReturnRepository, DeliveryReturnRepository>();
 

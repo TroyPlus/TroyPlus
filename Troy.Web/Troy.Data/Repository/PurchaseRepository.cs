@@ -17,6 +17,7 @@ using Troy.Model.SAP_OUT;
 using Troy.Utilities.CrossCutting;
 using Troy.Model.Products;
 using Troy.Model.Configuration;
+using System.Data.Entity.Validation;
 
 namespace Troy.Data.Repository
 {
@@ -174,7 +175,7 @@ namespace Troy.Data.Repository
                             select new PurchaseQuotationItem
                             {
                                 Discount_percent = q.Discount_percent,
-                                //LineTotal = q.LineTotal,
+                                LineTotal = q.LineTotal,
                                 Product_id = q.Product_id,
                                 ProductName = pi.Product_Name,
                                 Purchase_Quote_Id = q.Purchase_Quote_Id,
@@ -367,6 +368,19 @@ namespace Troy.Data.Repository
                 ErrorMessage = ex.Message;
                 return false;
             }
+            //catch (DbEntityValidationException dbEx)
+            //{
+            //    var errorList = new List<string>();
+
+            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+            //    {
+            //        foreach (var validationError in validationErrors.ValidationErrors)
+            //        {
+            //            errorList.Add(String.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage));
+            //        }
+            //    }
+            //    return false;
+            //}
         }
 
         public bool GenerateXML(Object obj, string uniqueId, string objType)

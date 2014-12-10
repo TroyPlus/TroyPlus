@@ -30,6 +30,7 @@ namespace Troy.Model.PurchaseOrders
         //-----------
 
         [Required(ErrorMessage = "Quantity is required.")]
+        [RegularExpression(@"^[0-9']+$", ErrorMessage = @"Enter only Numbers")]
         public int Quantity { get; set; }
         //-----------
 
