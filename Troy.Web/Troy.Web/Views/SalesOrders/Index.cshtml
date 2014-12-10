@@ -441,6 +441,10 @@
                 }
             });
             //   "Product_Id", "Product_Name"
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
+
 
             return selectHtml;
         }
@@ -471,6 +475,10 @@
                     }
                 }
             });
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
+
 
             return vatselectHtml;
         }
@@ -502,6 +510,8 @@
                 par.remove();
                 i--;
                 CalculateTotal();
+                CalculateTotalAmount();
+                CalculateTax();
             }
         };
 
@@ -530,9 +540,24 @@
                 //debugger;
                 var id = "#salesorderitemlist_" + rowId + "__Unit_price";
                 $(id).val(result);
-                alert(result);
+                //onchange quantity functionality
+                var qty = $("#salesorderitemlist_" + rowId + "__Quantity").val();
+                var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty;
+                var id = "#salesorderitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
+                //onchange discount functionality
+                var dis = $("#salesorderitemlist_" + rowId + "__Discount_percent").val();
+                var qty = $("#salesorderitemlist_" + rowId + "__Quantity").val();
+                var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty - ((price * qty) * dis / 100)
+                var id = "#salesorderitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
                 CalculateTotal();
                 CalculateTotalAmount();
+                CalculateTax();
             }
         });
     }
@@ -546,8 +571,17 @@
 
         var id = "#salesorderitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
+        //onchange discount functionality
+        var dis = $("#salesorderitemlist_" + rowId + "__Discount_percent").val();
+        var qty = $("#salesorderitemlist_" + rowId + "__Quantity").val();
+        var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#salesorderitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
@@ -566,13 +600,23 @@
         //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
         //$(id).val(totAmount);
 
+        //on change discount
+        var dis = currentDis.value;
+        var qty = $("#salesorderitemlist_" + rowId + "__Quantity").val();
+        var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#salesorderitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
 
     function OnChangeVAT() {
         CalculateTax();
+        CalculateTotal();
         CalculateTotalAmount();
     }
 

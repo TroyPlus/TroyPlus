@@ -67,6 +67,45 @@
 
 
 <script type="text/javascript">
+    //function comparedate() {
+    //    alert("please strike it");
+    //    var startDay = document.getElementById("IssueDate").value;
+
+    //    var enddate = document.getElementById("IssueDate1").value;
+
+    //    if(startDay>=enddate)
+    //    {
+
+    //    }
+    //    else {
+    //        alert("date must be valid from above date");
+    //    }
+    //}
+
+
+    //function selectedStartDate(sender) {
+    //    alert("test");
+    //    var selDate = new Date(sender.value); // mentions the selected date.
+
+    //    minDatepicker = $("#IssueDate").data("ejDatePicker");// creating DatePicker object
+
+    //    minDatepicker.setModel({ "minDate": selDate });// setting minDate property through setModel of DatePicker object.
+
+
+
+    //}
+
+    //function selectedEndDate(sender) {
+
+    //    var selDate = new Date(sender.value);
+
+    //    maxDatepicker = $("#IssueDate1").data("ejDatePicker");// creating DatePicker object
+
+    //    maxDatepicker.setModel({ "maxDate": selDate });// setting maxDate property through setModel of DatePicker object.
+
+    //}
+
+
 
     //$(document).ready(function () {
        
@@ -124,12 +163,16 @@
 
         $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
-        $('#creDocumentDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        $('#IssueDate').datepicker({
+            dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0
         });
 
-        $('#crePostingDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        $('#IssueDate1').datepicker({
+            dateFormat: 'dd/mm/yy', minDate: 0,
+        });
+
+        $('#IssueDate2').datepicker({
+            dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0
         });
         //var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
@@ -444,6 +487,9 @@
                 }
             });
             //   "Product_Id", "Product_Name"
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
 
             return selectHtml;
         }
@@ -474,7 +520,9 @@
                     }
                 }
             });
-
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
             return vatselectHtml;
         }
         $("#createItemTable").on("click", ".BtnPlus", addRow);
@@ -505,6 +553,8 @@
                 par.remove();
                 i--;
                 CalculateTotal();
+                CalculateTotalAmount();
+                CalculateTax();
             }
         };
 
@@ -533,8 +583,24 @@
                 //debugger;
                 var id = "#goodreceiptitemlist_" + rowId + "__Unit_price";
                 $(id).val(result);
+                //onchange quantity functionality
+                var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
+                var price = $("#goodreceiptitemlist_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty;
+                var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
+                //onchange discount functionality
+                var dis = $("#goodreceiptitemlist_" + rowId + "__Discount_percent").val();
+                var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
+                var price = $("#goodreceiptitemlist_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty - ((price * qty) * dis / 100)
+                var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
                 CalculateTotal();
                 CalculateTotalAmount();
+                CalculateTax();
             }
         });
     }
@@ -548,36 +614,51 @@
 
         var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
+
+        //onchange discount functionality
+        var dis = $("#goodreceiptitemlist_" + rowId + "__Discount_percent").val();
+        var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
+        var price = $("#goodreceiptitemlist_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
         //debugger;
 
-        var dis = currentDis.value;
+        //debugger;
+        //onchange quantity functionality
         var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
         var price = $("#goodreceiptitemlist_" + rowId + "__Unit_price").val();
-
-        var totAmount = price * qty - ((price * qty) * dis / 100)
-
+        var totAmount = price * qty;
         var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
-        //var totAmount = (price * qty) - dis
-        //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
-        //$(id).val(totAmount);
+        //on change discount
+        var dis = currentDis.value;
+        var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
+        var price = $("#goodreceiptitemlist_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
 
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
 
    
 
     function OnChangeVAT() {
-        CalculateTax();
+        CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscountSummary(currentDis) {
@@ -681,15 +762,16 @@
             }
         }
 
-        for (var j = i; j >= 0; j--) {
-            if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__Discount_percent").val()))) {
-                totdis = parseFloat(totdis) + parseFloat($("#goodreceiptitemlist_" + j + "__Discount_percent").val());
-            }
-        }
+        //for (var j = i; j >= 0; j--) {
+        //    if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__Discount_percent").val()))) {
+        //        totdis = parseFloat(totdis) + parseFloat($("#goodreceiptitemlist_" + j + "__Discount_percent").val());
+        //    }
+        //}
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()))) {
-                tottax = parseFloat(tottax) + parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val());
+                //tottax = parseFloat(tottax) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val());
+                tottax = parseFloat(tottax) + (parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()) * parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
@@ -765,21 +847,21 @@
 
     //}
 
-    function OnChangeDate() {
+    //function OnChangeDate() {
 
-        alert("strike");
-        var Posting_Date = $('#IssueDate').datepicker(); //currentDis.value;//document.getElementById(tbStartDateID).value;
-        alert("test");
-        var Due_Date = $('#IssueDate1').datepicker();//currentDis.value;//document.getElementById(tbEndDateID).value;
-        alert("test");
-        //Difference in milliseconds
-        //var timeDiff = Date.parse(Due_Date) - Date.parse(Posting_Date);
-        if (Date.parse(Due_Date) > Date.parse(Posting_Date)) {
-        }
-        else {
-            alert("Posting_Date must be lesser than Due_Date");
-        }
-    }
+    //    alert("strike");
+    //    var Posting_Date = $('#IssueDate').datepicker(); //currentDis.value;//document.getElementById(tbStartDateID).value;
+    //    alert("test");
+    //    var Due_Date = $('#IssueDate1').datepicker();//currentDis.value;//document.getElementById(tbEndDateID).value;
+    //    alert("test");
+    //    //Difference in milliseconds
+    //    //var timeDiff = Date.parse(Due_Date) - Date.parse(Posting_Date);
+    //    if (Date.parse(Due_Date) > Date.parse(Posting_Date)) {
+    //    }
+    //    else {
+    //        alert("Posting_Date must be lesser than Due_Date");
+    //    }
+    //}
 
     function OnChangeload() {
         var tot = 0;

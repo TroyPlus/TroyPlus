@@ -115,7 +115,9 @@
                     }
                 }
             });
-
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
             return selectHtml;
         }
             function CreateVATSelect(rowID) {
@@ -144,7 +146,9 @@
                         }
                     }
                 });
-
+                CalculateTotal();
+                CalculateTotalAmount();
+                CalculateTax();
                 return selectHtml;
             }
 
@@ -235,6 +239,51 @@
     });
 
 
+
+    function OnChangeProduct(val, rowId) {
+
+        var pID = parseInt(val.value);
+
+        var dataUrl = "../GoodsReturn/GetPrice?pID=" + pID;
+
+        $.ajax({
+            type: 'GET',
+            url: dataUrl,
+            //data: pID,
+            async: true,
+            cache: false,
+            crossDomain: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            error: function (xhr, err) {
+            },
+            success: function (result, status) {
+                //debugger;
+                var id = "#goodreturnitemlist_" + rowId + "__Unit_price";
+                $(id).val(result);
+                //onchange quantity functionality
+                var qty = $("#goodreturnitemlist_" + rowId + "__Quantity").val();
+                var price = $("#goodreturnitemlist_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty;
+                var id = "#goodreturnitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
+                //onchange discount functionality
+                var dis = $("#goodreturnitemlist_" + rowId + "__Discount_percent").val();
+                var qty = $("#goodreturnitemlist_" + rowId + "__Quantity").val();
+                var price = $("#goodreturnitemlist_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty - ((price * qty) * dis / 100)
+                var id = "#goodreturnitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
+                CalculateTotal();
+                CalculateTotalAmount();
+                CalculateTax();
+            }
+        });
+    }
+
+
     function OnChangeQuantity(currentQty, rowId) {
         //debugger;
 
@@ -245,8 +294,18 @@
 
         var id = "#goodreturnitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
+
+        //onchange discount functionality
+        var dis = $("#goodreturnitemlist_" + rowId + "__Discount_percent").val();
+        var qty = $("#goodreturnitemlist_" + rowId + "__Quantity").val();
+        var price = $("#goodreturnitemlist_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#goodreturnitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
@@ -261,9 +320,17 @@
         var id = "#goodreturnitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
+        //on change discount
+        var dis = currentDis.value;
+        var qty = $("#goodreturnitemlist_" + rowId + "__Quantity").val();
+        var price = $("#goodreturnitemlist_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#goodreturnitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
-        //CalculateDiscount();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeVAT(currentVAT, rowId) {
@@ -280,6 +347,7 @@
         //$(id).val(totNet);
 
         CalculateTax();
+        CalculateTotal();
         CalculateTotalAmount();
     }
 
