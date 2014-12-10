@@ -573,6 +573,8 @@
     }
 
 
+   
+
     function OnChangeVAT() {
         CalculateTax();
         CalculateTotalAmount();
@@ -763,7 +765,21 @@
 
     //}
 
+    function OnChangeDate() {
 
+        alert("strike");
+        var Posting_Date = $('#IssueDate').datepicker(); //currentDis.value;//document.getElementById(tbStartDateID).value;
+        alert("test");
+        var Due_Date = $('#IssueDate1').datepicker();//currentDis.value;//document.getElementById(tbEndDateID).value;
+        alert("test");
+        //Difference in milliseconds
+        //var timeDiff = Date.parse(Due_Date) - Date.parse(Posting_Date);
+        if (Date.parse(Due_Date) > Date.parse(Posting_Date)) {
+        }
+        else {
+            alert("Posting_Date must be lesser than Due_Date");
+        }
+    }
 
     function OnChangeload() {
         var tot = 0;

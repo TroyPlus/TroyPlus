@@ -470,12 +470,12 @@
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     @*@Html.LabelFor(m => m.goodreceipt.Purchase_Order_Id, new { @class = "control-label normal" })*@
-                                                    PurchaseOrder Id
+                                                    GoodsReceipt Id
                                                 </div>
                                                 <div class="col-md-8">
                                                     @*, new { @id = "typeahead", @size = 12 }*@
                                                     @*@Html.DropDownListFor(m => m.goodreceipt.Goods_Receipt_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
-                                                    @Html.TextBoxFor(model => model.goodreceipt.Goods_Receipt_Id, new { @class = "form-control control-text" })
+                                                    @Html.TextBoxFor(model => model.goodreceipt.Goods_Receipt_Id, new { @class = "form-control control-text",@disabled="disabled" })
                                                     @Html.ValidationMessageFor(model => model.goodreceipt.Goods_Receipt_Id)
                                                 </div>
                                             </div>

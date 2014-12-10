@@ -96,8 +96,8 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate" })
-                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)*@
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate",@onkeyup = "OnChangeDate();" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)
                                                     </div>
                                                 </div>
                                             <div class="row form-group">
@@ -106,8 +106,8 @@
                                                     Due Date:
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate1" })
-                                                    @*@Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)*@
+                                                    @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate1",@onkeyup = "OnChangeDate();" })
+                                                    @Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)
                                                 </div>
                                             </div>
                                                 

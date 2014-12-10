@@ -453,7 +453,7 @@
                                                 <div class="col-md-8">
                                                     @*, new { @id = "typeahead", @size = 12 }*@
                                                     @*@Html.DropDownListFor(m => m.PurchaseOrder.Purchase_Order_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
-                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Purchase_Order_Id, new { @class = "form-control control-text" })
+                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Purchase_Order_Id, new { @class = "form-control control-text",@readonly = true })
                                                     @Html.ValidationMessageFor(model => model.PurchaseOrder.Purchase_Order_Id)
                                                 </div>
                                             </div>

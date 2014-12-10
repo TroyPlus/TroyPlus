@@ -449,13 +449,13 @@
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Purchase_Order_Id, new { @class = "control-label normal" })*@
-                                                        Goods Receipt Id
+                                                        GoodsReturn Id
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*, new { @id = "typeahead", @size = 12 }*@
                                                         @*@Html.DropDownListFor(m => m.goodreturn.Goods_Return_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
-                                                        @Html.TextBoxFor(model => model.goodreturn.Goods_Receipt_Id, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.Goods_Receipt_Id)
+                                                        @Html.TextBoxFor(model => model.goodreturn.Goods_Return_Id, new { @class = "form-control control-text",@disabled="disabled" })
+                                                        @Html.ValidationMessageFor(model => model.goodreturn.Goods_Return_Id)
                                                     </div>
                                                 </div>
 

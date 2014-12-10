@@ -527,6 +527,17 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
+                                                    Sales Order Id
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.salesorder.Sales_Order_Id, new { @class = "form-control control-text",@disabled="disabled" })
+                                                    @Html.ValidationMessageFor(model => model.salesorder.Sales_Order_Id)
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
                                                     Vendor Name
                                                 </div>
                                                 <div class="col-md-8">

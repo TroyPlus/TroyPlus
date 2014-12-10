@@ -228,6 +228,7 @@
 
         $("#btnSuddbmit").click(function (e) {
             e.preventDefault();
+            alert(e);
             var _this = $(this);
             var _form = _this.closest("#editQuotationlist");
 
@@ -516,7 +517,7 @@
                                                     sales Quotation id
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.SalesQuotation.Sales_Qtn_Id, new { @class = "form-control control-text" })
+                                                    @Html.TextBoxFor(model => model.SalesQuotation.Sales_Qtn_Id, new { @class = "form-control control-text",@disabled="disabled"})
                                                     @Html.ValidationMessageFor(model => model.SalesQuotation.Sales_Qtn_Id)
                                                 </div>
                                             </div>
