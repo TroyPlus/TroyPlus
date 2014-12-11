@@ -117,7 +117,9 @@
                     }
                 }
             });
-
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
             return selectHtml;
         }
             function CreateVATSelect(rowID) {
@@ -146,7 +148,9 @@
                         }
                     }
                 });
-
+                CalculateTotal();
+                CalculateTotalAmount();
+                CalculateTax();
                 return selectHtml;
             }
 
@@ -238,35 +242,96 @@
     });
 
 
+
+    function OnChangeProduct(val, rowId) {
+
+        var pID = parseInt(val.value);
+
+        var dataUrl = "../SalesDelivery/GetPrice?pID=" + pID;
+
+        $.ajax({
+            type: 'GET',
+            url: dataUrl,
+            //data: pID,
+            async: true,
+            cache: false,
+            crossDomain: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            error: function (xhr, err) {
+            },
+            success: function (result, status) {
+                //debugger;
+                var id = "#deliveryreturnitemlist_" + rowId + "__Unit_Price";
+                $(id).val(result);
+
+                //onchange quantity functionality
+                var qty = $("#deliveryreturnitemlist_" + rowId + "__Quantity").val();
+                var price = $("#deliveryreturnitemlist_" + rowId + "__Unit_Price").val();
+                var totAmount = price * qty;
+                var id = "#deliveryreturnitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
+                //onchange discount functionality
+                var dis = $("#deliveryreturnitemlist_" + rowId + "__Discount_Precent").val();
+                var qty = $("#deliveryreturnitemlist_" + rowId + "__Quantity").val();
+                var price = $("#deliveryreturnitemlist_" + rowId + "__Unit_Price").val();
+                var totAmount = price * qty - ((price * qty) * dis / 100)
+                var id = "#deliveryreturnitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
+                CalculateTotal();
+                CalculateTotalAmount();
+                CalculateTax();
+            }
+        });
+    }
+
+
     function OnChangeQuantity(currentQty, rowId) {
         //debugger;
 
+        //on change quantity
         var qty = currentQty.value;
-        var price = $("#deliveryreturnitemlist_" + rowId + "__Unit_price").val();
-
+        var price = $("#deliveryreturnitemlist_" + rowId + "__Unit_Price").val();
         var totAmount = price * qty;
-
         var id = "#deliveryreturnitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
+
+        //onchange discount functionality
+        var dis = $("#deliveryreturnitemlist_" + rowId + "__Discount_Precent").val();
+        var qty = $("#deliveryreturnitemlist_" + rowId + "__Quantity").val();
+        var price = $("#deliveryreturnitemlist_" + rowId + "__Unit_Price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#deliveryreturnitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
         //debugger;
 
+        //onchange quantity functionality
+        var qty = $("#deliveryreturnitemlist_" + rowId + "__Quantity").val();
+        var price = $("#deliveryreturnitemlist_" + rowId + "__Unit_Price").val();
+        var totAmount = price * qty;
+        var id = "#deliveryreturnitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
+        //on change discount
         var dis = currentDis.value;
         var qty = $("#deliveryreturnitemlist_" + rowId + "__Quantity").val();
-        var price = $("#deliveryreturnitemlist_" + rowId + "__Unit_price").val();
-
+        var price = $("#deliveryreturnitemlist_" + rowId + "__Unit_Price").val();
         var totAmount = price * qty - ((price * qty) * dis / 100)
-
         var id = "#deliveryreturnitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
         CalculateTotal();
-        //CalculateDiscount();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeVAT(currentVAT, rowId) {
@@ -281,7 +346,7 @@
 
         //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
         //$(id).val(totNet);
-
+        CalculateTotal();
         CalculateTax();
         CalculateTotalAmount();
     }
@@ -461,7 +526,7 @@
                                                     <div class="col-md-8">
                                                         @*, new { @id = "typeahead", @size = 12 }*@
                                                         @*@Html.DropDownListFor(m => m.goodreturn.Goods_Return_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
-                                                        @Html.TextBoxFor(model => model.deliveryreturn.Delivery_Return_Id, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.deliveryreturn.Delivery_Return_Id, new { @class = "form-control control-text",@disabled="disabled" })
                                                         @Html.ValidationMessageFor(model => model.deliveryreturn.Delivery_Return_Id)
                                                     </div>
                                                 </div>

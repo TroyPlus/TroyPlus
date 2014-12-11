@@ -131,7 +131,9 @@
                     }
                 }
             });
-
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
             return selectHtml;
         }
 
@@ -159,7 +161,9 @@
                     }
                 }
             });
-
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
             return selectHtml;
         }
 
@@ -272,8 +276,24 @@
                 //debugger;
                 var id = "#salesorderitemlist_" + rowId + "__Unit_price";
                 $(id).val(result);
+                //onchange quantity functionality
+                var qty = $("#salesorderitemlist_" + rowId + "__Quantity").val();
+                var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty;
+                var id = "#salesorderitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
+                //onchange discount functionality
+                var dis = $("#salesorderitemlist_" + rowId + "__Discount_percent").val();
+                var qty = $("#salesorderitemlist_" + rowId + "__Quantity").val();
+                var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty - ((price * qty) * dis / 100)
+                var id = "#salesorderitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
                 CalculateTotal();
                 CalculateTotalAmount();
+                CalculateTax();
             }
         });
     }
@@ -288,8 +308,17 @@
 
         var id = "#salesorderitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
+        //onchange discount functionality
+        var dis = $("#salesorderitemlist_" + rowId + "__Discount_percent").val();
+        var qty = $("#salesorderitemlist_" + rowId + "__Quantity").val();
+        var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#salesorderitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
@@ -304,9 +333,17 @@
         var id = "#salesorderitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
+        //on change discount
+        var dis = currentDis.value;
+        var qty = $("#salesorderitemlist_" + rowId + "__Quantity").val();
+        var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#salesorderitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
-        //CalculateDiscount();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeVAT() {
@@ -323,6 +360,7 @@
         //$(id).val(totNet);
 
         CalculateTax();
+        CalculateTotal();
         CalculateTotalAmount();
     }
 
@@ -514,18 +552,18 @@
                                         <div class="col-md-6">
                                             <div class="form-horizontal">
                                                 @*@Html.HiddenFor(model=>model.goodreceipt.Purchase_Order_Id)*@
-                                                @*<div class="row form-group">
-                                                    <div class="col-md-4">*@
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
                                                 @*@Html.LabelFor(m => m.goodreceipt.Purchase_Order_Id, new { @class = "control-label normal" })*@
-                                                @*PurchaseOrder Id
+                                                SalesOrder Id
                                                     </div>
-                                                    <div class="col-md-8">*@
+                                                    <div class="col-md-8">
                                                 @*, new { @id = "typeahead", @size = 12 }*@
                                                 @*@Html.DropDownListFor(m => m.goodreceipt.Purchase_Order_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
-                                                @*@Html.TextBoxFor(model => model.goodreceipt.Purchase_Order_Id, new { @class = "form-control control-text" })*@
-                                                @*@Html.ValidationMessageFor(model => model.goodreceipt.Purchase_Order_Id)
+                                                @Html.TextBoxFor(model => model.salesorder.Sales_Order_Id, new { @class = "form-control control-text", @disabled = "disabled" })
+                                                @Html.ValidationMessageFor(model => model.salesorder.Sales_Order_Id)
                                                         </div>
-                                                    </div>*@
+                                                    </div>
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">

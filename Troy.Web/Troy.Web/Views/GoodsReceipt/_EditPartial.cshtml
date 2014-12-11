@@ -106,7 +106,9 @@
                     }
                 }
             });
-
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
             return selectHtml;
         }
 
@@ -137,7 +139,9 @@
                     }
                 }
             });
-
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
             return selectHtml;
         }
 
@@ -246,8 +250,24 @@
                 var id = "#goodreceiptitemlist_" + rowId + "__Unit_price";
                 $(id).val(result);
 
+                //onchange quantity functionality
+                var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
+                var price = $("#goodreceiptitemlist_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty;
+                var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
+                //onchange discount functionality
+                var dis = $("#goodreceiptitemlist_" + rowId + "__Discount_percent").val();
+                var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
+                var price = $("#goodreceiptitemlist_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty - ((price * qty) * dis / 100)
+                var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
                 CalculateTotal();
                 CalculateTotalAmount();
+                CalculateTax();
             }
         });
     }
@@ -262,8 +282,18 @@
 
         var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
+
+        //onchange discount functionality
+        var dis = $("#goodreceiptitemlist_" + rowId + "__Discount_percent").val();
+        var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
+        var price = $("#goodreceiptitemlist_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
@@ -278,9 +308,17 @@
         var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
+        //on change discount
+        var dis = currentDis.value;
+        var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
+        var price = $("#goodreceiptitemlist_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
-        //CalculateDiscount();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeVAT(currentVAT, rowId) {
@@ -295,7 +333,7 @@
 
         //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
         //$(id).val(totNet);
-
+        CalculateTotal();
         CalculateTax();
         CalculateTotalAmount();
     }
@@ -462,13 +500,13 @@
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Purchase_Order_Id, new { @class = "control-label normal" })*@
-                                                        PurchaseOrder Id
+                                                        Goodsreceipt Id
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*, new { @id = "typeahead", @size = 12 }*@
                                                         @*@Html.DropDownListFor(m => m.goodreceipt.Purchase_Order_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Purchase_Order_Id, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Purchase_Order_Id)
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Goods_Receipt_Id, new { @class = "form-control control-text", @readonly = true })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Goods_Receipt_Id)
                                                     </div>
                                                 </div>
 

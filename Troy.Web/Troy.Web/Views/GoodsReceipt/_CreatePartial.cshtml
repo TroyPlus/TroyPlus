@@ -54,7 +54,8 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.goodreceipt.Reference_Number, new { @class = "control-label normal" })
+                                                    @*@Html.LabelFor(m => m.goodreceipt.Reference_Number, new { @class = "control-label normal" })*@
+                                                    Reference Number
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.TextBoxFor(model => model.goodreceipt.Reference_Number, new { @class = "form-control control-text" })
@@ -96,8 +97,8 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate" })
-                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)*@
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text  ", @id = "IssueDate", @onkeyup = "comparedate();" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)
                                                     </div>
                                                 </div>
                                             <div class="row form-group">
@@ -106,8 +107,8 @@
                                                     Due Date:
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate1" })
-                                                    @*@Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)*@
+                                                    @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text  ", @id = "IssueDate1", @onkeyup = "comparedate();" })
+                                                    @Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)
                                                 </div>
                                             </div>
                                                 
@@ -129,8 +130,8 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate2" })@*, @readonly = true })*@
-                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)*@
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @id = "IssueDate2" })@*, @readonly = true })*@
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)
                                                     </div>
                                                 </div>
 

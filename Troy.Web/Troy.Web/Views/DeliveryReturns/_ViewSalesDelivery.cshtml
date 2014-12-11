@@ -106,7 +106,7 @@
             var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="salesdeliverytitemlist' + rowID + '__Product_Id" name="salesdeliverytitemlist[' + rowID + '].Product_Id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
 
-            var dataUrl = "../GoodsReturn/GetProductList";
+            var dataUrl = "../DeliveryReturns/GetProductList";
 
             $.ajax({
                 type: 'GET',
@@ -125,7 +125,9 @@
                     }
                 }
             });
-
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
             return selectHtml;
         }
 
@@ -153,7 +155,9 @@
                     }
                 }
             });
-
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
             return selectHtml;
         }
 
@@ -200,9 +204,17 @@
 
     });
 
+    function TabChange() {
+        debugger;
+        //if ($("#btnSubmit").val == "Next") {
+        $('#edittabs a[href = #editQuotationItem]').tab('show');
+        //    $("#btnSubmit").val("Save");
+        //}
+    }
+
 
     $(function () {
-        $("#btnEditNextTab").click(function (e) {
+        $("#btnNextabdelivery").click(function (e) {
 
             debugger;
 
@@ -238,6 +250,38 @@
 
         });
 
+        $("#btnSuddbmit").click(function (e) {
+            e.preventDefault();
+            alert(e);
+            var _this = $(this);
+            var _form = _this.closest("#editQuotationlist");
+
+            var validator = $("#editQuotationlist").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+                debugger;
+                if (this.parentNode.parentNode.className != "jAutochecklist_list" || this.type != "hidden") {
+                    if (!validator.element(this)) { // validate every input element inside this step
+                        anyError = true;
+                    }
+                }
+            });
+
+            _form.find("select").each(function () {
+                debugger;
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                return true; //$('#createtabs a[href = #addQuotationlist]').tab('show');
+            }// exit if any error found
+        });
+
     });
 
     function OnChangeProduct(val, rowId) {
@@ -262,8 +306,24 @@
                 var id = "#salesdeliverytitemlist_" + rowId + "__Unit_Price";
                 $(id).val(result);
 
+                //onchange quantity functionality
+                var qty = $("#salesdeliverytitemlist_" + rowId + "__Quantity").val();
+                var price = $("#salesdeliverytitemlist_" + rowId + "__Unit_Price").val();
+                var totAmount = price * qty;
+                var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
+                //onchange discount functionality
+                var dis = $("#salesdeliverytitemlist_" + rowId + "__Discount_Precent").val();
+                var qty = $("#salesdeliverytitemlist_" + rowId + "__Quantity").val();
+                var price = $("#salesdeliverytitemlist_" + rowId + "__Unit_Price").val();
+                var totAmount = price * qty - ((price * qty) * dis / 100)
+                var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
                 CalculateTotal();
                 CalculateTotalAmount();
+                CalculateTax();
             }
         });
     }
@@ -276,9 +336,19 @@
         var totAmount = price * qty;
 
         var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
-        $(id).val(totAmount);
+        $(id).val(totAmount.toFixed(2));
+
+        //onchange discount functionality
+        var dis = $("#salesdeliverytitemlist_" + rowId + "__Discount_Precent").val();
+        var qty = $("#salesdeliverytitemlist_" + rowId + "__Quantity").val();
+        var price = $("#salesdeliverytitemlist_" + rowId + "__Unit_Price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
@@ -296,16 +366,23 @@
         var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
+        //on change discount
+        var dis = currentDis.value;
+        var qty = $("#salesdeliverytitemlist_" + rowId + "__Quantity").val();
+        var price = $("#salesdeliverytitemlist_" + rowId + "__Unit_Price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
-
-
-        //CalculateDiscount();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
 
     function OnChangeVAT() {
         CalculateTax();
+        CalculateTotal();
         CalculateTotalAmount();
     }
 
@@ -422,83 +499,85 @@
 
 </script>
 
+@using (Html.BeginForm("Index", "DeliveryReturns"))
+{
+
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Add from Sales Delivery</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="tabs">
+                            <ul id="edittabs" class="nav nav-tabs tabdrop">
+                                <li class="active">
+                                    <a href="#editdefault" data-toggle="tab">General</a>
+                                </li>
+                                <li><a href="#editQuotationItem" data-toggle="tab">Product </a></li>
+                            </ul>
+
+
+                            @Html.HiddenFor(model => model.deliveryreturn.Delivery_Return_Id)
+                            @Html.HiddenFor(model => model.deliveryreturnitem.Delivery_Return_Id)
+                            @Html.Hidden("ItemCount", Model.salesdeliverytitemlist.Count)
+                            @*@Html.HiddenFor(model => model.salesdelivery.Sales_Delivery_Id)
+                                @Html.HiddenFor(model => model.salesdeliveryitem.sales_Item_Id)*@
+
+
+                            <div id="createtabContent" class="tab-content">
+                                <div class="tab-pane fade active in" id="editdefault">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
 
 
 
 
 
-
-<div class="modal-dialog modal-lg">
-    <div class="modal-content">
-
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Add Delivery</h4>
-        </div>
-
-        <div class="modal-body">
-            <div class="form-horizontal">
-                <div class="row">
-                    <div class="tabs">
-                        <ul id="edittabs" class="nav nav-tabs tabdrop">
-                            <li class="active">
-                                <a href="#editdefault" data-toggle="tab">General</a>
-                            </li>
-                            <li><a href="#editQuotationlist" data-toggle="tab">Delivery Items </a></li>
-
-                        </ul>
-
-                        <div id="createtabContent" class="tab-content">
-
-                            <div class="tab-pane fade active in" id="editdefault">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-horizontal">
-                                            @Html.HiddenFor(model => model.deliveryreturn.Delivery_Return_Id)
-                                            @Html.Hidden("ItemCount", Model.salesdeliverytitemlist.Count)
-                                            @Html.HiddenFor(model => model.salesdelivery.Sales_Delivery_Id)
-                                            @Html.HiddenFor(model => model.salesdeliveryitem.sales_Item_Id)
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    @*@Html.LabelFor(m => m.goodreceipt.Purchase_Order_Id, new { @class = "control-label normal" })*@
-                                                    SalesDelivery Id
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Purchase_Order_Id, new { @class = "control-label normal" })*@
+                                                        SalesDelivery Id
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @*, new { @id = "typeahead", @size = 12 }*@
+                                                        @*@Html.DropDownListFor(m => m.goodreceipt.Goods_Receipt_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Sales_Delivery_Id, new { @class = "form-control control-text",@disabled="disabled" })
+                                                        @Html.ValidationMessageFor(model => model.salesdelivery.Sales_Delivery_Id)
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-8">
-                                                    @*, new { @id = "typeahead", @size = 12 }*@
-                                                    @*@Html.DropDownListFor(m => m.goodreceipt.Goods_Receipt_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
-                                                    @Html.TextBoxFor(model => model.salesdelivery.Sales_Delivery_Id, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.salesdelivery.Sales_Delivery_Id)
-                                                </div>
-                                            </div>
 
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.salesdelivery.Customer, new { @class = "control-label normal" })
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.salesdelivery.Customer, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @*@Html.TextBoxFor(model => model.goodreceipt.Vendor, new { @class = "form-control control-text" })*@
+                                                        @Html.DropDownListFor(m => m.salesdelivery.Customer, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.salesdelivery.Customer)
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-8">
-                                                    @*@Html.TextBoxFor(model => model.goodreceipt.Vendor, new { @class = "form-control control-text" })*@
-                                                    @Html.DropDownListFor(m => m.salesdelivery.Customer, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.salesdelivery.Customer)
-                                                </div>
-                                            </div>
 
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.salesdelivery.Reference_Number, new { @class = "control-label normal" })
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.LabelFor(m => m.salesdelivery.Reference_Number, new { @class = "control-label normal" })
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Reference_Number, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.salesdelivery.Reference_Number)
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.salesdelivery.Reference_Number, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.salesdelivery.Reference_Number)
-                                                </div>
-                                            </div>
 
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    @*@Html.LabelFor(m => m.goodreceipt.Doc_Status, new { @class = "control-label normal" })*@
-                                                    Document Status
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.DropDownListFor(model => model.salesdelivery.Doc_Status, new List<SelectListItem>
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Doc_Status, new { @class = "control-label normal" })*@
+                                                        Document Status
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownListFor(model => model.salesdelivery.Doc_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
                                                             new SelectListItem{ Text="Closed", Value = "Closed" }
@@ -572,17 +651,17 @@
                                     <br />
                                     <div class="row">
                                         <div class="modal-footer">
-                                            <input class="btn btn-primary pull-left" type="button" id="btnEditNextTab" name="nextButton" value="Next" />
+                                            <input class="btn btn-primary pull-left" type="button" id="btnNextabdelivery" name="nextButton" value="Next" />
                                             <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
 
                                 </div>
 
-                                <div class="tab-pane fade" id="editQuotationlist">
+
+                                <div class="tab-pane fade" id="editQuotationItem">
 
                                     <div>
-
                                         <table id="EditTable" class="table display" style="min-height:180px;">
                                             <thead>
                                                 <tr>
@@ -597,8 +676,9 @@
                                             <tbody>
                                                 @for (int i = 0; i < Model.salesdeliverytitemlist.Count; i++)
                                                 {
-                                                    @Html.HiddenFor(model => model.deliveryreturnitemlist[i].Delivery_Return_Items_Id)
-                                                    @Html.HiddenFor(model => model.salesdeliverytitemlist[i].sales_Item_Id)
+
+                                                    @*@Html.HiddenFor(model => model.deliveryreturnitemlist[i].Delivery_Return_Id)
+                                                        @Html.HiddenFor(model => model.salesdeliverytitemlist[i].sales_Item_Id)*@
                                                     @Html.HiddenFor(model => model.salesdeliverytitemlist[i].Sales_Delivery_Id)
                                                     <tr>
                                                         <td style="display:none;">
@@ -647,14 +727,15 @@
                                             </tbody>
                                         </table>
 
+
+
                                     </div>
 
-
-
+                                    <br />
+                                    <br />
                                     <div class="modal-footer">
-                                        <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+                                        <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save pur-ord" />
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
-                                        @*@Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })*@
 
                                         <div class="row" style="float:right;">
                                             Total : <span>@Html.TextBoxFor(m => m.salesdelivery.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
@@ -666,19 +747,11 @@
                                     </div>
 
                                 </div>
-
-
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            @*<div class="modal-footer">
-                    <input class="btn btn-primary" type="submit" id="btnSubmit" name="submitButton" value="Save" />
-                    <button class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
-                </div>*@
         </div>
-
     </div>
+}

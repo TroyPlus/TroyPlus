@@ -33,6 +33,8 @@ namespace Troy.Web.Models
 
         public SalesDeliveryItems salesdeliveryitem { get; set; }
 
+        public List<SalesDelivery> listsalesdelivery { get; set; }
+
         public List<ViewSalesDelivery> salesdeliverylist { get; set; }
 
         public IList<SalesDeliveryItems> salesdeliverytitemlist { get; set; }

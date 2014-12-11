@@ -109,6 +109,9 @@
                     }
                 }
             });
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
 
             return selectHtml;
         }
@@ -137,7 +140,9 @@
                     }
                 }
             });
-
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
             return selectHtml;
         }
 
@@ -254,8 +259,24 @@
                 var id = "#PurchaseOrderItemsList_" + rowId + "__Unit_price";
                 $(id).val(result);
 
+                //onchange quantity functionality
+                var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
+                var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty;
+                var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
+                //onchange discount functionality
+                var dis = $("#PurchaseOrderItemsList_" + rowId + "__Discount_percent").val();
+                var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
+                var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty - ((price * qty) * dis / 100)
+                var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
                 CalculateTotal();
                 CalculateTotalAmount();
+                CalculateTax();
             }
         });
     }
@@ -268,36 +289,49 @@
         var totAmount = price * qty;
 
         var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
-        $(id).val(totAmount);
+        $(id).val(totAmount.toFixed(2));
+
+        //onchange discount functionality
+        var dis = $("#PurchaseOrderItemsList_" + rowId + "__Discount_percent").val();
+        var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
+        var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
         //debugger;
 
+        //debugger;
+        //onchange quantity functionality
+        var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
+        var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty;
+        var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
+        //on change discount
         var dis = currentDis.value;
         var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
         var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
-
-        //var totAmount = (price * qty) - dis
-        //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
-        //$(id).val(totAmount);
         var totAmount = price * qty - ((price * qty) * dis / 100)
-
         var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
         CalculateTotal();
-
-
-        //CalculateDiscount();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
 
     function OnChangeVAT() {
         CalculateTax();
+        CalculateTotal();
         CalculateTotalAmount();
     }
 
@@ -453,7 +487,7 @@
                                                 <div class="col-md-8">
                                                     @*, new { @id = "typeahead", @size = 12 }*@
                                                     @*@Html.DropDownListFor(m => m.PurchaseOrder.Purchase_Order_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
-                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Purchase_Order_Id, new { @class = "form-control control-text" })
+                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Purchase_Order_Id, new { @class = "form-control control-text",@readonly = true })
                                                     @Html.ValidationMessageFor(model => model.PurchaseOrder.Purchase_Order_Id)
                                                 </div>
                                             </div>

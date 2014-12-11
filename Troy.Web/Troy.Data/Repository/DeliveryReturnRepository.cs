@@ -67,7 +67,8 @@ namespace Troy.Data.Repository
        {
            List<ViewSalesDelivery> qList = new List<ViewSalesDelivery>();
 
-
+           //var purchase = (from p in deliveryreturn.salesdelivery
+           //                select p).ToList();
            //var goods = (from p in ordercontext.salesorder
            //             select p).ToList();
 
@@ -77,10 +78,12 @@ namespace Troy.Data.Repository
            //         join br in deliveryreturn.Branch on p.Branch equals br.Branch_Id
            //         where p.Doc_Status == "open"
 
-           qList = (from p in deliveryreturn.salesdelivery
+             qList = (from p in deliveryreturn.salesdelivery
                     join b in deliveryreturn.Businesspartner on p.Customer equals b.BP_Id
                     join br in deliveryreturn.Branch on p.Branch equals br.Branch_Id
                     where p.Doc_Status == "Open"
+
+                   
 
                     select new ViewSalesDelivery()
                     {

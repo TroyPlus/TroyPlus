@@ -46,6 +46,7 @@ namespace Troy.Model.GPRO
 
         [Required]
         [Column(TypeName = "date")]
+
        // [DataType(DataType.Date)]
        // [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
      //  [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
