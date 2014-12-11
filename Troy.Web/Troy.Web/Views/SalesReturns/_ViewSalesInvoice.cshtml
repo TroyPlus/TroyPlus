@@ -501,7 +501,10 @@
                                                         @Html.ValidationMessageFor(model => model.SalesInvoice.Doc_Status)
                                                     </div>
                                                 </div>
-
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Posting Date
@@ -513,10 +516,6 @@
                                                         @Html.ValidationMessageFor(model => model.SalesInvoice.Posting_Date)
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Due Date
@@ -527,15 +526,15 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Document Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesInvoice.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate1", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.SalesInvoice.Document_Date)
-                                                    </div>
-                                                </div>
+                                                @*<div class="row form-group">
+                                                        <div class="col-md-4">
+                                                            Document Date
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.SalesInvoice.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate1", @readonly = true })
+                                                            @Html.ValidationMessageFor(model => model.SalesInvoice.Document_Date)
+                                                        </div>
+                                                    </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -551,14 +550,14 @@
 
 
                                                 @*<div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Discount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesInvoice.DocDiscAmt, new { @class = "form-control control-text", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.SalesInvoice.DocDiscAmt)
-                                                    </div>
-                                                </div>*@
+                                                        <div class="col-md-4">
+                                                            Discount
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.SalesInvoice.DocDiscAmt, new { @class = "form-control control-text", @readonly = true })
+                                                            @Html.ValidationMessageFor(model => model.SalesInvoice.DocDiscAmt)
+                                                        </div>
+                                                    </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -592,7 +591,7 @@
                                                     <th>Unit Price</th>
                                                     <th>Quantity</th>
                                                     <th>Discount %</th>
-                                                    <th>VAT Code</th>
+                                                    <th>VAT %</th>
                                                     <th>LineTotal</th>
                                                     <th></th>
                                                 </tr>
@@ -636,10 +635,10 @@
                                                             @Html.ValidationMessageFor(model => model.SalesInvoiceItemList[i].LineTotal)
                                                         </td>
                                                         <td style="width: 90px;">
-                                                            <input class="BtnPlus btn pull-left" type="button" value="+" />
+                                                            <input class="BtnPlus btn pull-left" type="button" value="+" disabled="disabled" />
                                                             @if (i > 0)
                                                             {
-                                                                <input style="margin-left:5px;" class="BtnMinus btn pull-left" type="button" value="-" />
+                                                                <input style="margin-left:5px;" class="BtnMinus btn pull-left" type="button" value="-" disabled="disabled" />
                                                             }
                                                         </td>
                                                     </tr>

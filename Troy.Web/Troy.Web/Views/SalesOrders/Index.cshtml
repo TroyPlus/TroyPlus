@@ -179,10 +179,10 @@
     function ViewSalesQuotation(id) {
 
         var url = $('#viewPurQuoModal').data('url') + '/' + id;
-       
+
         $.get(url, function (data) {
             $('#viewPurQuomodelcontainer').html(data);
-           
+
 
             $('#viewPurQuoModal').modal('show');
         });
@@ -371,11 +371,6 @@
                             '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="salesorderitemlist_' + i + '__Discount_percent" name="salesorderitemlist[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
                             '<span class="field-validation-valid" data-valmsg-for="salesorderitemlist[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
                         '</td>' +
-                         '<td>' +
-
-                           '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="salesorderitemlist_' + i + '__LineTotal" name="salesorderitemlist[' + i + '].LineTotal" readonly="True" type="text" value="">' +
-                            '<span class="field-validation-valid" data-valmsg-for="salesorderitemlist[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
-                        '</td>' +
                         //'<td>' +
                         //    '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__Freight_Loading" name="goodreceiptitemlist[' + i + '].Freight_Loading" readonly="True" type="text" value="">' +
                         //    '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
@@ -385,7 +380,10 @@
                           selectHtml1 +
                             '<span class="field-validation-valid" data-valmsg-for="salesorderitemlist[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
                         '</td>' +
-
+                        '<td>' +
+                           '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="salesorderitemlist_' + i + '__LineTotal" name="salesorderitemlist[' + i + '].LineTotal" readonly="True" type="text" value="">' +
+                            '<span class="field-validation-valid" data-valmsg-for="salesorderitemlist[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
+                        '</td>' +
                         '<td>' +
                             '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
                         '</td>' +
@@ -441,6 +439,9 @@
                 }
             });
             //   "Product_Id", "Product_Name"
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
 
             return selectHtml;
         }
@@ -471,6 +472,9 @@
                     }
                 }
             });
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
 
             return vatselectHtml;
         }
@@ -502,6 +506,8 @@
                 par.remove();
                 i--;
                 CalculateTotal();
+                CalculateTotalAmount();
+                CalculateTax();
             }
         };
 
@@ -530,50 +536,79 @@
                 //debugger;
                 var id = "#salesorderitemlist_" + rowId + "__Unit_price";
                 $(id).val(result);
-                alert(result);
+
+                //onchange quantity functionality
+                var qty = $("#salesorderitemlist_" + rowId + "__Quantity").val();
+                var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty;
+                var id = "#salesorderitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
+                //onchange discount functionality
+                var dis = $("#salesorderitemlist_" + rowId + "__Discount_percent").val();
+                var qty = $("#salesorderitemlist_" + rowId + "__Quantity").val();
+                var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty - ((price * qty) * dis / 100)
+                var id = "#salesorderitemlist_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
+
                 CalculateTotal();
                 CalculateTotalAmount();
+                CalculateTax();
             }
         });
     }
 
     function OnChangeQuantity(currentQty, rowId) {
 
+        //on change quantity
         var qty = currentQty.value;
         var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
-
         var totAmount = price * qty;
-
         var id = "#salesorderitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
+
+        //onchange discount functionality
+        var dis = $("#salesorderitemlist_" + rowId + "__Discount_percent").val();
+        var qty = $("#salesorderitemlist_" + rowId + "__Quantity").val();
+        var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#salesorderitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
         //debugger;
-
-        var dis = currentDis.value;
+        //onchange quantity functionality
         var qty = $("#salesorderitemlist_" + rowId + "__Quantity").val();
         var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
-
-        var totAmount = price * qty - ((price * qty) * dis / 100)
-
+        var totAmount = price * qty;
         var id = "#salesorderitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
-        //var totAmount = (price * qty) - dis
-        //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
-        //$(id).val(totAmount);
+        //on change discount
+        var dis = currentDis.value;
+        var qty = $("#salesorderitemlist_" + rowId + "__Quantity").val();
+        var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#salesorderitemlist_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
 
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
 
     function OnChangeVAT() {
-        CalculateTax();
+        CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscountSummary(currentDis) {
@@ -773,10 +808,7 @@
         var t = tot + tot1;
 
 
-        if (textload.text == "Equally")
-
-
-        {
+        if (textload.text == "Equally") {
             for (var j = i; j >= 0; j--) {
                 var total = t / i;
             }
@@ -784,22 +816,22 @@
         }
 
 
-  //    else if (textload.text == "Quality")
-  //    {
-  //        for (var j = i; j >= 0; j--) {
-  //            var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
-  //            var total = t / qty;
+        //    else if (textload.text == "Quality")
+        //    {
+        //        for (var j = i; j >= 0; j--) {
+        //            var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
+        //            var total = t / qty;
 
-  //        }
-  //    }
-  //else if (textload.text == "Cost")
-  //    {
-  //          for (var j = i; j >= 0; j--) {
-  //              var line = $("#goodreceiptitemlist_" + rowId + "__LineTotal").val();
-  //              var total = t / line;
+        //        }
+        //    }
+        //else if (textload.text == "Cost")
+        //    {
+        //          for (var j = i; j >= 0; j--) {
+        //              var line = $("#goodreceiptitemlist_" + rowId + "__LineTotal").val();
+        //              var total = t / line;
 
-  //          }
-  //      }
+        //          }
+        //      }
         $("#totloading").val(t);
     }
 
@@ -887,8 +919,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       @foreach (Troy.Model.SalesOrders.ViewSalesOrder item in Model.salesorderviewlist)
-                                       {
+                                        @foreach (Troy.Model.SalesOrders.ViewSalesOrder item in Model.salesorderviewlist)
+                                        {
                                             <tr class="odd gradeX">
                                                 <td style="text-align:center;">@item.Sales_Order_Id</td>
                                                 <td>@item.Vendor_Name</td>

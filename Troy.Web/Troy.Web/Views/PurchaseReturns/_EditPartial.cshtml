@@ -5,11 +5,20 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        $('.datePicke').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+        $('.datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
-        $('.datePicker').datepicker();
-        $('.datepick').datepicker();
-        $('.date').datepicker();
+        $('#creDocumentDate1').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
+
+        $('#creDueDate1').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
+
+        $('#crePostingDate1').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        });
+
         $("#editTypeahead").jAutochecklist();
         var i;
 
@@ -271,7 +280,7 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Due_Date, new { @class = "form-control control-text", @id = "creDeliveryDate1" })
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Due_Date, new { @class = "form-control control-text", @id = "creDueDate1" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseReturn.Due_Date)
                                                     </div>
                                                 </div>
@@ -286,7 +295,7 @@
                                                     </div>
                                                     <div class="col-md-8">
 
-                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate1" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseReturn.Document_Date)
                                                     </div>
                                                 </div>

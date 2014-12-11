@@ -81,7 +81,7 @@ namespace Troy.Web.Controllers
 
                 if (submitButton == "Save")
                 {
-
+                    model.PurchaseInvoice.Document_Date = DateTime.Now;                 
                     model.PurchaseInvoice.Doc_Status = "Open";
                     model.PurchaseInvoice.Invoice_Payment = "N";
                     model.PurchaseInvoice.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
@@ -115,6 +115,7 @@ namespace Troy.Web.Controllers
                 }
                 else if (submitButton == "Update")
                 {
+                    model.PurchaseInvoice.Document_Date = DateTime.Now;
                     model.PurchaseInvoice.Doc_Status = "Open";
                     model.PurchaseInvoice.Invoice_Payment = "N";
                     //model.PurchaseInvoice.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
@@ -216,6 +217,9 @@ namespace Troy.Web.Controllers
                                 if (model1.GoodsReceiptItemList[j].Product_id == model.GoodsReceiptItemList[j].Product_id && model.GoodsReceiptItemList[j].Quantity >= model1.GoodsReceiptItemList[j].Quantity)
                                 {
                                     model1.GoodsReceipt.Doc_Status = "Closed";
+                                    model.GoodsReceipt.Posting_Date = DateTime.Now;
+                                    model.GoodsReceipt.Due_Date = DateTime.Now;
+                                    model.GoodsReceipt.Document_Date = DateTime.Now; 
                                     model1.GoodsReceipt.TargetDocId = model1.GoodsReceipt.TargetDocId + "," + Convert.ToString(model.PurchaseInvoice.Purchase_Invoice_Id);
 
 
@@ -230,6 +234,9 @@ namespace Troy.Web.Controllers
                                 else if (model1.GoodsReceiptItemList[j].Product_id == model.GoodsReceiptItemList[j].Product_id && model.GoodsReceiptItemList[j].Quantity < model1.GoodsReceiptItemList[j].Quantity)
                                 {
                                     model1.GoodsReceipt.Doc_Status = "Open";
+                                    model.GoodsReceipt.Posting_Date = DateTime.Now;
+                                    model.GoodsReceipt.Due_Date = DateTime.Now;
+                                    model.GoodsReceipt.Document_Date = DateTime.Now; 
                                     model1.GoodsReceipt.TargetDocId = model1.GoodsReceipt.TargetDocId + "," + Convert.ToString(model.PurchaseInvoice.Purchase_Invoice_Id);
 
 

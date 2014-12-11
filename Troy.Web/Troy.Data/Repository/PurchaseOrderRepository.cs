@@ -60,12 +60,13 @@ namespace Troy.Data.Repository
 
         public List<ViewPurchaseQuotation> GetPurchaseQuotation()
         {
+            //DateTime ss = Convert.ToDateTime(DateTime.Now.ToShortDateString());
+            DateTime date = DateTime.Now;
             List<ViewPurchaseQuotation> qlist = new List<ViewPurchaseQuotation>();
             qlist = (from pq in purchaseordercontext.purchasequotation
                      join b in purchaseordercontext.Businesspartner
                        on pq.Vendor_Code equals b.BP_Id
-                     where pq.Quotation_Status == "Open"
-                     where pq.Valid_Date >= DateTime.Now
+                     where (pq.Quotation_Status == "Open" && pq.Valid_Date >= date)
                      select new ViewPurchaseQuotation()
                      {
                          Purchase_Quote_Id = pq.Purchase_Quote_Id,

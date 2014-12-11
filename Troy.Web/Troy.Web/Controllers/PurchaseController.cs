@@ -90,7 +90,7 @@ namespace Troy.Web.Controllers
                     model.PurchaseQuotation.Modified_User_Id = currentUser.Modified_User_Id;
                     model.PurchaseQuotation.Modified_Date = DateTime.Now;
                     model.PurchaseQuotation.Modified_Branch_Id = currentUser.Modified_Branch_Id;                   
-                    //model.PurchaseQuotation.Posting_Date = DateTime.Now;
+                  
 
                     var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
                     model.PurchaseQuotationItemList = QuotationList.ToList();

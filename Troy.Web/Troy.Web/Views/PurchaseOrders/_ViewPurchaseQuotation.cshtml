@@ -550,16 +550,15 @@
 
                                             <div class="form-horizontal">
 
-                                                <div class="row form-group">
+                                                @*<div class="row form-group">
                                                     <div class="col-md-4">
                                                         Document Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotation.Modified_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @readonly = true })*@
                                                         @Html.TextBoxFor(model => model.PurchaseQuotation.Modified_Date, new { @class = "form-control control-text ", @id = "crePQDocumentDate" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Modified_Date)
                                                     </div>
-                                                </div>
+                                                </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
