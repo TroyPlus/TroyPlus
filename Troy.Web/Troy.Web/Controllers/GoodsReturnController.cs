@@ -111,6 +111,7 @@ namespace Troy.Web.Controllers
                     model.goodreturn.TaxAmt = model.goodreceipt.TaxAmt;
                     model.goodreturn.TotalGRDocAmt = model.goodreceipt.TotalGRDocAmt;
                     model.goodreturn.Reference_Number = model.goodreceipt.Reference_Number;
+                    model.goodreturn.Document_Date = DateTime.Now;
 
                     var GoodsList = model.goodreturnitemlist.Where(x => x.IsDummy == 0);
                     model.goodreturnitemlist = GoodsList.ToList();
