@@ -38,12 +38,12 @@ namespace Troy.Data.Repository
             //    select p).ToList();
             qList = (from r in goodsreturncontext.goodsreturn
                      join bp in goodsreturncontext.businesspartner on r.Vendor equals bp.BP_Id
-                     join gr in goodsreturncontext.goodsreceipt on r.Goods_Receipt_Id equals gr.Goods_Receipt_Id
+                     //join gr in goodsreturncontext.goodsreceipt on r.Goods_Receipt_Id equals gr.Goods_Receipt_Id
                      join b in goodsreturncontext.branch on r.Ship_To equals b.Branch_Id
                      select new ViewGoodsReturn()
                      {
                          Goods_Return_Id = r.Goods_Return_Id,
-                         Goods_Receipt_Id = gr.Goods_Receipt_Id,
+                         Goods_Receipt_Id = r.Goods_Receipt_Id,
                          Vendor = bp.BP_Id,
                          Ship_To = b.Branch_Id,
                          Vendor_Name=bp.BP_Name,

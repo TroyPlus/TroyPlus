@@ -94,6 +94,7 @@ namespace Troy.Web.Controllers
 
                 if (submitButton == "Save")
                 {
+                    model.salesorder.Document_Date = DateTime.Now;
                     model.salesorder.Branch = CurrentBranchId;
                     model.salesorder.Order_Status = "Open";
                     model.salesorder.TargetDocId = "0";

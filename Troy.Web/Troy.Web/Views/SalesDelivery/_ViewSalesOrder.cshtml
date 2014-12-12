@@ -9,12 +9,12 @@
         //$('.datePicker').datepicker();
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
-        $('#creDocumentDate').datepicker({
+        $('#Date').datepicker({
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
-        $('#crePostingDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        $('#Date1').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0
         });
 
         $("#typeahead").jAutochecklist({
@@ -614,20 +614,11 @@
                                                     Posting Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.salesorder.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate" })
+                                                    @Html.TextBoxFor(model => model.salesorder.Posting_Date, new { @class = "form-control control-text", @id = "Date" })
                                                     @Html.ValidationMessageFor(model => model.salesorder.Posting_Date)
                                                 </div>
                                             </div>
 
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    Document Date
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.salesorder.Document_Date, new { @class = "form-control control-text datePicker" })
-                                                    @Html.ValidationMessageFor(model => model.salesorder.Document_Date)
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -637,7 +628,7 @@
                                                     Valid Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.salesorder.Delivery_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
+                                                    @Html.TextBoxFor(model => model.salesorder.Delivery_Date, new { @class = "form-control control-text", @id = "Date1" })
                                                     @Html.ValidationMessageFor(model => model.salesorder.Delivery_Date)
                                                 </div>
                                             </div>
@@ -694,8 +685,8 @@
                                                 <th>Quantity</th>
                                                 <th>Unit Price</th>
                                                 <th>Discount %</th>
-                                                <th>VAT Code</th>
                                                 <th>LineTotal</th>
+                                                <th>VAT Code</th>
                                                 <th></th>
                                             </tr>
                                         </thead>

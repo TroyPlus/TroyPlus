@@ -10,7 +10,7 @@
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
         $('#creDocumentDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            dateFormat: 'dd/MM/yy', minDate: 0
         });
 
         $('#crePostingDate').datepicker({
@@ -567,15 +567,6 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    Document Date
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.SalesQuotation.Document_Date, new { @class = "form-control control-text datePicker" })
-                                                    @Html.ValidationMessageFor(model => model.SalesQuotation.Document_Date)
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">

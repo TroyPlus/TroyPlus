@@ -140,6 +140,12 @@
                                                     </div>
                                                 </div>
 
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Due_Date, new { @class = "control-label normal" })*@
@@ -147,9 +153,10 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.TextBoxFor(model => model.goodreturn.Due_Date, new { @class = "form-control control-text datePicker", @disabled = "disabled" })
-                                                      
+
                                                     </div>
                                                 </div>
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
@@ -158,16 +165,11 @@
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
                                                         @Html.TextBoxFor(model => model.goodreturn.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @disabled = "disabled", @class = "form-control control-text " })@*, @readonly = true })*@
-                                                       
+
                                                     </div>
                                                 </div>
 
 
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
 
                                                 <div class="row  form-group">
                                                     <div class="col-md-4">
@@ -190,76 +192,7 @@
                                                     </div>
                                                 </div>
 
-                                                @*<div class="row  form-group">
-                                <div class="col-md-4">
-                                    Html.LabelFor(m => m.goodreceipt.Distribute_LandedCost, new { @class = "control-label normal" })*@
-                                                @*Distribute LandedCost
-                                    </div>
-                                    <div class="col-md-8">
-                                        @Html.TextBoxFor(model => model.goodreceipt.Distribute_LandedCost, new { @class = "form-control control-text" })
-                                        @Html.ValidationMessageFor(model => model.goodreceipt.Distribute_LandedCost)
-                                    </div>
-                                </div>*@
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.TotalBefDocDisc, new { @class = "control-label normal" })*@
-                                                        TotalBefDocDisc
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.TotalBefDocDisc, new { @class = "form-control control-text", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.TotalBefDocDisc)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.DocDiscAmt, new { @class = "control-label normal" })*@
-                                                        DocumentDiscountAmount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.DocDiscAmt, new { @class = "form-control control-text", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.DocDiscAmt)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.TaxAmt, new { @class = "control-label normal" })*@
-                                                        Tax Amount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.TaxAmt, new { @class = "form-control control-text", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.TaxAmt)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.TotalGRDocAmt, new { @class = "control-label normal" })*@
-                                                        TotGRDcouAmt
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.TotalGRDocAmt, new { @class = "form-control control-text", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.goodreturn.TotalGRDocAmt)
-                                                    </div>
-                                                </div>
-
-                                                @*<div class="row form-group">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(m => m.goodreturn.Distribute_LandedCost, new { @class = "control-label normal" })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.DropDownListFor(model => model.goodreturn.Distribute_LandedCost, new List<SelectListItem>
-                                     {
-                                        new SelectListItem{ Text="Equally", Value = "Equally" },
-                                        new SelectListItem{ Text="Quantity", Value = "Quantity" },
-                                           new SelectListItem{ Text="Cost", Value = "Cost" }
-                                     }, "", new { @class = "form-control", @id = "" })*@
-
-                                                @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
-                                                @*</div>
-                                </div>*@
+ 
 
                                             </div>
                                         </div>

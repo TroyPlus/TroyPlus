@@ -43,7 +43,7 @@ namespace Troy.Data.Repository
                      select new ViewSalesOrder()
                      {
                          Sales_Qtn_Id = p.Sales_Qtn_Id,
-                         Customer =p.Customer,
+                         Customer = p.Customer,
                          BaseDocId = p.BaseDocId,
                          TargetDocId = p.TargetDocId,
                          Sales_Order_Id = p.Sales_Order_Id,
@@ -62,7 +62,7 @@ namespace Troy.Data.Repository
                      }).ToList();
 
             return qList;
-           // return qList;
+            // return qList;
         }
 
 
@@ -85,8 +85,8 @@ namespace Troy.Data.Repository
                             select new SalesOrderItems
                             {
                                 Discount_percent = q.Discount_percent,
-                                Sale_Orderitem_Id=q.Sale_Orderitem_Id,
-                                Sales_Order_Id=q.Sales_Order_Id,
+                                Sale_Orderitem_Id = q.Sale_Orderitem_Id,
+                                Sales_Order_Id = q.Sales_Order_Id,
 
                                 //LineTotal = q.LineTotal,
                                 Product_id = q.Product_id,
@@ -104,6 +104,8 @@ namespace Troy.Data.Repository
 
         public List<SalesQuotation> Getallsalesquotation()
         {
+            DateTime date = DateTime.Now;
+
             List<SalesQuotation> qList = new List<SalesQuotation>();
 
             var purchase = (from p in ordercontext.salesquotation
@@ -112,11 +114,10 @@ namespace Troy.Data.Repository
             qList = (from p in purchase
                      join b in ordercontext.Businesspartner
                       on p.Customer equals b.BP_Id
-                     where p.Doc_Status == "Open"
-                     where p.Customer == b.BP_Id
+                     where (p.Doc_Status == "Open" && p.Valid_Date >= date)
                      select new SalesQuotation()
                      {
-                        // Sales_OrderItem_Id=p.Sales_Qtn_Id,
+                         // Sales_OrderItem_Id=p.Sales_Qtn_Id,
                          Vendor_Name = b.BP_Name,
                          Customer = p.Customer,
                          Sales_Qtn_Id = p.Sales_Qtn_Id,
@@ -195,17 +196,17 @@ namespace Troy.Data.Repository
 
 
 
-          public SalesQuotation findid(int id)
+        public SalesQuotation findid(int id)
         {
             return (from p in ordercontext.salesquotation
                     join g in ordercontext.salesorder
                     on p.Customer equals g.Customer
-                    where g.BaseDocId ==Convert.ToString(p.Sales_Qtn_Id)
+                    where g.BaseDocId == Convert.ToString(p.Sales_Qtn_Id)
                     select p).FirstOrDefault();
-            
+
         }
 
-          public SalesQuotation FindOneQuotationById1(int qId)
+        public SalesQuotation FindOneQuotationById1(int qId)
         {
             return (from p in ordercontext.salesquotation
                     where p.Sales_Qtn_Id == qId
@@ -227,18 +228,18 @@ namespace Troy.Data.Repository
                             join pi in ordercontext.product on q.Product_id equals pi.Product_Id
                             select new SalesQuotationItems
                             {
-                                Sales_QtnItems_Id=q.Sales_QtnItems_Id,
-                                Sales_Qtn_Id=q.Sales_Qtn_Id,
+                                Sales_QtnItems_Id = q.Sales_QtnItems_Id,
+                                Sales_Qtn_Id = q.Sales_Qtn_Id,
                                 Discount_percent = q.Discount_percent,
-                            //    Purchase_OrderItem_Id=q.Purchase_OrderItem_Id,
-                                BaseDocLink=q.BaseDocLink,
+                                //    Purchase_OrderItem_Id=q.Purchase_OrderItem_Id,
+                                BaseDocLink = q.BaseDocLink,
                                 //LineTotal = q.LineTotal,
                                 Product_id = q.Product_id,
                                 ProductName = pi.Product_Name,
-                              ///  Purchase_Order_Id = q.Purchase_Order_Id,
-                                Quantity=q.Quantity,
-                                Unit_price=q.Unit_price,
-                              //  Freight_Loading=q.Freight_Loading,
+                                ///  Purchase_Order_Id = q.Purchase_Order_Id,
+                                Quantity = q.Quantity,
+                                Unit_price = q.Unit_price,
+                                //  Freight_Loading=q.Freight_Loading,
                                 Vat_Code = q.Vat_Code,
                                 LineTotal = q.LineTotal
                             }).ToList();

@@ -119,7 +119,6 @@ namespace Troy.Data.Repository
                      join b in goodscontext.businesspartner
                       on p.Vendor equals b.BP_Id
                      where p.Order_Status == "Open"
-                     where p.Vendor==b.BP_Id
                      select new ViewPurchaseOrder()
                      {
                          Purchase_Order_Id = p.Purchase_Order_Id,

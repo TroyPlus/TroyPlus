@@ -109,8 +109,9 @@
                                                     @Html.DropDownListFor(model => model.goodreceipt.Doc_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
-                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
-                                                         }, "Open", new { @class = "form-control", @readonly = true })@*, @disabled = true })*@
+                                                            new SelectListItem{ Text="Closed", Value = "Closed" },
+                                                               new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
+                                                         }, new { @class = "form-control", @readonly = true })@*, @disabled = true })*@
 
                                                         @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
                                                     </div>

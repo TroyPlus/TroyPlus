@@ -53,6 +53,7 @@ namespace Troy.Model.DeliveryReturns
         public Decimal TotalBefDocDisc { get; set; }
 
         [Required]
+        [RegularExpression(@"\d+(\.\d{0,2})?", ErrorMessage = "Invalid Total Before Document Discount Amount")]
         public Decimal DocDiscAmt { get; set; }
 
         [Required]

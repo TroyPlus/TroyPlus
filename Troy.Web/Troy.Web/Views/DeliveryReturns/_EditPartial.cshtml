@@ -9,10 +9,16 @@
 
         $('.datePicke').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
-        $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
-        $('.datepick1').datepicker({ dateFormat: 'dd-mm-yy' }).val();
-        $('.datepick2').datepicker({ dateFormat: 'dd-mm-yy' }).val();
-        $('.date3').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+      
+
+        $('#datePicker1').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate:0
+        });
+
+        $('#datepick2').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0
+        });
+     
         $("#editTypeahead").jAutochecklist();
         var i;
 
@@ -62,10 +68,10 @@
                        //    '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__Freight_Loading" name="goodreceiptitemlist[' + i + '].Freight_Loading" readonly="True" type="text" value="">' +
                        //    '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
                        //'</td>' +
-                        '<td>' +
-                           '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="deliveryreturnitemlist_' + i + '_Freight_Loading" name="deliveryreturnitemlist[' + i + '].Freight_Loading" readonly="True" type="text" value="">' +
-                           '<span class="field-validation-valid" data-valmsg-for="deliveryreturnitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
-                       '</td>' +
+                       // '<td>' +
+                       //    '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="deliveryreturnitemlist_' + i + '_Freight_Loading" name="deliveryreturnitemlist[' + i + '].Freight_Loading" readonly="True" type="text" value="">' +
+                       //    '<span class="field-validation-valid" data-valmsg-for="deliveryreturnitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
+                       //'</td>' +
                           '<td>' +
                             selectHtml1 +
                           '<span class="field-validation-valid" data-valmsg-for="deliveryreturnitemlist_[' + i + '].__Vat_Code" onkeyup="OnChangeVAT(this, ' + i + ');" data-valmsg-replace="true"></span>' +
@@ -561,12 +567,20 @@
                                                         @Html.DropDownListFor(model => model.deliveryreturn.Doc_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
-                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
+                                                            new SelectListItem{ Text="Closed", Value = "Closed" },
+                                                             new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
                                                          }, "Open", new { @class = "form-control" })@*, @disabled = true })*@
 
                                                         @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
                                                     </div>
                                                 </div>
+
+                                            
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -580,18 +594,14 @@
                                                     </div>
                                                 </div>
 
-                                            </div>
-                                        </div>
 
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Posting_Date, new { @class = "control-label normal" })*@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.deliveryreturn.Posting_Date, new { @Value = Model.deliveryreturn.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "datePicker" })
+                                                        @Html.TextBoxFor(model => model.deliveryreturn.Posting_Date, new { @Value = Model.deliveryreturn.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @id = "datePicker1" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreturn.Posting_Date)*@
                                                     </div>
                                                 </div>
@@ -604,59 +614,12 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.deliveryreturn.Delivery_Date, new { @Value = Model.deliveryreturn.Delivery_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "datepick2" })
+                                                        @Html.TextBoxFor(model => model.deliveryreturn.Delivery_Date, new { @Value = Model.deliveryreturn.Delivery_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @id = "datepick2" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreturn.Due_Date)*@
                                                     </div>
                                                 </div>
 
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
-                                                        Document Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.deliveryreturn.Document_Date, new { @Value = Model.deliveryreturn.Document_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "date3" })@*, @readonly = true })*@
-                                                        @*@Html.ValidationMessageFor(model => model.goodreturn.Document_Date)*@
-                                                    </div>
-                                                </div>
-
-
-                                              
-
-                                                @*<div class="row  form-group">
-                                                    <div class="col-md-4">
-                                                        Html.LabelFor(m => m.goodreceipt.Distribute_LandedCost, new { @class = "control-label normal" })*@
-                                                @*Distribute LandedCost
-                                                        </div>
-                                                        <div class="col-md-8">
-                                                            @Html.TextBoxFor(model => model.goodreceipt.Distribute_LandedCost, new { @class = "form-control control-text" })
-                                                            @Html.ValidationMessageFor(model => model.goodreceipt.Distribute_LandedCost)
-                                                        </div>
-                                                    </div>*@
-
-
-
-
-
-
-
-
-                                                @*<div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @Html.LabelFor(m => m.goodreturn.Distribute_LandedCost, new { @class = "control-label normal" })
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.DropDownListFor(model => model.goodreceipt.Distribute_LandedCost, new List<SelectListItem>
-                                                         {
-                                                            new SelectListItem{ Text="Equally", Value = "Equally" },
-                                                            new SelectListItem{ Text="Quantity", Value = "Quantity" },
-                                                               new SelectListItem{ Text="Cost", Value = "Cost" }
-                                                         }, "", new { @class = "form-control" })*@
-
-                                                @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
-                                                @*</div>
-                                                    </div>*@
+ 
 
                                             </div>
                                         </div>
@@ -682,7 +645,6 @@
                                                     <th>Quantity</th>
                                                     <th>Unit Price</th>
                                                     <th>Discount %</th>
-                                                    <th> Freight_Loading</th>
                                                     <th>VAT Code</th>
                                                     <th></th>
                                                 </tr>
@@ -723,10 +685,10 @@
                                                             @Html.TextBoxFor(model => model.deliveryreturnitemlist[i].Discount_Precent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");" })
                                                             @Html.ValidationMessageFor(model => model.deliveryreturnitemlist[i].Discount_Precent)
                                                         </td>
-                                                        <td>
+                                                        @*<td>
                                                             @Html.TextBoxFor(model => model.deliveryreturnitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true })
                                                             @Html.ValidationMessageFor(model => model.deliveryreturnitemlist[i].LineTotal)
-                                                        </td>
+                                                        </td>*@
                                                         <td>
                                                             @Html.DropDownListFor(m => m.deliveryreturnitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.deliveryreturnitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");" })
                                                             @Html.ValidationMessageFor(model => model.deliveryreturnitemlist[i].Vat_Code)

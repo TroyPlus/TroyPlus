@@ -244,7 +244,6 @@
                                                     <th>Quantity</th>
                                                     <th>Unit Price</th>
                                                     <th>Discount %</th>
-                                                    <th> Freight_Loading</th>
                                                     <th>VAT Code</th>
                                                     <th></th>
                                                 </tr>
@@ -284,10 +283,6 @@
                                                         <td>
                                                             @Html.TextBoxFor(model => model.deliveryreturnitemlist[i].Discount_Precent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");", @disabled = "Disabled" })
                                                             @Html.ValidationMessageFor(model => model.deliveryreturnitemlist[i].Discount_Precent)
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(model => model.deliveryreturnitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true, @disabled = "Disabled" })
-                                                            @Html.ValidationMessageFor(model => model.deliveryreturnitemlist[i].LineTotal)
                                                         </td>
                                                         <td>
                                                             @Html.DropDownListFor(m => m.deliveryreturnitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.deliveryreturnitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");", @disabled = "Disabled" })

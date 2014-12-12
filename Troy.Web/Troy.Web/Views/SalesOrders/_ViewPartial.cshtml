@@ -133,6 +133,17 @@
                                                     </div>
                                                 </div>
 
+                                               
+
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
+
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Posting_Date, new { @class = "control-label normal" })*@
@@ -154,28 +165,7 @@
                                                     </div>
                                                 </div>
 
-
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
-
-
-
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
-                                                        Document Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.salesorder.Document_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate2", disabled = "disabled" })@*, @readonly = true })*@
-                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)*@
-                                                    </div>
-                                                </div>
+                                             
 
 
 

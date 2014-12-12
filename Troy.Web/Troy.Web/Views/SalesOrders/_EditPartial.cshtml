@@ -9,12 +9,12 @@
         //$('.datePicker').datepicker();
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
-        $('#creDocumentDate').datepicker({
+        $('#DocumentDate').datepicker({
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
-        $('#crePostingDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        $('#PostingDate').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0
         });
 
         $("#typeahead").jAutochecklist({
@@ -597,7 +597,8 @@
                                                         @Html.DropDownListFor(model => model.salesorder.Order_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
-                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
+                                                            new SelectListItem{ Text="Closed", Value = "Closed" },
+                                                             new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
                                                          }, new { @class = "form-control" })@*, @disabled = true })*@
 
                                                         @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
@@ -616,13 +617,19 @@
                                                     </div>
                                                 </div>
 
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Posting_Date, new { @class = "control-label normal" })*@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesorder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate" })
+                                                        @Html.TextBoxFor(model => model.salesorder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @id = "DocumentDate" })
                                                         @Html.ValidationMessageFor(model => model.salesorder.Posting_Date)
                                                     </div>
                                                 </div>
@@ -632,34 +639,10 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesorder.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate1" })
+                                                        @Html.TextBoxFor(model => model.salesorder.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @id = "PostingDate" })
                                                         @Html.ValidationMessageFor(model => model.salesorder.Delivery_Date)
                                                     </div>
                                                 </div>
-
-
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
-
-
-
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
-                                                        Document Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.salesorder.Document_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate2" })@*, @readonly = true })*@
-                                                        @Html.ValidationMessageFor(model => model.salesorder.Document_Date)
-                                                    </div>
-                                                </div>
-
 
 
                                                 <div class="row  form-group">

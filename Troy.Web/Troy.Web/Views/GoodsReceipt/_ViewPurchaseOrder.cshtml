@@ -8,7 +8,7 @@
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
         $('#creDocumentDat2').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            dateFormat: 'dd/MM/yy', minDate: 0
         });
         $('#creDocumentDat3').datepicker({
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
@@ -522,7 +522,8 @@
                                                     @Html.DropDownListFor(model => model.PurchaseOrder.Order_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
-                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
+                                                            new SelectListItem{ Text="Closed", Value = "Closed" },
+                                                             new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
                                                          }, new { @class = "form-control" })@*, @disabled = true })*@
 
                                                         @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
@@ -568,24 +569,10 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Delivery_Date, new { @Value = Model.PurchaseOrder.Delivery_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", @id = "creDocumentDat2" })
+                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text  ", @id = "creDocumentDat2" })
                                                         @*@Html.ValidationMessageFor(model => model.PurchaseOrder.Delivery_Date)*@
                                                     </div>
                                                 </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
-                                                        Document Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @Value = Model.PurchaseOrder.Document_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text  datePicker", @id = "creDocumentDat3" })@*, @readonly = true })*@
-                                                        @*@Html.ValidationMessageFor(model => model.PurchaseOrder.Document_Date)*@
-                                                    </div>
-                                                </div>
-
-
 
                                                 <div class="row  form-group">
                                                     <div class="col-md-4">
@@ -726,9 +713,9 @@
 
 
                                     <div class="modal-footer">
-                                        <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save pur-ord" />
+                                        <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save " />
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
-                                        @*@Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })*@
+                                        @*@Ajax.ActionLink("Change content", "UpdateContent", "Home",Save pur-ord new AjaxOptions { UpdateTargetId = "myTabContent" })*@
 
                                         <div class="row" style="float:right;">
                                             Total : <span>@Html.TextBoxFor(m => m.PurchaseOrder.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />

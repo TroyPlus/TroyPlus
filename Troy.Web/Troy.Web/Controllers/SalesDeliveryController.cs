@@ -90,6 +90,7 @@ namespace Troy.Web.Controllers
 
                 if (submitButton == "Save")
                 {
+                    model.salesdelivery.Document_Date = DateTime.Now;
                     model.salesdelivery.Branch = CurrentBranchId;
                     model.salesdelivery.Doc_Status = "Open";
                     model.salesdelivery.TargetDocId ="0";
@@ -278,6 +279,7 @@ namespace Troy.Web.Controllers
 
                     for (int i = 0; i < model.salesdeliverytitemlist.Count; i++)
                     {
+                        model.salesdeliverytitemlist[i].Sales_Delivery_Id = model.salesdelivery.Sales_Delivery_Id;
                         model.salesdeliverytitemlist[i].BaseDocLink = "N";
                     }
                     if (deliveryrepository.UpdateQuotation(model.salesdelivery, model.salesdeliverytitemlist, ref ErrorMessage))
