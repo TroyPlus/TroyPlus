@@ -36,16 +36,19 @@ namespace Troy.Model.Purchase
         //[DataType(DataType.Date)]
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [Column(TypeName = "date")]
         public DateTime Posting_Date { get; set; }
 
         [Required]
         [Display(Name = "Valid up to")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [Column(TypeName = "date")]
         public DateTime Valid_Date { get; set; }
 
         [Required]
         [Display(Name = "Required Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [Column(TypeName = "date")]
         public DateTime Required_Date { get; set; }
 
         [Required]
@@ -54,7 +57,7 @@ namespace Troy.Model.Purchase
 
         [Required]
         [Display(Name = "Freight")]
-        public int? Freight { get; set; }       
+        public int? Freight { get; set; }
 
         [Required]
         public int? Loading { get; set; }
@@ -62,7 +65,7 @@ namespace Troy.Model.Purchase
         [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Invalid price")]
         public decimal TotalBefDocDisc { get; set; }
 
-        [RegularExpression(@"^\d+.\d{0,2}$",ErrorMessage = "Price must can't have more than 2 decimal places")]
+        [RegularExpression(@"^\d+.\d{0,2}$", ErrorMessage = "Price must can't have more than 2 decimal places")]
         public decimal DocDiscAmt { get; set; }
 
         public decimal TaxAmt { get; set; }
@@ -83,12 +86,14 @@ namespace Troy.Model.Purchase
 
         public int Created_Branc_Id { get; set; }
 
+        [Column(TypeName = "date")]
         public DateTime Created_Date { get; set; }
 
         public int Modified_User_Id { get; set; }
 
         public int Modified_Branch_Id { get; set; }
 
+        [Column(TypeName = "date")]
         public DateTime Modified_Date { get; set; }
 
         [NotMapped]

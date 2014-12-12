@@ -85,7 +85,8 @@ namespace Troy.Web.Controllers
 
                 if (submitButton == "Save")
                 {
-
+                    model.PurchaseOrder.Posting_Date = DateTime.Now;
+                    model.PurchaseOrder.Document_Date = DateTime.Now;
                     model.PurchaseOrder.Order_Status = "Open";
                     model.PurchaseOrder.TargetDocId = "0";
                     model.PurchaseOrder.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
@@ -117,6 +118,8 @@ namespace Troy.Web.Controllers
                 }
                 else if (submitButton == "Update")
                 {
+                    model.PurchaseOrder.Posting_Date = DateTime.Now;
+                    model.PurchaseOrder.Document_Date = DateTime.Now;
                     model.PurchaseOrder.Order_Status = "Open";
                     model.PurchaseOrder.TargetDocId = "0";
                     //model.PurchaseOrder.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 

@@ -1,5 +1,71 @@
 ﻿@model Troy.Web.Models.PurchaseViewModels
 
+@Scripts.Render("~/bundles/script/jqueryval")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datePicker').datepicker();
+
+        var startDate = $("#editPostingDate").val();
+
+        $('#editRequiredDate').datepicker({
+            minDate: startDate
+        });
+
+        $('#editValidDate').datepicker({
+            minDate: startDate
+        });
+
+
+        $("#editTypeahead").jAutochecklist();
+        var i;
+
+        i = $("#ItemCount").val();      
+
+    });
+
+
+    $(function () {
+        $("#btnviewNextTab").click(function (e) {
+
+            
+
+            e.preventDefault();
+            var _this = $(this);
+            var _form = _this.closest("#viewdefault");
+
+            var validator = $("#viewdefault").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+                //debugger;
+                if (this.parentNode.parentNode.className != "jAutochecklist_list") {
+                    if (!validator.element(this)) { // validate every input element inside this step
+                        anyError = true;
+                    }
+                }
+            });
+
+            _form.find("select").each(function () {
+                debugger;
+
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError) {
+                return false;
+            }
+            else {
+                $('#viewtabs a[href = #viewQuotationItem]').tab('show');
+            }// exit if any error found
+
+        });
+
+    });
+
+    
+</script>
 
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -77,8 +143,7 @@
                                                     @Html.DropDownListFor(m => m.PurchaseQuotation.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text", disabled = "disabled" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Ship_To)
                                                 </div>
-                                            </div>
-
+                                            </div>     
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Fright
@@ -87,8 +152,12 @@
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Freight, new { @class = "form-control control-text", disabled = "disabled" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Freight)
                                                 </div>
-                                            </div>
+                                            </div>                                      
+                                        </div>
+                                    </div>
 
+                                    <div class="col-md-6">
+                                        <div class="form-horizontal">
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Loading
@@ -98,13 +167,6 @@
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Loading)
                                                 </div>
                                             </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-horizontal">
-
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Posting Date
@@ -113,8 +175,8 @@
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = Model.PurchaseQuotation.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", disabled = "disabled" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
                                                 </div>
-                                            </div>                                            
-
+                                            </div> 
+                                            
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Required Date
@@ -134,7 +196,7 @@
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Valid_Date)
                                                 </div>
                                             </div>
-                                          
+
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Remarks
@@ -148,6 +210,14 @@
                                         </div>
                                     </div>
 
+                                </div>
+
+                                <br />
+                                <div class="row">
+                                    <div class="modal-footer">
+                                        <input class="btn btn-primary pull-left" type="button" id="btnviewNextTab" name="nextButton" value="Next" />
+                                        <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="viewQuotationItem">
@@ -165,7 +235,7 @@
                                                 <th>Unit Price </th>
                                                 <th>Discount %</th>
                                                 <th>VAT Code</th>
-                                                <th> Amount </th>                                                                                                
+                                                <th>Amount </th>
                                             </tr>
                                         </thead>
 
@@ -186,7 +256,7 @@
                                                     @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_qty, new { @class = "form-control control-text", disabled = "disabled" })
                                                 </td>
                                                 <td width="15%">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Quoted_date , new { @class = "form-control control-text datePicker", disabled = "disabled" })
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Quoted_date, new { @class = "form-control control-text datePicker", disabled = "disabled" })
                                                 </td>
                                                 <td>
                                                     @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Quoted_qty, new { @class = "form-control control-text", disabled = "disabled" })
@@ -196,7 +266,7 @@
                                                 </td>
                                                 <td>
                                                     @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text", disabled = "disabled" })
-                                                </td>                                                
+                                                </td>
                                                 <td>
                                                     @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Vat_Code, new { @class = "form-control control-text", disabled = "disabled" })
                                                 </td>
@@ -208,6 +278,17 @@
                                     </table>
 
                                 </div>
+                                <div class="modal-footer">
+                                    @*<input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />*@
+                                    <button class="btn pull-left" data-dismiss="modal">Close</button>
+
+                                    <div class="row" style="float:right;">
+                                        Total : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalBefDocDisc, new { id = "viewTotalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.DocDiscAmt, new { id = "viewTotalDiscount", @class = "input-small", @readonly = true, @style = "border: none;" }) @Html.ValidationMessageFor(model => model.PurchaseQuotation.DocDiscAmt)</span> <br />
+                                        Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TaxAmt, new { id = "viewTotalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalQtnAmt, new { id = "viewTotalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                    </div>
+                                </div>
 
                             </div>
 
@@ -217,17 +298,6 @@
             </div>
         </div>
 
-        <div class="modal-footer">
-            @*<input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />*@
-            <button class="btn pull-left" data-dismiss="modal">Close</button>
-
-            <div class="row" style="float:right;">
-                Total : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalBefDocDisc, new { id = "viewTotalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.DocDiscAmt, new { id = "viewTotalDiscount", @class = "input-small", @readonly = true, @style = "border: none;" }) @Html.ValidationMessageFor(model => model.PurchaseQuotation.DocDiscAmt)</span> <br />
-                Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TaxAmt, new { id = "viewTotalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalQtnAmt, new { id = "viewTotalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-            </div>
-        </div>
 
     </div>
 </div>

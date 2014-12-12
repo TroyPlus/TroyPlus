@@ -84,17 +84,7 @@
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Freight, new { @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Freight)
                                                 </div>
-                                            </div>
-
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    Loading
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Loading, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Loading)
-                                                </div>
-                                            </div>
+                                            </div>                                           
                                         </div>
                                     </div>
 
@@ -105,9 +95,17 @@
                                                     Posting Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), id = "crePostingDate", @class = "form-control control-text ", @readonly = true })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Loading
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Loading, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Loading)
                                                 </div>
                                             </div>
 

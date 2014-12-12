@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-horizontal">
-                                            <div class="row form-group">
+                                            @*<div class="row form-group">
                                                 <div class="col-md-4">
                                                     Document Date
                                                 </div>
@@ -80,7 +80,7 @@
                                                     @Html.TextBoxFor(model => model.SalesQuotation.Document_Date, new { @class = "form-control control-text datePicker" })
                                                     @Html.ValidationMessageFor(model => model.SalesQuotation.Document_Date)
                                                 </div>
-                                            </div>
+                                            </div>*@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
@@ -144,7 +144,7 @@
                                                 <th>Quantity</th>
                                                 <th>Unit Price</th>
                                                 <th>Discount %</th>
-                                                <th>VAT Code</th>
+                                                <th>VAT %</th>
                                                 <th>LineTotal</th>
                                                 <th></th>
                                             </tr>

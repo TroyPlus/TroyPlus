@@ -6,15 +6,15 @@
     $(document).ready(function () {
         $('.datePicker').datepicker();
 
-        $('#creGRDocumentDate').datepicker({
+        $('#creGRDocumentDate2').datepicker({
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
-        $('#creGRDueDate').datepicker({
+        $('#creGRDueDate2').datepicker({
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
-        $('#creGRPostingDate').datepicker({
+        $('#creGRPostingDate2').datepicker({
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
@@ -459,7 +459,7 @@
                                                 </div>
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        @Html.LabelFor(m => m.PurchaseInvoice.Doc_Status, new { @class = "control-label normal" })
+                                                        Document Status
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.DropDownListFor(model => model.PurchaseInvoice.Doc_Status, new List<SelectListItem>
@@ -470,42 +470,40 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row form-group">
+                                                @*<div class="row form-group">
                                                     <div class="col-md-4">
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Posting_Date, new { @class = "form-control control-text datePicker", @readonly = true })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Posting_Date, new { @class = "form-control control-text", @id = "creGRPostingDate2", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Posting_Date)
                                                     </div>
-                                                </div>
+                                                </div>*@
 
-                                                <div class="row form-group">
+                                                @*<div class="row form-group">
                                                     <div class="col-md-4">
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Due_Date, new { @class = "form-control control-text datePicker", @readonly = true })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Due_Date, new { @class = "form-control control-text", @id = "creGRDueDate2", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Due_Date)
                                                     </div>
-                                                </div>
-                                                <div class="row form-group">
+                                                </div>*@
+                                                @*<div class="row form-group">
                                                     <div class="col-md-4">
                                                         Document Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Document_Date, new { @class = "form-control control-text datePicker", @readonly = true })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Document_Date, new { @class = "form-control control-text", @id = "creGRDocumentDate2", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Document_Date)
                                                     </div>
-                                                </div>
+                                                </div>*@
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
 
-                                            <div class="form-horizontal">
-
-                                             
+                                            <div class="form-horizontal">                                             
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -534,43 +532,6 @@
                                                     <div class="col-md-8">
                                                         @Html.TextBoxFor(model => model.PurchaseInvoice.Loading, new { @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Loading)
-                                                    </div>
-                                                </div>
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        TotalBefDocDisc
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.TotalBefDocDisc, new { @class = "form-control control-text", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.TotalBefDocDisc)
-                                                    </div>
-                                                </div>
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Document Discount Amount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.DocDiscAmt, new { @class = "form-control control-text", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.DocDiscAmt)
-                                                    </div>
-                                                </div>
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        TaxAmt
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextAreaFor(model => model.PurchaseInvoice.TaxAmt, new { @class = "form-control control-text", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.TaxAmt)
-                                                    </div>
-                                                </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        TotalPurInvAmt
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.TotalPurInvAmt, new { @class = "form-control control-text", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.TotalPurInvAmt)
                                                     </div>
                                                 </div>
                                             </div>

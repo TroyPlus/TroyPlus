@@ -85,7 +85,7 @@
                                                     @Html.ValidationMessageFor(model => model.SalesInvoices.Due_Date)
                                                 </div>
                                             </div>              
-                                            <div class="row form-group">
+                                            @*<div class="row form-group">
                                                 <div class="col-md-4">
                                                     Document Date
                                                 </div>
@@ -93,7 +93,7 @@
                                                     @Html.TextBoxFor(model => model.SalesInvoices.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
                                                     @Html.ValidationMessageFor(model => model.SalesInvoices.Document_Date)
                                                 </div>
-                                            </div>
+                                            </div>*@
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Ship To
@@ -147,7 +147,7 @@
                                                 <th>Unit Price</th>
                                                 <th>Quantity</th>
                                                 <th>Discount %</th>
-                                                <th>VAT Code</th>
+                                                <th>VAT %</th>                                              
                                                 <th>LineTotal</th>
                                                 <th></th>
                                             </tr>
@@ -179,8 +179,6 @@
                                                         @Html.ValidationMessageFor(model => model.SalesInvoiceItemsList[i].Discount_percent)
                                                     </td>
                                                     <td width="12%">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseInvoiceItemsList[i].Vat_Code, new { @class = "form-control control-text" })
-                                                            @Html.ValidationMessageFor(model => model.PurchaseInvoiceItemsList[i].Vat_Code)*@
                                                         @Html.DropDownListFor(m => m.SalesInvoiceItemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage"), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
                                                         @Html.ValidationMessageFor(model => model.SalesInvoiceItemsList[i].Vat_Code)
                                                     </td>

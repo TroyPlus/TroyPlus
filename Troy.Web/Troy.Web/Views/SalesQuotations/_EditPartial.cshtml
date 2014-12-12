@@ -9,7 +9,7 @@
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
         $('#creDeliveryDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            dateFormat: 'dd/MM/yy', minDate: 0
         });
 
         $('#creDocumentDate1').datepicker({
@@ -484,7 +484,10 @@
                                                         @Html.ValidationMessageFor(model => model.SalesQuotation.Doc_Status)
                                                     </div>
                                                 </div>
-
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Posting Date
@@ -493,20 +496,16 @@
                                                         @Html.TextBoxFor(model => model.SalesQuotation.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate1" })
                                                         @Html.ValidationMessageFor(model => model.SalesQuotation.Posting_Date)
                                                     </div>
-                                                </div>                                              
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Document Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesQuotation.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate1" })
-                                                        @Html.ValidationMessageFor(model => model.SalesQuotation.Document_Date)
-                                                    </div>
                                                 </div>
+                                                @*<div class="row form-group">
+                                                        <div class="col-md-4">
+                                                            Document Date
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.SalesQuotation.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate1" })
+                                                            @Html.ValidationMessageFor(model => model.SalesQuotation.Document_Date)
+                                                        </div>
+                                                    </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -529,14 +528,14 @@
                                                 </div>
 
                                                 @*<div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Document Amount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesQuotation.DocDiscAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.SalesQuotation.DocDiscAmt)
-                                                    </div>
-                                                </div>*@
+                                                        <div class="col-md-4">
+                                                            Document Amount
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.SalesQuotation.DocDiscAmt, new { @class = "form-control control-text" })
+                                                            @Html.ValidationMessageFor(model => model.SalesQuotation.DocDiscAmt)
+                                                        </div>
+                                                    </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -570,7 +569,7 @@
                                                     <th>Quantity</th>
                                                     <th>Unit Price</th>
                                                     <th>Discount %</th>
-                                                    <th>VAT Code</th>
+                                                    <th>VAT %</th>
                                                     <th>LineTotal</th>
                                                     <th></th>
                                                 </tr>

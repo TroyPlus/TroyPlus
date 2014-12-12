@@ -9,12 +9,12 @@
         //$('.datePicker').datepicker();
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
-        $('#DocumentDate').datepicker({
+        $('#creDocumentDate').datepicker({
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
-        $('#PostingDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0
+        $('#crePostingDate').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
         $("#typeahead").jAutochecklist({
@@ -63,12 +63,7 @@
                       '<td>' +
                           '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="salesorderitemlist_' + i + '__Discount_percent" name="salesorderitemlist[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
                           '<span class="field-validation-valid" data-valmsg-for="salesorderitemlist[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
-                      '</td>' +
-                       '<td>' +
-
-                         '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="salesorderitemlist_' + i + '__LineTotal" name="salesorderitemlist[' + i + '].LineTotal" readonly="True" type="text" value="">' +
-                          '<span class="field-validation-valid" data-valmsg-for="salesorderitemlist[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
-                      '</td>' +
+                      '</td>' +                      
                       //'<td>' +
                       //    '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__Freight_Loading" name="goodreceiptitemlist[' + i + '].Freight_Loading" readonly="True" type="text" value="">' +
                       //    '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
@@ -78,7 +73,11 @@
                         selectHtml1 +
                           '<span class="field-validation-valid" data-valmsg-for="salesorderitemlist[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
                       '</td>' +
+                       '<td>' +
 
+                         '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="salesorderitemlist_' + i + '__LineTotal" name="salesorderitemlist[' + i + '].LineTotal" readonly="True" type="text" value="">' +
+                          '<span class="field-validation-valid" data-valmsg-for="salesorderitemlist[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
+                      '</td>' +
                       '<td>' +
                           '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
                       '</td>' +
@@ -568,7 +567,7 @@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        @Html.LabelFor(m => m.salesorder.Customer, new { @class = "control-label normal" })
+                                                        Customer
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.goodreceipt.Vendor, new { @class = "form-control control-text" })*@
@@ -579,7 +578,6 @@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.salesorder.Reference_Number, new { @class = "control-label normal" })*@
                                                         Reference Number
                                                     </div>
                                                     <div class="col-md-8">
@@ -590,61 +588,60 @@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Doc_Status, new { @class = "control-label normal" })*@
                                                         Order Status
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.DropDownListFor(model => model.salesorder.Order_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
-                                                            new SelectListItem{ Text="Closed", Value = "Closed" },
-                                                             new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
-                                                         }, new { @class = "form-control" })@*, @disabled = true })*@
-
-                                                        @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
+                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
+                                                         }, new { @class = "form-control", @disabled = true }) 
+                                                        @Html.ValidationMessageFor(model => model.salesorder.Order_Status)                                                      
                                                     </div>
                                                 </div>
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Ship_To, new { @class = "control-label normal" })*@
                                                         Branch
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.DropDownListFor(m => m.salesorder.Branch, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
-                                                        @*@Html.TextBoxFor(model => model.goodreceipt.Ship_To, new { @class = "form-control control-text" })*@
                                                         @Html.ValidationMessageFor(model => model.salesorder.Branch)
                                                     </div>
                                                 </div>
 
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        Posting Date
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.salesorder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate" })
+                                                        @Html.ValidationMessageFor(model => model.salesorder.Posting_Date)
+                                                    </div>
+                                                </div>                                               
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-horizontal">
-
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Posting_Date, new { @class = "control-label normal" })*@
-                                                        Posting Date
+                                                        Delivery Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesorder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @id = "DocumentDate" })
-                                                        @Html.ValidationMessageFor(model => model.salesorder.Posting_Date)
-                                                    </div>
-                                                </div>
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Due_Date, new { @class = "control-label normal" })*@
-                                                        Due Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesorder.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @id = "PostingDate" })
+                                                        @Html.TextBoxFor(model => model.salesorder.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate1" })
                                                         @Html.ValidationMessageFor(model => model.salesorder.Delivery_Date)
                                                     </div>
                                                 </div>
-
-
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        Document Date
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.salesorder.Document_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate2" })@*, @readonly = true })*@
+                                                        @Html.ValidationMessageFor(model => model.salesorder.Document_Date)
+                                                    </div>
+                                                </div>
                                                 <div class="row  form-group">
                                                     <div class="col-md-4">
                                                         Discount
@@ -689,8 +686,8 @@
                                                     <th>Quantity</th>
                                                     <th>Unit Price</th>
                                                     <th>Discount %</th>
-                                                    <th> LineTotal</th>
-                                                    <th>VAT Code</th>
+                                                    <th>VAT %</th>
+                                                    <th>LineTotal</th>                                                   
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -730,14 +727,14 @@
                                                         @*<td>
                                                                 @Html.TextBoxFor(model => model.salesorderitemlist[i].Freight_Loading, new { @class = "form-control control-text", @readonly = true, @id = "totloading" })
                                                                 @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Freight_Loading)
-                                                            </td>*@
-                                                        <td>
-                                                            @Html.TextBoxFor(model => model.salesorderitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true }) @*@id = "totloading"*@
-                                                            @Html.ValidationMessageFor(model => model.salesorderitemlist[i].LineTotal)
-                                                        </td>
+                                                            </td>*@                                                      
                                                         <td width="10%">
                                                             @Html.DropDownListFor(m => m.salesorderitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.salesorderitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
                                                             @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Vat_Code)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.salesorderitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true }) @*@id = "totloading"*@
+                                                            @Html.ValidationMessageFor(model => model.salesorderitemlist[i].LineTotal)
                                                         </td>
                                                         <td style="width: 90px;">
                                                             <input class="BtnPlus btn pull-left" type="button" value="+" />

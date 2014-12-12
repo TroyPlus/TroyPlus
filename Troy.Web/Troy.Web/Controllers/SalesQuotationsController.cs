@@ -69,7 +69,7 @@ namespace Troy.Web.Controllers
 
                 if (submitButton == "Save")
                 {
-                   
+                    model.SalesQuotation.Document_Date = DateTime.Now;
                     model.SalesQuotation.Doc_Status = "Open";
                     model.SalesQuotation.Created_Branc_Id = CurrentBranchId;
                     model.SalesQuotation.Created_Date = DateTime.Now;
@@ -98,6 +98,7 @@ namespace Troy.Web.Controllers
                 }
                 else if (submitButton == "Update")
                 {
+                    model.SalesQuotation.Document_Date = DateTime.Now;
                     model.SalesQuotation.Doc_Status = "Open";
                     //model.SalesQuotation.Created_Branc_Id = CurrentBranchId;
                     //model.SalesQuotation.Created_Date = DateTime.Now;

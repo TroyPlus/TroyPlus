@@ -71,21 +71,21 @@
                                         <div class="form-horizontal">
                                             @*@Html.HiddenFor(model=>model.goodreceipt.Purchase_Order_Id)*@
                                             @*<div class="row form-group">
-                            <div class="col-md-4">*@
+                                                <div class="col-md-4">*@
                                             @*@Html.LabelFor(m => m.goodreceipt.Purchase_Order_Id, new { @class = "control-label normal" })*@
                                             @*PurchaseOrder Id
-                            </div>
-                            <div class="col-md-8">*@
+                                                </div>
+                                                <div class="col-md-8">*@
                                             @*, new { @id = "typeahead", @size = 12 }*@
                                             @*@Html.DropDownListFor(m => m.goodreceipt.Purchase_Order_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
                                             @*@Html.TextBoxFor(model => model.goodreceipt.Purchase_Order_Id, new { @class = "form-control control-text" })*@
                                             @*@Html.ValidationMessageFor(model => model.goodreceipt.Purchase_Order_Id)
-                                </div>
-                            </div>*@
+                                                    </div>
+                                                </div>*@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.salesorder.Customer, new { @class = "control-label normal" })
+                                                    Customer
                                                 </div>
                                                 <div class="col-md-8">
                                                     @*@Html.TextBoxFor(model => model.goodreceipt.Vendor, new { @class = "form-control control-text" })*@
@@ -96,7 +96,6 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @*@Html.LabelFor(m => m.salesorder.Reference_Number, new { @class = "control-label normal" })*@
                                                     Reference Number
                                                 </div>
                                                 <div class="col-md-8">
@@ -107,7 +106,6 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @*@Html.LabelFor(m => m.goodreceipt.Doc_Status, new { @class = "control-label normal" })*@
                                                     Order Status
                                                 </div>
                                                 <div class="col-md-8">
@@ -115,200 +113,185 @@
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
                                                             new SelectListItem{ Text="Closed", Value = "Closed" }
-                                                         }, new { @class = "form-control", disabled = "disabled" })@*, @disabled = true })*@
-
-                                                        @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
-                                                    </div>
+                                                         }, new { @class = "form-control", disabled = "disabled" })
+                                                    @Html.ValidationMessageFor(model => model.salesorder.Order_Status)
                                                 </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Ship_To, new { @class = "control-label normal" })*@
-                                                        Branch
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.DropDownListFor(m => m.salesorder.Branch, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text", disabled = "disabled" })
-                                                        @*@Html.TextBoxFor(model => model.goodreceipt.Ship_To, new { @class = "form-control control-text" })*@
-                                                        @Html.ValidationMessageFor(model => model.salesorder.Branch)
-                                                    </div>
-                                                </div>
-
-                                               
-
-
-
                                             </div>
-                                        </div>
 
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
-
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Posting_Date, new { @class = "control-label normal" })*@
-                                                        Posting Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesorder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate", disabled = "disabled" })
-                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)*@
-                                                    </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Branch
                                                 </div>
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Due_Date, new { @class = "control-label normal" })*@
-                                                        Due Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesorder.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate1", disabled = "disabled" })
-                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)*@
-                                                    </div>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownListFor(m => m.salesorder.Branch, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text", disabled = "disabled" })
+                                                    @Html.ValidationMessageFor(model => model.salesorder.Branch)
                                                 </div>
+                                            </div>
 
-                                             
-
-
-
-                                                <div class="row  form-group">
-                                                    <div class="col-md-4">
-                                                        Discount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesorder.DocDiscAmt, new { @class = "form-control control-text", disabled = "disabled" })
-                                                        @Html.ValidationMessageFor(model => model.salesorder.DocDiscAmt)
-                                                    </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Posting Date
                                                 </div>
-
-                                                <div class="row  form-group">
-                                                    <div class="col-md-4">
-                                                        Remarks
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesorder.Remarks, new { @class = "form-control control-text", disabled = "disabled" })
-                                                        @Html.ValidationMessageFor(model => model.salesorder.Remarks)
-                                                    </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.salesorder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate", disabled = "disabled" })
+                                                    @Html.ValidationMessageFor(model => model.salesorder.Posting_Date)
                                                 </div>
-
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Delivery Date
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.salesorder.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate1", disabled = "disabled" })
+                                                    @Html.ValidationMessageFor(model => model.salesorder.Delivery_Date)
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <br />
-                                    <div class="row">
-                                        <div class="modal-footer">
-                                            <input class="btn btn-primary pull-left" type="button" id="btnNextTabPurQuo" name="nextButton" value="Next" onclick="OnChangeload()" />
-                                            <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+
+                                    <div class="col-md-6">
+                                        <div class="form-horizontal">
+                                            <div class="row form-group">
+                                                <div class="col-md-4">
+                                                    Document Date
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.salesorder.Document_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate2", disabled = "disabled" })@*, @readonly = true })*@
+                                                    @Html.ValidationMessageFor(model => model.salesorder.Document_Date)
+                                                </div>
+                                            </div>
+
+                                            <div class="row  form-group">
+                                                <div class="col-md-4">
+                                                    Discount
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.salesorder.DocDiscAmt, new { @class = "form-control control-text", disabled = "disabled" })
+                                                    @Html.ValidationMessageFor(model => model.salesorder.DocDiscAmt)
+                                                </div>
+                                            </div>
+
+                                            <div class="row  form-group">
+                                                <div class="col-md-4">
+                                                    Remarks
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.salesorder.Remarks, new { @class = "form-control control-text", disabled = "disabled" })
+                                                    @Html.ValidationMessageFor(model => model.salesorder.Remarks)
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
-
                                 </div>
-
-                                <div class="tab-pane fade" id="ViewaddQuotationlist">
-
-                                    <div>
-
-                                        <table id="viewmyTabContent" class="table display" style="min-height:180px;">
-                                            <thead>
-                                                <tr>
-                                                    <th>Product_Id</th>
-                                                    <th>Quantity</th>
-                                                    <th>Unit Price</th>
-                                                    <th>Discount %</th>
-                                                    <th> LineTotal</th>
-                                                    <th>VAT Code</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @for (int i = 0; i < Model.salesorderitemlist.Count; i++)
-                                                {
-
-                                                    <tr>
-                                                        <td style="display:none;">
-                                                            @Html.HiddenFor(model => model.salesorderitemlist[i].IsDummy, 0)
-                                                            @Html.HiddenFor(model => model.salesorderitemlist[i].Sale_Orderitem_Id)
-
-                                                        </td>
-                                                        <td width="20%">
-                                                            @*@Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })*@
-
-                                                            @Html.DropDownListFor(m => m.salesorderitemlist[i].Product_id, new SelectList(Model.ProductList.AsEnumerable(), "Product_Id", "Product_Name", Model.salesorderitemlist[i].ProductName), new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");", disabled = "disabled" })
-                                                            @*@Html.TextBoxFor(model => model.goodreceiptitemlist[i].Product_id, new { @class = "form-control control-text" })*@
-                                                            @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Product_id)
-                                                        </td>
-                                                        @*<td width="15%">
-                            @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker" })
-                            @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
-                        </td>*@
-                                                        <td>
-                                                            @Html.TextBoxFor(model => model.salesorderitemlist[i].Quantity, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");", disabled = "disabled" })
-                                                            @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Quantity)
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(model => model.salesorderitemlist[i].Unit_price, new { @class = "form-control control-text", disabled = "disabled" }) @*@readonly = true*@
-                                                            @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Unit_price)
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(model => model.salesorderitemlist[i].Discount_percent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");", disabled = "disabled" })
-                                                            @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Discount_percent)
-                                                        </td>
-                                                        @*<td>
-                            @Html.TextBoxFor(model => model.salesorderitemlist[i].Freight_Loading, new { @class = "form-control control-text", @readonly = true, @id = "totloading" })
-                            @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Freight_Loading)
-                        </td>*@
-                                                        <td>
-                                                            @Html.TextBoxFor(model => model.salesorderitemlist[i].LineTotal, new { @class = "form-control control-text", disabled = "disabled" }) @*@id = "totloading"*@
-                                                            @Html.ValidationMessageFor(model => model.salesorderitemlist[i].LineTotal)
-                                                        </td>
-                                                        <td width="10%">
-                                                            @Html.DropDownListFor(m => m.salesorderitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.salesorderitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();", disabled = "disabled" })
-                                                            @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Vat_Code)
-                                                        </td>
-                                                        <td style="width: 90px;">
-                                                            <input class="BtnPlus btn pull-left" type="button" value="+" />
-                                                            @*<input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />*@
-                                                        </td>
-                                                    </tr>
-
-                                                }
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-
-
-
+                                <br />
+                                <div class="row">
                                     <div class="modal-footer">
-                                        @*<input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />*@
-                                        <button class="btn pull-left" data-dismiss="modal">Close</button>
-                                        @*@Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })*@
-
-                                        <div class="row" style="float:right;">
-                                            Total : <span>@Html.TextBoxFor(m => m.salesorder.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", disabled = "disabled", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Discount Amount : <span>@Html.TextBoxFor(m => m.salesorder.DocDiscAmt, new { id = "totalDiscount", disabled = "disabled", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.salesorder.DocDiscAmt) </span> <br />
-                                            Tax Amount : <span>@Html.TextBoxFor(m => m.salesorder.TaxAmt, new { id = "totalTax", disabled = "disabled", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.salesorder.TotalOrdAmt, new { id = "totalQuotationAmt", disabled = "disabled", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                        </div>
-
+                                        <input class="btn btn-primary pull-left" type="button" id="btnNextTabPurQuo" name="nextButton" value="Next" onclick="OnChangeload()" />
+                                        <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                                     </div>
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="ViewaddQuotationlist">
+
+                                <div>
+
+                                    <table id="viewmyTabContent" class="table display" style="min-height:180px;">
+                                        <thead>
+                                            <tr>
+                                                <th>Product_Id</th>
+                                                <th>Quantity</th>
+                                                <th>Unit Price</th>
+                                                <th>Discount %</th>
+                                                <th>VAT %</th>
+                                                <th>LineTotal</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int i = 0; i < Model.salesorderitemlist.Count; i++)
+                                            {
+
+                                                <tr>
+                                                    <td style="display:none;">
+                                                        @Html.HiddenFor(model => model.salesorderitemlist[i].IsDummy, 0)
+                                                        @Html.HiddenFor(model => model.salesorderitemlist[i].Sale_Orderitem_Id)
+
+                                                    </td>
+                                                    <td width="20%">
+                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })*@
+
+                                                        @Html.DropDownListFor(m => m.salesorderitemlist[i].Product_id, new SelectList(Model.ProductList.AsEnumerable(), "Product_Id", "Product_Name", Model.salesorderitemlist[i].ProductName), new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");", disabled = "disabled" })
+                                                        @*@Html.TextBoxFor(model => model.goodreceiptitemlist[i].Product_id, new { @class = "form-control control-text" })*@
+                                                        @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Product_id)
+                                                    </td>
+                                                    @*<td width="15%">
+                                                            @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker" })
+                                                            @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
+                                                        </td>*@
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.salesorderitemlist[i].Quantity, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");", disabled = "disabled" })
+                                                        @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Quantity)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.salesorderitemlist[i].Unit_price, new { @class = "form-control control-text", disabled = "disabled" }) @*@readonly = true*@
+                                                        @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Unit_price)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.salesorderitemlist[i].Discount_percent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");", disabled = "disabled" })
+                                                        @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Discount_percent)
+                                                    </td>
+                                                    @*<td>
+                                                            @Html.TextBoxFor(model => model.salesorderitemlist[i].Freight_Loading, new { @class = "form-control control-text", @readonly = true, @id = "totloading" })
+                                                            @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Freight_Loading)
+                                                        </td>*@
+                                                    <td width="10%">
+                                                        @Html.DropDownListFor(m => m.salesorderitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.salesorderitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();", disabled = "disabled" })
+                                                        @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Vat_Code)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(model => model.salesorderitemlist[i].LineTotal, new { @class = "form-control control-text", disabled = "disabled" }) @*@id = "totloading"*@
+                                                        @Html.ValidationMessageFor(model => model.salesorderitemlist[i].LineTotal)
+                                                    </td>
+                                                    <td style="width: 90px;">
+                                                        <input class="BtnPlus btn pull-left" type="button" value="+" />
+                                                        @*<input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />*@
+                                                    </td>
+                                                </tr>
+
+                                            }
+                                        </tbody>
+                                    </table>
 
                                 </div>
 
 
 
+                                <div class="modal-footer">
+                                    @*<input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />*@
+                                    <button class="btn pull-left" data-dismiss="modal">Close</button>
+                                    @*@Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })*@
 
-
-
-
+                                    <div class="row" style="float:right;">
+                                        Total : <span>@Html.TextBoxFor(m => m.salesorder.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", disabled = "disabled", @readonly = true, @style = "border: none;" })</span> <br />
+                                        Discount Amount : <span>@Html.TextBoxFor(m => m.salesorder.DocDiscAmt, new { id = "totalDiscount", disabled = "disabled", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.salesorder.DocDiscAmt) </span> <br />
+                                        Tax Amount : <span>@Html.TextBoxFor(m => m.salesorder.TaxAmt, new { id = "totalTax", disabled = "disabled", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        Total Quotation Amount : <span>@Html.TextBoxFor(m => m.salesorder.TotalOrdAmt, new { id = "totalQuotationAmt", disabled = "disabled", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            @*<div class="modal-footer">
-                    <input class="btn btn-primary" type="submit" id="btnSubmit" name="submitButton" value="Save" />
-                    <button class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
-                </div>*@
         </div>
 
+        @*<div class="modal-footer">
+                <input class="btn btn-primary" type="submit" id="btnSubmit" name="submitButton" value="Save" />
+                <button class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+            </div>*@
     </div>
+
+</div>

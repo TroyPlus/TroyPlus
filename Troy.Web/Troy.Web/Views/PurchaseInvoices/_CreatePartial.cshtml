@@ -66,8 +66,6 @@
                                                     Posting Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
-                                                    @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker", @id = "crePostingDate" })*@
                                                     @Html.TextBoxFor(model => model.PurchaseInvoice.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseInvoice.Posting_Date)
                                                 </div>
@@ -82,7 +80,7 @@
                                                     @Html.ValidationMessageFor(model => model.PurchaseInvoice.Due_Date)
                                                 </div>
                                             </div>
-                                            <div class="row form-group">
+                                            @*<div class="row form-group">
                                                 <div class="col-md-4">
                                                     Document Date
                                                 </div>
@@ -90,7 +88,8 @@
                                                     @Html.TextBoxFor(model => model.PurchaseInvoice.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseInvoice.Document_Date)
                                                 </div>
-                                            </div>
+                                            </div>*@
+                                           
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -100,13 +99,10 @@
                                                     Ship To
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @*@Html.TextBoxFor(model => model.PurchaseInvoice.Ship_To, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.Ship_To)*@
                                                     @Html.DropDownListFor(m => m.PurchaseInvoice.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseInvoice.Ship_To)
                                                 </div>
                                             </div>
-
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Freight

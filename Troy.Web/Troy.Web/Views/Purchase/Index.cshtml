@@ -369,7 +369,7 @@
                 $(id).val(result);
 
                 //onchange quantity functionality
-                var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quantity").val();
+                var qty = $("#PurchaseQuotationItemList_" + rowId + "__Required_qty").val();
                 var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
                 var totAmount = price * qty;
                 var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
@@ -377,7 +377,7 @@
 
                 //onchange discount functionality
                 var dis = $("#PurchaseQuotationItemList_" + rowId + "__Discount_percent").val();
-                var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quantity").val();
+                var qty = $("#PurchaseQuotationItemList_" + rowId + "__Required_qty").val();
                 var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
                 var totAmount = price * qty - ((price * qty) * dis / 100)
                 var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
@@ -401,7 +401,7 @@
 
         //onchange discount functionality
         var dis = $("#PurchaseQuotationItemList_" + rowId + "__Discount_percent").val();
-        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quantity").val();
+        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Required_qty").val();
         var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
         var totAmount = price * qty - ((price * qty) * dis / 100)
         var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
@@ -415,7 +415,7 @@
     function OnChangeDiscount(currentDis, rowId) {
         //debugger;
         //onchange quantity functionality
-        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quantity").val();
+        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Required_qty").val();
         var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
         var totAmount = price * qty;
         var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
@@ -423,7 +423,7 @@
 
         //on change discount
         var dis = currentDis.value;
-        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quantity").val();
+        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Required_qty").val();
         var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
         var totAmount = price * qty - ((price * qty) * dis / 100)
         var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";

@@ -504,7 +504,6 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Ship_To)
                                                     </div>
                                                 </div>
-
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Freight
@@ -514,7 +513,13 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Freight)
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
 
+                                        <div class="col-md-6">
+
+                                            <div class="form-horizontal">
+                                               
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Loading
@@ -524,24 +529,15 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Loading)
                                                     </div>
                                                 </div>
-
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col-md-6">
-
-                                            <div class="form-horizontal">
-
                                                 <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Posting Date
+                                                        <div class="col-md-4">
+                                                            Posting Date
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = Model.PurchaseQuotation.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", id = "editPostingDate" })
+                                                            @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = Model.PurchaseQuotation.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", id = "editPostingDate" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
-                                                    </div>
-                                                </div>
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">

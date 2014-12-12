@@ -1,5 +1,7 @@
 ﻿@model  Troy.Web.Models.SalesReturnViewModels
 
+@Scripts.Render("~/bundles/script/jqueryval")
+
 <script type="text/javascript">
     var i = 0;
 
@@ -539,7 +541,10 @@
                                                     @Html.ValidationMessageFor(model => model.SalesReturn.Doc_Status)
                                                 </div>
                                             </div>
-
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-horizontal">
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Posting Date
@@ -550,11 +555,7 @@
                                                     @Html.TextBoxFor(model => model.SalesReturn.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate" })
                                                     @Html.ValidationMessageFor(model => model.SalesReturn.Posting_Date)
                                                 </div>
-                                            </div>                                           
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-horizontal">
+                                            </div>
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Due Date
@@ -564,15 +565,15 @@
                                                     @Html.ValidationMessageFor(model => model.SalesReturn.Due_Date)
                                                 </div>
                                             </div>
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    Document Date
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.SalesReturn.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
-                                                    @Html.ValidationMessageFor(model => model.SalesReturn.Document_Date)
-                                                </div>
-                                            </div>
+                                            @*<div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        Document Date
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.SalesReturn.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
+                                                        @Html.ValidationMessageFor(model => model.SalesReturn.Document_Date)
+                                                    </div>
+                                                </div>*@
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Ship To
@@ -586,14 +587,14 @@
                                             </div>
 
                                             @*<div class="row form-group">
-                                                <div class="col-md-4">
-                                                    Discount
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.SalesReturn.DocDiscAmt, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.SalesReturn.DocDiscAmt)
-                                                </div>
-                                            </div>*@
+                                                    <div class="col-md-4">
+                                                        Discount
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.SalesReturn.DocDiscAmt, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.SalesReturn.DocDiscAmt)
+                                                    </div>
+                                                </div>*@
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Remarks
@@ -626,7 +627,7 @@
                                                 <th>Unit Price</th>
                                                 <th>Quantity</th>
                                                 <th>Discount %</th>
-                                                <th>VAT Code</th>
+                                                <th>VAT %</th>
                                                 <th>LineTotal</th>
                                                 <th></th>
                                             </tr>
