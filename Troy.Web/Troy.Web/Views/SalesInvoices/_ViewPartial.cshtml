@@ -7,19 +7,19 @@
 
     $(document).ready(function () {
 
-        //$('.datePicker').datepicker();
-        $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
+        $('.datePicker').datepicker();
+        //$('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
         $('#creDocumentDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $('#creDueDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+             minDate: 0, maxDate: 0
         });
 
         $('#crePostingDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+             minDate: 0, maxDate: 0
         });
 
         $("#typeahead").jAutochecklist({
@@ -166,9 +166,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
-                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker", @id = "crePostingDate" })*@
-                                                        @Html.TextBoxFor(model => model.SalesInvoices.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate1", disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.SalesInvoices.Posting_Date, new { @Value = Model.SalesInvoices.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "crePostingDate1", disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.SalesInvoices.Posting_Date)
                                                     </div>
                                                 </div>
@@ -177,7 +175,7 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesInvoices.Due_Date, new { @class = "form-control control-text", @id = "creDueDate1", disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.SalesInvoices.Due_Date, new { @Value = Model.SalesInvoices.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "creDueDate1", disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.SalesInvoices.Due_Date)
                                                     </div>
                                                 </div>

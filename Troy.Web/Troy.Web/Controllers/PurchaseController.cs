@@ -129,8 +129,8 @@ namespace Troy.Web.Controllers
                     model.PurchaseQuotation.Modified_Date = DateTime.Now;
                     model.PurchaseQuotation.Modified_Branch_Id = currentUser.Modified_Branch_Id;
 
-                    //var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
-                    //model.PurchaseQuotationItemList = QuotationList.ToList();
+                    var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
+                    model.PurchaseQuotationItemList = QuotationList.ToList();
 
                     //for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
                     //{                      

@@ -9,16 +9,16 @@
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
         $('#creDeliveryDate2').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $('#creDocumentDate2').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
 
         $('#crePostingDate2').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $("#viewTypeahead").jAutochecklist();
@@ -129,7 +129,7 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseInvoice.Vendor, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.Vendor)*@
+                                                            @Html.ValidationMessageFor(model => model.PurchaseInvoice.Vendor)*@
                                                         @Html.DropDownListFor(m => m.SalesReturn.Customer, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text", disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.SalesReturn.Customer)
                                                     </div>
@@ -158,7 +158,7 @@
                                                          }, new { @class = "form-control", @disabled = true })
                                                         @Html.ValidationMessageFor(model => model.SalesReturn.Doc_Status)
                                                     </div>
-                                                </div>                                     
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -168,51 +168,49 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
-                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker", @id = "crePostingDate" })*@
-                                                        @Html.TextBoxFor(model => model.SalesReturn.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate", disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.SalesReturn.Posting_Date, new { @Value = Model.SalesReturn.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.SalesReturn.Posting_Date)
                                                     </div>
-                                                </div>  
+                                                </div>
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesReturn.Due_Date, new { @class = "form-control control-text", @id = "creDueDate", disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.SalesReturn.Due_Date, new { @Value = Model.SalesReturn.Due_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.SalesReturn.Due_Date)
                                                     </div>
                                                 </div>
                                                 @*<div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Document Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesReturn.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate", disabled = "disabled" })
-                                                        @Html.ValidationMessageFor(model => model.SalesReturn.Document_Date)
-                                                    </div>
-                                                </div>*@
+                                                        <div class="col-md-4">
+                                                            Document Date
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.SalesReturn.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate", disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.SalesReturn.Document_Date)
+                                                        </div>
+                                                    </div>*@
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Ship To
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseInvoice.Ship_To, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.Ship_To)*@
+                                                            @Html.ValidationMessageFor(model => model.PurchaseInvoice.Ship_To)*@
                                                         @Html.DropDownListFor(m => m.SalesReturn.Branch, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text", disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.SalesReturn.Branch)
                                                     </div>
                                                 </div>
 
                                                 @*<div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Discount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesReturn.DocDiscAmt, new { @class = "form-control control-text", disabled = "disabled" })
-                                                        @Html.ValidationMessageFor(model => model.SalesReturn.DocDiscAmt)
-                                                    </div>
-                                                </div>*@
+                                                        <div class="col-md-4">
+                                                            Discount
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.SalesReturn.DocDiscAmt, new { @class = "form-control control-text", disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.SalesReturn.DocDiscAmt)
+                                                        </div>
+                                                    </div>*@
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Remarks
@@ -264,7 +262,7 @@
                                                         </td>
                                                         <td width="25%">
                                                             @*@Html.TextBoxFor(model => model.PurchaseInvoiceItemsList[i].Product_id, new { @class = "form-control control-text" })
-                                                            @Html.ValidationMessageFor(model => model.PurchaseInvoiceItemsList[i].Product_id)*@
+                                                                @Html.ValidationMessageFor(model => model.PurchaseInvoiceItemsList[i].Product_id)*@
                                                             @Html.DropDownListFor(m => m.SalesReturnItemsList[i].Product_id, new SelectList(Model.productlist.AsEnumerable(), "Product_Id", "Product_Name", Model.SalesReturnItemsList[i].Product_id), "", new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");", disabled = "disabled" })
                                                             @Html.ValidationMessageFor(model => model.SalesReturnItemsList[i].Product_id)
                                                         </td>
@@ -306,10 +304,10 @@
 
                                         <div class="row" style="float:right;">
                                             @*Total : <span id="totalPurchase">0</span><br />
-                                            Total Before Document Discount : <span id="totalbfdocdisc">0</span><br />
-                                            Document Discount Amount : <span id="docdisamt">0</span><br />
-                                            Tax Amount : <span id="taxamt">0</span><br />
-                                            Total Order Amount : <span id="totalordamt">0</span><br />*@
+                                                Total Before Document Discount : <span id="totalbfdocdisc">0</span><br />
+                                                Document Discount Amount : <span id="docdisamt">0</span><br />
+                                                Tax Amount : <span id="taxamt">0</span><br />
+                                                Total Order Amount : <span id="totalordamt">0</span><br />*@
 
                                             Total : <span>@Html.TextBoxFor(m => m.SalesReturn.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                             Discount Amount : <span>@Html.TextBoxFor(m => m.SalesReturn.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @readonly = true, @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.SalesReturn.DocDiscAmt) </span> <br />

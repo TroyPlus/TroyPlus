@@ -66,12 +66,10 @@
                                                     Posting Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
-                                                    @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker", @id = "crePostingDate" })*@
-                                                    @Html.TextBoxFor(model => model.SalesInvoices.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate" })
+                                                    @Html.TextBoxFor(model => model.SalesInvoices.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
                                                     @Html.ValidationMessageFor(model => model.SalesInvoices.Posting_Date)
                                                 </div>
-                                            </div>                                                                         
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -81,19 +79,19 @@
                                                     Due Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.SalesInvoices.Due_Date, new { @class = "form-control control-text", @id = "creDueDate" })
+                                                    @Html.TextBoxFor(model => model.SalesInvoices.Due_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
                                                     @Html.ValidationMessageFor(model => model.SalesInvoices.Due_Date)
                                                 </div>
-                                            </div>              
+                                            </div>
                                             @*<div class="row form-group">
-                                                <div class="col-md-4">
-                                                    Document Date
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.SalesInvoices.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
-                                                    @Html.ValidationMessageFor(model => model.SalesInvoices.Document_Date)
-                                                </div>
-                                            </div>*@
+                                                    <div class="col-md-4">
+                                                        Document Date
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.SalesInvoices.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
+                                                        @Html.ValidationMessageFor(model => model.SalesInvoices.Document_Date)
+                                                    </div>
+                                                </div>*@
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Ship To
@@ -107,14 +105,14 @@
                                             </div>
 
                                             @*<div class="row form-group">
-                                                <div class="col-md-4">
-                                                    Discount
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.SalesInvoices.DocDiscAmt, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.SalesInvoices.DocDiscAmt)
-                                                </div>
-                                            </div>*@
+                                                    <div class="col-md-4">
+                                                        Discount
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.SalesInvoices.DocDiscAmt, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.SalesInvoices.DocDiscAmt)
+                                                    </div>
+                                                </div>*@
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Remarks
@@ -147,7 +145,7 @@
                                                 <th>Unit Price</th>
                                                 <th>Quantity</th>
                                                 <th>Discount %</th>
-                                                <th>VAT %</th>                                              
+                                                <th>VAT %</th>
                                                 <th>LineTotal</th>
                                                 <th></th>
                                             </tr>

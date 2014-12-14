@@ -9,22 +9,23 @@
 
     $(document).ready(function () {
 
-        //$('.datePicker').datepicker();
-        $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
+
+        $('.datePicker').datepicker();
+        // $('.datePicker').datepicker({ dateFormat: 'dd/MM/yyyy' }).val();
 
         $('#creDocumentDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $('#crePostingDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $('#creDeliveryDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0
+            minDate: 0
         });
 
-        
+
         $("#typeahead").jAutochecklist({
             width: 221
         });
@@ -76,7 +77,7 @@
                         '</td>' +
                         '</tr>'
 
-            $(html).appendTo($("#createItemTable"))           
+            $(html).appendTo($("#createItemTable"))
             i++;
 
             //$("form").removeData("validator");
@@ -121,7 +122,7 @@
             });
             CalculateTotal();
             CalculateTotalAmount();
-            CalculateTax();           
+            CalculateTax();
 
             return selectHtml;
         }
@@ -379,7 +380,7 @@
                 $(id).val(result);
 
                 //onchange quantity functionality
-                var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();               
+                var qty = $("#PurchaseOrderItemsList_" + rowId + "__Quantity").val();
                 var price = $("#PurchaseOrderItemsList_" + rowId + "__Unit_price").val();
                 var totAmount = price * qty;
                 var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
@@ -392,7 +393,7 @@
                 var totAmount = price * qty - ((price * qty) * dis / 100)
                 var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
                 $(id).val(totAmount.toFixed(2));
-                           
+
 
                 CalculateTotal();
                 CalculateTotalAmount();
@@ -417,7 +418,7 @@
         var totAmount = price * qty - ((price * qty) * dis / 100)
         var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
-               
+
 
         CalculateTotal();
         CalculateTotalAmount();
@@ -440,7 +441,7 @@
         var totAmount = price * qty - ((price * qty) * dis / 100)
         var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
-              
+
 
         CalculateTotal();
         CalculateTotalAmount();
@@ -492,21 +493,22 @@
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()))) {
-                totline = parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val() * percentage / 100);               
-                totminus = parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()) - totline;                
-                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()) / 100;               
+                totline = parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val() * percentage / 100);
+                totminus = parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val()) - totline;
+                tottax = parseFloat(tottax) + parseFloat(totminus) * parseFloat($("#PurchaseOrderItemsList_" + j + "__Vat_Code").val()) / 100;
             }
-        }       
+        }
 
         tot = (totdoc - totdis) + tottax;
-        
+
         $("#totalTax").val(tottax.toFixed(2));
-        $("#totalQuotationAmt").val(tot.toFixed(2));       
+        $("#totalQuotationAmt").val(tot.toFixed(2));
 
     }
 
     function CalculateTotal() {
         //debugger;
+        
         var tot = 0;
         //if (i == 0) {
         //    tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + i + "__Amount").val());
@@ -590,7 +592,7 @@
                 totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseOrderItemsList_" + j + "__LineTotal").val());
             }
         }
-
+        
         //for (var j = i; j >= 0; j--) {
         //    if (!isNaN(parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val()))) {
         //        totdis = parseFloat(totdis) + parseFloat($("#PurchaseOrderItemsList_" + j + "__Discount_percent").val());
@@ -607,7 +609,7 @@
         tot = totdoc + tottax;
 
         $("#totalQuotationAmt").val(tot.toFixed(2));
-    }   
+    }
 
 </script>
 
@@ -700,8 +702,8 @@
                                                 <td>@item.Vendor_Name</td>
                                                 <td style="text-align:center;">@item.Reference_Number</td>
                                                 <td>@item.Order_Status</td>
-                                                <td>@item.Posting_Date.ToString("dd/MM/yyyy")</td>
-                                                <td>@item.Delivery_Date.ToString("dd/MM/yyyy")</td>
+                                                <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
+                                                <td>@item.Delivery_Date.ToString("MM/dd/yyyy")</td>
                                                 <td>
                                                     <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Purchase_Order_Id);">
                                                         <i class="im-eye2"></i>
@@ -938,7 +940,7 @@
                                                                 {
                                                                     <tr class="odd gradeX">
                                                                         <td style="text-align:center;">@item.Purchase_Quote_Id</td>
-                                                                        <td>@item.Valid_Date</td>
+                                                                        <td>@item.Valid_Date.ToString("MM/dd/yyyy")</td>
                                                                         <td style="text-align:center;">@item.Vendor_Name</td>
                                                                         <td>@item.Quotation_Status</td>
                                                                         <td>

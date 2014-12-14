@@ -347,6 +347,7 @@ namespace Troy.Data.Repository
                         if (model.Purchase_OrderItem_Id == 0)
                         {
                             model.Purchase_Order_Id = Quotation.Purchase_Order_Id;
+                            model.BaseDocLink = "N";
                             purchaseordercontext.purchaseorderitems.Add(model);
                             purchaseordercontext.SaveChanges();
                         }

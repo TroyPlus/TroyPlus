@@ -19,6 +19,7 @@ namespace Troy.Data.Repository
     public class PurchaseReturnRepository : BaseRepository, IPurchaseReturnRepository
     {
         private PurchaseReturnContext purchasereturncontext = new PurchaseReturnContext();
+        private PurchaseReturnContext purchasereturncontext1 = new PurchaseReturnContext();
         private BusinessPartnerContext businessContext = new BusinessPartnerContext();
         private PurchaseInvoiceContext purchaseinvoicecontext = new PurchaseInvoiceContext();
 
@@ -151,9 +152,31 @@ namespace Troy.Data.Repository
         }
         public IList<PurchaseReturnitems> FindOneReturnItemById(int qId)
         {
-            return (from p in purchasereturncontext.purchasereturnitems
-                    where p.Purchase_Return_Id == qId
-                    select p).ToList();
+            //return (from p in purchasereturncontext.purchasereturnitems
+            //        where p.Purchase_Return_Id == qId
+            //        select p).ToList();
+
+            var qtn = (from p in purchasereturncontext.purchasereturnitems
+                       where p.Purchase_Return_Id == qId
+                       select p).ToList();
+
+            var purchase = (from q in qtn
+                            join pi in purchasereturncontext.product on q.Product_id equals pi.Product_Id
+                            select new PurchaseReturnitems
+                            {
+                                Product_id = q.Product_id,
+                                Purchase_Return_Id = q.Purchase_Return_Id,
+                                Purchase_ReturnItem_Id = q.Purchase_ReturnItem_Id,
+                                Quantity = q.Quantity,
+                                Unit_price = q.Unit_price,
+                                Discount_percent = q.Discount_percent,
+                                Vat_Code = q.Vat_Code,
+                                LineTotal = q.LineTotal,
+                                BaseDocLink = q.BaseDocLink
+                            }).ToList();
+
+            return purchase;
+
         }
         public IList<PurchaseInvoiceItems> FindOneInvoiceItemById(int qId)
         {
@@ -172,14 +195,15 @@ namespace Troy.Data.Repository
                                        Discount_percent = q.Discount_percent,
 
                                        Product_id = q.Product_id,
-
+                                       Purchase_Invoice_Id = q.Purchase_Invoice_Id,
+                                       Purchase_InvoiceItem_Id = q.Purchase_InvoiceItem_Id,
 
 
                                        Freight_Loading = q.Freight_Loading,
-                                       Quantity = q.Quantity,
-
+                                       Quantity = q.Quantity-q.Inv_Return_Qty,
+                                       Inv_Return_Qty = q.Inv_Return_Qty,
                                        Unit_price = q.Unit_price,
-
+                                       BaseDocLink = q.BaseDocLink,
                                        Vat_Code = q.Vat_Code
                                    }).ToList();
 
@@ -236,23 +260,23 @@ namespace Troy.Data.Repository
                 {
                     if (model1.IsDummy == 1)
                     {
-                        purchasereturncontext.Entry(model1).State = EntityState.Deleted;
-                        purchasereturncontext.SaveChanges();
+                        purchasereturncontext1.Entry(model1).State = EntityState.Deleted;
+                        purchasereturncontext1.SaveChanges();
                     }
-                    //else
-                    //{
-                    //    if (model1.Quote_Item_Id == 0)
-                    //    {
-                    //        model1.Purchase_Quote_Id = Quotation.Purchase_Quote_Id;
-                    //        purchaseordercontext1.purchasequotationitem.Add(model1);
-                    //        purchaseordercontext1.SaveChanges();
-                    //    }
-                    //    else
-                    //    {
-                    //        purchaseordercontext1.Entry(model1).State = EntityState.Modified;
-                    //        purchaseordercontext1.SaveChanges();
-                    //    }
-                    //}
+                    else
+                    {
+                        if (model1.Purchase_Invoice_Id == 0)
+                        {
+                            model1.Purchase_Invoice_Id = PurchaseInvoice.Purchase_Invoice_Id;
+                            purchasereturncontext1.PurchaseInvoiceItems.Add(model1);
+                            purchasereturncontext1.SaveChanges();
+                        }
+                        else
+                        {
+                            purchasereturncontext1.Entry(model1).State = EntityState.Modified;
+                            purchasereturncontext1.SaveChanges();
+                        }
+                    }
                 }
 
                 return true;
@@ -277,33 +301,34 @@ namespace Troy.Data.Repository
                 return false;
             }
         }
+
         public bool UpdateReturn(PurchaseReturn PurchaseReturn, IList<PurchaseReturnitems> PurchaseReturnitemsList, ref string ErrorMessage)
         {
             ErrorMessage = string.Empty;
             try
             {
-                purchasereturncontext.Entry(PurchaseReturn).State = EntityState.Modified;
-                purchasereturncontext.SaveChanges();
+                purchasereturncontext1.Entry(PurchaseReturn).State = EntityState.Modified;
+                purchasereturncontext1.SaveChanges();
 
                 foreach (var model in PurchaseReturnitemsList)
                 {
                     if (model.IsDummy == 1)
                     {
-                        purchasereturncontext.Entry(model).State = EntityState.Deleted;
-                        purchasereturncontext.SaveChanges();
+                        purchasereturncontext1.Entry(model).State = EntityState.Deleted;
+                        purchasereturncontext1.SaveChanges();
                     }
                     else
                     {
-                        if (model.Purchase_Return_Id == 0)
+                        if (model.Purchase_ReturnItem_Id == 0)
                         {
                             model.Purchase_Return_Id = PurchaseReturn.Purchase_Invoice_Id;
-                            purchasereturncontext.purchasereturnitems.Add(model);
-                            purchasereturncontext.SaveChanges();
+                            purchasereturncontext1.purchasereturnitems.Add(model);
+                            purchasereturncontext1.SaveChanges();
                         }
                         else
                         {
-                            purchasereturncontext.Entry(model).State = EntityState.Modified;
-                            purchasereturncontext.SaveChanges();
+                            purchasereturncontext1.Entry(model).State = EntityState.Modified;
+                            purchasereturncontext1.SaveChanges();
                         }
                     }
                 }

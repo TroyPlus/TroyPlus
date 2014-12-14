@@ -65,7 +65,7 @@ namespace Troy.Web.Controllers
                 model.BusinessPartnerList = BusinessParterList;
 
                 //Bind PurchaseQuotation
-                        var qList1 = purchasereturnrepository.GetAllPurchaseInvoice().ToList();
+                var qList1 = purchasereturnrepository.GetAllPurchaseInvoice().ToList();
                 model.PurchaseInvoiceList = qList1;
 
 
@@ -87,10 +87,10 @@ namespace Troy.Web.Controllers
             {
                 //ApplicationUser currentUser = ApplicationUserManager.GetApplicationUser(User.Identity.Name, HttpContext.GetOwinContext());
 
-               
-                if (submitButton == "Save-PurRtn")
+
+                if (submitButton == "Save")
                 {
-                     PurchaseReturnViewModels model1 = new PurchaseReturnViewModels();
+                    PurchaseReturnViewModels model1 = new PurchaseReturnViewModels();
                     model1.PurchaseInvoice = purchasereturnrepository.FindOneInvoiceById(model.PurchaseInvoice.Purchase_Invoice_Id);
                     model1.PurchaseInvoiceItemsList = purchasereturnrepository.FindOneInvoiceItemById(model.PurchaseInvoice.Purchase_Invoice_Id);
 
@@ -105,33 +105,33 @@ namespace Troy.Web.Controllers
                                 model.PurchaseReturn.BaseDocId = model.PurchaseInvoice.Purchase_Invoice_Id;
                             }
                         }
-                    model.PurchaseReturn.Doc_Status = "OPEN";
-                    model.PurchaseReturn.Created_Branc_Id = CurrentBranchId;//CurrentBranchId;
-                    model.PurchaseReturn.Created_Date = DateTime.Now;
-                    model.PurchaseReturn.Created_User_Id = CurrentUser.Id;//CurrentUser.Id;
-                    model.PurchaseReturn.Purchase_Invoice_Id = model.PurchaseInvoice.Purchase_Invoice_Id;
-                    model.PurchaseReturn.Vendor = model.PurchaseInvoice.Vendor;
-                    // model.PurchaseReturn.Doc_Status = model.PurchaseInvoice.Doc_Status;
-                    model.PurchaseReturn.Posting_Date = model.PurchaseInvoice.Posting_Date;
-                    model.PurchaseReturn.Due_Date = model.PurchaseInvoice.Due_Date;
-                    model.PurchaseReturn.Document_Date = model.PurchaseInvoice.Document_Date;
-                    model.PurchaseReturn.Ship_To = model.PurchaseInvoice.Ship_To;
-                    model.PurchaseReturn.Freight = model.PurchaseInvoice.Freight;
-                    model.PurchaseReturn.Loading = model.PurchaseInvoice.Loading;
-                    model.PurchaseReturn.TotalBefDocDisc = model.PurchaseInvoice.TotalBefDocDisc;
-                    model.PurchaseReturn.DocDiscAmt = model.PurchaseInvoice.DocDiscAmt;
-                    model.PurchaseReturn.TaxAmt = model.PurchaseInvoice.TaxAmt;
-                    model.PurchaseReturn.TotalPurRtnAmt = model.PurchaseInvoice.TotalPurInvAmt;
-                    model.PurchaseReturn.Reference_Number = model.PurchaseInvoice.Reference_Number;
+                        model.PurchaseReturn.Doc_Status = "OPEN";
+                        model.PurchaseReturn.Created_Branc_Id = CurrentBranchId;//CurrentBranchId;
+                        model.PurchaseReturn.Created_Date = DateTime.Now;
+                        model.PurchaseReturn.Created_User_Id = CurrentUser.Id;//CurrentUser.Id;
+                        model.PurchaseReturn.Purchase_Invoice_Id = model.PurchaseInvoice.Purchase_Invoice_Id;
+                        model.PurchaseReturn.Vendor = model.PurchaseInvoice.Vendor;
+                        // model.PurchaseReturn.Doc_Status = model.PurchaseInvoice.Doc_Status;
+                        model.PurchaseReturn.Posting_Date = model.PurchaseInvoice.Posting_Date;
+                        model.PurchaseReturn.Due_Date = model.PurchaseInvoice.Due_Date;
+                        model.PurchaseReturn.Document_Date = model.PurchaseInvoice.Document_Date;
+                        model.PurchaseReturn.Ship_To = model.PurchaseInvoice.Ship_To;
+                        model.PurchaseReturn.Freight = model.PurchaseInvoice.Freight;
+                        model.PurchaseReturn.Loading = model.PurchaseInvoice.Loading;
+                        model.PurchaseReturn.TotalBefDocDisc = model.PurchaseInvoice.TotalBefDocDisc;
+                        model.PurchaseReturn.DocDiscAmt = model.PurchaseInvoice.DocDiscAmt;
+                        model.PurchaseReturn.TaxAmt = model.PurchaseInvoice.TaxAmt;
+                        model.PurchaseReturn.TotalPurRtnAmt = model.PurchaseInvoice.TotalPurInvAmt;
+                        model.PurchaseReturn.Reference_Number = model.PurchaseInvoice.Reference_Number;
 
 
 
-                    var RetrnList = model.PurchaseReturnitemsList.Where(x => x.IsDummy == 0);
-                    model.PurchaseReturnitemsList = RetrnList.ToList();
-                   
-                    for (int i = 0; i < model.PurchaseReturnitemsList.Count; i++)
-                    {
-                       if (model1.PurchaseInvoiceItemsList[i].Product_id == model.PurchaseInvoiceItemsList[i].Product_id)
+                        var RetrnList = model.PurchaseReturnitemsList.Where(x => x.IsDummy == 0);
+                        model.PurchaseReturnitemsList = RetrnList.ToList();
+
+                        for (int i = 0; i < model.PurchaseReturnitemsList.Count; i++)
+                        {
+                            if (model1.PurchaseInvoiceItemsList[i].Product_id == model.PurchaseInvoiceItemsList[i].Product_id)
                             {
                                 model.PurchaseReturnitemsList[i].BaseDocLink = "Y";
                             }
@@ -139,18 +139,18 @@ namespace Troy.Web.Controllers
                             {
                                 model.PurchaseReturnitemsList[i].BaseDocLink = "N";
                             }
-                        model.PurchaseReturnitemsList[i].Product_id = model.PurchaseInvoiceItemsList[i].Product_id;
-                        model.PurchaseReturnitemsList[i].Quantity = model.PurchaseInvoiceItemsList[i].Quantity;
-                        model.PurchaseReturnitemsList[i].Unit_price = model.PurchaseInvoiceItemsList[i].Unit_price;
-                        model.PurchaseReturnitemsList[i].Discount_percent = model.PurchaseInvoiceItemsList[i].Discount_percent;
-                        model.PurchaseReturnitemsList[i].Vat_Code = model.PurchaseInvoiceItemsList[i].Vat_Code;
-                        model.PurchaseReturnitemsList[i].Freight_Loading = model.PurchaseInvoiceItemsList[i].Freight_Loading;
-                        model.PurchaseReturnitemsList[i].LineTotal = model.PurchaseInvoiceItemsList[i].LineTotal;
+                            model.PurchaseReturnitemsList[i].Product_id = model.PurchaseInvoiceItemsList[i].Product_id;
+                            model.PurchaseReturnitemsList[i].Quantity = model.PurchaseInvoiceItemsList[i].Quantity;
+                            model.PurchaseReturnitemsList[i].Unit_price = model.PurchaseInvoiceItemsList[i].Unit_price;
+                            model.PurchaseReturnitemsList[i].Discount_percent = model.PurchaseInvoiceItemsList[i].Discount_percent;
+                            model.PurchaseReturnitemsList[i].Vat_Code = model.PurchaseInvoiceItemsList[i].Vat_Code;
+                            model.PurchaseReturnitemsList[i].Freight_Loading = model.PurchaseInvoiceItemsList[i].Freight_Loading;
+                            model.PurchaseReturnitemsList[i].LineTotal = model.PurchaseInvoiceItemsList[i].LineTotal;
 
-                    }
+                        }
 
-                    if (purchasereturnrepository.AddNewReturn(model.PurchaseReturn, model.PurchaseReturnitemsList, ref ErrorMessage))
-                    {
+                        if (purchasereturnrepository.AddNewReturn(model.PurchaseReturn, model.PurchaseReturnitemsList, ref ErrorMessage))
+                        {
                             //return RedirectToAction("Index", "PurchaseOrders");
 
                             //for Purchase Quotation/Purchase Quotation item table update
@@ -165,11 +165,11 @@ namespace Troy.Web.Controllers
                                     }
                                     else
                                     {
-                                        model1.PurchaseInvoice.TargetDocId = model1.PurchaseInvoice.TargetDocId + "," + Convert.ToString(model.PurchaseReturn.Purchase_Return_Id);                                      
+                                        model1.PurchaseInvoice.TargetDocId = model1.PurchaseInvoice.TargetDocId + "," + Convert.ToString(model.PurchaseReturn.Purchase_Return_Id);
                                     }
 
 
-                                   // model1.PurchaseInvoiceItemsList[j].Quote_Item_Id = model1.PurchaseInvoiceItemsList[j].Quote_Item_Id;
+                                    model1.PurchaseInvoiceItemsList[j].Purchase_InvoiceItem_Id = model1.PurchaseInvoiceItemsList[j].Purchase_InvoiceItem_Id;
                                     model1.PurchaseInvoiceItemsList[j].Purchase_Invoice_Id = model1.PurchaseInvoiceItemsList[j].Purchase_Invoice_Id;
                                     //model1.PurchaseInvoiceItemsList[j].Quoted_date = model1.PurchaseInvoiceItemsList[j].Quoted_date;
                                     model1.PurchaseInvoiceItemsList[j].Inv_Return_Qty = model1.PurchaseInvoiceItemsList[j].Inv_Return_Qty + Convert.ToInt32(model.PurchaseInvoiceItemsList[j].Quantity);
@@ -191,7 +191,7 @@ namespace Troy.Web.Controllers
                                         model1.PurchaseInvoice.TargetDocId = model1.PurchaseInvoice.TargetDocId + "," + Convert.ToString(model.PurchaseReturn.Purchase_Return_Id);
                                     }
 
-                                 // model1.PurchaseInvoiceItemsList[j].Quote_Item_Id = model1.PurchaseInvoiceItemsList[j].Quote_Item_Id;
+                                    model1.PurchaseInvoiceItemsList[j].Purchase_InvoiceItem_Id = model1.PurchaseInvoiceItemsList[j].Purchase_InvoiceItem_Id;
                                     model1.PurchaseInvoiceItemsList[j].Purchase_Invoice_Id = model1.PurchaseInvoiceItemsList[j].Purchase_Invoice_Id;
                                     //model1.PurchaseInvoiceItemsList[j].Quoted_date = model1.PurchaseInvoiceItemsList[j].Quoted_date;
                                     model1.PurchaseInvoiceItemsList[j].Inv_Return_Qty = model1.PurchaseInvoiceItemsList[j].Inv_Return_Qty + Convert.ToInt32(model.PurchaseInvoiceItemsList[j].Quantity);
@@ -203,7 +203,7 @@ namespace Troy.Web.Controllers
                                 }
                             }
 
-                           // model1.PurchaseInvoice.Creating_Branch = CurrentBranchId;
+                            // model1.PurchaseInvoice.Creating_Branch = CurrentBranchId;
                             model1.PurchaseInvoice.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                             model1.PurchaseInvoice.Created_Date = DateTime.Now;
                             model1.PurchaseInvoice.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
@@ -220,20 +220,23 @@ namespace Troy.Web.Controllers
                             ViewBag.AppErrorMessage = ErrorMessage;
                             return View("Error");
                         }
-                    
-                
 
-                return RedirectToAction("Index", "PurchaseReturns");
-            }
-        }
-    
-    
-             else if (submitButton == "Update")
+
+
+                        return RedirectToAction("Index", "PurchaseReturns");
+                    }
+                }
+
+
+                else if (submitButton == "Update")
                 {
                     model.PurchaseReturn.Doc_Status = "open";
                     model.PurchaseReturn.Modified_Branch_Id = CurrentBranchId;//CurrentBranchId;
                     model.PurchaseReturn.Modified_Date = DateTime.Now;
                     model.PurchaseReturn.Modified_User_Id = CurrentUser.Id;//CurrentUser.Id;
+
+                    var QuotationList = model.PurchaseReturnitemsList.Where(x => x.IsDummy == 0);
+                    model.PurchaseReturnitemsList = QuotationList.ToList();
 
                     for (int i = 0; i < model.PurchaseReturnitemsList.Count; i++)
                     {
@@ -268,8 +271,8 @@ namespace Troy.Web.Controllers
                 //}
 
             }
-        }   
-                 
+        }
+
 
         public PartialViewResult _ViewPurchaseInvoice(int id)
         {
@@ -318,7 +321,7 @@ namespace Troy.Web.Controllers
                 model.BusinessPartnerList = purchasereturnrepository.GetBusinessPartnerList().ToList();
                 model.ProductList = purchasereturnrepository.GetProductList();
                 model.VATList = purchasereturnrepository.GetVAT();
-               
+
 
                 return PartialView(model);
             }
@@ -341,7 +344,7 @@ namespace Troy.Web.Controllers
                 model.BusinessPartnerList = purchasereturnrepository.GetBusinessPartnerList().ToList();
                 model.ProductList = purchasereturnrepository.GetProductList();
                 model.VATList = purchasereturnrepository.GetVAT();
-              
+
 
                 return PartialView(model);
             }

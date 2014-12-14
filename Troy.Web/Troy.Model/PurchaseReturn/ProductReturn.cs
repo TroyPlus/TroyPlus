@@ -23,7 +23,7 @@ namespace Troy.Model.PurchaseReturn
 
         [Required]
         public int Purchase_Invoice_Id { get; set; }
-       // [ForeignKey("Purchase_Invoice_Id")]
+        // [ForeignKey("Purchase_Invoice_Id")]
         //  public virtual
         //------
 
@@ -69,9 +69,11 @@ namespace Troy.Model.PurchaseReturn
         //------
 
         [Required]
+        [RegularExpression(@"\d+(\.\d{0,2})?", ErrorMessage = "Invalid Total Before Document Discount Amount")]
         public decimal TotalBefDocDisc { get; set; }
         //------
 
+        [RegularExpression(@"\d+(\.\d{0,2})?", ErrorMessage = "Invalid Document Discount Amount")]
         public decimal DocDiscAmt { get; set; }
         //------
 

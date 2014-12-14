@@ -4,21 +4,21 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        //$('.datePicker').datepicker();
+        $('.datePicker').datepicker();
 
-        $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
+        //$('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
         $('#creDeliveryDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0
+            minDate: 0
         });
 
         $('#creDocumentDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+             minDate: 0, maxDate: 0
         });
 
 
         $('#crePostingDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $("#editTypeahead").jAutochecklist();
@@ -114,7 +114,7 @@
         }
 
         function CreateVATSelect(rowID) {
-            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="SalesQuotationItemList_' + rowID + '__VAT_Id" name="SalesQuotationItemList[' + rowID + '].VAT_Id" onchange="OnChangeVAT();" >';
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="SalesQuotationItemList_' + rowID + '__Vat_Code" name="SalesQuotationItemList[' + rowID + '].Vat_Code" onchange="OnChangeVAT();" >';
             selectHtml += '<option value=""></option>';
 
 
@@ -493,7 +493,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesQuotation.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate1" })
+                                                        @Html.TextBoxFor(model => model.SalesQuotation.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text",@readonly=true })
                                                         @Html.ValidationMessageFor(model => model.SalesQuotation.Posting_Date)
                                                     </div>
                                                 </div>
@@ -512,7 +512,7 @@
                                                         Valid Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesQuotation.Valid_Date, new { @class = "form-control control-text", @id = "creDeliveryDate1" })
+                                                        @Html.TextBoxFor(model => model.SalesQuotation.Valid_Date, new { @Value = Model.SalesQuotation.Valid_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "creDeliveryDate1" })
                                                         @Html.ValidationMessageFor(model => model.SalesQuotation.Valid_Date)
                                                     </div>
                                                 </div>

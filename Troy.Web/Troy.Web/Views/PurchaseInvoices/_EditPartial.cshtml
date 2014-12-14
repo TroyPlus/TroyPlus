@@ -7,19 +7,19 @@
 
     $(document).ready(function () {
 
-        //$('.datePicker').datepicker();
-        $('.datePicker').datepicker({ dateFormat: 'dd/mm/yy' }).val();
+        $('.datePicker').datepicker();
+        //$('.datePicker').datepicker({ dateFormat: 'dd/mm/yy' }).val();
 
         $('#creDocumentDate1').datepicker({
-            dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $('#creDueDate1').datepicker({
-            dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $('#crePostingDate1').datepicker({
-            dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $("#typeahead").jAutochecklist({
@@ -30,7 +30,7 @@
             listMaxHeight: 50
         });
 
-        i = 1;
+        i = $("#ItemCount").val();
 
         //Dynamically add quotation row
         function addRow() {
@@ -363,7 +363,7 @@
             }
         }
         //}
-        $("#totalPurchase1").val(tot);
+        $("#totalPurchase1").val(tot.toFixed(2));
     }
 
     function CalculateDiscount() {
@@ -375,7 +375,7 @@
             }
         }
 
-        $("#totalDiscount1").val(tot);
+        $("#totalDiscount1").val(tot.toFixed(2));
     }
 
     function CalculateTax() {
@@ -508,7 +508,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Posting_Date, new { @Value = Model.PurchaseInvoice.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @id = "crePostingDate1" })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Posting_Date)
                                                     </div>
                                                 </div>
@@ -518,7 +518,7 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Due_Date, new { @class = "form-control control-text", @id = "creDueDate1" })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Due_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Due_Date)
                                                     </div>
                                                 </div>
@@ -623,7 +623,7 @@
                                                     <th>Unit Price</th>
                                                     <th>Quantity</th>
                                                     <th>Discount %</th>
-                                                    <th>VAT Code</th>
+                                                    <th>VAT %</th>
                                                     <th>Freight Loading</th>
                                                     <th>LineTotal</th>
                                                     <th></th>
@@ -674,6 +674,10 @@
                                                         </td>
                                                         <td style="width: 90px;">
                                                             <input class="BtnPlus btn pull-left" type="button" value="+" />
+                                                            @if (i > 0)
+                                                            {
+                                                                <input style="margin-left:5px;" class="BtnMinus btn pull-left" type="button" value="-" />
+                                                            }
                                                         </td>
                                                     </tr>
 

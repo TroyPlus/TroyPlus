@@ -229,6 +229,7 @@ namespace Troy.Data.Repository
                         if (model.Sales_InvoiceItem_Id == 0)
                         {
                             model.Sales_Invoice_Id = Quotation.Sales_Invoice_Id;
+                            model.BaseDocLink = "N";
                             salesinvoicecontext.SalesInvoiceItems.Add(model);
                             salesinvoicecontext.SaveChanges();
                         }

@@ -81,7 +81,7 @@ namespace Troy.Web.Controllers
 
                 if (submitButton == "Save")
                 {
-                    model.PurchaseInvoice.Document_Date = DateTime.Now;                 
+                    model.PurchaseInvoice.Document_Date = DateTime.Now;
                     model.PurchaseInvoice.Doc_Status = "Open";
                     model.PurchaseInvoice.Invoice_Payment = "N";
                     model.PurchaseInvoice.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
@@ -139,7 +139,7 @@ namespace Troy.Web.Controllers
                         return View("Error");
                     }
                 }
-                else if (submitButton == "Save-PurQuo")
+                else if (submitButton == " Save")
                 {
                     PurchaseInvoiceViewModels model1 = new PurchaseInvoiceViewModels();
                     model1.GoodsReceipt = purchaseinvoiceRepository.FindOneGoodsReceiptById(model.GoodsReceipt.Goods_Receipt_Id);
@@ -148,6 +148,7 @@ namespace Troy.Web.Controllers
 
                     if (model1.GoodsReceipt.Vendor == model.GoodsReceipt.Vendor)
                     {
+
                         //for BaseDocId
                         for (int j = 0; j < model.GoodsReceiptItemList.Count; j++)
                         {
@@ -206,8 +207,8 @@ namespace Troy.Web.Controllers
                             model.PurchaseInvoiceItemsList[j].Discount_percent = model.GoodsReceiptItemList[j].Discount_percent;
                             model.PurchaseInvoiceItemsList[j].Vat_Code = model.GoodsReceiptItemList[j].Vat_Code;
                             model.PurchaseInvoiceItemsList[j].Freight_Loading = model.GoodsReceiptItemList[j].Freight_Loading;
-
                         }
+
 
                         if (purchaseinvoiceRepository.AddNewPurchaseInvoice(model.PurchaseInvoice, model.PurchaseInvoiceItemsList, ref ErrorMessage))
                         {
@@ -219,7 +220,7 @@ namespace Troy.Web.Controllers
                                     model1.GoodsReceipt.Doc_Status = "Closed";
                                     model.GoodsReceipt.Posting_Date = DateTime.Now;
                                     model.GoodsReceipt.Due_Date = DateTime.Now;
-                                    model.GoodsReceipt.Document_Date = DateTime.Now; 
+                                    model.GoodsReceipt.Document_Date = DateTime.Now;
                                     model1.GoodsReceipt.TargetDocId = model1.GoodsReceipt.TargetDocId + "," + Convert.ToString(model.PurchaseInvoice.Purchase_Invoice_Id);
 
 
@@ -236,7 +237,7 @@ namespace Troy.Web.Controllers
                                     model1.GoodsReceipt.Doc_Status = "Open";
                                     model.GoodsReceipt.Posting_Date = DateTime.Now;
                                     model.GoodsReceipt.Due_Date = DateTime.Now;
-                                    model.GoodsReceipt.Document_Date = DateTime.Now; 
+                                    model.GoodsReceipt.Document_Date = DateTime.Now;
                                     model1.GoodsReceipt.TargetDocId = model1.GoodsReceipt.TargetDocId + "," + Convert.ToString(model.PurchaseInvoice.Purchase_Invoice_Id);
 
 
@@ -250,7 +251,7 @@ namespace Troy.Web.Controllers
                                 }
                             }
 
-                            model1.GoodsReceipt.Created_Branc_Id =CurrentBranchId;//currentUser.Created_Branch_Id; 
+                            model1.GoodsReceipt.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                             model1.GoodsReceipt.Created_Dte = DateTime.Now;
                             model1.GoodsReceipt.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
                             //model1.GoodsReceipt.Modified_User_Id = CurrentUser.Created_User_Id;//currentUser.Modified_User_Id;

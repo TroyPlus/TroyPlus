@@ -7,15 +7,15 @@
         $('.datePicker').datepicker();
 
         $('#creGRDocumentDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $('#creGRDueDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $('#creGRPostingDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $("#editTypeahead").jAutochecklist();
@@ -472,9 +472,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
-                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker", @id = "crePostingDate" })*@
-                                                        @Html.TextBoxFor(model => model.SalesDelivery.Posting_Date, new { @class = "form-control control-text", @id = "creGRPostingDate" })
+                                                        @Html.TextBoxFor(model => model.SalesDelivery.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.SalesDelivery.Posting_Date)
                                                     </div>
                                                 </div>
@@ -487,19 +485,19 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesDelivery.Delivery_Date, new { @class = "form-control control-text", @id = "creGRDueDate" })
+                                                        @Html.TextBoxFor(model => model.SalesDelivery.Delivery_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.SalesDelivery.Delivery_Date)
                                                     </div>
                                                 </div>
                                                 @*<div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Document Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesDelivery.Document_Date, new { @class = "form-control control-text", @id = "creGRDocumentDate" })
-                                                        @Html.ValidationMessageFor(model => model.SalesDelivery.Document_Date)
-                                                    </div>
-                                                </div>*@
+                                                        <div class="col-md-4">
+                                                            Document Date
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.SalesDelivery.Document_Date, new { @class = "form-control control-text", @id = "creGRDocumentDate" })
+                                                            @Html.ValidationMessageFor(model => model.SalesDelivery.Document_Date)
+                                                        </div>
+                                                    </div>*@
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Ship To
@@ -612,7 +610,7 @@
 
                                     <div class="modal-footer">
 
-                                        <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save-PurQuo" />
+                                        <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value=" Save" />
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
 
                                         <div class="row" style="float:right;">

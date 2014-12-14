@@ -138,7 +138,7 @@ namespace Troy.Web.Controllers
                         return View("Error");
                     }
                 }
-                else if (submitButton == "Save-PurQuo")
+                else if (submitButton == " Save")
                 {
                     SalesInvoiceViewModels model1 = new SalesInvoiceViewModels();
                     model1.SalesDelivery = salesinvoiceRepository.FindOneSalesDeliveryById(model.SalesDelivery.Sales_Delivery_Id);

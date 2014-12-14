@@ -3,23 +3,29 @@
 @Scripts.Render("~/bundles/script/jqueryval")
 
 <script type="text/javascript">
+    var r = 0;
     $(document).ready(function () {
-        //$('.datePicker').datepicker();
+        $('.datePicker').datepicker();
 
-        $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
+        //$('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
         $('#crePQDocumentDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $('#crePQPostingDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
+        });
+
+        $('#crePQRequiredDate').datepicker({
+            minDate: 0
         });
 
         $("#editTypeahead").jAutochecklist();
         var i;
 
         i = $("#ItemCount").val();
+        r = 1;
         //alert(i);
 
         //Dynamically add quotation row
@@ -75,7 +81,7 @@
 
             //$("#PurchaseQuotationItemList_1__Required_date").datepicker("refresh");
             i++;
-
+            r++;
             //$("form").removeData("validator");
             $("form").removeData("unobtrusiveValidation");
             $.validator.unobtrusive.parse("form");
@@ -242,15 +248,15 @@
                 $(id).val(result);
 
                 //onchange quantity functionality
-                var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quantity").val();
+                var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quoted_qty").val();
                 var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
                 var totAmount = price * qty;
                 var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
                 $(id).val(totAmount.toFixed(2));
-
+               
                 //onchange discount functionality
                 var dis = $("#PurchaseQuotationItemList_" + rowId + "__Discount_percent").val();
-                var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quantity").val();
+                var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quoted_qty").val();
                 var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
                 var totAmount = price * qty - ((price * qty) * dis / 100)
                 var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
@@ -273,7 +279,7 @@
 
         //onchange discount functionality
         var dis = $("#PurchaseQuotationItemList_" + rowId + "__Discount_percent").val();
-        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quantity").val();
+        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quoted_qty").val();
         var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
         var totAmount = price * qty - ((price * qty) * dis / 100)
         var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
@@ -287,14 +293,14 @@
     function OnChangeDiscount(currentDis, rowId) {
         //debugger;
         //onchange quantity functionality
-        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quantity").val();
+        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quoted_qty").val();
         var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
         var totAmount = price * qty;
         var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
         var dis = currentDis.value;
-        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quantity").val();
+        var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quoted_qty").val();
         var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
         var totAmount = price * qty - ((price * qty) * dis / 100)
         var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
@@ -364,15 +370,15 @@
 
     function CalculateTotal() {
         //debugger;
-       
+
         var tot = 0;
         //if (i == 0) {
         //    tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + i + "__Amount").val());
         //}
         //else {
-        for (var j = i; j >= 0; j--) {
+        for (var j = r; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
-                tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val());
+                tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val());               
             }
         }
         //}
@@ -397,7 +403,7 @@
     function CalculateTax() {
         var tot = 0;
 
-        for (var j = i; j >= 0; j--) {
+        for (var j = r; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
                 //tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
                 tot = parseFloat(tot) + (parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()) / 100);
@@ -414,7 +420,7 @@
         var tottax = 0;
         var tot = 0;
 
-        for (var j = i; j >= 0; j--) {
+        for (var j = r; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
                 totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val());
             }
@@ -426,7 +432,7 @@
         //    }
         //}
 
-        for (var j = i; j >= 0; j--) {
+        for (var j = r; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
                 //tottax = parseFloat(tottax) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
                 tottax = parseFloat(tottax) + (parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()) / 100);
@@ -528,8 +534,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @readonly = true })*@
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text", @id = "crePQPostingDate" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "crePQPostingDate", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
                                                     </div>
                                                 </div>
@@ -539,7 +544,7 @@
                                                         Delivery Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @class = "form-control control-text datePicker" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @Value = Model.PurchaseQuotation.Required_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "crePQRequiredDate" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Required_Date)
                                                     </div>
                                                 </div>
@@ -551,14 +556,14 @@
                                             <div class="form-horizontal">
 
                                                 @*<div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Document Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Modified_Date, new { @class = "form-control control-text ", @id = "crePQDocumentDate" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Modified_Date)
-                                                    </div>
-                                                </div>*@
+                                                        <div class="col-md-4">
+                                                            Document Date
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.PurchaseQuotation.Modified_Date, new { @class = "form-control control-text ", @id = "crePQDocumentDate" })
+                                                            @Html.ValidationMessageFor(model => model.PurchaseQuotation.Modified_Date)
+                                                        </div>
+                                                    </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -691,7 +696,7 @@
 
                                     <div class="modal-footer">
 
-                                        <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save-PurQuo" />
+                                        <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value=" Save" />
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
 
                                         <div class="row" style="float:right;">

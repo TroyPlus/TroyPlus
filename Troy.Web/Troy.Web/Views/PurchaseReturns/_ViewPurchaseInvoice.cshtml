@@ -7,15 +7,15 @@
         $('.datePicker').datepicker();
 
         $('#creGRDocumentDate2').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $('#creGRDueDate2').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+             minDate: 0, maxDate: 0
         });
 
         $('#creGRPostingDate2').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+             minDate: 0, maxDate: 0
         });
 
         $("#editTypeahead").jAutochecklist();
@@ -433,7 +433,7 @@
                                                         Purchase InvoiceID
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Purchase_Invoice_Id, new { @class = "form-control control-text" ,@readonly =true })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Purchase_Invoice_Id, new { @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Purchase_Invoice_Id)
                                                     </div>
                                                 </div>
@@ -465,45 +465,45 @@
                                                         @Html.DropDownListFor(model => model.PurchaseInvoice.Doc_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
-                                                           
-                                                         }, new { @class = "form-control",@readonly = true })
+
+                                                         }, new { @class = "form-control", @readonly = true })
                                                     </div>
                                                 </div>
 
-                                                @*<div class="row form-group">
+                                                <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Posting_Date, new { @class = "form-control control-text", @id = "creGRPostingDate2", @readonly = true })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Posting_Date, new { @Value = Model.PurchaseInvoice.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "creGRPostingDate2", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoice.Posting_Date)
                                                     </div>
-                                                </div>*@
-
-                                                @*<div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Due Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Due_Date, new { @class = "form-control control-text", @id = "creGRDueDate2", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.Due_Date)
-                                                    </div>
-                                                </div>*@
-                                                @*<div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Document Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Document_Date, new { @class = "form-control control-text", @id = "creGRDocumentDate2", @readonly = true })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.Document_Date)
-                                                    </div>
-                                                </div>*@
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
 
-                                            <div class="form-horizontal">                                             
+                                            <div class="form-horizontal">
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        Due Date
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Due_Date, new { @Value = Model.PurchaseInvoice.Due_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "creGRDueDate2", @readonly = true })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.Due_Date)
+                                                    </div>
+                                                </div>
+
+                                                @*<div class="row form-group">
+                                                        <div class="col-md-4">
+                                                            Document Date
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.PurchaseInvoice.Document_Date, new { @class = "form-control control-text", @id = "creGRDocumentDate2", @readonly = true })
+                                                            @Html.ValidationMessageFor(model => model.PurchaseInvoice.Document_Date)
+                                                        </div>
+                                                    </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -569,8 +569,7 @@
                                             @for (int i = 0; i < Model.PurchaseInvoiceItemsList.Count; i++)
                                             {
 
-                                               @Html.HiddenFor(model => model.PurchaseInvoiceItemsList[i].Purchase_Invoice_Id)
-
+                                                @Html.HiddenFor(model => model.PurchaseInvoiceItemsList[i].Purchase_Invoice_Id)
                                                 <tr>
                                                     <td style="display:none;">
                                                         @Html.HiddenFor(model => model.PurchaseReturnitemsList[i].IsDummy, 0)
@@ -615,7 +614,7 @@
 
                                     <div class="modal-footer">
 
-                                        <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save-PurRtn" />
+                                        <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save" />
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
 
                                         <div class="row" style="float:right;">

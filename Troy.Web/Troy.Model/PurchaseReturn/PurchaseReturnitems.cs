@@ -9,13 +9,16 @@ using Troy.Model.Products;
 
 namespace Troy.Model.PurchaseReturn
 {
-     [Table("tblPurchaseReturnitems")]
+    [Table("tblPurchaseReturnitems")]
     public class PurchaseReturnitems
     {
         [Key]
         [Required]
+        public int Purchase_ReturnItem_Id { get; set; }
+
+        [Required]
         public int Purchase_Return_Id { get; set; }
-       // [ForeignKey("Purchase_Return_Id")]
+        // [ForeignKey("Purchase_Return_Id")]
         //public virtual PurchaseReturnitems purchasereturnItems { get; set; }
         //-----------
 

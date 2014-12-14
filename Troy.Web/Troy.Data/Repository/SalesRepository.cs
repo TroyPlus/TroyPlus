@@ -164,6 +164,7 @@ namespace Troy.Data.Repository
                         if (model.Sales_QtnItems_Id == 0)
                         {
                             model.Sales_Qtn_Id = Quotation.Sales_Qtn_Id;
+                            model.BaseDocLink = "N";
                             salesquotationContext.SalesQuotationItem.Add(model);
                             salesquotationContext.SaveChanges();
                         }

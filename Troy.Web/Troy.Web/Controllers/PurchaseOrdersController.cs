@@ -143,7 +143,7 @@ namespace Troy.Web.Controllers
                         return View("Error");
                     }
                 }
-                else if (submitButton == "Save-PurQuo")
+                else if (submitButton == " Save")
                 {
                     PurchaseOrderViewModels model1 = new PurchaseOrderViewModels();
                     model1.PurchaseQuotation = purchaseorderRepository.FindOneQuotationById(model.PurchaseQuotation.Purchase_Quote_Id);

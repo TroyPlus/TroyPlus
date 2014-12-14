@@ -78,7 +78,7 @@
                                                     Posting Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate" })
+                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
                                                     @Html.ValidationMessageFor(model => model.PurchaseOrder.Posting_Date)
                                                 </div>
                                             </div>
@@ -97,14 +97,14 @@
                                     <div class="col-md-6">
                                         <div class="form-horizontal">
                                             @*<div class="row form-group">
-                                                <div class="col-md-4">
-                                                    Document Date
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseOrder.Document_Date)
-                                                </div>
-                                            </div>*@
+                                                    <div class="col-md-4">
+                                                        Document Date
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseOrder.Document_Date)
+                                                    </div>
+                                                </div>*@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">

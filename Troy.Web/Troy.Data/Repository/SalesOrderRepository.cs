@@ -104,6 +104,7 @@ namespace Troy.Data.Repository
 
         public List<SalesQuotation> Getallsalesquotation()
         {
+            DateTime date = DateTime.Now;
             List<SalesQuotation> qList = new List<SalesQuotation>();
 
             var purchase = (from p in ordercontext.salesquotation
@@ -112,8 +113,8 @@ namespace Troy.Data.Repository
             qList = (from p in purchase
                      join b in ordercontext.Businesspartner
                       on p.Customer equals b.BP_Id
-                     where p.Doc_Status == "Open"
-                     where p.Customer == b.BP_Id
+                     //where p.Doc_Status == "Open"                   
+                     where (p.Doc_Status == "Open" && p.Valid_Date >= date)
                      select new SalesQuotation()
                      {
                         // Sales_OrderItem_Id=p.Sales_Qtn_Id,

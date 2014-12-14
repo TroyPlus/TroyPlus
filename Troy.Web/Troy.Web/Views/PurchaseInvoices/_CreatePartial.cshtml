@@ -66,7 +66,7 @@
                                                     Posting Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate" })
+                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
                                                     @Html.ValidationMessageFor(model => model.PurchaseInvoice.Posting_Date)
                                                 </div>
                                             </div>
@@ -76,20 +76,20 @@
                                                     Due Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Due_Date, new { @class = "form-control control-text", @id = "creDueDate" })
+                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Due_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
                                                     @Html.ValidationMessageFor(model => model.PurchaseInvoice.Due_Date)
                                                 </div>
                                             </div>
                                             @*<div class="row form-group">
-                                                <div class="col-md-4">
-                                                    Document Date
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseInvoice.Document_Date)
-                                                </div>
-                                            </div>*@
-                                           
+                                                    <div class="col-md-4">
+                                                        Document Date
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.Document_Date)
+                                                    </div>
+                                                </div>*@
+
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -140,14 +140,14 @@
                                             </div>
 
                                             @*<div class="row form-group">
-                                                <div class="col-md-4">
-                                                    Discount
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseInvoice.DocDiscAmt, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseInvoice.DocDiscAmt)
-                                                </div>
-                                            </div>*@
+                                                    <div class="col-md-4">
+                                                        Discount
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoice.DocDiscAmt, new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseInvoice.DocDiscAmt)
+                                                    </div>
+                                                </div>*@
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     Remarks
@@ -180,7 +180,7 @@
                                                 <th>Unit Price</th>
                                                 <th>Quantity</th>
                                                 <th>Discount %</th>
-                                                <th>VAT Code</th>
+                                                <th>VAT %</th>
                                                 <th>Freight Loading</th>
                                                 <th>LineTotal</th>
                                                 <th></th>
@@ -219,7 +219,7 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoiceItemsList[i].Vat_Code)
                                                     </td>
                                                     <td width="5%">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoiceItemsList[i].Freight_Loading, new { @class = "form-control control-text",@id="txtfreight" })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoiceItemsList[i].Freight_Loading, new { @class = "form-control control-text", @id = "txtfreight" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoiceItemsList[i].Freight_Loading)
                                                     </td>
                                                     <td width="5%">

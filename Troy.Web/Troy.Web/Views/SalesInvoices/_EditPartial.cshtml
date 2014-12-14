@@ -7,19 +7,19 @@
 
     $(document).ready(function () {
 
-        //$('.datePicker').datepicker();
-        $('.datePicker').datepicker({ dateFormat: 'dd/mm/yy' }).val();
+        $('.datePicker').datepicker();
+        //$('.datePicker').datepicker({ dateFormat: 'dd/mm/yy' }).val();
 
         $('#creDocumentDate1').datepicker({
-            dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $('#creDueDate1').datepicker({
-            dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $('#crePostingDate1').datepicker({
-            dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $("#typeahead").jAutochecklist({
@@ -30,7 +30,7 @@
             listMaxHeight: 50
         });
 
-        i = 1;
+        i = $("#ItemCount").val();
 
         //Dynamically add quotation row
         function addRow() {
@@ -462,7 +462,7 @@
                                                         @Html.ValidationMessageFor(model => model.SalesInvoices.Sales_Invoice_Id)
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Vendor Name
@@ -499,40 +499,38 @@
                                                         @Html.ValidationMessageFor(model => model.SalesInvoices.Doc_Status)
                                                     </div>
                                                 </div>
-                                                                       
+
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-horizontal"> 
+                                            <div class="form-horizontal">
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })*@
-                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @class = "form-control control-text datePicker", @id = "crePostingDate" })*@
-                                                        @Html.TextBoxFor(model => model.SalesInvoices.Posting_Date, new { @Value = Model.SalesInvoices.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @id = "crePostingDate1" })
+                                                        @Html.TextBoxFor(model => model.SalesInvoices.Posting_Date, new { @Value = Model.SalesInvoices.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.SalesInvoices.Posting_Date)
                                                     </div>
-                                                </div>                                                  
+                                                </div>
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesInvoices.Due_Date, new { @class = "form-control control-text", @id = "creDueDate1" })
+                                                        @Html.TextBoxFor(model => model.SalesInvoices.Due_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.SalesInvoices.Due_Date)
                                                     </div>
-                                                </div>        
+                                                </div>
                                                 @*<div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Document Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesInvoices.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate1" })
-                                                        @Html.ValidationMessageFor(model => model.SalesInvoices.Document_Date)
-                                                    </div>
-                                                </div>*@
+                                                        <div class="col-md-4">
+                                                            Document Date
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.SalesInvoices.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate1" })
+                                                            @Html.ValidationMessageFor(model => model.SalesInvoices.Document_Date)
+                                                        </div>
+                                                    </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -548,14 +546,14 @@
 
 
                                                 @*<div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Discount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesInvoices.DocDiscAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.SalesInvoices.DocDiscAmt)
-                                                    </div>
-                                                </div>*@
+                                                        <div class="col-md-4">
+                                                            Discount
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.SalesInvoices.DocDiscAmt, new { @class = "form-control control-text" })
+                                                            @Html.ValidationMessageFor(model => model.SalesInvoices.DocDiscAmt)
+                                                        </div>
+                                                    </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">

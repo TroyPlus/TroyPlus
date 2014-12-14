@@ -1,4 +1,4 @@
-﻿@model  Troy.Web.Models.PurchaseReturnViewModels            
+﻿@model  Troy.Web.Models.PurchaseReturnViewModels
 
 @Scripts.Render("~/bundles/script/jqueryval")
 
@@ -8,15 +8,15 @@
         $('.datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
         $('#creDocumentDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $('#creDueDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $('#crePostingDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            minDate: 0, maxDate: 0
         });
 
         $("#editTypeahead").jAutochecklist();
@@ -32,8 +32,10 @@
             var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 
             var selectHtml = CreateSelect(i);
+            var selectHtml1 = CreateVATSelect(i);
 
             selectHtml += '</select>';
+            selectHtml1 += '</select>';
 
             var html = '<tr>' +
                        '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="PurchaseReturnitemsList_' + i + '__IsDummy" name="PurchaseReturnitemsList[' + i + '].IsDummy" type="text" value="">  </td>' +
@@ -61,10 +63,14 @@
                        //    '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__Freight_Loading" name="goodreceiptitemlist[' + i + '].Freight_Loading" readonly="True" type="text" value="">' +
                        //    '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
                        //'</td>' +
-                       '<td>' +
-                           '<input class="form-control control-text" data-val="true" data-val-number="The field VAT Code must be a number." data-val-required="The VAT Code field is required." id="PurchaseReturnitemsList_' + i + '__Vat_Code" name="PurchaseReturnitemsList[' + i + '].Vat_Code" type="text" value="">' +
-                           '<span class="field-validation-valid" data-valmsg-for="PurchaseReturnitemsList[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
-                       '</td>' +
+                       //'<td>' +
+                       //    '<input class="form-control control-text" data-val="true" data-val-number="The field VAT Code must be a number." data-val-required="The VAT Code field is required." id="PurchaseReturnitemsList_' + i + '__Vat_Code" name="PurchaseReturnitemsList[' + i + '].Vat_Code" type="text" value="">' +
+                       //    '<span class="field-validation-valid" data-valmsg-for="PurchaseReturnitemsList[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
+                       //'</td>' +
+                        '<td width="12%">' +
+                             selectHtml1 +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseReturnitemsList_[' + i + '].__Vat_Code" data-valmsg-replace="true"></span>' +
+                        '</td>' +
                         '<td>' +
                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseReturnitemsList_' + i + '__LineTotal" name="PurchaseReturnitemsList[' + i + '].LineTotal" readonly="True" type="text" value="">' +
                            '<span class="field-validation-valid" data-valmsg-for="PurchaseReturnitemsList[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
@@ -94,7 +100,7 @@
 
             //debugger;
 
-            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="goodreturnitemlist_' + rowID + '__Product_id" name="goodreturnitemlist[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="PurchaseReturnitemsList_' + rowID + '__Product_id" name="PurchaseReturnitemsList[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
 
             var dataUrl = "../PurchaseReturn/GetProductList";
@@ -119,6 +125,35 @@
 
             return selectHtml;
         }
+
+        function CreateVATSelect(rowID) {
+            var selectHtml1 = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="PurchaseReturnitemsList_' + rowID + '__Vat_Code" name="PurchaseReturnitemsList[' + rowID + '].Vat_Code" onchange="OnChangeVAT();" >';
+            selectHtml1 += '<option value=""></option>';
+
+
+            var dataUrl = "../PurchaseReturn/GetVATList";
+
+            $.ajax({
+                type: 'GET',
+                url: dataUrl,
+                async: false,
+                cache: false,
+                crossDomain: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                error: function (xhr, err) {
+                },
+                success: function (result, status) {
+                    //debugger;
+                    for (var count = 0; count < result.length; count++) {
+                        selectHtml1 += '<option value="' + result[count].VAT_percentage + '">' + result[count].VAT_percentage + '</option>';
+                    }
+                }
+            });
+
+            return selectHtml1;
+        }
+
         $("#EditTable").on("click", ".BtnPlus", addRow)
 
         function deleteRow() {
@@ -169,7 +204,7 @@
                 }
             });
             _form.find("select").each(function () {
-               // debugger;
+                // debugger;
 
                 if (!validator.element(this)) { // validate every input element inside this step
                     anyError = true;
@@ -212,12 +247,12 @@
                             </ul>
 
                             @Html.HiddenFor(model => model.PurchaseReturn.Purchase_Return_Id)
-                      
+
                             @Html.Hidden("ItemCount", Model.PurchaseReturnitemsList.Count)
                             @Html.HiddenFor(model => model.PurchaseReturn.Created_Date)
                             @Html.HiddenFor(model => model.PurchaseReturn.Created_Branc_Id)
                             @Html.HiddenFor(model => model.PurchaseReturn.Created_User_Id)
-                           
+
 
                             <div id="edittabContent" class="tab-content">
 
@@ -226,15 +261,22 @@
                                         <div class="col-md-6">
                                             @*@Html.HiddenFor(model => model.PurchaseOrder.Purchase_Quote_Id)*@
                                             <div class="form-horizontal">
-                                              
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-4">
+                                                        Purchase Return ID
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Purchase_Return_Id, new { @class = "form-control control-text", @readonly = true })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseReturn.Purchase_Return_Id)
+                                                    </div>
+                                                </div>
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Vendor Name
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseOrder.Vendor, new { @class = "form-control control-text" })
-                                                            @Html.ValidationMessageFor(model => model.PurchaseOrder.Vendor)*@
                                                         @Html.DropDownListFor(m => m.PurchaseReturn.Vendor, new SelectList(Model.BusinessPartnerList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseReturn.Vendor)
                                                     </div>
@@ -269,43 +311,42 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                       
-                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate1" })
+
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Posting_Date, new { @Value = Model.PurchaseReturn.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "crePostingDate1" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseReturn.Posting_Date)
                                                     </div>
                                                 </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Due Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Due_Date, new { @class = "form-control control-text", @id = "creDueDate1" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseReturn.Due_Date)
-                                                    </div>
-                                                </div>
-                                         
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-horizontal">
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        Document Date
+                                                        Due Date
                                                     </div>
                                                     <div class="col-md-8">
-
-                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate1" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseReturn.Document_Date)
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Due_Date, new { @Value = Model.PurchaseReturn.Due_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "creDueDate1" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseReturn.Due_Date)
                                                     </div>
                                                 </div>
+
+                                                @*<div class="row form-group">
+                                                        <div class="col-md-4">
+                                                            Document Date
+                                                        </div>
+                                                        <div class="col-md-8">
+
+                                                            @Html.TextBoxFor(model => model.PurchaseReturn.Document_Date, new { @class = "form-control control-text", @id = "creDocumentDate1" })
+                                                            @Html.ValidationMessageFor(model => model.PurchaseReturn.Document_Date)
+                                                        </div>
+                                                    </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Ship To
                                                     </div>
                                                     <div class="col-md-8">
-                                                       
+
                                                         @Html.DropDownListFor(m => m.PurchaseReturn.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseReturn.Ship_To)
                                                     </div>
@@ -331,15 +372,15 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        Document Discount Amount
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseReturn.DocDiscAmt, new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseReturn.DocDiscAmt)
-                                                    </div>
-                                                </div>
+                                                @*<div class="row form-group">
+                                                        <div class="col-md-4">
+                                                            Document Discount Amount
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.TextBoxFor(model => model.PurchaseReturn.DocDiscAmt, new { @class = "form-control control-text" })
+                                                            @Html.ValidationMessageFor(model => model.PurchaseReturn.DocDiscAmt)
+                                                        </div>
+                                                    </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -379,9 +420,12 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                              @for (int i = 0; i < 1; i++)
-                                              {
+                                                @for (int i = 0; i < Model.PurchaseReturnitemsList.Count; i++)
+                                                {
                                                     @Html.HiddenFor(model => model.PurchaseReturnitemsList[i].Purchase_Return_Id)
+                                                    @Html.HiddenFor(model => model.PurchaseReturnitemsList[i].Purchase_ReturnItem_Id)
+                                                    @Html.HiddenFor(model => model.PurchaseReturnitemsList[i].Product_id)
+                                                    @Html.HiddenFor(model => model.PurchaseReturnitemsList[i].BaseDocLink)
 
                                                     <tr>
                                                         <td style="display:none;">
@@ -417,10 +461,10 @@
                                                         </td>
                                                         <td style="width: 90px;">
                                                             <input class="BtnPlus btn pull-left" type="button" value="+" />
-                                                            @if (i > 0)
-                                                            {
-                                                                <input style="margin-left:5px;" class="BtnMinus btn pull-left" type="button" value="-" />
-                                                            }
+                                                            @*@if (i > 0)
+                                                                {
+                                                                    <input style="margin-left:5px;" class="BtnMinus btn pull-left" type="button" value="-" />
+                                                                }*@
                                                         </td>
                                                     </tr>
 
@@ -447,7 +491,7 @@
                                             Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseReturn.DocDiscAmt, new { id = "totalDiscount1", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.PurchaseReturn.DocDiscAmt) </span> <br />
                                             Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseReturn.TaxAmt, new { id = "totalTax1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                             Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseReturn.TotalPurRtnAmt, new { id = "totalQuotationAmt1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                      </div>
+                                        </div>
 
                                     </div>
 

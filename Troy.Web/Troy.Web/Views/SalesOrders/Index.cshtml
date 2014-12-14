@@ -179,10 +179,10 @@
     function ViewSalesQuotation(id) {
 
         var url = $('#viewPurQuoModal').data('url') + '/' + id;
-
+       
         $.get(url, function (data) {
             $('#viewPurQuomodelcontainer').html(data);
-
+           
 
             $('#viewPurQuoModal').modal('show');
         });
@@ -443,6 +443,7 @@
             CalculateTotalAmount();
             CalculateTax();
 
+
             return selectHtml;
         }
 
@@ -475,6 +476,7 @@
             CalculateTotal();
             CalculateTotalAmount();
             CalculateTax();
+
 
             return vatselectHtml;
         }
@@ -536,23 +538,7 @@
                 //debugger;
                 var id = "#salesorderitemlist_" + rowId + "__Unit_price";
                 $(id).val(result);
-
-                //onchange quantity functionality
-                var qty = $("#salesorderitemlist_" + rowId + "__Quantity").val();
-                var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
-                var totAmount = price * qty;
-                var id = "#salesorderitemlist_" + rowId + "__LineTotal";
-                $(id).val(totAmount.toFixed(2));
-
-                //onchange discount functionality
-                var dis = $("#salesorderitemlist_" + rowId + "__Discount_percent").val();
-                var qty = $("#salesorderitemlist_" + rowId + "__Quantity").val();
-                var price = $("#salesorderitemlist_" + rowId + "__Unit_price").val();
-                var totAmount = price * qty - ((price * qty) * dis / 100)
-                var id = "#salesorderitemlist_" + rowId + "__LineTotal";
-                $(id).val(totAmount.toFixed(2));
-
-
+                alert(result);
                 CalculateTotal();
                 CalculateTotalAmount();
                 CalculateTax();
@@ -576,7 +562,6 @@
         var totAmount = price * qty - ((price * qty) * dis / 100)
         var id = "#salesorderitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
-
         CalculateTotal();
         CalculateTotalAmount();
         CalculateTax();
@@ -599,6 +584,10 @@
         var id = "#salesorderitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
+        //var totAmount = (price * qty) - dis
+        //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
+        //$(id).val(totAmount);
+
         CalculateTotal();
         CalculateTotalAmount();
         CalculateTax();
@@ -609,6 +598,7 @@
         CalculateTotal();
         CalculateTotalAmount();
         CalculateTax();
+        CalculateTotalAmount();
     }
 
     function OnChangeDiscountSummary(currentDis) {
@@ -816,22 +806,22 @@
         }
 
 
-        //    else if (textload.text == "Quality")
-        //    {
-        //        for (var j = i; j >= 0; j--) {
-        //            var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
-        //            var total = t / qty;
+  //    else if (textload.text == "Quality")
+  //    {
+  //        for (var j = i; j >= 0; j--) {
+  //            var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
+  //            var total = t / qty;
 
-        //        }
-        //    }
-        //else if (textload.text == "Cost")
-        //    {
-        //          for (var j = i; j >= 0; j--) {
-        //              var line = $("#goodreceiptitemlist_" + rowId + "__LineTotal").val();
-        //              var total = t / line;
+  //        }
+  //    }
+  //else if (textload.text == "Cost")
+  //    {
+  //          for (var j = i; j >= 0; j--) {
+  //              var line = $("#goodreceiptitemlist_" + rowId + "__LineTotal").val();
+  //              var total = t / line;
 
-        //          }
-        //      }
+  //          }
+  //      }
         $("#totloading").val(t);
     }
 
@@ -919,8 +909,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (Troy.Model.SalesOrders.ViewSalesOrder item in Model.salesorderviewlist)
-                                        {
+                                       @foreach (Troy.Model.SalesOrders.ViewSalesOrder item in Model.salesorderviewlist)
+                                       {
                                             <tr class="odd gradeX">
                                                 <td style="text-align:center;">@item.Sales_Order_Id</td>
                                                 <td>@item.Vendor_Name</td>
