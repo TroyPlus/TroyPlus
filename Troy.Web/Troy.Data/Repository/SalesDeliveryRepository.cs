@@ -265,7 +265,7 @@ namespace Troy.Data.Repository
 
                 deliverycontext.SaveChanges();
 
-                int currentId = salesdelivery.Sales_Order_Id;
+                int currentId = salesdelivery.Sales_Delivery_Id;
 
                 for (int i = 0; i < deliveryItemList.Count; i++)
                 {

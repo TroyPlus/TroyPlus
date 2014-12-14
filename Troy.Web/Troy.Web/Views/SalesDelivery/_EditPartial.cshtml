@@ -12,15 +12,15 @@
         //$('.datePicker').datepicker();
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
-        $('#creDocumentDate').datepicker({
+        $('#DocumentDate').datepicker({
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
-        $('#crePostingDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        $('#PostingDate').datepicker({
+            dateFormat: 'dd/MM/yy', minDate: 0
         });
 
-        $('#crePostingDate1').datepicker({
+        $('#PostingDate1').datepicker({
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
 
@@ -73,7 +73,7 @@
                          '</td>' +
                           '<td>' +
 
-                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="salesdeliverytitemlist_' + i + '__LineTotal" name="salesdeliverytitemlist[' + i + '].LineTotal" readonly="True" type="text" value="">' +
+                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="salesdeliverytitemlist_' + i + '__LineTotal" name="salesdeliverytitemlist[' + i + '].LineTotal"  type="text" value="">' +
                              '<span class="field-validation-valid" data-valmsg-for="salesdeliverytitemlist[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
                          '</td>' +
                          //'<td>' +
@@ -193,7 +193,7 @@
                 //par.remove();
                 //$('#idEstablishmentRow td.ms-formbody span input').attr('id');
 
-                var id = par[0].childNodes[0].childNodes[1].id;
+                var id = par[0].childNodes[1].childNodes[1].id;
 
                 id = '#' + id;
 
@@ -204,6 +204,7 @@
                 //$(id).val(1);
                 par.remove();
                 i--;
+                //i--;
                 CalculateTotal();
                 CalculateTotalAmount();
                 CalculateTax();
@@ -755,7 +756,8 @@
                                                     @Html.DropDownListFor(model => model.salesdelivery.Doc_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
-                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
+                                                            new SelectListItem{ Text="Closed", Value = "Closed" },
+                                                             new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
                                                          }, new { @class = "form-control" })@*, @disabled = true })*@
 
                                                         @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
@@ -774,13 +776,20 @@
                                                     </div>
                                                 </div>
 
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-horizontal">
+
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Posting_Date, new { @class = "control-label normal" })*@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesdelivery.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "creDocumentDate" })
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @id = "DocumentDate" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)*@
                                                     </div>
                                                 </div>
@@ -790,34 +799,12 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesdelivery.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "crePostingDate" })
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Delivery_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @id = "PostingDate" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)*@
                                                     </div>
                                                 </div>
 
-
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-horizontal">
-
-
-
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
-                                                        Document Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.salesdelivery.Document_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "crePostingDate1" })@*, @readonly = true })*@
-                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)*@
-                                                    </div>
-                                                </div>
-
+                                              
 
 
                                                 <div class="row  form-group">
@@ -908,7 +895,7 @@
                                     @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Freight_Loading)
                                 </td>*@
                                                     <td>
-                                                        @Html.TextBoxFor(model => model.salesdeliverytitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true }) @*@id = "totloading"*@
+                                                        @Html.TextBoxFor(model => model.salesdeliverytitemlist[i].LineTotal, new { @class = "form-control control-text" }) @*@id = "totloading"*@
                                                         @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].LineTotal)
                                                     </td>
                                                     <td width="10%">
@@ -935,10 +922,10 @@
                                     @*@Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })*@
 
                                     <div class="row" style="float:right;">
-                                        Total : <span>@Html.TextBoxFor(m => m.salesorder.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                        Discount Amount : <span>@Html.TextBoxFor(m => m.salesorder.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.salesorder.DocDiscAmt) </span> <br />
-                                        Tax Amount : <span>@Html.TextBoxFor(m => m.salesorder.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                        Total Quotation Amount : <span>@Html.TextBoxFor(m => m.salesorder.TotalOrdAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        Total : <span>@Html.TextBoxFor(m => m.salesdelivery.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        Discount Amount : <span>@Html.TextBoxFor(m => m.salesdelivery.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.salesdelivery.DocDiscAmt) </span> <br />
+                                        Tax Amount : <span>@Html.TextBoxFor(m => m.salesdelivery.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        Total Quotation Amount : <span>@Html.TextBoxFor(m => m.salesdelivery.TotalSlsDlvryAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                     </div>
 
                                 </div>

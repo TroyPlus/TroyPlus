@@ -111,9 +111,7 @@ namespace Troy.Web.Controllers
                     model.goodreturn.TaxAmt = model.goodreceipt.TaxAmt;
                     model.goodreturn.TotalGRDocAmt = model.goodreceipt.TotalGRDocAmt;
                     model.goodreturn.Reference_Number = model.goodreceipt.Reference_Number;
-                   
-
-
+                    model.goodreturn.Document_Date = DateTime.Now;
 
                     var GoodsList = model.goodreturnitemlist.Where(x => x.IsDummy == 0);
                     model.goodreturnitemlist = GoodsList.ToList();
@@ -155,7 +153,7 @@ namespace Troy.Web.Controllers
                                 model.goodreceiptitemlist[k].Id = model.goodreceiptitemlist[k].Id;
                                 model.goodreceiptitemlist[k].Goods_Receipt_Id = model.goodreceiptitemlist[k].Goods_Receipt_Id;
                                 //model1.PurchaseOrderItemsList[j].Quoted_date = model1.PurchaseOrderItemsList[j].Quoted_date;
-                                model.goodreceiptitemlist[k].Quantity = Convert.ToInt32(model.goodreceiptitemlist[k].Return_Qty);
+                                model.goodreceiptitemlist[k].Return_Qty = Convert.ToInt32(model.goodreceiptitemlist[k].Return_Qty);
                                 model.goodreceiptitemlist[k].Product_id = model.goodreceiptitemlist[k].Product_id;
                                 model.goodreceiptitemlist[k].Unit_price = model.goodreceiptitemlist[k].Unit_price;
                                 model.goodreceiptitemlist[k].Discount_percent = model.goodreceiptitemlist[k].Discount_percent;
@@ -170,7 +168,7 @@ namespace Troy.Web.Controllers
                                 model.goodreceiptitemlist[k].Id = model.goodreceiptitemlist[k].Id;
                                 model.goodreceiptitemlist[k].Goods_Receipt_Id = model.goodreceiptitemlist[k].Goods_Receipt_Id;
                                 //model1.PurchaseOrderItemsList[j].Quoted_date = model1.PurchaseOrderItemsList[j].Quoted_date;
-                                model.goodreceiptitemlist[k].Quantity = Convert.ToInt32(model.goodreceiptitemlist[k].Return_Qty);
+                                model.goodreceiptitemlist[k].Return_Qty = Convert.ToInt32(model.goodreceiptitemlist[k].Return_Qty);
                                 model.goodreceiptitemlist[k].Product_id = model.goodreceiptitemlist[k].Product_id;
                                 model.goodreceiptitemlist[k].Unit_price = model.goodreceiptitemlist[k].Unit_price;
                                 model.goodreceiptitemlist[k].Discount_percent = model.goodreceiptitemlist[k].Discount_percent;
@@ -201,6 +199,8 @@ namespace Troy.Web.Controllers
                 }
                 else if (submitButton == "Update")
                 {
+
+                    model.goodreturn.Document_Date = DateTime.Now;
                     model.goodreturn.Modified_Branch_Id = CurrentBranchId;//CurrentBranchId;
                     model.goodreturn.Modified_Dte = DateTime.Now;
                     model.goodreturn.Modified_User_Id = CurrentUser.Id;//CurrentUser.Id;
@@ -208,6 +208,7 @@ namespace Troy.Web.Controllers
 
                     for (int i = 0; i < model.goodreturnitemlist.Count; i++)
                     {
+                        //model.goodreturnitemlist[i].Goods_Return_Id = model.goodreturn.Goods_Return_Id;
                         model.goodreturnitemlist[i].BaseDocLink = "N";
                
                     }

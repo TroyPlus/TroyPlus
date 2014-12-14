@@ -95,6 +95,7 @@ namespace Troy.Web.Controllers
 
 
                     // model.goodreceipt.BaseDocId = model.PurchaseOrder.Purchase_Order_Id;
+                    model.goodreceipt.Document_Date = DateTime.Now;
                     model.goodreceipt.Doc_Status = "Open";
                     model.goodreceipt.TargetDocId = "0";
                     model.goodreceipt.Created_Branc_Id = CurrentBranchId;//CurrentBranchId;
@@ -143,7 +144,7 @@ namespace Troy.Web.Controllers
                         return View("Error");
                     }
                 }
-                else if (submitButton == "Save pur-ord")
+                else if (submitButton == "Save ")
                 {
 
                     GoodsReceiptViewModels model1 = new GoodsReceiptViewModels();
@@ -289,6 +290,8 @@ namespace Troy.Web.Controllers
 
                 else if (submitButton == "Update")
                 {
+                    model.goodreceipt.Document_Date = DateTime.Now;
+                    model.goodreceipt.Document_Date = model.goodreceipt.Posting_Date;
                     model.goodreceipt.Modified_Branch_Id = CurrentBranchId;//CurrentBranchId;
                     model.goodreceipt.Modified_Dte = DateTime.Now;
                     model.goodreceipt.Modified_User_Id = CurrentUser.Id;//CurrentUser.Id;
@@ -296,6 +299,7 @@ namespace Troy.Web.Controllers
 
                     for (int i = 0; i < model.goodreceiptitemlist.Count; i++)
                     {
+                        //model.goodreceiptitemlist[i].Goods_Receipt_Id = model.goodreceipt.Goods_Receipt_Id;
                         model.goodreceiptitemlist[i].BaseDocLink = "N";
                     }
                     if (goodsrepository.UpdateQuotation(model.goodreceipt, model.goodreceiptitemlist, ref ErrorMessage))

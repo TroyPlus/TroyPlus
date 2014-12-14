@@ -8,7 +8,7 @@
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
         $('#creDocumentDat2').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            dateFormat: 'dd/MM/yy', minDate: 0
         });
         $('#creDocumentDat3').datepicker({
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
@@ -46,7 +46,7 @@
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Quantity" data-valmsg-replace="true"></span>' +
                         '</td>' +
                         '<td>' +
-                            '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseOrderItemsList_' + i + '__Unit_price" name="PurchaseOrderItemsList[' + i + '].Unit_price" readonly="True" type="text" value="">' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="PurchaseOrderItemsList_' + i + '__Unit_price" name="PurchaseOrderItemsList[' + i + '].Unit_price"  type="text" value="">' +
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
                         '</td>' +
                         '<td>' +
@@ -58,7 +58,7 @@
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList_[' + i + '].__Vat_Code" data-valmsg-replace="true" "onkeyup="OnChangeVAT(this, ' + i + ');"></span>' +
                         '</td>' +
                          '<td>' +
-                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseOrderItemsList_' + i + '__LineTotal" name="PurchaseOrderItemsList[' + i + '].LineTotal" readonly="True" type="text" value="">' +
+                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseOrderItemsList_' + i + '__LineTotal" name="PurchaseOrderItemsList[' + i + '].LineTotal"  type="text" value="">' +
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
                         '</td>' +
                         '<td>' +
@@ -522,7 +522,8 @@
                                                     @Html.DropDownListFor(model => model.PurchaseOrder.Order_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
-                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
+                                                            new SelectListItem{ Text="Closed", Value = "Closed" },
+                                                             new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
                                                          }, new { @class = "form-control" })@*, @disabled = true })*@
 
                                                         @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
@@ -568,24 +569,10 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Delivery_Date, new { @Value = Model.PurchaseOrder.Delivery_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", @id = "creDocumentDat2" })
+                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text  ", @id = "creDocumentDat2" })
                                                         @*@Html.ValidationMessageFor(model => model.PurchaseOrder.Delivery_Date)*@
                                                     </div>
                                                 </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
-                                                        Document Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Document_Date, new { @Value = Model.PurchaseOrder.Document_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text  datePicker", @id = "creDocumentDat3" })@*, @readonly = true })*@
-                                                        @*@Html.ValidationMessageFor(model => model.PurchaseOrder.Document_Date)*@
-                                                    </div>
-                                                </div>
-
-
 
                                                 <div class="row  form-group">
                                                     <div class="col-md-4">
@@ -657,6 +644,7 @@
                                                 {
                                                    
                                                     @Html.HiddenFor(model=>model.goodreceiptitemlist[i].Goods_Receipt_Id)
+                                                    @Html.HiddenFor(model=>model.goodreceiptitemlist[i].Id)
                                                     @Html.HiddenFor(model => model.PurchaseOrderItemsList[i].Purchase_OrderItem_Id)
                                                     @Html.HiddenFor(model => model.PurchaseOrderItemsList[i].Purchase_Order_Id)
 
@@ -684,7 +672,7 @@
                                                             @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Quantity)
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(model => model.PurchaseOrderItemsList[i].Unit_price, new { @class = "form-control control-text", @readonly = true })
+                                                            @Html.TextBoxFor(model => model.PurchaseOrderItemsList[i].Unit_price, new { @class = "form-control control-text"})
                                                             @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Unit_price)
                                                         </td>
                                                         <td>
@@ -701,7 +689,7 @@
                                                             @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Vat_Code)
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(model => model.PurchaseOrderItemsList[i].Freight_Loading, new { @class = "form-control control-text", @readonly = true })
+                                                            @Html.TextBoxFor(model => model.PurchaseOrderItemsList[i].Freight_Loading, new { @class = "form-control control-text" })
                                                             @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Freight_Loading)
                                                         </td>
                                                         @*<td style="width: 90px;">
@@ -726,15 +714,15 @@
 
 
                                     <div class="modal-footer">
-                                        <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save pur-ord" />
+                                        <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Save " />
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
-                                        @*@Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })*@
+                                        @*@Ajax.ActionLink("Change content", "UpdateContent", "Home",Save pur-ord new AjaxOptions { UpdateTargetId = "myTabContent" })*@
 
                                         <div class="row" style="float:right;">
                                             Total : <span>@Html.TextBoxFor(m => m.PurchaseOrder.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                             Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseOrder.DocDiscAmt, new { id = "totalDiscount1", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.PurchaseOrder.DocDiscAmt) </span> <br />
-                                            Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseOrder.TaxAmt, new { id = "totalTax1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseOrder.TotalOrdAmt, new { id = "totalQuotationAmt1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseOrder.TaxAmt, new { id = "totalTax1", @class = "input-small", @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseOrder.TotalOrdAmt, new { id = "totalQuotationAmt1", @class = "input-small", @style = "border: none;" })</span> <br />
                                         </div>
 
                                     </div>

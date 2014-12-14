@@ -8,7 +8,7 @@
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
         $('#date2').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+            dateFormat: 'dd/MM/yy', minDate: 0
         });
         $('#date3').datepicker({
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
@@ -259,7 +259,7 @@
 
         var pID = parseInt(val.value);
 
-        var dataUrl = "../GoodsReceipt/GetPrice?pID=" + pID;
+        var dataUrl = "../GoodsReturn/GetPrice?pID=" + pID;
 
         $.ajax({
             type: 'GET',
@@ -549,8 +549,9 @@
                                                     @Html.DropDownListFor(model => model.goodreceipt.Doc_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
-                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
-                                                         }, "Open", new { @class = "form-control" })@*, @disabled = true })*@
+                                                            new SelectListItem{ Text="Closed", Value = "Closed" },
+                                                               new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
+                                                         }, new { @class = "form-control" })@*, @disabled = true })*@
 
                                                         @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
                                                     </div>
@@ -574,7 +575,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @Value = Model.goodreceipt.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker",@id="date1" })
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @Value = Model.goodreceipt.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text ",@id="date1" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)*@
                                                     </div>
                                                 </div>
@@ -595,23 +596,10 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = Model.goodreceipt.Due_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", @id = "date2" })
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text  ", @id = "date2" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)*@
                                                     </div>
                                                 </div>
-
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
-                                                        Document Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @Value = Model.goodreceipt.Document_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text  datePicker", @id = "date3" })@*, @readonly = true })*@
-                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)*@
-                                                    </div>
-                                                </div>
-
 
 
 
@@ -667,7 +655,8 @@
                                             <tbody>
                                                 @for (int i = 0; i < Model.goodreceiptitemlist.Count; i++)
                                                 {
-                                                    @Html.HiddenFor(model => model.goodreturnitemlist[i].Id)
+                                                    @*@Html.HiddenFor(model => model.goodreturnitemlist[i].Id)*@
+                                                    @Html.HiddenFor(model=>model.goodreturnitemlist[i].Goods_Return_Id)
                                                     @Html.HiddenFor(model => model.goodreceiptitemlist[i].Id)
                                                     @Html.HiddenFor(model => model.goodreceiptitemlist[i].Goods_Receipt_Id)
                                                     <tr>
@@ -729,8 +718,8 @@
                                         <div class="row" style="float:right;">
                                             Total : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                             Discount Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.DocDiscAmt, new { id = "totalDiscount1", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.goodreceipt.DocDiscAmt) </span> <br />
-                                            Tax Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TaxAmt, new { id = "totalTax1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalGRDocAmt, new { id = "totalQuotationAmt1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TaxAmt, new { id = "totalTax1", @class = "input-small", @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalGRDocAmt, new { id = "totalQuotationAmt1", @class = "input-small", @style = "border: none;" })</span> <br />
                                         </div>
 
                                     </div>

@@ -3,17 +3,22 @@
 @Scripts.Render("~/bundles/script/jqueryval")
 
 <script type="text/javascript">
+    var q;
     $(document).ready(function () {
 
         $('.datePicke').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
         $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
-        $('.datepick').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+        //$('.datepick').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+
+        $('#datepick').datepicker({
+            dateFormat: 'dd/mm/yy', minDate: 0
+        });
         $('.date').datepicker({ dateFormat: 'dd-mm-yy' }).val();
         $("#editTypeahead").jAutochecklist();
-        var i;
+        var q;
 
-        i = $("#ItemCount").val();
+        q = $("#ItemCount").val();
 
 
         //Dynamically add quotation row
@@ -22,42 +27,42 @@
             var date = new Date();
             var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 
-            var selectHtml = CreateSelect(i);
-            var selectHtml1 = CreateVATSelect(i);
+            var selectHtml = CreateSelect(q);
+            var selectHtml1 = CreateVATSelect(q);
 
             selectHtml += '</select>';
             selectHtml1 += '</select>';
 
 
             var html = '<tr>' +
-                      '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="goodreceiptitemlist_' + i + '__IsDummy" name="goodreceiptitemlist[' + i + '].IsDummy" type="text" value="">  </td>' +
+                      '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="goodreceiptitemlist_' + q + '__IsDummy" name="goodreceiptitemlist[' + q + '].IsDummy" type="text" value="">  </td>' +
                       '<td width="20%"> ' +
                           selectHtml +
-                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Product_id" data-valmsg-replace="true"></span>' +
+                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + q + '].Product_id" data-valmsg-replace="true"></span>' +
                       '</td>' +
                       //'<td width="15%">' +
                       //    '<input class="form-control control-text datePicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_' + i + '__Required_date" name="PurchaseQuotationItemList[' + i + '].Required_date" type="text" value="' + strDate + '">' +
                       //    '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Required_date" data-valmsg-replace="true"></span>' +
                       //'</td>' +
                       '<td>' +
-                          '<input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="goodreceiptitemlist_' + i + '__Quantity" name="goodreceiptitemlist[' + i + '].Quantity" onkeyup="OnChangeQuantity(this, ' + i + ');" type="text" value="">' +
-                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Quantity" data-valmsg-replace="true"></span>' +
+                          '<input class="form-control control-text" data-val="true" data-val-number="The field Required Quantity must be a number." data-val-required="The Required Quantity field is required." id="goodreceiptitemlist_' + q + '__Quantity" name="goodreceiptitemlist[' + q + '].Quantity" onkeyup="OnChangeQuantity(this, ' + q + ');" type="text" value="">' +
+                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + q + '].Quantity" data-valmsg-replace="true"></span>' +
                       '</td>' +
                       '<td>' +
-                          '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="goodreceiptitemlist_' + i + '__Unit_price" name="goodreceiptitemlist[' + i + '].Unit_price" readonly="True" type="text" value="">' +
-                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
+                          '<input class="form-control control-text" data-val="true" data-val-number="The field Unit_price must be a number." data-val-required="The Unit_price field is required." id="goodreceiptitemlist_' + q + '__Unit_price" name="goodreceiptitemlist[' + q + '].Unit_price" readonly="True" type="text" value="">' +
+                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + q + '].Unit_price" data-valmsg-replace="true"></span>' +
                       '</td>' +
                       '<td>' +
-                          '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="goodreceiptitemlist_' + i + '__Discount_percent" name="goodreceiptitemlist[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
-                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
+                          '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="goodreceiptitemlist_' + q + '__Discount_percent" name="goodreceiptitemlist[' + q + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + q + ');" type="text" value="">' +
+                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + q + '].Discount_percent" data-valmsg-replace="true"></span>' +
                       '</td>' +
                       '<td>' +
-                          '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__Freight_Loading" name="goodreceiptitemlist[' + i + '].Freight_Loading" readonly="True" type="text" value="">' +
-                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
+                          '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + q + '__Freight_Loading" name="goodreceiptitemlist[' + q + '].Freight_Loading" readonly="True" type="text" value="">' +
+                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + q + '].Freight_Loading" data-valmsg-replace="true"></span>' +
                       '</td>' +
                       '<td>' +
                            selectHtml1 +
-                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
+                          '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + q + '].Vat_Code" data-valmsg-replace="true"></span>' +
                       '</td>' +
                       '<td>' +
                           '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
@@ -70,7 +75,7 @@
             $(html).appendTo($("#EditTable"))
 
             //$("#PurchaseQuotationItemList_1__Required_date").datepicker("refresh");
-            i++;
+            q++;
 
             //$("form").removeData("validator");
             $("form").removeData("unobtrusiveValidation");
@@ -169,7 +174,8 @@
             //par[0].childNodes[0].childNodes[1].value = 1;
 
             //$(id).val(1);
-            par.hide();
+            par.remove();
+            q--;
             CalculateTotal();
             CalculateTotalAmount();
             CalculateTax();
@@ -265,6 +271,9 @@
                 var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
                 $(id).val(totAmount.toFixed(2));
 
+                alert(id);
+                alert("change product");
+
                 CalculateTotal();
                 CalculateTotalAmount();
                 CalculateTax();
@@ -273,6 +282,8 @@
     }
 
     function OnChangeQuantity(currentQty, rowId) {
+
+        
         //debugger;
 
         var qty = currentQty.value;
@@ -290,6 +301,9 @@
         var totAmount = price * qty - ((price * qty) * dis / 100)
         var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
+
+        alert(id);
+        alert("change quantity");
 
         CalculateTotal();
         CalculateTotalAmount();
@@ -315,6 +329,8 @@
         var totAmount = price * qty - ((price * qty) * dis / 100)
         var id = "#goodreceiptitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
+        alert(id);
+        alert("change discount");
 
         CalculateTotal();
         CalculateTotalAmount();
@@ -354,7 +370,7 @@
         var totminus = 0;
         var tot = 0;
 
-        for (var j = i; j >= 0; j--) {
+        for (var j = q; j >= 0; j--) {
             if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()))) {
                 totdoc = parseFloat(totdoc) + parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val());
             }
@@ -363,7 +379,7 @@
         percentage = totdis / totdoc * 100;
 
 
-        for (var j = i; j >= 0; j--) {
+        for (var j = q; j >= 0; j--) {
             if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()))) {
                 totline = parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val() * percentage / 100);
                 totminus = parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()) - totline;
@@ -373,8 +389,8 @@
 
         tot = (totdoc - totdis) + tottax;
 
-        $("#totalTax1").val(tottax.toFixed(2));
-        $("#totalQuotationAmt1").val(tot.toFixed(2));
+        $("#1totalTax").val(tottax.toFixed(2));
+        $("#1totalQuotationAmt").val(tot.toFixed(2));
     }
 
     function CalculateTotal() {
@@ -384,7 +400,7 @@
         //    tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + i + "__Amount").val());
         //}
         //else {
-        for (var j = i; j >= 0; j--) {
+        for (var j = q; j >= 0; j--) {
             if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()))) {
                 tot = parseFloat(tot) + parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val());
 
@@ -392,34 +408,35 @@
         }
         //}
 
-        $("#totalPurchase1").val(tot.toFixed(2));
+        $("#1totalPurchase").val(tot.toFixed(2));
+        alert(tot);
 
     }
 
     function CalculateDiscount() {
         var tot = 0;
 
-        for (var j = i; j >= 0; j--) {
+        for (var j = q; j >= 0; j--) {
             if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__Discount_percent").val()))) {
                 tot = parseFloat(tot) + parseFloat($("#goodreceiptitemlist_" + j + "__Discount_percent").val());
             }
         }
 
-        $("#totalDiscount1").val(tot.toFixed(2));
+        $("#1totalDiscount").val(tot.toFixed(2));
 
     }
 
     function CalculateTax() {
         var tot = 0;
 
-        for (var j = i; j >= 0; j--) {
+        for (var j = q; j >= 0; j--) {
             if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()))) {
                 //tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
                 tot = parseFloat(tot) + (parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()) * parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
-        $("#totalTax1").val(tot.toFixed(2));
+        $("#1totalTax").val(tot.toFixed(2));
 
     }
 
@@ -429,7 +446,7 @@
         var tottax = 0;
         var tot = 0;
 
-        for (var j = i; j >= 0; j--) {
+        for (var j = q; j >= 0; j--) {
             if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()))) {
                 totdoc = parseFloat(totdoc) + parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val());
             }
@@ -441,7 +458,7 @@
         //    }
         //}
 
-        for (var j = i; j >= 0; j--) {
+        for (var j = q; j >= 0; j--) {
             if (!isNaN(parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()))) {
                 //tottax = parseFloat(tottax) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
                 tottax = parseFloat(tottax) + (parseFloat($("#goodreceiptitemlist_" + j + "__LineTotal").val()) * parseFloat($("#goodreceiptitemlist_" + j + "__Vat_Code").val()) / 100);
@@ -451,7 +468,7 @@
         //tot = (totdoc - totdis) + tottax;
         tot = totdoc + tottax;
 
-        $("#totalQuotationAmt1").val(tot.toFixed(2));
+        $("#1totalQuotationAmt").val(tot.toFixed(2));
 
     }
 
@@ -468,7 +485,7 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Edit Purchase</h4>
+                <h4 class="modal-title" id="myModalLabel">Edit Goodsreceipt</h4>
             </div>
 
             <div class="modal-body">
@@ -540,8 +557,9 @@
                                                         @Html.DropDownListFor(model => model.goodreceipt.Doc_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
-                                                            new SelectListItem{ Text="Closed", Value = "Closed" }
-                                                         }, "Open", new { @class = "form-control" })@*, @disabled = true })*@
+                                                            new SelectListItem{ Text="Closed", Value = "Closed" },
+                                                               new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
+                                                         }, new { @class = "form-control" })@*, @disabled = true })*@
 
                                                         @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
                                                     </div>
@@ -565,7 +583,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @Value = Model.goodreceipt.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "datePicker" })
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @id = "datePicker" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)*@
                                                     </div>
                                                 </div>
@@ -582,22 +600,22 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = Model.goodreceipt.Due_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "datepick" })
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text  ", @id = "datepick" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)*@
                                                     </div>
                                                 </div>
 
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
+                                                @*<div class="row form-group">
+                                                    <div class="col-md-4">*@
                                                         @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
-                                                        Document Date
+                                                        @*Document Date
                                                     </div>
-                                                    <div class="col-md-8">
+                                                    <div class="col-md-8">*@
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @Value = Model.goodreceipt.Document_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "datepicke" })@*, @readonly = true })*@
+                                                        @*@Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @Value = Model.goodreceipt.Document_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "datepicke" })@*, @readonly = true })*@
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)*@
-                                                    </div>
-                                                </div>
+                                                    @*</div>
+                                                </div>*@
 
 
                                                 <div class="row  form-group">
@@ -671,7 +689,7 @@
                                                 @for (int i = 0; i < Model.goodreceiptitemlist.Count; i++)
                                                 {
                                                     @Html.HiddenFor(model => model.goodreceiptitemlist[i].Id)
-                                                    //  @Html.HiddenFor(model => model.goodreceiptitemlist[i].Goods_Receipt_Id)
+                                                    @Html.HiddenFor(model => model.goodreceiptitemlist[i].Goods_Receipt_Id)
                                                     //  @Html.HiddenFor(model => model.goodreceiptitemlist[i].Product_id)
                                                     // @Html.HiddenFor(model => model.goodreceiptitemlist[i].Product_id)
 
@@ -736,10 +754,10 @@
                                         <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
                                         <div class="row" style="float:right;">
-                                            Total : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Discount Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.DocDiscAmt, new { id = "totalDiscount1", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.goodreceipt.DocDiscAmt) </span> <br />
-                                            Tax Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TaxAmt, new { id = "totalTax1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalGRDocAmt, new { id = "totalQuotationAmt1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalBefDocDisc, new { id = "1totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.DocDiscAmt, new { id = "1totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.goodreceipt.DocDiscAmt) </span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TaxAmt, new { id = "1totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalGRDocAmt, new { id = "1totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                         </div>
 
                                     </div>

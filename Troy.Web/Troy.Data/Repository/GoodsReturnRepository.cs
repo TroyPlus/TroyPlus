@@ -38,12 +38,12 @@ namespace Troy.Data.Repository
             //    select p).ToList();
             qList = (from r in goodsreturncontext.goodsreturn
                      join bp in goodsreturncontext.businesspartner on r.Vendor equals bp.BP_Id
-                     join gr in goodsreturncontext.goodsreceipt on r.Goods_Receipt_Id equals gr.Goods_Receipt_Id
+                     //join gr in goodsreturncontext.goodsreceipt on r.Goods_Receipt_Id equals gr.Goods_Receipt_Id
                      join b in goodsreturncontext.branch on r.Ship_To equals b.Branch_Id
                      select new ViewGoodsReturn()
                      {
                          Goods_Return_Id = r.Goods_Return_Id,
-                         Goods_Receipt_Id = gr.Goods_Receipt_Id,
+                         Goods_Receipt_Id = r.Goods_Receipt_Id,
                          Vendor = bp.BP_Id,
                          Ship_To = b.Branch_Id,
                          Vendor_Name=bp.BP_Name,
@@ -118,10 +118,35 @@ namespace Troy.Data.Repository
 
         public IList<GoodsReturnitems> FindOneQuotationItemById(int qId)
         {
-            return (from p in goodsreturncontext.goodsreturnitem
-                    where p.Goods_Return_Id == qId
-                    select p).ToList();
+            //return (from p in goodsreturncontext.goodsreturnitem
+            //        where p.Goods_Return_Id == qId
+            //        select p).ToList();
+
+             var qtn = (from p in goodsreturncontext.goodsreturnitem
+                       where p.Goods_Return_Id == qId
+                       select p).ToList();
+
+            var purchase = (from q in qtn
+                            join pi in goodsreturncontext.product on q.Product_id equals pi.Product_Id
+                            select new GoodsReturnitems
+                            {
+                                Discount_percent = q.Discount_percent,
+
+                                //LineTotal = q.LineTotal,
+                               Id =q.Id,
+                                Goods_Return_Id=q.Goods_Return_Id,
+                                Product_id = q.Product_id,
+                                ProductName = pi.Product_Name,
+                                Quantity = q.Quantity ,
+                                Unit_price = q.Unit_price,
+                                Freight_Loading = q.Freight_Loading,
+                                Vat_Code = q.Vat_Code,
+                                LineTotal = q.LineTotal
+                            }).ToList();
+
+            return purchase;
         }
+        
 
 
         public List<BranchList> GetAddressbranchList()
@@ -419,7 +444,7 @@ namespace Troy.Data.Repository
                     {
                         if (model.Goods_Return_Id == 0)
                         {
-                            model.Goods_Return_Id = Goodsreturn.Goods_Receipt_Id;
+                            model.Goods_Return_Id = Goodsreturn.Goods_Return_Id;
                             goodsreturncontext.goodsreturnitem.Add(model);
                             goodsreturncontext.SaveChanges();
                         }

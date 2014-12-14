@@ -119,7 +119,6 @@ namespace Troy.Data.Repository
                      join b in goodscontext.businesspartner
                       on p.Vendor equals b.BP_Id
                      where p.Order_Status == "Open"
-                     where p.Vendor==b.BP_Id
                      select new ViewPurchaseOrder()
                      {
                          Purchase_Order_Id = p.Purchase_Order_Id,
@@ -192,6 +191,8 @@ namespace Troy.Data.Repository
                                 Discount_percent = q.Discount_percent,
 
                                 //LineTotal = q.LineTotal,
+                               Id =q.Id,
+                                Goods_Receipt_Id=q.Goods_Receipt_Id,
                                 Product_id = q.Product_id,
                                 ProductName = pi.Product_Name,
                                 Quantity = q.Quantity - q.Return_Qty ,
@@ -371,7 +372,7 @@ namespace Troy.Data.Repository
                     {
                         if (model.Goods_Receipt_Id == 0)
                         {
-                            model.Goods_Receipt_Id = Goodsreceipt.Purchase_Order_Id;
+                            model.Goods_Receipt_Id = Goodsreceipt.Goods_Receipt_Id;
                             goodscontext.goodsreceiptitem.Add(model);
                             goodscontext.SaveChanges();
                         }
