@@ -183,7 +183,7 @@
                 //par.remove();
                 //$('#idEstablishmentRow td.ms-formbody span input').attr('id');
 
-                var id = par[0].childNodes[0].childNodes[1].id;
+                var id = par[0].childNodes[1].childNodes[1].id;
 
                 id = '#' + id;
 
@@ -629,7 +629,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesorder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @id = "DocumentDate" })
+                                                        @Html.TextBoxFor(model => model.salesorder.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @id = "DocumentDate" })
                                                         @Html.ValidationMessageFor(model => model.salesorder.Posting_Date)
                                                     </div>
                                                 </div>
@@ -639,7 +639,7 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesorder.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @id = "PostingDate" })
+                                                        @Html.TextBoxFor(model => model.salesorder.Delivery_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @id = "PostingDate" })
                                                         @Html.ValidationMessageFor(model => model.salesorder.Delivery_Date)
                                                     </div>
                                                 </div>

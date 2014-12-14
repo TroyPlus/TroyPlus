@@ -290,6 +290,7 @@ namespace Troy.Web.Controllers
 
                 else if (submitButton == "Update")
                 {
+                    model.goodreceipt.Document_Date = DateTime.Now;
                     model.goodreceipt.Document_Date = model.goodreceipt.Posting_Date;
                     model.goodreceipt.Modified_Branch_Id = CurrentBranchId;//CurrentBranchId;
                     model.goodreceipt.Modified_Dte = DateTime.Now;
@@ -298,6 +299,7 @@ namespace Troy.Web.Controllers
 
                     for (int i = 0; i < model.goodreceiptitemlist.Count; i++)
                     {
+                        //model.goodreceiptitemlist[i].Goods_Receipt_Id = model.goodreceipt.Goods_Receipt_Id;
                         model.goodreceiptitemlist[i].BaseDocLink = "N";
                     }
                     if (goodsrepository.UpdateQuotation(model.goodreceipt, model.goodreceiptitemlist, ref ErrorMessage))

@@ -19,13 +19,13 @@
         var i;
 
         i = $("#ItemCount").val();
-   
+
 
 
 
         //Dynamically add quotation row
         function addRow() {
-          
+
 
             var date = new Date();
             var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
@@ -36,7 +36,7 @@
             selectHtml += '</select>';
             selectHtml1 += '</select>';
 
-          
+
 
             var html = '<tr>' +
                        '<td style="display:none;"> <input class="form-control control-text" data-val="true" data-val-number="The field IsActive must be a number." data-val-required="The IsActive field is required." id="goodreturnitemlist_' + i + '__IsDummy" name="goodreturnitemlist[' + i + '].IsDummy" type="text" value="">  </td>' +
@@ -125,13 +125,13 @@
             return selectHtml;
         }
             function CreateVATSelect(rowID) {
-         
+
                 var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field VAT_Id must be a number." data-val-required="The VAT_Id field is required." id="goodreturnitemlist_' + rowID + '__VAT_Id" name="goodreturnitemlist[' + rowID + '].VAT_Id" onchange="OnChangeVAT();" >';
                 selectHtml += '<option value=""></option>';
 
 
                 var dataUrl = "../GoodsReturn/GetVATList";
-               
+
 
                 $.ajax({
                     type: 'GET',
@@ -156,7 +156,7 @@
                 return selectHtml;
             }
 
-        
+
         $("#EditTable").on("click", ".BtnPlus", addRow)
 
         function deleteRow() {
@@ -185,7 +185,8 @@
             //    i--;
             //    CalculateTotal();
             //}
-                par.hide();
+                par.remove();
+                i--;
                 CalculateTotal();
                 CalculateTotalAmount();
                 CalculateTax();
@@ -204,7 +205,7 @@
 
     $(function () {
         $("#btnEditNextTab").click(function (e) {
-       
+
 
             debugger;
 
@@ -390,8 +391,8 @@
 
         tot = (totdoc - totdis) + tottax;
 
-        $("#totalTax1").val(tottax.toFixed(2));
-        $("#totalQuotationAmt1").val(tot.toFixed(2));
+        $("#totalTax").val(tottax.toFixed(2));
+        $("#totalQuotationAmt").val(tot.toFixed(2));
     }
 
     function CalculateTotal() {
@@ -409,7 +410,7 @@
         }
         //}
 
-        $("#totalPurchase1").val(tot.toFixed(2));
+        $("#totalPurchase").val(tot.toFixed(2));
 
     }
 
@@ -422,7 +423,7 @@
             }
         }
 
-        $("#totalDiscount1").val(tot.toFixed(2));
+        $("#totalDiscount").val(tot.toFixed(2));
 
     }
 
@@ -436,7 +437,7 @@
             }
         }
 
-        $("#totalTax1").val(tot.toFixed(2));
+        $("#totalTax").val(tot.toFixed(2));
 
     }
 
@@ -468,7 +469,7 @@
         //tot = (totdoc - totdis) + tottax;
         tot = totdoc + tottax;
 
-        $("#totalQuotationAmt1").val(tot.toFixed(2));
+        $("#totalQuotationAmt").val(tot.toFixed(2));
 
     }
 
@@ -526,7 +527,7 @@
                                                     <div class="col-md-8">
                                                         @*, new { @id = "typeahead", @size = 12 }*@
                                                         @*@Html.DropDownListFor(m => m.goodreturn.Goods_Return_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
-                                                        @Html.TextBoxFor(model => model.goodreturn.Goods_Return_Id, new { @class = "form-control control-text",@disabled="disabled" })
+                                                        @Html.TextBoxFor(model => model.goodreturn.Goods_Return_Id, new { @class = "form-control control-text", @disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.goodreturn.Goods_Return_Id)
                                                     </div>
                                                 </div>
@@ -563,7 +564,7 @@
                                                             new SelectListItem{ Text="Open", Value = "Open" },
                                                             new SelectListItem{ Text="Closed", Value = "Closed" },
                                                              new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
-                                                         },  new { @class = "form-control" })@*, @disabled = true })*@
+                                                         }, new { @class = "form-control" })@*, @disabled = true })*@
 
                                                         @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
                                                     </div>
@@ -597,7 +598,7 @@
                                                     </div>
                                                 </div>
 
-                                               
+
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -605,7 +606,7 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreturn.Due_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text  ", @id = "datePicker2" })
+                                                        @Html.TextBoxFor(model => model.goodreturn.Due_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text  ", @id = "datePicker2" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreturn.Due_Date)*@
                                                     </div>
                                                 </div>
@@ -643,12 +644,12 @@
                                                         </div>
                                                     </div>*@
 
-                                            
 
-                                               
 
-                                              
-                                            
+
+
+
+
 
                                                 @*<div class="row form-group">
                                                     <div class="col-md-4">
@@ -662,9 +663,9 @@
                                                                new SelectListItem{ Text="Cost", Value = "Cost" }
                                                          }, "", new { @class = "form-control" })*@
 
-                                                        @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
-                                                    @*</div>
-                                                </div>*@
+                                                @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
+                                                @*</div>
+                                                    </div>*@
 
                                             </div>
                                         </div>
@@ -701,7 +702,8 @@
 
                                                     // @Html.HiddenFor(model => model.goodreceiptitemlist[i].Goods_Receipt_Id)
                                                     // @Html.HiddenFor(model => model.goodreceiptitemlist[i].Purchase_Quote_Id)
-                                                     @Html.HiddenFor(model => model.goodreturnitemlist[i].Id)
+                                                    @Html.HiddenFor(model => model.goodreturnitemlist[i].Id)
+                                                    @Html.HiddenFor(model => model.goodreturnitemlist[i].Goods_Return_Id)
 
                                                     <tr>
                                                         <td style="display:none;">
@@ -710,7 +712,7 @@
                                                         </td>
                                                         <td width="20%">
                                                             @*@Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })*@
-                                                            @Html.DropDownListFor(m => m.goodreturnitemlist[i].Product_id, new SelectList(Model.productlist.AsEnumerable(), "Product_Id", "Product_Name",Model.goodreturnitemlist[i].Product_id), new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
+                                                            @Html.DropDownListFor(m => m.goodreturnitemlist[i].Product_id, new SelectList(Model.productlist.AsEnumerable(), "Product_Id", "Product_Name", Model.goodreturnitemlist[i].Product_id), new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
                                                             @*@Html.DropDownListFor(m => m.goodreturnitemlist[i].Product_id, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })*@
                                                             @*@Html.TextBoxFor(model => model.goodreceiptitemlist[i].Product_id, new { @class = "form-control control-text" })*@
                                                             @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].Product_id)
@@ -724,7 +726,7 @@
                                                             @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].Quantity)
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(model => model.goodreturnitemlist[i].Unit_price, new { @class = "form-control control-text" , @readonly = true })
+                                                            @Html.TextBoxFor(model => model.goodreturnitemlist[i].Unit_price, new { @class = "form-control control-text", @readonly = true })
                                                             @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].Unit_price)
                                                         </td>
                                                         <td>
@@ -732,7 +734,7 @@
                                                             @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].Discount_percent)
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(model => model.goodreturnitemlist[i].Freight_Loading, new { @class = "form-control control-text" ,@readonly = true })
+                                                            @Html.TextBoxFor(model => model.goodreturnitemlist[i].Freight_Loading, new { @class = "form-control control-text", @readonly = true })
                                                             @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].Freight_Loading)
                                                         </td>
                                                         <td>
@@ -758,10 +760,10 @@
                                         <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
                                         <div class="row" style="float:right;">
-                                            Total : <span>@Html.TextBoxFor(m => m.goodreturn.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Discount Amount : <span>@Html.TextBoxFor(m => m.goodreturn.DocDiscAmt, new { id = "totalDiscount1", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.goodreturn.DocDiscAmt) </span> <br />
-                                            Tax Amount : <span>@Html.TextBoxFor(m => m.goodreturn.TaxAmt, new { id = "totalTax1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.goodreturn.TotalGRDocAmt, new { id = "totalQuotationAmt1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total : <span>@Html.TextBoxFor(m => m.goodreturn.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.goodreturn.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.goodreturn.DocDiscAmt) </span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.goodreturn.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.goodreturn.TotalGRDocAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                         </div>
 
                                     </div>

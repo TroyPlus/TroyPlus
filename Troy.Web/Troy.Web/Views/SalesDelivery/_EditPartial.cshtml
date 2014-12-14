@@ -73,7 +73,7 @@
                          '</td>' +
                           '<td>' +
 
-                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="salesdeliverytitemlist_' + i + '__LineTotal" name="salesdeliverytitemlist[' + i + '].LineTotal" readonly="True" type="text" value="">' +
+                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="salesdeliverytitemlist_' + i + '__LineTotal" name="salesdeliverytitemlist[' + i + '].LineTotal"  type="text" value="">' +
                              '<span class="field-validation-valid" data-valmsg-for="salesdeliverytitemlist[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
                          '</td>' +
                          //'<td>' +
@@ -203,6 +203,7 @@
 
                 //$(id).val(1);
                 par.remove();
+                i--;
                 //i--;
                 CalculateTotal();
                 CalculateTotalAmount();
@@ -775,10 +776,6 @@
                                                     </div>
                                                 </div>
 
-                                                
-
-
-
                                             </div>
                                         </div>
 
@@ -792,7 +789,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesdelivery.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @id = "DocumentDate" })
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @id = "DocumentDate" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)*@
                                                     </div>
                                                 </div>
@@ -802,7 +799,7 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesdelivery.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @id = "PostingDate" })
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Delivery_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @id = "PostingDate" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)*@
                                                     </div>
                                                 </div>
@@ -863,7 +860,7 @@
                                             @for (int i = 0; i < Model.salesdeliverytitemlist.Count; i++)
                                             {
 
-                                                @*@Html.HiddenFor(model => model.salesdeliverytitemlist[i].Sales_Delivery_Id)*@
+                                                @Html.HiddenFor(model => model.salesdeliverytitemlist[i].Sales_Delivery_Id)
                                                 @Html.HiddenFor(model => model.salesdeliverytitemlist[i].sales_Item_Id)
                                                 <tr>
                                                     <td style="display:none;">
@@ -898,7 +895,7 @@
                                     @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Freight_Loading)
                                 </td>*@
                                                     <td>
-                                                        @Html.TextBoxFor(model => model.salesdeliverytitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true }) @*@id = "totloading"*@
+                                                        @Html.TextBoxFor(model => model.salesdeliverytitemlist[i].LineTotal, new { @class = "form-control control-text" }) @*@id = "totloading"*@
                                                         @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].LineTotal)
                                                     </td>
                                                     <td width="10%">

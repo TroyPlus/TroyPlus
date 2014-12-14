@@ -129,7 +129,7 @@ namespace Troy.Web.Controllers
                         return View("Error");
                     }
                 }
-                else if (submitButton == "Save pur-ord")
+                else if (submitButton == "Save ")
                 {
 
                     SalesOrderViewModels model1 = new SalesOrderViewModels();

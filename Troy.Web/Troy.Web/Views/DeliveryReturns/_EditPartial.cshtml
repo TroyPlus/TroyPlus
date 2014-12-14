@@ -189,7 +189,8 @@
             //    i--;
             //    CalculateTotal();
             //}
-                par.hide();
+                par.remove();
+                i--;
                 CalculateTotal();
                 CalculateTotalAmount();
                 CalculateTax();
@@ -392,8 +393,8 @@
 
         tot = (totdoc - totdis) + tottax;
 
-        $("#totalTax1").val(tottax.toFixed(2));
-        $("#totalQuotationAmt1").val(tot.toFixed(2));
+        $("#totalTax").val(tottax.toFixed(2));
+        $("#totalQuotationAmt").val(tot.toFixed(2));
     }
 
     function CalculateTotal() {
@@ -411,7 +412,7 @@
         }
         //}
 
-        $("#totalPurchase1").val(tot.toFixed(2));
+        $("#totalPurchase").val(tot.toFixed(2));
 
     }
 
@@ -424,7 +425,7 @@
             }
         }
 
-        $("#totalDiscount1").val(tot.toFixed(2));
+        $("#totalDiscount").val(tot.toFixed(2));
 
     }
 
@@ -438,7 +439,7 @@
             }
         }
 
-        $("#totalTax1").val(tot.toFixed(2));
+        $("#totalTax").val(tot.toFixed(2));
 
     }
 
@@ -470,7 +471,7 @@
         //tot = (totdoc - totdis) + tottax;
         tot = totdoc + tottax;
 
-        $("#totalQuotationAmt1").val(tot.toFixed(2));
+        $("#totalQuotationAmt").val(tot.toFixed(2));
 
     }
 
@@ -712,10 +713,10 @@
                                         <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
                                         <div class="row" style="float:right;">
-                                            Total : <span>@Html.TextBoxFor(m => m.deliveryreturn.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Discount Amount : <span>@Html.TextBoxFor(m => m.deliveryreturn.DocDiscAmt, new { id = "totalDiscount1", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.deliveryreturn.DocDiscAmt) </span> <br />
-                                            Tax Amount : <span>@Html.TextBoxFor(m => m.deliveryreturn.TaxAmt, new { id = "totalTax1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.deliveryreturn.TotalSlsDlvryAmt, new { id = "totalQuotationAmt1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total : <span>@Html.TextBoxFor(m => m.deliveryreturn.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.deliveryreturn.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.deliveryreturn.DocDiscAmt) </span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.deliveryreturn.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.deliveryreturn.TotalSlsDlvryAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                         </div>
 
                                     </div>

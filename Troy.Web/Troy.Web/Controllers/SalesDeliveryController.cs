@@ -125,7 +125,7 @@ namespace Troy.Web.Controllers
                         return View("Error");
                     }
                 }
-                else if (submitButton == "Save pur-ord")
+                else if (submitButton == "Save ")
                 {
 
                     SalesDeliveryViewModels model1 = new SalesDeliveryViewModels();
@@ -279,7 +279,7 @@ namespace Troy.Web.Controllers
 
                     for (int i = 0; i < model.salesdeliverytitemlist.Count; i++)
                     {
-                        model.salesdeliverytitemlist[i].Sales_Delivery_Id = model.salesdelivery.Sales_Delivery_Id;
+                       // model.salesdeliverytitemlist[i].Sales_Delivery_Id = model.salesdelivery.Sales_Delivery_Id;
                         model.salesdeliverytitemlist[i].BaseDocLink = "N";
                     }
                     if (deliveryrepository.UpdateQuotation(model.salesdelivery, model.salesdeliverytitemlist, ref ErrorMessage))
