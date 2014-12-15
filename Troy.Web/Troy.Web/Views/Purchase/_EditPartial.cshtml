@@ -3,6 +3,7 @@
 @Scripts.Render("~/bundles/script/jqueryval")
 
 <script type="text/javascript">
+    var r=0;
     $(document).ready(function () {
         $('.datePicker').datepicker();
 
@@ -21,7 +22,7 @@
         var i;
 
         i = $("#ItemCount").val();
-
+        r = 1;
         //Dynamically add quotation row
         function addRow() {
 
@@ -69,7 +70,7 @@
                         '</td>' +
                          '<td width="10%">' +
                             vatSelectHtml +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Vat_Code" onkeyup="OnChangeVAT(this, ' + i + ');" data-valmsg-replace="true"></span>' +
                         '</td>' +
                         '<td width="10%">' +
                             '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseQuotationItemList_' + i + '__LineTotal" name="PurchaseQuotationItemList[' + i + '].LineTotal" readonly="True" type="text" value="">' +
@@ -88,7 +89,7 @@
 
             //$("#PurchaseQuotationItemList_1__Required_date").datepicker("refresh");
             i++;
-
+            r++;
             $("form").removeData("validator");
             $("form").removeData("unobtrusiveValidation");
             $.validator.unobtrusive.parse("form");
@@ -399,7 +400,7 @@
         }
         //}
 
-        $("#editTotalPurchase").val(tot.toFixed(2));
+        $("#editTotalPurchase1").val(tot.toFixed(2));
     }
 
     function CalculateDiscount() {
@@ -411,26 +412,27 @@
             }
         }
 
-        $("#editTotalDiscount").val(tot.toFixed(2));
+        $("#editTotalDiscount1").val(tot.toFixed(2));
     }
 
     function CalculateTax() {
-        var tot = 0;
+        var tot2 = 0;
 
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
-                tot = parseFloat(tot) + (parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()) / 100);
+                tot2 = parseFloat(tot2) + (parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()) / 100);
+                
             }
         }
 
-        $("#editTotalTax").val(tot.toFixed(2));
+        $("#editTotalTax1").val(tot2.toFixed(2));
     }
 
     function CalculateTotalAmount() {
         var totdoc = 0;
         var totdis = 0;
         var tottax = 0;
-        var tot = 0;
+        var tot1 = 0;
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()))) {
                 totdoc = parseFloat(totdoc) + parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val());
@@ -443,16 +445,16 @@
         //    }
         //}
 
-        for (var j = i; j >= 0; j--) {
+        for (var j = r; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
                 tottax = parseFloat(tottax) + (parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
         //tot = (totdoc - totdis) + tottax;
-        tot = totdoc + tottax;
+        tot1 = totdoc + tottax;
 
-        $("#editTotalQuotationAmt").val(tot.toFixed(2));
+        $("#editTotalQuotationAmt1").val(tot1.toFixed(2));
     }
 
 </script>
@@ -712,10 +714,10 @@
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
 
                                         <div class="row" style="float:right;">
-                                            Total : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalBefDocDisc, new { id = "editTotalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.DocDiscAmt, new { id = "editTotalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.PurchaseQuotation.DocDiscAmt)</span> <br />
-                                            Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TaxAmt, new { id = "editTotalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalQtnAmt, new { id = "editTotalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalBefDocDisc, new { id = "editTotalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.DocDiscAmt, new { id = "editTotalDiscount1", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.PurchaseQuotation.DocDiscAmt)</span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TaxAmt, new { id = "editTotalTax1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.PurchaseQuotation.TotalQtnAmt, new { id = "editTotalQuotationAmt1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                         </div>
 
                                     </div>

@@ -116,7 +116,9 @@
                     }
                 }
             });
-
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
             return selectHtml;
         }
 
@@ -144,7 +146,9 @@
                     }
                 }
             });
-
+            CalculateTotal();
+            CalculateTotalAmount();
+            CalculateTax();
             return selectHtml1;
         }
 
@@ -253,41 +257,71 @@
                 //debugger;
                 var id = "#SalesInvoiceItemsList_" + rowId + "__Unit_price";
                 $(id).val(result);
+               
+                //onchange quantity functionality
+                var qty = $("#SalesInvoiceItemsList_" + rowId + "__Quantity").val();
+                var price = $("#SalesInvoiceItemsList_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty;
+                var id = "#PurchaseOrderItemsList_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
+                //onchange discount functionality
+                var dis = $("#SalesInvoiceItemsList_" + rowId + "__Discount_percent").val();
+                var qty = $("#SalesInvoiceItemsList_" + rowId + "__Quantity").val();
+                var price = $("#SalesInvoiceItemsList_" + rowId + "__Unit_price").val();
+                var totAmount = price * qty - ((price * qty) * dis / 100)
+                var id = "#SalesInvoiceItemsList_" + rowId + "__LineTotal";
+                $(id).val(totAmount.toFixed(2));
+
                 CalculateTotal();
                 CalculateTotalAmount();
+                CalculateTax();
             }
         });
     }
 
     function OnChangeQuantity(currentQty, rowId) {
         //debugger;
-
+        //on change quantity
         var qty = currentQty.value;
         var price = $("#SalesInvoiceItemsList_" + rowId + "__Unit_price").val();
-
         var totAmount = price * qty;
-
         var id = "#SalesInvoiceItemsList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
+
+        //onchange discount functionality
+        var dis = $("#SalesInvoiceItemsList_" + rowId + "__Discount_percent").val();
+        var qty = $("#SalesInvoiceItemsList_" + rowId + "__Quantity").val();
+        var price = $("#SalesInvoiceItemsList_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var id = "#SalesInvoiceItemsList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
         CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscount(currentDis, rowId) {
         //debugger;
+        //onchange quantity functionality
+        var qty = $("#SalesInvoiceItemsList_" + rowId + "__Quantity").val();
+        var price = $("#SalesInvoiceItemsList_" + rowId + "__Unit_price").val();
+        var totAmount = price * qty;
+        var id = "#SalesInvoiceItemsList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
 
+        //on change discount
         var dis = currentDis.value;
         var qty = $("#SalesInvoiceItemsList_" + rowId + "__Quantity").val();
         var price = $("#SalesInvoiceItemsList_" + rowId + "__Unit_price").val();
-
         var totAmount = price * qty - ((price * qty) * dis / 100)
-
-        var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
+        var id = "#SalesInvoiceItemsList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
         CalculateTotal();
-        //CalculateDiscount();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeVAT() {
@@ -303,8 +337,9 @@
         //var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
         //$(id).val(totNet);
 
-        CalculateTax();
+        CalculateTotal();
         CalculateTotalAmount();
+        CalculateTax();
     }
 
     function OnChangeDiscountSummary(currentDis) {

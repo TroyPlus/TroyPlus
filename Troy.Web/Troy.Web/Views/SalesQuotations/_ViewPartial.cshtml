@@ -165,7 +165,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesQuotation.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate1", disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.SalesQuotation.Posting_Date, new { @Value = Model.SalesQuotation.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "crePostingDate1", disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.SalesQuotation.Posting_Date)
                                                     </div>
                                                 </div>
@@ -185,7 +185,7 @@
                                                         Valid Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesQuotation.Valid_Date, new { @class = "form-control control-text", @id = "creDeliveryDate1", disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.SalesQuotation.Valid_Date, new { @Value = Model.SalesQuotation.Valid_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "creDeliveryDate1", disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.SalesQuotation.Valid_Date)
                                                     </div>
                                                 </div>

@@ -320,12 +320,12 @@ namespace Troy.Data.Repository
                 throw raise;
             }
 
-            catch (Exception ex)
-            {
-                ExceptionHandler.LogException(ex);
-                ErrorMessage = ex.Message;
-                return false;
-            }
+            //catch (Exception ex)
+            //{
+            //    ExceptionHandler.LogException(ex);
+            //    ErrorMessage = ex.Message;
+            //    return false;
+            //}
 
         }
 
