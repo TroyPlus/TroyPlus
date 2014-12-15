@@ -237,7 +237,7 @@
                                                     <td width="12%">
                                                         @*@Html.TextBoxFor(model => model.PurchaseOrderItemsList[i].Vat_Code, new { @class = "form-control control-text" })
                                                             @Html.ValidationMessageFor(model => model.PurchaseOrderItemsList[i].Vat_Code)*@
-                                                        @Html.DropDownListFor(m => m.PurchaseReturnitemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage"), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT();", @readonly = true })
+                                                        @Html.DropDownListFor(m => m.PurchaseReturnitemsList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage"), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT();", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseReturnitemsList[i].Vat_Code)
                                                     </td>
                                                     <td width="10%">
