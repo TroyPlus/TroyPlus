@@ -83,7 +83,7 @@
                          '<td>' +
 
                            selectHtml1 +
-                             '<span class="field-validation-valid" data-valmsg-for="salesdeliverytitemlist[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
+                             '<span class="field-validation-valid" data-valmsg-for="salesdeliverytitemlist[' + i + '].Vat_Code" onkeyup="OnChangeVAT(this, ' + i + ');" data-valmsg-replace="true"></span>' +
                          '</td>' +
 
                          '<td>' +
@@ -311,7 +311,7 @@
 
 
     function OnChangeVAT() {
-        CalculateTax();
+        CalculateTotal();
         CalculateTax();
         CalculateTotalAmount();
     }
@@ -900,7 +900,7 @@
                                                         @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].LineTotal)
                                                     </td>
                                                     <td width="10%">
-                                                        @Html.DropDownListFor(m => m.salesdeliverytitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage",Model.salesdeliverytitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
+                                                        @Html.DropDownListFor(m => m.salesdeliverytitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.salesdeliverytitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].Vat_Code)
                                                     </td>
                                                     <td style="width: 90px;">

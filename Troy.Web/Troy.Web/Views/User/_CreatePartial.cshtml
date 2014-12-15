@@ -129,9 +129,9 @@
                                             </div>
                                             <div class="col-md-8">
                                                 @Html.DropDownListFor(m => m.SubmittedBranches, new MultiSelectList(Model.branchlist.AsEnumerable(),
-                                                                     "Branch_Id", "Branch_Name"), new { multiple = "multiple", @class = "form-control control-text", @id = "Branches" })
-                                                @*@Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { multiple = "multiple", @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.Branch_Id, "", new { @class = "text-danger" })*@
+                                                                     "Branch_Id", "Branch_Name"), new { multiple = "multiple", @class = "form-control control-text"})
+                                                @*@Html.DropDownListFor(m => m.Branch_Id, new SelectList(Model.branchlist.AsEnumerable(), "Branch_Id", "Branch_Name"),  @id = "Branches" "", new { multiple = "multiple", @class = "form-control control-text" })
+    @Html.ValidationMessageFor(model => model.Branch_Id, "", new { @class = "text-danger" })*@
                                                 @Html.ValidationMessageFor(model => model.SubmittedBranches, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
