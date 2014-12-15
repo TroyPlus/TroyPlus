@@ -5,7 +5,7 @@
 
 
 <script type="text/javascript">
-    var i = 0;
+    var i ;
 
     $(document).ready(function () {
 
@@ -281,16 +281,16 @@
     }
 
     function OnChangeDiscount(currentDis, rowId) {
-        //debugger;
+       // debugger;
 
-        var dis = currentDis.value;
+        //var dis = currentDis.value;
         var qty = $("#salesdeliverytitemlist_" + rowId + "__Quantity").val();
         var price = $("#salesdeliverytitemlist_" + rowId + "__Unit_Price").val();
 
-        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var totAmount1 = price * qty;
 
         var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
-        $(id).val(totAmount.toFixed(2));
+        $(id).val(totAmount1.toFixed(2));
 
         //var totAmount = (price * qty) - dis
         //var id = "#PurchaseQuotationItemList_" + rowId + "__LineTotal";
@@ -299,9 +299,10 @@
         var dis = currentDis.value;
         var qty = $("#salesdeliverytitemlist_" + rowId + "__Quantity").val();
         var price = $("#salesdeliverytitemlist_" + rowId + "_Unit_Price").val();
-        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var totAmount1 = price * qty - ((price * qty) * dis / 100)
         var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
-        $(id).val(totAmount.toFixed(2));
+        $(id).val(totAmount1.toFixed(2));
+        alert(totAmount1);
 
         CalculateTotal();
         CalculateTotalAmount();
@@ -349,8 +350,8 @@
 
         tot = (totdoc - totdis) + tottax;
 
-        $("#totalTax").val(tottax.toFixed(2));
-        $("#totalQuotationAmt").val(tot.toFixed(2));
+        $("#2totalTax").val(tottax.toFixed(2));
+        $("#2totalQuotationAmt").val(tot.toFixed(2));
 
 
 
@@ -371,7 +372,7 @@
         }
         //}
 
-        $("#totalPurchase").val(tot.toFixed(2));
+        $("#2totalPurchase").val(tot.toFixed(2));
     }
 
     function CalculateDiscount() {
@@ -383,7 +384,7 @@
             }
         }
 
-        $("#totalDiscount").val(tot.toFixed(2));
+        $("#2totalDiscount").val(tot.toFixed(2));
     }
 
     function CalculateTax() {
@@ -401,7 +402,7 @@
             }
         }
 
-        $("#totalTax").val(tot.toFixed(2));
+        $("#2totalTax").val(tot.toFixed(2));
 
     }
 
@@ -430,7 +431,7 @@
 
         tot = (totdoc - totdis) + tottax;
 
-        $("#totalQuotationAmt").val(tot.toFixed(2));
+        $("#2totalQuotationAmt").val(tot.toFixed(2));
     }
 
     function CalculateTotalAmount() {
@@ -459,7 +460,7 @@
         //tot = (totdoc - totdis) + tottax;
         tot = totdoc + tottax;
 
-        $("#totalQuotationAmt").val(tot.toFixed(2));
+        $("#2totalQuotationAmt").val(tot.toFixed(2));
     }
 
 
@@ -922,10 +923,10 @@
                                     @*@Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })*@
 
                                     <div class="row" style="float:right;">
-                                        Total : <span>@Html.TextBoxFor(m => m.salesdelivery.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                        Discount Amount : <span>@Html.TextBoxFor(m => m.salesdelivery.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.salesdelivery.DocDiscAmt) </span> <br />
-                                        Tax Amount : <span>@Html.TextBoxFor(m => m.salesdelivery.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                        Total Quotation Amount : <span>@Html.TextBoxFor(m => m.salesdelivery.TotalSlsDlvryAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        Total : <span>@Html.TextBoxFor(m => m.salesdelivery.TotalBefDocDisc, new { id = "2totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        Discount Amount : <span>@Html.TextBoxFor(m => m.salesdelivery.DocDiscAmt, new { id = "2totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.salesdelivery.DocDiscAmt) </span> <br />
+                                        Tax Amount : <span>@Html.TextBoxFor(m => m.salesdelivery.TaxAmt, new { id = "2totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        Total Quotation Amount : <span>@Html.TextBoxFor(m => m.salesdelivery.TotalSlsDlvryAmt, new { id = "2totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                     </div>
 
                                 </div>

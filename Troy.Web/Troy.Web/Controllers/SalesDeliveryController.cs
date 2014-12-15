@@ -130,10 +130,10 @@ namespace Troy.Web.Controllers
 
                     SalesDeliveryViewModels model1 = new SalesDeliveryViewModels();
 
-                    //model1.BranchList = deliveryrepository.GetAddressbranchList().ToList();
-                    //model1.BussinessList = deliveryrepository.GetAddressbusinessList().ToList();
-                    //model1.ProductList = deliveryrepository.GetProductList();
-                    //model1.VATList = deliveryrepository.GetVATList();
+                    model1.BranchList = deliveryrepository.GetAddressbranchList().ToList();
+                    model1.BussinessList = deliveryrepository.GetAddressbusinessList().ToList();
+                    model1.productlist = deliveryrepository.GetProductList();
+                    model1.VATList = deliveryrepository.GetVATList();
                     model1.salesorder = deliveryrepository.FindOneQuotationById1(model.salesorder.Sales_Order_Id);
                     model1.salesorderitemlist = deliveryrepository.FindOneQuotationItemById1(model.salesorder.Sales_Order_Id);
 

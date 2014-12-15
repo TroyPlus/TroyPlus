@@ -2,7 +2,7 @@
 
 
 <script type="text/javascript">
-    var i = 0;
+    var i ;
 
     $(document).ready(function () {
 
@@ -371,8 +371,8 @@
 
         tot = (totdoc - totdis) + tottax;
 
-        $("#totalTax").val(tottax.toFixed(2));
-        $("#totalQuotationAmt").val(tot.toFixed(2));
+        $("#1totalTax").val(tottax.toFixed(2));
+        $("#1totalQuotationAmt").val(tot.toFixed(2));
 
     }
 
@@ -390,7 +390,7 @@
             }
         }
         //}
-        $("#totalPurchase").val(tot.toFixed(2));
+        $("#1totalPurchase").val(tot.toFixed(2));
     }
 
     function CalculateDiscount() {
@@ -402,7 +402,7 @@
             }
         }
 
-        $("#totalDiscount").val(tot.toFixed(2));
+        $("#1totalDiscount").val(tot.toFixed(2));
     }
 
     function CalculateTax() {
@@ -420,7 +420,7 @@
             }
         }
 
-        $("#totalTax").val(tot.toFixed(2));
+        $("#1totalTax").val(tot.toFixed(2));
     }
 
     function CalculateTotalAmountOLD() {
@@ -448,7 +448,7 @@
 
         tot = (totdoc - totdis) + tottax;
 
-        $("#totalQuotationAmt").val(tot.toFixed(2));
+        $("#1totalQuotationAmt").val(tot.toFixed(2));
     }
 
     function CalculateTotalAmount() {
@@ -477,7 +477,7 @@
         //tot = (totdoc - totdis) + tottax;
         tot = totdoc + tottax;
 
-        $("#totalQuotationAmt").val(tot.toFixed(2));
+        $("#1totalQuotationAmt").val(tot.toFixed(2));
     }
 
 </script>
@@ -698,10 +698,10 @@
                 Tax Amount : <span id="taxamt">0</span><br />
                 Total Order Amount : <span id="totalordamt">0</span><br />*@
 
-                                        Total : <span>@Html.TextBoxFor(m => m.SalesQuotation.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                        Discount Amount : <span>@Html.TextBoxFor(m => m.SalesQuotation.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.SalesQuotation.DocDiscAmt) </span> <br />
-                                        Tax Amount : <span>@Html.TextBoxFor(m => m.SalesQuotation.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                        Total Quotation Amount : <span>@Html.TextBoxFor(m => m.SalesQuotation.TotalSlsQtnAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        Total : <span>@Html.TextBoxFor(m => m.SalesQuotation.TotalBefDocDisc, new { id = "1totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        Discount Amount : <span>@Html.TextBoxFor(m => m.SalesQuotation.DocDiscAmt, new { id = "1totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.SalesQuotation.DocDiscAmt) </span> <br />
+                                        Tax Amount : <span>@Html.TextBoxFor(m => m.SalesQuotation.TaxAmt, new { id = "1totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                        Total Quotation Amount : <span>@Html.TextBoxFor(m => m.SalesQuotation.TotalSlsQtnAmt, new { id = "1totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
 
                                     </div>
 

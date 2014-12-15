@@ -1,6 +1,7 @@
 ﻿@model Troy.Web.Models.GoodsReceiptViewModels
 
 <script type="text/javascript">
+    var i;
     $(document).ready(function () {
         $('.datePicker').datepicker();
 
@@ -23,7 +24,7 @@
             listMaxHeight: 50
         });
 
-        i = 1;
+        i = $("#ItemCount").val();
 
         //Dynamically add quotation row
         function addRow() {
@@ -55,7 +56,7 @@
                         '</td>' +
                          '<td>' +
                              selectHtml1 +
-                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList_[' + i + '].__Vat_Code" data-valmsg-replace="true" "onkeyup="OnChangeVAT(this, ' + i + ');"></span>' +
+                            '<span class="field-validation-valid" data-valmsg-for="PurchaseOrderItemsList[' + i + '].__Vat_Code" data-valmsg-replace="true" "onkeyup="OnChangeVAT(this, ' + i + ');"></span>' +
                         '</td>' +
                          '<td>' +
                             '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="PurchaseOrderItemsList_' + i + '__LineTotal" name="PurchaseOrderItemsList[' + i + '].LineTotal"  type="text" value="">' +

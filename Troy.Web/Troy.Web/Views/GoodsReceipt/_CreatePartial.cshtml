@@ -98,7 +98,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text ",@disabled="Disabled" })
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ",@disabled="Disabled" })
                                                         @Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)
                                                     </div>
                                                 </div>
@@ -118,7 +118,7 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text  ", @id = "IssueDate1", @onkeyup = "comparedate();" })
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text  ", @id = "IssueDate1", @onkeyup = "comparedate();" })
                                                         @Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)
                                                     </div>
                                                 </div>

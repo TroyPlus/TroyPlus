@@ -1,7 +1,8 @@
 ﻿@model Troy.Web.Models.GoodsReturnViewModels
 
-
+@Scripts.Render("~/bundles/script/jqueryval")
 <script type="text/javascript">
+    var i;
     $(document).ready(function () {
         $('.datePicker').datepicker();
         $('#date1').datepicker({
@@ -22,7 +23,7 @@
             listMaxHeight: 50
         });
 
-        i = 1;
+        i = $("#ItemCount").val();
 
         //Dynamically add quotation row
         function addRow() {
