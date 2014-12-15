@@ -258,7 +258,7 @@
                                                     Start Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.Employee.Start_Dte, new { @class = "form-control control-text info", @id = "editPersonaltab" })
+                                                    @Html.TextBoxFor(model => model.Employee.Start_Dte, new { @Value = Model.Employee.Start_Dte.ToString("MM/dd/yyyy"), @class = "form-control control-text info", @id = "editPersonaltab" })
                                                     @Html.ValidationMessageFor(model => model.Employee.Start_Dte)
                                                 </div>
                                             </div>
@@ -285,7 +285,7 @@
                                                     Date of Birth
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.Employee.DOB, new { @class = "form-control control-text info", @id = "editdob" })
+                                                    @Html.TextBoxFor(model => model.Employee.DOB, new { @Value = Model.Employee.DOB.ToString("MM/dd/yyyy"), @class = "form-control control-text info", @id = "editdob" })
                                                     @Html.ValidationMessageFor(model => model.Employee.DOB)
                                                 </div>
                                             </div>
