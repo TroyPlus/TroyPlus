@@ -3,7 +3,7 @@
 @Scripts.Render("~/bundles/script/jqueryval")
 
 <script type="text/javascript">
-    var r=0;
+    var r = 0;
     $(document).ready(function () {
         $('.datePicker').datepicker();
 
@@ -272,7 +272,7 @@
                 //debugger;
                 var id = "#PurchaseQuotationItemList_" + rowId + "__Unit_price";
                 $(id).val(result);
-              
+
                 //onchange quantity functionality
                 var qty = $("#PurchaseQuotationItemList_" + rowId + "__Quoted_qty").val();
                 var price = $("#PurchaseQuotationItemList_" + rowId + "__Unit_price").val();
@@ -421,7 +421,7 @@
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
                 tot2 = parseFloat(tot2) + (parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()) / 100);
-                
+
             }
         }
 
@@ -445,7 +445,7 @@
         //    }
         //}
 
-        for (var j = r; j >= 0; j--) {
+        for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
                 tottax = parseFloat(tottax) + (parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()) / 100);
             }
@@ -561,7 +561,7 @@
                                         <div class="col-md-6">
 
                                             <div class="form-horizontal">
-                                               
+
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         Loading
@@ -572,14 +572,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="row form-group">
-                                                        <div class="col-md-4">
-                                                            Posting Date
-                                                        </div>
-                                                        <div class="col-md-8">
-                                                            @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = Model.PurchaseQuotation.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", id = "editPostingDate" })
-                                                            @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
-                                                        </div>
+                                                    <div class="col-md-4">
+                                                        Posting Date
                                                     </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = Model.PurchaseQuotation.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", id = "editPostingDate" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
+                                                    </div>
+                                                </div>
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
