@@ -3,6 +3,7 @@
 @Scripts.Render("~/bundles/script/jqueryval")
 
 <script type="text/javascript">
+    var r = 0;
     $(document).ready(function () {
         $('.datePicker').datepicker();
 
@@ -22,7 +23,7 @@
         var i;
 
         i = $("#ItemCount").val();
-
+        r = 1;
         //Dynamically add quotation row
         function addRow() {
 
@@ -69,16 +70,16 @@
                          '</td>' +
                          '</tr>'
 
-            $(html).appendTo($("#EditTable"))
+            $(html).appendTo($("#EditTable1"))
 
             //$("#PurchaseQuotationItemList_1__Required_date").datepicker("refresh");
             i++;
-
+            r++;
             //$("form").removeData("validator");
             $("form").removeData("unobtrusiveValidation");
             $.validator.unobtrusive.parse("form");
 
-            $("#EditTable").delegate(".datePicker", "focusin", function () {
+            $("#EditTable1").delegate(".datePicker", "focusin", function () {
                 $(this).datepicker();
             });
         };
@@ -144,7 +145,7 @@
             return selectHtml1;
         }
 
-        $("#EditTable").on("click", ".BtnPlus", addRow);
+        $("#EditTable1").on("click", ".BtnPlus", addRow);
 
         function deleteRow() {
             var par = $(this).parent().parent();
@@ -165,7 +166,7 @@
             CalculateTotalAmount();
             CalculateTax();
         };
-        $("#EditTable").on("click", ".BtnMinus", deleteRow);
+        $("#EditTable1").on("click", ".BtnMinus", deleteRow);
 
     });
 
@@ -355,7 +356,7 @@
         //    tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + i + "__Amount").val());
         //}
         //else {
-        for (var j = i; j >= 0; j--) {
+        for (var j = r; j >= 0; j--) {
             if (!isNaN(parseFloat($("#GoodsReceiptItemList_" + j + "__LineTotal").val()))) {
                 tot = parseFloat(tot) + parseFloat($("#GoodsReceiptItemList_" + j + "__LineTotal").val());
 
@@ -383,7 +384,7 @@
     function CalculateTax() {
         var tot = 0;
 
-        for (var j = i; j >= 0; j--) {
+        for (var j = r; j >= 0; j--) {
             if (!isNaN(parseFloat($("#GoodsReceiptItemList_" + j + "__Vat_Code").val()))) {
                 //tot = parseFloat(tot) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val());
                 tot = parseFloat(tot) + (parseFloat($("#GoodsReceiptItemList_" + j + "__LineTotal").val()) * parseFloat($("#GoodsReceiptItemList_" + j + "__Vat_Code").val()) / 100);
@@ -399,7 +400,7 @@
         var totdis = 0;
         var tottax = 0;
         var tot = 0;
-        for (var j = i; j >= 0; j--) {
+        for (var j = r; j >= 0; j--) {
             if (!isNaN(parseFloat($("#GoodsReceiptItemList_" + j + "__LineTotal").val()))) {
                 totdoc = parseFloat(totdoc) + parseFloat($("#GoodsReceiptItemList_" + j + "__LineTotal").val());
             }
@@ -411,7 +412,7 @@
         //    }
         //}
 
-        for (var j = i; j >= 0; j--) {
+        for (var j = r; j >= 0; j--) {
             if (!isNaN(parseFloat($("#GoodsReceiptItemList_" + j + "__Vat_Code").val()))) {
                 //tottax = parseFloat(tottax) + parseFloat($("#PurchaseInvoiceItemsList_" + j + "__Vat_Code").val());
                 tottax = parseFloat(tottax) + (parseFloat($("#GoodsReceiptItemList_" + j + "__LineTotal").val()) * parseFloat($("#GoodsReceiptItemList_" + j + "__Vat_Code").val()) / 100);
@@ -619,7 +620,7 @@
 
                                     <div>
 
-                                        <table id="EditTable" class="table display">
+                                        <table id="EditTable1" class="table display">
                                             <thead>
                                                 <tr>
                                                     <th>Product Id</th>

@@ -1,7 +1,9 @@
 ﻿@model Troy.Web.Models.GoodsReturnViewModels
 
+@Scripts.Render("~/bundles/script/jqueryval")
 
 <script type="text/javascript">
+    var i=0;
     $(document).ready(function () {
         $('.datePicker').datepicker();
         $('#date1').datepicker({
@@ -22,7 +24,7 @@
             listMaxHeight: 50
         });
 
-        i = 1;
+        i = $("#ItemCount").val();
 
         //Dynamically add quotation row
         function addRow() {
@@ -390,8 +392,8 @@
         tot = (totdoc - totdis) + tottax;
 
 
-        $("#totalTax1").val(tottax.toFixed(2));
-        $("#totalQuotationAmt1").val(tot);
+        $("#totalTax2").val(tottax.toFixed(2));
+        $("#totalQuotationAmt2").val(tot);
     }
 
     function CalculateTotal() {
@@ -408,7 +410,7 @@
         }
         //}
 
-        $("#totalPurchase1").val(tot.toFixed(2));
+        $("#totalPurchase2").val(tot.toFixed(2));
 
     }
 
@@ -421,7 +423,7 @@
             }
         }
 
-        $("#totalDiscount1").val(tot.toFixed(2));
+        $("#totalDiscount2").val(tot.toFixed(2));
     }
 
     function CalculateTax() {
@@ -434,7 +436,7 @@
             }
         }
 
-        $("#totalTax1").val(tot.toFixed(2));
+        $("#totalTax2").val(tot.toFixed(2));
     }
 
     function CalculateTotalAmount() {
@@ -463,7 +465,7 @@
 
         tot = (totdoc - totdis) + tottax;
 
-        $("#totalQuotationAmt1").val(tot.toFixed(2));
+        $("#totalQuotationAmt2").val(tot.toFixed(2));
     }
 
 
@@ -716,10 +718,10 @@
                                         @*@Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })*@
 
                                         <div class="row" style="float:right;">
-                                            Total : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalBefDocDisc, new { id = "totalPurchase1", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Discount Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.DocDiscAmt, new { id = "totalDiscount1", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.goodreceipt.DocDiscAmt) </span> <br />
-                                            Tax Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TaxAmt, new { id = "totalTax1", @class = "input-small", @style = "border: none;" })</span> <br />
-                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalGRDocAmt, new { id = "totalQuotationAmt1", @class = "input-small", @style = "border: none;" })</span> <br />
+                                            Total : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalBefDocDisc, new { id = "totalPurchase2", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.DocDiscAmt, new { id = "totalDiscount2", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.goodreceipt.DocDiscAmt) </span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TaxAmt, new { id = "totalTax2", @class = "input-small", @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalGRDocAmt, new { id = "totalQuotationAmt2", @class = "input-small", @style = "border: none;" })</span> <br />
                                         </div>
 
                                     </div>
