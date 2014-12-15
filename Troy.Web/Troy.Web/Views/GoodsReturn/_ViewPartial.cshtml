@@ -59,6 +59,7 @@
 
                         </ul>
                         @Html.HiddenFor(model=>model.goodreturn.Goods_Return_Id)
+                        @Html.Hidden("ItemCount", Model.goodreturnitemlist.Count)
 
                         <div id="viewmyTabContent" class="tab-content">
 
@@ -225,7 +226,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @for (int i = 0; i < 1; i++)
+                                                @for (int i = 0; i < Model.goodreturnitemlist.Count; i++)
                                                 {
 
                                                     <tr>

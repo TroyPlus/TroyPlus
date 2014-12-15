@@ -3,6 +3,7 @@
 @Scripts.Render("~/bundles/script/jqueryval")
 
 <script type="text/javascript">
+    var i;
     $(document).ready(function () {
         $('.datePicker').datepicker();
         $('#date1').datepicker({
@@ -23,7 +24,7 @@
             listMaxHeight: 50
         });
 
-        i = 1;
+        i = $("#ItemCount").val();
 
         //Dynamically add quotation row
         function addRow() {
@@ -695,7 +696,7 @@
                                                             @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].LineTotal)
                                                         </td>*@
                                                         <td width="10%">
-                                                            @Html.DropDownListFor(m => m.salesdeliverytitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.salesdeliverytitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
+                                                            @Html.DropDownListFor(m => m.salesdeliverytitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.salesdeliverytitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");" })
                                                             @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].Vat_Code)
                                                         </td>
                                                         <td style="width: 90px;">

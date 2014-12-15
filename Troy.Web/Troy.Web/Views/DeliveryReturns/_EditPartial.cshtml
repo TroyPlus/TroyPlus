@@ -5,6 +5,7 @@
 
 
 <script type="text/javascript">
+    var i ;
     $(document).ready(function () {
 
         $('.datePicke').datepicker({ dateFormat: 'dd-mm-yy' }).val();
@@ -20,8 +21,7 @@
         });
      
         $("#editTypeahead").jAutochecklist();
-        var i;
-
+        //var i;
         i = $("#ItemCount").val();
 
 
@@ -68,13 +68,13 @@
                        //    '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__Freight_Loading" name="goodreceiptitemlist[' + i + '].Freight_Loading" readonly="True" type="text" value="">' +
                        //    '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
                        //'</td>' +
-                       // '<td>' +
-                       //    '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="deliveryreturnitemlist_' + i + '_Freight_Loading" name="deliveryreturnitemlist[' + i + '].Freight_Loading" readonly="True" type="text" value="">' +
-                       //    '<span class="field-validation-valid" data-valmsg-for="deliveryreturnitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
-                       //'</td>' +
+                        '<td>' +
+                           '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="deliveryreturnitemlist_' + i + '_LineTotal" name="deliveryreturnitemlist[' + i + '].LineTotal" readonly="True" type="text" value="">' +
+                           '<span class="field-validation-valid" data-valmsg-for="deliveryreturnitemlist[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
+                       '</td>' +
                           '<td>' +
                             selectHtml1 +
-                          '<span class="field-validation-valid" data-valmsg-for="deliveryreturnitemlist_[' + i + '].__Vat_Code" onkeyup="OnChangeVAT(this, ' + i + ');" data-valmsg-replace="true"></span>' +
+                          '<span class="field-validation-valid" data-valmsg-for="deliveryreturnitemlist[' + i + '].__Vat_Code" onkeyup="OnChangeVAT(this, ' + i + ');" data-valmsg-replace="true"></span>' +
                        '</td>' +
                        '<td>' +
                            '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
@@ -101,10 +101,10 @@
 
             //debugger;
 
-            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="goodreturnitemlist_' + rowID + '__Product_id" name="deliveryreturnitemlist[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
+            var selectHtml = '<select class="form-control control-text valid" data-val="true" data-val-number="The field Product_id must be a number." data-val-required="The Product_id field is required." id="deliveryreturnitemlist_' + rowID + '__Product_id" name="deliveryreturnitemlist[' + rowID + '].Product_id" onchange="OnChangeProduct(this, ' + rowID + ');">';
             selectHtml += '<option value=""></option>';
 
-            var dataUrl = "../GoodsReturn/GetProductList";
+            var dataUrl = "../DeliveryReturns/GetProductList";
 
             $.ajax({
                 type: 'GET',
@@ -134,7 +134,7 @@
                 selectHtml += '<option value=""></option>';
 
 
-                var dataUrl = "../GoodsReturn/GetVATList";
+                var dataUrl = "../DeliveryReturns/GetVATList";
 
 
                 $.ajax({
@@ -214,7 +214,7 @@
             debugger;
 
             e.preventDefault();
-            alert(e);
+            //alert(e);
             var _this = $(this);
             var _form = _this.closest("#editdefault");
 
@@ -254,7 +254,7 @@
 
         var pID = parseInt(val.value);
 
-        var dataUrl = "../SalesDelivery/GetPrice?pID=" + pID;
+        var dataUrl = "../DeliveryReturns/GetPrice?pID=" + pID;
 
         $.ajax({
             type: 'GET',
@@ -278,7 +278,7 @@
                 var totAmount = price * qty;
                 var id = "#deliveryreturnitemlist_" + rowId + "__LineTotal";
                 $(id).val(totAmount.toFixed(2));
-
+   
                 //onchange discount functionality
                 var dis = $("#deliveryreturnitemlist_" + rowId + "__Discount_Precent").val();
                 var qty = $("#deliveryreturnitemlist_" + rowId + "__Quantity").val();
@@ -335,6 +335,7 @@
         var totAmount = price * qty - ((price * qty) * dis / 100)
         var id = "#deliveryreturnitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
+        alert(totAmount);
 
         CalculateTotal();
         CalculateTotalAmount();
@@ -393,8 +394,8 @@
 
         tot = (totdoc - totdis) + tottax;
 
-        $("#totalTax").val(tottax.toFixed(2));
-        $("#totalQuotationAmt").val(tot.toFixed(2));
+        $("#4totalTax").val(tottax.toFixed(2));
+        $("#4totalQuotationAmt").val(tot.toFixed(2));
     }
 
     function CalculateTotal() {
@@ -404,15 +405,16 @@
         //    tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + i + "__Amount").val());
         //}
         //else {
+        
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#deliveryreturnitemlist_" + j + "__LineTotal").val()))) {
                 tot = parseFloat(tot) + parseFloat($("#deliveryreturnitemlist_" + j + "__LineTotal").val());
-
+              
             }
         }
         //}
 
-        $("#totalPurchase").val(tot.toFixed(2));
+        $("#4totalPurchase").val(tot.toFixed(2));
 
     }
 
@@ -425,7 +427,7 @@
             }
         }
 
-        $("#totalDiscount").val(tot.toFixed(2));
+        $("#4totalDiscount").val(tot.toFixed(2));
 
     }
 
@@ -435,11 +437,11 @@
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#deliveryreturnitemlist_" + j + "__Vat_Code").val()))) {
                 //tot = parseFloat(tot) + parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val());
-                tot = parseFloat(tot) + (parseFloat($("#deliveryreturnitemlist_" + j + "__LineTotal").val()) * parseFloat($("#goodreturnitemlist_" + j + "__Vat_Code").val()) / 100);
+                tot = parseFloat(tot) + (parseFloat($("#deliveryreturnitemlist_" + j + "__LineTotal").val()) * parseFloat($("#deliveryreturnitemlist_" + j + "__Vat_Code").val()) / 100);
             }
         }
 
-        $("#totalTax").val(tot.toFixed(2));
+        $("#4totalTax").val(tot.toFixed(2));
 
     }
 
@@ -471,7 +473,7 @@
         //tot = (totdoc - totdis) + tottax;
         tot = totdoc + tottax;
 
-        $("#totalQuotationAmt").val(tot.toFixed(2));
+        $("#4totalQuotationAmt").val(tot.toFixed(2));
 
     }
 
@@ -646,6 +648,7 @@
                                                     <th>Quantity</th>
                                                     <th>Unit Price</th>
                                                     <th>Discount %</th>
+                                                    <th>LineTotal</th>
                                                     <th>VAT Code</th>
                                                     <th></th>
                                                 </tr>
@@ -686,10 +689,10 @@
                                                             @Html.TextBoxFor(model => model.deliveryreturnitemlist[i].Discount_Precent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");" })
                                                             @Html.ValidationMessageFor(model => model.deliveryreturnitemlist[i].Discount_Precent)
                                                         </td>
-                                                        @*<td>
+                                                        <td>
                                                             @Html.TextBoxFor(model => model.deliveryreturnitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true })
                                                             @Html.ValidationMessageFor(model => model.deliveryreturnitemlist[i].LineTotal)
-                                                        </td>*@
+                                                        </td>
                                                         <td>
                                                             @Html.DropDownListFor(m => m.deliveryreturnitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.deliveryreturnitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT(this, " + i + ");" })
                                                             @Html.ValidationMessageFor(model => model.deliveryreturnitemlist[i].Vat_Code)
@@ -713,10 +716,10 @@
                                         <input class="btn btn-primary pull-left" type="submit" id="btnSubmit" name="submitButton" value="Update" />
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
                                         <div class="row" style="float:right;">
-                                            Total : <span>@Html.TextBoxFor(m => m.deliveryreturn.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Discount Amount : <span>@Html.TextBoxFor(m => m.deliveryreturn.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.deliveryreturn.DocDiscAmt) </span> <br />
-                                            Tax Amount : <span>@Html.TextBoxFor(m => m.deliveryreturn.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.deliveryreturn.TotalSlsDlvryAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total : <span>@Html.TextBoxFor(m => m.deliveryreturn.TotalBefDocDisc, new { id = "4totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Discount Amount : <span>@Html.TextBoxFor(m => m.deliveryreturn.DocDiscAmt, new { id = "4totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.deliveryreturn.DocDiscAmt) </span> <br />
+                                            Tax Amount : <span>@Html.TextBoxFor(m => m.deliveryreturn.TaxAmt, new { id = "4totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.deliveryreturn.TotalSlsDlvryAmt, new { id = "4totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                         </div>
 
                                     </div>
