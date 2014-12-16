@@ -71,6 +71,33 @@ namespace Troy.Web.Controllers
             }
         }
 
+        //---- check unique key-------   
+        public JsonResult CheckForDuplication([Bind(Prefix = "PurchaseQuotationItem.Quoted_qty")]int? Quoted_qty, [Bind(Prefix = "PurchaseQuotationItem.Required_qty")]int? Required_qty)
+        {
+            try
+            {
+                if (Required_qty != null)
+                {
+                    if (Quoted_qty > Required_qty)
+                    {
+                        return Json("Sorry, Manufacturer Name already exists", JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(true, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogException(ex);
+                ViewBag.AppErrorMessage = ex.Message;
+                return Json(new { Error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         [HttpPost]
         public ActionResult Index(string submitButton, PurchaseViewModels model, HttpPostedFileBase file)
         {
@@ -89,8 +116,8 @@ namespace Troy.Web.Controllers
                     model.PurchaseQuotation.Creating_Branch = currentUser.Created_Branch_Id; ;  //GetBranch 
                     model.PurchaseQuotation.Modified_User_Id = currentUser.Modified_User_Id;
                     model.PurchaseQuotation.Modified_Date = DateTime.Now;
-                    model.PurchaseQuotation.Modified_Branch_Id = currentUser.Modified_Branch_Id;                   
-                  
+                    model.PurchaseQuotation.Modified_Branch_Id = currentUser.Modified_Branch_Id;
+
 
                     var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
                     model.PurchaseQuotationItemList = QuotationList.ToList();
@@ -244,7 +271,7 @@ namespace Troy.Web.Controllers
                     dr_final["Remarks"] = e.Remarks;
 
                     foreach (var i in purchaseItem)
-                    {                        
+                    {
                         if (e.Purchase_Quote_Id == i.Purchase_Quote_Id)
                         {
                             if (repeat == 0)
