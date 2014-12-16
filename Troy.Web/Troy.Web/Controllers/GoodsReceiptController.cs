@@ -96,6 +96,7 @@ namespace Troy.Web.Controllers
 
                     // model.goodreceipt.BaseDocId = model.PurchaseOrder.Purchase_Order_Id;
                     model.goodreceipt.Document_Date = DateTime.Now;
+                    model.goodreceipt.Posting_Date = DateTime.Now;
                     model.goodreceipt.Doc_Status = "Open";
                     model.goodreceipt.TargetDocId = "0";
                     model.goodreceipt.Created_Branc_Id = CurrentBranchId;//CurrentBranchId;

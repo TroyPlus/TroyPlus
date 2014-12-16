@@ -135,21 +135,12 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @class = "form-control control-text datePicker", @disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new {@Value=Model.goodreceipt.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @disabled = "disabled" })
                                                        
                                                     </div>
                                                 </div>
 
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Due_Date, new { @class = "control-label normal" })*@
-                                                        Due Date:
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @class = "form-control control-text datePicker", @disabled = "disabled" })
-                                                      
-                                                    </div>
-                                                </div>
+                                             
 
 
 
@@ -166,7 +157,7 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @class = "form-control control-text datePicker", @disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = Model.goodreceipt.Due_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @disabled = "disabled" })
                                                        
                                                     </div>
                                                 </div>
@@ -177,7 +168,7 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @disabled = "disabled" })@*, @readonly = true })*@
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new {@Value=Model.goodreceipt.Document_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @disabled = "disabled" })@*, @readonly = true })*@
                                                       
                                                     </div>
                                                 </div>
@@ -263,7 +254,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @for (int i = 0; i < 1; i++)
+                                                @for (int i = 0; i < Model.goodreceiptitemlist.Count; i++)
                                                 {
 
                                                     <tr>

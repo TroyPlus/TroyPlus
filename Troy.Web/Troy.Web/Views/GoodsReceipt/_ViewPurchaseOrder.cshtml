@@ -7,6 +7,28 @@
     $(document).ready(function () {
         $('.datePicker').datepicker();
 
+
+
+
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
+        });
+        $('#dat1').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
+        $('#dat2').datepicker({ dateFormat: 'dd/mm/yy' });
+
+
+
+
         $('#creDocumentDat1').datepicker({
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
         });
@@ -478,7 +500,11 @@
                                     <div class="col-md-6">
                                         <div class="form-horizontal">
                                             @Html.HiddenFor(model => model.goodreceipt.Goods_Receipt_Id)
+                                            @*@Html.HiddenFor(model=>model.goodreceipt.Posting_Date)*@
+                                            @Html.HiddenFor(model => model.goodreceipt.Document_Date)
                                             @Html.Hidden("ItemCount", Model.PurchaseOrderItemsList.Count)
+                                            @Html.HiddenFor(model => model.PurchaseOrder.Document_Date)
+                                            @Html.HiddenFor(model => model.PurchaseOrder.Posting_Date)
                                             @Html.HiddenFor(model => model.PurchaseOrder.Purchase_Order_Id)
                                             @Html.HiddenFor(model => model.PurchaseOrderItems.Purchase_OrderItem_Id)
                                           
@@ -551,8 +577,8 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = Model.PurchaseOrder.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", @id = "creDocumentDat1" })
-                                                        @*@Html.ValidationMessageFor(model => model.PurchaseOrder.Posting_Date)*@
+                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = Model.PurchaseOrder.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @id = "dat2",@disabled="disabled" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseOrder.Posting_Date)
                                                     </div>
                                                 </div>
 
@@ -572,8 +598,8 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text  ", @id = "creDocumentDat2" })
-                                                        @*@Html.ValidationMessageFor(model => model.PurchaseOrder.Delivery_Date)*@
+                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text  ", @id = "dat1" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseOrder.Delivery_Date)
                                                     </div>
                                                 </div>
 

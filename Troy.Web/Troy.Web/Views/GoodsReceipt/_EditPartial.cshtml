@@ -6,13 +6,39 @@
     var i;
     $(document).ready(function () {
 
+
+
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
+        });
+        $('#dt1').datepicker({ dateFormat: 'dd/mm/yy' , minDate:0});
+        $('#dt2').datepicker({ dateFormat: 'dd/mm/yy' });
+
+
+
+
+
+
+
+
+
         $('.datePicke').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
         $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
         //$('.datepick').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
         $('#datepick').datepicker({
-            dateFormat: 'dd/mm/yy', minDate: 0
+            dateFormat: 'MM-dd-yy', minDate: 0
         });
         $('.date').datepicker({ dateFormat: 'dd-mm-yy' }).val();
         $("#editTypeahead").jAutochecklist();
@@ -501,6 +527,8 @@
                                 <li><a href="#editQuotationItem" data-toggle="tab">Product </a></li>
                             </ul>
                             @Html.HiddenFor(model => model.goodreceipt.Goods_Receipt_Id)
+                            @Html.HiddenFor(model => model.goodreceipt.Posting_Date)
+                            @Html.HiddenFor(model => model.goodreceipt.Document_Date)
                             @Html.Hidden("ItemCount", Model.goodreceiptitemlist.Count)
                             @Html.HiddenFor(model => model.goodreceipt.Created_Dte)
                             @Html.HiddenFor(model => model.goodreceipt.Created_Branc_Id)
@@ -585,8 +613,8 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @id = "datePicker" })
-                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)*@
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new {@Value=Model.goodreceipt.Posting_Date.ToString("dd/MM/yyyy") ,@class = "form-control control-text ", @id = "dt2",@disabled="disabled" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)
                                                     </div>
                                                 </div>
 
@@ -602,8 +630,8 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text  ", @id = "datepick" })
-                                                        @*@Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)*@
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = Model.goodreceipt.Due_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text  ", @id = "dt1" })
+                                                        @Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)
                                                     </div>
                                                 </div>
 

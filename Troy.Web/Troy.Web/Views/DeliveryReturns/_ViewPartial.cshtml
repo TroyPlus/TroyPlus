@@ -65,6 +65,7 @@
                                 <li><a href="#ViewaddQuotationlist" data-toggle="tab">DeliveryReturn Item </a></li>
                             </ul>
                             @Html.HiddenFor(model => model.deliveryreturn.Delivery_Return_Id)
+                            @Html.Hidden("ItemCount", Model.deliveryreturnitemlist.Count)
                             @*@Html.Hidden("ItemCount", Model.deliveryreturnitemlist.Count)
                             @Html.HiddenFor(model => model.deliveryreturn.Created_Date)
                             @Html.HiddenFor(model => model.deliveryreturn.Created_Branc_Id)
@@ -154,7 +155,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.deliveryreturn.Posting_Date, new { @Value = Model.deliveryreturn.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "datePicker", @disabled = "Disabled" })
+                                                        @Html.TextBoxFor(model => model.deliveryreturn.Posting_Date, new { @Value = Model.deliveryreturn.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicke", @id = "datePicker", @disabled = "Disabled" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreturn.Posting_Date)*@
                                                     </div>
                                                 </div>
@@ -167,7 +168,7 @@
                                                         Due Date:
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.deliveryreturn.Delivery_Date, new { @Value = Model.deliveryreturn.Delivery_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "datepick2", @disabled = "Disabled" })
+                                                        @Html.TextBoxFor(model => model.deliveryreturn.Delivery_Date, new { @Value = Model.deliveryreturn.Delivery_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicke", @id = "datepick2", @disabled = "Disabled" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreturn.Due_Date)*@
                                                     </div>
                                                 </div>
@@ -179,7 +180,7 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.deliveryreturn.Document_Date, new { @Value = Model.deliveryreturn.Document_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicke", @id = "date3", @disabled = "Disabled" })@*, @readonly = true })*@
+                                                        @Html.TextBoxFor(model => model.deliveryreturn.Document_Date, new { @Value = Model.deliveryreturn.Document_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicke", @id = "date3", @disabled = "Disabled" })@*, @readonly = true })*@
                                                         @*@Html.ValidationMessageFor(model => model.goodreturn.Document_Date)*@
                                                     </div>
                                                 </div>

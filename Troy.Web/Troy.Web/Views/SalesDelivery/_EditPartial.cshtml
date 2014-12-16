@@ -9,16 +9,37 @@
 
     $(document).ready(function () {
 
+
+
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
+        });
+        $('#data1').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
+        $('#PostingDate').datepicker({ dateFormat: 'dd/mm/yy' });
+
+
+
+
         //$('.datePicker').datepicker();
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
-        $('#DocumentDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
-        });
+        //$('#DocumentDate').datepicker({
+        //    dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        //});
 
-        $('#PostingDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0
-        });
+        //$('#PostingDate').datepicker({
+        //    dateFormat: 'dd/MM/yy', minDate: 0
+        //});
 
         $('#PostingDate1').datepicker({
             dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
@@ -704,6 +725,9 @@
 
                         </ul>
                         @Html.HiddenFor(model=>model.salesdelivery.Sales_Delivery_Id)
+                        @Html.HiddenFor(model=>model.salesdelivery.Doc_Status)
+                        @Html.HiddenFor(model => model.salesdelivery.Posting_Date)
+                        @Html.HiddenFor(model => model.salesdelivery.Document_Date)
                         @Html.Hidden("ItemCount", Model.salesdeliverytitemlist.Count)
                         @Html.HiddenFor(model => model.salesdelivery.Created_Date)
                         @Html.HiddenFor(model => model.salesdelivery.Created_Branc_Id)
@@ -759,7 +783,7 @@
                                                             new SelectListItem{ Text="Open", Value = "Open" },
                                                             new SelectListItem{ Text="Closed", Value = "Closed" },
                                                              new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
-                                                         }, new { @class = "form-control" })@*, @disabled = true })*@
+                                                         }, new { @class = "form-control", @disabled = true })
 
                                                         @*@Html.TextBoxFor(m => m.PurchaseQuotation.Quotation_Status, new { @class = "form-control", @readonly = true })*@
                                                     </div>
@@ -790,7 +814,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesdelivery.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @id = "DocumentDate" })
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Posting_Date, new { @Value = Model.salesdelivery.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @id = "DocumentDate",@disabled="disabled" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)*@
                                                     </div>
                                                 </div>
@@ -800,7 +824,7 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesdelivery.Delivery_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @id = "PostingDate" })
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Delivery_Date, new { @Value = Model.salesdelivery.Delivery_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @id = "PostingDate" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)*@
                                                     </div>
                                                 </div>
