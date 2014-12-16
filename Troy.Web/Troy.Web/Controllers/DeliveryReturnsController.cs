@@ -107,8 +107,9 @@ namespace Troy.Web.Controllers
                     model.deliveryreturn.Customer = model.salesdelivery.Customer;
                     model.deliveryreturn.Doc_Status = model.salesdelivery.Doc_Status;
                     model.deliveryreturn.Posting_Date = model.salesdelivery.Posting_Date;
-                    model.deliveryreturn.Document_Date = model.salesdelivery.Document_Date;
-                    model.deliveryreturn.Document_Date = model.salesdelivery.Document_Date;
+                    model.deliveryreturn.Document_Date = model.salesdelivery.Posting_Date;
+                    model.deliveryreturn.Delivery_Date = model.salesdelivery.Delivery_Date;
+                    //model.deliveryreturn.Document_Date = model.salesdelivery.Document_Date;
                     model.deliveryreturn.Branch = model.salesdelivery.Branch;
                     model.deliveryreturn.TotalBefDocDisc = model.salesdelivery.TotalBefDocDisc;
                     model.deliveryreturn.DocDiscAmt = model.salesdelivery.DocDiscAmt;

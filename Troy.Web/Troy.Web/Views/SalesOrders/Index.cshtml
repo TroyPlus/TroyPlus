@@ -122,15 +122,34 @@
 
     $(document).ready(function () {
 
+
+
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
+        });
+        $('#Date1').datepicker({ dateFormat: 'dd/mm/yy',minDate:0 });
+
+
+
         $('.datePicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
-        $('#IssueDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
-        });
+        //$('#IssueDate').datepicker({
+        //    dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        //});
 
-        $('#IssueDate1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0
-        });
+        //$('#IssueDate1').datepicker({
+        //    dateFormat: 'dd/MM/yy', minDate: 0
+        //});
         //var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
         $('#grdBranch').dataTable({
@@ -944,8 +963,8 @@
                                                 <td>@item.Vendor_Name</td>
                                                 <td style="text-align:center;">@item.Reference_Number</td>
                                                 <td>@item.Order_Status</td>
-                                                <td>@item.Posting_Date</td>
-                                                <td>@item.Delivery_Date</td>
+                                                <td>@item.Posting_Date.ToString("dd/MM/yyyy")</td>
+                                                <td>@item.Delivery_Date.ToString("dd/MM/yyyy")</td>
                                                 <td>
                                                     <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Sales_Order_Id);">
                                                         <i class="im-eye2"></i>
@@ -1179,7 +1198,7 @@
                                                                 {
                                                                     <tr class="odd gradeX">
                                                                         <td style="text-align:center;">@item.Sales_Qtn_Id</td>
-                                                                        <td>@item.Valid_Date</td>
+                                                                        <td>@item.Valid_Date.ToString("dd/MM/yyyy")</td>
                                                                         <td style="text-align:center;">@item.Vendor_Name</td>
                                                                         <td>@item.Doc_Status</td>
                                                                         <td>

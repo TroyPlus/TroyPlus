@@ -151,7 +151,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesorder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate", disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.salesorder.Posting_Date, new { @Value = Model.salesorder.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate", disabled = "disabled" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)*@
                                                     </div>
                                                 </div>
@@ -161,7 +161,7 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesorder.Delivery_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate1", disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.salesorder.Delivery_Date, new { @Value = Model.salesorder.Delivery_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate1", disabled = "disabled" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)*@
                                                     </div>
                                                 </div>

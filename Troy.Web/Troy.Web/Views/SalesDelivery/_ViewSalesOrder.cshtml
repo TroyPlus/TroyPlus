@@ -6,16 +6,35 @@
 
     $(document).ready(function () {
 
+
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
+        });
+        $('#Date1').datepicker({ dateFormat: 'dd/mm/yy',minDate:0 });
+
+
+
+
         //$('.datePicker').datepicker();
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
-        $('#Date').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
-        });
+        //$('#Date').datepicker({
+        //    dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        //});
 
-        $('#Date1').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0
-        });
+        //$('#Date1').datepicker({
+        //    dateFormat: 'dd/MM/yy', minDate: 0
+        //});
 
         $("#typeahead").jAutochecklist({
             width: 221
@@ -560,6 +579,8 @@
                                         @Html.HiddenFor(model => model.salesdelivery.Sales_Delivery_Id)
                                         @Html.Hidden("ItemCount", Model.salesorderitemlist.Count)
                                         @Html.HiddenFor(model => model.salesorder.Sales_Order_Id)
+                                        @Html.HiddenFor(model => model.salesorder.Document_Date)
+                                        @Html.HiddenFor(model => model.salesorder.Posting_Date)
                                         @Html.HiddenFor(model => model.salesorderitem.Sale_Orderitem_Id)
                                         <div class="form-horizontal">
 
@@ -614,7 +635,7 @@
                                                     Posting Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.salesorder.Posting_Date, new { @class = "form-control control-text", @id = "Date" })
+                                                    @Html.TextBoxFor(model => model.salesorder.Posting_Date, new {@value=Model.salesorder.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @id = "Date",@disabled="disabled" })
                                                     @Html.ValidationMessageFor(model => model.salesorder.Posting_Date)
                                                 </div>
                                             </div>
@@ -628,7 +649,7 @@
                                                     Valid Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.salesorder.Delivery_Date, new { @class = "form-control control-text", @id = "Date1" })
+                                                    @Html.TextBoxFor(model => model.salesorder.Delivery_Date, new { @value = Model.salesorder.Delivery_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @id = "Date1" })
                                                     @Html.ValidationMessageFor(model => model.salesorder.Delivery_Date)
                                                 </div>
                                             </div>

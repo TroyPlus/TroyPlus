@@ -28,18 +28,21 @@ namespace Troy.Model.GRPOReturns
       public string Doc_Status { get; set; }
 
       [Required]
+      [DataType(DataType.Date)]
       [Column(TypeName = "date")]
     ///  [DataType(DataType.Date)]
      // [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
       public DateTime Posting_Date { get; set; }
 
       [Required]
+      [DataType(DataType.Date)]
       [Column(TypeName = "date")]
      // [DataType(DataType.Date)]
      // [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
       public DateTime Due_Date { get; set; }
 
       [Required]
+      [DataType(DataType.Date)]
       [Column(TypeName = "date")]
      // [DataType(DataType.Date)]
      // [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]

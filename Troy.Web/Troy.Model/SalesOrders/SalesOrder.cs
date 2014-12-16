@@ -38,16 +38,19 @@ namespace Troy.Model.SalesOrders
         //-----------
 
         [Required(ErrorMessage = "Posting Date is required.")]
+        [DataType(DataType.Date)]
         [Column(TypeName = "date")]
         public DateTime Posting_Date { get; set; }
         //------
 
         [Required(ErrorMessage = "Valid Date is required.")]
+        [DataType(DataType.Date)]
         [Column(TypeName = "date")]
         public DateTime Delivery_Date { get; set; }
         //------
 
         [Required(ErrorMessage = "Document Date is required.")]
+        [DataType(DataType.Date)]
         [Column(TypeName = "date")]
         public DateTime Document_Date { get; set; }
         //------

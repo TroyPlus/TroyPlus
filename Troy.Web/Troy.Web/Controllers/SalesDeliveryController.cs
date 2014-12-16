@@ -91,6 +91,7 @@ namespace Troy.Web.Controllers
                 if (submitButton == "Save")
                 {
                     model.salesdelivery.Document_Date = DateTime.Now;
+                    model.salesdelivery.Posting_Date = DateTime.Now;
                     model.salesdelivery.Branch = CurrentBranchId;
                     model.salesdelivery.Doc_Status = "Open";
                     model.salesdelivery.TargetDocId ="0";
@@ -175,6 +176,7 @@ namespace Troy.Web.Controllers
                             model.salesdelivery.Customer = model.salesorder.Customer;
                             //model.salesorder.Doc_Status = model.PurchaseOrder.Order_Status;
                             model.salesdelivery.Posting_Date = model.salesorder.Posting_Date;
+                            model.salesdelivery.Delivery_Date = model.salesorder.Delivery_Date;
                             // model.salesorder.Delivery_Date = model.SalesQuotation.Delivery_Date;
                             model.salesdelivery.Document_Date = model.salesorder.Document_Date;
                             model.salesdelivery.Branch = model.salesorder.Branch;

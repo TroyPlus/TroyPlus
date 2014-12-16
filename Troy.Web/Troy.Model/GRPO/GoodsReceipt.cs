@@ -45,6 +45,7 @@ namespace Troy.Model.GPRO
         public string Doc_Status { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         [Column(TypeName = "date")]
       
 
@@ -54,6 +55,7 @@ namespace Troy.Model.GPRO
         public DateTime Posting_Date { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         [Column(TypeName = "date")]
        
        /// [DataType(DataType.Date)]
@@ -62,6 +64,7 @@ namespace Troy.Model.GPRO
         public DateTime Due_Date { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         [Column(TypeName = "date")]
       
        // [DataType(DataType.Date)]

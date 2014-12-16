@@ -2,43 +2,29 @@
 
 @Scripts.Render("~/bundles/script/jqueryval")
 <script>
-    function TabChange() {
-        debugger;
-        //if ($("#btnSubmit").val == "Next") {
-        $('#edittabs a[href = #editQuotationItem]').tab('show');
-        //    $("#btnSubmit").val("Save");
-        //}
-    }
+    //function TabChange() {
+    //    debugger;
+    //    if ($("#btnSubmit").val == "Next") {
+    //    $('#edittabs a[href = #editQuotationItem]').tab('show');
+    //        $("#btnSubmit").val("Save");
+    //    }
+    //}
 
     $(function () {
-        $("#btnEditNextTab").click(function (e) {
+        $("#btnNextTabPurQuo").click(function (e) {
+
             e.preventDefault();
             var _this = $(this);
-            var _form = _this.closest("#editdefault");
+            var _form = _this.closest("#Viewdefault");
 
-            var validator = $("#editdefault").validate(); // obtain validator
+            var validator = $("#Viewdefault").validate(); // obtain validator
             var anyError = false;
-            _form.find("input").each(function () {
-                debugger;
-                if (this.parentNode.parentNode.className != "jAutochecklist_list") {
-                    if (!validator.element(this)) { // validate every input element inside this step
-                        anyError = true;
-                    }
-                }
-            });
-
-            _form.find("select").each(function () {
-                //debugger;
-                if (!validator.element(this)) { // validate every input element inside this step
-                    anyError = true;
-                }
-            });
 
             if (anyError) {
                 return false;
             }
             else {
-                $('#edittabs a[href = #editQuotationItem]').tab('show');
+                $('#tabs a[href = #ViewaddQuotationlist]').tab('show');
             }// exit if any error found
 
             //$.post(_form.attr("action"), _form.serialize(), function (data) {
@@ -55,36 +41,6 @@
 
         });
 
-        $("#btnSuddbmit").click(function (e) {
-            e.preventDefault();
-            var _this = $(this);
-            var _form = _this.closest("#editQuotationlist");
-
-            var validator = $("#editQuotationlist").validate(); // obtain validator
-            var anyError = false;
-            _form.find("input").each(function () {
-                debugger;
-                if (this.parentNode.parentNode.className != "jAutochecklist_list" || this.type != "hidden") {
-                    if (!validator.element(this)) { // validate every input element inside this step
-                        anyError = true;
-                    }
-                }
-            });
-
-            _form.find("select").each(function () {
-                debugger;
-                if (!validator.element(this)) { // validate every input element inside this step
-                    anyError = true;
-                }
-            });
-
-            if (anyError) {
-                return false;
-            }
-            else {
-                return true; //$('#createtabs a[href = #addQuotationlist]').tab('show');
-            }// exit if any error found
-        });
 
     });
 </script>
@@ -106,38 +62,38 @@
                 <div class="form-horizontal">
                     <div class="row">
                         <div class="tabs">
-                            <ul id="edittabs" class="nav nav-tabs tabdrop">
+                            <ul id="tabs" class="nav nav-tabs tabdrop">
                                 <li class="active">
-                                    <a href="#editdefault" data-toggle="tab">General</a>
+                                    <a href="#Viewdefault" data-toggle="tab">General</a>
                                 </li>
-                                <li><a href="#editQuotationItem" data-toggle="tab">Product </a></li>
+                                <li><a href="#ViewaddQuotationlist" data-toggle="tab">Product </a></li>
 
                             </ul>
                             @Html.HiddenFor(model => model.salesdelivery.Sales_Delivery_Id)
                             @Html.Hidden("ItemCount", Model.salesdeliverytitemlist.Count)
-                            @Html.HiddenFor(model => model.salesdelivery.Created_Date)
+                            @*@Html.HiddenFor(model => model.salesdelivery.Created_Date)
                             @Html.HiddenFor(model => model.salesdelivery.Created_Branc_Id)
-                            @Html.HiddenFor(model => model.salesdelivery.Created_User_Id)
+                            @Html.HiddenFor(model => model.salesdelivery.Created_User_Id)*@
 
-                            <div id="createtabContent" class="tab-content">
+                            <div id="viewmyTabContent" class="tab-content">
 
-                                <div class="tab-pane fade active in" id="editdefault">
+                                <div class="tab-pane fade active in" id="Viewdefault">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-horizontal">
                                                 @*@Html.HiddenFor(model=>model.goodreceipt.Purchase_Order_Id)*@
                                                 @*<div class="row form-group">
-                                                    <div class="col-md-4">*@
+                            <div class="col-md-4">*@
                                                 @*@Html.LabelFor(m => m.goodreceipt.Purchase_Order_Id, new { @class = "control-label normal" })*@
                                                 @*PurchaseOrder Id
-                                                    </div>
-                                                    <div class="col-md-8">*@
+                            </div>
+                            <div class="col-md-8">*@
                                                 @*, new { @id = "typeahead", @size = 12 }*@
                                                 @*@Html.DropDownListFor(m => m.goodreceipt.Purchase_Order_Id, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })*@
                                                 @*@Html.TextBoxFor(model => model.goodreceipt.Purchase_Order_Id, new { @class = "form-control control-text" })*@
                                                 @*@Html.ValidationMessageFor(model => model.goodreceipt.Purchase_Order_Id)
-                                                        </div>
-                                                    </div>*@
+                                </div>
+                            </div>*@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
@@ -145,7 +101,7 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.goodreceipt.Vendor, new { @class = "form-control control-text" })*@
-                                                        @Html.DropDownListFor(m => m.salesdelivery.Customer, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name", Model.salesdelivery.Vendor_Name), new { @class = "form-control control-text",@disabled="disabled" })
+                                                        @Html.DropDownListFor(m => m.salesdelivery.Customer, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name", Model.salesdelivery.Vendor_Name), new { @class = "form-control control-text", @disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.salesdelivery.Customer)
                                                     </div>
                                                 </div>
@@ -184,7 +140,7 @@
                                                         Branch
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.DropDownListFor(m => m.salesdelivery.Branch, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text", @disabled = "disabled" })
+                                                        @Html.DropDownListFor(m => m.salesdelivery.Branch, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text datePicker", @disabled = "disabled" })
                                                         @*@Html.TextBoxFor(model => model.goodreceipt.Ship_To, new { @class = "form-control control-text" })*@
                                                         @Html.ValidationMessageFor(model => model.salesdelivery.Branch)
                                                     </div>
@@ -196,7 +152,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesdelivery.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate", @disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Posting_Date, new { @Value = Model.salesdelivery.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text  datePicker", @id = "IssueDate", @disabled = "disabled" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Posting_Date)*@
                                                     </div>
                                                 </div>
@@ -206,7 +162,7 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.salesdelivery.Delivery_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate1", @disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Delivery_Date, new { @Value = Model.salesdelivery.Delivery_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker ", @id = "IssueDate1", @disabled = "disabled" })
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Due_Date)*@
                                                     </div>
                                                 </div>
@@ -229,7 +185,7 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.salesdelivery.Document_Date, new { @Value = DateTime.Now.ToString("Mm/dd/yyyy"), @class = "form-control control-text datePicker", @id = "IssueDate2", @disabled = "disabled" })@*, @readonly = true })*@
+                                                        @Html.TextBoxFor(model => model.salesdelivery.Document_Date, new { @Value = Model.salesdelivery.Document_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @disabled = "disabled" })@*, @readonly = true })*@
                                                         @*@Html.ValidationMessageFor(model => model.goodreceipt.Document_Date)*@
                                                     </div>
                                                 </div>
@@ -262,18 +218,18 @@
                                     <br />
                                     <div class="row">
                                         <div class="modal-footer">
-                                            <input class="btn btn-primary pull-left" type="button" id="btnEditNextTab" name="nextButton" value="Next" />
+                                            <input class="btn btn-primary pull-left" type="button" id="btnNextTabPurQuo" name="nextButton" value="Next" />
                                             <button class="btn pull-left" data-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
 
                                 </div>
 
-                                <div class="tab-pane fade" id="editQuotationItem">
+                                <div class="tab-pane fade" id="ViewaddQuotationlist">
 
                                     <div>
 
-                                        <table id="EditTable" class="table display" style="min-height:180px;">
+                                        <table id="viewmyTabContent" class="table display" style="min-height:180px;">
                                             <thead>
                                                 <tr>
                                                     <th>Product_Id</th>
@@ -304,9 +260,9 @@
                                                             @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].Product_Id)
                                                         </td>
                                                         @*<td width="15%">
-                                                                @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker" })
-                                                                @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
-                                                            </td>*@
+                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker" })
+                                        @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
+                                    </td>*@
                                                         <td>
                                                             @Html.TextBoxFor(model => model.salesdeliverytitemlist[i].Quantity, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");", @disabled = "disabled" })
                                                             @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].Quantity)
@@ -320,9 +276,9 @@
                                                             @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].Discount_Precent)
                                                         </td>
                                                         @*<td>
-                                                                @Html.TextBoxFor(model => model.salesorderitemlist[i].Freight_Loading, new { @class = "form-control control-text", @readonly = true, @id = "totloading" })
-                                                                @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Freight_Loading)
-                                                            </td>*@
+                                        @Html.TextBoxFor(model => model.salesorderitemlist[i].Freight_Loading, new { @class = "form-control control-text", @readonly = true, @id = "totloading" })
+                                        @Html.ValidationMessageFor(model => model.salesorderitemlist[i].Freight_Loading)
+                                    </td>*@
                                                         <td>
                                                             @Html.TextBoxFor(model => model.salesdeliverytitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true, @disabled = "disabled" }) @*@id = "totloading"*@
                                                             @Html.ValidationMessageFor(model => model.salesdeliverytitemlist[i].LineTotal)
@@ -346,7 +302,7 @@
 
 
                                     <div class="modal-footer">
-                                      
+
                                         <button class="btn pull-left" data-dismiss="modal">Close</button>
                                         @*@Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })*@
 

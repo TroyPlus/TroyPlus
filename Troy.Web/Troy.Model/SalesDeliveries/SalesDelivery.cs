@@ -37,14 +37,17 @@ namespace Troy.Model.SalesDeliveries
 
         [Required]
         [Column(TypeName = "date")]
+        [DataType(DataType.Date)]
         public DateTime Posting_Date { get; set; }
 
         [Required]
         [Column(TypeName = "date")]
+        [DataType(DataType.Date)]
         public DateTime Delivery_Date { get; set; }
 
         [Required]
         [Column(TypeName = "date")]
+        [DataType(DataType.Date)]
         public DateTime Document_Date { get; set; }
 
         [Required]

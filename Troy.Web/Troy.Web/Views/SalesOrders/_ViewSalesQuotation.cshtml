@@ -6,16 +6,35 @@
 
     $(document).ready(function () {
 
+
+
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
+        });
+        $('#ddt1').datepicker({ dateFormat: 'dd/mm/yy' });
+        $('#ddt2').datepicker({ dateFormat: 'dd/mm/yy' ,minDate:0});
+
+
         //$('.datePicker').datepicker();
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
-        $('#creDocumentDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0
-        });
+        //$('#creDocumentDate').datepicker({
+        //    dateFormat: 'dd/MM/yy', minDate: 0
+        //});
 
-        $('#crePostingDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
-        });
+        //$('#crePostingDate').datepicker({
+        //    dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        //});
 
         $("#typeahead").jAutochecklist({
             width: 221
@@ -506,9 +525,13 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         @*@Html.HiddenFor(model => model.PurchaseOrder.Purchase_Quote_Id)*@
+                                        @*@Html.HiddenFor(model => model.salesorder.Delivery_Date)*@
                                         @Html.HiddenFor(model => model.salesorder.Sales_Order_Id)
                                         @Html.Hidden("ItemCount", Model.SalesQuotationItemList.Count)
                                         @Html.HiddenFor(model => model.SalesQuotation.Sales_Qtn_Id)
+                                        @Html.HiddenFor(model => model.SalesQuotation.Document_Date)
+                                        @Html.HiddenFor(model => model.SalesQuotation.Posting_Date)
+                                        @*@Html.HiddenFor(model => model.SalesQuotation.Valid_Date)*@
                                         @Html.HiddenFor(model => model.SalesQuotationItems.Sales_QtnItems_Id)
                                         <div class="form-horizontal">
 
@@ -562,7 +585,7 @@
                                                     Posting Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.SalesQuotation.Posting_Date, new { @class = "form-control control-text", @id = "crePostingDate" })
+                                                    @Html.TextBoxFor(model => model.SalesQuotation.Posting_Date, new {@Value=Model.SalesQuotation.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @id = "ddt1",@disabled="disabled" })
                                                     @Html.ValidationMessageFor(model => model.SalesQuotation.Posting_Date)
                                                 </div>
                                             </div>
@@ -576,7 +599,7 @@
                                                     Valid Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.SalesQuotation.Valid_Date, new { @class = "form-control control-text", @id = "creDocumentDate" })
+                                                    @Html.TextBoxFor(model => model.SalesQuotation.Valid_Date, new { @Value = Model.SalesQuotation.Valid_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @id = "ddt2" })
                                                     @Html.ValidationMessageFor(model => model.SalesQuotation.Valid_Date)
                                                 </div>
                                             </div>

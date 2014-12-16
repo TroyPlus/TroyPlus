@@ -102,7 +102,7 @@ namespace Troy.Web.Controllers
                     model.goodreturn.Doc_Status = model.goodreceipt.Doc_Status;
                     model.goodreturn.Posting_Date = model.goodreceipt.Posting_Date;
                     model.goodreturn.Due_Date = model.goodreceipt.Due_Date;
-                    model.goodreturn.Document_Date = model.goodreceipt.Document_Date;
+                    model.goodreturn.Document_Date = model.goodreceipt.Posting_Date;
                     model.goodreturn.Ship_To = model.goodreceipt.Ship_To;
                     model.goodreturn.Freight = model.goodreceipt.Freight;
                     model.goodreturn.Loading = model.goodreceipt.Loading;
@@ -200,7 +200,8 @@ namespace Troy.Web.Controllers
                 else if (submitButton == "Update")
                 {
 
-                    model.goodreturn.Document_Date = DateTime.Now;
+                    //model.goodreturn.Document_Date = DateTime.Now;
+                  //  model.goodreturn.Document_Date = model.goodreturn.Posting_Date;
                     model.goodreturn.Modified_Branch_Id = CurrentBranchId;//CurrentBranchId;
                     model.goodreturn.Modified_Dte = DateTime.Now;
                     model.goodreturn.Modified_User_Id = CurrentUser.Id;//CurrentUser.Id;
