@@ -5,21 +5,34 @@
 <script type="text/javascript">
     $(document).ready(function () {
         //$('.datePicker').datepicker();
-
-        $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
-
-        $('#creDeliveryDate2').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
         });
 
-        $('#creDocumentDate2').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
-        });
+        //$('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
+
+        //$('#creDeliveryDate2').datepicker({
+        //    dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        //});
+
+        //$('#creDocumentDate2').datepicker({
+        //    dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        //});
 
 
-        $('#crePostingDate2').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
-        });
+        //$('#crePostingDate2').datepicker({
+        //    dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        //});
 
         $("#viewTypeahead").jAutochecklist();
         var i;
