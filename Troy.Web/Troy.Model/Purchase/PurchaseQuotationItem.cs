@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//using System.Web.Mvc;
 
 namespace Troy.Model.Purchase
 {
@@ -28,6 +29,8 @@ namespace Troy.Model.Purchase
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime Required_date { get; set; }
 
+        [Compare("Required_qty", ErrorMessage = "Quoted quantity not equal to Required quantity")]
+        //[Remote("CheckForDuplication", "Purchase", AdditionalFields = "Required_qty")]                
         public int? Quoted_qty { get; set; }
 
         [Display(Name = "Required Date")]
@@ -41,7 +44,7 @@ namespace Troy.Model.Purchase
         [Range(0, 100)]
         public decimal Discount_percent { get; set; }
 
-         [Required(ErrorMessage = "VAT Code is required.")]
+        [Required(ErrorMessage = "VAT Code is required.")]
         //[Display(Name = "VAT")]
         //public int Vat_Code { get; set; }
         public float Vat_Code { get; set; }

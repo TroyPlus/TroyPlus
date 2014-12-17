@@ -73,7 +73,7 @@ namespace Troy.Model.PurchaseReturn
         public decimal TotalBefDocDisc { get; set; }
         //------
 
-        [RegularExpression(@"\d+(\.\d{0,2})?", ErrorMessage = "Invalid Document Discount Amount")]
+        [RegularExpression(@"^\d+(\.\d{0,2})?", ErrorMessage = "Invalid Document Discount Amount")]
         public decimal DocDiscAmt { get; set; }
         //------
 

@@ -3,7 +3,8 @@
 @Scripts.Render("~/bundles/script/jqueryval")
 
 <script type="text/javascript">
-    var r = 0;
+    // var r = 0;
+    var i;
     $(document).ready(function () {
         $('.datePicker').datepicker();
 
@@ -19,10 +20,10 @@
 
 
         $("#editTypeahead").jAutochecklist();
-        var i;
+
 
         i = $("#ItemCount").val();
-        r = 1;
+        //r = 1;
         //Dynamically add quotation row
         function addRow() {
 
@@ -89,7 +90,7 @@
 
             //$("#PurchaseQuotationItemList_1__Required_date").datepicker("refresh");
             i++;
-            r++;
+            // r++;
             $("form").removeData("validator");
             $("form").removeData("unobtrusiveValidation");
             $.validator.unobtrusive.parse("form");
@@ -382,8 +383,8 @@
 
         tot = (totdoc - totdis) + tottax;
 
-        $("#edittotalTax").val(tottax.toFixed(2));
-        $("#edittotalQuotationAmt").val(tot.toFixed(2));
+        $("#edittotalTax1").val(tottax.toFixed(2));
+        $("#edittotalQuotationAmt1").val(tot.toFixed(2));
     }
 
     function CalculateTotal() {
@@ -417,7 +418,7 @@
 
     function CalculateTax() {
         var tot2 = 0;
-
+        //alert(i);
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()))) {
                 tot2 = parseFloat(tot2) + (parseFloat($("#PurchaseQuotationItemList_" + j + "__LineTotal").val()) * parseFloat($("#PurchaseQuotationItemList_" + j + "__Vat_Code").val()) / 100);
@@ -467,7 +468,7 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Edit Purchase</h4>
+                <h4 class="modal-title" id="myModalLabel">Edit Purchase Quotation</h4>
             </div>
 
             <div class="modal-body">
@@ -576,7 +577,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = Model.PurchaseQuotation.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", id = "editPostingDate" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = Model.PurchaseQuotation.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
                                                     </div>
                                                 </div>
@@ -586,7 +587,7 @@
                                                         Required Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @Value = Model.PurchaseQuotation.Required_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text ", id = "editRequiredDate" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @Value = Model.PurchaseQuotation.Required_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Required_Date)
                                                     </div>
                                                 </div>
@@ -596,7 +597,7 @@
                                                         Valid Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date, new { @Value = Model.PurchaseQuotation.Valid_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text ", id = "editValidDate" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date, new { @Value = Model.PurchaseQuotation.Valid_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Valid_Date)
                                                     </div>
                                                 </div>
@@ -664,7 +665,7 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Product_id)
                                                     </td>
                                                     <td width="10%">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @readonly = true, @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = Model.PurchaseQuotation.Required_Date.ToString("MM/dd/yyyy"), @readonly = true, @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
                                                     </td>
                                                     <td width="10%">

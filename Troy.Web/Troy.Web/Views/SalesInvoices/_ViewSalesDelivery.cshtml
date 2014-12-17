@@ -236,8 +236,8 @@
         //debugger;
         var pID = parseInt(val.value);
         var dataUrl = "../SalesInvoices/GetPrice?pID=" + pID;
-
-        $.ajax({
+        
+        $.ajax({           
             type: 'GET',
             url: dataUrl,
             data: pID,
@@ -250,12 +250,13 @@
             },
             success: function (result, status) {
                 //debugger;
+                
                 var id = "#SalesDeliveryItemList_" + rowId + "__Unit_Price";
                 $(id).val(result);
 
                 //onchange quantity functionality
                 var qty = $("#SalesDeliveryItemList_" + rowId + "__Quantity").val();
-                var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_price").val();
+                var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_Price").val();
                 var totAmount = price * qty;
                 var id = "#SalesDeliveryItemList_" + rowId + "__LineTotal";
                 $(id).val(totAmount.toFixed(2));
@@ -263,7 +264,7 @@
                 //onchange discount functionality
                 var dis = $("#SalesDeliveryItemList_" + rowId + "__Discount_Precent").val();
                 var qty = $("#SalesDeliveryItemList_" + rowId + "__Quantity").val();
-                var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_price").val();
+                var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_Price").val();
                 var totAmount = price * qty - ((price * qty) * dis / 100)
                 var id = "#SalesDeliveryItemList_" + rowId + "__LineTotal";
                 $(id).val(totAmount.toFixed(2));
@@ -278,7 +279,7 @@
     function OnChangeQuantity(currentQty, rowId) {
         //debugger;
         var qty = currentQty.value;
-        var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_price").val();
+        var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_Price").val();
         var totAmount = price * qty;
         var id = "#SalesDeliveryItemList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
@@ -286,7 +287,7 @@
         //onchange discount functionality
         var dis = $("#SalesDeliveryItemList_" + rowId + "__Discount_Precent").val();
         var qty = $("#SalesDeliveryItemList_" + rowId + "__Quantity").val();
-        var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_price").val();
+        var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_Price").val();
         var totAmount = price * qty - ((price * qty) * dis / 100)
         var id = "#SalesDeliveryItemList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
@@ -299,15 +300,15 @@
     function OnChangeDiscount(currentDis, rowId) {
         //debugger;
         //onchange quantity functionality
-        var qty = $("#SalesDeliveryItemList_" + rowId + "__Quoted_qty").val();
-        var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_price").val();
+        var qty = $("#SalesDeliveryItemList_" + rowId + "__Quantity").val();
+        var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_Price").val();
         var totAmount = price * qty;
         var id = "#SalesDeliveryItemList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
         var dis = currentDis.value;
-        var qty = $("#SalesDeliveryItemList_" + rowId + "__Quoted_qty").val();
-        var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_price").val();
+        var qty = $("#SalesDeliveryItemList_" + rowId + "__Quantity").val();
+        var price = $("#SalesDeliveryItemList_" + rowId + "__Unit_Price").val();
         var totAmount = price * qty - ((price * qty) * dis / 100)
         var id = "#SalesDeliveryItemList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));

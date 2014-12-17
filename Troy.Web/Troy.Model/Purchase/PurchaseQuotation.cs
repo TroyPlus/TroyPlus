@@ -62,10 +62,10 @@ namespace Troy.Model.Purchase
         [Required]
         public int? Loading { get; set; }
 
-        [RegularExpression(@"\d+(\.\d{0,2})?", ErrorMessage = "Invalid price")]
+        [RegularExpression(@"\d+(\.\d{0,2})?", ErrorMessage = "Invalid Total Before Document Discount Amount")]
         public decimal TotalBefDocDisc { get; set; }
 
-        [RegularExpression(@"^\d+.\d{0,2}$", ErrorMessage = "Price must can't have more than 2 decimal places")]
+        [RegularExpression(@"^\d+(\.\d{0,2})?", ErrorMessage = "Invalid Document Discount Amount")]
         public decimal DocDiscAmt { get; set; }
 
         public decimal TaxAmt { get; set; }
