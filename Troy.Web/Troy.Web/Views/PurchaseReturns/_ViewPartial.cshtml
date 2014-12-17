@@ -3,6 +3,23 @@
 @Scripts.Render("~/bundles/script/jqueryval")
 
 <script>
+
+    $.validator.addMethod('date', function (value, element) {
+        if (this.optional(element)) {
+            return true;
+        }
+        var valid = true;
+        try {
+            $.datepicker.parseDate('dd/mm/yy', value);
+        }
+        catch (err) {
+            valid = false;
+        }
+        return valid;
+    });
+  
+
+
     $(function () {
         $("#btnNextTab").click(function (e) {
             e.preventDefault();
@@ -151,7 +168,7 @@
                                                     Posting Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseReturn.Posting_Date, new { @Value = Model.PurchaseReturn.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
+                                                    @Html.TextBoxFor(model => model.PurchaseReturn.Posting_Date, new { @Value = Model.PurchaseReturn.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @readonly = true })
                                                 </div>
                                             </div>
 
@@ -160,7 +177,7 @@
                                                     Due Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseReturn.Due_Date, new { @Value = Model.PurchaseReturn.Due_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
+                                                    @Html.TextBoxFor(model => model.PurchaseReturn.Due_Date, new { @Value = Model.PurchaseReturn.Due_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @readonly = true })
                                                 </div>
                                             </div>
                                             @*<div class="row form-group">

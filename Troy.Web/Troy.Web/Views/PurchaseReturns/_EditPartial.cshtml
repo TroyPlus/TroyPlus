@@ -5,19 +5,34 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
+        });
+        $('#creDueDate1').datepicker({ dateFormat: 'dd/mm/yy', minDate:0 });
+
         $('.datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
-        $('#creDocumentDate1').datepicker({
-            minDate: 0, maxDate: 0
-        });
+        //$('#creDocumentDate1').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
 
-        $('#creDueDate1').datepicker({
-            minDate: 0, maxDate: 0
-        });
+        //$('#creDueDate1').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
 
-        $('#crePostingDate1').datepicker({
-            minDate: 0, maxDate: 0
-        });
+        //$('#crePostingDate1').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
 
         $("#editTypeahead").jAutochecklist();
         var i;
@@ -312,7 +327,7 @@
                                                     </div>
                                                     <div class="col-md-8">
 
-                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Posting_Date, new { @Value = Model.PurchaseReturn.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "crePostingDate1" })
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Posting_Date, new { @Value = Model.PurchaseReturn.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @id = "crePostingDate1" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseReturn.Posting_Date)
                                                     </div>
                                                 </div>
@@ -325,7 +340,7 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Due_Date, new { @Value = Model.PurchaseReturn.Due_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "creDueDate1" })
+                                                        @Html.TextBoxFor(model => model.PurchaseReturn.Due_Date, new { @Value = Model.PurchaseReturn.Due_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @id = "creDueDate1" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseReturn.Due_Date)
                                                     </div>
                                                 </div>

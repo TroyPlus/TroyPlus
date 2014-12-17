@@ -7,20 +7,35 @@
 
     $(document).ready(function () {
 
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
+        });
+        $('#creDueDate').datepicker({ dateFormat: 'dd/mm/yy', minDate:0 });
+
         //$('.datePicker').datepicker();
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
-        $('#creDocumentDate').datepicker({
-            minDate: 0, maxDate: 0
-        });
+        //$('#creDocumentDate').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
 
-        $('#creDueDate').datepicker({
-            minDate: 0, maxDate: 0
-        });
+        //$('#creDueDate').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
 
-        $('#crePostingDate').datepicker({
-            minDate: 0, maxDate: 0
-        });
+        //$('#crePostingDate').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
 
         $("#typeahead").jAutochecklist({
             width: 221
@@ -559,7 +574,7 @@
                                                     Due Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.SalesReturn.Due_Date, new { @Value = Model.SalesReturn.Due_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @readonly = true })
+                                                    @Html.TextBoxFor(model => model.SalesReturn.Due_Date, new { @Value = Model.SalesReturn.Due_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @id = "creDueDate" })
                                                     @Html.ValidationMessageFor(model => model.SalesReturn.Due_Date)
                                                 </div>
                                             </div>

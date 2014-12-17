@@ -6,19 +6,37 @@
     var i;
     var r;
     $(document).ready(function () {
+
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
+        });
+        $('#creGRDueDate').datepicker({ dateFormat: 'dd/mm/yy', minDate:0 });
+        $('#creGRPostingDate').datepicker({ dateFormat: 'dd/mm/yy' });
+
+
         $('.datePicker').datepicker();
 
-        $('#creGRDocumentDate').datepicker({
-            minDate: 0, maxDate: 0
-        });
+        //$('#creGRDocumentDate').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
 
-        $('#creGRDueDate').datepicker({
-            minDate: 0, maxDate: 0
-        });
+        //$('#creGRDueDate').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
 
-        $('#creGRPostingDate').datepicker({
-            minDate: 0, maxDate: 0
-        });
+        //$('#creGRPostingDate').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
 
         $("#editTypeahead").jAutochecklist();
        
@@ -507,7 +525,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesDelivery.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
+                                                        @Html.TextBoxFor(model => model.SalesDelivery.Posting_Date, new { @Value =Model.SalesDelivery.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.SalesDelivery.Posting_Date)
                                                     </div>
                                                 </div>
@@ -520,7 +538,7 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesDelivery.Delivery_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
+                                                        @Html.TextBoxFor(model => model.SalesDelivery.Delivery_Date, new { @Value = Model.SalesDelivery.Delivery_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text",@id="creGRDueDate" })
                                                         @Html.ValidationMessageFor(model => model.SalesDelivery.Delivery_Date)
                                                     </div>
                                                 </div>
