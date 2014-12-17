@@ -6,22 +6,41 @@
     var qq;
     var r;
     $(document).ready(function () {
-        $('.datePicker').datepicker();
 
-        // $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
-
-        $('#creDeliveryDate1').datepicker({
-            minDate: 0
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
         });
+        $('#creDocumentDate1').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0 });
+        $('#crePostingDate1').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0 });
+        $('#creDeliveryDate1').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
 
-        $('#creDocumentDate1').datepicker({
-            minDate: 0, maxDate: 0
-        });
+
+        //$('.datePicker').datepicker();
+
+        //// $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
+
+        //$('#creDeliveryDate1').datepicker({
+        //    minDate: 0
+        //});
+
+        //$('#creDocumentDate1').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
 
 
-        $('#crePostingDate1').datepicker({
-            minDate: 0, maxDate: 0
-        });
+        //$('#crePostingDate1').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
 
         $("#editTypeahead").jAutochecklist();
         //var qq;
@@ -535,7 +554,7 @@
                                                             new SelectListItem{ Text="Open", Value = "Open" },
                                                             new SelectListItem{ Text="Closed", Value = "Closed" },
                                                             new SelectListItem{ Text="Cancel", Value = "Cancel" }
-                                                         }, new { @class = "form-control", @disabled = true })
+                                                         }, new { @class = "form-control" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrder.Order_Status)
                                                     </div>
                                                 </div>
@@ -545,7 +564,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "crePostingDate1", @readonly = true })
+                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text", @id = "crePostingDate1", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrder.Posting_Date)
                                                     </div>
                                                 </div>
@@ -558,7 +577,7 @@
                                                         Delivery Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Delivery_Date, new { @Value = Model.PurchaseOrder.Delivery_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "creDeliveryDate1" })
+                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Delivery_Date, new { @Value = Model.PurchaseOrder.Delivery_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @id = "creDeliveryDate1" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrder.Delivery_Date)
                                                     </div>
                                                 </div>

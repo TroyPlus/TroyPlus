@@ -120,7 +120,7 @@ namespace Troy.Web.Controllers
                 {
                     model.PurchaseOrder.Posting_Date = DateTime.Now;
                     model.PurchaseOrder.Document_Date = DateTime.Now;
-                    model.PurchaseOrder.Order_Status = "Open";
+                    //model.PurchaseOrder.Order_Status = "Open";
                     model.PurchaseOrder.TargetDocId = "0";
                     //model.PurchaseOrder.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                     //model.PurchaseOrder.Created_Date = DateTime.Now;
@@ -178,7 +178,7 @@ namespace Troy.Web.Controllers
                             model.PurchaseOrder.Vendor = model.PurchaseQuotation.Vendor_Code;
                             model.PurchaseOrder.Order_Status = "Open";
                             model.PurchaseOrder.Posting_Date = DateTime.Now;// model.PurchaseQuotation.Posting_Date;
-                            model.PurchaseOrder.Delivery_Date = DateTime.Now;// model.PurchaseQuotation.Valid_Date;
+                            model.PurchaseOrder.Delivery_Date = model.PurchaseQuotation.Valid_Date;
                             model.PurchaseOrder.Document_Date = DateTime.Now; //model.PurchaseQuotation.Posting_Date;
                             model.PurchaseOrder.Ship_To = model.PurchaseQuotation.Ship_To;
                             model.PurchaseOrder.Freight = Convert.ToDecimal(model.PurchaseQuotation.Freight);

@@ -84,7 +84,7 @@
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Freight, new { @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Freight)
                                                 </div>
-                                            </div>                                           
+                                            </div>
                                         </div>
                                     </div>
 
@@ -95,7 +95,7 @@
                                                     Posting Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), id = "crePostingDate", @class = "form-control control-text ", @readonly = true })
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), id = "crePostingDate", @class = "form-control control-text ", @readonly = true })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
                                                 </div>
                                             </div>
@@ -114,7 +114,7 @@
                                                     Required Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), id = "creRequiredDate", @class = "form-control control-text" })
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), id = "creRequiredDate", @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Required_Date)
                                                 </div>
                                             </div>
@@ -124,7 +124,7 @@
                                                     Valid Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), id = "creValidDate", @class = "form-control control-text" })
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), id = "creValidDate", @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Valid_Date)
                                                 </div>
                                             </div>
@@ -194,10 +194,10 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Product_id)
                                                     </td>
                                                     <td width="15%">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @id = "creProdReqDate", @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
                                                     </td>
-                                                    <td width ="4%">
+                                                    <td width="4%">
                                                         @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_qty, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_qty)
                                                     </td>

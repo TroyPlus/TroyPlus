@@ -35,19 +35,22 @@ namespace Troy.Model.Purchase
         [Display(Name = "Posting Date")]
         //[DataType(DataType.Date)]
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [DataType(DataType.Date)]
         [Column(TypeName = "date")]
         public DateTime Posting_Date { get; set; }
 
         [Required]
         [Display(Name = "Valid up to")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [DataType(DataType.Date)]
         [Column(TypeName = "date")]
         public DateTime Valid_Date { get; set; }
 
         [Required]
         [Display(Name = "Required Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [DataType(DataType.Date)]
         [Column(TypeName = "date")]
         public DateTime Required_Date { get; set; }
 

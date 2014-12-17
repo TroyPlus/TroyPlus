@@ -98,6 +98,7 @@
                             </ul>
 
                             @Html.HiddenFor(model => model.PurchaseOrder.Purchase_Order_Id)
+                            @Html.HiddenFor(model => model.PurchaseOrder.Document_Date)
                             @Html.Hidden("ItemCount", Model.PurchaseOrderItemsList.Count)
 
                             <div id="viewtabContent" class="tab-content">
@@ -157,7 +158,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = Model.PurchaseOrder.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "crePostingDate2", disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = Model.PurchaseOrder.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrder.Posting_Date)
                                                     </div>
                                                 </div>
@@ -170,7 +171,7 @@
                                                         Delivery Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Delivery_Date, new { @Value = Model.PurchaseOrder.Delivery_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @id = "creDeliveryDate2", disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.PurchaseOrder.Delivery_Date, new { @Value = Model.PurchaseOrder.Delivery_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseOrder.Delivery_Date)
                                                     </div>
                                                 </div>

@@ -78,7 +78,7 @@
                                                     Posting Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
+                                                    @Html.TextBoxFor(model => model.PurchaseOrder.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text", @readonly = true })
                                                     @Html.ValidationMessageFor(model => model.PurchaseOrder.Posting_Date)
                                                 </div>
                                             </div>

@@ -6,17 +6,36 @@
     // var r = 0;
     var i;
     $(document).ready(function () {
-        $('.datePicker').datepicker();
 
-        var startDate = $("#editPostingDate").val();
-
-        $('#editRequiredDate').datepicker({
-            minDate: startDate
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
         });
+        $('#editPostingDate').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
+        $('#editRequiredDate').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
+        $('#editValidDate').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
+        //$('#creProdReqDate1').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
 
-        $('#editValidDate').datepicker({
-            minDate: startDate
-        });
+        //$('.datePicker').datepicker();
+
+        //var startDate = $("#editPostingDate").val();
+
+        //$('#editRequiredDate').datepicker({
+        //    minDate: startDate
+        //});
+
+        //$('#editValidDate').datepicker({
+        //    minDate: startDate
+        //});
 
 
         $("#editTypeahead").jAutochecklist();
@@ -577,7 +596,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = Model.PurchaseQuotation.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", @readonly = true })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = Model.PurchaseQuotation.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
                                                     </div>
                                                 </div>
@@ -587,7 +606,7 @@
                                                         Required Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @Value = Model.PurchaseQuotation.Required_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @readonly = true })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @Value = Model.PurchaseQuotation.Required_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Required_Date)
                                                     </div>
                                                 </div>
@@ -597,7 +616,7 @@
                                                         Valid Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date, new { @Value = Model.PurchaseQuotation.Valid_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text ", @readonly = true })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date, new { @Value = Model.PurchaseQuotation.Valid_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotation.Valid_Date)
                                                     </div>
                                                 </div>
@@ -665,7 +684,7 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Product_id)
                                                     </td>
                                                     <td width="10%">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = Model.PurchaseQuotation.Required_Date.ToString("MM/dd/yyyy"), @readonly = true, @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = Model.PurchaseQuotation.Required_Date.ToString("dd/MM/yyyy"), @readonly = true, @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
                                                     </td>
                                                     <td width="10%">
@@ -673,7 +692,7 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_qty)
                                                     </td>
                                                     <td width="10%">
-                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Quoted_date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker" })
+                                                        @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Quoted_date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Quoted_date)
                                                     </td>
                                                     <td width="10%">

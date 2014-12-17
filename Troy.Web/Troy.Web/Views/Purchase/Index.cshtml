@@ -10,15 +10,34 @@
 
     $(document).ready(function () {
 
-        $('.datePicker').datepicker();
-       
-        $('#creRequiredDate').datepicker({
-            minDate: 0          
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
         });
+        $('#creRequiredDate').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
+        $('#creValidDate').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
+        $('#creProdReqDate').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
+        $('#creProdReqDate1').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
 
-        $('#creValidDate').datepicker({
-            minDate: 0
-        });
+
+        //$('.datePicker').datepicker();
+
+        //$('#creRequiredDate').datepicker({
+        //    minDate: 0
+        //});
+
+        //$('#creValidDate').datepicker({
+        //    minDate: 0
+        //});
 
         //{ dateFormat: 'dd-mm-yy' }
         $("#typeahead").jAutochecklist({
@@ -34,7 +53,8 @@
         //Dynamically add quotation row
         function addRow() {
             var date = new Date();
-            var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+            //var strDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+            var strDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 
             var productSelectHtml = CreateProductSelect(i);
 
@@ -54,7 +74,7 @@
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Product_id" data-valmsg-replace="true"></span>' +
                         '</td>' +
                         '<td width="15%">' +
-                            '<input class="form-control control-text datePicker" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_' + i + '__Required_date" name="PurchaseQuotationItemList[' + i + '].Required_date" type="text" value="' + strDate + '">' +
+                            '<input class="form-control control-text" data-val="true" data-val-date="The field Required Date must be a date." data-val-required="The Required Date field is required." id="PurchaseQuotationItemList_' + i + '__Required_date" name="PurchaseQuotationItemList[' + i + '].Required_date" type="text" value="' + strDate + '">' +
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseQuotationItemList[' + i + '].Required_date" data-valmsg-replace="true"></span>' +
                         '</td>' +
                         '<td>' +
@@ -434,15 +454,13 @@
         CalculateTax();
     }
 
-    function OnChangeVAT()
-    {
+    function OnChangeVAT() {
         CalculateTax();
         CalculateTotalAmount();
         CalculateTotal();
     }
 
-    function OnChangeDiscountSummary(currentDis)
-    {
+    function OnChangeDiscountSummary(currentDis) {
         //var totdis = currentDis.value;
         //var totdoc = $("#totalPurchase").val();
         //var tottax = $("#totalTax").val();
@@ -638,8 +656,8 @@
                                                 <td>@item.Vendor_Name</td>
                                                 <td style="text-align:center;">@item.Reference_Number</td>
                                                 <td>@item.Quotation_Status</td>
-                                                <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
-                                                <td>@item.Valid_Date.ToString("MM/dd/yyyy")</td>
+                                                <td>@item.Posting_Date.ToString("dd/MM/yyyy")</td>
+                                                <td>@item.Valid_Date.ToString("dd/MM/yyyy")</td>
                                                 <td>
                                                     <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Purchase_Quote_Id);">
                                                         <i class="im-eye2"></i>

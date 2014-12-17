@@ -26,15 +26,19 @@ namespace Troy.Model.Purchase
 
         [Required]
         [Display(Name = "Required Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [DataType(DataType.Date)]
+        [Column(TypeName = "date")]
         public DateTime Required_date { get; set; }
 
-        [Compare("Required_qty", ErrorMessage = "Quoted quantity not equal to Required quantity")]
+        //[Compare("Required_qty", ErrorMessage = "Quoted quantity not equal to Required quantity")]
         //[Remote("CheckForDuplication", "Purchase", AdditionalFields = "Required_qty")]                
         public int? Quoted_qty { get; set; }
 
-        [Display(Name = "Required Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [Display(Name = "Quoted Date")]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [DataType(DataType.Date)]
+        [Column(TypeName = "date")]
         public DateTime? Quoted_date { get; set; }
 
         public int Used_qty { get; set; }

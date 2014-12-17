@@ -175,7 +175,7 @@ namespace Troy.Web.Controllers
                             model.PurchaseInvoice.Vendor = model.GoodsReceipt.Vendor;
                             model.PurchaseInvoice.Doc_Status = "Open";
                             model.PurchaseInvoice.Posting_Date = DateTime.Now;// model.PurchaseQuotation.Posting_Date;
-                            model.PurchaseInvoice.Due_Date = DateTime.Now;// model.PurchaseQuotation.Valid_Date;
+                            model.PurchaseInvoice.Due_Date = model.GoodsReceipt.Due_Date;
                             model.PurchaseInvoice.Document_Date = DateTime.Now; //model.PurchaseQuotation.Posting_Date;
                             model.PurchaseInvoice.Ship_To = model.GoodsReceipt.Ship_To;
                             model.PurchaseInvoice.Freight = Convert.ToDecimal(model.GoodsReceipt.Freight);

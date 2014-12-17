@@ -172,7 +172,7 @@
                                                     Posting Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = Model.PurchaseQuotation.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", disabled = "disabled" })
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = Model.PurchaseQuotation.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", disabled = "disabled" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
                                                 </div>
                                             </div> 
@@ -182,7 +182,7 @@
                                                     Required Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @Value = Model.PurchaseQuotation.Required_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", disabled = "disabled" })
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @Value = Model.PurchaseQuotation.Required_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", disabled = "disabled" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Required_Date)
                                                 </div>
                                             </div>
@@ -192,7 +192,7 @@
                                                     Valid Date
                                                 </div>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date, new { @Value = Model.PurchaseQuotation.Valid_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", disabled = "disabled" })
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date, new { @Value = Model.PurchaseQuotation.Valid_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", disabled = "disabled" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Valid_Date)
                                                 </div>
                                             </div>
@@ -250,13 +250,13 @@
                                                     @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].ProductName, new { @class = "form-control control-text", @readonly = true })
                                                 </td>
                                                 <td width="15%">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = Model.PurchaseQuotationItemList[i].Required_date.ToString("MM/dd/yyyy"), @class = "form-control control-text datePicker", disabled = "disabled" })
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = Model.PurchaseQuotationItemList[i].Required_date.ToString("dd/MM/yyyy"), @class = "form-control control-text ", disabled = "disabled" })
                                                 </td>
                                                 <td>
                                                     @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_qty, new { @class = "form-control control-text", disabled = "disabled" })
                                                 </td>
                                                 <td width="15%">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Quoted_date, new { @class = "form-control control-text datePicker", disabled = "disabled" })
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Quoted_date, new { @Value = Model.PurchaseQuotationItemList[i].Quoted_date, @class = "form-control control-text", disabled = "disabled" })
                                                 </td>
                                                 <td>
                                                     @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Quoted_qty, new { @class = "form-control control-text", disabled = "disabled" })

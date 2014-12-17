@@ -5,19 +5,37 @@
 <script type="text/javascript">
     var r = 0;
     $(document).ready(function () {
-        $('.datePicker').datepicker();
-
-        $('#creGRDocumentDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
         });
+        $('#creGRDocumentDate').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0 });
+        $('#creGRDueDate').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
+        $('#creGRPostingDate').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0 });
 
-        $('#creGRDueDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
-        });
 
-        $('#creGRPostingDate').datepicker({
-            dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
-        });
+        //$('.datePicker').datepicker();
+
+        //$('#creGRDocumentDate').datepicker({
+        //    dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        //});
+
+        //$('#creGRDueDate').datepicker({
+        //    dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        //});
+
+        //$('#creGRPostingDate').datepicker({
+        //    dateFormat: 'dd/MM/yy', minDate: 0, maxDate: 0
+        //});
 
         $("#editTypeahead").jAutochecklist();
         var i;
@@ -245,7 +263,7 @@
                 var totAmount = price * qty;
                 var id = "#GoodsReceiptItemList_" + rowId + "__LineTotal";
                 $(id).val(totAmount.toFixed(2));
-               
+
                 //onchange discount functionality
                 var dis = $("#GoodsReceiptItemList_" + rowId + "__Discount_percent").val();
                 var qty = $("#GoodsReceiptItemList_" + rowId + "__Quantity").val();
@@ -513,7 +531,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.GoodsReceipt.Posting_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.GoodsReceipt.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.GoodsReceipt.Posting_Date)
                                                     </div>
                                                 </div>
@@ -523,7 +541,7 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.GoodsReceipt.Due_Date, new { @Value = DateTime.Now.ToString("MM/dd/yyyy"), @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.GoodsReceipt.Due_Date, new { @Value = Model.GoodsReceipt.Due_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", @id = "creGRDueDate" })
                                                         @Html.ValidationMessageFor(model => model.GoodsReceipt.Due_Date)
                                                     </div>
                                                 </div>

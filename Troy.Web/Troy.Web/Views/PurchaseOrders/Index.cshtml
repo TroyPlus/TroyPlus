@@ -9,21 +9,38 @@
 
     $(document).ready(function () {
 
-
-        $('.datePicker').datepicker();
-        // $('.datePicker').datepicker({ dateFormat: 'dd/MM/yyyy' }).val();
-
-        $('#creDocumentDate').datepicker({
-            minDate: 0, maxDate: 0
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
         });
+        $('#creDocumentDate').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0 });
+        $('#crePostingDate').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0, maxDate: 0 });
+        $('#creDeliveryDate').datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
+        
 
-        $('#crePostingDate').datepicker({
-            minDate: 0, maxDate: 0
-        });
+        //$('.datePicker').datepicker();
+        //// $('.datePicker').datepicker({ dateFormat: 'dd/MM/yyyy' }).val();
 
-        $('#creDeliveryDate').datepicker({
-            minDate: 0
-        });
+        //$('#creDocumentDate').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
+
+        //$('#crePostingDate').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
+
+        //$('#creDeliveryDate').datepicker({
+        //    minDate: 0
+        //});
 
 
         $("#typeahead").jAutochecklist({
@@ -702,8 +719,8 @@
                                                 <td>@item.Vendor_Name</td>
                                                 <td style="text-align:center;">@item.Reference_Number</td>
                                                 <td>@item.Order_Status</td>
-                                                <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
-                                                <td>@item.Delivery_Date.ToString("MM/dd/yyyy")</td>
+                                                <td>@item.Posting_Date.ToString("dd/MM/yyyy")</td>
+                                                <td>@item.Delivery_Date.ToString("dd/MM/yyyy")</td>
                                                 <td>
                                                     <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Purchase_Order_Id);">
                                                         <i class="im-eye2"></i>
@@ -940,7 +957,7 @@
                                                                 {
                                                                     <tr class="odd gradeX">
                                                                         <td style="text-align:center;">@item.Purchase_Quote_Id</td>
-                                                                        <td>@item.Valid_Date.ToString("MM/dd/yyyy")</td>
+                                                                        <td>@item.Valid_Date.ToString("dd/MM/yyyy")</td>
                                                                         <td style="text-align:center;">@item.Vendor_Name</td>
                                                                         <td>@item.Quotation_Status</td>
                                                                         <td>
