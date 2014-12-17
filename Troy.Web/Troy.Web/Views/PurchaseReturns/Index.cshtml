@@ -135,8 +135,8 @@
                                                 <td>@item.Vendor_Name</td>
                                                 <td style="text-align:center;">@item.Reference_Number</td>
                                                 <td>@item.Doc_Status</td>
-                                                <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
-                                                <td>@item.Due_Date.ToString("MM/dd/yyyy")</td>
+                                                <td>@item.Posting_Date.ToString("dd/MM/yyyy")</td>
+                                                <td>@item.Due_Date.ToString("dd/MM/yyyy")</td>
                                                 <td>
                                                     <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchaseReturn(@item.Purchase_Return_Id);">
                                                         <i class="im-eye2"></i>
@@ -366,8 +366,8 @@
 
                                                                         <td style="text-align:center;">@item.Vendor_Name</td>
                                                                         <td>@item.Doc_Status</td>
-                                                                        <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
-                                                                        <td>@item.Due_Date.ToString("MM/dd/yyyy")</td>
+                                                                        <td>@item.Posting_Date.ToString("dd/MM/yyyy")</td>
+                                                                        <td>@item.Due_Date.ToString("dd/MM/yyyy")</td>
                                                                         <td>
                                                                             <a href="#" class="top-right" data-toggle="modal" data-target="#viewPurInvModal" data-backdrop="static" data-keyboard="false" data-dismiss="modal" onclick="ViewPurchaseInvoice(@item.Purchase_Invoice_Id);">
                                                                                 <i class="im-eye2"></i>

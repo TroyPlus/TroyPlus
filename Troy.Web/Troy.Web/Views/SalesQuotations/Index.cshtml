@@ -6,19 +6,35 @@
 
 <script type="text/javascript">
     var i = 0;
+    
 
     $(document).ready(function () {
+
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
+        });
+        $('#creDocumentDate').datepicker({ dateFormat: 'dd/mm/yy', minDate:0 });
 
         $('.datePicker').datepicker();
         //$('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
-        $('#creDocumentDate').datepicker({
-            minDate: 0
-        });
+        //$('#creDocumentDate').datepicker({
+        //    minDate: 0
+        //});
 
-        $('#crePostingDate').datepicker({
-             minDate: 0, maxDate: 0
-        });
+        //$('#crePostingDate').datepicker({
+        //     minDate: 0, maxDate: 0
+        //});
 
         $("#typeahead").jAutochecklist({
             width: 221
@@ -679,8 +695,8 @@
                                                 <td>@item.Vendor_Name</td>
                                                 <td style="text-align:center;">@item.Reference_Number</td>
                                                 <td>@item.Doc_Status</td>
-                                                <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
-                                                <td>@item.Valid_Date.ToString("MM/dd/yyyy")</td>
+                                                <td>@item.Posting_Date.ToString("dd/MM/yyyy")</td>
+                                                <td>@item.Valid_Date.ToString("dd/MM/yyyy")</td>
                                                 <td>
                                                     <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Sales_Qtn_Id);">
                                                         <i class="im-eye2"></i>

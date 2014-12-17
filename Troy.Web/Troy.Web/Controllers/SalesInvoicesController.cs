@@ -173,7 +173,7 @@ namespace Troy.Web.Controllers
                             model.SalesInvoices.Customer = model.SalesDelivery.Customer;
                             model.SalesInvoices.Doc_Status = "Open";
                             model.SalesInvoices.Posting_Date = DateTime.Now;// model.PurchaseQuotation.Posting_Date;
-                            model.SalesInvoices.Due_Date = DateTime.Now;// model.PurchaseQuotation.Valid_Date;
+                            model.SalesInvoices.Due_Date = model.SalesDelivery.Delivery_Date; ;// model.PurchaseQuotation.Valid_Date;
                             model.SalesInvoices.Document_Date = DateTime.Now; //model.PurchaseQuotation.Posting_Date;
                             model.SalesInvoices.Branch = model.SalesDelivery.Branch;
                             model.SalesInvoices.TotalBefDocDisc = model.SalesDelivery.TotalBefDocDisc;

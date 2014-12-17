@@ -6,20 +6,35 @@
     $(document).ready(function () {
         //$('.datePicker').datepicker();
 
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
+        });
+        $('#dt1').datepicker({ dateFormat: 'dd/mm/yy' });
+
         $('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
-        $('#creDeliveryDate2').datepicker({
-            minDate: 0, maxDate: 0
-        });
+        //$('#creDeliveryDate2').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
 
-        $('#creDocumentDate2').datepicker({
-            minDate: 0, maxDate: 0
-        });
+        //$('#creDocumentDate2').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
 
 
-        $('#crePostingDate2').datepicker({
-            minDate: 0, maxDate: 0
-        });
+        //$('#crePostingDate2').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
 
         $("#viewTypeahead").jAutochecklist();
         var i;
@@ -168,7 +183,7 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesReturn.Posting_Date, new { @Value = Model.SalesReturn.Posting_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.SalesReturn.Posting_Date, new { @Value = Model.SalesReturn.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.SalesReturn.Posting_Date)
                                                     </div>
                                                 </div>
@@ -177,7 +192,7 @@
                                                         Due Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.SalesReturn.Due_Date, new { @Value = Model.SalesReturn.Due_Date.ToString("MM/dd/yyyy"), @class = "form-control control-text", disabled = "disabled" })
+                                                        @Html.TextBoxFor(model => model.SalesReturn.Due_Date, new { @Value = Model.SalesReturn.Due_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text", disabled = "disabled" })
                                                         @Html.ValidationMessageFor(model => model.SalesReturn.Due_Date)
                                                     </div>
                                                 </div>

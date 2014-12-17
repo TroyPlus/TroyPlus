@@ -9,20 +9,35 @@
 
     $(document).ready(function () {
 
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
+        });
+        $('#creDueDate').datepicker({ dateFormat: 'dd/mm/yy',minDate:0 });
+
         $('.datePicker').datepicker();
         //$('.datePicker').datepicker({ dateFormat: 'dd/MM/yy' }).val();
 
-        $('#creDocumentDate').datepicker({
-             minDate: 0, maxDate: 0
-        });
+        //$('#creDocumentDate').datepicker({
+        //     minDate: 0, maxDate: 0
+        //});
 
-        $('#creDueDate').datepicker({
-            minDate: 0, maxDate: 0
-        });
+        //$('#creDueDate').datepicker({
+        //    minDate: 0, maxDate: 0
+        //});
 
-        $('#crePostingDate').datepicker({
-             minDate: 0, maxDate: 0
-        });
+        //$('#crePostingDate').datepicker({
+        //     minDate: 0, maxDate: 0
+        //});
 
         $("#typeahead").jAutochecklist({
             width: 221
@@ -689,8 +704,8 @@
                                                 <td>@item.Vendor_Name</td>
                                                 <td style="text-align:center;">@item.Reference_Number</td>
                                                 <td>@item.Doc_Status</td>
-                                                <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
-                                                <td>@item.Due_Date.ToString("MM/dd/yyyy")</td>
+                                                <td>@item.Posting_Date.ToString("dd/MM/yyyy")</td>
+                                                <td>@item.Due_Date.ToString("dd/MM/yyyy")</td>
                                                 <td>
                                                     <a href="#" class="top-right" data-toggle="modal" data-target="#viewModal" data-backdrop="static" data-keyboard="false" onclick="ViewPurchase(@item.Sales_Invoice_Id);">
                                                         <i class="im-eye2"></i>
@@ -901,8 +916,8 @@
                                                                 {
                                                                     <tr class="odd gradeX">
                                                                         <td style="text-align:center;">@item.Sales_Delivery_Id</td>
-                                                                        <td>@item.Posting_Date.ToString("MM/dd/yyyy")</td>
-                                                                        <td>@item.Document_Date.ToString("MM/dd/yyyy")</td>
+                                                                        <td>@item.Posting_Date.ToString("dd/MM/yyyy")</td>
+                                                                        <td>@item.Document_Date.ToString("dd/MM/yyyy")</td>
                                                                         <td style="text-align:center;">@item.Vendor_Name</td>
                                                                         <td>@item.Doc_Status</td>
                                                                         <td>

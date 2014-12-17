@@ -32,16 +32,19 @@ namespace Troy.Model.SalesQuotations
         //-----------
 
         [Required(ErrorMessage = "Posting Date is required.")]
+        [DataType(DataType.Date)]
         [Column(TypeName = "date")]
         public DateTime Posting_Date { get; set; }
         //------
 
         [Required(ErrorMessage = "Valid Date is required.")]
+        [DataType(DataType.Date)]
         [Column(TypeName = "date")]
         public DateTime Valid_Date { get; set; }
         //------
 
         [Required(ErrorMessage = "Document Date is required.")]
+        [DataType(DataType.Date)]
         [Column(TypeName = "date")]
         public DateTime Document_Date { get; set; }
         //------
