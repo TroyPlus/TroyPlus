@@ -543,9 +543,11 @@
 
                             @Html.HiddenFor(model => model.deliveryreturn.Delivery_Return_Id)
                             @Html.HiddenFor(model => model.deliveryreturnitem.Delivery_Return_Id)
+                            @Html.HiddenFor(model => model.deliveryreturn.Doc_Status)
                             @Html.Hidden("ItemCount", Model.salesdeliverytitemlist.Count)
                             @Html.HiddenFor(model => model.salesdelivery.Sales_Delivery_Id)
                             @Html.HiddenFor(model => model.salesdelivery.Posting_Date)
+                            @Html.HiddenFor(model => model.salesdelivery.Doc_Status)
                             @Html.HiddenFor(model => model.salesdelivery.Document_Date)
                                 @Html.HiddenFor(model => model.salesdeliveryitem.sales_Item_Id)
 

@@ -98,7 +98,7 @@ namespace Troy.Web.Controllers
                 {
                     model.deliveryreturn.TargetDocId="0";
                     model.deliveryreturn.Remarks = "hi";
-                    model.deliveryreturn.Doc_Status = "Closed";
+                    model.deliveryreturn.Doc_Status = "Open";
                     model.deliveryreturn.Created_Branc_Id = CurrentBranchId;//CurrentBranchId;
                     model.deliveryreturn.Created_Date = DateTime.Now;
                     model.deliveryreturn.BaseDocId = model.salesdelivery.BaseDocId;

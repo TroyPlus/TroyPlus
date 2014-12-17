@@ -561,6 +561,7 @@
                             </ul>
 
                             @Html.HiddenFor(model => model.salesorder.Sales_Order_Id)
+                            @Html.HiddenFor(model => model.salesorder.Order_Status)
                             @Html.HiddenFor(model => model.salesorder.Posting_Date)
                             @Html.HiddenFor(model => model.salesorder.Document_Date)
                             @Html.Hidden("ItemCount", Model.salesorderitemlist.Count)

@@ -92,7 +92,7 @@ namespace Troy.Web.Controllers
 
                 if (submitButton == "Save")
                 {
-                    model.goodreturn.Doc_Status = "Closed";
+                    //model.goodreturn.Doc_Status = "Closed";
                     model.goodreturn.Created_Branc_Id =CurrentBranchId;//CurrentBranchId;
                     model.goodreturn.Created_Dte = DateTime.Now;
                     model.goodreturn.BaseDocId = model.goodreceipt.BaseDocId;
@@ -111,7 +111,7 @@ namespace Troy.Web.Controllers
                     model.goodreturn.TaxAmt = model.goodreceipt.TaxAmt;
                     model.goodreturn.TotalGRDocAmt = model.goodreceipt.TotalGRDocAmt;
                     model.goodreturn.Reference_Number = model.goodreceipt.Reference_Number;
-                    model.goodreturn.Document_Date = DateTime.Now;
+                    model.goodreturn.Doc_Status = "Open";
 
                     var GoodsList = model.goodreturnitemlist.Where(x => x.IsDummy == 0);
                     model.goodreturnitemlist = GoodsList.ToList();
