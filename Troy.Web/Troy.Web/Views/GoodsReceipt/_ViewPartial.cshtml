@@ -43,7 +43,7 @@
 
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Add Goods</h4>
+            <h4 class="modal-title" id="myModalLabel">View Goods Receipts PO</h4>
         </div>
 
         <div class="modal-body">
@@ -54,7 +54,7 @@
                             <li class="active">
                                 <a href="#Viewdefault" data-toggle="tab">General</a>
                             </li>
-                            <li><a href="#ViewaddQuotationlist" data-toggle="tab">Goods Items </a></li>
+                            <li><a href="#ViewaddQuotationlist" data-toggle="tab">Product </a></li>
 
                         </ul>
 
@@ -92,7 +92,8 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.goodreceipt.Reference_Number, new { @class = "control-label normal" })
+                                                    @*@Html.LabelFor(m => m.goodreceipt.Reference_Number, new { @class = "control-label normal" })*@
+                                                    Reference Number
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.TextBoxFor(model => model.goodreceipt.Reference_Number, new { @class = "form-control control-text", @readonly = true })
@@ -135,12 +136,12 @@
                                                         Posting Date
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new {@Value=Model.goodreceipt.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @disabled = "disabled" })
-                                                       
+                                                        @Html.TextBoxFor(model => model.goodreceipt.Posting_Date, new { @Value = Model.goodreceipt.Posting_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @disabled = "disabled" })
+
                                                     </div>
                                                 </div>
 
-                                             
+
 
 
 
@@ -158,20 +159,10 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.TextBoxFor(model => model.goodreceipt.Due_Date, new { @Value = Model.goodreceipt.Due_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @disabled = "disabled" })
-                                                       
+
                                                     </div>
                                                 </div>
-                                                <div class="row form-group">
-                                                    <div class="col-md-4">
-                                                        @*@Html.LabelFor(m => m.goodreceipt.Document_Date, new { @class = "control-label normal" })*@
-                                                        Document Date
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @*@Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @class = "form-control control-text datePicker" })*@
-                                                        @Html.TextBoxFor(model => model.goodreceipt.Document_Date, new {@Value=Model.goodreceipt.Document_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text ", @disabled = "disabled" })@*, @readonly = true })*@
-                                                      
-                                                    </div>
-                                                </div>
+
 
                                                 <div class="row  form-group">
                                                     <div class="col-md-4">
@@ -210,7 +201,8 @@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        @Html.LabelFor(m => m.goodreceipt.Distribute_LandedCost, new { @class = "control-label normal" })
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Distribute_LandedCost, new { @class = "control-label normal" })*@
+                                                        Distributed Landed Cost
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.DropDownListFor(model => model.goodreceipt.Distribute_LandedCost, new List<SelectListItem>
@@ -244,12 +236,14 @@
                                         <table id="viewmyTabContent" class="table display" style="min-height:180px;">
                                             <thead>
                                                 <tr>
-                                                    <th>Product_Id</th>
+                                                    <th>Product Id</th>
                                                     <th>Quantity</th>
                                                     <th>Unit Price</th>
                                                     <th>Discount %</th>
-                                                    <th> LineTotal</th>
                                                     <th>VAT Code</th>
+                                                    <th>Freight &Loading</th>
+                                                    <th>LineTotal</th>
+
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -287,14 +281,19 @@
                                                             @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Discount_percent, new { @class = "form-control control-text", @readonly = true, @onkeyup = "OnChangeDiscount(this, " + i + ");" })
                                                             @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Discount_percent)
                                                         </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true, @id = "totloading" })
-                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].LineTotal)
-                                                        </td>
                                                         <td width="10%">
                                                             @Html.DropDownListFor(m => m.goodreceiptitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage", Model.goodreceiptitemlist[i].Vat_Code), new { @class = "form-control control-text", @readonly = true, @onchange = "OnChangeVAT();" })
                                                             @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Vat_Code)
                                                         </td>
+                                                        <td width=" 10%">
+                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].Freight_Loading, new { @class = "form-control control-text", @readonly = true })
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].Freight_Loading)
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(model => model.goodreceiptitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true, @id = "totloading" })
+                                                            @Html.ValidationMessageFor(model => model.goodreceiptitemlist[i].LineTotal)
+                                                        </td>
+
                                                         <td style="width: 90px;">
                                                             <input class="BtnPlus btn pull-left" type="button" value="+" />
                                                             @*<input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />*@
@@ -318,7 +317,7 @@
                                             Total : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalBefDocDisc, new { id = "totalPurchase", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                             Discount Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.DocDiscAmt, new { id = "totalDiscount", @class = "input-small", @onkeyup = "OnChangeDiscountSummary(this);" }) @Html.ValidationMessageFor(model => model.goodreceipt.DocDiscAmt) </span> <br />
                                             Tax Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TaxAmt, new { id = "totalTax", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
-                                            Total Quotation Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalGRDocAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
+                                            Total Amount : <span>@Html.TextBoxFor(m => m.goodreceipt.TotalGRDocAmt, new { id = "totalQuotationAmt", @class = "input-small", @readonly = true, @style = "border: none;" })</span> <br />
                                         </div>
 
                                     </div>

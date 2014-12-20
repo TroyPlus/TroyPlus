@@ -10,6 +10,7 @@ using Troy.Model.Products;
 
 namespace Troy.Model.GPRO
 {
+     [Table("tblGoodsReceiptItems")]
     public class GoodsReceiptItems
     {
         [Key]

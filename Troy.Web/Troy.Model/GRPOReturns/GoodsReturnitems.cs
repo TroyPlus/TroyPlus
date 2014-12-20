@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Troy.Model.GRPOReturns
 {
+     [Table("tblGoodsReturnitems")]
    public class GoodsReturnitems
     {
 

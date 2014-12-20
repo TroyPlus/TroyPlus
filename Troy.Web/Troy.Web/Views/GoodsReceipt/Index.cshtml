@@ -5,62 +5,62 @@
 }
 
 @*<script src="~/Scripts/jquery-1.7.2.js" type="text/javascript"></script>
-<script src="~/Scripts/jquery-ui-1.8.22.js" type="text/javascript"></script>
-<script src="~/Scripts/jquery.validate.js" type="text/javascript"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js" type="text/javascript"></script>*@
+    <script src="~/Scripts/jquery-ui-1.8.22.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.validate.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js" type="text/javascript"></script>*@
 
 
 @*<script type="text/javascript">
 
-    $(document).ready(function () {
-        alert("test");
-        $("#Posting_Date").datepicker({ dateFormat: 'dd.mm.yy' });
-        alert("test1");
-        $("#Due_Date").datepicker({ dateFormat: 'dd.mm.yy' });
-        $("#Document_Date").datepicker({ dateFormat: 'dd.mm.yy' });
+        $(document).ready(function () {
+            alert("test");
+            $("#Posting_Date").datepicker({ dateFormat: 'dd.mm.yy' });
+            alert("test1");
+            $("#Due_Date").datepicker({ dateFormat: 'dd.mm.yy' });
+            $("#Document_Date").datepicker({ dateFormat: 'dd.mm.yy' });
 
 
-        jQuery.validator.addMethod(
-            'date',
-            function (value, element, params) {
-                if (this.optional(element)) {
-                    return true;
-                };
-                var result = false;
-                try {
-                    $.datepicker.parseDate('dd.mm.yy', value);
-                    result = true;
-                } catch (err) {
-                    result = false;
-                }
-                return result;
-            },
-            ''
-        );
-    });
-</script>*@
+            jQuery.validator.addMethod(
+                'date',
+                function (value, element, params) {
+                    if (this.optional(element)) {
+                        return true;
+                    };
+                    var result = false;
+                    try {
+                        $.datepicker.parseDate('dd.mm.yy', value);
+                        result = true;
+                    } catch (err) {
+                        result = false;
+                    }
+                    return result;
+                },
+                ''
+            );
+        });
+    </script>*@
 
 @*<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 
-<script src="~/Scripts/globalize/globalize.js"></script>
-<script src="~/Scripts/globalize/cultures/globalize.culture.en-GB.js"></script>*@
+    <script src="~/Scripts/globalize/globalize.js"></script>
+    <script src="~/Scripts/globalize/cultures/globalize.culture.en-GB.js"></script>*@
 
 @*<script>
-    $(document).ready(function () {
-        alert("test");
-        $.culture = Globalize.culture("en-GB");
-        $.validator.methods.date = function (value, element) {
-            //This is not ideal but Chrome passes dates through in ISO1901 format regardless of locale
-            //and despite displaying in the specified format.
+        $(document).ready(function () {
+            alert("test");
+            $.culture = Globalize.culture("en-GB");
+            $.validator.methods.date = function (value, element) {
+                //This is not ideal but Chrome passes dates through in ISO1901 format regardless of locale
+                //and despite displaying in the specified format.
 
-            return this.optional(element)
-                || Globalize.parseDate(value, "dd/MM/yyyy", "en-GB")
-                || Globalize.parseDate(value, "yyyy-mm-dd");
-        }
-    });
-</script>*@
+                return this.optional(element)
+                    || Globalize.parseDate(value, "dd/MM/yyyy", "en-GB")
+                    || Globalize.parseDate(value, "yyyy-mm-dd");
+            }
+        });
+    </script>*@
 
 
 
@@ -108,8 +108,8 @@
 
 
     //$(document).ready(function () {
-       
-       
+
+
     //    $('#Posting_Date').datepicker({
     //            dateFormat: "dd/mm/yy",
     //            showStatus: true,
@@ -123,7 +123,7 @@
     //});
 
     //$(document).ready(function () {
-     
+
     //    $('#Due_Date').datepicker({
     //        dateFormat: "dd/mm/yy",
     //        showStatus: true,
@@ -137,7 +137,7 @@
     //});
 
     //$(document).ready(function () {
-      
+
 
     //    $('#Document_Date').datepicker({
     //        dateFormat: "dd/mm/yy",
@@ -245,7 +245,7 @@
     function ViewGoodsReceipt(id) {
 
         var url = $('#viewPurQuoModal').data('url') + '/' + id;
-       
+
         $.get(url, function (data) {
             $('#viewPurQuomodelcontainer').html(data);
 
@@ -433,14 +433,20 @@
                             '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Unit_price" data-valmsg-replace="true"></span>' +
                         '</td>' +
                         '<td>' +
-                            '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="goodreceiptitemlist_' + i + '__Discount_percent" name="goodreceiptitemlist[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="">' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Discount_percent must be a number." data-val-range="The field Discount% must be between 0 and 100." data-val-range-max="100" data-val-range-min="0"  data-val-required="The Discount_percent field is required." id="goodreceiptitemlist_' + i + '__Discount_percent" name="goodreceiptitemlist[' + i + '].Discount_percent" onkeyup="OnChangeDiscount(this, ' + i + ');" type="text" value="0">' +
                             '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Discount_percent" data-valmsg-replace="true"></span>' +
                         '</td>' +
+                         '<td>' +
+
+                          selectHtml1 +
+                            '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
+                        '</td>' +
+
                         '<td>' +
                 '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__Freight_Loading" name="goodreceiptitemlist[' + i + '].Freight_Loading"  type="text" value="">' +
                 '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
                      '</td>' +
-                         '<td>' +
+                     '<td>' +
 
                            '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__LineTotal" name="goodreceiptitemlist[' + i + '].LineTotal" readonly="True" type="text" value="">' +
                             '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].LineTotal" data-valmsg-replace="true"></span>' +
@@ -449,11 +455,7 @@
                         //    '<input class="form-control control-text valid" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="goodreceiptitemlist_' + i + '__Freight_Loading" name="goodreceiptitemlist[' + i + '].Freight_Loading" readonly="True" type="text" value="">' +
                         //    '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
                         //'</td>' +
-                        '<td>' +
 
-                          selectHtml1 +
-                            '<span class="field-validation-valid" data-valmsg-for="goodreceiptitemlist[' + i + '].Vat_Code" data-valmsg-replace="true"></span>' +
-                        '</td>' +
 
                         '<td>' +
                             '<input type="button" class="BtnPlus btn pull-left" value="+" /> <input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />' +
@@ -676,7 +678,7 @@
     }
 
 
-   
+
 
     function OnChangeVAT() {
         CalculateTotal();
@@ -894,35 +896,32 @@
         var tot = parseFloat($('#txtBox1').val());
         var tot1 = parseFloat($('#txtBox2').val());
         var t = tot + tot1;
-      
 
-        if (textload.text == "Equally")
-          
 
-        {
+        if (textload.text == "Equally") {
             for (var j = i; j >= 0; j--) {
                 var total = t / i;
             }
-      
+
         }
-   
 
-  //    else if (textload.text == "Quality")
-  //    {
-  //        for (var j = i; j >= 0; j--) {
-  //            var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
-  //            var total = t / qty;
 
-  //        }
-  //    }
-  //else if (textload.text == "Cost") 
-  //    {
-  //          for (var j = i; j >= 0; j--) {
-  //              var line = $("#goodreceiptitemlist_" + rowId + "__LineTotal").val();
-  //              var total = t / line;
+        //    else if (textload.text == "Quality")
+        //    {
+        //        for (var j = i; j >= 0; j--) {
+        //            var qty = $("#goodreceiptitemlist_" + rowId + "__Quantity").val();
+        //            var total = t / qty;
 
-  //          }
-  //      }
+        //        }
+        //    }
+        //else if (textload.text == "Cost")
+        //    {
+        //          for (var j = i; j >= 0; j--) {
+        //              var line = $("#goodreceiptitemlist_" + rowId + "__LineTotal").val();
+        //              var total = t / line;
+
+        //          }
+        //      }
         $("#totloading").val(t);
     }
 
@@ -1129,7 +1128,7 @@
                 <div class="modal-footer">
                     <input class="btn btn-primary pull-left" type="button" id="btnUpload" name="FileUploadButton" value="Upload" onclick="return IFrameSubmit();" />
                     <button class="btn pull-left" data-dismiss="modal">Cancel</button>
-                    @Ajax.ActionLink("Change content", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
+                    @Ajax.ActionLink(" ", "UpdateContent", "Home", new AjaxOptions { UpdateTargetId = "myTabContent" })
                 </div>
 
             </div>
@@ -1149,7 +1148,7 @@
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Select Way of Entry</h4>
+                    <h4 class="modal-title" id="myModalLabel">Goods Receipt PO</h4>
                 </div>
 
                 <div class="modal-body">
@@ -1159,7 +1158,7 @@
                             <div class="tabs">
                                 <ul id="myTab" class="nav nav-tabs tabdrop">
                                     <li class="active">
-                                        <a href="#default" data-toggle="tab">Select way of entry</a>
+                                        <a href="#default" data-toggle="tab"></a>
                                     </li>
                                 </ul>
 
@@ -1170,7 +1169,7 @@
                                         <div id="FileUploadDiv">
                                             @*<iframe id="hiddenFrame" name="hiddenFrame" style="display: none"></iframe>*@
                                             <div class="row">
-                                                <div class="col-md-12">
+                                                <div class="col-md-12" align="center">
                                                     @*<input type="file" id="Select" name="FileUpload" />*@
                                                     @*@Html.RadioButton("select", "Create from Purchase Quotation", false)Create from Purchase Quotation
                                                         @Html.RadioButton("select", "Create Directly", false) Create Directly*@
@@ -1194,8 +1193,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <input class="btn btn-primary pull-left" type="button" id="btnOK" name="FileUploadButton" value="OK" />
-                    <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+                    @*<input class="btn btn-primary pull-middle" type="button" id="btnOK" name="FileUploadButton" value="OK" />*@
+                    <button class="btn pull-centre" data-dismiss="modal">Cancel</button>
                 </div>
 
             </div>

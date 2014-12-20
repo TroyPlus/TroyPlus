@@ -65,7 +65,7 @@ namespace Troy.Data.Repository
             List<ViewPurchaseQuotation> qlist = new List<ViewPurchaseQuotation>();
             qlist = (from pq in purchaseordercontext.purchasequotation
                      join b in purchaseordercontext.Businesspartner
-                       on pq.Vendor_Code equals b.BP_Id
+                       on pq.Vendor equals b.BP_Id
                      where (pq.Quotation_Status == "Open" && pq.Valid_Date >= date)                     
                      select new ViewPurchaseQuotation()
                      {

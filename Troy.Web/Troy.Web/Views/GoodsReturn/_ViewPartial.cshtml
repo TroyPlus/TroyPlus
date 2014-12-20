@@ -94,7 +94,8 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    @Html.LabelFor(m => m.goodreturn.Reference_Number, new { @class = "control-label normal" })
+                                                    @*@Html.LabelFor(m => m.goodreturn.Reference_Number, new { @class = "control-label normal" })*@
+                                                    Reference Number
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.TextBoxFor(model => model.goodreturn.Reference_Number, new { @class = "form-control control-text", @readonly = true })
@@ -151,7 +152,7 @@
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
                                                         @*@Html.LabelFor(m => m.goodreceipt.Due_Date, new { @class = "control-label normal" })*@
-                                                        Due Date:
+                                                        Due Date
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.TextBoxFor(model => model.goodreturn.Due_Date, new { @Value = Model.goodreturn.Due_Date.ToString("dd/MM/yyyy"), @class = "form-control control-text datePicker", @disabled = "disabled" })
@@ -220,8 +221,9 @@
                                                     <th>Quantity</th>
                                                     <th>Unit Price</th>
                                                     <th>Discount %</th>
-                                                    <th> LineTotal</th>
                                                     <th>VAT Code</th>
+                                                    <th> LineTotal</th>
+                                                   
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -258,14 +260,15 @@
                                                             @Html.TextBoxFor(model => model.goodreturnitemlist[i].Discount_percent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");", @readonly = true })
                                                             @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].Discount_percent)
                                                         </td>
+                                                        <td width="15%">
+                                                            @Html.DropDownListFor(m => m.goodreturnitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage", Model.goodreturnitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();", @readonly = true })
+                                                            @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].Vat_Code)
+                                                        </td>
                                                         <td>
                                                             @Html.TextBoxFor(model => model.goodreturnitemlist[i].LineTotal, new { @class = "form-control control-text", @readonly = true })
                                                             @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].LineTotal)
                                                         </td>
-                                                        <td width="10%">
-                                                            @Html.DropDownListFor(m => m.goodreturnitemlist[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_Id", "VAT_percentage", Model.goodreturnitemlist[i].Vat_Code), new { @class = "form-control control-text", @onchange = "OnChangeVAT();", @readonly = true })
-                                                            @Html.ValidationMessageFor(model => model.goodreturnitemlist[i].Vat_Code)
-                                                        </td>
+                                                       
                                                         <td style="width: 90px;">
                                                             <input class="BtnPlus btn pull-left" type="button" value="+" />
                                                             @*<input style="margin-left:5px;" type="button" class="BtnMinus btn pull-left" value="-" />*@

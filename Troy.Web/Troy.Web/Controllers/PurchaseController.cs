@@ -365,7 +365,7 @@ namespace Troy.Web.Controllers
                 model.BussinessList = purchaseDb.GetVendorList();
                 model.ProductList = purchaseDb.GetProductList();
                 model.VATList = purchaseDb.GetVATList();
-                TempData["oldPurchaseQuotation_Name"] = model.PurchaseQuotation.Vendor_Code;
+                TempData["oldPurchaseQuotation_Name"] = model.PurchaseQuotation.Vendor;
                 return PartialView(model);
             }
             catch (Exception ex)
@@ -460,7 +460,7 @@ namespace Troy.Web.Controllers
         {
             Viewmodel_AddPurchaseQuotation Xmlqtn = new Viewmodel_AddPurchaseQuotation();
             Xmlqtn.TroyPQtnId = model.Purchase_Quote_Id.ToString();
-            Xmlqtn.BPCode = model.Vendor_Code.ToString();
+            Xmlqtn.BPCode = model.Vendor.ToString();
             Xmlqtn.RefNo = model.Reference_Number;
             Xmlqtn.TroyPQtnStatus = model.Quotation_Status;
             Xmlqtn.PostingDate = model.Posting_Date.ToString();
@@ -586,7 +586,7 @@ namespace Troy.Web.Controllers
 
                                     if (ds.Tables[0].Rows[i]["Vendor"] != null)
                                     {
-                                        pItem.Vendor_Code = Convert.ToInt32(ds.Tables[0].Rows[i]["Vendor"]);
+                                        pItem.Vendor = Convert.ToInt32(ds.Tables[0].Rows[i]["Vendor"]);
                                         //vendorId = pItem.Vendor;
 
                                         pqItem = GetExcelQuotationItem(ds, i, ref returnMessage);

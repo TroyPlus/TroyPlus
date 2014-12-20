@@ -37,11 +37,11 @@ namespace Troy.Data.Repository
                             select p).ToList();
 
             qList = (from p in purchase
-                     join b in businessContext.BusinessPartner on p.Vendor_Code equals b.BP_Id
+                     join b in businessContext.BusinessPartner on p.Vendor equals b.BP_Id
                      select new PurchaseQuotation()
                      {
                          Vendor_Name = b.BP_Name,
-                         Vendor_Code = p.Vendor_Code,
+                         Vendor = p.Vendor,
                          Purchase_Quote_Id = p.Purchase_Quote_Id,
                          Reference_Number = p.Reference_Number,
                          Quotation_Status = p.Quotation_Status,
@@ -136,7 +136,7 @@ namespace Troy.Data.Repository
                         Required_Date = item.Required_Date,
                         Ship_To = item.Ship_To,
                         Valid_Date = item.Valid_Date,
-                        Vendor_Code = item.Vendor_Code
+                        Vendor = item.Vendor
                     };
 
                     qList.Add(model);

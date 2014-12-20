@@ -308,7 +308,7 @@
         var qty = $("#salesdeliverytitemlist_" + rowId + "__Quantity").val();
         var price = $("#salesdeliverytitemlist_" + rowId + "__Unit_Price").val();
 
-        var totAmount1 = price * qty;
+        var totAmount = price * qty;
 
         var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount1.toFixed(2));
@@ -320,10 +320,10 @@
         var dis = currentDis.value;
         var qty = $("#salesdeliverytitemlist_" + rowId + "__Quantity").val();
         var price = $("#salesdeliverytitemlist_" + rowId + "_Unit_Price").val();
-        var totAmount1 = price * qty - ((price * qty) * dis / 100)
+        var totAmount = price * qty - ((price * qty) * dis / 100)
         var id = "#salesdeliverytitemlist_" + rowId + "__LineTotal";
-        $(id).val(totAmount1.toFixed(2));
-        alert(totAmount1);
+        $(id).val(totAmount.toFixed(2));
+        alert(totAmount);
 
         CalculateTotal();
         CalculateTotalAmount();
