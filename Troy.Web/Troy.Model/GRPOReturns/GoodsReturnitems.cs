@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace Troy.Model.GRPOReturns
 {
-    [Table("tblGoodsReturnitems")]
-    public class GoodsReturnitems
+     [Table("tblGoodsReturnitems")]
+   public class GoodsReturnitems
     {
 
-        [Key]
-        [Required]
-        public int Id { get; set; }
+       [Key]
+       [Required]
+       public int Id { get; set; }
 
-        [Required]
-        public int Goods_Return_Id { get; set; }
+       [Required]
+       public int Goods_Return_Id { get; set; }
 
         [Required]
         public int Product_id { get; set; }
@@ -51,7 +51,7 @@ namespace Troy.Model.GRPOReturns
         [NotMapped]
         public int IsDummy { get; set; }
 
-
+     
 
         [NotMapped]
         public string ProductName { get; set; }

@@ -352,7 +352,7 @@
         var totAmount = price * qty - ((price * qty) * dis / 100)
         var id = "#deliveryreturnitemlist_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
-        alert(totAmount);
+        //alert(totAmount);
 
         CalculateTotal();
         CalculateTotalAmount();
@@ -426,6 +426,8 @@
         for (var j = i; j >= 0; j--) {
             if (!isNaN(parseFloat($("#deliveryreturnitemlist_" + j + "__LineTotal").val()))) {
                 tot = parseFloat(tot) + parseFloat($("#deliveryreturnitemlist_" + j + "__LineTotal").val());
+
+                //alert(tot);
               
             }
         }
@@ -664,7 +666,7 @@
                                         <table id="EditTable" class="table display">
                                             <thead>
                                                 <tr>
-                                                    <th>Product_Id</th>
+                                                    <th>Product Id</th>
                                                     <th>Quantity</th>
                                                     <th>Unit Price</th>
                                                     <th>Discount %</th>

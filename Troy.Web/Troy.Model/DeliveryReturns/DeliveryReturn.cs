@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Troy.Model.DeliveryReturns
 {
+     [Table("tblDeliveryReturn")]
     public class DeliveryReturn
     {
 

@@ -229,11 +229,11 @@ namespace Troy.Web.Controllers
                                         //model1.PurchaseOrder.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
                                         if (model1.PurchaseOrder.TargetDocId == "")
                                         {
-                                            model1.PurchaseOrder.TargetDocId = Convert.ToString(model.PurchaseOrder.Purchase_Order_Id);
+                                            model1.PurchaseOrder.TargetDocId = Convert.ToString(model.goodreceipt.Goods_Receipt_Id);
                                         }
                                         else
                                         {
-                                            model1.PurchaseOrder.TargetDocId = model1.PurchaseOrder.TargetDocId + "," + Convert.ToString(model.goodreceipt.Purchase_Order_Id);
+                                            model1.PurchaseOrder.TargetDocId = Convert.ToString(model.goodreceipt.Goods_Receipt_Id);
                                         }
 
                                        // model.PurchaseOrderItemsList[k].BaseDocLink = "N";
@@ -267,9 +267,9 @@ namespace Troy.Web.Controllers
                                 model1.PurchaseOrder.Created_Branc_Id = CurrentBranchId;//currentUser.Created_Branch_Id; 
                                 model1.PurchaseOrder.Created_Date = DateTime.Now;
                                 model1.PurchaseOrder.Created_User_Id = CurrentUser.Id;//currentUser.Created_User_Id;  //GetUserId()
-                                model1.PurchaseOrder.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
-                                model1.PurchaseOrder.Modified_Date = DateTime.Now;
-                                model1.PurchaseOrder.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
+                                //model1.PurchaseOrder.Modified_User_Id = CurrentUser.Id;//currentUser.Modified_User_Id;
+                                //model1.PurchaseOrder.Modified_Date = DateTime.Now;
+                                //model1.PurchaseOrder.Modified_Branch_Id = CurrentBranchId;//currentUser.Modified_Branch_Id; 
 
 
 
