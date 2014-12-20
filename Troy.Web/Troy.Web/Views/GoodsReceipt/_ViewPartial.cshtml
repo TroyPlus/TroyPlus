@@ -166,7 +166,8 @@
 
                                                 <div class="row  form-group">
                                                     <div class="col-md-4">
-                                                        @Html.LabelFor(m => m.goodreceipt.Freight, new { @class = "control-label normal" })
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Freight, new { @class = "control-label normal" })*@
+                                                        Freight Charge
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.TextBoxFor(model => model.goodreceipt.Freight, new { @class = "form-control control-text ", @readonly = true, @id = "txtBox1", @onkeyup = "OnChangeload(this);" })
@@ -177,7 +178,8 @@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        @Html.LabelFor(m => m.goodreceipt.Loading, new { @class = "control-label normal" })
+                                                        @*@Html.LabelFor(m => m.goodreceipt.Loading, new { @class = "control-label normal" })*@
+                                                        Loading Charge
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.TextBoxFor(model => model.goodreceipt.Loading, new { @class = "form-control control-text ", @readonly = true, @id = "txtBox2", @onkeyup = "OnChangeload(this);" })
@@ -241,8 +243,8 @@
                                                     <th>Unit Price</th>
                                                     <th>Discount %</th>
                                                     <th>VAT Code</th>
-                                                    <th>Freight &Loading</th>
-                                                    <th>LineTotal</th>
+                                                    <th>Freight & Loading</th>
+                                                    <th>Line Total</th>
 
                                                     <th></th>
                                                 </tr>

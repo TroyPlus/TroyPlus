@@ -514,7 +514,7 @@
                                             <div class="row form-group">
                                                 <div class="col-md-4">
                                                     @*@Html.LabelFor(m => m.goodreceipt.Purchase_Order_Id, new { @class = "control-label normal" })*@
-                                                    PurchaseOrder Id
+                                                    Purchase Order Id
                                                 </div>
                                                 <div class="col-md-8">
                                                     @*, new { @id = "typeahead", @size = 12 }*@
@@ -609,7 +609,8 @@
 
                                                 <div class="row  form-group">
                                                     <div class="col-md-4">
-                                                        @Html.LabelFor(m => m.PurchaseOrder.Freight, new { @class = "control-label normal" })
+                                                        @*@Html.LabelFor(m => m.PurchaseOrder.Freight, new { @class = "control-label normal" })*@
+                                                        Freight Charge
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.TextBoxFor(model => model.PurchaseOrder.Freight, new { @class = "form-control control-text " })
@@ -620,7 +621,8 @@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        @Html.LabelFor(m => m.PurchaseOrder.Loading, new { @class = "control-label normal" })
+                                                        Loading Charge
+                                                        @*@Html.LabelFor(m => m.PurchaseOrder.Loading, new { @class = "control-label normal" })*@
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.TextBoxFor(model => model.PurchaseOrder.Loading, new { @class = "form-control control-text " })
