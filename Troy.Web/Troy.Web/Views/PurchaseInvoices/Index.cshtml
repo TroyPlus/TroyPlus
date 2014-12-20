@@ -85,7 +85,7 @@
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseInvoiceItemsList_[' + i + '].__Vat_Code" data-valmsg-replace="true"></span>' +
                         '</td>' +
                          '<td width="5%">' +
-                            '<input class="form-control control-text" data-val="true" data-val-number="The field Freight_Loading must be a number." data-val-range="The Freight Loading is required."  data-val-required="The Freight_Loading field is required." id="PurchaseInvoiceItemsList_' + i + '__Freight_Loading" name="PurchaseInvoiceItemsList[' + i + '].Freight_Loading" type="text" value="">' +
+                            '<input class="form-control control-text" data-val="true" data-val-number="The field Freight_Loading must be a number." data-val-range="The Freight Loading is required."  data-val-required="The Freight_Loading field is required." id="PurchaseInvoiceItemsList_' + i + '__Freight_Loading" name="PurchaseInvoiceItemsList[' + i + '].Freight_Loading" onkeyup="OnChangeFreight(this, ' + i + ');" type="text" value="">' +
                             '<span class="field-validation-valid" data-valmsg-for="PurchaseInvoiceItemsList[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
                         '</td>' +
                          '<td width="5%">' +
@@ -403,7 +403,12 @@
                 //onchange quantity functionality
                 var qty = $("#PurchaseInvoiceItemsList_" + rowId + "__Quantity").val();
                 var price = $("#PurchaseInvoiceItemsList_" + rowId + "__Unit_price").val();
-                var totAmount = price * qty;
+                var freight = $("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val();
+                if(!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val())))
+                {
+                    var totAmount = price * qty + parseFloat(freight);
+                }
+                else{var totAmount = price * qty}
                 var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
                 $(id).val(totAmount.toFixed(2));
 
@@ -411,7 +416,11 @@
                 var dis = $("#PurchaseInvoiceItemsList_" + rowId + "__Discount_percent").val();
                 var qty = $("#PurchaseInvoiceItemsList_" + rowId + "__Quantity").val();
                 var price = $("#PurchaseInvoiceItemsList_" + rowId + "__Unit_price").val();
-                var totAmount = price * qty - ((price * qty) * dis / 100)
+                var freight = $("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val();
+                if(!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val())))
+                {
+                    var totAmount = price * qty - ((price * qty) * dis / 100) + parseFloat(freight);
+                }else{var totAmount = price * qty - ((price * qty) * dis / 100)}
                 var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
                 $(id).val(totAmount.toFixed(2));
 
@@ -427,7 +436,11 @@
         //on change quantity
         var qty = currentQty.value;
         var price = $("#PurchaseInvoiceItemsList_" + rowId + "__Unit_price").val();
-        var totAmount = price * qty;
+        var freight = $("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val();
+        if(!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val())))
+        {
+            var totAmount = price * qty + parseFloat(freight);
+        }else{var totAmount = price * qty}
         var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
@@ -435,7 +448,41 @@
         var dis = $("#PurchaseInvoiceItemsList_" + rowId + "__Discount_percent").val();
         var qty = $("#PurchaseInvoiceItemsList_" + rowId + "__Quantity").val();
         var price = $("#PurchaseInvoiceItemsList_" + rowId + "__Unit_price").val();
-        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var freight = $("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val();
+        if(!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val())))
+        {
+            var totAmount = price * qty - ((price * qty) * dis / 100) + parseFloat(freight);
+        }else{var totAmount = price * qty - ((price * qty) * dis / 100)}
+        var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
+        CalculateTotal();
+        CalculateTotalAmount();
+        CalculateTax();
+    }
+
+    function OnChangeFreight(currentDis, rowId) {
+        //debugger;
+        //onchange quantity functionality
+        var qty = $("#PurchaseInvoiceItemsList_" + rowId + "__Quantity").val();
+        var price = $("#PurchaseInvoiceItemsList_" + rowId + "__Unit_price").val();
+        var freight = $("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val();
+        if(!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val())))
+        {
+            var totAmount = price * qty + parseFloat(freight);
+        }else{var totAmount = price * qty}
+        var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
+        //on change discount
+        var dis = currentDis.value;
+        var qty = $("#PurchaseInvoiceItemsList_" + rowId + "__Quantity").val();
+        var price = $("#PurchaseInvoiceItemsList_" + rowId + "__Unit_price").val();
+        var fright = $("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val();
+        if(!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val())))
+        {
+            var totAmount = price * qty - ((price * qty) * dis / 100) + parseFloat(freight);
+        }else{var totAmount = price * qty - ((price * qty) * dis / 100)}
         var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
@@ -449,7 +496,11 @@
         //onchange quantity functionality
         var qty = $("#PurchaseInvoiceItemsList_" + rowId + "__Quantity").val();
         var price = $("#PurchaseInvoiceItemsList_" + rowId + "__Unit_price").val();
-        var totAmount = price * qty;
+        var freight = $("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val();
+        if(!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val())))
+        {
+            var totAmount = price * qty + parseFloat(freight);
+        }else{var totAmount = price * qty}
         var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
@@ -457,7 +508,11 @@
         var dis = currentDis.value;
         var qty = $("#PurchaseInvoiceItemsList_" + rowId + "__Quantity").val();
         var price = $("#PurchaseInvoiceItemsList_" + rowId + "__Unit_price").val();
-        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var fright = $("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val();
+        if(!isNaN(parseFloat($("#PurchaseInvoiceItemsList_" + rowId + "__Freight_Loading").val())))
+        {
+            var totAmount = price * qty - ((price * qty) * dis / 100) + parseFloat(freight);
+        }else{var totAmount = price * qty - ((price * qty) * dis / 100)}
         var id = "#PurchaseInvoiceItemsList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
@@ -829,7 +884,7 @@
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Select Way of Entry</h4>
+                    <h4 class="modal-title" id="myModalLabel">Create Purchase Invoice</h4>
                 </div>
 
                 <div class="modal-body">
@@ -837,11 +892,11 @@
                     <div class="form-horizontal">
                         <div class="row">
                             <div class="tabs">
-                                <ul id="myTab" class="nav nav-tabs tabdrop">
-                                    <li class="active">
-                                        <a href="#default" data-toggle="tab">Select way of entry</a>
-                                    </li>
-                                </ul>
+                                @*<ul id="myTab" class="nav nav-tabs tabdrop">
+                                        <li class="active">
+                                            <a href="#default" data-toggle="tab">Select way of entry</a>
+                                        </li>
+                                    </ul>*@
 
                                 <div id="myTabContent" class="tab-content">
                                     <div class="tab-pane fade in active" id="default">

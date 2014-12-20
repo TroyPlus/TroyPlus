@@ -2,9 +2,9 @@
 
 
 <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+    <div class="modal-content" style="width:inherit">
 
-        <div class="modal-header">
+        <div class="modal-header" align="center">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title" id="myModalLabel">Add Purchase Quotation</h4>
         </div>
@@ -29,10 +29,10 @@
                                         <div class="form-horizontal">
 
                                             <div class="row form-group">
-                                                <div class="col-md-4">
+                                                <div class="col-md-5">
                                                     Vendor Name
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-7">
                                                     @*, new { @id = "typeahead", @size = 12 }*@
                                                     @Html.DropDownListFor(m => m.PurchaseQuotation.Vendor, new SelectList(Model.BussinessList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text" })
 
@@ -41,20 +41,20 @@
                                             </div>
 
                                             <div class="row form-group">
-                                                <div class="col-md-4">
+                                                <div class="col-md-5">
                                                     Reference Number
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-7">
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Reference_Number, new { @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Reference_Number)
                                                 </div>
                                             </div>
 
                                             <div class="row form-group">
-                                                <div class="col-md-4">
+                                                <div class="col-md-5">
                                                     Quotation Status
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-7">
                                                     @Html.DropDownListFor(model => model.PurchaseQuotation.Quotation_Status, new List<SelectListItem>
                                                          {
                                                             new SelectListItem{ Text="Open", Value = "Open" },
@@ -67,22 +67,31 @@
                                             </div>
 
                                             <div class="row form-group">
-                                                <div class="col-md-4">
+                                                <div class="col-md-5">
                                                     Ship To
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-7">
                                                     @Html.DropDownListFor(m => m.PurchaseQuotation.Ship_To, new SelectList(Model.BranchList.AsEnumerable(), "Branch_Id", "Branch_Name"), "", new { @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Ship_To)
                                                 </div>
                                             </div>
 
                                             <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    Freight
+                                                <div class="col-md-5">
+                                                    Freight Charge
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-7">
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Freight, new { @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Freight)
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-5">
+                                                    Loading Charge
+                                                </div>
+                                                <div class="col-md-7">
+                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Loading, new { @class = "form-control control-text" })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Loading)
                                                 </div>
                                             </div>
                                         </div>
@@ -91,39 +100,30 @@
                                     <div class="col-md-6">
                                         <div class="form-horizontal">
                                             <div class="row form-group">
-                                                <div class="col-md-4">
+                                                <div class="col-md-5">
                                                     Posting Date
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-7">
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Posting_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), id = "crePostingDate", @class = "form-control control-text ", @readonly = true })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Posting_Date)
                                                 </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    Loading
-                                                </div>
-                                                <div class="col-md-8">
-                                                    @Html.TextBoxFor(model => model.PurchaseQuotation.Loading, new { @class = "form-control control-text" })
-                                                    @Html.ValidationMessageFor(model => model.PurchaseQuotation.Loading)
-                                                </div>
-                                            </div>
+                                            </div>                                           
 
                                             <div class="row  form-group">
-                                                <div class="col-md-4">
+                                                <div class="col-md-5">
                                                     Required Date
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-7">
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Required_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), id = "creRequiredDate", @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Required_Date)
                                                 </div>
                                             </div>
 
                                             <div class="row form-group">
-                                                <div class="col-md-4">
+                                                <div class="col-md-5">
                                                     Valid Date
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-7">
                                                     @Html.TextBoxFor(model => model.PurchaseQuotation.Valid_Date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), id = "creValidDate", @class = "form-control control-text" })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Valid_Date)
                                                 </div>
@@ -140,10 +140,10 @@
                                                 </div>*@
 
                                             <div class="row form-group">
-                                                <div class="col-md-4">
+                                                <div class="col-md-5">
                                                     Remarks
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-7">
                                                     @Html.TextAreaFor(model => model.PurchaseQuotation.Remarks, new { @class = "form-control", @cols = 55, @rows = 5 })
                                                     @Html.ValidationMessageFor(model => model.PurchaseQuotation.Remarks)
                                                 </div>
@@ -169,14 +169,14 @@
                                     <table id="createItemTable" class="table display" style="min-height:180px;">
                                         <thead>
                                             <tr>
-                                                <th>Item Code</th>
-                                                <th>Required Date</th>
-                                                <th>Required Quantity</th>
-                                                <th>Unit Price</th>
-                                                <th>Discount %</th>
-                                                <th>VAT Code</th>
-                                                <th> Amount</th>
-                                                <th></th>
+                                                <th width="24%">Item Code</th>
+                                                <th width="16%">Required Date</th>
+                                                <th width="11%">Required Quantity</th>
+                                                <th width="10%">Unit Price</th>
+                                                <th width="5%">Discount %</th>
+                                                <th width="15%">VAT %</th>
+                                                <th width="18%">Line Total</th>
+                                                <th width="0%"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -186,34 +186,34 @@
                                                     <td style="display:none;">
                                                         @Html.HiddenFor(model => model.PurchaseQuotationItemList[i].IsDummy, 0)
                                                     </td>
-                                                    <td width="20%">
+                                                    <td>
                                                         @*@Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Product_id, new { @class = "form-control control-text" })*@
 
                                                         @Html.DropDownListFor(m => m.PurchaseQuotationItemList[i].Product_id, new SelectList(Model.ProductList.AsEnumerable(), "Product_Id", "Product_Name"), "", new { @class = "form-control control-text", @onchange = "OnChangeProduct(this, " + i + ");" })
 
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Product_id)
                                                     </td>
-                                                    <td width="15%">
+                                                    <td>
                                                         @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_date, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), @id = "creProdReqDate", @class = "form-control control-text" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_date)
                                                     </td>
-                                                    <td width="4%">
+                                                    <td>
                                                         @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Required_qty, new { @class = "form-control control-text", @onkeyup = "OnChangeQuantity(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Required_qty)
                                                     </td>
-                                                    <td width="10%">
+                                                    <td>
                                                         @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Unit_price, new { @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Unit_price)
                                                     </td>
-                                                    <td width="1%">
+                                                    <td>
                                                         @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].Discount_percent, new { @class = "form-control control-text", @onkeyup = "OnChangeDiscount(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Discount_percent)
                                                     </td>
-                                                    <td width="12%">
+                                                    <td>
                                                         @Html.DropDownListFor(m => m.PurchaseQuotationItemList[i].Vat_Code, new SelectList(Model.VATList.AsEnumerable(), "VAT_percentage", "VAT_percentage"), "", new { @class = "form-control control-text", @onchange = "OnChangeVAT();" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].Vat_Code)
                                                     </td>
-                                                    <td width="10%">
+                                                    <td>
                                                         @Html.TextBoxFor(model => model.PurchaseQuotationItemList[i].LineTotal, new { @class = "form-control control-text", @readonly = true })
                                                         @Html.ValidationMessageFor(model => model.PurchaseQuotationItemList[i].LineTotal)
                                                     </td>

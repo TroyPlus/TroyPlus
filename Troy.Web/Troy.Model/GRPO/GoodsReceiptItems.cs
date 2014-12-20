@@ -10,7 +10,7 @@ using Troy.Model.Products;
 
 namespace Troy.Model.GPRO
 {
-     [Table("tblGoodsReceiptItems")]
+    [Table("tblGoodsReceiptItems")]
     public class GoodsReceiptItems
     {
         [Key]
@@ -19,7 +19,7 @@ namespace Troy.Model.GPRO
 
         [Required]
         public int Goods_Receipt_Id { get; set; }
-       
+
 
         [Required]
         public int Product_id { get; set; }
@@ -29,7 +29,7 @@ namespace Troy.Model.GPRO
         [Required]
         public int Quantity { get; set; }
 
-        public int Return_Qty {get;set;}
+        public int Return_Qty { get; set; }
 
         public int Invoiced_Qty { get; set; }
 
@@ -42,8 +42,8 @@ namespace Troy.Model.GPRO
 
         [Required]
         public float Vat_Code { get; set; }
-       // [ForeignKey("Vat_Code")]
-      //  public virtual VAT vat { get; set; }
+        // [ForeignKey("Vat_Code")]
+        //  public virtual VAT vat { get; set; }
 
         public decimal Freight_Loading { get; set; }
 
@@ -58,8 +58,8 @@ namespace Troy.Model.GPRO
         [NotMapped]
         public int IsDummy { get; set; }
 
-       
-   
+
+
 
         [NotMapped]
         public string ProductName { get; set; }

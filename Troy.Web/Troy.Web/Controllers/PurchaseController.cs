@@ -96,7 +96,7 @@ namespace Troy.Web.Controllers
                 return Json(new { Error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
+           
 
         [HttpPost]
         public ActionResult Index(string submitButton, PurchaseViewModels model, HttpPostedFileBase file)
@@ -109,7 +109,7 @@ namespace Troy.Web.Controllers
                 {
                     //vendor = Request.Form["PurchaseQuotation.Vendor_Code"].ToString();
                     //model.PurchaseQuotation.Vendor_Code = Convert.ToInt32(vendor.Remove(0,1));
-                    model.PurchaseQuotation.Quotation_Status = "Open";
+                    model.PurchaseQuotation.Quotation_Status = "Open";                    
                     model.PurchaseQuotation.Created_Branc_Id = currentUser.Created_Branch_Id;
                     model.PurchaseQuotation.Created_Date = DateTime.Now;
                     model.PurchaseQuotation.Created_User_Id = currentUser.Created_User_Id;  //GetUserId()
@@ -122,11 +122,11 @@ namespace Troy.Web.Controllers
                     var QuotationList = model.PurchaseQuotationItemList.Where(x => x.IsDummy == 0);
                     model.PurchaseQuotationItemList = QuotationList.ToList();
 
-                    //for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
-                    //{                        
-                    //    model.PurchaseQuotationItemList[i].Quoted_qty = 10; //GetQuantity()
-                    //    model.PurchaseQuotationItemList[i].Quoted_date = DateTime.Now;
-                    //}
+                    for (int i = 0; i < model.PurchaseQuotationItemList.Count; i++)
+                    {
+                        model.PurchaseQuotationItemList[i].Quoted_qty = model.PurchaseQuotationItemList[i].Required_qty;
+                        model.PurchaseQuotationItemList[i].Quoted_date = model.PurchaseQuotationItemList[i].Required_date;
+                    }
 
                     if (purchaseDb.AddNewQuotation(model.PurchaseQuotation, model.PurchaseQuotationItemList, ref ErrorMessage))
                     {

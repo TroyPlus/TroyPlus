@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Troy.Model.SalesReturns
 {
+    [Table("tblSalesReturnItems")]
     public class SalesReturnItems
     {
         [Key]
