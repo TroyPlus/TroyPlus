@@ -198,7 +198,7 @@ namespace Troy.Data.Repository
                                        Purchase_Invoice_Id = q.Purchase_Invoice_Id,
                                        Purchase_InvoiceItem_Id = q.Purchase_InvoiceItem_Id,
 
-
+                                       LineTotal=q.LineTotal,
                                        Freight_Loading = q.Freight_Loading,
                                        Quantity = q.Quantity-q.Inv_Return_Qty,
                                        Inv_Return_Qty = q.Inv_Return_Qty,

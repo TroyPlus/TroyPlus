@@ -150,7 +150,7 @@ namespace Troy.Web.Controllers
                     model1.PurchaseQuotationItemList = purchaseorderRepository.FindOneQuotationItemById(model.PurchaseQuotation.Purchase_Quote_Id);
 
 
-                    if (model1.PurchaseQuotation.Vendor_Code == model.PurchaseQuotation.Vendor_Code)
+                    if (model1.PurchaseQuotation.Vendor == model.PurchaseQuotation.Vendor)
                     {
                         //for BaseDocId
                         for (int j = 0; j < model.PurchaseQuotationItemList.Count; j++)
@@ -175,7 +175,7 @@ namespace Troy.Web.Controllers
 
                             model.PurchaseOrder.Purchase_Order_Id = model.PurchaseQuotation.Purchase_Quote_Id;
                             model.PurchaseOrder.Reference_Number = model.PurchaseQuotation.Reference_Number;
-                            model.PurchaseOrder.Vendor = model.PurchaseQuotation.Vendor_Code;
+                            model.PurchaseOrder.Vendor = model.PurchaseQuotation.Vendor;
                             model.PurchaseOrder.Order_Status = "Open";
                             model.PurchaseOrder.Posting_Date = DateTime.Now;// model.PurchaseQuotation.Posting_Date;
                             model.PurchaseOrder.Delivery_Date = model.PurchaseQuotation.Valid_Date;

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Troy.Model.SalesReturns
 {
+    [Table("tblSalesReturn")]
     public class SalesReturn
     {
         [Key]
@@ -87,7 +88,7 @@ namespace Troy.Model.SalesReturns
         [Column(TypeName = "date")]
         public DateTime? Created_Date { get; set; }
         //----
-        
+
         public int Modified_User_Id { get; set; }
         //----
 

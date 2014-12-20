@@ -76,7 +76,7 @@
                              '<span class="field-validation-valid" data-valmsg-for="GoodsReceiptItemList_[' + i + '].__Vat_Code" data-valmsg-replace="true"></span>' +
                          '</td>' +
                           '<td width="5%">' +
-                             '<input class="form-control control-text" data-val="true" data-val-number="The field Freight_Loading must be a number." data-val-range="The Freight Loading is required."  data-val-required="The Freight_Loading field is required." id="GoodsReceiptItemList_' + i + '__Freight_Loading" name="GoodsReceiptItemList[' + i + '].Freight_Loading" type="text" value="">' +
+                             '<input class="form-control control-text" data-val="true" data-val-number="The field Freight_Loading must be a number." data-val-range="The Freight Loading is required."  data-val-required="The Freight_Loading field is required." id="GoodsReceiptItemList_' + i + '__Freight_Loading" name="GoodsReceiptItemList[' + i + '].Freight_Loading" onkeyup="OnChangeFreight(this, ' + i + ');" type="text" value="">' +
                              '<span class="field-validation-valid" data-valmsg-for="GoodsReceiptItemList[' + i + '].Freight_Loading" data-valmsg-replace="true"></span>' +
                          '</td>' +
                           '<td width="5%">' +
@@ -260,7 +260,12 @@
                 //onchange quantity functionality
                 var qty = $("#GoodsReceiptItemList_" + rowId + "__Quantity").val();
                 var price = $("#GoodsReceiptItemList_" + rowId + "__Unit_price").val();
-                var totAmount = price * qty;
+                var freight = $("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val();
+                if (!isNaN(parseFloat($("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val()))) {
+                    var totAmount = price * qty + parseFloat(freight);
+                }
+                else { var totAmount = price * qty }
+               
                 var id = "#GoodsReceiptItemList_" + rowId + "__LineTotal";
                 $(id).val(totAmount.toFixed(2));
 
@@ -268,7 +273,11 @@
                 var dis = $("#GoodsReceiptItemList_" + rowId + "__Discount_percent").val();
                 var qty = $("#GoodsReceiptItemList_" + rowId + "__Quantity").val();
                 var price = $("#GoodsReceiptItemList_" + rowId + "__Unit_price").val();
-                var totAmount = price * qty - ((price * qty) * dis / 100)
+                var freight = $("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val();
+                if (!isNaN(parseFloat($("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val()))) {
+                    var totAmount = price * qty - ((price * qty) * dis / 100) + parseFloat(freight);
+                } else { var totAmount = price * qty - ((price * qty) * dis / 100) }
+              
                 var id = "#GoodsReceiptItemList_" + rowId + "__LineTotal";
                 $(id).val(totAmount.toFixed(2));
 
@@ -284,7 +293,11 @@
         //on change quantity
         var qty = currentQty.value;
         var price = $("#GoodsReceiptItemList_" + rowId + "__Unit_price").val();
-        var totAmount = price * qty;
+        var freight = $("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val();
+        if (!isNaN(parseFloat($("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val()))) {
+            var totAmount = price * qty + parseFloat(freight);
+        } else { var totAmount = price * qty }
+       
         var id = "#GoodsReceiptItemList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
@@ -292,7 +305,11 @@
         var dis = $("#GoodsReceiptItemList_" + rowId + "__Discount_percent").val();
         var qty = $("#GoodsReceiptItemList_" + rowId + "__Quantity").val();
         var price = $("#GoodsReceiptItemList_" + rowId + "__Unit_price").val();
-        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var freight = $("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val();
+        if (!isNaN(parseFloat($("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val()))) {
+            var totAmount = price * qty - ((price * qty) * dis / 100) + parseFloat(freight);
+        } else { var totAmount = price * qty - ((price * qty) * dis / 100) }
+        
         var id = "#GoodsReceiptItemList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
@@ -301,12 +318,15 @@
         CalculateTax();
     }
 
-    function OnChangeDiscount(currentDis, rowId) {
+    function OnChangeFreight(currentDis, rowId) {
         //debugger;
         //onchange quantity functionality
         var qty = $("#GoodsReceiptItemList_" + rowId + "__Quantity").val();
         var price = $("#GoodsReceiptItemList_" + rowId + "__Unit_price").val();
-        var totAmount = price * qty;
+        var freight = $("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val();
+        if (!isNaN(parseFloat($("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val()))) {
+            var totAmount = price * qty + parseFloat(freight);
+        } else { var totAmount = price * qty }
         var id = "#GoodsReceiptItemList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
@@ -314,7 +334,41 @@
         var dis = currentDis.value;
         var qty = $("#GoodsReceiptItemList_" + rowId + "__Quantity").val();
         var price = $("#GoodsReceiptItemList_" + rowId + "__Unit_price").val();
-        var totAmount = price * qty - ((price * qty) * dis / 100)
+        var fright = $("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val();
+        if (!isNaN(parseFloat($("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val()))) {
+            var totAmount = price * qty - ((price * qty) * dis / 100) + parseFloat(freight);
+        } else { var totAmount = price * qty - ((price * qty) * dis / 100) }
+        var id = "#GoodsReceiptItemList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
+        CalculateTotal();
+        CalculateTotalAmount();
+        CalculateTax();
+    }
+
+
+    function OnChangeDiscount(currentDis, rowId) {
+        //debugger;
+        //onchange quantity functionality
+        var qty = $("#GoodsReceiptItemList_" + rowId + "__Quantity").val();
+        var price = $("#GoodsReceiptItemList_" + rowId + "__Unit_price").val();
+        var freight = $("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val();
+        if (!isNaN(parseFloat($("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val()))) {
+            var totAmount = price * qty + parseFloat(freight);
+        } else { var totAmount = price * qty }
+        
+        var id = "#GoodsReceiptItemList_" + rowId + "__LineTotal";
+        $(id).val(totAmount.toFixed(2));
+
+        //on change discount
+        var dis = currentDis.value;
+        var qty = $("#GoodsReceiptItemList_" + rowId + "__Quantity").val();
+        var price = $("#GoodsReceiptItemList_" + rowId + "__Unit_price").val();
+        var fright = $("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val();
+        if (!isNaN(parseFloat($("#GoodsReceiptItemList_" + rowId + "__Freight_Loading").val()))) {
+            var totAmount = price * qty - ((price * qty) * dis / 100) + parseFloat(freight);
+        } else { var totAmount = price * qty - ((price * qty) * dis / 100) }
+       
         var id = "#GoodsReceiptItemList_" + rowId + "__LineTotal";
         $(id).val(totAmount.toFixed(2));
 
@@ -570,7 +624,7 @@
                                                 </div>
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        Freight
+                                                        Freight Charge
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.TextBoxFor(model => model.GoodsReceipt.Freight, new { @class = "form-control control-text" })
@@ -580,7 +634,7 @@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        Loading
+                                                        Loading Charge
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.TextBoxFor(model => model.GoodsReceipt.Loading, new { @class = "form-control control-text" })
@@ -590,7 +644,7 @@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        Distirbuted Land Cost
+                                                        Distribute Landed Cost
                                                     </div>
                                                     <div class="col-md-8">
                                                         @*@Html.TextBoxFor(model => model.goodreceipt.Distribute_LandedCost, new { @class = "form-control control-text" })*@
@@ -686,7 +740,7 @@
                                                         @Html.ValidationMessageFor(model => model.GoodsReceiptItemList[i].Vat_Code)
                                                     </td>
                                                     <td width="5%">
-                                                        @Html.TextBoxFor(model => model.GoodsReceiptItemList[i].Freight_Loading, new { @class = "form-control control-text" })
+                                                        @Html.TextBoxFor(model => model.GoodsReceiptItemList[i].Freight_Loading, new { @class = "form-control control-text", @onkeyup = "OnChangeFreight(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.GoodsReceiptItemList[i].Freight_Loading)
                                                     </td>
                                                     <td width="5%">

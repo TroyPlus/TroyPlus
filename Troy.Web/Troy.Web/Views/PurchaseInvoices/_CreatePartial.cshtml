@@ -105,7 +105,7 @@
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    Freight
+                                                    Freight Charge
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.TextBoxFor(model => model.PurchaseInvoice.Freight, new { @class = "form-control control-text", @id = "txtBox1" })
@@ -115,7 +115,7 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    Loading
+                                                    Loading Charge
                                                 </div>
                                                 <div class="col-md-8">
                                                     @Html.TextBoxFor(model => model.PurchaseInvoice.Loading, new { @class = "form-control control-text", @id = "txtBox2" })
@@ -125,7 +125,7 @@
 
                                             <div class="row form-group">
                                                 <div class="col-md-4">
-                                                    Distirbuted Land Cost
+                                                    Distribute Landed Cost
                                                 </div>
                                                 <div class="col-md-8">
                                                     @*@Html.TextBoxFor(model => model.PurchaseInvoice.Distribute_LandedCost, new { @class = "form-control control-text" })*@
@@ -219,7 +219,7 @@
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoiceItemsList[i].Vat_Code)
                                                     </td>
                                                     <td width="5%">
-                                                        @Html.TextBoxFor(model => model.PurchaseInvoiceItemsList[i].Freight_Loading, new { @class = "form-control control-text", @id = "txtfreight" })
+                                                        @Html.TextBoxFor(model => model.PurchaseInvoiceItemsList[i].Freight_Loading, new { @class = "form-control control-text", @onkeyup = "OnChangeFreight(this, " + i + ");" })
                                                         @Html.ValidationMessageFor(model => model.PurchaseInvoiceItemsList[i].Freight_Loading)
                                                     </td>
                                                     <td width="5%">

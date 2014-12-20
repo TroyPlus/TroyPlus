@@ -521,8 +521,8 @@
                                                         Vendor Name
                                                     </div>
                                                     <div class="col-md-8">
-                                                        @Html.DropDownListFor(m => m.PurchaseQuotation.Vendor_Code, new SelectList(Model.BusinessPartnerList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text" })
-                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Vendor_Code)
+                                                        @Html.DropDownListFor(m => m.PurchaseQuotation.Vendor, new SelectList(Model.BusinessPartnerList.AsEnumerable(), "BP_Id", "BP_Name"), "", new { @class = "form-control control-text" })
+                                                        @Html.ValidationMessageFor(model => model.PurchaseQuotation.Vendor)
                                                     </div>
 
                                                 </div>
@@ -596,7 +596,7 @@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        Freight
+                                                        Freight Charge
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.TextBoxFor(model => model.PurchaseQuotation.Freight, new { @class = "form-control control-text" })
@@ -606,7 +606,7 @@
 
                                                 <div class="row form-group">
                                                     <div class="col-md-4">
-                                                        Loading
+                                                        Loading Charge
                                                     </div>
                                                     <div class="col-md-8">
                                                         @Html.TextBoxFor(model => model.PurchaseQuotation.Loading, new { @class = "form-control control-text" })
